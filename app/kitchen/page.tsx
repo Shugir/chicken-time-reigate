@@ -1,8 +1,10 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import { ChefHat, CheckCircle, Truck, Clock, RefreshCw } from 'lucide-react'
+import { ChefHat, CheckCircle, Truck, Clock, RefreshCw, Bell, BellOff } from 'lucide-react'
+
+const ALERT_URL = 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -107,6 +109,19 @@ export default function KitchenDashboard() {
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState<string | null>(null)
   const [now, setNow] = useState(new Date())
+  const [audioUnlocked, setAudioUnlocked] = useState(false)
+  const audioUnlockedRef = useRef(false)
+
+  function toggleAudio() {
+    const next = !audioUnlockedRef.current
+    audioUnlockedRef.current = next
+    setAudioUnlocked(next)
+  }
+
+  function playAlert() {
+    if (!audioUnlockedRef.current) return
+    try { new Audio(ALERT_URL).play() } catch { /* ignore */ }
+  }
 
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 1000)
@@ -131,6 +146,7 @@ export default function KitchenDashboard() {
         (payload) => {
           const updated = payload.new as { id: string; status: string }
           if (updated.status === 'preparing') {
+            playAlert()
             fetchOrders()
           } else if (updated.status === 'ready') {
             setOrders((prev) =>
@@ -175,13 +191,28 @@ export default function KitchenDashboard() {
             <p className="text-xs text-white/40 mt-0.5">Chicken Time Reigate</p>
           </div>
         </div>
-        <div className="text-right">
-          <p className="font-mono font-bold text-white text-xl tabular-nums">
-            {now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-          </p>
-          <p className="text-xs text-white/40 font-mono">
-            {now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
-          </p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleAudio}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
+              audioUnlocked
+                ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
+                : 'bg-white/10 text-white/40 hover:bg-white/20 hover:text-white/70'
+            }`}
+            title={audioUnlocked ? 'Mute alerts' : 'Unmute alerts'}
+          >
+            {audioUnlocked ? <Bell size={14} /> : <BellOff size={14} />}
+            {audioUnlocked ? 'Alerts On' : 'Unmute Alerts'}
+          </button>
+
+          <div className="text-right">
+            <p className="font-mono font-bold text-white text-xl tabular-nums">
+              {now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            </p>
+            <p className="text-xs text-white/40 font-mono">
+              {now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
+            </p>
+          </div>
         </div>
       </header>
 
