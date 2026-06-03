@@ -11,12 +11,13 @@ import {
   Salad,
   GlassWater,
   ChevronRight,
+  Tag,
 } from 'lucide-react'
 import { ProductItem, ProductModal, OrderSelection } from '../../components/ProductModal'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Category = 'burgers' | 'wings' | 'sides' | 'drinks'
+type Category = 'deals' | 'burgers' | 'chicken' | 'sides' | 'drinks'
 type MenuItem = ProductItem
 type Cart = Record<string, number>
 type IconComponent = React.ComponentType<{ size?: number; className?: string }>
@@ -24,20 +25,46 @@ type IconComponent = React.ComponentType<{ size?: number; className?: string }>
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const CATEGORIES: { id: Category; label: string; Icon: IconComponent; description: string }[] = [
-  { id: 'burgers', label: 'Burgers',  Icon: Sandwich,   description: 'Crispy fillets & stacked classics' },
-  { id: 'wings',   label: 'Wings',    Icon: Flame,      description: 'Sauced, glazed & flame-grilled' },
-  { id: 'sides',   label: 'Sides',    Icon: Salad,      description: 'The perfect companions' },
-  { id: 'drinks',  label: 'Drinks',   Icon: GlassWater, description: 'Cold drinks & shakes' },
+  { id: 'deals',   label: 'Deals',   Icon: Tag,        description: 'Combo meals & special offers' },
+  { id: 'burgers', label: 'Burgers', Icon: Sandwich,   description: 'Crispy fillets & stacked classics' },
+  { id: 'chicken', label: 'Chicken', Icon: Flame,      description: 'Wings, strips & whole pieces' },
+  { id: 'sides',   label: 'Sides',   Icon: Salad,      description: 'The perfect companions' },
+  { id: 'drinks',  label: 'Drinks',  Icon: GlassWater, description: 'Cold drinks & shakes' },
 ]
 
 const CARD_GRADIENT: Record<Category, string> = {
+  deals:   'from-brand-red/10 via-red-50 to-orange-50',
   burgers: 'from-orange-100 via-amber-50 to-yellow-50',
-  wings:   'from-red-100 via-orange-50 to-amber-50',
+  chicken: 'from-red-100 via-orange-50 to-amber-50',
   sides:   'from-yellow-100 via-lime-50 to-green-50',
   drinks:  'from-sky-100 via-blue-50 to-indigo-50',
 }
 
 const MENU_ITEMS: MenuItem[] = [
+  {
+    id: 'deal1', category: 'deals', emoji: '🎉', badge: 'Deal',
+    name: 'Burger Meal Deal', price: 12.99,
+    description: 'Classic Chicken Burger + Crinkle Cut Fries + any drink',
+    allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya'],
+    removables: [],
+    add_ons: [{ name: 'Upgrade to Loaded Fries', price: 2.00 }],
+  },
+  {
+    id: 'deal2', category: 'deals', emoji: '🍗', badge: 'Deal',
+    name: 'Wing Box Deal', price: 15.99,
+    description: '8pc Korean Glaze Wings + Loaded Fries + any drink',
+    allergens: ['Sesame', 'Soya', 'Eggs', 'Gluten', 'Dairy'],
+    removables: [],
+    add_ons: [],
+  },
+  {
+    id: 'deal3', category: 'deals', emoji: '👨‍👩‍👧', badge: 'Deal',
+    name: 'Family Feast', price: 29.99,
+    description: '2 Burgers + 8pc Wings + 2 Loaded Fries + 4 Drinks',
+    allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Sesame'],
+    removables: [],
+    add_ons: [],
+  },
   {
     id: 'b1', category: 'burgers', emoji: '🍔',
     name: 'Classic Chicken Burger', price: 8.99,
@@ -71,7 +98,7 @@ const MENU_ITEMS: MenuItem[] = [
     add_ons: [{ name: 'Add Cheese', price: 0.75 }, { name: 'Add Bacon', price: 1.50 }],
   },
   {
-    id: 'w1', category: 'wings', emoji: '🍗',
+    id: 'w1', category: 'chicken', emoji: '🍗',
     name: 'Buffalo Wings (6pc)', price: 7.99,
     description: 'Classic buffalo sauce, blue cheese dip, celery sticks',
     allergens: ['Dairy', 'Eggs', 'Celery', 'Mustard'],
@@ -79,7 +106,7 @@ const MENU_ITEMS: MenuItem[] = [
     add_ons: [{ name: 'Extra Dip', price: 0.75 }, { name: 'Extra Wings +2pc', price: 2.50 }],
   },
   {
-    id: 'w2', category: 'wings', emoji: '🍗', badge: 'Popular',
+    id: 'w2', category: 'chicken', emoji: '🍗', badge: 'Popular',
     name: 'Korean Glaze Wings (8pc)', price: 10.99,
     description: 'Gochujang & honey glaze, sesame, spring onion',
     allergens: ['Sesame', 'Soya', 'Eggs'],
@@ -87,7 +114,7 @@ const MENU_ITEMS: MenuItem[] = [
     add_ons: [{ name: 'Extra Dip', price: 0.75 }, { name: 'Extra Wings +2pc', price: 2.50 }],
   },
   {
-    id: 'w3', category: 'wings', emoji: '🍗',
+    id: 'w3', category: 'chicken', emoji: '🍗',
     name: 'Honey Garlic Wings (6pc)', price: 8.49,
     description: 'Sweet honey garlic sauce, toasted sesame seeds',
     allergens: ['Sesame', 'Soya', 'Eggs'],
@@ -95,7 +122,7 @@ const MENU_ITEMS: MenuItem[] = [
     add_ons: [{ name: 'Extra Dip', price: 0.75 }, { name: 'Extra Wings +2pc', price: 2.50 }],
   },
   {
-    id: 'w4', category: 'wings', emoji: '🍗',
+    id: 'w4', category: 'chicken', emoji: '🍗',
     name: 'Naked Wings (10pc)', price: 11.99,
     description: 'Plain crispy wings with your choice of dipping sauce',
     allergens: ['Eggs', 'Soya'],
@@ -375,10 +402,10 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
 export default function OrderPage() {
   const [cart, setCart]                 = useState<Cart>({})
   const [cartOpen, setCartOpen]         = useState(false)
-  const [activeCategory, setActive]     = useState<Category>('burgers')
+  const [activeCategory, setActive]     = useState<Category>('deals')
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
   const sectionRefs = useRef<Record<Category, HTMLElement | null>>({
-    burgers: null, wings: null, sides: null, drinks: null,
+    deals: null, burgers: null, chicken: null, sides: null, drinks: null,
   })
 
   const count = cartCount(cart)

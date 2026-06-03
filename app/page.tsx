@@ -118,7 +118,7 @@ export default function LandingPage() {
       `}</style>
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="grain-layer relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden">
+      <section className="grain-layer relative h-[calc(100dvh-4rem)] flex flex-col items-center justify-center overflow-hidden">
 
         {/* Heat glow from bottom */}
         <div
@@ -161,13 +161,13 @@ export default function LandingPage() {
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
 
           {/* Floating hero emoji */}
-          <div className="float-emoji text-[6.5rem] leading-none mb-10 select-none" aria-hidden>
+          <div className="float-emoji text-[4.5rem] leading-none mb-5 select-none" aria-hidden>
             🍗
           </div>
 
           {/* Overline */}
           <p
-            className="text-brand-red text-[11px] font-bold tracking-[0.55em] uppercase mb-7 animate-fade-in"
+            className="text-brand-red text-[11px] font-bold tracking-[0.55em] uppercase mb-3 animate-fade-in"
             style={{ animationDelay: '0.1s' }}
           >
             Reigate · Est. 2018 · Open Now
@@ -178,7 +178,7 @@ export default function LandingPage() {
             className="text-white animate-fade-up"
             style={{
               fontFamily: 'var(--font-oswald)',
-              fontSize: 'clamp(54px, 14vw, 160px)',
+              fontSize: 'clamp(40px, 7.5vw, 96px)',
               fontWeight: 700,
               letterSpacing: '-0.03em',
               lineHeight: 0.9,
@@ -191,7 +191,7 @@ export default function LandingPage() {
           </h1>
 
           {/* Divider line */}
-          <div className="w-16 h-[3px] bg-brand-red mx-auto mt-10 mb-8 animate-fade-in" style={{ animationDelay: '0.3s' }} />
+          <div className="w-16 h-[3px] bg-brand-red mx-auto mt-5 mb-4 animate-fade-in" style={{ animationDelay: '0.3s' }} />
 
           {/* Subtitle */}
           <p
@@ -204,7 +204,7 @@ export default function LandingPage() {
 
           {/* CTA */}
           <div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 animate-fade-in"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-7 animate-fade-in"
             style={{ animationDelay: '0.5s' }}
           >
             <Link
@@ -225,7 +225,7 @@ export default function LandingPage() {
 
           {/* Trust row */}
           <div
-            className="flex items-center justify-center gap-10 mt-16 pb-4 animate-fade-in"
+            className="flex items-center justify-center gap-10 mt-7 animate-fade-in"
             style={{ animationDelay: '0.7s' }}
           >
             {[

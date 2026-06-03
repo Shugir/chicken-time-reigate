@@ -5,7 +5,7 @@ import { X, ChevronDown, Plus, Minus, ShoppingBag, AlertCircle } from 'lucide-re
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type ItemCategory = 'burgers' | 'wings' | 'sides' | 'drinks'
+export type ItemCategory = 'deals' | 'burgers' | 'chicken' | 'sides' | 'drinks'
 
 export interface AddOn {
   name: string
@@ -47,8 +47,9 @@ const ALLERGEN_DETAILS: Record<string, string> = {
 }
 
 const CATEGORY_GRADIENT: Record<ItemCategory, string> = {
+  deals:   'from-red-100 via-orange-50 to-amber-50',
   burgers: 'from-orange-100 via-amber-50 to-yellow-50',
-  wings:   'from-red-100 via-orange-50 to-amber-50',
+  chicken: 'from-red-100 via-orange-50 to-amber-50',
   sides:   'from-yellow-100 via-lime-50 to-green-50',
   drinks:  'from-sky-100 via-blue-50 to-indigo-50',
 }
