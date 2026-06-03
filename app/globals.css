@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+@theme inline {
+  /* System tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans:    var(--font-geist-sans);
+  --font-mono:    var(--font-geist-mono);
+  --font-heading: var(--font-inter);
+  --font-display: var(--font-oswald);
+
+  /* Brand palette */
+  --color-brand-red:    #E4002B;
+  --color-brand-dark:   #1A1A1A;
+  --color-brand-yellow: #FFC72C;
+  --color-brand-light:  #F8F9FA;
+
+  /* Animations */
+  --animate-fade-up:        fade-up 0.65s ease-out both;
+  --animate-fade-in:        fade-in 0.5s ease-out both;
+  --animate-slide-in-left:  slide-in-left 0.55s ease-out both;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-inter), var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-weight: 700;
+}
