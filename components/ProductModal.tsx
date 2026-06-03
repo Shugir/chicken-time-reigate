@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { X, ChevronDown, Plus, Minus, ShoppingBag, AlertCircle } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -180,24 +181,29 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
         <div className="bg-white w-full md:max-w-lg md:rounded-2xl rounded-t-3xl overflow-hidden flex flex-col max-h-[92dvh] md:max-h-[85vh] shadow-2xl">
 
           {/* ── 1. Hero image area ── */}
-          <div className={`relative flex-none h-56 bg-gradient-to-br ${CATEGORY_GRADIENT[item.category]} flex items-center justify-center overflow-hidden`}>
+          <div className="relative flex-none h-56 overflow-hidden bg-gray-900">
+            <Image
+              src={item.image}
+              alt={item.name}
+              fill
+              sizes="(max-width: 768px) 100vw, 512px"
+              className="object-cover"
+              priority
+            />
+            {/* Bottom gradient so product name text stays readable */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 w-9 h-9 bg-white/80 hover:bg-white backdrop-blur-sm rounded-full flex items-center justify-center shadow-md transition-colors z-10"
+              className="absolute top-4 right-4 w-9 h-9 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md transition-colors z-10"
               aria-label="Close"
             >
-              <X size={18} className="text-gray-700" />
+              <X size={18} className="text-white" />
             </button>
             {item.badge && (
-              <span className="absolute top-4 left-4 bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+              <span className="absolute top-4 left-4 z-10 bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full shadow">
                 {item.badge}
               </span>
             )}
-            <span className="text-9xl select-none drop-shadow-md" role="img" aria-label={item.name}>
-              {item.emoji}
-            </span>
-            <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-white/30 blur-2xl" />
-            <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-white/20 blur-xl" />
           </div>
 
           {/* ── Scrollable body ── */}
