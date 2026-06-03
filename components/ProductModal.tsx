@@ -20,6 +20,7 @@ export interface ProductItem {
   category: ItemCategory
   badge?: string
   emoji: string
+  image: string
   allergens: string[]
   removables: string[]
   add_ons: AddOn[]

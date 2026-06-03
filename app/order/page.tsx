@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
 import {
   ShoppingCart,
   Plus,
@@ -44,6 +45,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'deal1', category: 'deals', emoji: '🎉', badge: 'Deal',
     name: 'Burger Meal Deal', price: 12.99,
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80',
     description: 'Classic Chicken Burger + Crinkle Cut Fries + any drink',
     allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya'],
     removables: [],
@@ -52,6 +54,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'deal2', category: 'deals', emoji: '🍗', badge: 'Deal',
     name: 'Wing Box Deal', price: 15.99,
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=500&q=80',
     description: '8pc Korean Glaze Wings + Loaded Fries + any drink',
     allergens: ['Sesame', 'Soya', 'Eggs', 'Gluten', 'Dairy'],
     removables: [],
@@ -60,6 +63,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'deal3', category: 'deals', emoji: '👨‍👩‍👧', badge: 'Deal',
     name: 'Family Feast', price: 29.99,
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80',
     description: '2 Burgers + 8pc Wings + 2 Loaded Fries + 4 Drinks',
     allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Sesame'],
     removables: [],
@@ -68,6 +72,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'b1', category: 'burgers', emoji: '🍔',
     name: 'Classic Chicken Burger', price: 8.99,
+    image: 'https://images.unsplash.com/photo-1586816001966-79b736744398?w=500&q=80',
     description: 'Crispy fried chicken breast, lettuce, tomato, mayo on a brioche bun',
     allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Sesame'],
     removables: ['No Lettuce', 'No Tomato', 'No Mayo'],
@@ -76,6 +81,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'b2', category: 'burgers', emoji: '🍔', badge: 'Hot',
     name: 'Spicy Double Stack', price: 11.49,
+    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&q=80',
     description: 'Two spicy crispy fillets, jalapeños, pepper jack, chipotle sauce',
     allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Mustard'],
     removables: ['No Jalapeños', 'No Cheese', 'No Chipotle Sauce'],
@@ -84,6 +90,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'b3', category: 'burgers', emoji: '🍔',
     name: 'BBQ Crunch Burger', price: 10.49,
+    image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500&q=80',
     description: 'Crispy chicken thigh, streaky bacon, BBQ sauce, crispy onions',
     allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Celery', 'Mustard'],
     removables: ['No Bacon', 'No BBQ Sauce', 'No Crispy Onions'],
@@ -92,6 +99,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'b4', category: 'burgers', emoji: '🍔', badge: 'New',
     name: 'Zinger Deluxe', price: 9.99,
+    image: 'https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=500&q=80',
     description: 'Spiced crispy fillet, caramelised onions, gherkins, garlic aioli',
     allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Mustard'],
     removables: ['No Gherkins', 'No Caramelised Onions', 'No Garlic Aioli'],
@@ -100,6 +108,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'w1', category: 'chicken', emoji: '🍗',
     name: 'Buffalo Wings (6pc)', price: 7.99,
+    image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500&q=80',
     description: 'Classic buffalo sauce, blue cheese dip, celery sticks',
     allergens: ['Dairy', 'Eggs', 'Celery', 'Mustard'],
     removables: ['No Blue Cheese Dip', 'No Celery Sticks'],
@@ -108,6 +117,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'w2', category: 'chicken', emoji: '🍗', badge: 'Popular',
     name: 'Korean Glaze Wings (8pc)', price: 10.99,
+    image: 'https://images.unsplash.com/photo-1606728035253-49e8a23146de?w=500&q=80',
     description: 'Gochujang & honey glaze, sesame, spring onion',
     allergens: ['Sesame', 'Soya', 'Eggs'],
     removables: ['No Spring Onion', 'No Sesame'],
@@ -116,6 +126,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'w3', category: 'chicken', emoji: '🍗',
     name: 'Honey Garlic Wings (6pc)', price: 8.49,
+    image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=500&q=80',
     description: 'Sweet honey garlic sauce, toasted sesame seeds',
     allergens: ['Sesame', 'Soya', 'Eggs'],
     removables: ['No Sesame', 'No Garlic Sauce'],
@@ -124,6 +135,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'w4', category: 'chicken', emoji: '🍗',
     name: 'Naked Wings (10pc)', price: 11.99,
+    image: 'https://images.unsplash.com/photo-1598514982901-3daa2a0a7d49?w=500&q=80',
     description: 'Plain crispy wings with your choice of dipping sauce',
     allergens: ['Eggs', 'Soya'],
     removables: [],
@@ -136,6 +148,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 's1', category: 'sides', emoji: '🍟',
     name: 'Crinkle Cut Fries', price: 3.49,
+    image: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&q=80',
     description: 'Seasoned crinkle cut fries, sea salt',
     allergens: ['Gluten'],
     removables: [],
@@ -144,6 +157,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 's2', category: 'sides', emoji: '🍟', badge: 'Popular',
     name: 'Loaded Fries', price: 5.49,
+    image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=500&q=80',
     description: 'Fries topped with cheese sauce, bacon bits, spring onion',
     allergens: ['Gluten', 'Dairy', 'Eggs'],
     removables: ['No Bacon Bits', 'No Spring Onion', 'No Cheese Sauce'],
@@ -152,6 +166,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 's3', category: 'sides', emoji: '🥗',
     name: 'Creamy Coleslaw', price: 2.99,
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&q=80',
     description: 'House-made coleslaw with apple & caraway',
     allergens: ['Dairy', 'Eggs', 'Mustard', 'Celery'],
     removables: [],
@@ -160,6 +175,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 's4', category: 'sides', emoji: '🌽',
     name: 'Corn on the Cob', price: 3.99,
+    image: 'https://images.unsplash.com/photo-1601593346740-925612772716?w=500&q=80',
     description: 'Grilled corn, herb butter, smoked paprika',
     allergens: ['Dairy'],
     removables: ['No Butter', 'No Paprika'],
@@ -168,6 +184,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'd1', category: 'drinks', emoji: '🥤',
     name: 'Coca-Cola', price: 2.49,
+    image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&q=80',
     description: 'Classic Coca-Cola, ice cold (500ml)',
     allergens: [],
     removables: ['No Ice'],
@@ -176,6 +193,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'd2', category: 'drinks', emoji: '🍋', badge: 'New',
     name: 'Fresh Lemonade', price: 3.49,
+    image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=500&q=80',
     description: 'House lemonade with fresh mint (400ml)',
     allergens: [],
     removables: ['No Mint'],
@@ -184,6 +202,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'd3', category: 'drinks', emoji: '🥛',
     name: 'Thick Milkshake', price: 4.99,
+    image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&q=80',
     description: 'Vanilla, Chocolate or Strawberry (400ml)',
     allergens: ['Dairy', 'Eggs', 'Nuts'],
     removables: [],
@@ -192,6 +211,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'd4', category: 'drinks', emoji: '💧',
     name: 'Still Water', price: 1.49,
+    image: 'https://images.unsplash.com/photo-1559839914-17aae19cec71?w=500&q=80',
     description: 'Still mineral water (500ml)',
     allergens: [],
     removables: [],
@@ -237,22 +257,22 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
       {/* Image area */}
       <button
         onClick={onOpenModal}
-        className={`relative w-full h-44 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden shrink-0`}
+        className={`relative w-full h-44 bg-gradient-to-br ${gradient} overflow-hidden shrink-0`}
         aria-label={`View ${item.name} details`}
       >
+        <Image
+          src={item.image}
+          alt={item.name}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+          className="object-cover transition-transform duration-300 group-hover:scale-110"
+        />
         {item.badge && (
-          <span className={`absolute top-3 left-3 text-xs font-bold px-2.5 py-1 rounded-full ${BADGE_STYLES[item.badge] ?? 'bg-gray-100 text-gray-600'}`}>
+          <span className={`absolute top-3 left-3 z-10 text-xs font-bold px-2.5 py-1 rounded-full ${BADGE_STYLES[item.badge] ?? 'bg-gray-100 text-gray-600'}`}>
             {item.badge}
           </span>
         )}
-        <span
-          className="text-7xl select-none drop-shadow-md transition-transform duration-300 group-hover:scale-110"
-          role="img"
-          aria-label={item.name}
-        >
-          {item.emoji}
-        </span>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </button>
 
       {/* Content */}
