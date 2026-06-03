@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { NewsletterForm } from "@/components/NewsletterForm";
@@ -66,11 +67,14 @@ export default function RootLayout({
 
             {/* Brand column */}
             <div className="space-y-4">
-              <Link href="/" className="flex items-center gap-2.5">
-                <span className="text-3xl">🍗</span>
-                <span className="font-heading font-black text-xl leading-none">
-                  Chicken<span className="text-brand-yellow">Time</span>
-                </span>
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/brand-logo.png"
+                  alt="Chicken Time Reigate Logo"
+                  width={192}
+                  height={48}
+                  className="h-12 w-auto"
+                />
               </Link>
               <p className="text-sm text-white/60 leading-relaxed max-w-[220px]">
                 Fresh, crispy chicken made to order. Proudly serving Reigate since 2019.

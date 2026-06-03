@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
@@ -21,11 +22,14 @@ export function SiteHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <span className="text-2xl">🍗</span>
-          <span className="font-heading font-black text-white text-lg tracking-tight leading-none">
-            Chicken<span className="text-brand-yellow">Time</span>
-          </span>
+        <Link href="/" className="flex items-center shrink-0">
+          <Image
+            src="/brand-logo.png"
+            alt="Chicken Time Reigate Logo"
+            width={160}
+            height={40}
+            className="h-10 w-auto"
+          />
         </Link>
 
         {/* Desktop nav */}
