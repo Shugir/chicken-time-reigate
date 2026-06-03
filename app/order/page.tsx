@@ -330,6 +330,8 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
   onAdd: (id: string) => void
   onRemove: (id: string) => void
 }) {
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+
   const lineItems = Object.entries(cart)
     .filter(([, qty]) => qty > 0)
     .map(([id, qty]) => ({ item: MENU_ITEMS.find((m) => m.id === id)!, qty }))
@@ -337,6 +339,27 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
 
   const subtotal = cartTotal(cart)
   const total    = subtotal + DELIVERY_FEE
+
+  async function handleCheckout() {
+    setCheckoutLoading(true)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: lineItems.map(({ item, qty }) => ({
+            name: item.name,
+            quantity: qty,
+            totalPrice: item.price * qty,
+          })),
+        }),
+      })
+      const { url } = await res.json()
+      window.location.href = url
+    } catch {
+      setCheckoutLoading(false)
+    }
+  }
 
   return (
     <>
@@ -401,8 +424,12 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
             <div className="flex justify-between font-bold text-gray-900 text-base pt-2 border-t border-gray-200">
               <span>Total</span><span>£{total.toFixed(2)}</span>
             </div>
-            <button className="w-full bg-brand-red hover:bg-red-700 active:bg-red-800 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
-              Checkout <ChevronRight size={16} />
+            <button
+              onClick={handleCheckout}
+              disabled={checkoutLoading}
+              className="w-full bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
+            >
+              {checkoutLoading ? 'Processing…' : <><span>Checkout</span><ChevronRight size={16} /></>}
             </button>
           </div>
         )}
