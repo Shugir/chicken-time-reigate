@@ -349,14 +349,23 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
         body: JSON.stringify({
           items: lineItems.map(({ item, qty }) => ({
             name: item.name,
+            price: item.price,
             quantity: qty,
             totalPrice: item.price * qty,
           })),
         }),
       })
-      const { url } = await res.json()
-      window.location.href = url
-    } catch {
+      const data = await res.json()
+      if (!res.ok) {
+        console.error('Checkout API error:', data.error)
+        alert(`Checkout failed: ${data.error ?? 'Unknown error'}`)
+        setCheckoutLoading(false)
+        return
+      }
+      window.location.href = data.url
+    } catch (err) {
+      console.error('Checkout fetch error:', err)
+      alert('Something went wrong. Please try again.')
       setCheckoutLoading(false)
     }
   }

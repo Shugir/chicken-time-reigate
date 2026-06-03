@@ -50,8 +50,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-white text-brand-dark">
+      <body className="min-h-full flex flex-col bg-white text-brand-dark" suppressHydrationWarning>
 
         <SiteHeader />
 
@@ -137,7 +138,7 @@ export default function RootLayout({
           {/* Bottom bar */}
           <div className="border-t border-white/10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/35">
-              <p>© {new Date().getFullYear()} Chicken Time Reigate. All rights reserved.</p>
+              <p suppressHydrationWarning>© {new Date().getFullYear()} Chicken Time Reigate. All rights reserved.</p>
               <div className="flex gap-5">
                 <Link href="/privacy" className="hover:text-white/60 transition-colors">Privacy</Link>
                 <Link href="/terms"   className="hover:text-white/60 transition-colors">Terms</Link>
