@@ -109,6 +109,7 @@ export default function KitchenDashboard() {
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState<string | null>(null)
   const [now, setNow] = useState(new Date())
+  const [mounted, setMounted] = useState(false)
   const [audioUnlocked, setAudioUnlocked] = useState(false)
   const audioUnlockedRef = useRef(false)
 
@@ -124,6 +125,7 @@ export default function KitchenDashboard() {
   }
 
   useEffect(() => {
+    setMounted(true)
     const t = setInterval(() => setNow(new Date()), 1000)
     return () => clearInterval(t)
   }, [])
@@ -207,10 +209,10 @@ export default function KitchenDashboard() {
 
           <div className="text-right">
             <p className="font-mono font-bold text-white text-xl tabular-nums">
-              {now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+              {mounted ? now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''}
             </p>
             <p className="text-xs text-white/40 font-mono">
-              {now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
+              {mounted ? now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) : ''}
             </p>
           </div>
         </div>
