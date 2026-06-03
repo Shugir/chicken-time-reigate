@@ -7,12 +7,7 @@ import {
   Plus,
   Minus,
   X,
-  Flame,
-  Sandwich,
-  Salad,
-  GlassWater,
   ChevronRight,
-  Tag,
 } from 'lucide-react'
 import { ProductItem, ProductModal, OrderSelection } from '../../components/ProductModal'
 
@@ -21,16 +16,15 @@ import { ProductItem, ProductModal, OrderSelection } from '../../components/Prod
 type Category = 'deals' | 'burgers' | 'chicken' | 'sides' | 'drinks'
 type MenuItem = ProductItem
 type Cart = Record<string, number>
-type IconComponent = React.ComponentType<{ size?: number; className?: string }>
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const CATEGORIES: { id: Category; label: string; Icon: IconComponent; description: string }[] = [
-  { id: 'deals',   label: 'Deals',   Icon: Tag,        description: 'Combo meals & special offers' },
-  { id: 'burgers', label: 'Burgers', Icon: Sandwich,   description: 'Crispy fillets & stacked classics' },
-  { id: 'chicken', label: 'Chicken', Icon: Flame,      description: 'Wings, strips & whole pieces' },
-  { id: 'sides',   label: 'Sides',   Icon: Salad,      description: 'The perfect companions' },
-  { id: 'drinks',  label: 'Drinks',  Icon: GlassWater, description: 'Cold drinks & shakes' },
+const CATEGORIES: { id: Category; label: string; image: string; description: string }[] = [
+  { id: 'deals',   label: 'Deals',   image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80', description: 'Combo meals & special offers' },
+  { id: 'burgers', label: 'Burgers', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&q=80', description: 'Crispy fillets & stacked classics' },
+  { id: 'chicken', label: 'Chicken', image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=200&q=80', description: 'Wings, strips & whole pieces' },
+  { id: 'sides',   label: 'Sides',   image: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?w=200&q=80', description: 'The perfect companions' },
+  { id: 'drinks',  label: 'Drinks',  image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=200&q=80', description: 'Cold drinks & shakes' },
 ]
 
 const CARD_GRADIENT: Record<Category, string> = {
@@ -475,17 +469,17 @@ export default function OrderPage() {
       {/* Mobile category nav */}
       <nav className="lg:hidden sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm overflow-x-auto">
         <div className="flex min-w-max">
-          {CATEGORIES.map(({ id, label, Icon }) => (
+          {CATEGORIES.map(({ id, label, image }) => (
             <button
               key={id}
               onClick={() => scrollTo(id)}
-              className={`flex items-center gap-1.5 px-5 py-3.5 text-sm font-semibold whitespace-nowrap border-b-2 transition-colors ${
+              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold whitespace-nowrap border-b-2 transition-colors ${
                 activeCategory === id
                   ? 'border-brand-red text-brand-red'
                   : 'border-transparent text-gray-500 hover:text-gray-800'
               }`}
             >
-              <Icon size={15} />
+              <Image src={image} alt={label} width={20} height={20} className="w-5 h-5 rounded-full object-cover shrink-0" />
               {label}
             </button>
           ))}
@@ -502,27 +496,25 @@ export default function OrderPage() {
               Menu
             </p>
 
-            {CATEGORIES.map(({ id, label, Icon, description }) => {
+            {CATEGORIES.map(({ id, label, image, description }) => {
               const isActive = activeCategory === id
               return (
                 <button
                   key={id}
                   onClick={() => scrollTo(id)}
-                  className={`relative w-full text-left flex items-start gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 group ${
+                  className={`relative w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                     isActive
                       ? 'bg-white shadow-md shadow-gray-200/80'
                       : 'hover:bg-white hover:shadow-sm'
                   }`}
                 >
-                  {/* Active accent bar */}
                   <span
                     className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 rounded-r-full bg-brand-red transition-all duration-200 ${
                       isActive ? 'h-9 opacity-100' : 'h-0 opacity-0'
                     }`}
                   />
-
-                  <span className={`mt-0.5 transition-colors ${isActive ? 'text-brand-red' : 'text-gray-400 group-hover:text-gray-600'}`}>
-                    <Icon size={18} />
+                  <span className={`shrink-0 ${isActive ? 'ring-2 ring-brand-red ring-offset-2' : ''} rounded-full transition-all duration-200`}>
+                    <Image src={image} alt={label} width={48} height={48} className="w-12 h-12 rounded-full object-cover shadow-sm" />
                   </span>
                   <div>
                     <p className={`text-sm font-bold leading-tight transition-colors ${
@@ -557,7 +549,7 @@ export default function OrderPage() {
 
         {/* Menu sections */}
         <main className="flex-1 min-w-0 space-y-12 pb-32">
-          {CATEGORIES.map(({ id, label, Icon }) => {
+          {CATEGORIES.map(({ id, label, image }) => {
             const items = MENU_ITEMS.filter((m) => m.category === id)
             return (
               <section
@@ -568,9 +560,7 @@ export default function OrderPage() {
               >
                 {/* Section header */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-brand-red/10 flex items-center justify-center shrink-0">
-                    <Icon size={20} className="text-brand-red" />
-                  </div>
+                  <Image src={image} alt={label} width={40} height={40} className="w-10 h-10 rounded-xl object-cover shadow-sm shrink-0" />
                   <div>
                     <h2 className="font-heading font-black text-2xl text-brand-dark leading-none">{label}</h2>
                     <p className="text-xs text-gray-400 mt-0.5">{items.length} items</p>
