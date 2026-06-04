@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  UtensilsCrossed, Settings, MapPin, Tag,
+  LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
   Plus, X, Loader2, Check, Pencil, Trash2, ChevronDown,
 } from 'lucide-react'
 
@@ -18,6 +18,7 @@ interface DeliveryZone {
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
 
 const NAV = [
+  { id: 'dashboard',  label: 'Dashboard',      icon: <LayoutDashboard className="w-4 h-4" />, href: '/admin/dashboard' },
   { id: 'menu',       label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
   { id: 'settings',   label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
   { id: 'delivery',   label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },

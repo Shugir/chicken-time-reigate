@@ -55,65 +55,551 @@
     {
       "label": "page.tsx",
       "file_type": "code",
-      "source_file": "admin/delivery/page.tsx",
+      "source_file": "app/admin/delivery/page.tsx",
       "source_location": "L1",
+      "id": "app_admin_delivery_page_tsx",
       "community": 11,
-      "norm_label": "page.tsx",
-      "id": "admin_delivery_page_tsx"
+      "norm_label": "page.tsx"
     },
     {
       "label": "DeliveryZone",
       "file_type": "code",
       "source_file": "app/admin/delivery/page.tsx",
       "source_location": "L10",
+      "id": "delivery_page_deliveryzone",
       "community": 11,
-      "norm_label": "deliveryzone",
-      "id": "delivery_page_deliveryzone"
+      "norm_label": "deliveryzone"
     },
     {
       "label": "SaveState",
       "file_type": "code",
       "source_file": "app/admin/delivery/page.tsx",
       "source_location": "L18",
+      "id": "delivery_page_savestate",
       "community": 11,
-      "norm_label": "savestate",
-      "id": "delivery_page_savestate"
+      "norm_label": "savestate"
     },
     {
       "label": "NAV",
       "file_type": "code",
       "source_file": "app/admin/delivery/page.tsx",
       "source_location": "L20",
+      "id": "delivery_page_nav",
       "community": 11,
-      "norm_label": "nav",
-      "id": "delivery_page_nav"
+      "norm_label": "nav"
     },
     {
       "label": "ZoneModal()",
       "file_type": "code",
       "source_file": "app/admin/delivery/page.tsx",
-      "source_location": "L30",
+      "source_location": "L31",
+      "id": "delivery_page_zonemodal",
       "community": 11,
-      "norm_label": "zonemodal()",
-      "id": "delivery_page_zonemodal"
+      "norm_label": "zonemodal()"
     },
     {
       "label": "DeleteConfirm()",
       "file_type": "code",
       "source_file": "app/admin/delivery/page.tsx",
-      "source_location": "L146",
+      "source_location": "L147",
+      "id": "delivery_page_deleteconfirm",
       "community": 11,
-      "norm_label": "deleteconfirm()",
-      "id": "delivery_page_deleteconfirm"
+      "norm_label": "deleteconfirm()"
     },
     {
       "label": "DeliveryPage()",
       "file_type": "code",
       "source_file": "app/admin/delivery/page.tsx",
-      "source_location": "L176",
+      "source_location": "L177",
+      "id": "delivery_page_deliverypage",
       "community": 11,
-      "norm_label": "deliverypage()",
-      "id": "delivery_page_deliverypage"
+      "norm_label": "deliverypage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L1",
+      "id": "app_admin_page_tsx",
+      "community": 1,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "Extra",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L23",
+      "id": "admin_page_extra",
+      "community": 1,
+      "norm_label": "extra"
+    },
+    {
+      "label": "MenuItem",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L28",
+      "id": "admin_page_menuitem",
+      "community": 1,
+      "norm_label": "menuitem"
+    },
+    {
+      "label": "SaveState",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L41",
+      "id": "admin_page_savestate",
+      "community": 1,
+      "norm_label": "savestate"
+    },
+    {
+      "label": "CATEGORIES",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L43",
+      "id": "admin_page_categories",
+      "community": 1,
+      "norm_label": "categories"
+    },
+    {
+      "label": "Category",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L44",
+      "id": "admin_page_category",
+      "community": 1,
+      "norm_label": "category"
+    },
+    {
+      "label": "CATEGORY_LABELS",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L46",
+      "id": "admin_page_category_labels",
+      "community": 1,
+      "norm_label": "category_labels"
+    },
+    {
+      "label": "CATEGORY_COLOURS",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L54",
+      "id": "admin_page_category_colours",
+      "community": 1,
+      "norm_label": "category_colours"
+    },
+    {
+      "label": "PriceCell()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L64",
+      "id": "admin_page_pricecell",
+      "community": 1,
+      "norm_label": "pricecell()"
+    },
+    {
+      "label": "AvailabilityToggle()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L113",
+      "id": "admin_page_availabilitytoggle",
+      "community": 1,
+      "norm_label": "availabilitytoggle()"
+    },
+    {
+      "label": "ItemModalProps",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L158",
+      "id": "admin_page_itemmodalprops",
+      "community": 1,
+      "norm_label": "itemmodalprops"
+    },
+    {
+      "label": "EMPTY_FORM",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L164",
+      "id": "admin_page_empty_form",
+      "community": 1,
+      "norm_label": "empty_form"
+    },
+    {
+      "label": "ItemModal()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L166",
+      "id": "admin_page_itemmodal",
+      "community": 1,
+      "norm_label": "itemmodal()"
+    },
+    {
+      "label": "DeleteConfirmModal()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L422",
+      "id": "admin_page_deleteconfirmmodal",
+      "community": 1,
+      "norm_label": "deleteconfirmmodal()"
+    },
+    {
+      "label": "NavItem",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L458",
+      "id": "admin_page_navitem",
+      "community": 1,
+      "norm_label": "navitem"
+    },
+    {
+      "label": "NAV",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L460",
+      "id": "admin_page_nav",
+      "community": 1,
+      "norm_label": "nav"
+    },
+    {
+      "label": "AdminPage()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L467",
+      "id": "admin_page_adminpage",
+      "community": 1,
+      "norm_label": "adminpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L1",
+      "id": "app_admin_promotions_page_tsx",
+      "community": 12,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "Promotion",
+      "file_type": "code",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L10",
+      "id": "promotions_page_promotion",
+      "community": 12,
+      "norm_label": "promotion"
+    },
+    {
+      "label": "SaveState",
+      "file_type": "code",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L20",
+      "id": "promotions_page_savestate",
+      "community": 12,
+      "norm_label": "savestate"
+    },
+    {
+      "label": "NAV",
+      "file_type": "code",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L22",
+      "id": "promotions_page_nav",
+      "community": 12,
+      "norm_label": "nav"
+    },
+    {
+      "label": "PromoModal()",
+      "file_type": "code",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L33",
+      "id": "promotions_page_promomodal",
+      "community": 12,
+      "norm_label": "promomodal()"
+    },
+    {
+      "label": "DeleteConfirm()",
+      "file_type": "code",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L176",
+      "id": "promotions_page_deleteconfirm",
+      "community": 12,
+      "norm_label": "deleteconfirm()"
+    },
+    {
+      "label": "PromotionsPage()",
+      "file_type": "code",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L209",
+      "id": "promotions_page_promotionspage",
+      "community": 12,
+      "norm_label": "promotionspage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/admin/settings/page.tsx",
+      "source_location": "L1",
+      "id": "app_admin_settings_page_tsx",
+      "community": 17,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "StoreSettings",
+      "file_type": "code",
+      "source_file": "app/admin/settings/page.tsx",
+      "source_location": "L17",
+      "id": "settings_page_storesettings",
+      "community": 17,
+      "norm_label": "storesettings"
+    },
+    {
+      "label": "SaveState",
+      "file_type": "code",
+      "source_file": "app/admin/settings/page.tsx",
+      "source_location": "L23",
+      "id": "settings_page_savestate",
+      "community": 17,
+      "norm_label": "savestate"
+    },
+    {
+      "label": "SettingsPage()",
+      "file_type": "code",
+      "source_file": "app/admin/settings/page.tsx",
+      "source_location": "L25",
+      "id": "settings_page_settingspage",
+      "community": 17,
+      "norm_label": "settingspage()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
+      "source_location": "L1",
+      "id": "app_api_admin_delivery_zones_id_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "PATCH()",
+      "file_type": "code",
+      "source_file": "app/api/admin/promotions/[id]/route.ts",
+      "source_location": "L4",
+      "id": "id_route_patch",
+      "community": 3,
+      "norm_label": "patch()"
+    },
+    {
+      "label": "DELETE()",
+      "file_type": "code",
+      "source_file": "app/api/admin/promotions/[id]/route.ts",
+      "source_location": "L24",
+      "id": "id_route_delete",
+      "community": 3,
+      "norm_label": "delete()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/admin/delivery-zones/route.ts",
+      "source_location": "L1",
+      "id": "app_api_admin_delivery_zones_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/delivery-zones/route.ts",
+      "source_location": "L6",
+      "id": "delivery_zones_route_get",
+      "community": 3,
+      "norm_label": "get()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/admin/delivery-zones/route.ts",
+      "source_location": "L14",
+      "id": "delivery_zones_route_post",
+      "community": 3,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/admin/promotions/[id]/route.ts",
+      "source_location": "L1",
+      "id": "app_api_admin_promotions_id_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/admin/promotions/route.ts",
+      "source_location": "L1",
+      "id": "app_api_admin_promotions_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/promotions/route.ts",
+      "source_location": "L4",
+      "id": "promotions_route_get",
+      "community": 3,
+      "norm_label": "get()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/admin/promotions/route.ts",
+      "source_location": "L14",
+      "id": "promotions_route_post",
+      "community": 3,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L1",
+      "id": "app_api_checkout_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "stripe",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L5",
+      "id": "checkout_route_stripe",
+      "community": 3,
+      "norm_label": "stripe"
+    },
+    {
+      "label": "Extra",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L9",
+      "id": "checkout_route_extra",
+      "community": 3,
+      "norm_label": "extra"
+    },
+    {
+      "label": "CartItem",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L11",
+      "id": "checkout_route_cartitem",
+      "community": 3,
+      "norm_label": "cartitem"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L21",
+      "id": "checkout_route_post",
+      "community": 3,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/delivery-zones/route.ts",
+      "source_location": "L1",
+      "id": "app_api_delivery_zones_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/promotions/route.ts",
+      "source_location": "L1",
+      "id": "app_api_promotions_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/checkout/page.tsx",
+      "source_location": "L1",
+      "id": "app_checkout_page_tsx",
+      "community": 18,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "CartItem",
+      "file_type": "code",
+      "source_file": "app/checkout/page.tsx",
+      "source_location": "L6",
+      "id": "checkout_page_cartitem",
+      "community": 18,
+      "norm_label": "cartitem"
+    },
+    {
+      "label": "DeliveryZone",
+      "file_type": "code",
+      "source_file": "app/checkout/page.tsx",
+      "source_location": "L16",
+      "id": "checkout_page_deliveryzone",
+      "community": 18,
+      "norm_label": "deliveryzone"
+    },
+    {
+      "label": "CheckoutPage()",
+      "file_type": "code",
+      "source_file": "app/checkout/page.tsx",
+      "source_location": "L24",
+      "id": "checkout_page_checkoutpage",
+      "community": 18,
+      "norm_label": "checkoutpage()"
+    },
+    {
+      "label": "20260615_delivery_zones.sql",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260615_delivery_zones.sql",
+      "source_location": null,
+      "id": "supabase_migrations_20260615_delivery_zones_sql",
+      "community": 43,
+      "norm_label": "20260615_delivery_zones.sql"
+    },
+    {
+      "label": "delivery_zones",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260615_delivery_zones.sql",
+      "source_location": "L1",
+      "id": "20260615_delivery_zones_delivery_zones",
+      "community": 43,
+      "norm_label": "delivery_zones"
+    },
+    {
+      "label": "20260616_promotions.sql",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260616_promotions.sql",
+      "source_location": null,
+      "id": "supabase_migrations_20260616_promotions_sql",
+      "community": 44,
+      "norm_label": "20260616_promotions.sql"
+    },
+    {
+      "label": "promotions",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260616_promotions.sql",
+      "source_location": "L1",
+      "id": "20260616_promotions_promotions",
+      "community": 44,
+      "norm_label": "promotions"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "admin/delivery/page.tsx",
+      "source_location": "L1",
+      "community": 11,
+      "norm_label": "page.tsx",
+      "id": "admin_delivery_page_tsx"
     },
     {
       "label": "page.tsx",
@@ -125,150 +611,6 @@
       "id": "admin_page_tsx"
     },
     {
-      "label": "Extra",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L22",
-      "community": 1,
-      "norm_label": "extra",
-      "id": "admin_page_extra"
-    },
-    {
-      "label": "MenuItem",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L27",
-      "community": 1,
-      "norm_label": "menuitem",
-      "id": "admin_page_menuitem"
-    },
-    {
-      "label": "SaveState",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L40",
-      "community": 1,
-      "norm_label": "savestate",
-      "id": "admin_page_savestate"
-    },
-    {
-      "label": "CATEGORIES",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L42",
-      "community": 1,
-      "norm_label": "categories",
-      "id": "admin_page_categories"
-    },
-    {
-      "label": "Category",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L43",
-      "community": 1,
-      "norm_label": "category",
-      "id": "admin_page_category"
-    },
-    {
-      "label": "CATEGORY_LABELS",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L45",
-      "community": 1,
-      "norm_label": "category_labels",
-      "id": "admin_page_category_labels"
-    },
-    {
-      "label": "CATEGORY_COLOURS",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L53",
-      "community": 1,
-      "norm_label": "category_colours",
-      "id": "admin_page_category_colours"
-    },
-    {
-      "label": "PriceCell()",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L63",
-      "community": 1,
-      "norm_label": "pricecell()",
-      "id": "admin_page_pricecell"
-    },
-    {
-      "label": "AvailabilityToggle()",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L112",
-      "community": 1,
-      "norm_label": "availabilitytoggle()",
-      "id": "admin_page_availabilitytoggle"
-    },
-    {
-      "label": "ItemModalProps",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L157",
-      "community": 1,
-      "norm_label": "itemmodalprops",
-      "id": "admin_page_itemmodalprops"
-    },
-    {
-      "label": "EMPTY_FORM",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L163",
-      "community": 1,
-      "norm_label": "empty_form",
-      "id": "admin_page_empty_form"
-    },
-    {
-      "label": "ItemModal()",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L165",
-      "community": 1,
-      "norm_label": "itemmodal()",
-      "id": "admin_page_itemmodal"
-    },
-    {
-      "label": "DeleteConfirmModal()",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L421",
-      "community": 1,
-      "norm_label": "deleteconfirmmodal()",
-      "id": "admin_page_deleteconfirmmodal"
-    },
-    {
-      "label": "NavItem",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L457",
-      "community": 1,
-      "norm_label": "navitem",
-      "id": "admin_page_navitem"
-    },
-    {
-      "label": "NAV",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L459",
-      "community": 1,
-      "norm_label": "nav",
-      "id": "admin_page_nav"
-    },
-    {
-      "label": "AdminPage()",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L465",
-      "community": 1,
-      "norm_label": "adminpage()",
-      "id": "admin_page_adminpage"
-    },
-    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "admin/settings/page.tsx",
@@ -276,33 +618,6 @@
       "community": 17,
       "norm_label": "page.tsx",
       "id": "admin_settings_page_tsx"
-    },
-    {
-      "label": "StoreSettings",
-      "file_type": "code",
-      "source_file": "app/admin/settings/page.tsx",
-      "source_location": "L16",
-      "community": 17,
-      "norm_label": "storesettings",
-      "id": "settings_page_storesettings"
-    },
-    {
-      "label": "SaveState",
-      "file_type": "code",
-      "source_file": "app/admin/settings/page.tsx",
-      "source_location": "L22",
-      "community": 17,
-      "norm_label": "savestate",
-      "id": "settings_page_savestate"
-    },
-    {
-      "label": "SettingsPage()",
-      "file_type": "code",
-      "source_file": "app/admin/settings/page.tsx",
-      "source_location": "L24",
-      "community": 17,
-      "norm_label": "settingspage()",
-      "id": "settings_page_settingspage"
     },
     {
       "label": "route.ts",
@@ -314,42 +629,6 @@
       "id": "api_checkout_route_ts"
     },
     {
-      "label": "stripe",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L5",
-      "community": 3,
-      "norm_label": "stripe",
-      "id": "checkout_route_stripe"
-    },
-    {
-      "label": "Extra",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L9",
-      "community": 3,
-      "norm_label": "extra",
-      "id": "checkout_route_extra"
-    },
-    {
-      "label": "CartItem",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L11",
-      "community": 3,
-      "norm_label": "cartitem",
-      "id": "checkout_route_cartitem"
-    },
-    {
-      "label": "POST()",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L21",
-      "community": 3,
-      "norm_label": "post()",
-      "id": "checkout_route_post"
-    },
-    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "checkout/page.tsx",
@@ -357,33 +636,6 @@
       "community": 18,
       "norm_label": "page.tsx",
       "id": "checkout_page_tsx"
-    },
-    {
-      "label": "CartItem",
-      "file_type": "code",
-      "source_file": "app/checkout/page.tsx",
-      "source_location": "L6",
-      "community": 18,
-      "norm_label": "cartitem",
-      "id": "checkout_page_cartitem"
-    },
-    {
-      "label": "DeliveryZone",
-      "file_type": "code",
-      "source_file": "app/checkout/page.tsx",
-      "source_location": "L16",
-      "community": 18,
-      "norm_label": "deliveryzone",
-      "id": "checkout_page_deliveryzone"
-    },
-    {
-      "label": "CheckoutPage()",
-      "file_type": "code",
-      "source_file": "app/checkout/page.tsx",
-      "source_location": "L24",
-      "community": 18,
-      "norm_label": "checkoutpage()",
-      "id": "checkout_page_checkoutpage"
     },
     {
       "label": "page.tsx",
@@ -528,24 +780,6 @@
       "community": 5,
       "norm_label": "orderpage()",
       "id": "order_page_orderpage"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L1",
-      "community": 1,
-      "norm_label": "page.tsx",
-      "id": "app_admin_page_tsx"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/admin/settings/page.tsx",
-      "source_location": "L1",
-      "community": 17,
-      "norm_label": "page.tsx",
-      "id": "app_admin_settings_page_tsx"
     },
     {
       "label": "route.ts",
@@ -834,24 +1068,6 @@
       "community": 32,
       "norm_label": "20260610_public_menu.sql",
       "id": "supabase_migrations_20260610_public_menu_sql"
-    },
-    {
-      "label": "PATCH()",
-      "file_type": "code",
-      "source_file": "app/api/kitchen/orders/[id]/route.ts",
-      "source_location": "L4",
-      "community": 3,
-      "norm_label": "patch()",
-      "id": "id_route_patch"
-    },
-    {
-      "label": "DELETE()",
-      "file_type": "code",
-      "source_file": "app/api/admin/menu-items/[id]/route.ts",
-      "source_location": "L22",
-      "community": 3,
-      "norm_label": "delete()",
-      "id": "id_route_delete"
     },
     {
       "label": "20260609_order_items_notes.sql",
@@ -2189,7 +2405,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 4,
       "norm_label": "supabase linked project (chickentime)",
       "id": "supabase_linked_project"
     },
@@ -2202,7 +2418,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 4,
       "norm_label": "initial db schema migration",
       "id": "supabase_migration_schema"
     },
@@ -2215,7 +2431,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 4,
       "norm_label": "db table: profiles",
       "id": "supabase_table_profiles"
     },
@@ -2228,7 +2444,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 4,
       "norm_label": "db enum: order_status",
       "id": "supabase_enum_order_status"
     },
@@ -2241,7 +2457,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 4,
       "norm_label": "db function: set_updated_at",
       "id": "supabase_fn_set_updated_at"
     },
@@ -2254,7 +2470,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 4,
       "norm_label": "row level security policies",
       "id": "supabase_rls_policies"
     },
@@ -3006,7 +3222,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 0,
       "norm_label": "api: public menu items route (get)",
       "id": "api_menuitems_route"
     },
@@ -3188,7 +3404,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 4,
       "norm_label": "db table: order_items",
       "id": "db_table_order_items"
     },
@@ -3214,7 +3430,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 42,
       "norm_label": "newsletterform component",
       "id": "newsletterform_component"
     },
@@ -3253,7 +3469,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 42,
       "norm_label": "siteheader component",
       "id": "siteheader_component"
     },
@@ -3266,7 +3482,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 42,
       "norm_label": "nav_links static config",
       "id": "siteheader_nav_links"
     },
@@ -3279,7 +3495,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 42,
       "norm_label": "sign in page",
       "id": "signin_page"
     },
@@ -3292,7 +3508,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 42,
       "norm_label": "sign up page",
       "id": "signup_page"
     },
@@ -3344,7 +3560,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 12,
+      "community": 4,
       "norm_label": "migration: kitchen policies (20260607)",
       "id": "migration_kitchen_policies"
     },
@@ -3396,7 +3612,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 12,
+      "community": 4,
       "norm_label": "migration: kitchen rls permissive (20260612)",
       "id": "migration_kitchen_rls"
     },
@@ -3526,7 +3742,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 12,
+      "community": 4,
       "norm_label": "rls policy: kitchen read active orders",
       "id": "policy_kitchen_read_active_orders"
     },
@@ -3539,7 +3755,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 12,
+      "community": 4,
       "norm_label": "rls policy: kitchen update status",
       "id": "policy_kitchen_update_status"
     },
@@ -3552,7 +3768,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 12,
+      "community": 4,
       "norm_label": "rls policy: kitchen read order items",
       "id": "policy_kitchen_read_order_items"
     },
@@ -3565,7 +3781,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 12,
+      "community": 4,
       "norm_label": "rls policy: kitchen_select_orders (permissive)",
       "id": "policy_kitchen_select_orders"
     },
@@ -3578,7 +3794,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 12,
+      "community": 4,
       "norm_label": "rls policy: kitchen_update_orders (permissive)",
       "id": "policy_kitchen_update_orders"
     },
@@ -3591,7 +3807,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 12,
+      "community": 4,
       "norm_label": "rls policy: kitchen_select_items (permissive)",
       "id": "policy_kitchen_select_items"
     },
@@ -3682,148 +3898,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 42,
       "norm_label": "auth provider (todo: supabase/nextauth)",
       "id": "auth_provider_todo"
-    },
-    {
-      "label": "Primary Brand Logo Mockup (Website Context)",
-      "file_type": "image",
-      "source_file": "logo.jpeg",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "A JPEG screenshot/mockup showing the Chicken Time logo displayed large above a browser window rendering the Chicken Time website. The logo is the clean flat-design version: circular badge shape with deep crimson red background, gold/yellow concentric ring border, white bold uppercase text 'CHICKEN' arced at top and 'TIME' arced at bottom, a central analog clock face (white dial, black numerals 1-12, black hour/minute hands, red second hand), and a cartoon white rooster mascot wearing a white chef's hat positioned to the right. A black ribbon banner beneath reads 'PIRI PIRI & PERFECTION' in gold serif text. Background has subtle feather watermark pattern. Also shows the logo small in the browser tab and navbar.",
-      "design_style": "flat_cartoon_badge",
-      "colors": [
-        "crimson_red",
-        "gold_yellow",
-        "white",
-        "black"
-      ],
-      "typography": "bold_uppercase_sans_serif",
-      "mascot": "cartoon_white_rooster_chef",
-      "tagline": "Piri Piri & Perfection",
-      "confidence_score": 1.0,
-      "community": 10,
-      "norm_label": "primary brand logo mockup (website context)",
-      "id": "logo_jpeg_primary_brand_logo_mockup"
-    },
-    {
-      "label": "Chicken Time Flat Badge Logo (PNG)",
-      "file_type": "image",
-      "source_file": "logo.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "Clean PNG version of the Chicken Time logo on a white background. Circular badge/emblem design with deep crimson red background, gold concentric ring border. Bold white uppercase 'CHICKEN' arcs across the top, 'TIME' arcs at the bottom. Central white analog clock face with black hour markers and hands (approximately 11:58 time shown), red second hand. A cartoon white rooster mascot with a white chef's hat stands to the right of the circle, waving with one wing. Black ribbon banner below the circle contains 'PIRI PIRI & PERFECTION' in gold bold uppercase lettering. Style is clean, flat, and illustrative \u2014 suitable for web/print use.",
-      "design_style": "flat_cartoon_badge",
-      "colors": [
-        "crimson_red",
-        "gold_yellow",
-        "white",
-        "black"
-      ],
-      "typography": "bold_uppercase_sans_serif",
-      "mascot": "cartoon_white_rooster_chef",
-      "tagline": "Piri Piri & Perfection",
-      "confidence_score": 1.0,
-      "community": 10,
-      "norm_label": "chicken time flat badge logo (png)",
-      "id": "logo_png_flat_badge_logo"
-    },
-    {
-      "label": "Logo v1 \u2014 Clean Transparent Badge (PNG)",
-      "file_type": "image",
-      "source_file": "Logo_v1.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "PNG with transparent background (checkerboard visible). Same core flat cartoon badge design as logo.png: circular crimson red badge, gold ring border, bold white uppercase 'CHICKEN' at top arc and 'TIME' at bottom arc, central white analog clock face with black numerals and hands, red second hand showing near midnight/noon. Cartoon white rooster in chef's hat to the right. Black ribbon banner beneath reads 'PIRI PIRI & PERFECTION' in gold uppercase text. Transparent background makes this suited for overlay on any surface.",
-      "design_style": "flat_cartoon_badge",
-      "colors": [
-        "crimson_red",
-        "gold_yellow",
-        "white",
-        "black"
-      ],
-      "typography": "bold_uppercase_sans_serif",
-      "mascot": "cartoon_white_rooster_chef",
-      "tagline": "Piri Piri & Perfection",
-      "background": "transparent",
-      "confidence_score": 1.0,
-      "community": 10,
-      "norm_label": "logo v1 \u2014 clean transparent badge (png)",
-      "id": "logo_v1_png_clean_transparent_badge"
-    },
-    {
-      "label": "Logo v2 \u2014 Ornate Illustrated Badge with Chili Rooster (PNG)",
-      "file_type": "image",
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "PNG with transparent background. An alternative, more elaborate and richly illustrated version of the Chicken Time logo. Circular badge with deep crimson/burgundy red background, ornate gold decorative scrollwork border with floral/vine motifs. Bold cream/ivory uppercase 'CHICKEN' at top arc and 'TIME' at bottom arc in a serif-inflected bold font. Central clock face replaced with a textured bronze/copper dial featuring crossed spatula and fork hands, flanked by red and green chili peppers and flame motifs \u2014 emphasizing the piri piri hot food theme. Fiery orange flames ring the inner clock border. The rooster mascot is now a richly coloured cartoon cockerel with teal/green tail feathers, red comb, orange beak, holding a hot sauce bottle, wearing a white chef's hat \u2014 positioned at right. A brown leather-look ribbon banner below reads 'Piri Piri & Perfection' in cream serif italic text, with 'EST. 2024' beneath. Small red chili icons flank the banner. Overall style is highly detailed, vintage/artisan illustrative.",
-      "design_style": "ornate_vintage_artisan_illustrated",
-      "colors": [
-        "crimson_red",
-        "deep_burgundy",
-        "ornate_gold",
-        "cream_ivory",
-        "teal_green",
-        "orange_flame",
-        "brown_leather"
-      ],
-      "typography": "bold_serif_cream_arced",
-      "mascot": "colourful_cockerel_chef_holding_hot_sauce",
-      "tagline": "Piri Piri & Perfection",
-      "established": "EST. 2024",
-      "chili_motif": true,
-      "background": "transparent",
-      "confidence_score": 1.0,
-      "community": 10,
-      "norm_label": "logo v2 \u2014 ornate illustrated badge with chili rooster (png)",
-      "id": "logo_v2_png_ornate_illustrated_badge"
-    },
-    {
-      "label": "Logo v3 \u2014 Ornate Illustrated Badge on White Background (PNG)",
-      "file_type": "image",
-      "source_file": "Logo_v3.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "PNG on a solid white background. Visually identical to Logo_v2.png in all design elements: ornate gold scrollwork circular badge, crimson red background, cream uppercase 'CHICKEN' and 'TIME' text, bronze clock face with crossed spatula/fork, chili pepper motifs and flames, richly illustrated cockerel mascot in teal/red/orange holding hot sauce bottle with chef's hat, brown leather-look ribbon banner reading 'Piri Piri & Perfection' with 'EST. 2024'. The only difference from v2 is the solid white background instead of transparent. Suitable for print contexts where transparency isn't supported.",
-      "design_style": "ornate_vintage_artisan_illustrated",
-      "colors": [
-        "crimson_red",
-        "deep_burgundy",
-        "ornate_gold",
-        "cream_ivory",
-        "teal_green",
-        "orange_flame",
-        "brown_leather",
-        "white_background"
-      ],
-      "typography": "bold_serif_cream_arced",
-      "mascot": "colourful_cockerel_chef_holding_hot_sauce",
-      "tagline": "Piri Piri & Perfection",
-      "established": "EST. 2024",
-      "chili_motif": true,
-      "background": "white",
-      "confidence_score": 1.0,
-      "community": 10,
-      "norm_label": "logo v3 \u2014 ornate illustrated badge on white background (png)",
-      "id": "logo_v3_png_ornate_white_background"
     },
     {
       "label": "Public Brand Logo \u2014 Ornate Illustrated Badge Transparent (PNG)",
@@ -3855,76 +3932,6 @@
       "community": 10,
       "norm_label": "public brand logo \u2014 ornate illustrated badge transparent (png)",
       "id": "public_brand_logo_png_ornate_transparent"
-    },
-    {
-      "label": "Flat Cartoon Badge Logo Style",
-      "file_type": "concept",
-      "source_file": "logo.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "Design concept: clean, flat, cartoon-style circular badge. Used in logo.png, Logo_v1.png, logo.jpeg. Primary palette of crimson red, gold, white, black. Minimal detail, web-optimised.",
-      "community": 10,
-      "norm_label": "flat cartoon badge logo style",
-      "id": "concept_flat_badge_logo_style"
-    },
-    {
-      "label": "Ornate Artisan Illustrated Logo Style",
-      "file_type": "concept",
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "Design concept: richly detailed, vintage/artisan illustrative style with decorative gold scrollwork, flame and chili motifs, leather-look banner, and highly coloured mascot. Used in Logo_v2.png, Logo_v3.png, public/brand-logo.png. EST. 2024 detail present.",
-      "community": 10,
-      "norm_label": "ornate artisan illustrated logo style",
-      "id": "concept_ornate_artisan_logo_style"
-    },
-    {
-      "label": "Rooster Mascot \u2014 Chef Character",
-      "file_type": "concept",
-      "source_file": "logo.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "Brand mascot: a cartoon rooster/cockerel character wearing a white chef's hat. In the flat logo versions it is a simple white chicken; in the ornate versions it is a richly coloured cockerel with teal tail feathers holding a hot sauce bottle. Present in all logo variants.",
-      "community": 10,
-      "norm_label": "rooster mascot \u2014 chef character",
-      "id": "concept_rooster_mascot"
-    },
-    {
-      "label": "Clock Face Motif",
-      "file_type": "concept",
-      "source_file": "logo.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "Central visual motif across all logo variants: an analog clock face embedded within the circular badge, reinforcing the 'Time' wordplay in the brand name. In flat versions it is a standard white clock dial; in ornate versions the dial is bronze/copper with crossed spatula and fork as clock hands and chili pepper hour markers.",
-      "community": 10,
-      "norm_label": "clock face motif",
-      "id": "concept_clock_motif"
-    },
-    {
-      "label": "Tagline: Piri Piri & Perfection",
-      "file_type": "concept",
-      "source_file": "logo.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "description": "Brand tagline 'PIRI PIRI & PERFECTION' present on all logo variants, displayed on a ribbon/banner element beneath the circular badge. Communicates the restaurant's piri piri chicken speciality.",
-      "community": 10,
-      "norm_label": "tagline: piri piri & perfection",
-      "id": "concept_piri_piri_tagline"
     },
     {
       "label": "nextConfig",
@@ -3961,51 +3968,6 @@
       "community": 1,
       "norm_label": "landingpage()",
       "id": "app_page_landingpage"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/admin/delivery/page.tsx",
-      "source_location": "L1",
-      "community": 11,
-      "norm_label": "page.tsx",
-      "id": "app_admin_delivery_page_tsx"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "app/api/admin/delivery-zones/route.ts",
-      "source_location": "L1",
-      "community": 3,
-      "norm_label": "route.ts",
-      "id": "app_api_admin_delivery_zones_route_ts"
-    },
-    {
-      "label": "GET()",
-      "file_type": "code",
-      "source_file": "app/api/delivery-zones/route.ts",
-      "source_location": "L6",
-      "community": 3,
-      "norm_label": "get()",
-      "id": "delivery_zones_route_get"
-    },
-    {
-      "label": "POST()",
-      "file_type": "code",
-      "source_file": "app/api/admin/delivery-zones/route.ts",
-      "source_location": "L14",
-      "community": 3,
-      "norm_label": "post()",
-      "id": "delivery_zones_route_post"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
-      "source_location": "L1",
-      "community": 3,
-      "norm_label": "route.ts",
-      "id": "app_api_admin_delivery_zones_id_route_ts"
     },
     {
       "label": "route.ts",
@@ -4046,24 +4008,6 @@
     {
       "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L1",
-      "community": 3,
-      "norm_label": "route.ts",
-      "id": "app_api_checkout_route_ts"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "app/api/delivery-zones/route.ts",
-      "source_location": "L1",
-      "community": 3,
-      "norm_label": "route.ts",
-      "id": "app_api_delivery_zones_route_ts"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
       "source_file": "app/api/kitchen/orders/route.ts",
       "source_location": "L1",
       "community": 3,
@@ -4096,15 +4040,6 @@
       "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_webhook_route_ts"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/checkout/page.tsx",
-      "source_location": "L1",
-      "community": 18,
-      "norm_label": "page.tsx",
-      "id": "app_checkout_page_tsx"
     },
     {
       "label": "page.tsx",
@@ -4729,66 +4664,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/delivery/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_delivery_page_tsx",
-      "target": "delivery_page_deliveryzone"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/delivery/page.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_delivery_page_tsx",
-      "target": "delivery_page_savestate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/delivery/page.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_delivery_page_tsx",
-      "target": "delivery_page_nav"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/delivery/page.tsx",
-      "source_location": "L30",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_delivery_page_tsx",
-      "target": "delivery_page_zonemodal"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/delivery/page.tsx",
-      "source_location": "L146",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_delivery_page_tsx",
-      "target": "delivery_page_deleteconfirm"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/delivery/page.tsx",
-      "source_location": "L176",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_delivery_page_tsx",
-      "target": "delivery_page_deliverypage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/admin/delivery/page.tsx",
       "source_location": "L10",
       "weight": 1.0,
@@ -4849,162 +4724,62 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L22",
+      "source_file": "admin/delivery/page.tsx",
+      "source_location": "L10",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_extra"
+      "source": "admin_delivery_page_tsx",
+      "target": "delivery_page_deliveryzone"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L27",
+      "source_file": "admin/delivery/page.tsx",
+      "source_location": "L18",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_menuitem"
+      "source": "admin_delivery_page_tsx",
+      "target": "delivery_page_savestate"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L40",
+      "source_file": "admin/delivery/page.tsx",
+      "source_location": "L20",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_savestate"
+      "source": "admin_delivery_page_tsx",
+      "target": "delivery_page_nav"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L42",
+      "source_file": "admin/delivery/page.tsx",
+      "source_location": "L30",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_categories"
+      "source": "admin_delivery_page_tsx",
+      "target": "delivery_page_zonemodal"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L43",
+      "source_file": "admin/delivery/page.tsx",
+      "source_location": "L146",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_category"
+      "source": "admin_delivery_page_tsx",
+      "target": "delivery_page_deleteconfirm"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L45",
+      "source_file": "admin/delivery/page.tsx",
+      "source_location": "L176",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_category_labels"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L53",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_category_colours"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L63",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_pricecell"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L112",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_availabilitytoggle"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L157",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_itemmodalprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L163",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_empty_form"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L165",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_itemmodal"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L421",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_deleteconfirmmodal"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L457",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_navitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L459",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_nav"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L465",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_adminpage"
+      "source": "admin_delivery_page_tsx",
+      "target": "delivery_page_deliverypage"
     },
     {
       "relation": "contains",
@@ -5019,26 +4794,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_extra",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_extra",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
       "source_location": "L27",
       "weight": 1.0,
@@ -5049,32 +4804,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_menuitem",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
       "source_location": "L40",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_page_savestate",
       "target": "app_admin_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L38",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_savestate",
-      "target": "page_tsx"
     },
     {
       "relation": "contains",
@@ -5099,32 +4834,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_category",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
       "source_location": "L45",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_page_category_labels",
       "target": "app_admin_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L43",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_category_labels",
-      "target": "page_tsx"
     },
     {
       "relation": "contains",
@@ -5140,16 +4855,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_category_colours",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
       "source_location": "L63",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5160,31 +4865,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
-      "source_location": "L61",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_pricecell",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
       "source_location": "L112",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_page_availabilitytoggle",
       "target": "app_admin_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L110",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_availabilitytoggle",
-      "target": "page_tsx"
     },
     {
       "relation": "contains",
@@ -5210,16 +4895,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
-      "source_location": "L160",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_empty_form",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
       "source_location": "L165",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5240,31 +4915,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
-      "source_location": "L407",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_deleteconfirmmodal",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
       "source_location": "L457",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_page_navitem",
       "target": "app_admin_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L443",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_navitem",
-      "target": "page_tsx"
     },
     {
       "relation": "contains",
@@ -5280,6 +4935,286 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
+      "source_location": "L465",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_adminpage",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_extra"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_extra",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_extra",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_menuitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_menuitem",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_savestate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_savestate",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_categories"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_category"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_category",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_category_labels"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_category_labels",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L53",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_category_colours"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_category_colours",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L63",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_pricecell"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L61",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_pricecell",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_availabilitytoggle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L110",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_availabilitytoggle",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L157",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_itemmodalprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L163",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_empty_form"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L160",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_empty_form",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L165",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_itemmodal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L421",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_deleteconfirmmodal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L407",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_deleteconfirmmodal",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L457",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_navitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L443",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_navitem",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L459",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_nav"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
       "source_location": "L445",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5289,12 +5224,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
+      "source_file": "admin/page.tsx",
       "source_location": "L465",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_adminpage",
-      "target": "app_admin_page_tsx"
+      "source": "admin_page_tsx",
+      "target": "admin_page_adminpage"
     },
     {
       "relation": "contains",
@@ -5309,32 +5244,62 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/settings/page.tsx",
-      "source_location": "L16",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L10",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_settings_page_tsx",
-      "target": "settings_page_storesettings"
+      "source": "app_admin_promotions_page_tsx",
+      "target": "promotions_page_promotion",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/settings/page.tsx",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "app_admin_promotions_page_tsx",
+      "target": "promotions_page_savestate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/promotions/page.tsx",
       "source_location": "L22",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_settings_page_tsx",
-      "target": "settings_page_savestate"
+      "source": "app_admin_promotions_page_tsx",
+      "target": "promotions_page_nav",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/settings/page.tsx",
-      "source_location": "L24",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L33",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_settings_page_tsx",
-      "target": "settings_page_settingspage"
+      "source": "app_admin_promotions_page_tsx",
+      "target": "promotions_page_promomodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L176",
+      "weight": 1.0,
+      "source": "app_admin_promotions_page_tsx",
+      "target": "promotions_page_deleteconfirm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/promotions/page.tsx",
+      "source_location": "L209",
+      "weight": 1.0,
+      "source": "app_admin_promotions_page_tsx",
+      "target": "promotions_page_promotionspage",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5369,6 +5334,314 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "admin/settings/page.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_settings_page_tsx",
+      "target": "settings_page_storesettings"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/settings/page.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_settings_page_tsx",
+      "target": "settings_page_savestate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/settings/page.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_settings_page_tsx",
+      "target": "settings_page_settingspage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_delivery_zones_id_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_patch",
+      "target": "app_api_admin_delivery_zones_id_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_delete",
+      "target": "app_api_admin_delivery_zones_id_route_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_delivery_zones_id_route_ts",
+      "target": "lib_supabase_admin_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/promotions/[id]/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "app_api_admin_promotions_id_route_ts",
+      "target": "id_route_patch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/kitchen/orders/[id]/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_patch",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/menu-items/[id]/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_patch",
+      "target": "app_api_admin_menu_items_id_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/kitchen/orders/[id]/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_patch",
+      "target": "app_api_kitchen_orders_id_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/promotions/[id]/route.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "app_api_admin_promotions_id_route_ts",
+      "target": "id_route_delete",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/menu-items/[id]/route.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_delete",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/menu-items/[id]/route.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_delete",
+      "target": "app_api_admin_menu_items_id_route_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/delivery-zones/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_delivery_zones_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/delivery-zones/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_delivery_zones_route_ts",
+      "target": "delivery_zones_route_get"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/delivery-zones/route.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_delivery_zones_route_ts",
+      "target": "delivery_zones_route_post"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/delivery-zones/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_delivery_zones_route_ts",
+      "target": "lib_supabase_admin_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/delivery-zones/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "delivery_zones_route_get",
+      "target": "app_api_delivery_zones_route_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/promotions/[id]/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_admin_promotions_id_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/promotions/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_admin_promotions_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/promotions/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "app_api_admin_promotions_route_ts",
+      "target": "promotions_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/promotions/route.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "app_api_admin_promotions_route_ts",
+      "target": "promotions_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/promotions/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "app_api_promotions_route_ts",
+      "target": "promotions_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_checkout_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_stripe",
+      "target": "app_api_checkout_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_extra",
+      "target": "app_api_checkout_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_cartitem",
+      "target": "app_api_checkout_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_post",
+      "target": "app_api_checkout_route_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_checkout_route_ts",
+      "target": "lib_supabase_admin_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "api/checkout/route.ts",
       "source_location": "L5",
       "weight": 1.0,
@@ -5399,36 +5672,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "api/checkout/route.ts",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_checkout_route_ts",
-      "target": "checkout_route_post"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_route_stripe",
-      "target": "app_api_checkout_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_route_extra",
-      "target": "app_api_checkout_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/api/checkout/route.ts",
       "source_location": "L11",
       "weight": 1.0,
@@ -5439,22 +5682,75 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L11",
+      "source_file": "api/checkout/route.ts",
+      "source_location": "L21",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "checkout_route_cartitem",
-      "target": "app_api_checkout_route_ts"
+      "source": "api_checkout_route_ts",
+      "target": "checkout_route_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/delivery-zones/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_delivery_zones_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/delivery-zones/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_delivery_zones_route_ts",
+      "target": "lib_supabase_admin_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/promotions/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_promotions_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L21",
+      "source_file": "app/checkout/page.tsx",
+      "source_location": "L6",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "checkout_route_post",
-      "target": "app_api_checkout_route_ts"
+      "source": "checkout_page_cartitem",
+      "target": "app_checkout_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/checkout/page.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_page_deliveryzone",
+      "target": "app_checkout_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/checkout/page.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_page_checkoutpage",
+      "target": "app_checkout_page_tsx"
     },
     {
       "relation": "contains",
@@ -5489,32 +5785,22 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/checkout/page.tsx",
-      "source_location": "L6",
+      "source_file": "supabase/migrations/20260615_delivery_zones.sql",
+      "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_page_cartitem",
-      "target": "app_checkout_page_tsx"
+      "source": "supabase_migrations_20260615_delivery_zones_sql",
+      "target": "20260615_delivery_zones_delivery_zones",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/checkout/page.tsx",
-      "source_location": "L16",
+      "source_file": "supabase/migrations/20260616_promotions.sql",
+      "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_page_deliveryzone",
-      "target": "app_checkout_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/checkout/page.tsx",
-      "source_location": "L24",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_page_checkoutpage",
-      "target": "app_checkout_page_tsx"
+      "source": "supabase_migrations_20260616_promotions_sql",
+      "target": "20260616_promotions_promotions",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -6817,76 +7103,6 @@
       "confidence_score": 1.0,
       "source": "supabase_migrations_20260613_order_items_customizations_sql",
       "target": "20260613_order_items_customizations_order_items"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/kitchen/orders/[id]/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_patch",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_patch",
-      "target": "app_api_admin_delivery_zones_id_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/menu-items/[id]/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_patch",
-      "target": "app_api_admin_menu_items_id_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/kitchen/orders/[id]/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_patch",
-      "target": "app_api_kitchen_orders_id_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/menu-items/[id]/route.ts",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_delete",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
-      "source_location": "L26",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_delete",
-      "target": "app_api_admin_delivery_zones_id_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/menu-items/[id]/route.ts",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_delete",
-      "target": "app_api_admin_menu_items_id_route_ts"
     },
     {
       "relation": "contains",
@@ -10084,186 +10300,6 @@
       "target": "claude_md_menu_items_gap"
     },
     {
-      "relation": "semantically_similar_to",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "logo.jpeg",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_jpeg_primary_brand_logo_mockup",
-      "target": "logo_png_flat_badge_logo"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "logo.jpeg",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_jpeg_primary_brand_logo_mockup",
-      "target": "concept_flat_badge_logo_style"
-    },
-    {
-      "relation": "semantically_similar_to",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "logo.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_png_flat_badge_logo",
-      "target": "logo_v1_png_clean_transparent_badge"
-    },
-    {
-      "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "weight": 0.85,
-      "source": "logo_png_flat_badge_logo",
-      "target": "logo_v2_png_ornate_illustrated_badge"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "logo.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_png_flat_badge_logo",
-      "target": "concept_flat_badge_logo_style"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "logo.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_png_flat_badge_logo",
-      "target": "concept_rooster_mascot"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "logo.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_png_flat_badge_logo",
-      "target": "concept_clock_motif"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "logo.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_png_flat_badge_logo",
-      "target": "concept_piri_piri_tagline"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v1.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v1_png_clean_transparent_badge",
-      "target": "concept_flat_badge_logo_style"
-    },
-    {
-      "relation": "semantically_similar_to",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v2_png_ornate_illustrated_badge",
-      "target": "logo_v3_png_ornate_white_background"
-    },
-    {
-      "relation": "semantically_similar_to",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v2_png_ornate_illustrated_badge",
-      "target": "public_brand_logo_png_ornate_transparent"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v2_png_ornate_illustrated_badge",
-      "target": "concept_ornate_artisan_logo_style"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v2_png_ornate_illustrated_badge",
-      "target": "concept_rooster_mascot"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v2_png_ornate_illustrated_badge",
-      "target": "concept_clock_motif"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v2.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v2_png_ornate_illustrated_badge",
-      "target": "concept_piri_piri_tagline"
-    },
-    {
-      "relation": "semantically_similar_to",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v3.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v3_png_ornate_white_background",
-      "target": "public_brand_logo_png_ornate_transparent"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Logo_v3.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_v3_png_ornate_white_background",
-      "target": "concept_ornate_artisan_logo_style"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "public/brand-logo.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "public_brand_logo_png_ornate_transparent",
-      "target": "concept_ornate_artisan_logo_style"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -10294,80 +10330,6 @@
       "confidence_score": 1.0,
       "source": "app_page_tsx",
       "target": "app_page_landingpage"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/delivery-zones/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_delivery_zones_route_ts",
-      "target": "lib_supabase_admin_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/delivery-zones/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_delivery_zones_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/delivery-zones/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_delivery_zones_route_ts",
-      "target": "delivery_zones_route_get"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/delivery-zones/route.ts",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_delivery_zones_route_ts",
-      "target": "delivery_zones_route_post"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/delivery-zones/route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "delivery_zones_route_get",
-      "target": "app_api_delivery_zones_route_ts"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_delivery_zones_id_route_ts",
-      "target": "lib_supabase_admin_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_delivery_zones_id_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
     },
     {
       "relation": "imports_from",
@@ -10441,50 +10403,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "app_api_admin_menu_items_id_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_checkout_route_ts",
-      "target": "lib_supabase_admin_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_checkout_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/delivery-zones/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_delivery_zones_route_ts",
-      "target": "lib_supabase_admin_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/delivery-zones/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_delivery_zones_route_ts",
       "target": "lib_supabase_admin_supabaseadmin"
     },
     {
@@ -11154,5 +11072,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "a5fd9fc73ffb7d5faa09e1e507a447e92ea09941"
+  "built_at_commit": "b6e0fb9f19710601a749936b9e392021b980ccfd"
 }

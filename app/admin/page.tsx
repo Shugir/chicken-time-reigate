@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
+  LayoutDashboard,
   UtensilsCrossed,
   Settings,
   MapPin,
@@ -458,6 +459,7 @@ function DeleteConfirmModal({ item, onClose, onConfirm }: { item: MenuItem; onCl
 type NavItem = { id: string; label: string; icon: React.ReactNode; href: string }
 
 const NAV: NavItem[] = [
+  { id: 'dashboard',  label: 'Dashboard',      icon: <LayoutDashboard className="w-4 h-4" />, href: '/admin/dashboard' },
   { id: 'menu',       label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
   { id: 'settings',   label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
   { id: 'delivery',   label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
