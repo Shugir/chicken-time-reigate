@@ -198,21 +198,24 @@ function AddItemModal({ onClose, onAdd }: AddItemModalProps) {
     if (isNaN(parsed) || parsed <= 0) return setError('Enter a valid price.')
     if (!form.category) return setError('Category is required.')
 
+    const payload = {
+      name:         form.name.trim(),
+      description:  form.description.trim() || null,
+      price:        parsed,
+      image_url:    form.image_url.trim() || null,
+      category:     form.category,
+      is_available: true,
+      removals,
+      extras,
+    }
+    console.log('Submitting:', payload)
+
     setSaving(true)
     try {
       const res = await fetch('/api/admin/menu-items', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name.trim(),
-          description: form.description.trim() || null,
-          price: parsed,
-          image_url: form.image_url.trim() || null,
-          category: form.category,
-          is_available: true,
-          removals,
-          extras,
-        }),
+        body: JSON.stringify(payload),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed to add item')

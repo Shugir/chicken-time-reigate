@@ -13,15 +13,28 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const { name, description, price, image_url, category } = await request.json()
+  const { name, description, price, image_url, category, is_available, extras, removals } = await request.json()
 
   if (!name || !price || !category) {
     return NextResponse.json({ error: 'name, price, and category are required' }, { status: 400 })
   }
 
+  const payload = {
+    name,
+    description:  description  ?? null,
+    price,
+    image_url:    image_url    ?? null,
+    category,
+    is_available: is_available ?? true,
+    extras:       extras       ?? [],
+    removals:     removals     ?? [],
+  }
+
+  console.log('Inserting menu item:', JSON.stringify(payload))
+
   const { data, error } = await supabaseAdmin
     .from('menu_items')
-    .insert({ name, description: description ?? null, price, image_url: image_url ?? null, category })
+    .insert(payload)
     .select()
     .single()
 
