@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { ChefHat, CheckCircle, Truck, Clock, RefreshCw, Bell, BellOff } from 'lucide-react'
 
-const ALERT_URL = 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+const ALERT_URL = '/KitchenAlert.mp3'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
