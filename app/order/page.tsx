@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import {
@@ -631,7 +633,7 @@ export default function OrderPage() {
                     <MenuCard
                       key={item.id}
                       item={item}
-                      qty={cart[item.id] ?? 0}
+                      qty={cart[item.id]?.qty ?? 0}
                       onOpenModal={() => setSelectedItem(item)}
                       onAdd={() => addToCart(item.id)}
                       onRemove={() => removeFromCart(item.id)}
