@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { ChevronRight, MapPin, AlertCircle, Loader2, ShoppingCart } from 'lucide-react'
+import { ChevronRight, MapPin, AlertCircle, Loader2, ShoppingCart, Tag } from 'lucide-react'
 
 interface CartItem {
   name: string
@@ -30,6 +30,10 @@ export default function CheckoutPage() {
   const [submitting, setSubmitting]     = useState(false)
   const [submitError, setSubmitError]   = useState<string | null>(null)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [promoCode, setPromoCode]       = useState('')
+  const [promoApplied, setPromoApplied] = useState<{ code: string; discount_type: 'flat' | 'percentage'; discount_value: number; discount_amount: number } | null>(null)
+  const [promoError, setPromoError]     = useState<string | null>(null)
+  const [promoLoading, setPromoLoading] = useState(false)
 
   useEffect(() => {
     try {
@@ -41,8 +45,9 @@ export default function CheckoutPage() {
   }, [])
 
   const subtotal = cartItems.reduce((s, i) => s + i.totalPrice, 0)
+  const discount = promoApplied ? promoApplied.discount_amount : 0
   const deliveryFee = zone ? Number(zone.delivery_fee) : 0
-  const total = subtotal + deliveryFee
+  const total = subtotal - discount + deliveryFee
 
   function handlePostcodeChange(val: string) {
     setPostcode(val)
@@ -80,6 +85,24 @@ export default function CheckoutPage() {
     }
   }
 
+  async function handleApplyPromo() {
+    const code = promoCode.trim().toUpperCase()
+    if (!code) return
+    setPromoLoading(true)
+    setPromoError(null)
+    setPromoApplied(null)
+    try {
+      const res = await fetch(`/api/promotions?code=${encodeURIComponent(code)}&subtotal=${subtotal.toFixed(2)}`)
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Invalid promo code')
+      setPromoApplied(data)
+    } catch (err) {
+      setPromoError(err instanceof Error ? err.message : 'Error applying promo code')
+    } finally {
+      setPromoLoading(false)
+    }
+  }
+
   async function handlePay() {
     if (!zone || cartItems.length === 0) return
     setSubmitting(true)
@@ -92,6 +115,7 @@ export default function CheckoutPage() {
           items: cartItems,
           delivery_fee: deliveryFee,
           postcode: postcode.trim().toUpperCase(),
+          promo_code: promoApplied?.code ?? null,
         }),
       })
       const data = await res.json()
@@ -184,11 +208,65 @@ export default function CheckoutPage() {
           )}
         </div>
 
+        {/* Promo Code */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
+          <h2 className="font-heading font-bold text-base text-brand-dark flex items-center gap-2">
+            <Tag size={16} className="text-brand-red" />
+            Promo Code
+          </h2>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={promoCode}
+              onChange={(e) => {
+                setPromoCode(e.target.value.toUpperCase())
+                if (promoApplied) setPromoApplied(null)
+                if (promoError) setPromoError(null)
+              }}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleApplyPromo() }}
+              placeholder="e.g. GRANDOPENING"
+              maxLength={30}
+              className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm font-mono font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red uppercase"
+            />
+            <button
+              onClick={handleApplyPromo}
+              disabled={!promoCode.trim() || promoLoading}
+              className="px-5 py-3 bg-brand-dark hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition-colors"
+            >
+              {promoLoading ? <Loader2 size={14} className="animate-spin" /> : 'Apply'}
+            </button>
+          </div>
+
+          {promoError && (
+            <div className="flex items-start gap-2 text-sm text-red-600 bg-red-50 rounded-xl px-3 py-2.5">
+              <AlertCircle size={14} className="mt-0.5 shrink-0" />
+              {promoError}
+            </div>
+          )}
+
+          {promoApplied && (
+            <div className="flex items-center justify-between text-sm text-green-700 bg-green-50 rounded-xl px-3 py-2.5">
+              <span className="font-semibold">✓ Code {promoApplied.code} applied</span>
+              <span className="font-bold text-green-600">
+                {promoApplied.discount_type === 'flat'
+                  ? `-£${promoApplied.discount_amount.toFixed(2)}`
+                  : `-£${promoApplied.discount_amount.toFixed(2)} (${promoApplied.discount_value}% off)`}
+              </span>
+            </div>
+          )}
+        </div>
+
         {/* Totals */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-2">
           <div className="flex justify-between text-sm text-gray-600">
             <span>Subtotal</span><span>£{subtotal.toFixed(2)}</span>
           </div>
+          {promoApplied && (
+            <div className="flex justify-between text-sm text-green-600">
+              <span>Discount ({promoApplied.code})</span>
+              <span>-£{discount.toFixed(2)}</span>
+            </div>
+          )}
           <div className="flex justify-between text-sm text-gray-600">
             <span>Delivery</span>
             <span>{zone ? (deliveryFee === 0 ? 'Free' : `£${deliveryFee.toFixed(2)}`) : '—'}</span>

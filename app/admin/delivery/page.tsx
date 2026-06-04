@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  UtensilsCrossed, Settings, MapPin,
+  UtensilsCrossed, Settings, MapPin, Tag,
   Plus, X, Loader2, Check, Pencil, Trash2, ChevronDown,
 } from 'lucide-react'
 
@@ -18,9 +18,10 @@ interface DeliveryZone {
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
 
 const NAV = [
-  { id: 'menu',     label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
-  { id: 'settings', label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
-  { id: 'delivery', label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,          href: '/admin/delivery' },
+  { id: 'menu',       label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
+  { id: 'settings',   label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
+  { id: 'delivery',   label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
+  { id: 'promotions', label: 'Promotions',     icon: <Tag className="w-4 h-4" />,              href: '/admin/promotions' },
 ]
 
 const inputCls = 'bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red'

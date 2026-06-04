@@ -6,6 +6,7 @@ import {
   UtensilsCrossed,
   Settings,
   MapPin,
+  Tag,
   Loader2,
   Check,
   X,
@@ -85,9 +86,10 @@ export default function SettingsPage() {
   }
 
   const NAV = [
-    { id: 'menu',     label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
-    { id: 'settings', label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
-    { id: 'delivery', label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
+    { id: 'menu',       label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
+    { id: 'settings',   label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
+    { id: 'delivery',   label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
+    { id: 'promotions', label: 'Promotions',     icon: <Tag className="w-4 h-4" />,              href: '/admin/promotions' },
   ]
 
   return (

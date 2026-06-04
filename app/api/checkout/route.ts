@@ -20,11 +20,42 @@ interface CartItem {
 
 export async function POST(request: NextRequest) {
   try {
-    const { items, delivery_fee = 0, postcode }: { items: CartItem[]; delivery_fee?: number; postcode?: string } = await request.json()
+    const { items, delivery_fee = 0, postcode, promo_code }: {
+      items: CartItem[]
+      delivery_fee?: number
+      postcode?: string
+      promo_code?: string | null
+    } = await request.json()
     const origin = request.headers.get('origin') || 'http://localhost:3000'
 
     const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)
-    const total    = subtotal + delivery_fee
+
+    let discountAmount = 0
+    let stripeCouponId: string | undefined
+    if (promo_code) {
+      const { data: promo } = await supabaseAdmin
+        .from('promotions')
+        .select('*')
+        .eq('code', promo_code.trim().toUpperCase())
+        .eq('is_active', true)
+        .maybeSingle()
+
+      if (promo && (Number(promo.min_order_amount) <= 0 || subtotal >= Number(promo.min_order_amount))) {
+        discountAmount = promo.discount_type === 'percentage'
+          ? Math.round(subtotal * (Number(promo.discount_value) / 100) * 100) / 100
+          : Math.min(Number(promo.discount_value), subtotal)
+
+        const coupon = await stripe.coupons.create({
+          amount_off: Math.round(discountAmount * 100),
+          currency: 'gbp',
+          duration: 'once',
+          name: promo_code.trim().toUpperCase(),
+        })
+        stripeCouponId = coupon.id
+      }
+    }
+
+    const total = subtotal - discountAmount + delivery_fee
 
     // Insert pending order
     const { data: order, error: orderError } = await supabaseAdmin
@@ -88,7 +119,8 @@ export async function POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: lineItems,
-      metadata: { orderId: order.id, ...(postcode && { postcode }) },
+      ...(stripeCouponId && { discounts: [{ coupon: stripeCouponId }] }),
+      metadata: { orderId: order.id, ...(postcode && { postcode }), ...(promo_code && { promo_code }) },
       success_url: `${origin}/order?success=true`,
       cancel_url:  `${origin}/order?canceled=true`,
     })

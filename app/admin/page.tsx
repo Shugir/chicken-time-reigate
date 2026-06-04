@@ -7,6 +7,7 @@ import {
   UtensilsCrossed,
   Settings,
   MapPin,
+  Tag,
   Plus,
   X,
   Check,
@@ -457,9 +458,10 @@ function DeleteConfirmModal({ item, onClose, onConfirm }: { item: MenuItem; onCl
 type NavItem = { id: string; label: string; icon: React.ReactNode; href: string }
 
 const NAV: NavItem[] = [
-  { id: 'menu',     label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
-  { id: 'settings', label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
-  { id: 'delivery', label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
+  { id: 'menu',       label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
+  { id: 'settings',   label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
+  { id: 'delivery',   label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
+  { id: 'promotions', label: 'Promotions',     icon: <Tag className="w-4 h-4" />,              href: '/admin/promotions' },
 ]
 
 export default function AdminPage() {
