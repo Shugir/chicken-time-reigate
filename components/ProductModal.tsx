@@ -79,7 +79,7 @@ function Toggle({ active, onChange }: { active: boolean; onChange: (v: boolean) 
 function AllergyAccordion({ allergens }: { allergens: string[] }) {
   const [open, setOpen] = useState(false)
 
-  if (allergens.length === 0) return null
+  if (!allergens?.length) return null
 
   return (
     <div className="border-t border-gray-100">
@@ -152,7 +152,7 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
     })
   }
 
-  const selectedAddOns = item.add_ons.filter((a) => extras.has(a.name))
+  const selectedAddOns = (item.add_ons ?? []).filter((a) => extras.has(a.name))
   const extrasTotal    = selectedAddOns.reduce((sum, a) => sum + a.price, 0)
   const unitPrice      = item.price + extrasTotal
   const totalPrice     = unitPrice * quantity
@@ -225,12 +225,12 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
             <AllergyAccordion allergens={item.allergens} />
 
             {/* ── 3. Customise — driven by item.removables ── */}
-            {item.removables.length > 0 && (
+            {(item.removables ?? []).length > 0 && (
               <div className="border-t border-gray-100 px-5 py-5">
                 <h3 className="font-heading font-bold text-base text-brand-dark mb-1">Customise Your Order</h3>
                 <p className="text-xs text-gray-400 mb-4">Toggle to remove an ingredient</p>
                 <div className="space-y-3">
-                  {item.removables.map((label) => {
+                  {(item.removables ?? []).map((label) => {
                     const active = removals.has(label)
                     return (
                       <div key={label} className="flex items-center justify-between">
@@ -246,12 +246,12 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
             )}
 
             {/* ── 4. Add extras — driven by item.add_ons ── */}
-            {item.add_ons.length > 0 && (
+            {(item.add_ons ?? []).length > 0 && (
               <div className="border-t border-gray-100 px-5 py-5">
                 <h3 className="font-heading font-bold text-base text-brand-dark mb-1">Add Extras</h3>
                 <p className="text-xs text-gray-400 mb-4">Upgrade your meal</p>
                 <div className="space-y-2">
-                  {item.add_ons.map((addon) => {
+                  {(item.add_ons ?? []).map((addon) => {
                     const selected = extras.has(addon.name)
                     return (
                       <button
