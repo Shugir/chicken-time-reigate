@@ -375,50 +375,28 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
   onAdd: (id: string) => void
   onRemove: (id: string) => void
 }) {
-  const [checkoutLoading, setCheckoutLoading] = useState(false)
-
   const lineItems = Object.entries(cart)
     .filter(([, entry]) => entry.qty > 0)
     .map(([id, entry]) => ({ item: menuItems.find((m) => m.id === id)!, entry }))
     .filter(({ item }) => Boolean(item))
 
   const subtotal = cartTotal(cart, menuItems)
-  const total    = subtotal + DELIVERY_FEE
 
-  async function handleCheckout() {
-    setCheckoutLoading(true)
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: lineItems.map(({ item, entry }) => {
-            const unitPrice = item.price + entry.extras.reduce((s, e) => s + e.price, 0)
-            return {
-              name:      item.name,
-              price:     unitPrice,
-              quantity:  entry.qty,
-              totalPrice: unitPrice * entry.qty,
-              extras:    entry.extras,
-              removals:  entry.removals,
-              notes:     entry.notes?.trim() || undefined,
-            }
-          }),
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        console.error('Checkout API error:', data.error)
-        alert(`Checkout failed: ${data.error ?? 'Unknown error'}`)
-        setCheckoutLoading(false)
-        return
+  function handleCheckout() {
+    const cartPayload = lineItems.map(({ item, entry }) => {
+      const unitPrice = item.price + entry.extras.reduce((s, e) => s + e.price, 0)
+      return {
+        name:       item.name,
+        price:      unitPrice,
+        quantity:   entry.qty,
+        totalPrice: unitPrice * entry.qty,
+        extras:     entry.extras,
+        removals:   entry.removals,
+        notes:      entry.notes?.trim() || undefined,
       }
-      window.location.href = data.url
-    } catch (err) {
-      console.error('Checkout fetch error:', err)
-      alert('Something went wrong. Please try again.')
-      setCheckoutLoading(false)
-    }
+    })
+    sessionStorage.setItem('pendingCart', JSON.stringify(cartPayload))
+    window.location.href = '/checkout'
   }
 
   return (
@@ -500,18 +478,18 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
             <div className="flex justify-between text-sm text-gray-600">
               <span>Subtotal</span><span>£{subtotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between text-sm text-gray-600">
-              <span>Delivery</span><span>£{DELIVERY_FEE.toFixed(2)}</span>
+            <div className="flex justify-between text-sm text-gray-400 italic">
+              <span>Delivery</span><span>calculated at checkout</span>
             </div>
             <div className="flex justify-between font-bold text-gray-900 text-base pt-2 border-t border-gray-200">
-              <span>Total</span><span>£{total.toFixed(2)}</span>
+              <span>Subtotal</span><span>£{subtotal.toFixed(2)}</span>
             </div>
             <button
               onClick={handleCheckout}
-              disabled={checkoutLoading || !storeOpen}
+              disabled={!storeOpen}
               className="w-full bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
             >
-              {checkoutLoading ? 'Processing…' : <><span>Checkout</span><ChevronRight size={16} /></>}
+              <span>Checkout</span><ChevronRight size={16} />
             </button>
           </div>
         )}

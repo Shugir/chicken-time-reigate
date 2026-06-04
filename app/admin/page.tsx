@@ -6,6 +6,7 @@ import Link from 'next/link'
 import {
   UtensilsCrossed,
   Settings,
+  MapPin,
   Plus,
   X,
   Check,
@@ -458,6 +459,7 @@ type NavItem = { id: string; label: string; icon: React.ReactNode; href: string 
 const NAV: NavItem[] = [
   { id: 'menu',     label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
   { id: 'settings', label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
+  { id: 'delivery', label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
 ]
 
 export default function AdminPage() {
@@ -536,7 +538,7 @@ export default function AdminPage() {
               key={item.id}
               href={item.href}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left
-                ${item.id === 'menu'
+                ${item.href === '/admin'
                   ? 'bg-brand-red/15 text-white ring-1 ring-brand-red/30'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
                 }`}

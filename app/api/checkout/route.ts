@@ -20,10 +20,11 @@ interface CartItem {
 
 export async function POST(request: NextRequest) {
   try {
-    const { items }: { items: CartItem[] } = await request.json()
+    const { items, delivery_fee = 0, postcode }: { items: CartItem[]; delivery_fee?: number; postcode?: string } = await request.json()
     const origin = request.headers.get('origin') || 'http://localhost:3000'
 
-    const total = items.reduce((sum, i) => sum + i.totalPrice, 0)
+    const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)
+    const total    = subtotal + delivery_fee
 
     // Insert pending order
     const { data: order, error: orderError } = await supabaseAdmin
@@ -59,22 +60,35 @@ export async function POST(request: NextRequest) {
 
     // Create Stripe checkout session
     // unit_amount = (base price + extras) × 100 — `item.price` already includes extras
-    const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      line_items: items.map((item) => ({
+    const lineItems = items.map((item) => ({
+      price_data: {
+        currency: 'gbp',
+        unit_amount: Math.round(item.price * 100),
+        product_data: {
+          name: item.name,
+          ...(item.extras.length > 0 && {
+            description: item.extras.map((e) => `+ ${e.name}`).join(', '),
+          }),
+        },
+      },
+      quantity: item.quantity,
+    }))
+
+    if (delivery_fee > 0) {
+      lineItems.push({
         price_data: {
           currency: 'gbp',
-          unit_amount: Math.round(item.price * 100),
-          product_data: {
-            name: item.name,
-            ...(item.extras.length > 0 && {
-              description: item.extras.map((e) => `+ ${e.name}`).join(', '),
-            }),
-          },
+          unit_amount: Math.round(delivery_fee * 100),
+          product_data: { name: 'Delivery' },
         },
-        quantity: item.quantity,
-      })),
-      metadata: { orderId: order.id },
+        quantity: 1,
+      })
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      line_items: lineItems,
+      metadata: { orderId: order.id, ...(postcode && { postcode }) },
       success_url: `${origin}/order?success=true`,
       cancel_url:  `${origin}/order?canceled=true`,
     })
