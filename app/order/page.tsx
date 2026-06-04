@@ -11,13 +11,13 @@ import {
   X,
   ChevronRight,
 } from 'lucide-react'
-import { ProductItem, ProductModal, OrderSelection } from '../../components/ProductModal'
+import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Category = 'deals' | 'burgers' | 'chicken' | 'sides' | 'drinks'
 type MenuItem = ProductItem
-interface CartEntry { qty: number; removals: string[]; extras: string[] }
+interface CartEntry { qty: number; removals: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -265,7 +265,9 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
 function cartTotal(cart: Cart, items: MenuItem[]) {
   return Object.entries(cart).reduce((sum, [id, entry]) => {
     const item = items.find((m) => m.id === id)
-    return sum + (item ? item.price * entry.qty : 0)
+    if (!item) return sum
+    const extrasPrice = entry.extras.reduce((s, e) => s + e.price, 0)
+    return sum + (item.price + extrasPrice) * entry.qty
   }, 0)
 }
 
@@ -389,10 +391,14 @@ function CartDrawer({ cart, menuItems, onClose, onAdd, onRemove }: {
         body: JSON.stringify({
           items: lineItems.map(({ item, entry }) => ({
             name: item.name,
-            price: item.price,
+            price: item.price + entry.extras.reduce((s, e) => s + e.price, 0),
             quantity: entry.qty,
-            totalPrice: item.price * entry.qty,
-            notes: [...entry.removals, ...entry.extras.map((e) => `+ ${e}`)].join(', ') || undefined,
+            totalPrice: (item.price + entry.extras.reduce((s, e) => s + e.price, 0)) * entry.qty,
+            notes: [
+              ...entry.removals,
+              ...entry.extras.map((e) => `+ ${e.name}`),
+              ...(entry.notes ? [entry.notes] : []),
+            ].join(', ') || undefined,
           })),
         }),
       })
@@ -441,16 +447,23 @@ function CartDrawer({ cart, menuItems, onClose, onAdd, onRemove }: {
                 <span className="text-2xl w-9 text-center select-none mt-0.5">{item.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
-                  <p className="text-xs text-gray-500">£{(item.price * entry.qty).toFixed(2)}</p>
+                  <p className="text-xs text-gray-500">
+                    £{((item.price + entry.extras.reduce((s, e) => s + e.price, 0)) * entry.qty).toFixed(2)}
+                  </p>
                   {(entry.removals.length > 0 || entry.extras.length > 0) && (
                     <div className="mt-1 flex flex-wrap gap-1">
                       {entry.removals.map((r) => (
                         <span key={r} className="text-xs font-semibold bg-red-50 text-brand-red px-1.5 py-0.5 rounded">{r}</span>
                       ))}
                       {entry.extras.map((e) => (
-                        <span key={e} className="text-xs font-semibold bg-green-50 text-green-700 px-1.5 py-0.5 rounded">+ {e}</span>
+                        <span key={e.name} className="text-xs font-semibold bg-green-50 text-green-700 px-1.5 py-0.5 rounded">+ {e.name}</span>
                       ))}
                     </div>
+                  )}
+                  {entry.notes && (
+                    <p className="mt-1 text-xs text-amber-700 bg-amber-50 rounded px-1.5 py-0.5 italic">
+                      📝 {entry.notes}
+                    </p>
                   )}
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -544,9 +557,10 @@ export default function OrderPage() {
     setCart((p) => ({
       ...p,
       [selection.item.id]: {
-        qty: (p[selection.item.id]?.qty ?? 0) + selection.quantity,
+        qty:      (p[selection.item.id]?.qty ?? 0) + selection.quantity,
         removals: selection.removals,
-        extras: selection.extras.map((e) => e.name),
+        extras:   selection.extras,
+        notes:    selection.notes || undefined,
       },
     }))
   }

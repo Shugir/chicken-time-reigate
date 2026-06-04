@@ -32,6 +32,7 @@ export interface OrderSelection {
   quantity: number
   removals: string[]
   extras: AddOn[]
+  notes: string
   totalPrice: number
 }
 
@@ -133,6 +134,7 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
   const [quantity, setQuantity] = useState(1)
   const [removals, setRemovals] = useState<Set<string>>(new Set())
   const [extras,   setExtras]   = useState<Set<string>>(new Set())
+  const [notes,    setNotes]    = useState('')
 
   function toggleRemoval(label: string) {
     setRemovals((prev) => {
@@ -161,6 +163,7 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
       quantity,
       removals: [...removals],
       extras:   selectedAddOns,
+      notes:    notes.trim(),
       totalPrice,
     })
     onClose()
@@ -282,10 +285,27 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
               </div>
             )}
 
-            <div className="h-4" />
+            {/* ── 5. Special Instructions ── */}
+            <div className="border-t border-gray-100 px-5 py-5">
+              <h3 className="font-heading font-bold text-base text-brand-dark mb-1">Special Instructions</h3>
+              <p className="text-xs text-gray-400 mb-3">Allergies, preferences, or any other requests</p>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="e.g. Extra crispy, sauce on the side, no salt…"
+                rows={3}
+                maxLength={200}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red/50 transition-colors"
+              />
+              {notes.length > 0 && (
+                <p className="text-right text-xs text-gray-400 mt-1">{notes.length}/200</p>
+              )}
+            </div>
+
+            <div className="h-2" />
           </div>
 
-          {/* ── 5. Sticky bottom bar ── */}
+          {/* ── 6. Sticky bottom bar ── */}
           <div className="flex-none border-t border-gray-100 bg-white px-5 py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
             {extrasTotal > 0 && (
               <div className="flex justify-between text-xs text-gray-500 mb-3">
