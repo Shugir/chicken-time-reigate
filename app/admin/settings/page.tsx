@@ -13,6 +13,7 @@ import {
   X,
   Clock,
   Store,
+  ExternalLink,
 } from 'lucide-react'
 import SignOutButton from '@/components/admin/sign-out-button'
 
@@ -124,6 +125,18 @@ export default function SettingsPage() {
             </Link>
           ))}
         </nav>
+        <div className="px-3 pt-2 pb-1 border-t border-zinc-800">
+          <a
+            href="/kitchen"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+          >
+            <UtensilsCrossed className="w-4 h-4" />
+            Kitchen Display
+            <ExternalLink className="w-3 h-3 ml-auto opacity-40" />
+          </a>
+        </div>
         <div className="px-4 py-4 border-t border-zinc-800 space-y-2">
           <SignOutButton />
           <p className="text-[11px] text-zinc-600 px-3">v1.0 · Reigate</p>

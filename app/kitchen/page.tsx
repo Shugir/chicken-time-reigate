@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
-import { ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer } from 'lucide-react'
+import { ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer, ArrowLeft, LogOut } from 'lucide-react'
 
 const ALERT_URL = '/KitchenAlert.mp3'
 const MAX_DISPATCHED = 8
@@ -319,6 +321,7 @@ function CustomerReceipt({ order }: { order: Order }) {
 // ── Dashboard ─────────────────────────────────────────────────────────────────
 
 export default function KitchenDashboard() {
+  const router = useRouter()
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState<string | null>(null)
@@ -328,6 +331,11 @@ export default function KitchenDashboard() {
   const [printOrder, setPrintOrder] = useState<Order | null>(null)
   const [printMode, setPrintMode] = useState<'kitchen' | 'customer' | null>(null)
   const audioUnlockedRef = useRef(false)
+
+  async function handleSignOut() {
+    await supabase.auth.signOut()
+    router.push('/')
+  }
 
   function toggleAudio() {
     const next = !audioUnlockedRef.current
@@ -443,7 +451,7 @@ export default function KitchenDashboard() {
               <p className="text-xs text-white/40 mt-0.5">Chicken Time Reigate</p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <button
               onClick={toggleAudio}
               className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
@@ -456,6 +464,25 @@ export default function KitchenDashboard() {
               {audioUnlocked ? <Bell size={14} /> : <BellOff size={14} />}
               {audioUnlocked ? 'Alerts On' : 'Unmute Alerts'}
             </button>
+
+            {/* Back to Admin */}
+            <Link
+              href="/admin/dashboard"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={13} />
+              Admin
+            </Link>
+
+            {/* Sign Out */}
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold bg-brand-red/20 text-red-400 hover:bg-brand-red hover:text-white transition-colors"
+            >
+              <LogOut size={13} />
+              Sign Out
+            </button>
+
             <div className="text-right">
               <p className="font-mono font-bold text-white text-xl tabular-nums">
                 {mounted ? now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''}
