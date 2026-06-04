@@ -6,12 +6,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
 })
 
+interface Extra { name: string; price: number }
+
 interface CartItem {
   name: string
-  price: number
+  price: number      // unit price already including extras
   quantity: number
-  totalPrice: number
-  notes?: string
+  totalPrice: number // price × quantity
+  extras:   Extra[]
+  removals: string[]
+  notes?: string     // free-text only
 }
 
 export async function POST(request: NextRequest) {
@@ -33,7 +37,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create order' }, { status: 500 })
     }
 
-    // Insert order items
+    // Insert order items with structured extras/removals
     const { error: itemsError } = await supabaseAdmin
       .from('order_items')
       .insert(
@@ -42,7 +46,9 @@ export async function POST(request: NextRequest) {
           item_name:  item.name,
           quantity:   item.quantity,
           unit_price: item.price,
-          notes:      item.notes ?? null,
+          extras:     item.extras   ?? [],
+          removals:   item.removals ?? [],
+          notes:      item.notes    ?? null,
         })),
       )
 
@@ -52,13 +58,19 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Stripe checkout session
+    // unit_amount = (base price + extras) × 100 — `item.price` already includes extras
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: items.map((item) => ({
         price_data: {
           currency: 'gbp',
           unit_amount: Math.round(item.price * 100),
-          product_data: { name: item.name },
+          product_data: {
+            name: item.name,
+            ...(item.extras.length > 0 && {
+              description: item.extras.map((e) => `+ ${e.name}`).join(', '),
+            }),
+          },
         },
         quantity: item.quantity,
       })),

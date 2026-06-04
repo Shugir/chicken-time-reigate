@@ -234,6 +234,8 @@ interface DbMenuItem {
   image_url: string | null
   category: string
   is_available: boolean
+  extras:   Array<{ name: string; price: number }> | null
+  removals: string[] | null
   custom_options: {
     emoji?: string
     badge?: string
@@ -250,13 +252,13 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     name:        item.name,
     description: item.description ?? '',
     price:       Number(item.price),
-    category:    item.category as Category,
+    category:    item.category.toLowerCase() as Category,
     badge:       opts.badge,
     emoji:       opts.emoji ?? '🍽️',
     image:       item.image_url ?? '',
-    allergens:   opts.allergens  ?? [],
-    removables:  opts.removables ?? [],
-    add_ons:     opts.add_ons    ?? [],
+    allergens:   opts.allergens ?? [],
+    removables:  item.removals?.length  ? item.removals  : (opts.removables ?? []),
+    add_ons:     item.extras?.length    ? item.extras    : (opts.add_ons    ?? []),
   }
 }
 
@@ -389,17 +391,18 @@ function CartDrawer({ cart, menuItems, onClose, onAdd, onRemove }: {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: lineItems.map(({ item, entry }) => ({
-            name: item.name,
-            price: item.price + entry.extras.reduce((s, e) => s + e.price, 0),
-            quantity: entry.qty,
-            totalPrice: (item.price + entry.extras.reduce((s, e) => s + e.price, 0)) * entry.qty,
-            notes: [
-              ...entry.removals,
-              ...entry.extras.map((e) => `+ ${e.name}`),
-              ...(entry.notes ? [entry.notes] : []),
-            ].join(', ') || undefined,
-          })),
+          items: lineItems.map(({ item, entry }) => {
+            const unitPrice = item.price + entry.extras.reduce((s, e) => s + e.price, 0)
+            return {
+              name:      item.name,
+              price:     unitPrice,
+              quantity:  entry.qty,
+              totalPrice: unitPrice * entry.qty,
+              extras:    entry.extras,
+              removals:  entry.removals,
+              notes:     entry.notes?.trim() || undefined,
+            }
+          }),
         }),
       })
       const data = await res.json()
@@ -676,7 +679,7 @@ export default function OrderPage() {
         {/* Menu sections */}
         <main className="flex-1 min-w-0 space-y-12 pb-32">
           {CATEGORIES.map(({ id, label, image }) => {
-            const items = menuItems.filter((m) => m.category === id)
+            const items = menuItems.filter((m) => m.category.toLowerCase() === id)
             return (
               <section
                 key={id}

@@ -12,11 +12,15 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 )
 
+interface Extra { name: string; price: number }
+
 interface OrderItem {
   id: string
   item_name: string | null
   quantity: number
   unit_price: number
+  extras:   Extra[]
+  removals: string[]
   notes: string | null
 }
 
@@ -76,7 +80,7 @@ function OrderCard({
       </div>
 
       {/* Items */}
-      <ul className="space-y-2 border-t border-white/10 pt-4">
+      <ul className="space-y-3 border-t border-white/10 pt-4">
         {order.order_items.map((item) => (
           <li key={item.id} className="flex flex-col gap-1">
             <div className="flex items-baseline justify-between gap-2">
@@ -88,6 +92,24 @@ function OrderCard({
                 £{(item.unit_price * item.quantity).toFixed(2)}
               </span>
             </div>
+            {(item.removals ?? []).length > 0 && (
+              <ul className="pl-4 space-y-0.5">
+                {(item.removals ?? []).map((r) => (
+                  <li key={r} className="text-xs font-black text-red-400 uppercase tracking-wide">
+                    NO {r}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {(item.extras ?? []).length > 0 && (
+              <ul className="pl-4 space-y-0.5">
+                {(item.extras ?? []).map((e) => (
+                  <li key={e.name} className="text-xs font-semibold text-emerald-400">
+                    + {e.name}
+                  </li>
+                ))}
+              </ul>
+            )}
             {item.notes && (
               <p className="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded leading-snug">
                 {item.notes}
@@ -184,11 +206,21 @@ function KitchenTicket({ order }: { order: Order }) {
       </div>
       <div className="border-t border-dashed border-black pt-2 mb-2">
         {order.order_items.map((item) => (
-          <div key={item.id} className="mb-2">
+          <div key={item.id} className="mb-3">
             <div className="flex justify-between font-bold text-sm">
               <span>{item.quantity}x {item.item_name ?? 'Item'}</span>
               <span>£{(item.unit_price * item.quantity).toFixed(2)}</span>
             </div>
+            {(item.removals ?? []).map((r) => (
+              <div key={r} className="text-xs font-black uppercase tracking-wide">
+                *** NO {r}
+              </div>
+            ))}
+            {(item.extras ?? []).map((e) => (
+              <div key={e.name} className="text-xs font-semibold">
+                + {e.name} (£{e.price.toFixed(2)})
+              </div>
+            ))}
             {item.notes && (
               <div className="text-xs font-black uppercase tracking-wide border border-black px-1 mt-0.5">
                 !! {item.notes}
