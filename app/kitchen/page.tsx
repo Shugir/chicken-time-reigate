@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import { ChefHat, CheckCircle, Truck, Clock, RefreshCw, Bell, BellOff, Printer } from 'lucide-react'
+import { ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer } from 'lucide-react'
 
 const ALERT_URL = '/KitchenAlert.mp3'
+const MAX_DISPATCHED = 8
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -21,7 +22,7 @@ interface OrderItem {
 
 interface Order {
   id: string
-  status: 'preparing' | 'ready'
+  status: 'preparing' | 'ready' | 'dispatched'
   total_amount: number
   created_at: string
   order_items: OrderItem[]
@@ -41,14 +42,16 @@ function OrderCard({
   actionLabel,
   actionStyle,
   updating,
-  onPrint,
+  onReprintKitchen,
+  onReprintCustomer,
 }: {
   order: Order
-  onAction: () => void
-  actionLabel: string
-  actionStyle: string
+  onAction?: () => void
+  actionLabel?: string
+  actionStyle?: string
   updating: boolean
-  onPrint?: () => void
+  onReprintKitchen: () => void
+  onReprintCustomer: () => void
 }) {
   const [, setTick] = useState(0)
   useEffect(() => {
@@ -56,10 +59,9 @@ function OrderCard({
     return () => clearInterval(t)
   }, [])
 
-  const isDispatch = actionLabel.startsWith('Dispatch')
-
   return (
     <div className="bg-[#1a1a1a] rounded-2xl border border-white/10 p-5 flex flex-col gap-4">
+      {/* Header */}
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs text-white/40 font-mono uppercase tracking-widest mb-1">Order</p>
@@ -67,24 +69,13 @@ function OrderCard({
             #{order.id.slice(-6).toUpperCase()}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          {onPrint && (
-            <button
-              onClick={onPrint}
-              className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white/60 hover:text-white rounded-lg px-2.5 py-1.5 text-xs font-bold transition-colors"
-              title="Print kitchen ticket"
-            >
-              <Printer size={12} />
-              Print
-            </button>
-          )}
-          <div className="flex items-center gap-1.5 bg-white/5 rounded-lg px-3 py-1.5 text-xs text-white/50">
-            <Clock size={12} />
-            <span className="font-mono tabular-nums">{elapsed(order.created_at)}</span>
-          </div>
+        <div className="flex items-center gap-1.5 bg-white/5 rounded-lg px-3 py-1.5 text-xs text-white/50">
+          <Clock size={12} />
+          <span className="font-mono tabular-nums">{elapsed(order.created_at)}</span>
         </div>
       </div>
 
+      {/* Items */}
       <ul className="space-y-2 border-t border-white/10 pt-4">
         {order.order_items.map((item) => (
           <li key={item.id} className="flex flex-col gap-1">
@@ -106,24 +97,68 @@ function OrderCard({
         ))}
       </ul>
 
+      {/* Total */}
       <div className="flex items-center justify-between border-t border-white/10 pt-3">
         <span className="text-xs text-white/40">Total</span>
         <span className="font-black text-white text-base">£{order.total_amount.toFixed(2)}</span>
       </div>
 
-      <button
-        onClick={onAction}
-        disabled={updating}
-        className={`w-full py-4 rounded-xl font-black text-base tracking-wide transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${actionStyle}`}
-      >
-        {updating ? (
-          <RefreshCw size={18} className="animate-spin" />
-        ) : isDispatch ? (
-          <><Printer size={18} />{actionLabel}</>
-        ) : (
-          <><CheckCircle size={18} />{actionLabel}</>
+      {/* Primary action */}
+      {onAction && actionLabel && actionStyle && (
+        <button
+          onClick={onAction}
+          disabled={updating}
+          className={`w-full py-4 rounded-xl font-black text-base tracking-wide transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${actionStyle}`}
+        >
+          {updating ? (
+            <RefreshCw size={18} className="animate-spin" />
+          ) : actionLabel.startsWith('Dispatch') ? (
+            <><Printer size={18} />{actionLabel}</>
+          ) : (
+            <><CheckCircle size={18} />{actionLabel}</>
+          )}
+        </button>
+      )}
+
+      {/* Reprint row — conditional by status */}
+      <div className="flex gap-2 border-t border-white/10 pt-3">
+        {order.status === 'preparing' && (
+          <button
+            onClick={onReprintKitchen}
+            className="flex-1 flex items-center justify-center gap-1.5 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white/70 rounded-lg py-1.5 text-xs font-semibold transition-colors"
+          >
+            <Printer size={11} />
+            Reprint Kitchen
+          </button>
         )}
-      </button>
+        {order.status === 'ready' && (
+          <button
+            onClick={onReprintCustomer}
+            className="flex-1 flex items-center justify-center gap-1.5 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white/70 rounded-lg py-1.5 text-xs font-semibold transition-colors"
+          >
+            <Printer size={11} />
+            Reprint Receipt
+          </button>
+        )}
+        {order.status === 'dispatched' && (
+          <>
+            <button
+              onClick={onReprintKitchen}
+              className="flex-1 flex items-center justify-center gap-1.5 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white/70 rounded-lg py-1.5 text-xs font-semibold transition-colors"
+            >
+              <Printer size={11} />
+              Kitchen
+            </button>
+            <button
+              onClick={onReprintCustomer}
+              className="flex-1 flex items-center justify-center gap-1.5 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white/70 rounded-lg py-1.5 text-xs font-semibold transition-colors"
+            >
+              <Printer size={11} />
+              Receipt
+            </button>
+          </>
+        )}
+      </div>
     </div>
   )
 }
@@ -179,18 +214,13 @@ function CustomerReceipt({ order }: { order: Order }) {
 
   return (
     <div className="hidden print:block w-[80mm] text-black bg-white font-mono text-xs p-3">
-
-      {/* Header */}
       <div className="text-center mb-3">
         <p className="font-black text-sm tracking-widest uppercase">Chicken Time</p>
         <p className="font-black text-sm tracking-widest uppercase">Reigate</p>
         <p className="text-xs mt-1">01737 000 000</p>
         <p className="text-xs">chickentimesurrey.co.uk</p>
       </div>
-
       <div className="border-t border-dashed border-black my-2" />
-
-      {/* Order meta */}
       <div className="flex justify-between mb-0.5">
         <span>Order</span>
         <span className="font-black">#{order.id.slice(-6).toUpperCase()}</span>
@@ -203,10 +233,7 @@ function CustomerReceipt({ order }: { order: Order }) {
         <span>Time</span>
         <span>{date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
       </div>
-
       <div className="border-t border-dashed border-black my-2" />
-
-      {/* Items */}
       <div className="mb-2">
         {order.order_items.map((item) => (
           <div key={item.id} className="mb-1.5">
@@ -223,10 +250,7 @@ function CustomerReceipt({ order }: { order: Order }) {
           </div>
         ))}
       </div>
-
       <div className="border-t border-dashed border-black my-2" />
-
-      {/* Totals */}
       <div className="flex justify-between mb-0.5">
         <span>Subtotal</span>
         <span>£{subtotal.toFixed(2)}</span>
@@ -239,16 +263,12 @@ function CustomerReceipt({ order }: { order: Order }) {
         <span>TOTAL</span>
         <span>£{order.total_amount.toFixed(2)}</span>
       </div>
-
       <div className="border-t border-dashed border-black my-3" />
-
-      {/* Footer */}
       <div className="text-center">
         <p className="font-bold">Thank you for your order!</p>
         <p className="mt-1 text-gray-500">We hope to see you again soon.</p>
         <p className="mt-2 text-gray-400">VAT Reg: GB 000 0000 00</p>
       </div>
-
     </div>
   )
 }
@@ -283,7 +303,6 @@ export default function KitchenDashboard() {
     return () => clearInterval(t)
   }, [])
 
-  // Trigger print once state settles, reset on afterprint
   useEffect(() => {
     if (!printMode || !printOrder) return
     const timer = setTimeout(() => {
@@ -320,9 +339,11 @@ export default function KitchenDashboard() {
             fetchOrders()
           } else if (updated.status === 'ready') {
             setOrders((prev) =>
-              prev.map((o) =>
-                o.id === updated.id ? { ...o, status: 'ready' as const } : o,
-              ),
+              prev.map((o) => o.id === updated.id ? { ...o, status: 'ready' as const } : o),
+            )
+          } else if (updated.status === 'dispatched') {
+            setOrders((prev) =>
+              prev.map((o) => o.id === updated.id ? { ...o, status: 'dispatched' as const } : o),
             )
           } else {
             setOrders((prev) => prev.filter((o) => o.id !== updated.id))
@@ -345,14 +366,22 @@ export default function KitchenDashboard() {
   }
 
   async function dispatchAndPrint(order: Order) {
-    // Fire status update (don't await — receipt data already in memory)
     updateStatus(order.id, 'dispatched')
     setPrintOrder(order)
     setPrintMode('customer')
   }
 
-  const preparing = orders.filter((o) => o.status === 'preparing')
-  const ready = orders.filter((o) => o.status === 'ready')
+  function triggerReprint(order: Order, mode: 'kitchen' | 'customer') {
+    setPrintOrder(order)
+    setPrintMode(mode)
+  }
+
+  const preparing  = orders.filter((o) => o.status === 'preparing')
+  const ready      = orders.filter((o) => o.status === 'ready')
+  const dispatched = orders
+    .filter((o) => o.status === 'dispatched')
+    .slice(-MAX_DISPATCHED)
+    .reverse()
 
   return (
     <div className="fixed inset-0 z-[200] bg-[#0d0d0d] overflow-hidden flex flex-col">
@@ -384,7 +413,6 @@ export default function KitchenDashboard() {
               {audioUnlocked ? <Bell size={14} /> : <BellOff size={14} />}
               {audioUnlocked ? 'Alerts On' : 'Unmute Alerts'}
             </button>
-
             <div className="text-right">
               <p className="font-mono font-bold text-white text-xl tabular-nums">
                 {mounted ? now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''}
@@ -396,8 +424,8 @@ export default function KitchenDashboard() {
           </div>
         </header>
 
-        {/* Kanban columns */}
-        <div className="flex-1 grid grid-cols-2 gap-0 overflow-hidden">
+        {/* 3-column Kanban */}
+        <div className="flex-1 grid grid-cols-3 gap-0 overflow-hidden">
 
           {/* Preparing */}
           <div className="flex flex-col border-r border-white/10 overflow-hidden">
@@ -422,7 +450,8 @@ export default function KitchenDashboard() {
                     actionLabel="Mark Ready"
                     actionStyle="bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg shadow-emerald-900/40"
                     updating={updating === order.id}
-                    onPrint={() => { setPrintOrder(order); setPrintMode('kitchen') }}
+                    onReprintKitchen={() => triggerReprint(order, 'kitchen')}
+                    onReprintCustomer={() => triggerReprint(order, 'customer')}
                   />
                 ))
               )}
@@ -430,7 +459,7 @@ export default function KitchenDashboard() {
           </div>
 
           {/* Ready */}
-          <div className="flex flex-col overflow-hidden">
+          <div className="flex flex-col border-r border-white/10 overflow-hidden">
             <div className="flex items-center gap-3 px-6 py-4 border-b border-emerald-500/30 bg-emerald-500/5 shrink-0">
               <span className="w-3 h-3 rounded-full bg-emerald-400" />
               <h2 className="font-black text-white text-sm uppercase tracking-widest">Ready</h2>
@@ -452,6 +481,36 @@ export default function KitchenDashboard() {
                     actionLabel="Dispatch & Print"
                     actionStyle="bg-sky-500 hover:bg-sky-400 text-white shadow-lg shadow-sky-900/40"
                     updating={updating === order.id}
+                    onReprintKitchen={() => triggerReprint(order, 'kitchen')}
+                    onReprintCustomer={() => triggerReprint(order, 'customer')}
+                  />
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Recently Dispatched */}
+          <div className="flex flex-col overflow-hidden">
+            <div className="flex items-center gap-3 px-6 py-4 border-b border-white/10 bg-white/[0.02] shrink-0">
+              <span className="w-3 h-3 rounded-full bg-white/20" />
+              <h2 className="font-black text-white/50 text-sm uppercase tracking-widest">Dispatched</h2>
+              <span className="ml-auto bg-white/10 text-white/40 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">
+                {dispatched.length}
+              </span>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              {loading ? (
+                <p className="text-white/30 text-sm text-center pt-12">Loading…</p>
+              ) : dispatched.length === 0 ? (
+                <p className="text-white/20 text-sm text-center pt-12">No recent dispatches</p>
+              ) : (
+                dispatched.map((order) => (
+                  <OrderCard
+                    key={order.id}
+                    order={order}
+                    updating={false}
+                    onReprintKitchen={() => triggerReprint(order, 'kitchen')}
+                    onReprintCustomer={() => triggerReprint(order, 'customer')}
                   />
                 ))
               )}
@@ -461,8 +520,8 @@ export default function KitchenDashboard() {
         </div>
       </div>
 
-      {/* ── Receipts — only visible during print ── */}
-      {printOrder && printMode === 'kitchen' && <KitchenTicket order={printOrder} />}
+      {/* Receipts — only visible during print */}
+      {printOrder && printMode === 'kitchen'  && <KitchenTicket order={printOrder} />}
       {printOrder && printMode === 'customer' && <CustomerReceipt order={printOrder} />}
 
     </div>
