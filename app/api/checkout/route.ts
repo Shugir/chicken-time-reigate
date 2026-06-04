@@ -11,6 +11,7 @@ interface CartItem {
   price: number
   quantity: number
   totalPrice: number
+  notes?: string
 }
 
 export async function POST(request: NextRequest) {
@@ -41,6 +42,7 @@ export async function POST(request: NextRequest) {
           item_name:  item.name,
           quantity:   item.quantity,
           unit_price: item.price,
+          notes:      item.notes ?? null,
         })),
       )
 

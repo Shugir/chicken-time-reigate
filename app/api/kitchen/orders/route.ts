@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 export async function GET() {
   const { data, error } = await supabaseAdmin
     .from('orders')
-    .select('id, status, total_amount, created_at, order_items(id, item_name, quantity, unit_price)')
+    .select('id, status, total_amount, created_at, order_items(id, item_name, quantity, unit_price, notes)')
     .in('status', ['preparing', 'ready'])
     .order('created_at', { ascending: true })
 

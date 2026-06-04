@@ -15,7 +15,8 @@ import { ProductItem, ProductModal, OrderSelection } from '../../components/Prod
 
 type Category = 'deals' | 'burgers' | 'chicken' | 'sides' | 'drinks'
 type MenuItem = ProductItem
-type Cart = Record<string, number>
+interface CartEntry { qty: number; removals: string[]; extras: string[] }
+type Cart = Record<string, CartEntry>
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -224,14 +225,14 @@ const BADGE_STYLES: Record<string, string> = {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function cartTotal(cart: Cart) {
-  return Object.entries(cart).reduce((sum, [id, qty]) => {
+  return Object.entries(cart).reduce((sum, [id, entry]) => {
     const item = MENU_ITEMS.find((m) => m.id === id)
-    return sum + (item ? item.price * qty : 0)
+    return sum + (item ? item.price * entry.qty : 0)
   }, 0)
 }
 
 function cartCount(cart: Cart) {
-  return Object.values(cart).reduce((s, q) => s + q, 0)
+  return Object.values(cart).reduce((s, entry) => s + entry.qty, 0)
 }
 
 // ─── Premium menu card ────────────────────────────────────────────────────────
@@ -333,8 +334,8 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
   const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const lineItems = Object.entries(cart)
-    .filter(([, qty]) => qty > 0)
-    .map(([id, qty]) => ({ item: MENU_ITEMS.find((m) => m.id === id)!, qty }))
+    .filter(([, entry]) => entry.qty > 0)
+    .map(([id, entry]) => ({ item: MENU_ITEMS.find((m) => m.id === id)!, entry }))
     .filter(({ item }) => Boolean(item))
 
   const subtotal = cartTotal(cart)
@@ -347,11 +348,12 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: lineItems.map(({ item, qty }) => ({
+          items: lineItems.map(({ item, entry }) => ({
             name: item.name,
             price: item.price,
-            quantity: qty,
-            totalPrice: item.price * qty,
+            quantity: entry.qty,
+            totalPrice: item.price * entry.qty,
+            notes: [...entry.removals, ...entry.extras.map((e) => `+ ${e}`)].join(', ') || undefined,
           })),
         }),
       })
@@ -395,12 +397,22 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
               <p className="text-xs text-center">Add items from the menu to get started</p>
             </div>
           ) : (
-            lineItems.map(({ item, qty }) => (
-              <div key={item.id} className="flex items-center gap-3 px-5 py-3.5">
-                <span className="text-2xl w-9 text-center select-none">{item.emoji}</span>
+            lineItems.map(({ item, entry }) => (
+              <div key={item.id} className="flex items-start gap-3 px-5 py-3.5">
+                <span className="text-2xl w-9 text-center select-none mt-0.5">{item.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
-                  <p className="text-xs text-gray-500">£{(item.price * qty).toFixed(2)}</p>
+                  <p className="text-xs text-gray-500">£{(item.price * entry.qty).toFixed(2)}</p>
+                  {(entry.removals.length > 0 || entry.extras.length > 0) && (
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {entry.removals.map((r) => (
+                        <span key={r} className="text-xs font-semibold bg-red-50 text-brand-red px-1.5 py-0.5 rounded">{r}</span>
+                      ))}
+                      {entry.extras.map((e) => (
+                        <span key={e} className="text-xs font-semibold bg-green-50 text-green-700 px-1.5 py-0.5 rounded">+ {e}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
@@ -409,7 +421,7 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
                   >
                     <Minus size={11} />
                   </button>
-                  <span className="w-4 text-center text-sm font-bold text-gray-900">{qty}</span>
+                  <span className="w-4 text-center text-sm font-bold text-gray-900">{entry.qty}</span>
                   <button
                     onClick={() => onAdd(item.id)}
                     className="w-6 h-6 rounded-full bg-brand-red hover:bg-red-700 text-white flex items-center justify-center transition-colors"
@@ -462,17 +474,27 @@ export default function OrderPage() {
   const total = cartTotal(cart)
 
   function addToCart(id: string) {
-    setCart((p) => ({ ...p, [id]: (p[id] ?? 0) + 1 }))
+    setCart((p) => ({
+      ...p,
+      [id]: { qty: (p[id]?.qty ?? 0) + 1, removals: p[id]?.removals ?? [], extras: p[id]?.extras ?? [] },
+    }))
   }
   function removeFromCart(id: string) {
     setCart((p) => {
-      const n = { ...p, [id]: (p[id] ?? 0) - 1 }
-      if (n[id] <= 0) delete n[id]
-      return n
+      const qty = (p[id]?.qty ?? 0) - 1
+      if (qty <= 0) { const n = { ...p }; delete n[id]; return n }
+      return { ...p, [id]: { ...p[id], qty } }
     })
   }
   function handleAddToOrder(selection: OrderSelection) {
-    setCart((p) => ({ ...p, [selection.item.id]: (p[selection.item.id] ?? 0) + selection.quantity }))
+    setCart((p) => ({
+      ...p,
+      [selection.item.id]: {
+        qty: (p[selection.item.id]?.qty ?? 0) + selection.quantity,
+        removals: selection.removals,
+        extras: selection.extras.map((e) => e.name),
+      },
+    }))
   }
   function scrollTo(id: Category) {
     setActive(id)
