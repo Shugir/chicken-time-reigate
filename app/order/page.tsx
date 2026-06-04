@@ -224,11 +224,47 @@ const BADGE_STYLES: Record<string, string> = {
   Popular: 'bg-amber-100 text-amber-700',
 }
 
+// ─── DB → ProductItem mapper ──────────────────────────────────────────────────
+
+interface DbMenuItem {
+  id: string
+  name: string
+  description: string | null
+  price: number
+  image_url: string | null
+  category: string
+  is_available: boolean
+  custom_options: {
+    emoji?: string
+    badge?: string
+    allergens?: string[]
+    removables?: string[]
+    add_ons?: Array<{ name: string; price: number }>
+  } | null
+}
+
+function dbToMenuItem(item: DbMenuItem): MenuItem {
+  const opts = item.custom_options ?? {}
+  return {
+    id:          item.id,
+    name:        item.name,
+    description: item.description ?? '',
+    price:       Number(item.price),
+    category:    item.category as Category,
+    badge:       opts.badge,
+    emoji:       opts.emoji ?? '🍽️',
+    image:       item.image_url ?? '',
+    allergens:   opts.allergens  ?? [],
+    removables:  opts.removables ?? [],
+    add_ons:     opts.add_ons    ?? [],
+  }
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function cartTotal(cart: Cart) {
+function cartTotal(cart: Cart, items: MenuItem[]) {
   return Object.entries(cart).reduce((sum, [id, entry]) => {
-    const item = MENU_ITEMS.find((m) => m.id === id)
+    const item = items.find((m) => m.id === id)
     return sum + (item ? item.price * entry.qty : 0)
   }, 0)
 }
@@ -327,8 +363,9 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
 
 // ─── Cart drawer ──────────────────────────────────────────────────────────────
 
-function CartDrawer({ cart, onClose, onAdd, onRemove }: {
+function CartDrawer({ cart, menuItems, onClose, onAdd, onRemove }: {
   cart: Cart
+  menuItems: MenuItem[]
   onClose: () => void
   onAdd: (id: string) => void
   onRemove: (id: string) => void
@@ -337,10 +374,10 @@ function CartDrawer({ cart, onClose, onAdd, onRemove }: {
 
   const lineItems = Object.entries(cart)
     .filter(([, entry]) => entry.qty > 0)
-    .map(([id, entry]) => ({ item: MENU_ITEMS.find((m) => m.id === id)!, entry }))
+    .map(([id, entry]) => ({ item: menuItems.find((m) => m.id === id)!, entry }))
     .filter(({ item }) => Boolean(item))
 
-  const subtotal = cartTotal(cart)
+  const subtotal = cartTotal(cart, menuItems)
   const total    = subtotal + DELIVERY_FEE
 
   async function handleCheckout() {
@@ -468,12 +505,27 @@ export default function OrderPage() {
   const [cartOpen, setCartOpen]         = useState(false)
   const [activeCategory, setActive]     = useState<Category>('deals')
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
+  const [menuItems, setMenuItems]       = useState<MenuItem[]>(MENU_ITEMS)
   const sectionRefs = useRef<Record<Category, HTMLElement | null>>({
     deals: null, burgers: null, chicken: null, sides: null, drinks: null,
   })
 
+  useEffect(() => {
+    fetch('/api/menu-items')
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json() as Promise<DbMenuItem[]>
+      })
+      .then((data) => {
+        if (data.length > 0) setMenuItems(data.map(dbToMenuItem))
+      })
+      .catch((err) => {
+        console.error('Failed to load menu items from database:', err)
+      })
+  }, [])
+
   const count = cartCount(cart)
-  const total = cartTotal(cart)
+  const total = cartTotal(cart, menuItems)
 
   function addToCart(id: string) {
     setCart((p) => ({
@@ -610,7 +662,7 @@ export default function OrderPage() {
         {/* Menu sections */}
         <main className="flex-1 min-w-0 space-y-12 pb-32">
           {CATEGORIES.map(({ id, label, image }) => {
-            const items = MENU_ITEMS.filter((m) => m.category === id)
+            const items = menuItems.filter((m) => m.category === id)
             return (
               <section
                 key={id}
@@ -671,6 +723,7 @@ export default function OrderPage() {
       {cartOpen && (
         <CartDrawer
           cart={cart}
+          menuItems={menuItems}
           onClose={() => setCartOpen(false)}
           onAdd={addToCart}
           onRemove={removeFromCart}
