@@ -150,23 +150,34 @@ function AvailabilityToggle({
   )
 }
 
-// ─── Add Item Modal ───────────────────────────────────────────────────────────
+// ─── Item Modal (add + edit) ──────────────────────────────────────────────────
 
-interface AddItemModalProps {
+interface ItemModalProps {
+  editingItem: MenuItem | null
   onClose: () => void
-  onAdd: (item: MenuItem) => void
+  onSave: (item: MenuItem) => void
 }
 
 const EMPTY_FORM = { name: '', description: '', price: '', image_url: '', category: 'chicken' as Category }
 
-function AddItemModal({ onClose, onAdd }: AddItemModalProps) {
-  const [form, setForm]               = useState(EMPTY_FORM)
-  const [removals, setRemovals]       = useState<string[]>([])
-  const [extras, setExtras]           = useState<Extra[]>([])
+function ItemModal({ editingItem, onClose, onSave }: ItemModalProps) {
+  const [form, setForm] = useState(() =>
+    editingItem
+      ? {
+          name:        editingItem.name,
+          description: editingItem.description ?? '',
+          price:       editingItem.price.toFixed(2),
+          image_url:   editingItem.image_url ?? '',
+          category:    editingItem.category as Category,
+        }
+      : EMPTY_FORM
+  )
+  const [removals, setRemovals]         = useState<string[]>(() => editingItem?.removals ?? [])
+  const [extras, setExtras]             = useState<Extra[]>(() => editingItem?.extras ?? [])
   const [removalInput, setRemovalInput] = useState('')
-  const [extraInput, setExtraInput]   = useState({ name: '', price: '' })
-  const [saving, setSaving]           = useState(false)
-  const [error, setError]             = useState<string | null>(null)
+  const [extraInput, setExtraInput]     = useState({ name: '', price: '' })
+  const [saving, setSaving]             = useState(false)
+  const [error, setError]               = useState<string | null>(null)
 
   const field = (key: keyof typeof EMPTY_FORM) => ({
     value: form[key],
@@ -204,22 +215,23 @@ function AddItemModal({ onClose, onAdd }: AddItemModalProps) {
       price:        parsed,
       image_url:    form.image_url.trim() || null,
       category:     form.category,
-      is_available: true,
+      is_available: editingItem ? editingItem.is_available : true,
       removals,
       extras,
     }
-    console.log('Submitting:', payload)
 
     setSaving(true)
     try {
-      const res = await fetch('/api/admin/menu-items', {
-        method: 'POST',
+      const url    = editingItem ? `/api/admin/menu-items/${editingItem.id}` : '/api/admin/menu-items'
+      const method = editingItem ? 'PATCH' : 'POST'
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Failed to add item')
-      onAdd(data)
+      if (!res.ok) throw new Error(data.error ?? (editingItem ? 'Failed to update item' : 'Failed to add item'))
+      onSave(data)
       onClose()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
@@ -235,7 +247,7 @@ function AddItemModal({ onClose, onAdd }: AddItemModalProps) {
       <div className="w-full max-w-lg bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 shrink-0">
-          <h2 className="text-lg font-semibold text-white">Add New Menu Item</h2>
+          <h2 className="text-lg font-semibold text-white">{editingItem ? 'Edit Item' : 'Add New Menu Item'}</h2>
           <button onClick={onClose} className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
             <X className="w-4 h-4" />
           </button>
@@ -392,8 +404,8 @@ function AddItemModal({ onClose, onAdd }: AddItemModalProps) {
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-brand-red text-white text-sm font-semibold
                          hover:bg-red-600 transition-colors disabled:opacity-60"
             >
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
-              {saving ? 'Adding…' : 'Add Item'}
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : editingItem ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              {saving ? (editingItem ? 'Saving…' : 'Adding…') : editingItem ? 'Save Changes' : 'Add Item'}
             </button>
           </div>
         </form>
@@ -451,6 +463,7 @@ export default function AdminPage() {
   const [items, setItems] = useState<MenuItem[]>([])
   const [loading, setLoading] = useState(true)
   const [showAddModal, setShowAddModal] = useState(false)
+  const [editingItem, setEditingItem] = useState<MenuItem | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<MenuItem | null>(null)
   const [activeNav, setActiveNav] = useState('menu')
 
@@ -478,7 +491,10 @@ export default function AdminPage() {
   const handleToggle = (id: string, val: boolean) => patchItem(id, { is_available: val })
   const handlePriceSave = (id: string, price: number) => patchItem(id, { price })
 
-  const handleAdd = (item: MenuItem) => setItems((prev) => [...prev, item])
+  const handleSave = (item: MenuItem) =>
+    setItems((prev) => prev.some((i) => i.id === item.id) ? prev.map((i) => (i.id === item.id ? item : i)) : [...prev, item])
+
+  const closeModal = () => { setShowAddModal(false); setEditingItem(null) }
 
   const handleDelete = async () => {
     if (!deleteTarget) return
@@ -547,7 +563,7 @@ export default function AdminPage() {
             </p>
           </div>
           <button
-            onClick={() => setShowAddModal(true)}
+            onClick={() => { setEditingItem(null); setShowAddModal(true) }}
             className="flex items-center gap-2 px-4 py-2 bg-brand-red rounded-lg text-sm font-semibold text-white hover:bg-red-600 transition-colors shadow-lg shadow-red-900/30"
           >
             <Plus className="w-4 h-4" />
@@ -641,6 +657,13 @@ export default function AdminPage() {
                             <td className="px-4 py-3">
                               <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
+                                  onClick={() => setEditingItem(item)}
+                                  className="p-1.5 rounded-md text-zinc-500 hover:text-blue-400 hover:bg-blue-400/10 transition-colors"
+                                  title="Edit item"
+                                >
+                                  <Pencil className="w-3.5 h-3.5" />
+                                </button>
+                                <button
                                   onClick={() => setDeleteTarget(item)}
                                   className="p-1.5 rounded-md text-zinc-500 hover:text-red-400 hover:bg-red-400/10 transition-colors"
                                   title="Delete item"
@@ -662,7 +685,9 @@ export default function AdminPage() {
       </main>
 
       {/* ── Modals ── */}
-      {showAddModal && <AddItemModal onClose={() => setShowAddModal(false)} onAdd={handleAdd} />}
+      {(showAddModal || editingItem !== null) && (
+        <ItemModal editingItem={editingItem} onClose={closeModal} onSave={handleSave} />
+      )}
       {deleteTarget && (
         <DeleteConfirmModal
           item={deleteTarget}
