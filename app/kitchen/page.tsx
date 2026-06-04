@@ -268,7 +268,7 @@ function CustomerReceipt({ order }: { order: Order }) {
       <div className="border-t border-dashed border-black my-2" />
       <div className="mb-2">
         {order.order_items.map((item) => (
-          <div key={item.id} className="mb-1.5">
+          <div key={item.id} className="mb-2">
             <div className="flex justify-between">
               <span className="font-bold">{item.quantity}x {item.item_name ?? 'Item'}</span>
               <span className="font-bold">£{(item.unit_price * item.quantity).toFixed(2)}</span>
@@ -276,8 +276,19 @@ function CustomerReceipt({ order }: { order: Order }) {
             <div className="flex justify-between text-gray-500 pl-2">
               <span>@ £{item.unit_price.toFixed(2)} each</span>
             </div>
+            {(item.extras ?? []).length > 0 && (item.extras ?? []).map((e) => (
+              <div key={e.name} className="flex justify-between pl-2 text-gray-600" style={{ fontSize: '10px' }}>
+                <span>+ {e.name}</span>
+                <span>£{e.price.toFixed(2)}</span>
+              </div>
+            ))}
+            {(item.removals ?? []).length > 0 && (item.removals ?? []).map((r) => (
+              <div key={r} className="pl-2 text-gray-500" style={{ fontSize: '10px' }}>
+                - No {r}
+              </div>
+            ))}
             {item.notes && (
-              <div className="pl-2 text-gray-600 italic">{item.notes}</div>
+              <div className="pl-2 text-gray-600 italic" style={{ fontSize: '10px' }}>{item.notes}</div>
             )}
           </div>
         ))}
