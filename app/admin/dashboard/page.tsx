@@ -6,6 +6,7 @@ import {
   LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
   TrendingUp, ShoppingBag, BarChart3, Loader2, RefreshCw,
 } from 'lucide-react'
+import SignOutButton from '@/components/admin/sign-out-button'
 
 interface OrderItem {
   item_name: string | null
@@ -181,8 +182,9 @@ export default function DashboardPage() {
             </Link>
           ))}
         </nav>
-        <div className="px-4 py-4 border-t border-zinc-800">
-          <p className="text-[11px] text-zinc-600">v1.0 · Reigate</p>
+        <div className="px-4 py-4 border-t border-zinc-800 space-y-2">
+          <SignOutButton />
+          <p className="text-[11px] text-zinc-600 px-3">v1.0 · Reigate</p>
         </div>
       </aside>
 

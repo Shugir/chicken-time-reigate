@@ -14,6 +14,7 @@ import {
   Clock,
   Store,
 } from 'lucide-react'
+import SignOutButton from '@/components/admin/sign-out-button'
 
 interface StoreSettings {
   id: number
@@ -123,8 +124,9 @@ export default function SettingsPage() {
             </Link>
           ))}
         </nav>
-        <div className="px-4 py-4 border-t border-zinc-800">
-          <p className="text-[11px] text-zinc-600">v1.0 · Reigate</p>
+        <div className="px-4 py-4 border-t border-zinc-800 space-y-2">
+          <SignOutButton />
+          <p className="text-[11px] text-zinc-600 px-3">v1.0 · Reigate</p>
         </div>
       </aside>
 
