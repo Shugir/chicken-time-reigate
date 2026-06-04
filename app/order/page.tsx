@@ -367,9 +367,10 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
 
 // ─── Cart drawer ──────────────────────────────────────────────────────────────
 
-function CartDrawer({ cart, menuItems, onClose, onAdd, onRemove }: {
+function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
   cart: Cart
   menuItems: MenuItem[]
+  storeOpen: boolean
   onClose: () => void
   onAdd: (id: string) => void
   onRemove: (id: string) => void
@@ -491,6 +492,11 @@ function CartDrawer({ cart, menuItems, onClose, onAdd, onRemove }: {
 
         {lineItems.length > 0 && (
           <div className="border-t border-gray-100 px-5 py-5 space-y-3 bg-gray-50">
+            {!storeOpen && (
+              <div className="bg-red-50 border border-red-200 rounded-xl px-3 py-2.5 text-center text-xs font-semibold text-red-700">
+                ⛔ Store is currently closed — orders disabled
+              </div>
+            )}
             <div className="flex justify-between text-sm text-gray-600">
               <span>Subtotal</span><span>£{subtotal.toFixed(2)}</span>
             </div>
@@ -502,7 +508,7 @@ function CartDrawer({ cart, menuItems, onClose, onAdd, onRemove }: {
             </div>
             <button
               onClick={handleCheckout}
-              disabled={checkoutLoading}
+              disabled={checkoutLoading || !storeOpen}
               className="w-full bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
             >
               {checkoutLoading ? 'Processing…' : <><span>Checkout</span><ChevronRight size={16} /></>}
@@ -522,9 +528,20 @@ export default function OrderPage() {
   const [activeCategory, setActive]     = useState<Category>('deals')
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
   const [menuItems, setMenuItems]       = useState<MenuItem[]>(MENU_ITEMS)
+  const [storeOpen, setStoreOpen]       = useState(true)
+  const [prepTime, setPrepTime]         = useState(25)
   const sectionRefs = useRef<Record<Category, HTMLElement | null>>({
     deals: null, burgers: null, chicken: null, sides: null, drinks: null,
   })
+
+  useEffect(() => {
+    fetch('/api/store-settings')
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (data) { setStoreOpen(data.is_open); setPrepTime(data.prep_time_minutes) }
+      })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     fetch('/api/menu-items')
@@ -590,9 +607,16 @@ export default function OrderPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
 
+      {/* Closed banner */}
+      {!storeOpen && (
+        <div className="bg-red-700 text-white text-center py-4 text-sm font-bold tracking-wide">
+          ⛔ Sorry, we are currently closed and not accepting orders.
+        </div>
+      )}
+
       {/* Delivery banner */}
       <div className="bg-brand-red text-white text-center py-2.5 text-xs font-semibold tracking-wide">
-        🚚 Free delivery on orders over £20 · Est. 25–35 min
+        🚚 Free delivery on orders over £20 · Est. {prepTime}–{prepTime + 10} min
       </div>
 
       {/* Mobile category nav */}
@@ -741,6 +765,7 @@ export default function OrderPage() {
         <CartDrawer
           cart={cart}
           menuItems={menuItems}
+          storeOpen={storeOpen}
           onClose={() => setCartOpen(false)}
           onAdd={addToCart}
           onRemove={removeFromCart}

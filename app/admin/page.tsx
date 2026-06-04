@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import {
   UtensilsCrossed,
   Settings,
@@ -452,11 +453,11 @@ function DeleteConfirmModal({ item, onClose, onConfirm }: { item: MenuItem; onCl
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-type NavItem = { id: string; label: string; icon: React.ReactNode; active?: boolean }
+type NavItem = { id: string; label: string; icon: React.ReactNode; href: string }
 
 const NAV: NavItem[] = [
-  { id: 'menu',     label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, active: true },
-  { id: 'settings', label: 'Store Settings', icon: <Settings className="w-4 h-4" /> },
+  { id: 'menu',     label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
+  { id: 'settings', label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
 ]
 
 export default function AdminPage() {
@@ -465,7 +466,7 @@ export default function AdminPage() {
   const [showAddModal, setShowAddModal] = useState(false)
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<MenuItem | null>(null)
-  const [activeNav, setActiveNav] = useState('menu')
+
 
   const loadItems = useCallback(async () => {
     setLoading(true)
@@ -531,18 +532,18 @@ export default function AdminPage() {
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">
           {NAV.map((item) => (
-            <button
+            <Link
               key={item.id}
-              onClick={() => setActiveNav(item.id)}
+              href={item.href}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left
-                ${activeNav === item.id
+                ${item.id === 'menu'
                   ? 'bg-brand-red/15 text-white ring-1 ring-brand-red/30'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
                 }`}
             >
               {item.icon}
               {item.label}
-            </button>
+            </Link>
           ))}
         </nav>
 
