@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import {
   Truck, Loader2, Plus, Pencil, X, Check, BookOpen,
+  Banknote, TrendingUp, AlertTriangle, Users,
 } from 'lucide-react'
-import Link from 'next/link'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 
 interface Driver {
@@ -17,6 +18,16 @@ interface Driver {
   created_at: string
   completed_deliveries: number
   total_wages: number
+  successful_drops: number
+  failed_returns: number
+  pending_wages: number
+}
+
+interface Aggregates {
+  total_pending_payroll: number
+  fleet_success_rate: number
+  total_shrinkage: number
+  active_roster: number
 }
 
 interface DriverForm {
@@ -39,9 +50,13 @@ const STATUS_LABELS: Record<string, string> = {
   offline:     'Offline',
 }
 
+function fmtGbp(n: number) {
+  return `£${Number(n).toFixed(2)}`
+}
 
 export default function DriversPage() {
   const [drivers, setDrivers]       = useState<Driver[]>([])
+  const [aggregates, setAggregates] = useState<Aggregates | null>(null)
   const [loading, setLoading]       = useState(true)
   const [showForm, setShowForm]     = useState(false)
   const [editing, setEditing]       = useState<Driver | null>(null)
@@ -51,7 +66,11 @@ export default function DriversPage() {
 
   async function fetchDrivers() {
     const res = await fetch('/api/admin/drivers')
-    if (res.ok) setDrivers(await res.json())
+    if (res.ok) {
+      const json = await res.json()
+      setDrivers(json.drivers ?? [])
+      setAggregates(json.aggregates ?? null)
+    }
     setLoading(false)
   }
 
@@ -133,12 +152,11 @@ export default function DriversPage() {
     <div className="min-h-screen bg-zinc-950 text-white flex">
       <AdminSidebar />
 
-      {/* Main */}
       <main className="flex-1 flex flex-col min-w-0">
         <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <div>
-            <h1 className="text-xl font-bold text-white">Fleet & Drivers</h1>
-            <p className="text-sm text-zinc-500 mt-0.5">Manage drivers and view delivery analytics</p>
+            <h1 className="text-xl font-bold text-white">Fleet Control Tower</h1>
+            <p className="text-sm text-zinc-500 mt-0.5">Fleet overview, payroll, and driver management</p>
           </div>
           <button
             onClick={openAdd}
@@ -150,13 +168,89 @@ export default function DriversPage() {
         </header>
 
         <div className="flex-1 px-8 py-8 space-y-8 overflow-auto">
+
+          {/* ── Stat Cards ─────────────────────────────────────────────────────── */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Total Pending Payroll */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5">
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
+                  <Banknote className="w-4 h-4 text-amber-400" />
+                </div>
+                <p className="text-sm text-zinc-500 font-medium">Pending Payroll</p>
+              </div>
+              {loading || !aggregates ? (
+                <div className="h-9 w-24 bg-zinc-800 rounded animate-pulse" />
+              ) : (
+                <>
+                  <p className="text-3xl font-bold text-amber-400">{fmtGbp(aggregates.total_pending_payroll)}</p>
+                  <p className="text-xs text-zinc-600 mt-1">Across all drivers</p>
+                </>
+              )}
+            </div>
+
+            {/* Fleet Success Rate */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5">
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                </div>
+                <p className="text-sm text-zinc-500 font-medium">Fleet Success Rate</p>
+              </div>
+              {loading || !aggregates ? (
+                <div className="h-9 w-20 bg-zinc-800 rounded animate-pulse" />
+              ) : (
+                <>
+                  <p className="text-3xl font-bold text-emerald-400">{aggregates.fleet_success_rate}%</p>
+                  <p className="text-xs text-zinc-600 mt-1">Delivered vs dispatched</p>
+                </>
+              )}
+            </div>
+
+            {/* Total Shrinkage */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5">
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
+                  <AlertTriangle className="w-4 h-4 text-red-400" />
+                </div>
+                <p className="text-sm text-zinc-500 font-medium">Total Shrinkage</p>
+              </div>
+              {loading || !aggregates ? (
+                <div className="h-9 w-16 bg-zinc-800 rounded animate-pulse" />
+              ) : (
+                <>
+                  <p className="text-3xl font-bold text-red-400">{aggregates.total_shrinkage}</p>
+                  <p className="text-xs text-zinc-600 mt-1">Failed / returned orders</p>
+                </>
+              )}
+            </div>
+
+            {/* Active Roster */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5">
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-sky-500/10 flex items-center justify-center">
+                  <Users className="w-4 h-4 text-sky-400" />
+                </div>
+                <p className="text-sm text-zinc-500 font-medium">Active Roster</p>
+              </div>
+              {loading || !aggregates ? (
+                <div className="h-9 w-12 bg-zinc-800 rounded animate-pulse" />
+              ) : (
+                <>
+                  <p className="text-3xl font-bold text-sky-400">{aggregates.active_roster}</p>
+                  <p className="text-xs text-zinc-600 mt-1">Available + on delivery</p>
+                </>
+              )}
+            </div>
+          </div>
+
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <Loader2 className="w-8 h-8 text-zinc-600 animate-spin" />
             </div>
           ) : (
             <>
-              {/* Active drivers */}
+              {/* ── Active Drivers ────────────────────────────────────────────── */}
               <section>
                 <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wide mb-4">
                   Active Drivers ({active.length})
@@ -168,74 +262,91 @@ export default function DriversPage() {
                   </div>
                 ) : (
                   <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-zinc-800/60">
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Name</th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Phone</th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Status</th>
-                          <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Deliveries</th>
-                          <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Total Wages</th>
-                          <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Per Delivery</th>
-                          <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-zinc-800/40">
-                        {active.map((driver) => (
-                          <tr key={driver.id} className="hover:bg-zinc-800/20 transition-colors">
-                            <td className="px-6 py-3.5">
-                              <span className="font-semibold text-white">{driver.name}</span>
-                            </td>
-                            <td className="px-6 py-3.5">
-                              <span className="text-zinc-400">{driver.phone ?? '—'}</span>
-                            </td>
-                            <td className="px-6 py-3.5">
-                              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${STATUS_STYLES[driver.status] ?? STATUS_STYLES.offline}`}>
-                                {STATUS_LABELS[driver.status] ?? driver.status}
-                              </span>
-                            </td>
-                            <td className="px-6 py-3.5 text-right">
-                              <span className="font-semibold text-white">{driver.completed_deliveries}</span>
-                            </td>
-                            <td className="px-6 py-3.5 text-right">
-                              <span className="font-semibold text-emerald-400">£{driver.total_wages.toFixed(2)}</span>
-                            </td>
-                            <td className="px-6 py-3.5 text-right">
-                              <span className="text-zinc-400">£{Number(driver.per_delivery_wage).toFixed(2)}</span>
-                            </td>
-                            <td className="px-6 py-3.5 text-right">
-                              <div className="flex items-center justify-end gap-2">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm min-w-[900px]">
+                        <thead>
+                          <tr className="border-b border-zinc-800/60">
+                            <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Name</th>
+                            <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Phone</th>
+                            <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Status</th>
+                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Drops ✓</th>
+                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Failed ✗</th>
+                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Total Wages</th>
+                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Pending</th>
+                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Per Drop</th>
+                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-zinc-800/40">
+                          {active.map((driver) => (
+                            <tr key={driver.id} className="hover:bg-zinc-800/20 transition-colors">
+                              <td className="px-5 py-3.5">
                                 <Link
                                   href={`/admin/drivers/${driver.id}`}
-                                  className="p-1.5 rounded-lg text-zinc-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
-                                  title="View Ledger"
+                                  className="font-semibold text-white hover:text-amber-400 transition-colors"
                                 >
-                                  <BookOpen className="w-3.5 h-3.5" />
+                                  {driver.name}
                                 </Link>
-                                <button
-                                  onClick={() => openEdit(driver)}
-                                  className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors"
-                                >
-                                  <Pencil className="w-3.5 h-3.5" />
-                                </button>
-                                <button
-                                  onClick={() => handleToggleActive(driver)}
-                                  className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                                  title="Deactivate driver"
-                                >
-                                  <X className="w-3.5 h-3.5" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                              </td>
+                              <td className="px-5 py-3.5 text-zinc-400">{driver.phone ?? '—'}</td>
+                              <td className="px-5 py-3.5">
+                                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${STATUS_STYLES[driver.status] ?? STATUS_STYLES.offline}`}>
+                                  {STATUS_LABELS[driver.status] ?? driver.status}
+                                </span>
+                              </td>
+                              <td className="px-5 py-3.5 text-right">
+                                <span className="font-semibold text-white">{driver.successful_drops}</span>
+                              </td>
+                              <td className="px-5 py-3.5 text-right">
+                                <span className={driver.failed_returns > 0 ? 'font-semibold text-red-400' : 'text-zinc-600'}>
+                                  {driver.failed_returns}
+                                </span>
+                              </td>
+                              <td className="px-5 py-3.5 text-right">
+                                <span className="font-semibold text-emerald-400">{fmtGbp(driver.total_wages)}</span>
+                              </td>
+                              <td className="px-5 py-3.5 text-right">
+                                <span className={driver.pending_wages > 0 ? 'font-bold text-amber-400' : 'text-zinc-600'}>
+                                  {fmtGbp(driver.pending_wages)}
+                                </span>
+                              </td>
+                              <td className="px-5 py-3.5 text-right text-zinc-400">
+                                {fmtGbp(Number(driver.per_delivery_wage))}
+                              </td>
+                              <td className="px-5 py-3.5 text-right">
+                                <div className="flex items-center justify-end gap-2">
+                                  <Link
+                                    href={`/admin/drivers/${driver.id}`}
+                                    className="p-1.5 rounded-lg text-zinc-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                                    title="View Ledger"
+                                  >
+                                    <BookOpen className="w-3.5 h-3.5" />
+                                  </Link>
+                                  <button
+                                    onClick={() => openEdit(driver)}
+                                    className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors"
+                                  >
+                                    <Pencil className="w-3.5 h-3.5" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleToggleActive(driver)}
+                                    className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                                    title="Deactivate driver"
+                                  >
+                                    <X className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
               </section>
 
-              {/* Inactive drivers */}
+              {/* ── Inactive Drivers ──────────────────────────────────────────── */}
               {inactive.length > 0 && (
                 <section>
                   <h2 className="text-sm font-semibold text-zinc-600 uppercase tracking-wide mb-4">
@@ -245,29 +356,28 @@ export default function DriversPage() {
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b border-zinc-800/60">
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Name</th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Phone</th>
-                          <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Deliveries</th>
-                          <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Total Wages</th>
-                          <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
+                          <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Name</th>
+                          <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Phone</th>
+                          <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Drops</th>
+                          <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Total Wages</th>
+                          <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-zinc-800/40">
                         {inactive.map((driver) => (
                           <tr key={driver.id} className="hover:bg-zinc-800/20 transition-colors">
-                            <td className="px-6 py-3.5">
-                              <span className="font-semibold text-zinc-500">{driver.name}</span>
+                            <td className="px-5 py-3.5">
+                              <Link
+                                href={`/admin/drivers/${driver.id}`}
+                                className="font-semibold text-zinc-500 hover:text-zinc-300 transition-colors"
+                              >
+                                {driver.name}
+                              </Link>
                             </td>
-                            <td className="px-6 py-3.5">
-                              <span className="text-zinc-600">{driver.phone ?? '—'}</span>
-                            </td>
-                            <td className="px-6 py-3.5 text-right">
-                              <span className="text-zinc-500">{driver.completed_deliveries}</span>
-                            </td>
-                            <td className="px-6 py-3.5 text-right">
-                              <span className="text-zinc-500">£{driver.total_wages.toFixed(2)}</span>
-                            </td>
-                            <td className="px-6 py-3.5 text-right">
+                            <td className="px-5 py-3.5 text-zinc-600">{driver.phone ?? '—'}</td>
+                            <td className="px-5 py-3.5 text-right text-zinc-500">{driver.successful_drops}</td>
+                            <td className="px-5 py-3.5 text-right text-zinc-500">{fmtGbp(driver.total_wages)}</td>
+                            <td className="px-5 py-3.5 text-right">
                               <button
                                 onClick={() => handleToggleActive(driver)}
                                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
@@ -288,7 +398,7 @@ export default function DriversPage() {
         </div>
       </main>
 
-      {/* Add/Edit Modal */}
+      {/* ── Add / Edit Modal ──────────────────────────────────────────────────── */}
       {showForm && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
