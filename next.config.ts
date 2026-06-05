@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'www.thespruceeats.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.eatatjacks.com',
+      },
     ],
   },
 };
