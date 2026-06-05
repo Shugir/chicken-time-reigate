@@ -806,54 +806,68 @@ export default function OrderPage() {
 
         {/* Sticky sidebar */}
         <aside className="hidden lg:block w-64 shrink-0">
-          <div className="sticky top-6 space-y-1">
-            <p className="text-xs font-black text-gray-400 uppercase tracking-widest px-4 mb-4">
-              Menu
-            </p>
+          <div className="sticky top-6">
+            {/* Glass panel */}
+            <div className="bg-neutral-900/60 backdrop-blur-md border border-neutral-800/70 rounded-2xl overflow-hidden shadow-xl">
+              <p className="text-[10px] font-black text-neutral-500 uppercase tracking-widest px-5 pt-5 pb-3">
+                Menu
+              </p>
 
-            {categories.map(({ slug, name, image_url, description }) => {
-              const isActive = activeCategory === slug
-              return (
-                <button
-                  key={slug}
-                  onClick={() => scrollTo(slug)}
-                  className={`relative w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
-                    isActive
-                      ? 'bg-white shadow-md shadow-gray-200/80'
-                      : 'hover:bg-white hover:shadow-sm'
-                  }`}
-                >
-                  <span
-                    className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 rounded-r-full bg-brand-red transition-all duration-200 ${
-                      isActive ? 'h-9 opacity-100' : 'h-0 opacity-0'
-                    }`}
-                  />
-                  <span className={`shrink-0 ${isActive ? 'ring-2 ring-brand-red ring-offset-2' : ''} rounded-full transition-all duration-200`}>
-                    <Image src={image_url || FALLBACK_IMG} alt={name} width={48} height={48} className="w-12 h-12 rounded-full object-cover shadow-sm" />
-                  </span>
-                  <div>
-                    <p className={`text-sm font-bold leading-tight transition-colors ${
-                      isActive ? 'text-brand-dark' : 'text-gray-600 group-hover:text-brand-dark'
-                    }`}>
-                      {name}
-                    </p>
-                    <p className="text-xs text-gray-400 mt-0.5 leading-tight">{description}</p>
-                  </div>
-                </button>
-              )
-            })}
+              <nav className="px-2 pb-3 space-y-0.5">
+                {categories.map(({ slug, name, image_url, description }) => {
+                  const isActive = activeCategory === slug
+                  return (
+                    <button
+                      key={slug}
+                      onClick={() => scrollTo(slug)}
+                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
+                        isActive
+                          ? 'bg-red-600 shadow-lg shadow-red-900/30'
+                          : 'hover:bg-neutral-800 transition-colors duration-200'
+                      }`}
+                    >
+                      <span className={`shrink-0 rounded-full transition-all duration-200 ${
+                        isActive ? 'ring-2 ring-white/40 ring-offset-1 ring-offset-red-600' : ''
+                      }`}>
+                        <Image
+                          src={image_url || FALLBACK_IMG}
+                          alt={name}
+                          width={40}
+                          height={40}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      </span>
+                      <div className="min-w-0">
+                        <p className={`text-sm font-bold leading-tight truncate transition-colors ${
+                          isActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'
+                        }`}>
+                          {name}
+                        </p>
+                        {description && (
+                          <p className={`text-xs mt-0.5 leading-tight truncate ${
+                            isActive ? 'text-red-200/70' : 'text-neutral-600'
+                          }`}>
+                            {description}
+                          </p>
+                        )}
+                      </div>
+                    </button>
+                  )
+                })}
+              </nav>
+            </div>
 
             {/* Sidebar cart summary */}
             {count > 0 && (
-              <div className="mt-6 bg-brand-dark rounded-2xl p-4 text-white">
-                <p className="text-xs font-black text-gray-400 uppercase tracking-wider mb-3">Your Order</p>
-                <div className="flex justify-between text-sm font-semibold mb-4">
+              <div className="mt-3 bg-neutral-900/60 backdrop-blur-md border border-neutral-800/70 rounded-2xl p-4 shadow-xl">
+                <p className="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Your Order</p>
+                <div className="flex justify-between text-sm font-semibold text-white mb-4">
                   <span>{count} item{count > 1 ? 's' : ''}</span>
                   <span>£{total.toFixed(2)}</span>
                 </div>
                 <button
                   onClick={() => setCartOpen(true)}
-                  className="w-full bg-brand-red hover:bg-red-700 transition-colors text-white text-sm font-bold py-2.5 rounded-xl flex items-center justify-center gap-2"
+                  className="w-full bg-red-600 hover:bg-red-700 transition-colors text-white text-sm font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-red-900/30"
                 >
                   <ShoppingCart size={14} /> View Cart
                 </button>
