@@ -16,6 +16,9 @@ tags:
 - [[PermissionsContextType]] - `contains` [EXTRACTED]
 - [[PermissionsProvider()]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[layout.tsx_1]] - `imports_from` [EXTRACTED]
+- [[layout.tsx_8]] - `imports_from` [EXTRACTED]
+- [[page.tsx_11]] - `imports_from` [EXTRACTED]
 - [[usePermissions()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

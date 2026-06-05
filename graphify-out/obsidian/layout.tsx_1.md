@@ -1,5 +1,5 @@
 ---
-source_file: "layout.tsx"
+source_file: "app/admin/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,14 +12,9 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[HOURS]] - `contains` [EXTRACTED]
-- [[NewsletterForm.tsx]] - `imports` [EXTRACTED]
-- [[QUICK_LINKS]] - `contains` [EXTRACTED]
-- [[RootLayout()]] - `contains` [EXTRACTED]
-- [[SiteHeader.tsx]] - `imports` [EXTRACTED]
-- [[geistMono]] - `contains` [EXTRACTED]
-- [[geistSans]] - `contains` [EXTRACTED]
-- [[inter]] - `contains` [EXTRACTED]
-- [[metadata]] - `contains` [EXTRACTED]
+- [[AdminLayout()]] - `contains` [EXTRACTED]
+- [[get-user-permissions.ts]] - `imports_from` [EXTRACTED]
+- [[getUserPermissions]] - `imports` [EXTRACTED]
+- [[permissions-provider.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

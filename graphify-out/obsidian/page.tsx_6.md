@@ -18,6 +18,7 @@ tags:
 - [[Promotion]] - `contains` [EXTRACTED]
 - [[PromotionsPage()]] - `contains` [EXTRACTED]
 - [[SaveState_2]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

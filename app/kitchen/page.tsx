@@ -603,7 +603,7 @@ export default function KitchenDashboard() {
             </button>
 
             <Link
-              href="/admin/dashboard"
+              href="/admin/redirect"
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-colors"
             >
               <ArrowLeft size={13} />

@@ -15,6 +15,6 @@ tags:
 - [[Oswald Font (Landing Page)]] - `references` [EXTRACTED]
 - [[Popular Items Data (POPULAR)]] - `references` [EXTRACTED]
 - [[Why Choose Us Data (REASONS)]] - `references` [EXTRACTED]
-- [[page.tsx_23]] - `contains` [EXTRACTED]
+- [[page.tsx_26]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

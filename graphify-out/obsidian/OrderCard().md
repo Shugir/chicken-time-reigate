@@ -2,7 +2,7 @@
 source_file: "app/kitchen/page.tsx"
 type: "code"
 community: "Community None"
-location: "L66"
+location: "L67"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,8 +13,8 @@ tags:
 
 ## Connections
 - [[elapsed()]] - `calls` [EXTRACTED]
-- [[page.tsx_10]] - `contains` [EXTRACTED]
-- [[page.tsx_20]] - `contains` [EXTRACTED]
+- [[page.tsx_11]] - `contains` [EXTRACTED]
 - [[page.tsx_23]] - `contains` [EXTRACTED]
+- [[page.tsx_26]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

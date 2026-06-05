@@ -13,5 +13,12 @@ tags:
 
 ## Connections
 - [[AccessDenied()]] - `contains` [EXTRACTED]
+- [[layout.tsx_2]] - `imports_from` [EXTRACTED]
+- [[layout.tsx_3]] - `imports_from` [EXTRACTED]
+- [[layout.tsx_4]] - `imports_from` [EXTRACTED]
+- [[layout.tsx_5]] - `imports_from` [EXTRACTED]
+- [[layout.tsx_6]] - `imports_from` [EXTRACTED]
+- [[layout.tsx_7]] - `imports_from` [EXTRACTED]
+- [[layout.tsx_8]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

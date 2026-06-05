@@ -24,10 +24,11 @@ tags:
 - [[ItemModal()]] - `contains` [EXTRACTED]
 - [[ItemModalProps]] - `contains` [EXTRACTED]
 - [[MenuItem]] - `contains` [EXTRACTED]
-- [[NAV]] - `contains` [EXTRACTED]
+- [[NAV_3]] - `contains` [EXTRACTED]
 - [[NavItem]] - `contains` [EXTRACTED]
 - [[PriceCell()]] - `contains` [EXTRACTED]
 - [[SaveState]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

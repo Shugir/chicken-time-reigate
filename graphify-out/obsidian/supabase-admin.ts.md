@@ -34,6 +34,8 @@ tags:
 - [[route.ts_18]] - `imports_from` [EXTRACTED]
 - [[route.ts_19]] - `imports_from` [EXTRACTED]
 - [[route.ts_20]] - `imports_from` [EXTRACTED]
+- [[route.ts_21]] - `imports_from` [EXTRACTED]
+- [[route.ts_22]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

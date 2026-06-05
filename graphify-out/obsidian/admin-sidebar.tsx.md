@@ -14,6 +14,13 @@ tags:
 ## Connections
 - [[ALL_NAV]] - `contains` [EXTRACTED]
 - [[AdminSidebar()]] - `contains` [EXTRACTED]
+- [[page.tsx_2]] - `imports_from` [EXTRACTED]
+- [[page.tsx_3]] - `imports_from` [EXTRACTED]
+- [[page.tsx_4]] - `imports_from` [EXTRACTED]
+- [[page.tsx_5]] - `imports_from` [EXTRACTED]
+- [[page.tsx_6]] - `imports_from` [EXTRACTED]
+- [[page.tsx_7]] - `imports_from` [EXTRACTED]
+- [[page.tsx_8]] - `imports_from` [EXTRACTED]
 - [[permissions-provider.tsx]] - `imports_from` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 - [[usePermissions()]] - `imports` [EXTRACTED]

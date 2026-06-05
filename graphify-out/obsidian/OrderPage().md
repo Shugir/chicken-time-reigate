@@ -14,8 +14,8 @@ tags:
 ## Connections
 - [[cartCount()]] - `calls` [EXTRACTED]
 - [[cartTotal()]] - `calls` [EXTRACTED]
-- [[page.tsx_12]] - `contains` [EXTRACTED]
-- [[page.tsx_22]] - `contains` [EXTRACTED]
-- [[page.tsx_23]] - `contains` [EXTRACTED]
+- [[page.tsx_13]] - `contains` [EXTRACTED]
+- [[page.tsx_25]] - `contains` [EXTRACTED]
+- [[page.tsx_26]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

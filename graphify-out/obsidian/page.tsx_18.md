@@ -1,5 +1,5 @@
 ---
-source_file: "admin/promotions/page.tsx"
+source_file: "admin/drivers/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,11 +12,11 @@ tags:
 # page.tsx
 
 ## Connections
-- [[DeleteConfirm()_1]] - `contains` [EXTRACTED]
-- [[NAV_4]] - `contains` [EXTRACTED]
-- [[PromoModal()]] - `contains` [EXTRACTED]
-- [[Promotion]] - `contains` [EXTRACTED]
-- [[PromotionsPage()]] - `contains` [EXTRACTED]
-- [[SaveState_2]] - `contains` [EXTRACTED]
+- [[Driver]] - `contains` [EXTRACTED]
+- [[DriverForm]] - `contains` [EXTRACTED]
+- [[DriversPage()]] - `contains` [EXTRACTED]
+- [[EMPTY_FORM_1]] - `contains` [EXTRACTED]
+- [[STATUS_LABELS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
