@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/settings/page.tsx"
+source_file: "app/admin/redirect/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,10 +12,9 @@ tags:
 # page.tsx
 
 ## Connections
-- [[SaveState_3]] - `contains` [EXTRACTED]
-- [[SettingsPage()]] - `contains` [EXTRACTED]
-- [[StoreSettings]] - `contains` [EXTRACTED]
-- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
-- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[AdminRedirectPage()]] - `contains` [EXTRACTED]
+- [[PAGES]] - `contains` [EXTRACTED]
+- [[get-user-permissions.ts]] - `imports_from` [EXTRACTED]
+- [[getUserPermissions]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

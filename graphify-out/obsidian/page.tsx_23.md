@@ -1,5 +1,5 @@
 ---
-source_file: "kitchen/page.tsx"
+source_file: "admin/settings/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,17 +12,8 @@ tags:
 # page.tsx
 
 ## Connections
-- [[CustomerReceipt()]] - `contains` [EXTRACTED]
-- [[DispatchOrder]] - `contains` [EXTRACTED]
-- [[Driver_1]] - `contains` [EXTRACTED]
-- [[Extra_2]] - `contains` [EXTRACTED]
-- [[KitchenDashboard()]] - `contains` [EXTRACTED]
-- [[KitchenTicket()]] - `contains` [EXTRACTED]
-- [[Order]] - `contains` [EXTRACTED]
-- [[OrderCard()]] - `contains` [EXTRACTED]
-- [[OrderItem_1]] - `contains` [EXTRACTED]
-- [[elapsed()]] - `contains` [EXTRACTED]
-- [[supabase]] - `contains` [EXTRACTED]
-- [[usePermissions()]] - `imports` [EXTRACTED]
+- [[SaveState_3]] - `contains` [EXTRACTED]
+- [[SettingsPage()]] - `contains` [EXTRACTED]
+- [[StoreSettings]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

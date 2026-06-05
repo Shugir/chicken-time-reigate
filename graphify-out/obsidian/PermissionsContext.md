@@ -2,7 +2,7 @@
 source_file: "components/admin/permissions-provider.tsx"
 type: "code"
 community: "Community None"
-location: "L11"
+location: "L12"
 tags:
   - graphify/code
   - graphify/EXTRACTED

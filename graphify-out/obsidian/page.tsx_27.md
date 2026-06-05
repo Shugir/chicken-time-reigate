@@ -1,5 +1,5 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "order/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -28,7 +28,6 @@ tags:
 - [[OrderSelection]] - `imports` [EXTRACTED]
 - [[ProductItem]] - `imports` [EXTRACTED]
 - [[ProductModal()]] - `imports` [EXTRACTED]
-- [[ProductModal.tsx]] - `imports_from` [EXTRACTED]
 - [[cartCount()]] - `contains` [EXTRACTED]
 - [[cartTotal()]] - `contains` [EXTRACTED]
 - [[dbToMenuItem()]] - `contains` [EXTRACTED]

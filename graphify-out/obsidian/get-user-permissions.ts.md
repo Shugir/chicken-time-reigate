@@ -23,6 +23,7 @@ tags:
 - [[layout.tsx_6]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_7]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_8]] - `imports_from` [EXTRACTED]
+- [[page.tsx_7]] - `imports_from` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

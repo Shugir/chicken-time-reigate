@@ -1,18 +1,18 @@
 ---
-source_file: "app/admin/page.tsx"
+source_file: "app/admin/redirect/page.tsx"
 type: "code"
 community: "Community None"
-location: "L40"
+location: "L15"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# CATEGORIES
+# AdminRedirectPage()
 
 ## Connections
-- [[page.tsx_2]] - `contains` [EXTRACTED]
-- [[page.tsx_21]] - `contains` [EXTRACTED]
+- [[getUserPermissions]] - `calls` [EXTRACTED]
+- [[page.tsx_7]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

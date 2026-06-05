@@ -13,8 +13,8 @@ tags:
 
 ## Connections
 - [[page.tsx_2]] - `contains` [EXTRACTED]
-- [[page.tsx_19]] - `contains` [EXTRACTED]
-- [[page.tsx_26]] - `contains` [EXTRACTED]
+- [[page.tsx_17]] - `contains` [EXTRACTED]
+- [[page.tsx_21]] - `contains` [EXTRACTED]
 - [[route.ts_25]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
