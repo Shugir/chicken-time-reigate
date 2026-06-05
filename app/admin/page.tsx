@@ -2,14 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import {
-  LayoutDashboard,
   UtensilsCrossed,
-  Settings,
-  MapPin,
-  Tag,
-  Truck,
   Plus,
   X,
   Check,
@@ -18,9 +12,8 @@ import {
   Trash2,
   ChevronDown,
   Image as ImageIcon,
-  ExternalLink,
 } from 'lucide-react'
-import SignOutButton from '@/components/admin/sign-out-button'
+import AdminSidebar from '@/components/admin/admin-sidebar'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -459,16 +452,6 @@ function DeleteConfirmModal({ item, onClose, onConfirm }: { item: MenuItem; onCl
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-type NavItem = { id: string; label: string; icon: React.ReactNode; href: string }
-
-const NAV: NavItem[] = [
-  { id: 'dashboard',  label: 'Dashboard',      icon: <LayoutDashboard className="w-4 h-4" />, href: '/admin/dashboard' },
-  { id: 'menu',       label: 'Menu Manager',   icon: <UtensilsCrossed className="w-4 h-4" />, href: '/admin' },
-  { id: 'settings',   label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
-  { id: 'delivery',   label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
-  { id: 'promotions', label: 'Promotions',     icon: <Tag className="w-4 h-4" />,              href: '/admin/promotions' },
-  { id: 'drivers',    label: 'Fleet & Drivers', icon: <Truck className="w-4 h-4" />,           href: '/admin/drivers' },
-]
 
 export default function AdminPage() {
   const [items, setItems] = useState<MenuItem[]>([])
@@ -526,57 +509,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex">
-      {/* ── Sidebar ── */}
-      <aside className="w-56 shrink-0 bg-zinc-900 border-r border-zinc-800 flex flex-col">
-        {/* Logo */}
-        <div className="px-5 py-5 border-b border-zinc-800">
-          <div className="flex items-center gap-2.5">
-            <span className="text-2xl">🍗</span>
-            <div>
-              <p className="text-xs font-bold text-white leading-tight">Chicken Time</p>
-              <p className="text-[10px] text-zinc-500 leading-tight">Admin Panel</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Nav */}
-        <nav className="flex-1 px-3 py-4 space-y-1">
-          {NAV.map((item) => (
-            <Link
-              key={item.id}
-              href={item.href}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left
-                ${item.href === '/admin'
-                  ? 'bg-brand-red/15 text-white ring-1 ring-brand-red/30'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
-                }`}
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Kitchen link */}
-        <div className="px-3 pt-2 pb-1 border-t border-zinc-800">
-          <a
-            href="/kitchen"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-          >
-            <UtensilsCrossed className="w-4 h-4" />
-            Kitchen Display
-            <ExternalLink className="w-3 h-3 ml-auto opacity-40" />
-          </a>
-        </div>
-
-        {/* Footer */}
-        <div className="px-4 py-4 border-t border-zinc-800 space-y-2">
-          <SignOutButton />
-          <p className="text-[11px] text-zinc-600 px-3">v1.0 · Reigate</p>
-        </div>
-      </aside>
+      <AdminSidebar />
 
       {/* ── Main ── */}
       <main className="flex-1 flex flex-col min-w-0">

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { usePermissions } from '@/components/admin/permissions-provider'
 import { createClient } from '@supabase/supabase-js'
 import {
   ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer,
@@ -343,6 +344,7 @@ function CustomerReceipt({ order }: { order: Order }) {
 
 export default function KitchenDashboard() {
   const router = useRouter()
+  const { can } = usePermissions()
   const [activeTab, setActiveTab] = useState<'kitchen' | 'dispatch'>('kitchen')
 
   // Kitchen state
@@ -560,22 +562,24 @@ export default function KitchenDashboard() {
               <ChefHat size={14} />
               Kitchen
             </button>
-            <button
-              onClick={() => setActiveTab('dispatch')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
-                activeTab === 'dispatch'
-                  ? 'bg-white/10 text-white'
-                  : 'text-white/40 hover:text-white/70'
-              }`}
-            >
-              <Truck size={14} />
-              Dispatch
-              {dispatchOrders.length > 0 && (
-                <span className="w-4 h-4 rounded-full bg-sky-500 text-white text-[10px] font-black flex items-center justify-center">
-                  {dispatchOrders.length}
-                </span>
-              )}
-            </button>
+            {can('DispatchController') && (
+              <button
+                onClick={() => setActiveTab('dispatch')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
+                  activeTab === 'dispatch'
+                    ? 'bg-white/10 text-white'
+                    : 'text-white/40 hover:text-white/70'
+                }`}
+              >
+                <Truck size={14} />
+                Dispatch
+                {dispatchOrders.length > 0 && (
+                  <span className="w-4 h-4 rounded-full bg-sky-500 text-white text-[10px] font-black flex items-center justify-center">
+                    {dispatchOrders.length}
+                  </span>
+                )}
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-3">
@@ -717,7 +721,7 @@ export default function KitchenDashboard() {
         )}
 
         {/* ── Dispatch Tab ── */}
-        {activeTab === 'dispatch' && (
+        {activeTab === 'dispatch' && can('DispatchController') && (
           <div className="flex-1 overflow-auto p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
