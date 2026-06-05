@@ -4,15 +4,16 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
-  Truck, Shield, ExternalLink,
+  Truck, Shield, ExternalLink, Layers,
 } from 'lucide-react'
 import SignOutButton from './sign-out-button'
 import { usePermissions } from './permissions-provider'
 
 const ALL_NAV = [
   { id: 'dashboard',  label: 'Dashboard',       icon: LayoutDashboard, href: '/admin/dashboard',  permission: 'Dashboard'     },
-  { id: 'menu',       label: 'Menu Manager',    icon: UtensilsCrossed, href: '/admin',             permission: 'MenuManager'   },
-  { id: 'settings',   label: 'Store Settings',  icon: Settings,        href: '/admin/settings',   permission: 'StoreSettings' },
+  { id: 'menu',       label: 'Menu Manager',    icon: UtensilsCrossed, href: '/admin',               permission: 'MenuManager'   },
+  { id: 'categories', label: 'Categories',      icon: Layers,          href: '/admin/categories',  permission: 'Categories'    },
+  { id: 'settings',   label: 'Store Settings',  icon: Settings,        href: '/admin/settings',    permission: 'StoreSettings' },
   { id: 'delivery',   label: 'Delivery Zones',  icon: MapPin,          href: '/admin/delivery',   permission: 'DeliveryZones' },
   { id: 'promotions', label: 'Promotions',       icon: Tag,             href: '/admin/promotions', permission: 'Promotions'    },
   { id: 'drivers',    label: 'Fleet & Drivers',  icon: Truck,           href: '/admin/drivers',    permission: 'Fleet'         },

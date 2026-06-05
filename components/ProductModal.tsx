@@ -6,7 +6,7 @@ import { X, ChevronDown, Plus, Minus, ShoppingBag, AlertCircle } from 'lucide-re
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type ItemCategory = 'deals' | 'burgers' | 'chicken' | 'sides' | 'drinks'
+export type ItemCategory = string
 
 export interface AddOn {
   name: string

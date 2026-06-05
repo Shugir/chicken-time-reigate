@@ -15,28 +15,25 @@ import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../componen
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Category = 'deals' | 'burgers' | 'chicken' | 'sides' | 'drinks'
 type MenuItem = ProductItem
 interface CartEntry { qty: number; removals: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const CATEGORIES: { id: Category; label: string; image: string; description: string }[] = [
-  { id: 'deals',   label: 'Deals',   image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80', description: 'Combo meals & special offers' },
-  { id: 'burgers', label: 'Burgers', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&q=80', description: 'Crispy fillets & stacked classics' },
-  { id: 'chicken', label: 'Chicken', image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=200&q=80', description: 'Wings, strips & whole pieces' },
-  { id: 'sides',   label: 'Sides',   image: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?w=200&q=80', description: 'The perfect companions' },
-  { id: 'drinks',  label: 'Drinks',  image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=200&q=80', description: 'Cold drinks & shakes' },
-]
-
-const CARD_GRADIENT: Record<Category, string> = {
-  deals:   'from-brand-red/10 via-red-50 to-orange-50',
-  burgers: 'from-orange-100 via-amber-50 to-yellow-50',
-  chicken: 'from-red-100 via-orange-50 to-amber-50',
-  sides:   'from-yellow-100 via-lime-50 to-green-50',
-  drinks:  'from-sky-100 via-blue-50 to-indigo-50',
+interface DbCategory {
+  id: string; name: string; slug: string; sort_order: number
+  image_url: string | null; description: string | null
 }
+
+const GRADIENTS = [
+  'from-brand-red/10 via-red-50 to-orange-50',
+  'from-orange-100 via-amber-50 to-yellow-50',
+  'from-red-100 via-orange-50 to-amber-50',
+  'from-yellow-100 via-lime-50 to-green-50',
+  'from-sky-100 via-blue-50 to-indigo-50',
+  'from-purple-100 via-violet-50 to-pink-50',
+  'from-green-100 via-emerald-50 to-teal-50',
+]
+const FALLBACK_IMG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80'
 
 const MENU_ITEMS: MenuItem[] = [
   {
@@ -252,7 +249,7 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     name:        item.name,
     description: item.description ?? '',
     price:       Number(item.price),
-    category:    item.category.toLowerCase() as Category,
+    category:    item.category.toLowerCase(),
     badge:       opts.badge,
     emoji:       opts.emoji ?? '🍽️',
     image:       item.image_url ?? '',
@@ -279,14 +276,14 @@ function cartCount(cart: Cart) {
 
 // ─── Premium menu card ────────────────────────────────────────────────────────
 
-function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
+function MenuCard({ item, qty, gradient, onOpenModal, onAdd, onRemove }: {
   item: MenuItem
   qty: number
+  gradient: string
   onOpenModal: () => void
   onAdd: () => void
   onRemove: () => void
 }) {
-  const gradient = CARD_GRADIENT[item.category]
 
   return (
     <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col border border-gray-100/80">
@@ -503,14 +500,24 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
 export default function OrderPage() {
   const [cart, setCart]                 = useState<Cart>({})
   const [cartOpen, setCartOpen]         = useState(false)
-  const [activeCategory, setActive]     = useState<Category>('deals')
+  const [categories, setCategories]     = useState<DbCategory[]>([])
+  const [activeCategory, setActive]     = useState<string>('')
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
   const [menuItems, setMenuItems]       = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen]       = useState(true)
   const [prepTime, setPrepTime]         = useState(25)
-  const sectionRefs = useRef<Record<Category, HTMLElement | null>>({
-    deals: null, burgers: null, chicken: null, sides: null, drinks: null,
-  })
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then((r) => r.ok ? r.json() : [])
+      .then(setCategories)
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (categories.length > 0 && !activeCategory) setActive(categories[0].slug)
+  }, [categories])
 
   useEffect(() => {
     fetch('/api/store-settings')
@@ -562,14 +569,14 @@ export default function OrderPage() {
       },
     }))
   }
-  function scrollTo(id: Category) {
+  function scrollTo(id: string) {
     setActive(id)
     sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   useEffect(() => {
     const observers: IntersectionObserver[] = []
-    CATEGORIES.forEach(({ id }) => {
+    categories.forEach(({ slug: id }) => {
       const el = sectionRefs.current[id]
       if (!el) return
       const obs = new IntersectionObserver(
@@ -580,7 +587,7 @@ export default function OrderPage() {
       observers.push(obs)
     })
     return () => observers.forEach((o) => o.disconnect())
-  }, [])
+  }, [categories])
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -600,18 +607,18 @@ export default function OrderPage() {
       {/* Mobile category nav */}
       <nav className="lg:hidden sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm overflow-x-auto">
         <div className="flex min-w-max">
-          {CATEGORIES.map(({ id, label, image }) => (
+          {categories.map(({ slug, name, image_url }) => (
             <button
-              key={id}
-              onClick={() => scrollTo(id)}
+              key={slug}
+              onClick={() => scrollTo(slug)}
               className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold whitespace-nowrap border-b-2 transition-colors ${
-                activeCategory === id
+                activeCategory === slug
                   ? 'border-brand-red text-brand-red'
                   : 'border-transparent text-gray-500 hover:text-gray-800'
               }`}
             >
-              <Image src={image} alt={label} width={20} height={20} className="w-5 h-5 rounded-full object-cover shrink-0" />
-              {label}
+              <Image src={image_url || FALLBACK_IMG} alt={name} width={20} height={20} className="w-5 h-5 rounded-full object-cover shrink-0" />
+              {name}
             </button>
           ))}
         </div>
@@ -627,12 +634,12 @@ export default function OrderPage() {
               Menu
             </p>
 
-            {CATEGORIES.map(({ id, label, image, description }) => {
-              const isActive = activeCategory === id
+            {categories.map(({ slug, name, image_url, description }) => {
+              const isActive = activeCategory === slug
               return (
                 <button
-                  key={id}
-                  onClick={() => scrollTo(id)}
+                  key={slug}
+                  onClick={() => scrollTo(slug)}
                   className={`relative w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                     isActive
                       ? 'bg-white shadow-md shadow-gray-200/80'
@@ -645,13 +652,13 @@ export default function OrderPage() {
                     }`}
                   />
                   <span className={`shrink-0 ${isActive ? 'ring-2 ring-brand-red ring-offset-2' : ''} rounded-full transition-all duration-200`}>
-                    <Image src={image} alt={label} width={48} height={48} className="w-12 h-12 rounded-full object-cover shadow-sm" />
+                    <Image src={image_url || FALLBACK_IMG} alt={name} width={48} height={48} className="w-12 h-12 rounded-full object-cover shadow-sm" />
                   </span>
                   <div>
                     <p className={`text-sm font-bold leading-tight transition-colors ${
                       isActive ? 'text-brand-dark' : 'text-gray-600 group-hover:text-brand-dark'
                     }`}>
-                      {label}
+                      {name}
                     </p>
                     <p className="text-xs text-gray-400 mt-0.5 leading-tight">{description}</p>
                   </div>
@@ -680,20 +687,21 @@ export default function OrderPage() {
 
         {/* Menu sections */}
         <main className="flex-1 min-w-0 space-y-12 pb-32">
-          {CATEGORIES.map(({ id, label, image }) => {
-            const items = menuItems.filter((m) => m.category.toLowerCase() === id)
+          {categories.map(({ slug, name, image_url }, catIdx) => {
+            const gradient = GRADIENTS[catIdx % GRADIENTS.length]
+            const items = menuItems.filter((m) => m.category.toLowerCase() === slug)
             return (
               <section
-                key={id}
-                id={id}
-                ref={(el) => { sectionRefs.current[id] = el }}
+                key={slug}
+                id={slug}
+                ref={(el) => { sectionRefs.current[slug] = el }}
                 className="scroll-mt-4"
               >
                 {/* Section header */}
                 <div className="flex items-center gap-3 mb-6">
-                  <Image src={image} alt={label} width={40} height={40} className="w-10 h-10 rounded-xl object-cover shadow-sm shrink-0" />
+                  <Image src={image_url || FALLBACK_IMG} alt={name} width={40} height={40} className="w-10 h-10 rounded-xl object-cover shadow-sm shrink-0" />
                   <div>
-                    <h2 className="font-heading font-black text-2xl text-brand-dark leading-none">{label}</h2>
+                    <h2 className="font-heading font-black text-2xl text-brand-dark leading-none">{name}</h2>
                     <p className="text-xs text-gray-400 mt-0.5">{items.length} items</p>
                   </div>
                 </div>
@@ -705,6 +713,7 @@ export default function OrderPage() {
                       key={item.id}
                       item={item}
                       qty={cart[item.id]?.qty ?? 0}
+                      gradient={gradient}
                       onOpenModal={() => setSelectedItem(item)}
                       onAdd={() => addToCart(item.id)}
                       onRemove={() => removeFromCart(item.id)}

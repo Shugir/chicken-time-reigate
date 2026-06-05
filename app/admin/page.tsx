@@ -37,24 +37,17 @@ interface MenuItem {
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
 
-const CATEGORIES = ['deals', 'burgers', 'chicken', 'sides', 'drinks'] as const
-type Category = (typeof CATEGORIES)[number]
+interface DbCategory { id: string; name: string; slug: string; sort_order: number; is_active: boolean }
 
-const CATEGORY_LABELS: Record<Category, string> = {
-  deals: 'Deals',
-  burgers: 'Burgers',
-  chicken: 'Chicken',
-  sides: 'Sides',
-  drinks: 'Drinks',
-}
-
-const CATEGORY_COLOURS: Record<Category, string> = {
-  deals: 'bg-orange-500/15 text-orange-300 ring-1 ring-orange-500/30',
-  burgers: 'bg-amber-500/15 text-amber-300 ring-1 ring-amber-500/30',
-  chicken: 'bg-red-500/15 text-red-300 ring-1 ring-red-500/30',
-  sides: 'bg-lime-500/15 text-lime-300 ring-1 ring-lime-500/30',
-  drinks: 'bg-sky-500/15 text-sky-300 ring-1 ring-sky-500/30',
-}
+const COLOUR_PALETTE = [
+  'bg-orange-500/15 text-orange-300 ring-1 ring-orange-500/30',
+  'bg-amber-500/15 text-amber-300 ring-1 ring-amber-500/30',
+  'bg-red-500/15 text-red-300 ring-1 ring-red-500/30',
+  'bg-lime-500/15 text-lime-300 ring-1 ring-lime-500/30',
+  'bg-sky-500/15 text-sky-300 ring-1 ring-sky-500/30',
+  'bg-purple-500/15 text-purple-300 ring-1 ring-purple-500/30',
+  'bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30',
+]
 
 // ─── Inline Price Cell ────────────────────────────────────────────────────────
 
@@ -154,13 +147,14 @@ function AvailabilityToggle({
 
 interface ItemModalProps {
   editingItem: MenuItem | null
+  categories:  DbCategory[]
   onClose: () => void
   onSave: (item: MenuItem) => void
 }
 
-const EMPTY_FORM = { name: '', description: '', price: '', image_url: '', category: 'chicken' as Category }
+const EMPTY_FORM = { name: '', description: '', price: '', image_url: '', category: '' }
 
-function ItemModal({ editingItem, onClose, onSave }: ItemModalProps) {
+function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps) {
   const [form, setForm] = useState(() =>
     editingItem
       ? {
@@ -168,9 +162,9 @@ function ItemModal({ editingItem, onClose, onSave }: ItemModalProps) {
           description: editingItem.description ?? '',
           price:       editingItem.price.toFixed(2),
           image_url:   editingItem.image_url ?? '',
-          category:    editingItem.category as Category,
+          category:    editingItem.category,
         }
-      : EMPTY_FORM
+      : { ...EMPTY_FORM, category: categories[0]?.slug ?? '' }
   )
   const [removals, setRemovals]         = useState<string[]>(() => editingItem?.removals ?? [])
   const [extras, setExtras]             = useState<Extra[]>(() => editingItem?.extras ?? [])
@@ -286,7 +280,7 @@ function ItemModal({ editingItem, onClose, onSave }: ItemModalProps) {
               <label className="block text-xs font-medium text-zinc-400 mb-1.5">Category <span className="text-red-400">*</span></label>
               <div className="relative">
                 <select {...field('category')} className={`w-full appearance-none pr-8 ${inputCls}`}>
-                  {CATEGORIES.map((c) => <option key={c} value={c}>{CATEGORY_LABELS[c]}</option>)}
+                  {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                 </select>
                 <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" />
               </div>
@@ -459,7 +453,14 @@ export default function AdminPage() {
   const [showAddModal, setShowAddModal] = useState(false)
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<MenuItem | null>(null)
+  const [categories, setCategories] = useState<DbCategory[]>([])
 
+  useEffect(() => {
+    fetch('/api/admin/categories')
+      .then((r) => r.json())
+      .then(setCategories)
+      .catch(() => {})
+  }, [])
 
   const loadItems = useCallback(async () => {
     setLoading(true)
@@ -498,9 +499,10 @@ export default function AdminPage() {
   }
 
   // Group by category
-  const grouped = CATEGORIES.map((cat) => ({
+  const grouped = categories.map((cat, idx) => ({
     cat,
-    rows: items.filter((i) => i.category === cat),
+    idx,
+    rows: items.filter((i) => i.category.toLowerCase() === cat.slug),
   })).filter((g) => g.rows.length > 0)
 
   // Summary stats
@@ -544,12 +546,12 @@ export default function AdminPage() {
             </div>
           ) : (
             <div className="space-y-8">
-              {grouped.map(({ cat, rows }) => (
-                <section key={cat}>
+              {grouped.map(({ cat, idx, rows }) => (
+                <section key={cat.slug}>
                   {/* Category header */}
                   <div className="flex items-center gap-3 mb-3">
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${CATEGORY_COLOURS[cat]}`}>
-                      {CATEGORY_LABELS[cat]}
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${COLOUR_PALETTE[idx % COLOUR_PALETTE.length]}`}>
+                      {cat.name}
                     </span>
                     <span className="text-xs text-zinc-600">{rows.length} item{rows.length !== 1 ? 's' : ''}</span>
                   </div>
@@ -645,7 +647,7 @@ export default function AdminPage() {
 
       {/* ── Modals ── */}
       {(showAddModal || editingItem !== null) && (
-        <ItemModal editingItem={editingItem} onClose={closeModal} onSave={handleSave} />
+        <ItemModal editingItem={editingItem} categories={categories} onClose={closeModal} onSave={handleSave} />
       )}
       {deleteTarget && (
         <DeleteConfirmModal

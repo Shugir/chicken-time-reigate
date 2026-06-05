@@ -17,6 +17,7 @@ interface StaffMember {
 const ALL_PERMISSIONS = [
   { key: 'Dashboard',        label: 'Dashboard',          desc: 'View stats and recent orders' },
   { key: 'MenuManager',      label: 'Menu Manager',       desc: 'Add, edit and delete menu items' },
+  { key: 'Categories',       label: 'Categories',         desc: 'Manage menu categories and display order' },
   { key: 'StoreSettings',    label: 'Store Settings',     desc: 'Toggle store open/closed and prep time' },
   { key: 'DeliveryZones',    label: 'Delivery Zones',     desc: 'Manage delivery areas and fees' },
   { key: 'Promotions',       label: 'Promotions',         desc: 'Create and manage discount codes' },
