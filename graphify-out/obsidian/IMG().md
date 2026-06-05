@@ -1,17 +1,17 @@
 ---
-source_file: "app/api/admin/delivery-zones/route.ts"
+source_file: "route.ts"
 type: "code"
 community: "Community None"
-location: "L14"
+location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# POST()
+# IMG()
 
 ## Connections
-- [[route.ts_8]] - `contains` [EXTRACTED]
+- [[route.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

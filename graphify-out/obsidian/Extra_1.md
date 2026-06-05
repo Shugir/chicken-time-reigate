@@ -15,6 +15,6 @@ tags:
 - [[page.tsx_3]] - `contains` [EXTRACTED]
 - [[page.tsx_23]] - `contains` [EXTRACTED]
 - [[page.tsx_26]] - `contains` [EXTRACTED]
-- [[route.ts_34]] - `contains` [EXTRACTED]
+- [[route.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

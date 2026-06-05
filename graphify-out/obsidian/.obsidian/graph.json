@@ -365,13 +365,6 @@
       }
     },
     {
-      "query": "tag:#community/Community_53",
-      "color": {
-        "a": 1,
-        "rgb": 7780274
-      }
-    },
-    {
       "query": "tag:#community/Community_54",
       "color": {
         "a": 1,
@@ -386,24 +379,10 @@
       }
     },
     {
-      "query": "tag:#community/Community_56",
-      "color": {
-        "a": 1,
-        "rgb": 11565729
-      }
-    },
-    {
       "query": "tag:#community/Community_57",
       "color": {
         "a": 1,
         "rgb": 16752039
-      }
-    },
-    {
-      "query": "tag:#community/Community_59",
-      "color": {
-        "a": 1,
-        "rgb": 12234924
       }
     },
     {

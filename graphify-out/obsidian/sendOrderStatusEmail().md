@@ -12,10 +12,10 @@ tags:
 # sendOrderStatusEmail()
 
 ## Connections
-- [[POST()]] - `calls` [EXTRACTED]
+- [[POST()_1]] - `calls` [EXTRACTED]
 - [[buildHtml()]] - `calls` [EXTRACTED]
 - [[email.ts]] - `contains` [EXTRACTED]
-- [[route.ts]] - `imports` [EXTRACTED]
 - [[route.ts_1]] - `imports` [EXTRACTED]
+- [[route.ts_2]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
