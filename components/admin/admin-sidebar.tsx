@@ -20,8 +20,8 @@ const ALL_NAV = [
 ]
 
 export default function AdminSidebar() {
-  const pathname  = usePathname()
-  const { can }   = usePermissions()
+  const pathname           = usePathname()
+  const { can, email }     = usePermissions()
 
   const visibleNav = ALL_NAV.filter((item) => can(item.permission))
 
@@ -75,6 +75,12 @@ export default function AdminSidebar() {
       </div>
 
       <div className="px-4 py-4 border-t border-zinc-800 space-y-2">
+        {email && (
+          <div className="px-3 py-2 rounded-lg bg-zinc-800/50">
+            <p className="text-[11px] text-zinc-500 leading-tight">Signed in as</p>
+            <p className="text-xs text-zinc-300 font-medium truncate leading-tight mt-0.5">{email}</p>
+          </div>
+        )}
         <SignOutButton />
         <p className="text-[11px] text-zinc-600 px-3">v1.0 · Reigate</p>
       </div>

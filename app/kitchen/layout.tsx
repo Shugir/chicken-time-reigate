@@ -9,7 +9,7 @@ export default async function KitchenLayout({ children }: { children: ReactNode 
     return <AccessDenied back="/admin/dashboard" />
   }
   return (
-    <PermissionsProvider permissions={perms.permissions} isOwner={perms.isOwner}>
+    <PermissionsProvider email={perms.email} permissions={perms.permissions} isOwner={perms.isOwner}>
       {children}
     </PermissionsProvider>
   )

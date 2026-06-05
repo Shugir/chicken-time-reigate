@@ -344,7 +344,7 @@ function CustomerReceipt({ order }: { order: Order }) {
 
 export default function KitchenDashboard() {
   const router = useRouter()
-  const { can } = usePermissions()
+  const { can, email } = usePermissions()
   const [activeTab, setActiveTab] = useState<'kitchen' | 'dispatch'>('kitchen')
 
   // Kitchen state
@@ -583,6 +583,12 @@ export default function KitchenDashboard() {
           </div>
 
           <div className="flex items-center gap-3">
+            {email && (
+              <div className="text-right hidden lg:block">
+                <p className="text-[10px] text-white/30 leading-none">Signed in</p>
+                <p className="text-xs text-white/60 font-medium leading-tight mt-0.5 max-w-[140px] truncate">{email}</p>
+              </div>
+            )}
             <button
               onClick={toggleAudio}
               className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
