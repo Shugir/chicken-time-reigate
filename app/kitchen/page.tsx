@@ -358,12 +358,6 @@ function CustomerReceipt({ order }: { order: Order }) {
           <span>{order.customer_phone}</span>
         </div>
       )}
-      {order.delivery_address && (
-        <div className="mb-1">
-          <span>Deliver to: </span>
-          <span className="font-bold">{order.delivery_address}</span>
-        </div>
-      )}
       <div className="border-t border-dashed border-black my-2" />
       <div className="mb-2">
         {order.order_items.map((item) => (
@@ -405,7 +399,31 @@ function CustomerReceipt({ order }: { order: Order }) {
         <span>TOTAL</span>
         <span>£{order.total_amount.toFixed(2)}</span>
       </div>
-      <div className="border-t border-dashed border-black my-3" />
+
+      {order.delivery_address && (
+        <>
+          <div className="border-t border-black mt-3 pt-2">
+            <p className="text-center font-black text-xs tracking-widest uppercase mb-2">
+              --- DELIVERY DETAILS ---
+            </p>
+            {order.customer_name && (
+              <p className="font-black text-sm leading-snug">{order.customer_name}</p>
+            )}
+            {order.customer_phone && (
+              <p className="font-black text-sm leading-snug">{order.customer_phone}</p>
+            )}
+            <p className="font-black text-sm leading-snug mt-1">{order.delivery_address}</p>
+            {order.customer_notes && (
+              <p className="font-bold text-xs mt-1 border border-black px-1 py-0.5 uppercase tracking-wide">
+                NOTE: {order.customer_notes}
+              </p>
+            )}
+          </div>
+          <div className="border-t border-dashed border-black mt-3 mb-2" />
+        </>
+      )}
+
+      {!order.delivery_address && <div className="border-t border-dashed border-black my-3" />}
       <div className="text-center">
         <p className="font-bold">Thank you for your order!</p>
         <p className="mt-1 text-gray-500">We hope to see you again soon.</p>
