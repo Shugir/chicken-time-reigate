@@ -5,19 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'encrypted-tbn0.gstatic.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.thespruceeats.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.eatatjacks.com',
+        hostname: '**',
       },
     ],
   },
