@@ -49,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#community/Community_None",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,7 +70,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -178,6 +179,16 @@
   },
   "active": "016965df6a95e6b5",
   "lastOpenFiles": [
+    "Kitchen Dashboard Page.md",
+    "API Kitchen Orders Route (GET).md",
+    "route.ts_34.md",
+    "route.ts_33.md",
+    "route.ts_32.md",
+    "page.tsx_29.md",
+    "layout.tsx_18.md",
+    "route.ts_31.md",
+    "route.ts_30.md",
+    "page.tsx_28.md",
     "Category_2.md",
     "on_auth_user_created.md",
     "public.handle_new_user().md",
@@ -194,16 +205,6 @@
     "Order_1.md",
     "OrderItem_2.md",
     "supabase_2.md",
-    "supabase_1.md",
-    "GET()_12.md",
-    "route.ts_29.md",
-    "POST()_8.md",
-    "route.ts_28.md",
-    "GET()_11.md",
-    "GET()_10.md",
-    "POST()_7.md",
-    "GET()_9.md",
-    "DOW_LABELS.md",
     "graph.canvas",
     "Untitled 1.canvas",
     "Untitled.canvas"
