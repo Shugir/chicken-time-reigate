@@ -144,112 +144,9 @@ function AvailabilityToggle({
   )
 }
 
-// ─── Tag Autocomplete ─────────────────────────────────────────────────────────
+// ─── Autocomplete Input (shared by both removals and extras name) ─────────────
 
 const TAG_INPUT_CLS = 'bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red'
-
-function TagAutocomplete({ tags, onChange, suggestions, placeholder }: {
-  tags: string[]
-  onChange: (tags: string[]) => void
-  suggestions: string[]
-  placeholder?: string
-}) {
-  const [input, setInput]       = useState('')
-  const [open, setOpen]         = useState(false)
-  const [activeIdx, setActiveIdx] = useState(-1)
-  const containerRef            = useRef<HTMLDivElement>(null)
-  const inputRef                = useRef<HTMLInputElement>(null)
-  const [rect, setRect]         = useState<DOMRect | null>(null)
-
-  const filtered = suggestions.filter(
-    (s) => (!input.trim() || s.toLowerCase().includes(input.toLowerCase())) && !tags.includes(s),
-  )
-
-  useEffect(() => {
-    if (open && containerRef.current) setRect(containerRef.current.getBoundingClientRect())
-  }, [open, input, tags])
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [])
-
-  function addTag(value: string) {
-    const val = value.trim()
-    if (!val || tags.includes(val)) return
-    onChange([...tags, val])
-    setInput('')
-    setActiveIdx(-1)
-    setOpen(false)
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      activeIdx >= 0 && filtered[activeIdx] ? addTag(filtered[activeIdx]) : addTag(input)
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault(); setActiveIdx((i) => Math.min(i + 1, filtered.length - 1))
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault(); setActiveIdx((i) => Math.max(i - 1, -1))
-    } else if (e.key === 'Escape') {
-      setOpen(false)
-    } else if (e.key === 'Backspace' && !input && tags.length > 0) {
-      onChange(tags.slice(0, -1))
-    }
-  }
-
-  const dropdown = open && filtered.length > 0 && rect
-    ? createPortal(
-        <div
-          style={{ position: 'fixed', top: rect.bottom + 4, left: rect.left, width: rect.width, zIndex: 9999 }}
-          className="bg-zinc-800 border border-zinc-700 rounded-lg shadow-2xl overflow-hidden max-h-48 overflow-y-auto"
-        >
-          {filtered.map((s, i) => (
-            <button
-              key={s}
-              type="button"
-              onMouseDown={(e) => { e.preventDefault(); addTag(s) }}
-              className={`w-full text-left px-3 py-2 text-sm transition-colors ${i === activeIdx ? 'bg-zinc-600 text-white' : 'text-zinc-300 hover:bg-zinc-700'}`}
-            >
-              {s}
-            </button>
-          ))}
-        </div>,
-        document.body,
-      )
-    : null
-
-  return (
-    <div ref={containerRef}>
-      <div
-        className="flex flex-wrap gap-1.5 min-h-[38px] bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1.5 focus-within:ring-1 focus-within:ring-brand-red focus-within:border-brand-red cursor-text"
-        onClick={() => inputRef.current?.focus()}
-      >
-        {tags.map((t) => (
-          <span key={t} className="flex items-center gap-1 bg-zinc-700 text-zinc-200 text-xs px-2 py-0.5 rounded-full shrink-0">
-            {t}
-            <button type="button" onClick={() => onChange(tags.filter((x) => x !== t))} className="text-zinc-500 hover:text-white ml-0.5">
-              <X className="w-3 h-3" />
-            </button>
-          </span>
-        ))}
-        <input
-          ref={inputRef}
-          value={input}
-          onChange={(e) => { setInput(e.target.value); setOpen(true); setActiveIdx(-1) }}
-          onFocus={() => setOpen(true)}
-          onKeyDown={handleKeyDown}
-          placeholder={tags.length === 0 ? placeholder : ''}
-          className="flex-1 min-w-[120px] bg-transparent text-sm text-white placeholder-zinc-500 focus:outline-none py-0.5"
-        />
-      </div>
-      {dropdown}
-    </div>
-  )
-}
 
 // ─── Extra Name Input (autocomplete for extras name field) ────────────────────
 
@@ -359,6 +256,7 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
   )
   const [removals, setRemovals]         = useState<string[]>(() => editingItem?.removals ?? [])
   const [extras, setExtras]             = useState<Extra[]>(() => editingItem?.extras ?? [])
+  const [removalInput, setRemovalInput] = useState('')
   const [extraInput, setExtraInput]     = useState({ name: '', price: '' })
   const [saving, setSaving]             = useState(false)
   const [error, setError]               = useState<string | null>(null)
@@ -376,6 +274,13 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       setForm((f) => ({ ...f, [key]: e.target.value })),
   })
+
+  function addRemoval() {
+    const val = removalInput.trim()
+    if (!val || removals.includes(val)) return
+    setRemovals((prev) => [...prev, val])
+    setRemovalInput('')
+  }
 
   function addExtra() {
     const name = extraInput.name.trim()
@@ -488,14 +393,36 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
           <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
             <div>
               <p className="text-xs font-semibold text-zinc-300">Removable Ingredients</p>
-              <p className="text-[11px] text-zinc-600 mt-0.5">Click a suggestion or type your own, then press Enter</p>
+              <p className="text-[11px] text-zinc-600 mt-0.5">Customers can request these be left out</p>
             </div>
-            <TagAutocomplete
-              tags={removals}
-              onChange={setRemovals}
-              suggestions={suggestions.removals}
-              placeholder="e.g. Pickles, Onions…"
-            />
+            <div className="flex gap-2">
+              <ExtraNameInput
+                value={removalInput}
+                onChange={setRemovalInput}
+                onEnter={addRemoval}
+                suggestions={suggestions.removals}
+                placeholder="e.g. Pickles"
+              />
+              <button
+                type="button"
+                onClick={addRemoval}
+                className="px-3 py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+            {removals.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {removals.map((r) => (
+                  <span key={r} className="flex items-center gap-1 bg-zinc-800 text-zinc-300 text-xs px-2.5 py-1 rounded-full">
+                    {r}
+                    <button type="button" onClick={() => setRemovals((prev) => prev.filter((x) => x !== r))} className="text-zinc-500 hover:text-white ml-0.5">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* ── Priced Extras ── */}
