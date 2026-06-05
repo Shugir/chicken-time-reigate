@@ -1,14 +1,14 @@
 ---
 source_file: "next-env.d.ts"
 type: "code"
-community: "Next.js Type Declarations"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Nextjs_Type_Declarations
+  - community/Community_None
 ---
 
 # next-env.d.ts
 
-#graphify/code #graphify/EXTRACTED #community/Nextjs_Type_Declarations
+#graphify/code #graphify/EXTRACTED #community/Community_None

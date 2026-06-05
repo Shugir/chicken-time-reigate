@@ -1,17 +1,18 @@
 ---
 source_file: "components/ProductModal.tsx"
 type: "code"
-community: "Product Modal & Types"
-location: "L58"
+community: "Community None"
+location: "L62"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Product_Modal__Types
+  - community/Community_None
 ---
 
 # Toggle()
 
 ## Connections
 - [[ProductModal.tsx]] - `contains` [EXTRACTED]
+- [[ProductModal.tsx_1]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Product_Modal__Types
+#graphify/code #graphify/EXTRACTED #community/Community_None

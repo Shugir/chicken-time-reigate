@@ -4,7 +4,10 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
-import { ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer, ArrowLeft, LogOut } from 'lucide-react'
+import {
+  ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer,
+  ArrowLeft, LogOut, Truck, AlertCircle, PackageCheck,
+} from 'lucide-react'
 
 const ALERT_URL = '/KitchenAlert.mp3'
 const MAX_DISPATCHED = 8
@@ -31,6 +34,24 @@ interface Order {
   status: 'preparing' | 'ready' | 'dispatched'
   total_amount: number
   created_at: string
+  order_items: OrderItem[]
+}
+
+interface Driver {
+  id: string
+  name: string
+  phone: string | null
+}
+
+interface DispatchOrder {
+  id: string
+  status: string
+  delivery_status: string
+  failure_reason: string | null
+  total_amount: number
+  created_at: string
+  driver_id: string | null
+  drivers: Driver | null
   order_items: OrderItem[]
 }
 
@@ -144,7 +165,7 @@ function OrderCard({
         </button>
       )}
 
-      {/* Reprint row — conditional by status */}
+      {/* Reprint row */}
       <div className="flex gap-2 border-t border-white/10 pt-3">
         {order.status === 'preparing' && (
           <button
@@ -322,15 +343,32 @@ function CustomerReceipt({ order }: { order: Order }) {
 
 export default function KitchenDashboard() {
   const router = useRouter()
-  const [orders, setOrders] = useState<Order[]>([])
-  const [loading, setLoading] = useState(true)
-  const [updating, setUpdating] = useState<string | null>(null)
-  const [now, setNow] = useState(new Date())
-  const [mounted, setMounted] = useState(false)
+  const [activeTab, setActiveTab] = useState<'kitchen' | 'dispatch'>('kitchen')
+
+  // Kitchen state
+  const [orders, setOrders]           = useState<Order[]>([])
+  const [loading, setLoading]         = useState(true)
+  const [updating, setUpdating]       = useState<string | null>(null)
+
+  // Dispatch state
+  const [dispatchOrders, setDispatchOrders]     = useState<DispatchOrder[]>([])
+  const [dispatchLoading, setDispatchLoading]   = useState(false)
+  const [dispatchUpdating, setDispatchUpdating] = useState<string | null>(null)
+  const [failModalOrder, setFailModalOrder]     = useState<DispatchOrder | null>(null)
+  const [failReason, setFailReason]             = useState('')
+
+  // Driver select modal
+  const [driverModalOrder, setDriverModalOrder] = useState<Order | null>(null)
+  const [availableDrivers, setAvailableDrivers] = useState<Driver[]>([])
+  const [driversLoading, setDriversLoading]     = useState(false)
+
+  // Print
+  const [now, setNow]                 = useState(new Date())
+  const [mounted, setMounted]         = useState(false)
   const [audioUnlocked, setAudioUnlocked] = useState(false)
-  const [printOrder, setPrintOrder] = useState<Order | null>(null)
-  const [printMode, setPrintMode] = useState<'kitchen' | 'customer' | null>(null)
-  const audioUnlockedRef = useRef(false)
+  const [printOrder, setPrintOrder]   = useState<Order | null>(null)
+  const [printMode, setPrintMode]     = useState<'kitchen' | 'customer' | null>(null)
+  const audioUnlockedRef              = useRef(false)
 
   async function handleSignOut() {
     await supabase.auth.signOut()
@@ -375,6 +413,13 @@ export default function KitchenDashboard() {
     setLoading(false)
   }, [])
 
+  const fetchDispatchOrders = useCallback(async () => {
+    setDispatchLoading(true)
+    const res = await fetch('/api/kitchen/delivery')
+    if (res.ok) setDispatchOrders(await res.json())
+    setDispatchLoading(false)
+  }, [])
+
   useEffect(() => {
     fetchOrders()
 
@@ -384,7 +429,7 @@ export default function KitchenDashboard() {
         'postgres_changes',
         { event: 'UPDATE', schema: 'public', table: 'orders' },
         (payload) => {
-          const updated = payload.new as { id: string; status: string }
+          const updated = payload.new as { id: string; status: string; delivery_status?: string }
           if (updated.status === 'preparing') {
             playAlert()
             fetchOrders()
@@ -396,6 +441,8 @@ export default function KitchenDashboard() {
             setOrders((prev) =>
               prev.map((o) => o.id === updated.id ? { ...o, status: 'dispatched' as const } : o),
             )
+            // Refresh dispatch tab if it shows this order
+            if (updated.delivery_status === 'out_for_delivery') fetchDispatchOrders()
           } else {
             setOrders((prev) => prev.filter((o) => o.id !== updated.id))
           }
@@ -404,7 +451,11 @@ export default function KitchenDashboard() {
       .subscribe()
 
     return () => { supabase.removeChannel(channel) }
-  }, [fetchOrders])
+  }, [fetchOrders, fetchDispatchOrders])
+
+  useEffect(() => {
+    if (activeTab === 'dispatch') fetchDispatchOrders()
+  }, [activeTab, fetchDispatchOrders])
 
   async function updateStatus(id: string, status: 'ready' | 'dispatched') {
     setUpdating(id)
@@ -416,8 +467,29 @@ export default function KitchenDashboard() {
     setUpdating(null)
   }
 
-  async function dispatchAndPrint(order: Order) {
-    updateStatus(order.id, 'dispatched')
+  async function openDriverModal(order: Order) {
+    setDriverModalOrder(order)
+    setDriversLoading(true)
+    const res = await fetch('/api/drivers')
+    if (res.ok) setAvailableDrivers(await res.json())
+    setDriversLoading(false)
+  }
+
+  async function handleDispatch(driver: Driver) {
+    if (!driverModalOrder) return
+    const order = driverModalOrder
+    setDriverModalOrder(null)
+    setUpdating(order.id)
+    await fetch(`/api/kitchen/orders/${order.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        status:          'dispatched',
+        driver_id:       driver.id,
+        delivery_status: 'out_for_delivery',
+      }),
+    })
+    setUpdating(null)
     setPrintOrder(order)
     setPrintMode('customer')
   }
@@ -425,6 +497,30 @@ export default function KitchenDashboard() {
   function triggerReprint(order: Order, mode: 'kitchen' | 'customer') {
     setPrintOrder(order)
     setPrintMode(mode)
+  }
+
+  async function handleDelivered(order: DispatchOrder) {
+    setDispatchUpdating(order.id)
+    await fetch(`/api/kitchen/delivery/${order.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ delivery_status: 'delivered' }),
+    })
+    setDispatchUpdating(null)
+    fetchDispatchOrders()
+  }
+
+  async function handleFailed(order: DispatchOrder, reason: string) {
+    setDispatchUpdating(order.id)
+    await fetch(`/api/kitchen/delivery/${order.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ delivery_status: 'failed', failure_reason: reason }),
+    })
+    setDispatchUpdating(null)
+    setFailModalOrder(null)
+    setFailReason('')
+    fetchDispatchOrders()
   }
 
   const preparing  = orders.filter((o) => o.status === 'preparing')
@@ -437,7 +533,6 @@ export default function KitchenDashboard() {
   return (
     <div className="fixed inset-0 z-[200] bg-[#0d0d0d] overflow-hidden flex flex-col">
 
-      {/* Kanban — hidden during print */}
       <div className="contents print:hidden">
 
         {/* Top bar */}
@@ -451,6 +546,38 @@ export default function KitchenDashboard() {
               <p className="text-xs text-white/40 mt-0.5">Chicken Time Reigate</p>
             </div>
           </div>
+
+          {/* Tabs */}
+          <div className="flex items-center gap-1 bg-white/5 rounded-xl p-1">
+            <button
+              onClick={() => setActiveTab('kitchen')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
+                activeTab === 'kitchen'
+                  ? 'bg-white/10 text-white'
+                  : 'text-white/40 hover:text-white/70'
+              }`}
+            >
+              <ChefHat size={14} />
+              Kitchen
+            </button>
+            <button
+              onClick={() => setActiveTab('dispatch')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
+                activeTab === 'dispatch'
+                  ? 'bg-white/10 text-white'
+                  : 'text-white/40 hover:text-white/70'
+              }`}
+            >
+              <Truck size={14} />
+              Dispatch
+              {dispatchOrders.length > 0 && (
+                <span className="w-4 h-4 rounded-full bg-sky-500 text-white text-[10px] font-black flex items-center justify-center">
+                  {dispatchOrders.length}
+                </span>
+              )}
+            </button>
+          </div>
+
           <div className="flex items-center gap-3">
             <button
               onClick={toggleAudio}
@@ -465,7 +592,6 @@ export default function KitchenDashboard() {
               {audioUnlocked ? 'Alerts On' : 'Unmute Alerts'}
             </button>
 
-            {/* Back to Admin */}
             <Link
               href="/admin/dashboard"
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-colors"
@@ -474,7 +600,6 @@ export default function KitchenDashboard() {
               Admin
             </Link>
 
-            {/* Sign Out */}
             <button
               onClick={handleSignOut}
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold bg-brand-red/20 text-red-400 hover:bg-brand-red hover:text-white transition-colors"
@@ -494,105 +619,350 @@ export default function KitchenDashboard() {
           </div>
         </header>
 
-        {/* 3-column Kanban */}
-        <div className="flex-1 grid grid-cols-3 gap-0 overflow-hidden">
+        {/* ── Kitchen Tab ── */}
+        {activeTab === 'kitchen' && (
+          <div className="flex-1 grid grid-cols-3 gap-0 overflow-hidden">
 
-          {/* Preparing */}
-          <div className="flex flex-col border-r border-white/10 overflow-hidden">
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-brand-red/30 bg-brand-red/5 shrink-0">
-              <span className="w-3 h-3 rounded-full bg-brand-red animate-pulse" />
-              <h2 className="font-black text-white text-sm uppercase tracking-widest">Preparing</h2>
-              <span className="ml-auto bg-brand-red text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">
-                {preparing.length}
-              </span>
+            {/* Preparing */}
+            <div className="flex flex-col border-r border-white/10 overflow-hidden">
+              <div className="flex items-center gap-3 px-6 py-4 border-b border-brand-red/30 bg-brand-red/5 shrink-0">
+                <span className="w-3 h-3 rounded-full bg-brand-red animate-pulse" />
+                <h2 className="font-black text-white text-sm uppercase tracking-widest">Preparing</h2>
+                <span className="ml-auto bg-brand-red text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">
+                  {preparing.length}
+                </span>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {loading ? (
+                  <p className="text-white/30 text-sm text-center pt-12">Loading…</p>
+                ) : preparing.length === 0 ? (
+                  <p className="text-white/20 text-sm text-center pt-12">No orders preparing</p>
+                ) : (
+                  preparing.map((order) => (
+                    <OrderCard
+                      key={order.id}
+                      order={order}
+                      onAction={() => updateStatus(order.id, 'ready')}
+                      actionLabel="Mark Ready"
+                      actionStyle="bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg shadow-emerald-900/40"
+                      updating={updating === order.id}
+                      onReprintKitchen={() => triggerReprint(order, 'kitchen')}
+                      onReprintCustomer={() => triggerReprint(order, 'customer')}
+                    />
+                  ))
+                )}
+              </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              {loading ? (
-                <p className="text-white/30 text-sm text-center pt-12">Loading…</p>
-              ) : preparing.length === 0 ? (
-                <p className="text-white/20 text-sm text-center pt-12">No orders preparing</p>
-              ) : (
-                preparing.map((order) => (
-                  <OrderCard
-                    key={order.id}
-                    order={order}
-                    onAction={() => updateStatus(order.id, 'ready')}
-                    actionLabel="Mark Ready"
-                    actionStyle="bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg shadow-emerald-900/40"
-                    updating={updating === order.id}
-                    onReprintKitchen={() => triggerReprint(order, 'kitchen')}
-                    onReprintCustomer={() => triggerReprint(order, 'customer')}
-                  />
-                ))
-              )}
+
+            {/* Ready */}
+            <div className="flex flex-col border-r border-white/10 overflow-hidden">
+              <div className="flex items-center gap-3 px-6 py-4 border-b border-emerald-500/30 bg-emerald-500/5 shrink-0">
+                <span className="w-3 h-3 rounded-full bg-emerald-400" />
+                <h2 className="font-black text-white text-sm uppercase tracking-widest">Ready</h2>
+                <span className="ml-auto bg-emerald-500 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">
+                  {ready.length}
+                </span>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {loading ? (
+                  <p className="text-white/30 text-sm text-center pt-12">Loading…</p>
+                ) : ready.length === 0 ? (
+                  <p className="text-white/20 text-sm text-center pt-12">No orders ready</p>
+                ) : (
+                  ready.map((order) => (
+                    <OrderCard
+                      key={order.id}
+                      order={order}
+                      onAction={() => openDriverModal(order)}
+                      actionLabel="Dispatch & Print"
+                      actionStyle="bg-sky-500 hover:bg-sky-400 text-white shadow-lg shadow-sky-900/40"
+                      updating={updating === order.id}
+                      onReprintKitchen={() => triggerReprint(order, 'kitchen')}
+                      onReprintCustomer={() => triggerReprint(order, 'customer')}
+                    />
+                  ))
+                )}
+              </div>
             </div>
+
+            {/* Recently Dispatched */}
+            <div className="flex flex-col overflow-hidden">
+              <div className="flex items-center gap-3 px-6 py-4 border-b border-white/10 bg-white/[0.02] shrink-0">
+                <span className="w-3 h-3 rounded-full bg-white/20" />
+                <h2 className="font-black text-white/50 text-sm uppercase tracking-widest">Dispatched</h2>
+                <span className="ml-auto bg-white/10 text-white/40 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">
+                  {dispatched.length}
+                </span>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {loading ? (
+                  <p className="text-white/30 text-sm text-center pt-12">Loading…</p>
+                ) : dispatched.length === 0 ? (
+                  <p className="text-white/20 text-sm text-center pt-12">No recent dispatches</p>
+                ) : (
+                  dispatched.map((order) => (
+                    <OrderCard
+                      key={order.id}
+                      order={order}
+                      updating={false}
+                      onReprintKitchen={() => triggerReprint(order, 'kitchen')}
+                      onReprintCustomer={() => triggerReprint(order, 'customer')}
+                    />
+                  ))
+                )}
+              </div>
+            </div>
+
           </div>
+        )}
 
-          {/* Ready */}
-          <div className="flex flex-col border-r border-white/10 overflow-hidden">
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-emerald-500/30 bg-emerald-500/5 shrink-0">
-              <span className="w-3 h-3 rounded-full bg-emerald-400" />
-              <h2 className="font-black text-white text-sm uppercase tracking-widest">Ready</h2>
-              <span className="ml-auto bg-emerald-500 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">
-                {ready.length}
-              </span>
+        {/* ── Dispatch Tab ── */}
+        {activeTab === 'dispatch' && (
+          <div className="flex-1 overflow-auto p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-lg font-black text-white">Dispatch Controller</h2>
+                <p className="text-xs text-white/40 mt-0.5">Orders currently out for delivery</p>
+              </div>
+              <button
+                onClick={fetchDispatchOrders}
+                disabled={dispatchLoading}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
+              >
+                <RefreshCw size={13} className={dispatchLoading ? 'animate-spin' : ''} />
+                Refresh
+              </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              {loading ? (
-                <p className="text-white/30 text-sm text-center pt-12">Loading…</p>
-              ) : ready.length === 0 ? (
-                <p className="text-white/20 text-sm text-center pt-12">No orders ready</p>
-              ) : (
-                ready.map((order) => (
-                  <OrderCard
-                    key={order.id}
-                    order={order}
-                    onAction={() => dispatchAndPrint(order)}
-                    actionLabel="Dispatch & Print"
-                    actionStyle="bg-sky-500 hover:bg-sky-400 text-white shadow-lg shadow-sky-900/40"
-                    updating={updating === order.id}
-                    onReprintKitchen={() => triggerReprint(order, 'kitchen')}
-                    onReprintCustomer={() => triggerReprint(order, 'customer')}
-                  />
-                ))
-              )}
-            </div>
+
+            {dispatchLoading ? (
+              <div className="flex items-center justify-center h-64">
+                <RefreshCw size={28} className="text-white/20 animate-spin" />
+              </div>
+            ) : dispatchOrders.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-64 text-center">
+                <Truck size={40} className="text-white/10 mb-3" />
+                <p className="text-white/30 text-sm font-bold">No orders out for delivery</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 max-w-5xl">
+                {dispatchOrders.map((order) => (
+                  <div key={order.id} className="bg-[#1a1a1a] rounded-2xl border border-white/10 p-5 flex flex-col gap-4">
+                    {/* Header */}
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-xs text-white/40 font-mono uppercase tracking-widest mb-1">Order</p>
+                        <p className="font-mono font-bold text-white text-lg tracking-wider">
+                          #{order.id.slice(-6).toUpperCase()}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1.5 bg-sky-500/10 rounded-lg px-3 py-1.5 text-xs text-sky-400">
+                        <Truck size={11} />
+                        <span className="font-mono tabular-nums">{elapsed(order.created_at)}</span>
+                      </div>
+                    </div>
+
+                    {/* Driver */}
+                    {order.drivers && (
+                      <div className="flex items-center gap-2 bg-white/5 rounded-xl px-3 py-2">
+                        <Truck size={14} className="text-sky-400 shrink-0" />
+                        <div>
+                          <p className="text-sm font-bold text-white leading-none">{order.drivers.name}</p>
+                          {order.drivers.phone && (
+                            <p className="text-xs text-white/40 mt-0.5">{order.drivers.phone}</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Items summary */}
+                    <div className="border-t border-white/10 pt-3 space-y-1">
+                      {order.order_items.slice(0, 3).map((item) => (
+                        <div key={item.id} className="flex justify-between text-xs">
+                          <span className="text-white/70">
+                            <span className="text-brand-red font-black">{item.quantity}×</span> {item.item_name ?? 'Item'}
+                          </span>
+                          <span className="text-white/40">£{(item.unit_price * item.quantity).toFixed(2)}</span>
+                        </div>
+                      ))}
+                      {order.order_items.length > 3 && (
+                        <p className="text-xs text-white/30">+{order.order_items.length - 3} more items</p>
+                      )}
+                    </div>
+
+                    {/* Total */}
+                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                      <span className="text-xs text-white/40">Total</span>
+                      <span className="font-black text-white text-base">£{Number(order.total_amount).toFixed(2)}</span>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleDelivered(order)}
+                        disabled={dispatchUpdating === order.id}
+                        className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-black transition-colors disabled:opacity-50"
+                      >
+                        {dispatchUpdating === order.id ? (
+                          <RefreshCw size={14} className="animate-spin" />
+                        ) : (
+                          <PackageCheck size={14} />
+                        )}
+                        Delivered
+                      </button>
+                      <button
+                        onClick={() => { setFailModalOrder(order); setFailReason('') }}
+                        disabled={dispatchUpdating === order.id}
+                        className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 text-sm font-black transition-colors disabled:opacity-50"
+                      >
+                        <AlertCircle size={14} />
+                        Failed
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+        )}
 
-          {/* Recently Dispatched */}
-          <div className="flex flex-col overflow-hidden">
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-white/10 bg-white/[0.02] shrink-0">
-              <span className="w-3 h-3 rounded-full bg-white/20" />
-              <h2 className="font-black text-white/50 text-sm uppercase tracking-widest">Dispatched</h2>
-              <span className="ml-auto bg-white/10 text-white/40 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">
-                {dispatched.length}
-              </span>
-            </div>
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              {loading ? (
-                <p className="text-white/30 text-sm text-center pt-12">Loading…</p>
-              ) : dispatched.length === 0 ? (
-                <p className="text-white/20 text-sm text-center pt-12">No recent dispatches</p>
-              ) : (
-                dispatched.map((order) => (
-                  <OrderCard
-                    key={order.id}
-                    order={order}
-                    updating={false}
-                    onReprintKitchen={() => triggerReprint(order, 'kitchen')}
-                    onReprintCustomer={() => triggerReprint(order, 'customer')}
-                  />
-                ))
-              )}
-            </div>
-          </div>
-
-        </div>
       </div>
 
       {/* Receipts — only visible during print */}
       {printOrder && printMode === 'kitchen'  && <KitchenTicket order={printOrder} />}
       {printOrder && printMode === 'customer' && <CustomerReceipt order={printOrder} />}
+
+      {/* ── Driver Select Modal ── */}
+      {driverModalOrder && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="bg-[#1a1a1a] border border-white/15 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <p className="font-black text-white text-base">Select Driver</p>
+                <p className="text-xs text-white/40 mt-0.5">
+                  Order #{driverModalOrder.id.slice(-6).toUpperCase()}
+                </p>
+              </div>
+              <button
+                onClick={() => setDriverModalOrder(null)}
+                className="p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {driversLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <RefreshCw size={20} className="text-white/30 animate-spin" />
+              </div>
+            ) : availableDrivers.length === 0 ? (
+              <div className="text-center py-8">
+                <Truck size={32} className="text-white/20 mx-auto mb-2" />
+                <p className="text-white/40 text-sm">No available drivers</p>
+                <p className="text-white/20 text-xs mt-1">All drivers are currently on delivery</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {availableDrivers.map((driver) => (
+                  <button
+                    key={driver.id}
+                    onClick={() => handleDispatch(driver)}
+                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-sky-500/30 transition-all text-left group"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-sky-500/20 flex items-center justify-center shrink-0 group-hover:bg-sky-500/30 transition-colors">
+                      <Truck size={16} className="text-sky-400" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-white text-sm">{driver.name}</p>
+                      {driver.phone && (
+                        <p className="text-xs text-white/40">{driver.phone}</p>
+                      )}
+                    </div>
+                    <span className="ml-auto text-xs text-sky-400 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                      Select →
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <button
+              onClick={() => setDriverModalOrder(null)}
+              className="w-full mt-4 py-2.5 rounded-xl border border-white/10 text-white/40 hover:text-white text-sm font-bold transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Fail Reason Modal ── */}
+      {failModalOrder && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="bg-[#1a1a1a] border border-white/15 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <p className="font-black text-white text-base">Mark as Failed</p>
+                <p className="text-xs text-white/40 mt-0.5">
+                  Order #{failModalOrder.id.slice(-6).toUpperCase()}
+                </p>
+              </div>
+              <button
+                onClick={() => setFailModalOrder(null)}
+                className="p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            <p className="text-sm text-white/60 mb-3">Reason for failure:</p>
+
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {['No Answer', 'Wrong Address', 'Damaged', 'Refused Delivery'].map((reason) => (
+                <button
+                  key={reason}
+                  onClick={() => setFailReason(reason)}
+                  className={`py-2.5 rounded-xl text-xs font-bold transition-colors border ${
+                    failReason === reason
+                      ? 'bg-red-500/30 border-red-500/50 text-red-300'
+                      : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white/80'
+                  }`}
+                >
+                  {reason}
+                </button>
+              ))}
+            </div>
+
+            <input
+              type="text"
+              value={failReason}
+              onChange={(e) => setFailReason(e.target.value)}
+              placeholder="Or type a custom reason…"
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white text-sm placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-red-500 mb-4"
+            />
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setFailModalOrder(null)}
+                className="flex-1 py-3 rounded-xl border border-white/10 text-white/40 hover:text-white text-sm font-bold transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => failReason.trim() && handleFailed(failModalOrder, failReason.trim())}
+                disabled={!failReason.trim() || dispatchUpdating === failModalOrder.id}
+                className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-400 text-white text-sm font-black transition-colors disabled:opacity-40 flex items-center justify-center gap-2"
+              >
+                {dispatchUpdating === failModalOrder.id ? (
+                  <RefreshCw size={14} className="animate-spin" />
+                ) : (
+                  <AlertCircle size={14} />
+                )}
+                Confirm Failed
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   )

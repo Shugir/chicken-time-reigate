@@ -1,12 +1,12 @@
 ---
 source_file: "app/page.tsx"
 type: "code"
-community: "Landing Page Semantic"
+community: "Community None"
 location: "lines 5-9"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Landing_Page_Semantic
+  - community/Community_None
 ---
 
 # Oswald Font (Landing Page)
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[Landing Page]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Landing_Page_Semantic
+#graphify/code #graphify/EXTRACTED #community/Community_None

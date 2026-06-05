@@ -1,19 +1,19 @@
 ---
 source_file: "next-env.d.ts"
 type: "code"
-community: "Next.js Type System"
+community: "Community None"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Nextjs_Type_System
+  - community/Community_None
 ---
 
 # Next.js Type Declarations
 
 ## Connections
 - [[.nextdevtypesroutes.d.ts]] - `references` [EXTRACTED]
-- [[Next.js Breaking Changes Warning_1]] - `rationale_for` [INFERRED]
+- [[Next.js Breaking Changes Warning]] - `rationale_for` [INFERRED]
 - [[next (type reference)]] - `references` [EXTRACTED]
 - [[nextimage-typesglobal (type reference)]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Nextjs_Type_System
+#graphify/code #graphify/EXTRACTED #community/Community_None

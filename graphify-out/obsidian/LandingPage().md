@@ -1,12 +1,12 @@
 ---
 source_file: "app/page.tsx"
 type: "code"
-community: "Landing Page Components"
-location: "L79"
+community: "Community None"
+location: "L80"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Landing_Page_Components
+  - community/Community_None
 ---
 
 # LandingPage()
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[page.tsx]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Landing_Page_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

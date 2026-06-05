@@ -1,12 +1,12 @@
 ---
 source_file: "package.json"
 type: "code"
-community: "Runtime Dependencies"
-location: "L13"
+community: "Community None"
+location: "L14"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Runtime_Dependencies
+  - community/Community_None
 ---
 
 # lucide-react
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[dependencies]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Runtime_Dependencies
+#graphify/code #graphify/EXTRACTED #community/Community_None

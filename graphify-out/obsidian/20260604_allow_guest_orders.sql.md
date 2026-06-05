@@ -1,0 +1,16 @@
+---
+source_file: "supabase/migrations/20260604_allow_guest_orders.sql"
+type: "code"
+community: "Community None"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Community_None
+---
+
+# 20260604_allow_guest_orders.sql
+
+## Connections
+- [[orders_1]] - `contains` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,17 +1,18 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "supabase/migrations/20260603_initial_schema.sql"
 type: "code"
-community: "Product Modal & Types"
-location: "L36"
+community: "Community None"
+location: "L29"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Product_Modal__Types
+  - community/Community_None
 ---
 
-# MENU_ITEMS
+# menu_items
 
 ## Connections
-- [[page.tsx_3]] - `contains` [EXTRACTED]
+- [[20260603_initial_schema.sql]] - `contains` [EXTRACTED]
+- [[order_items]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Product_Modal__Types
+#graphify/code #graphify/EXTRACTED #community/Community_None

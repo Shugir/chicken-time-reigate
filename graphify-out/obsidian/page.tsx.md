@@ -1,12 +1,12 @@
 ---
 source_file: "app/page.tsx"
 type: "code"
-community: "Landing Page Components"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Landing_Page_Components
+  - community/Community_None
 ---
 
 # page.tsx
@@ -17,4 +17,4 @@ tags:
 - [[REASONS]] - `contains` [EXTRACTED]
 - [[oswald]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Landing_Page_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

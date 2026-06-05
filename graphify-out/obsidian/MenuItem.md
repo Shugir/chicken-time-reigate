@@ -1,17 +1,19 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "app/admin/page.tsx"
 type: "code"
-community: "Product Modal & Types"
-location: "L21"
+community: "Community None"
+location: "L32"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Product_Modal__Types
+  - community/Community_None
 ---
 
 # MenuItem
 
 ## Connections
-- [[page.tsx_3]] - `contains` [EXTRACTED]
+- [[page.tsx_2]] - `contains` [EXTRACTED]
+- [[page.tsx_17]] - `contains` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Product_Modal__Types
+#graphify/code #graphify/EXTRACTED #community/Community_None

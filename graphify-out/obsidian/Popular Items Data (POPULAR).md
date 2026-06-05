@@ -1,12 +1,12 @@
 ---
 source_file: "app/page.tsx"
 type: "code"
-community: "Landing Page Semantic"
+community: "Community None"
 location: "lines 13-54"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Landing_Page_Semantic
+  - community/Community_None
 ---
 
 # Popular Items Data (POPULAR)
@@ -15,4 +15,4 @@ tags:
 - [[Landing Page]] - `references` [EXTRACTED]
 - [[MENU_ITEMS Static Data]] - `semantically_similar_to` [INFERRED]
 
-#graphify/code #graphify/EXTRACTED #community/Landing_Page_Semantic
+#graphify/code #graphify/EXTRACTED #community/Community_None

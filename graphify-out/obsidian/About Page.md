@@ -1,11 +1,11 @@
 ---
 source_file: "app/about/page.tsx"
 type: "code"
-community: "About Page Semantic"
+community: "Community None"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/About_Page_Semantic
+  - community/Community_None
 ---
 
 # About Page
@@ -14,4 +14,4 @@ tags:
 - [[About Stats Data (STATS)]] - `references` [EXTRACTED]
 - [[Brand Values Data (VALUES)]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/About_Page_Semantic
+#graphify/code #graphify/EXTRACTED #community/Community_None

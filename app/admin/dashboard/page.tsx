@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
+  LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag, Truck,
   TrendingUp, ShoppingBag, BarChart3, Loader2, RefreshCw, ExternalLink,
 } from 'lucide-react'
 import SignOutButton from '@/components/admin/sign-out-button'
@@ -35,6 +35,7 @@ const NAV = [
   { id: 'settings',   label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
   { id: 'delivery',   label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
   { id: 'promotions', label: 'Promotions',     icon: <Tag className="w-4 h-4" />,              href: '/admin/promotions' },
+  { id: 'drivers',    label: 'Fleet & Drivers', icon: <Truck className="w-4 h-4" />,           href: '/admin/drivers' },
 ]
 
 const STATUS_STYLES: Record<string, string> = {

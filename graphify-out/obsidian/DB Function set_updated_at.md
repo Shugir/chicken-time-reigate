@@ -1,12 +1,12 @@
 ---
 source_file: "supabase/migrations/20260603_initial_schema.sql"
 type: "code"
-community: "Supabase Database Schema"
+community: "Community None"
 location: "lines 80-86"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Supabase_Database_Schema
+  - community/Community_None
 ---
 
 # DB Function: set_updated_at
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[Initial DB Schema Migration]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Supabase_Database_Schema
+#graphify/code #graphify/EXTRACTED #community/Community_None

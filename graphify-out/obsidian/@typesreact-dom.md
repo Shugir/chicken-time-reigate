@@ -1,12 +1,12 @@
 ---
 source_file: "package.json"
 type: "code"
-community: "Dev Dependencies"
-location: "L23"
+community: "Community None"
+location: "L24"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Dev_Dependencies
+  - community/Community_None
 ---
 
 # @types/react-dom
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[devDependencies]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Dev_Dependencies
+#graphify/code #graphify/EXTRACTED #community/Community_None

@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a38a99fd3b8b70b4",
+        "id": "c1b45b3091f4baa9",
         "type": "tabs",
         "children": [
           {
-            "id": "8e574165ebe0b620",
+            "id": "016965df6a95e6b5",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -176,11 +176,35 @@
       "bases:Create new base": false
     }
   },
-  "active": "8e574165ebe0b620",
+  "active": "016965df6a95e6b5",
   "lastOpenFiles": [
-    "organization_id.md",
+    "Supabase Admin Client.md",
+    "page.tsx_23.md",
+    "page.tsx_22.md",
+    "route.ts_23.md",
+    "route.ts_22.md",
+    "route.ts_21.md",
+    "orders_3.md",
+    "drivers.md",
+    "20260617_fleet.sql.md",
+    "staff_permissions.md",
+    "20260613_staff_permissions.sql.md",
+    "hasPermission().md",
+    "getUserPermissions.md",
+    "UserPermissions.md",
+    "get-user-permissions.ts.md",
+    "PermissionsProvider().md",
+    "usePermissions().md",
+    "PermissionsContext.md",
+    "PermissionsContextType.md",
+    "permissions-provider.tsx.md",
+    "AdminSidebar().md",
+    "ALL_NAV.md",
+    "admin-sidebar.tsx.md",
+    "AccessDenied().md",
+    "access-denied.tsx.md",
+    "DispatchOrder.md",
     "graph.canvas",
-    "2026-06-03.md",
     "Untitled 1.canvas",
     "Untitled.canvas"
   ]

@@ -1,11 +1,11 @@
 ---
 source_file: "public/file.svg"
 type: "image"
-community: "Document Icon Asset"
+community: "Community None"
 tags:
   - graphify/image
   - graphify/EXTRACTED
-  - community/Document_Icon_Asset
+  - community/Community_None
 ---
 
 # Gray Color Styling (#666)
@@ -13,4 +13,4 @@ tags:
 ## Connections
 - [[FileDocument Icon SVG]] - `styled_with` [EXTRACTED]
 
-#graphify/image #graphify/EXTRACTED #community/Document_Icon_Asset
+#graphify/image #graphify/EXTRACTED #community/Community_None

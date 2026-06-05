@@ -1,12 +1,12 @@
 ---
 source_file: "package.json"
 type: "code"
-community: "Runtime Dependencies"
-location: "L17"
+community: "Community None"
+location: "L18"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Runtime_Dependencies
+  - community/Community_None
 ---
 
 # stripe
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[dependencies]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Runtime_Dependencies
+#graphify/code #graphify/EXTRACTED #community/Community_None

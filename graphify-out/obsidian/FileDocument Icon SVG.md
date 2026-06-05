@@ -1,11 +1,11 @@
 ---
 source_file: "public/file.svg"
 type: "image"
-community: "Document Icon Asset"
+community: "Community None"
 tags:
   - graphify/image
   - graphify/EXTRACTED
-  - community/Document_Icon_Asset
+  - community/Community_None
 ---
 
 # File/Document Icon SVG
@@ -17,4 +17,4 @@ tags:
 - [[Text Line Indicators]] - `contains` [EXTRACTED]
 - [[UI Icon Asset]] - `is_a` [INFERRED]
 
-#graphify/image #graphify/EXTRACTED #community/Document_Icon_Asset
+#graphify/image #graphify/EXTRACTED #community/Community_None

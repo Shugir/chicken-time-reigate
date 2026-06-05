@@ -1,12 +1,12 @@
 ---
 source_file: "package.json"
 type: "code"
-community: "Dev Dependencies"
-location: "L19"
+community: "Community None"
+location: "L20"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Dev_Dependencies
+  - community/Community_None
 ---
 
 # devDependencies
@@ -18,8 +18,9 @@ tags:
 - [[@typesreact-dom]] - `contains` [EXTRACTED]
 - [[eslint]] - `contains` [EXTRACTED]
 - [[eslint-config-next]] - `contains` [EXTRACTED]
+- [[eslint.config.mjs]] - `contains` [EXTRACTED]
 - [[package.json]] - `contains` [EXTRACTED]
 - [[tailwindcss]] - `contains` [EXTRACTED]
 - [[typescript]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Dev_Dependencies
+#graphify/code #graphify/EXTRACTED #community/Community_None

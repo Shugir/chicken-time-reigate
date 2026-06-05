@@ -1,12 +1,12 @@
 ---
 source_file: "app/layout.tsx"
 type: "code"
-community: "App Shell"
+community: "Community None"
 location: "lines 5-19"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/App_Shell
+  - community/Community_None
 ---
 
 # Geist & Inter Google Fonts
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[Root Layout]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/App_Shell
+#graphify/code #graphify/EXTRACTED #community/Community_None

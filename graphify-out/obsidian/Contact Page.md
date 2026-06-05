@@ -1,11 +1,11 @@
 ---
 source_file: "app/contact/page.tsx"
 type: "code"
-community: "Contact Page Structure"
+community: "Community None"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Contact_Page_Structure
+  - community/Community_None
 ---
 
 # Contact Page
@@ -14,5 +14,6 @@ tags:
 - [[FormState Type]] - `references` [EXTRACTED]
 - [[InputField Component]] - `calls` [EXTRACTED]
 - [[Opening Hours Data (HOURS)]] - `references` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Contact_Page_Structure
+#graphify/code #graphify/EXTRACTED #community/Community_None

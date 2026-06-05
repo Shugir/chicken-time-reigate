@@ -1,12 +1,12 @@
 ---
 source_file: "next-env.d.ts"
 type: "code"
-community: "Next.js Type System"
+community: "Community None"
 location: "line 1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Nextjs_Type_System
+  - community/Community_None
 ---
 
 # next (type reference)
@@ -15,4 +15,4 @@ tags:
 - [[Next.js Docs in node_modules]] - `rationale_for` [INFERRED]
 - [[Next.js Type Declarations]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Nextjs_Type_System
+#graphify/code #graphify/EXTRACTED #community/Community_None

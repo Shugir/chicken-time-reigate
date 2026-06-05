@@ -1,12 +1,12 @@
 ---
 source_file: "package.json"
 type: "code"
-community: "Dev Dependencies"
+community: "Community None"
 location: "L7"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Dev_Dependencies
+  - community/Community_None
 ---
 
 # build
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[scripts]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Dev_Dependencies
+#graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,32 +1,29 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "app/admin/dashboard/page.tsx"
 type: "code"
-community: "Product Modal & Types"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Product_Modal__Types
+  - community/Community_None
 ---
 
 # page.tsx
 
 ## Connections
-- [[BADGE_STYLES]] - `contains` [EXTRACTED]
-- [[CATEGORIES]] - `contains` [EXTRACTED]
-- [[Cart]] - `contains` [EXTRACTED]
-- [[CartDrawer()]] - `contains` [EXTRACTED]
-- [[Category]] - `contains` [EXTRACTED]
-- [[IconComponent]] - `contains` [EXTRACTED]
-- [[MENU_ITEMS]] - `contains` [EXTRACTED]
-- [[MenuCard()]] - `contains` [EXTRACTED]
-- [[MenuItem]] - `contains` [EXTRACTED]
-- [[OrderPage()]] - `contains` [EXTRACTED]
-- [[OrderSelection]] - `imports` [EXTRACTED]
-- [[ProductItem]] - `imports` [EXTRACTED]
-- [[ProductModal()]] - `imports` [EXTRACTED]
-- [[ProductModal.tsx]] - `imports_from` [EXTRACTED]
-- [[cartCount()]] - `contains` [EXTRACTED]
-- [[cartTotal()]] - `contains` [EXTRACTED]
+- [[DashboardData]] - `contains` [EXTRACTED]
+- [[DashboardPage()]] - `contains` [EXTRACTED]
+- [[NAV_1]] - `contains` [EXTRACTED]
+- [[OrderItem]] - `contains` [EXTRACTED]
+- [[RecentOrder]] - `contains` [EXTRACTED]
+- [[STATUS_DOTS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES]] - `contains` [EXTRACTED]
+- [[StatCard()]] - `contains` [EXTRACTED]
+- [[formatItems()]] - `contains` [EXTRACTED]
+- [[formatTime()]] - `contains` [EXTRACTED]
+- [[shortId()]] - `contains` [EXTRACTED]
+- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[todayLabel()]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Product_Modal__Types
+#graphify/code #graphify/EXTRACTED #community/Community_None

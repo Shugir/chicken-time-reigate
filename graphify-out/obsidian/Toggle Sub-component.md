@@ -1,12 +1,12 @@
 ---
 source_file: "components/ProductModal.tsx"
 type: "code"
-community: "Order Menu Components"
+community: "Community None"
 location: "lines 58-71"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Order_Menu_Components
+  - community/Community_None
 ---
 
 # Toggle Sub-component
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[ProductModal Component]] - `calls` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Order_Menu_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

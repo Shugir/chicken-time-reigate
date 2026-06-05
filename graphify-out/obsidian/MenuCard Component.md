@@ -1,18 +1,18 @@
 ---
 source_file: "app/order/page.tsx"
 type: "code"
-community: "Order Menu Components"
+community: "Community None"
 location: "lines 194-259"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Order_Menu_Components
+  - community/Community_None
 ---
 
 # MenuCard Component
 
 ## Connections
-- [[Order Page]] - `calls` [EXTRACTED]
+- [[Order Page]] - `references` [EXTRACTED]
 - [[ProductItem Interface]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Order_Menu_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

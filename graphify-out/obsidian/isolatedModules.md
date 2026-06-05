@@ -1,12 +1,12 @@
 ---
 source_file: "tsconfig.json"
 type: "code"
-community: "TypeScript Compiler Options"
+community: "Community None"
 location: "L13"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/TypeScript_Compiler_Options
+  - community/Community_None
 ---
 
 # isolatedModules
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[compilerOptions]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/TypeScript_Compiler_Options
+#graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,12 +1,12 @@
 ---
 source_file: "next.config.ts"
 type: "code"
-community: "Next.js Config File"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Nextjs_Config_File
+  - community/Community_None
 ---
 
 # next.config.ts
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[nextConfig]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Nextjs_Config_File
+#graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,12 +1,12 @@
 ---
 source_file: "app/about/page.tsx"
 type: "code"
-community: "About Page Content"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/About_Page_Content
+  - community/Community_None
 ---
 
 # page.tsx
@@ -17,4 +17,4 @@ tags:
 - [[VALUES]] - `contains` [EXTRACTED]
 - [[oswald_1]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/About_Page_Content
+#graphify/code #graphify/EXTRACTED #community/Community_None

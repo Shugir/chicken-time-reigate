@@ -1,12 +1,12 @@
 ---
 source_file: "components/ProductModal.tsx"
 type: "code"
-community: "Product Modal & Types"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Product_Modal__Types
+  - community/Community_None
 ---
 
 # ProductModal.tsx
@@ -22,6 +22,6 @@ tags:
 - [[ProductModal()]] - `contains` [EXTRACTED]
 - [[ProductModalProps]] - `contains` [EXTRACTED]
 - [[Toggle()]] - `contains` [EXTRACTED]
-- [[page.tsx_3]] - `imports_from` [EXTRACTED]
+- [[page.tsx_12]] - `imports_from` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Product_Modal__Types
+#graphify/code #graphify/EXTRACTED #community/Community_None

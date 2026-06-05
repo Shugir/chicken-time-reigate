@@ -1,11 +1,11 @@
 ---
 source_file: "public/file.svg"
 type: "image"
-community: "Document Icon Asset"
+community: "Community None"
 tags:
   - graphify/image
   - graphify/EXTRACTED
-  - community/Document_Icon_Asset
+  - community/Community_None
 ---
 
 # Folded Corner Page Visual
@@ -14,4 +14,4 @@ tags:
 - [[Document Representation]] - `visually_represents` [INFERRED]
 - [[FileDocument Icon SVG]] - `contains` [EXTRACTED]
 
-#graphify/image #graphify/EXTRACTED #community/Document_Icon_Asset
+#graphify/image #graphify/EXTRACTED #community/Community_None

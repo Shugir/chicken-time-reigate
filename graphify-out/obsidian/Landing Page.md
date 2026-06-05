@@ -1,18 +1,20 @@
 ---
 source_file: "app/page.tsx"
 type: "code"
-community: "Landing Page Semantic"
+community: "Community None"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Landing_Page_Semantic
+  - community/Community_None
 ---
 
 # Landing Page
 
 ## Connections
+- [[Order Page]] - `references` [EXTRACTED]
 - [[Oswald Font (Landing Page)]] - `references` [EXTRACTED]
 - [[Popular Items Data (POPULAR)]] - `references` [EXTRACTED]
 - [[Why Choose Us Data (REASONS)]] - `references` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Landing_Page_Semantic
+#graphify/code #graphify/EXTRACTED #community/Community_None

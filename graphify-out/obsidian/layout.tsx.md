@@ -1,21 +1,27 @@
 ---
 source_file: "app/layout.tsx"
 type: "code"
-community: "App Layout & Fonts"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/App_Layout__Fonts
+  - community/Community_None
 ---
 
 # layout.tsx
 
 ## Connections
+- [[HOURS]] - `contains` [EXTRACTED]
+- [[NewsletterForm()]] - `imports` [EXTRACTED]
+- [[NewsletterForm.tsx]] - `imports_from` [EXTRACTED]
+- [[QUICK_LINKS]] - `contains` [EXTRACTED]
 - [[RootLayout()]] - `contains` [EXTRACTED]
+- [[SiteHeader()]] - `imports` [EXTRACTED]
+- [[SiteHeader.tsx]] - `imports_from` [EXTRACTED]
 - [[geistMono]] - `contains` [EXTRACTED]
 - [[geistSans]] - `contains` [EXTRACTED]
 - [[inter]] - `contains` [EXTRACTED]
 - [[metadata]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/App_Layout__Fonts
+#graphify/code #graphify/EXTRACTED #community/Community_None

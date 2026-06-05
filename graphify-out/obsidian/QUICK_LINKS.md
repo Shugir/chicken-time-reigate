@@ -1,0 +1,18 @@
+---
+source_file: "app/layout.tsx"
+type: "code"
+community: "Community None"
+location: "L30"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Community_None
+---
+
+# QUICK_LINKS
+
+## Connections
+- [[layout.tsx]] - `contains` [EXTRACTED]
+- [[layout.tsx_1]] - `contains` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Community_None

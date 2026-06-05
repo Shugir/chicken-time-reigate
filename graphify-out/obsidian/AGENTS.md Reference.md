@@ -1,17 +1,17 @@
 ---
 source_file: "CLAUDE.md"
 type: "document"
-community: "Next.js Type System"
+community: "Community None"
 location: "line 1"
 tags:
   - graphify/document
   - graphify/EXTRACTED
-  - community/Nextjs_Type_System
+  - community/Community_None
 ---
 
 # AGENTS.md Reference
 
 ## Connections
-- [[Next.js Breaking Changes Warning_1]] - `references` [EXTRACTED]
+- [[Next.js Breaking Changes Warning]] - `references` [EXTRACTED]
 
-#graphify/document #graphify/EXTRACTED #community/Nextjs_Type_System
+#graphify/document #graphify/EXTRACTED #community/Community_None

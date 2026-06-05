@@ -1,11 +1,11 @@
 ---
 source_file: "public/next.svg"
 type: "image"
-community: "Brand Logo Assets"
+community: "Community None"
 tags:
   - graphify/image
   - graphify/INFERRED
-  - community/Brand_Logo_Assets
+  - community/Community_None
 ---
 
 # Next.js Logo SVG
@@ -13,4 +13,4 @@ tags:
 ## Connections
 - [[Vercel Logo SVG]] - `conceptually_related_to` [INFERRED]
 
-#graphify/image #graphify/INFERRED #community/Brand_Logo_Assets
+#graphify/image #graphify/INFERRED #community/Community_None

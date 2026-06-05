@@ -1,11 +1,11 @@
 ---
 source_file: "public/globe.svg"
 type: "image"
-community: "Globe Icon Asset"
+community: "Community None"
 tags:
   - graphify/image
   - graphify/EXTRACTED
-  - community/Globe_Icon_Asset
+  - community/Community_None
 ---
 
 # Globe SVG Icon
@@ -15,4 +15,4 @@ tags:
 - [[UI Icon]] - `is_a` [EXTRACTED]
 - [[World Globe]] - `depicts` [EXTRACTED]
 
-#graphify/image #graphify/EXTRACTED #community/Globe_Icon_Asset
+#graphify/image #graphify/EXTRACTED #community/Community_None

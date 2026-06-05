@@ -1,12 +1,12 @@
 ---
 source_file: "app/order/page.tsx"
 type: "code"
-community: "Order Menu Components"
+community: "Community None"
 location: "line 23"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Order_Menu_Components
+  - community/Community_None
 ---
 
 # Cart Type (Record<string,number>)
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[Order Page]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Order_Menu_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

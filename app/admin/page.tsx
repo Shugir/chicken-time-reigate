@@ -9,6 +9,7 @@ import {
   Settings,
   MapPin,
   Tag,
+  Truck,
   Plus,
   X,
   Check,
@@ -466,6 +467,7 @@ const NAV: NavItem[] = [
   { id: 'settings',   label: 'Store Settings', icon: <Settings className="w-4 h-4" />,        href: '/admin/settings' },
   { id: 'delivery',   label: 'Delivery Zones', icon: <MapPin className="w-4 h-4" />,           href: '/admin/delivery' },
   { id: 'promotions', label: 'Promotions',     icon: <Tag className="w-4 h-4" />,              href: '/admin/promotions' },
+  { id: 'drivers',    label: 'Fleet & Drivers', icon: <Truck className="w-4 h-4" />,           href: '/admin/drivers' },
 ]
 
 export default function AdminPage() {

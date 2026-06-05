@@ -1,13 +1,13 @@
 ---
 source_file: "tsconfig.json"
 type: "code"
-community: "TypeScript Config File"
+community: "Community None"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/TypeScript_Config_File
+  - community/Community_None
 ---
 
 # TypeScript Config
 
-#graphify/code #graphify/EXTRACTED #community/TypeScript_Config_File
+#graphify/code #graphify/EXTRACTED #community/Community_None

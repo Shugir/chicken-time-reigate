@@ -1,12 +1,12 @@
 ---
 source_file: "components/ProductModal.tsx"
 type: "code"
-community: "Order Menu Components"
+community: "Community None"
 location: "lines 75-119"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Order_Menu_Components
+  - community/Community_None
 ---
 
 # AllergyAccordion Sub-component
@@ -15,4 +15,4 @@ tags:
 - [[ALLERGEN_DETAILS Static Map]] - `references` [EXTRACTED]
 - [[ProductModal Component]] - `calls` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Order_Menu_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

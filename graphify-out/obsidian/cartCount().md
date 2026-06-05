@@ -1,18 +1,20 @@
 ---
 source_file: "app/order/page.tsx"
 type: "code"
-community: "Product Modal & Types"
-location: "L188"
+community: "Community None"
+location: "L276"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Product_Modal__Types
+  - community/Community_None
 ---
 
 # cartCount()
 
 ## Connections
 - [[OrderPage()]] - `calls` [EXTRACTED]
-- [[page.tsx_3]] - `contains` [EXTRACTED]
+- [[page.tsx_12]] - `contains` [EXTRACTED]
+- [[page.tsx_22]] - `contains` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Product_Modal__Types
+#graphify/code #graphify/EXTRACTED #community/Community_None

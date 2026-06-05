@@ -1,17 +1,18 @@
 ---
 source_file: "package.json"
 type: "code"
-community: "Runtime Dependencies"
+community: "Community None"
 location: "L11"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Runtime_Dependencies
+  - community/Community_None
 ---
 
 # dependencies
 
 ## Connections
+- [[@supabasessr]] - `contains` [EXTRACTED]
 - [[@supabasesupabase-js]] - `contains` [EXTRACTED]
 - [[lucide-react]] - `contains` [EXTRACTED]
 - [[next]] - `contains` [EXTRACTED]
@@ -19,5 +20,6 @@ tags:
 - [[react]] - `contains` [EXTRACTED]
 - [[react-dom]] - `contains` [EXTRACTED]
 - [[stripe]] - `contains` [EXTRACTED]
+- [[stripe_2]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Runtime_Dependencies
+#graphify/code #graphify/EXTRACTED #community/Community_None

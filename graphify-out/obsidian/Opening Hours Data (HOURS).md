@@ -1,12 +1,12 @@
 ---
 source_file: "app/contact/page.tsx"
 type: "code"
-community: "Contact Page Structure"
+community: "Community None"
 location: "lines 13-18"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Contact_Page_Structure
+  - community/Community_None
 ---
 
 # Opening Hours Data (HOURS)
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[Contact Page]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Contact_Page_Structure
+#graphify/code #graphify/EXTRACTED #community/Community_None

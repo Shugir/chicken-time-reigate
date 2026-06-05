@@ -1,12 +1,12 @@
 ---
 source_file: "components/ProductModal.tsx"
 type: "code"
-community: "Order Menu Components"
+community: "Community None"
 location: "line 8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Order_Menu_Components
+  - community/Community_None
 ---
 
 # ItemCategory Type
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[ProductItem Interface]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Order_Menu_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

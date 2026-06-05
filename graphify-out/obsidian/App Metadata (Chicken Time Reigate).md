@@ -1,12 +1,12 @@
 ---
 source_file: "app/layout.tsx"
 type: "code"
-community: "App Shell"
+community: "Community None"
 location: "line 21"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/App_Shell
+  - community/Community_None
 ---
 
 # App Metadata (Chicken Time Reigate)
@@ -14,4 +14,4 @@ tags:
 ## Connections
 - [[Root Layout]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/App_Shell
+#graphify/code #graphify/EXTRACTED #community/Community_None

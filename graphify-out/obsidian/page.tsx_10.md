@@ -1,0 +1,27 @@
+---
+source_file: "app/kitchen/page.tsx"
+type: "code"
+community: "Community None"
+location: "L1"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Community_None
+---
+
+# page.tsx
+
+## Connections
+- [[CustomerReceipt()]] - `contains` [EXTRACTED]
+- [[DispatchOrder]] - `contains` [EXTRACTED]
+- [[Driver_1]] - `contains` [EXTRACTED]
+- [[Extra_2]] - `contains` [EXTRACTED]
+- [[KitchenDashboard()]] - `contains` [EXTRACTED]
+- [[KitchenTicket()]] - `contains` [EXTRACTED]
+- [[Order]] - `contains` [EXTRACTED]
+- [[OrderCard()]] - `contains` [EXTRACTED]
+- [[OrderItem_1]] - `contains` [EXTRACTED]
+- [[elapsed()]] - `contains` [EXTRACTED]
+- [[supabase]] - `contains` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Community_None

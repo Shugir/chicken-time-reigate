@@ -1,11 +1,11 @@
 ---
 source_file: "supabase/.temp/linked-project.json"
 type: "code"
-community: "Supabase Database Schema"
+community: "Community None"
 tags:
   - graphify/code
   - graphify/INFERRED
-  - community/Supabase_Database_Schema
+  - community/Community_None
 ---
 
 # Supabase Linked Project (ChickenTime)
@@ -13,4 +13,4 @@ tags:
 ## Connections
 - [[Initial DB Schema Migration]] - `references` [INFERRED]
 
-#graphify/code #graphify/INFERRED #community/Supabase_Database_Schema
+#graphify/code #graphify/INFERRED #community/Community_None

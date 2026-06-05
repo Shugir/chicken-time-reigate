@@ -1,12 +1,12 @@
 ---
 source_file: "components/ProductModal.tsx"
 type: "code"
-community: "Order Menu Components"
+community: "Community None"
 location: "lines 10-13"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Order_Menu_Components
+  - community/Community_None
 ---
 
 # AddOn Interface
@@ -15,5 +15,6 @@ tags:
 - [[OrderSelection Interface]] - `references` [EXTRACTED]
 - [[ProductItem Interface]] - `references` [EXTRACTED]
 - [[ProductModal Component]] - `references` [EXTRACTED]
+- [[menu_items.extras JSONB Column]] - `semantically_similar_to` [INFERRED]
 
-#graphify/code #graphify/EXTRACTED #community/Order_Menu_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,12 +1,12 @@
 ---
 source_file: "app/order/page.tsx"
 type: "code"
-community: "Order Menu Components"
+community: "Community None"
 location: "lines 181-186"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Order_Menu_Components
+  - community/Community_None
 ---
 
 # cartTotal Helper
@@ -15,4 +15,4 @@ tags:
 - [[CartDrawer Component]] - `calls` [EXTRACTED]
 - [[MENU_ITEMS Static Data]] - `references` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Order_Menu_Components
+#graphify/code #graphify/EXTRACTED #community/Community_None

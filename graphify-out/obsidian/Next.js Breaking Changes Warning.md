@@ -1,16 +1,18 @@
 ---
 source_file: "AGENTS.md"
 type: "rationale"
-community: "Next.js Config"
+community: "Community None"
 tags:
   - graphify/rationale
-  - graphify/EXTRACTED
-  - community/Nextjs_Config
+  - graphify/INFERRED
+  - community/Community_None
 ---
 
 # Next.js Breaking Changes Warning
 
 ## Connections
-- [[Next.js Config]] - `rationale_for` [EXTRACTED]
+- [[AGENTS.md Reference]] - `references` [EXTRACTED]
+- [[Next.js Docs in node_modules]] - `conceptually_related_to` [INFERRED]
+- [[Next.js Type Declarations]] - `rationale_for` [INFERRED]
 
-#graphify/rationale #graphify/EXTRACTED #community/Nextjs_Config
+#graphify/rationale #graphify/INFERRED #community/Community_None

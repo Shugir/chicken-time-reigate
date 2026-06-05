@@ -1,17 +1,18 @@
 ---
 source_file: "app/about/page.tsx"
 type: "code"
-community: "About Page Content"
+community: "Community None"
 location: "L17"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/About_Page_Content
+  - community/Community_None
 ---
 
 # VALUES
 
 ## Connections
 - [[page.tsx_1]] - `contains` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/About_Page_Content
+#graphify/code #graphify/EXTRACTED #community/Community_None

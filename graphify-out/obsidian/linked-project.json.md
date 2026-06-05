@@ -1,12 +1,12 @@
 ---
 source_file: "supabase/.temp/linked-project.json"
 type: "code"
-community: "Supabase Project Config"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/Supabase_Project_Config
+  - community/Community_None
 ---
 
 # linked-project.json
@@ -17,4 +17,4 @@ tags:
 - [[organization_slug]] - `contains` [EXTRACTED]
 - [[ref]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/Supabase_Project_Config
+#graphify/code #graphify/EXTRACTED #community/Community_None

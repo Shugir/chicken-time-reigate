@@ -1,17 +1,17 @@
 ---
 source_file: "postcss.config.mjs"
 type: "code"
-community: "PostCSS Config"
+community: "Community None"
 location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
-  - community/PostCSS_Config
+  - community/Community_None
 ---
 
 # postcss.config.mjs
 
 ## Connections
-- [[config]] - `contains` [EXTRACTED]
+- [[config_1]] - `contains` [EXTRACTED]
 
-#graphify/code #graphify/EXTRACTED #community/PostCSS_Config
+#graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,13 +1,13 @@
 ---
 source_file: "public/window.svg"
 type: "image"
-community: "Window Icon Asset"
+community: "Community None"
 tags:
   - graphify/image
   - graphify/EXTRACTED
-  - community/Window_Icon_Asset
+  - community/Community_None
 ---
 
 # Window / Browser Icon SVG
 
-#graphify/image #graphify/EXTRACTED #community/Window_Icon_Asset
+#graphify/image #graphify/EXTRACTED #community/Community_None

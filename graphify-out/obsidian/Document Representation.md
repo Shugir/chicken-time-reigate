@@ -1,11 +1,11 @@
 ---
 source_file: "public/file.svg"
 type: "image"
-community: "Document Icon Asset"
+community: "Community None"
 tags:
   - graphify/image
   - graphify/INFERRED
-  - community/Document_Icon_Asset
+  - community/Community_None
 ---
 
 # Document Representation
@@ -16,4 +16,4 @@ tags:
 - [[Text Line Indicators]] - `visually_represents` [INFERRED]
 - [[UI Icon Asset]] - `conceptually_related_to` [INFERRED]
 
-#graphify/image #graphify/INFERRED #community/Document_Icon_Asset
+#graphify/image #graphify/INFERRED #community/Community_None
