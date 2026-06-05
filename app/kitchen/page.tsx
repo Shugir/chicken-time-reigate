@@ -10,6 +10,10 @@ import {
   ArrowLeft, LogOut, Truck, AlertCircle, PackageCheck, MapPin, Phone, MessageSquare, User,
 } from 'lucide-react'
 
+import {
+  formatTime, formatTimeFull, formatDateMedium, formatDateClockLabel,
+} from '@/lib/utils/format-date'
+
 const ALERT_URL = '/KitchenAlert.mp3'
 const MAX_DISPATCHED = 8
 
@@ -266,7 +270,7 @@ function KitchenTicket({ order }: { order: Order }) {
       </div>
       <div className="flex justify-between text-xs mb-1">
         <span className="font-bold">Time</span>
-        <span>{new Date(order.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
+        <span>{formatTime(order.created_at)}</span>
       </div>
       {order.customer_name && (
         <div className="flex justify-between text-xs mb-1">
@@ -317,7 +321,7 @@ function KitchenTicket({ order }: { order: Order }) {
         <span>£{order.total_amount.toFixed(2)}</span>
       </div>
       <div className="border-t border-black pt-2 text-center text-xs text-gray-500">
-        Printed {new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+        Printed {formatTimeFull(new Date())}
       </div>
     </div>
   )
@@ -342,11 +346,11 @@ function CustomerReceipt({ order }: { order: Order }) {
       </div>
       <div className="flex justify-between mb-0.5">
         <span>Date</span>
-        <span>{date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
+        <span>{formatDateMedium(date)}</span>
       </div>
       <div className="flex justify-between mb-0.5">
         <span>Time</span>
-        <span>{date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
+        <span>{formatTime(date)}</span>
       </div>
       {order.customer_name && (
         <div className="flex justify-between mb-0.5">
@@ -720,10 +724,10 @@ export default function KitchenDashboard() {
 
             <div className="text-right">
               <p className="font-mono font-bold text-white text-xl tabular-nums">
-                {mounted ? now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''}
+                {mounted ? formatTimeFull(now) : ''}
               </p>
               <p className="text-xs text-white/40 font-mono">
-                {mounted ? now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) : ''}
+                {mounted ? formatDateClockLabel(now) : ''}
               </p>
             </div>
           </div>

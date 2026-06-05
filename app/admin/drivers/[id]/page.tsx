@@ -8,6 +8,7 @@ import {
   TrendingUp, Calendar, AlertCircle, Receipt,
 } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+import { formatDate } from '@/lib/utils/format-date'
 
 interface Driver {
   id: string
@@ -46,10 +47,6 @@ interface LedgerData {
 
 function toDateStr(date: Date) {
   return date.toISOString().slice(0, 10)
-}
-
-function fmtDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 function fmtGbp(n: number) {
@@ -268,7 +265,7 @@ export default function DriverLedgerPage() {
                             <td className="px-6 py-3.5 text-zinc-400 max-w-[200px] truncate">{d.delivery_address ?? '—'}</td>
                             <td className="px-6 py-3.5 text-right font-semibold text-white">{fmtGbp(Number(d.total_amount))}</td>
                             <td className="px-6 py-3.5 text-right text-zinc-400">{fmtGbp(Number(data.driver.per_delivery_wage))}</td>
-                            <td className="px-6 py-3.5 text-right text-zinc-500 whitespace-nowrap">{fmtDate(d.created_at)}</td>
+                            <td className="px-6 py-3.5 text-right text-zinc-500 whitespace-nowrap">{formatDate(d.created_at)}</td>
                             <td className="px-6 py-3.5">
                               <div className="flex justify-center">
                                 {d.is_driver_paid ? (
@@ -311,10 +308,10 @@ export default function DriverLedgerPage() {
                         {data.payouts.map((p) => (
                           <tr key={p.id} className="hover:bg-zinc-800/20 transition-colors">
                             <td className="px-6 py-3.5 text-zinc-300">
-                              {fmtDate(p.pay_period_start)} – {fmtDate(p.pay_period_end)}
+                              {formatDate(p.pay_period_start)} – {formatDate(p.pay_period_end)}
                             </td>
                             <td className="px-6 py-3.5 text-right font-bold text-emerald-400">{fmtGbp(Number(p.amount))}</td>
-                            <td className="px-6 py-3.5 text-right text-zinc-500">{fmtDate(p.created_at)}</td>
+                            <td className="px-6 py-3.5 text-right text-zinc-500">{formatDate(p.created_at)}</td>
                           </tr>
                         ))}
                       </tbody>

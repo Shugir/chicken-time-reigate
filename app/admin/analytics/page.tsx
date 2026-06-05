@@ -5,6 +5,7 @@ import {
   TrendingUp, ShoppingBag, BarChart3, Loader2, RefreshCw, Target,
 } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+import { formatDateShort, formatDateHeader } from '@/lib/utils/format-date'
 import {
   ResponsiveContainer, ComposedChart, Area,
   Bar, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Cell,
@@ -39,8 +40,7 @@ interface AnalyticsData {
 function fmtGbp(n: number) { return `£${n.toFixed(2)}` }
 
 function shortDate(iso: string) {
-  const d = new Date(iso)
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+  return formatDateShort(iso)
 }
 
 const CHART_THEME = {
@@ -152,9 +152,7 @@ export default function AnalyticsPage() {
 
   useEffect(() => { fetchData(days) }, [days]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const today = new Date().toLocaleDateString('en-GB', {
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-  })
+  const today = formatDateHeader(new Date())
 
   const maxTopRevenue = data?.top_items[0]?.revenue ?? 1
   const maxHourly     = Math.max(...(data?.hourly_orders.map(h => h.orders) ?? [1]))

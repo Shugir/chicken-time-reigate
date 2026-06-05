@@ -6,6 +6,7 @@ import {
   TrendingUp, ShoppingBag, BarChart3, Loader2, RefreshCw,
 } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+import { formatDateShort, formatDateHeader } from '@/lib/utils/format-date'
 
 interface OrderItem {
   item_name: string | null
@@ -62,11 +63,11 @@ function formatTime(iso: string): string {
   if (diff < 1)    return 'Just now'
   if (diff < 60)   return `${diff}m ago`
   if (diff < 1440) return `${Math.floor(diff / 60)}h ago`
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+  return formatDateShort(d)
 }
 
 function todayLabel() {
-  return new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+  return formatDateHeader(new Date())
 }
 
 // ─── Stat Card ────────────────────────────────────────────────────────────────

@@ -10,6 +10,7 @@ import {
   Loader2, Save, Trash2, AlertTriangle, ChevronRight,
 } from 'lucide-react'
 import Link from 'next/link'
+import { formatDateTime } from '@/lib/utils/format-date'
 
 // ─── Supabase (module-level so it's not re-created on every render) ───────────
 
@@ -84,12 +85,6 @@ function statusColor(order: Order): string {
   return 'bg-amber-500/15 text-amber-400'
 }
 
-function fmtDate(d: string) {
-  return new Date(d).toLocaleDateString('en-GB', {
-    day: 'numeric', month: 'short', year: 'numeric',
-    hour: '2-digit', minute: '2-digit',
-  })
-}
 
 const ORDER_SELECT = `
   id, status, delivery_status, total_amount, created_at,
@@ -111,7 +106,7 @@ function OrderCard({ order, onReorder }: { order: Order; onReorder?: (o: Order) 
           <p className="text-xs text-zinc-500 mb-0.5">
             #{order.id.slice(-6).toUpperCase()}
           </p>
-          <p className="text-xs text-zinc-600">{fmtDate(order.created_at)}</p>
+          <p className="text-xs text-zinc-600">{formatDateTime(order.created_at)}</p>
         </div>
         <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusColor(order)}`}>
           {statusLabel(order)}
