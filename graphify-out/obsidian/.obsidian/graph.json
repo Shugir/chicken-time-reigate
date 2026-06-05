@@ -400,6 +400,13 @@
       }
     },
     {
+      "query": "tag:#community/Community_57",
+      "color": {
+        "a": 1,
+        "rgb": 16752039
+      }
+    },
+    {
       "query": "tag:#community/Community_64",
       "color": {
         "a": 1,

@@ -489,6 +489,11 @@
     "ast_hash": "cd434132b48e705418474e522658b97a",
     "semantic_hash": ""
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\supabase\\migrations\\20260617_advanced_filters.sql": {
+    "mtime": 1780703144.101876,
+    "ast_hash": "c10ce17c02620e288a05ed1225781919",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\supabase\\migrations\\20260617_fleet.sql": {
     "mtime": 1780616834.8822463,
     "ast_hash": "cc007dabe6ebfc158aff8f60ad558022",

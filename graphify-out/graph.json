@@ -1768,7 +1768,7 @@
       "source_file": "app/admin/staff/page.tsx",
       "source_location": "L1",
       "id": "app_admin_staff_page_tsx",
-      "community": 47,
+      "community": 46,
       "norm_label": "page.tsx"
     },
     {
@@ -1777,7 +1777,7 @@
       "source_file": "app/admin/staff/page.tsx",
       "source_location": "L9",
       "id": "staff_page_staffmember",
-      "community": 47,
+      "community": 46,
       "norm_label": "staffmember"
     },
     {
@@ -1786,7 +1786,7 @@
       "source_file": "app/admin/staff/page.tsx",
       "source_location": "L17",
       "id": "staff_page_all_permissions",
-      "community": 47,
+      "community": 46,
       "norm_label": "all_permissions"
     },
     {
@@ -1795,7 +1795,7 @@
       "source_file": "app/admin/staff/page.tsx",
       "source_location": "L30",
       "id": "staff_page_staffform",
-      "community": 47,
+      "community": 46,
       "norm_label": "staffform"
     },
     {
@@ -1804,7 +1804,7 @@
       "source_file": "app/admin/staff/page.tsx",
       "source_location": "L37",
       "id": "staff_page_empty_form",
-      "community": 47,
+      "community": 46,
       "norm_label": "empty_form"
     },
     {
@@ -1813,7 +1813,7 @@
       "source_file": "app/admin/staff/page.tsx",
       "source_location": "L39",
       "id": "staff_page_staffpage",
-      "community": 47,
+      "community": 46,
       "norm_label": "staffpage()"
     },
     {
@@ -3055,7 +3055,7 @@
       "source_file": "components/admin/permissions-provider.tsx",
       "source_location": "L1",
       "id": "components_admin_permissions_provider_tsx",
-      "community": 47,
+      "community": 5,
       "norm_label": "permissions-provider.tsx"
     },
     {
@@ -3064,7 +3064,7 @@
       "source_file": "components/admin/permissions-provider.tsx",
       "source_location": "L5",
       "id": "admin_permissions_provider_permissionscontexttype",
-      "community": 47,
+      "community": 5,
       "norm_label": "permissionscontexttype"
     },
     {
@@ -3073,7 +3073,7 @@
       "source_file": "components/admin/permissions-provider.tsx",
       "source_location": "L12",
       "id": "admin_permissions_provider_permissionscontext",
-      "community": 47,
+      "community": 5,
       "norm_label": "permissionscontext"
     },
     {
@@ -3082,7 +3082,7 @@
       "source_file": "components/admin/permissions-provider.tsx",
       "source_location": "L19",
       "id": "admin_permissions_provider_usepermissions",
-      "community": 47,
+      "community": 5,
       "norm_label": "usepermissions()"
     },
     {
@@ -3091,7 +3091,7 @@
       "source_file": "components/admin/permissions-provider.tsx",
       "source_location": "L23",
       "id": "admin_permissions_provider_permissionsprovider",
-      "community": 47,
+      "community": 5,
       "norm_label": "permissionsprovider()"
     },
     {
@@ -3653,6 +3653,24 @@
       "norm_label": "promotions"
     },
     {
+      "label": "20260617_advanced_filters.sql",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260617_advanced_filters.sql",
+      "source_location": null,
+      "id": "supabase_migrations_20260617_advanced_filters_sql",
+      "community": 57,
+      "norm_label": "20260617_advanced_filters.sql"
+    },
+    {
+      "label": "menu_items",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260617_advanced_filters.sql",
+      "source_location": "L1",
+      "id": "20260617_advanced_filters_menu_items",
+      "community": 57,
+      "norm_label": "menu_items"
+    },
+    {
       "label": "20260617_fleet.sql",
       "file_type": "code",
       "source_file": "supabase/migrations/20260617_fleet.sql",
@@ -3876,6 +3894,15 @@
       "id": "chicken_time_reigate_readme_deploy_on_vercel",
       "community": 19,
       "norm_label": "deploy on vercel"
+    },
+    {
+      "label": "20260617_advanced_filters.sql",
+      "file_type": "code",
+      "source_file": "20260617_advanced_filters.sql",
+      "source_location": null,
+      "community": 57,
+      "norm_label": "20260617_advanced_filters.sql",
+      "id": "20260617_advanced_filters_sql"
     },
     {
       "label": "page.tsx",
@@ -4152,7 +4179,7 @@
       "file_type": "code",
       "source_file": "admin/staff/page.tsx",
       "source_location": "L1",
-      "community": 47,
+      "community": 46,
       "norm_label": "page.tsx",
       "id": "admin_staff_page_tsx"
     },
@@ -4515,7 +4542,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 1,
       "norm_label": "contact page",
       "id": "contact_contactpage"
     },
@@ -4528,7 +4555,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 1,
       "norm_label": "inputfield component",
       "id": "contact_inputfield"
     },
@@ -4541,7 +4568,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 1,
       "norm_label": "formstate type",
       "id": "contact_formstate"
     },
@@ -4554,7 +4581,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 1,
       "norm_label": "opening hours data (hours)",
       "id": "contact_hours"
     },
@@ -5557,7 +5584,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 50,
+      "community": 4,
       "norm_label": "api: public menu items route (get)",
       "id": "api_menuitems_route"
     },
@@ -14637,6 +14664,26 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "supabase/migrations/20260617_advanced_filters.sql",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "supabase_migrations_20260617_advanced_filters_sql",
+      "target": "20260617_advanced_filters_menu_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "20260617_advanced_filters.sql",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "20260617_advanced_filters_sql",
+      "target": "20260617_advanced_filters_menu_items"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "supabase/migrations/20260617_fleet.sql",
       "source_location": "L2",
       "weight": 1.0,
@@ -17745,5 +17792,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "55e5bba7dc34b446314b57ac33b48dcdfa3b705c"
+  "built_at_commit": "02d68af81afb7c8c8371be4d5050715b168a87cc"
 }
