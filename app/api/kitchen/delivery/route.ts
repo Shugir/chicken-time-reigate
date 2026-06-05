@@ -8,7 +8,7 @@ export async function GET() {
     .from('orders')
     .select(`
       id, status, delivery_status, failure_reason, total_amount, created_at,
-      customer_name, customer_phone, delivery_address, customer_notes,
+      customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes,
       driver_id,
       drivers(id, name, phone),
       order_items(id, item_name, quantity, unit_price, extras, removals, notes)

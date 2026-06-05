@@ -35,10 +35,11 @@ interface Order {
   status: 'preparing' | 'ready' | 'dispatched'
   total_amount: number
   created_at: string
-  customer_name:    string | null
-  customer_phone:   string | null
-  delivery_address: string | null
-  customer_notes:   string | null
+  customer_name:      string | null
+  customer_phone:     string | null
+  delivery_address:   string | null
+  delivery_postcode:  string | null
+  customer_notes:     string | null
   order_items: OrderItem[]
 }
 
@@ -55,10 +56,11 @@ interface DispatchOrder {
   failure_reason: string | null
   total_amount: number
   created_at: string
-  customer_name:    string | null
-  customer_phone:   string | null
-  delivery_address: string | null
-  customer_notes:   string | null
+  customer_name:      string | null
+  customer_phone:     string | null
+  delivery_address:   string | null
+  delivery_postcode:  string | null
+  customer_notes:     string | null
   driver_id: string | null
   drivers: Driver | null
   order_items: OrderItem[]
@@ -413,6 +415,11 @@ function CustomerReceipt({ order }: { order: Order }) {
               <p className="font-black text-sm leading-snug">{order.customer_phone}</p>
             )}
             <p className="font-black text-sm leading-snug mt-1">{order.delivery_address}</p>
+            {order.delivery_postcode && (
+              <p className="font-black text-base tracking-widest uppercase mt-1">
+                {order.delivery_postcode}
+              </p>
+            )}
             {order.customer_notes && (
               <p className="font-bold text-xs mt-1 border border-black px-1 py-0.5 uppercase tracking-wide">
                 NOTE: {order.customer_notes}
@@ -873,6 +880,9 @@ export default function KitchenDashboard() {
                             <p className="text-xs font-bold text-white leading-none mb-0.5">{order.customer_name}</p>
                           )}
                           <p className="text-xs text-sky-300">{order.delivery_address}</p>
+                          {order.delivery_postcode && (
+                            <p className="text-sm font-black text-sky-200 tracking-widest uppercase mt-0.5">{order.delivery_postcode}</p>
+                          )}
                           {order.customer_phone && (
                             <p className="text-xs text-white/40 mt-0.5">{order.customer_phone}</p>
                           )}

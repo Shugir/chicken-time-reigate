@@ -142,14 +142,15 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items:            cartItems,
-          delivery_fee:     deliveryFee,
-          postcode:         postcode.trim().toUpperCase(),
-          promo_code:       promoApplied?.code ?? null,
-          customer_name:    customerName.trim(),
-          customer_phone:   customerPhone.trim(),
-          delivery_address: deliveryAddress.trim(),
-          customer_notes:   customerNotes.trim() || null,
+          items:               cartItems,
+          delivery_fee:        deliveryFee,
+          postcode:            postcode.trim().toUpperCase(),
+          promo_code:          promoApplied?.code ?? null,
+          customer_name:       customerName.trim(),
+          customer_phone:      customerPhone.trim(),
+          delivery_address:    deliveryAddress.trim(),
+          delivery_postcode:   postcode.trim().toUpperCase(),
+          customer_notes:      customerNotes.trim() || null,
         }),
       })
       const data = await res.json()
