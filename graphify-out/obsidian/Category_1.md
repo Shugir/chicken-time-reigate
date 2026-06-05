@@ -1,8 +1,8 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "app/admin/page.tsx"
 type: "code"
 community: "Community None"
-location: "L18"
+location: "L41"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,8 @@ tags:
 # Category
 
 ## Connections
-- [[page.tsx_14]] - `contains` [EXTRACTED]
-- [[page.tsx_27]] - `contains` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
+- [[page.tsx_21]] - `contains` [EXTRACTED]
+- [[page.tsx_25]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

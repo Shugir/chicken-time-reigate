@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/staff/page.tsx"
+source_file: "app/admin/promotions/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,11 +12,13 @@ tags:
 # page.tsx
 
 ## Connections
-- [[ALL_PERMISSIONS]] - `contains` [EXTRACTED]
-- [[EMPTY_FORM_2]] - `contains` [EXTRACTED]
-- [[StaffForm]] - `contains` [EXTRACTED]
-- [[StaffMember]] - `contains` [EXTRACTED]
-- [[StaffPage()]] - `contains` [EXTRACTED]
+- [[DeleteConfirm()_1]] - `contains` [EXTRACTED]
+- [[NAV_4]] - `contains` [EXTRACTED]
+- [[PromoModal()]] - `contains` [EXTRACTED]
+- [[Promotion]] - `contains` [EXTRACTED]
+- [[PromotionsPage()]] - `contains` [EXTRACTED]
+- [[SaveState_2]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

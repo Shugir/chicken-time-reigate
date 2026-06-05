@@ -1,5 +1,5 @@
 ---
-source_file: "admin/settings/layout.tsx"
+source_file: "admin/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,7 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[SettingsLayout()]] - `contains` [EXTRACTED]
+- [[AdminLayout()]] - `contains` [EXTRACTED]
 - [[getUserPermissions]] - `imports` [EXTRACTED]
-- [[hasPermission()]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

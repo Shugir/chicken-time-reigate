@@ -1,5 +1,5 @@
 ---
-source_file: "admin/promotions/layout.tsx"
+source_file: "admin/drivers/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[PromotionsLayout()]] - `contains` [EXTRACTED]
+- [[DriversLayout()]] - `contains` [EXTRACTED]
 - [[getUserPermissions]] - `imports` [EXTRACTED]
 - [[hasPermission()]] - `imports` [EXTRACTED]
 

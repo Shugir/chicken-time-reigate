@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/admin/menu-items/route.ts"
+source_file: "app/api/admin/delivery-zones/route.ts"
 type: "code"
 community: "Community None"
-location: "L15"
+location: "L14"
 tags:
   - graphify/code
   - graphify/EXTRACTED

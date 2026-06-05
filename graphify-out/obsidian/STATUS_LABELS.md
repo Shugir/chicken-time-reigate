@@ -12,7 +12,7 @@ tags:
 # STATUS_LABELS
 
 ## Connections
-- [[page.tsx_5]] - `contains` [EXTRACTED]
-- [[page.tsx_20]] - `contains` [EXTRACTED]
+- [[page.tsx_8]] - `contains` [EXTRACTED]
+- [[page.tsx_24]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

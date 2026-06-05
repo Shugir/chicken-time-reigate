@@ -1,17 +1,17 @@
 ---
-source_file: "app/sign-up/page.tsx"
+source_file: "app/signup/page.tsx"
 type: "code"
 community: "Community None"
-location: "L7"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# SignUpPage()
+# SignupPage()
 
 ## Connections
-- [[page.tsx_16]] - `contains` [EXTRACTED]
+- [[page.tsx_20]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

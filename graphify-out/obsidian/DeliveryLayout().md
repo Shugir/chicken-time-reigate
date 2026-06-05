@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[getUserPermissions]] - `calls` [EXTRACTED]
 - [[hasPermission()]] - `calls` [EXTRACTED]
-- [[layout.tsx_3]] - `contains` [EXTRACTED]
-- [[layout.tsx_10]] - `contains` [EXTRACTED]
+- [[layout.tsx_5]] - `contains` [EXTRACTED]
+- [[layout.tsx_12]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

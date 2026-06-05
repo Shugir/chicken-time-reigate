@@ -2,7 +2,7 @@
 source_file: "app/admin/page.tsx"
 type: "code"
 community: "Community None"
-location: "L456"
+location: "L450"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,8 @@ tags:
 # AdminPage()
 
 ## Connections
-- [[page.tsx_2]] - `contains` [EXTRACTED]
-- [[page.tsx_17]] - `contains` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
 - [[page.tsx_21]] - `contains` [EXTRACTED]
+- [[page.tsx_25]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

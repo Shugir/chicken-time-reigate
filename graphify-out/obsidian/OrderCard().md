@@ -1,8 +1,8 @@
 ---
-source_file: "app/kitchen/page.tsx"
+source_file: "app/account/page.tsx"
 type: "code"
 community: "Community None"
-location: "L67"
+location: "L102"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,9 +12,10 @@ tags:
 # OrderCard()
 
 ## Connections
-- [[elapsed()]] - `calls` [EXTRACTED]
-- [[page.tsx_12]] - `contains` [EXTRACTED]
-- [[page.tsx_17]] - `contains` [EXTRACTED]
-- [[page.tsx_25]] - `contains` [EXTRACTED]
+- [[fmtDate()]] - `calls` [EXTRACTED]
+- [[page.tsx_2]] - `contains` [EXTRACTED]
+- [[statusColor()]] - `calls` [EXTRACTED]
+- [[statusLabel()]] - `calls` [EXTRACTED]
+- [[trackingStep()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

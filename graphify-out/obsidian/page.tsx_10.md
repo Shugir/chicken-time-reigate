@@ -1,5 +1,5 @@
 ---
-source_file: "app/checkout/page.tsx"
+source_file: "app/admin/redirect/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,9 @@ tags:
 # page.tsx
 
 ## Connections
-- [[CartItem_1]] - `contains` [EXTRACTED]
-- [[CheckoutPage()]] - `contains` [EXTRACTED]
-- [[DeliveryZone_1]] - `contains` [EXTRACTED]
+- [[AdminRedirectPage()]] - `contains` [EXTRACTED]
+- [[PAGES]] - `contains` [EXTRACTED]
+- [[get-user-permissions.ts]] - `imports_from` [EXTRACTED]
+- [[getUserPermissions]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

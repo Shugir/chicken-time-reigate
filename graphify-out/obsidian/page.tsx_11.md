@@ -1,5 +1,5 @@
 ---
-source_file: "app/contact/page.tsx"
+source_file: "app/admin/settings/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,12 +12,10 @@ tags:
 # page.tsx
 
 ## Connections
-- [[ContactPage()]] - `contains` [EXTRACTED]
-- [[EMPTY]] - `contains` [EXTRACTED]
-- [[FormState]] - `contains` [EXTRACTED]
-- [[HOURS_1]] - `contains` [EXTRACTED]
-- [[InputField()]] - `contains` [EXTRACTED]
-- [[SUBJECTS]] - `contains` [EXTRACTED]
-- [[oswald_2]] - `contains` [EXTRACTED]
+- [[SaveState_3]] - `contains` [EXTRACTED]
+- [[SettingsPage()]] - `contains` [EXTRACTED]
+- [[StoreSettings]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

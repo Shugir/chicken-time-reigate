@@ -14,6 +14,8 @@ tags:
 ## Connections
 - [[AdminLayout()]] - `calls` [EXTRACTED]
 - [[AdminRedirectPage()]] - `calls` [EXTRACTED]
+- [[AnalyticsLayout()]] - `calls` [EXTRACTED]
+- [[CategoriesLayout()]] - `calls` [EXTRACTED]
 - [[DashboardLayout()]] - `calls` [EXTRACTED]
 - [[DeliveryLayout()]] - `calls` [EXTRACTED]
 - [[DriversLayout()]] - `calls` [EXTRACTED]
@@ -38,6 +40,8 @@ tags:
 - [[layout.tsx_14]] - `imports` [EXTRACTED]
 - [[layout.tsx_15]] - `imports` [EXTRACTED]
 - [[layout.tsx_16]] - `imports` [EXTRACTED]
-- [[page.tsx_7]] - `imports` [EXTRACTED]
+- [[layout.tsx_17]] - `imports` [EXTRACTED]
+- [[layout.tsx_18]] - `imports` [EXTRACTED]
+- [[page.tsx_10]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

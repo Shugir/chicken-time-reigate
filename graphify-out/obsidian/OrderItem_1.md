@@ -1,8 +1,8 @@
 ---
-source_file: "app/kitchen/page.tsx"
+source_file: "app/admin/dashboard/page.tsx"
 type: "code"
 community: "Community None"
-location: "L23"
+location: "L10"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,7 @@ tags:
 # OrderItem
 
 ## Connections
-- [[page.tsx_12]] - `contains` [EXTRACTED]
-- [[page.tsx_17]] - `contains` [EXTRACTED]
-- [[page.tsx_25]] - `contains` [EXTRACTED]
+- [[page.tsx_6]] - `contains` [EXTRACTED]
+- [[page.tsx_22]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

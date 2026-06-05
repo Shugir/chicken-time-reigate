@@ -1,5 +1,5 @@
 ---
-source_file: "api/admin/staff/route.ts"
+source_file: "app/api/kitchen/orders/[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,8 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_5]] - `contains` [EXTRACTED]
-- [[POST()_4]] - `contains` [EXTRACTED]
+- [[PATCH()]] - `contains` [EXTRACTED]
+- [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

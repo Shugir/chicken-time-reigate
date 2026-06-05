@@ -1,5 +1,5 @@
 ---
-source_file: "admin/delivery/page.tsx"
+source_file: "app/sign-up/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,11 +12,6 @@ tags:
 # page.tsx
 
 ## Connections
-- [[DeleteConfirm()]] - `contains` [EXTRACTED]
-- [[DeliveryPage()]] - `contains` [EXTRACTED]
-- [[DeliveryZone]] - `contains` [EXTRACTED]
-- [[NAV_1]] - `contains` [EXTRACTED]
-- [[SaveState_1]] - `contains` [EXTRACTED]
-- [[ZoneModal()]] - `contains` [EXTRACTED]
+- [[SignUpPage()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -14,7 +14,6 @@ tags:
 - [[App Metadata (Chicken Time Reigate)]] - `references` [EXTRACTED]
 - [[Geist & Inter Google Fonts]] - `references` [EXTRACTED]
 - [[NewsletterForm Component (used in layout)]] - `references` [EXTRACTED]
-- [[Next.js Config]] - `references` [INFERRED]
 - [[SiteHeader Component (used in layout)]] - `references` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

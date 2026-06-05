@@ -1,8 +1,8 @@
 ---
-source_file: "app/admin/drivers/page.tsx"
+source_file: "app/admin/categories/page.tsx"
 type: "code"
 community: "Community None"
-location: "L27"
+location: "L28"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,6 +13,5 @@ tags:
 
 ## Connections
 - [[page.tsx_5]] - `contains` [EXTRACTED]
-- [[page.tsx_20]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

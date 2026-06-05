@@ -1,5 +1,5 @@
 ---
-source_file: "app/kitchen/page.tsx"
+source_file: "app/account/page.tsx"
 type: "code"
 community: "Community None"
 location: "L16"
@@ -12,8 +12,6 @@ tags:
 # supabase
 
 ## Connections
-- [[page.tsx_12]] - `contains` [EXTRACTED]
-- [[page.tsx_17]] - `contains` [EXTRACTED]
-- [[page.tsx_25]] - `contains` [EXTRACTED]
+- [[page.tsx_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

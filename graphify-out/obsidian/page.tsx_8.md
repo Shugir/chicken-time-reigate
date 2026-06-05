@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/settings/page.tsx"
+source_file: "app/admin/drivers/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,13 @@ tags:
 # page.tsx
 
 ## Connections
-- [[SaveState_3]] - `contains` [EXTRACTED]
-- [[SettingsPage()]] - `contains` [EXTRACTED]
-- [[StoreSettings]] - `contains` [EXTRACTED]
+- [[Driver]] - `contains` [EXTRACTED]
+- [[DriverForm]] - `contains` [EXTRACTED]
+- [[DriversPage()]] - `contains` [EXTRACTED]
+- [[EMPTY_FORM_2]] - `contains` [EXTRACTED]
+- [[NAV_2]] - `contains` [EXTRACTED]
+- [[STATUS_LABELS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES_1]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 
