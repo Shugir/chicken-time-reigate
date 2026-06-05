@@ -20,11 +20,15 @@ interface CartItem {
 
 export async function POST(request: NextRequest) {
   try {
-    const { items, delivery_fee = 0, postcode, promo_code }: {
+    const { items, delivery_fee = 0, postcode, promo_code, customer_name, customer_phone, delivery_address, customer_notes }: {
       items: CartItem[]
       delivery_fee?: number
       postcode?: string
       promo_code?: string | null
+      customer_name?: string
+      customer_phone?: string
+      delivery_address?: string
+      customer_notes?: string | null
     } = await request.json()
     const origin = request.headers.get('origin') || 'http://localhost:3000'
 
@@ -60,7 +64,14 @@ export async function POST(request: NextRequest) {
     // Insert pending order
     const { data: order, error: orderError } = await supabaseAdmin
       .from('orders')
-      .insert({ status: 'pending', total_amount: total })
+      .insert({
+        status:           'pending',
+        total_amount:     total,
+        customer_name:    customer_name    ?? null,
+        customer_phone:   customer_phone   ?? null,
+        delivery_address: delivery_address ?? null,
+        customer_notes:   customer_notes   ?? null,
+      })
       .select('id')
       .single()
 

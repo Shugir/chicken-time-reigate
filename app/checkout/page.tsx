@@ -1,7 +1,13 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { ChevronRight, MapPin, AlertCircle, Loader2, ShoppingCart, Tag } from 'lucide-react'
+import { ChevronRight, MapPin, AlertCircle, Loader2, ShoppingCart, Tag, User } from 'lucide-react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+)
 
 interface CartItem {
   name: string
@@ -35,6 +41,11 @@ export default function CheckoutPage() {
   const [promoError, setPromoError]     = useState<string | null>(null)
   const [promoLoading, setPromoLoading] = useState(false)
 
+  const [customerName, setCustomerName]         = useState('')
+  const [customerPhone, setCustomerPhone]       = useState('')
+  const [deliveryAddress, setDeliveryAddress]   = useState('')
+  const [customerNotes, setCustomerNotes]       = useState('')
+
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem('pendingCart')
@@ -42,6 +53,22 @@ export default function CheckoutPage() {
     } catch {
       // ignore corrupt storage
     }
+  }, [])
+
+  useEffect(() => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) return
+      const { data } = await supabase
+        .from('profiles')
+        .select('full_name, phone, address')
+        .eq('id', session.user.id)
+        .maybeSingle()
+      if (data) {
+        if (data.full_name) setCustomerName(data.full_name)
+        if (data.phone)     setCustomerPhone(data.phone)
+        if (data.address)   setDeliveryAddress(data.address)
+      }
+    })
   }, [])
 
   const subtotal = cartItems.reduce((s, i) => s + i.totalPrice, 0)
@@ -105,6 +132,9 @@ export default function CheckoutPage() {
 
   async function handlePay() {
     if (!zone || cartItems.length === 0) return
+    if (!customerName.trim())    { setSubmitError('Please enter your full name');       return }
+    if (!customerPhone.trim())   { setSubmitError('Please enter your phone number');    return }
+    if (!deliveryAddress.trim()) { setSubmitError('Please enter your delivery address'); return }
     setSubmitting(true)
     setSubmitError(null)
     try {
@@ -112,10 +142,14 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: cartItems,
-          delivery_fee: deliveryFee,
-          postcode: postcode.trim().toUpperCase(),
-          promo_code: promoApplied?.code ?? null,
+          items:            cartItems,
+          delivery_fee:     deliveryFee,
+          postcode:         postcode.trim().toUpperCase(),
+          promo_code:       promoApplied?.code ?? null,
+          customer_name:    customerName.trim(),
+          customer_phone:   customerPhone.trim(),
+          delivery_address: deliveryAddress.trim(),
+          customer_notes:   customerNotes.trim() || null,
         }),
       })
       const data = await res.json()
@@ -206,6 +240,56 @@ export default function CheckoutPage() {
               </span>
             </div>
           )}
+        </div>
+
+        {/* Your Details */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
+          <h2 className="font-heading font-bold text-base text-brand-dark flex items-center gap-2">
+            <User size={16} className="text-brand-red" />
+            Your Details
+          </h2>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 mb-1">Full Name *</label>
+              <input
+                type="text"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                placeholder="e.g. John Smith"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 mb-1">Phone Number *</label>
+              <input
+                type="tel"
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+                placeholder="e.g. 07700 900000"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 mb-1">Delivery Address *</label>
+              <input
+                type="text"
+                value={deliveryAddress}
+                onChange={(e) => setDeliveryAddress(e.target.value)}
+                placeholder="e.g. 12 High Street, Reigate, RH2 8AB"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 mb-1">Order Notes</label>
+              <textarea
+                value={customerNotes}
+                onChange={(e) => setCustomerNotes(e.target.value)}
+                placeholder="Any special instructions, allergen info, gate codes…"
+                rows={3}
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red resize-none"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Promo Code */}

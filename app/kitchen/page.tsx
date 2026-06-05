@@ -7,7 +7,7 @@ import { usePermissions } from '@/components/admin/permissions-provider'
 import { createClient } from '@supabase/supabase-js'
 import {
   ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer,
-  ArrowLeft, LogOut, Truck, AlertCircle, PackageCheck,
+  ArrowLeft, LogOut, Truck, AlertCircle, PackageCheck, MapPin, Phone, MessageSquare, User,
 } from 'lucide-react'
 
 const ALERT_URL = '/KitchenAlert.mp3'
@@ -35,6 +35,10 @@ interface Order {
   status: 'preparing' | 'ready' | 'dispatched'
   total_amount: number
   created_at: string
+  customer_name:    string | null
+  customer_phone:   string | null
+  delivery_address: string | null
+  customer_notes:   string | null
   order_items: OrderItem[]
 }
 
@@ -51,6 +55,10 @@ interface DispatchOrder {
   failure_reason: string | null
   total_amount: number
   created_at: string
+  customer_name:    string | null
+  customer_phone:   string | null
+  delivery_address: string | null
+  customer_notes:   string | null
   driver_id: string | null
   drivers: Driver | null
   order_items: OrderItem[]
@@ -102,6 +110,36 @@ function OrderCard({
           <span className="font-mono tabular-nums">{elapsed(order.created_at)}</span>
         </div>
       </div>
+
+      {/* Customer info */}
+      {(order.customer_name || order.customer_phone || order.delivery_address) && (
+        <div className="space-y-1.5 border-t border-white/10 pt-3">
+          {order.customer_name && (
+            <div className="flex items-center gap-2 text-xs text-white/60">
+              <User size={11} className="text-white/30 shrink-0" />
+              <span className="font-semibold text-white/80">{order.customer_name}</span>
+            </div>
+          )}
+          {order.customer_phone && (
+            <div className="flex items-center gap-2 text-xs text-white/60">
+              <Phone size={11} className="text-white/30 shrink-0" />
+              <span>{order.customer_phone}</span>
+            </div>
+          )}
+          {order.delivery_address && (
+            <div className="flex items-start gap-2 text-xs text-white/60">
+              <MapPin size={11} className="text-white/30 shrink-0 mt-0.5" />
+              <span>{order.delivery_address}</span>
+            </div>
+          )}
+          {order.customer_notes && (
+            <div className="flex items-start gap-2 text-xs text-yellow-400/80 bg-yellow-400/5 rounded-lg px-2 py-1.5">
+              <MessageSquare size={11} className="shrink-0 mt-0.5" />
+              <span>{order.customer_notes}</span>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Items */}
       <ul className="space-y-3 border-t border-white/10 pt-4">
@@ -224,10 +262,29 @@ function KitchenTicket({ order }: { order: Order }) {
         <span className="font-bold">Order</span>
         <span className="font-black">#{order.id.slice(-6).toUpperCase()}</span>
       </div>
-      <div className="flex justify-between text-xs mb-3">
+      <div className="flex justify-between text-xs mb-1">
         <span className="font-bold">Time</span>
         <span>{new Date(order.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
       </div>
+      {order.customer_name && (
+        <div className="flex justify-between text-xs mb-1">
+          <span className="font-bold">Customer</span>
+          <span>{order.customer_name}</span>
+        </div>
+      )}
+      {order.delivery_address && (
+        <div className="text-xs mb-1">
+          <span className="font-bold">Address: </span>
+          <span>{order.delivery_address}</span>
+        </div>
+      )}
+      {order.customer_phone && (
+        <div className="flex justify-between text-xs mb-3">
+          <span className="font-bold">Phone</span>
+          <span>{order.customer_phone}</span>
+        </div>
+      )}
+      {!order.customer_phone && <div className="mb-3" />}
       <div className="border-t border-dashed border-black pt-2 mb-2">
         {order.order_items.map((item) => (
           <div key={item.id} className="mb-3">
@@ -285,10 +342,28 @@ function CustomerReceipt({ order }: { order: Order }) {
         <span>Date</span>
         <span>{date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
       </div>
-      <div className="flex justify-between mb-2">
+      <div className="flex justify-between mb-0.5">
         <span>Time</span>
         <span>{date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
       </div>
+      {order.customer_name && (
+        <div className="flex justify-between mb-0.5">
+          <span>Customer</span>
+          <span className="font-bold">{order.customer_name}</span>
+        </div>
+      )}
+      {order.customer_phone && (
+        <div className="flex justify-between mb-0.5">
+          <span>Phone</span>
+          <span>{order.customer_phone}</span>
+        </div>
+      )}
+      {order.delivery_address && (
+        <div className="mb-1">
+          <span>Deliver to: </span>
+          <span className="font-bold">{order.delivery_address}</span>
+        </div>
+      )}
       <div className="border-t border-dashed border-black my-2" />
       <div className="mb-2">
         {order.order_items.map((item) => (
@@ -770,6 +845,29 @@ export default function KitchenDashboard() {
                         <span className="font-mono tabular-nums">{elapsed(order.created_at)}</span>
                       </div>
                     </div>
+
+                    {/* Customer address */}
+                    {order.delivery_address && (
+                      <div className="flex items-start gap-2 bg-sky-500/10 rounded-xl px-3 py-2 border border-sky-500/20">
+                        <MapPin size={14} className="text-sky-400 shrink-0 mt-0.5" />
+                        <div>
+                          {order.customer_name && (
+                            <p className="text-xs font-bold text-white leading-none mb-0.5">{order.customer_name}</p>
+                          )}
+                          <p className="text-xs text-sky-300">{order.delivery_address}</p>
+                          {order.customer_phone && (
+                            <p className="text-xs text-white/40 mt-0.5">{order.customer_phone}</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {order.customer_notes && (
+                      <div className="flex items-start gap-2 text-xs text-yellow-400/80 bg-yellow-400/5 rounded-lg px-2 py-1.5">
+                        <MessageSquare size={11} className="shrink-0 mt-0.5" />
+                        <span>{order.customer_notes}</span>
+                      </div>
+                    )}
 
                     {/* Driver */}
                     {order.drivers && (
