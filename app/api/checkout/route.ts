@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createServerClient } from '@supabase/ssr'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { sendOrderStatusEmail } from '@/lib/email'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
@@ -159,6 +160,19 @@ export async function POST(request: NextRequest) {
       .from('orders')
       .update({ stripe_session_id: session.id })
       .eq('id', order.id)
+
+    // Fire "Order Received" email (non-blocking, guest orders silently skipped)
+    sendOrderStatusEmail(
+      {
+        id:               order.id,
+        customer_name:    customer_name    ?? null,
+        total_amount:     total,
+        delivery_address: delivery_address ?? null,
+        items:            items.map((i) => ({ name: i.name, quantity: i.quantity })),
+      },
+      'received',
+      authUser?.email ?? null,
+    )
 
     return NextResponse.json({ url: session.url })
   } catch (err) {
