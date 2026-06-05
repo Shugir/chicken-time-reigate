@@ -1,18 +1,17 @@
 ---
-source_file: "app/api/admin/drivers/route.ts"
+source_file: "lib/email.ts"
 type: "code"
 community: "Community None"
-location: "L62"
+location: "L11"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# POST()
+# OrderEmailStatus
 
 ## Connections
-- [[route.ts_9]] - `contains` [EXTRACTED]
-- [[route.ts_31]] - `contains` [EXTRACTED]
+- [[email.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

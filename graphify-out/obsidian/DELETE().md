@@ -12,12 +12,12 @@ tags:
 # DELETE()
 
 ## Connections
-- [[route.ts_3]] - `contains` [EXTRACTED]
-- [[route.ts_6]] - `contains` [EXTRACTED]
+- [[route.ts_5]] - `contains` [EXTRACTED]
 - [[route.ts_8]] - `contains` [EXTRACTED]
-- [[route.ts_11]] - `contains` [EXTRACTED]
+- [[route.ts_10]] - `contains` [EXTRACTED]
 - [[route.ts_13]] - `contains` [EXTRACTED]
 - [[route.ts_15]] - `contains` [EXTRACTED]
+- [[route.ts_17]] - `contains` [EXTRACTED]
 - [[route.ts_32]] - `contains` [EXTRACTED]
 - [[route.ts_34]] - `contains` [EXTRACTED]
 

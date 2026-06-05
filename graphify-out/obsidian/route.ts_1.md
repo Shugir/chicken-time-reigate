@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/analytics/route.ts"
+source_file: "app/api/kitchen/orders/[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,9 @@ tags:
 # route.ts
 
 ## Connections
-- [[DOW_LABELS]] - `contains` [EXTRACTED]
-- [[GET()]] - `contains` [EXTRACTED]
+- [[PATCH()]] - `contains` [EXTRACTED]
+- [[email.ts]] - `imports_from` [EXTRACTED]
+- [[sendOrderStatusEmail()]] - `imports` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

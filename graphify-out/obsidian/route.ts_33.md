@@ -13,7 +13,7 @@ tags:
 
 ## Connections
 - [[GET()_8]] - `contains` [EXTRACTED]
-- [[POST()_7]] - `contains` [EXTRACTED]
+- [[POST()_8]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

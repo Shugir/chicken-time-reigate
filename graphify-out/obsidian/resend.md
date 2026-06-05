@@ -1,18 +1,17 @@
 ---
-source_file: "app/api/admin/drivers/route.ts"
+source_file: "package.json"
 type: "code"
 community: "Community None"
-location: "L62"
+location: "L19"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# POST()
+# resend
 
 ## Connections
-- [[route.ts_9]] - `contains` [EXTRACTED]
-- [[route.ts_31]] - `contains` [EXTRACTED]
+- [[dependencies]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

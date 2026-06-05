@@ -20,7 +20,8 @@ tags:
 - [[react]] - `contains` [EXTRACTED]
 - [[react-dom]] - `contains` [EXTRACTED]
 - [[recharts]] - `contains` [EXTRACTED]
-- [[stripe]] - `contains` [EXTRACTED]
+- [[resend]] - `contains` [EXTRACTED]
+- [[stripe_1]] - `contains` [EXTRACTED]
 - [[stripe_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

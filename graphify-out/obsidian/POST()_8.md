@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/checkout/route.ts"
+source_file: "app/api/admin/staff/route.ts"
 type: "code"
 community: "Community None"
-location: "L22"
+location: "L16"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,7 @@ tags:
 # POST()
 
 ## Connections
-- [[route.ts_19]] - `contains` [EXTRACTED]
-- [[route.ts_36]] - `contains` [EXTRACTED]
+- [[route.ts_16]] - `contains` [EXTRACTED]
+- [[route.ts_33]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

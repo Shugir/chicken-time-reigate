@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[CartItem]] - `contains` [EXTRACTED]
 - [[DELETE()]] - `contains` [EXTRACTED]
-- [[Extra]] - `contains` [EXTRACTED]
+- [[Extra_1]] - `contains` [EXTRACTED]
 - [[GET()_12]] - `contains` [EXTRACTED]
 - [[PATCH()]] - `contains` [EXTRACTED]
 - [[POST()_9]] - `contains` [EXTRACTED]

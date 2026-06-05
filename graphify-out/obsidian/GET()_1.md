@@ -12,7 +12,7 @@ tags:
 # GET()
 
 ## Connections
-- [[route.ts_2]] - `contains` [EXTRACTED]
-- [[route.ts_18]] - `contains` [EXTRACTED]
+- [[route.ts_4]] - `contains` [EXTRACTED]
+- [[route.ts_20]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

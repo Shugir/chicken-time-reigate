@@ -2,7 +2,7 @@
 source_file: "app/api/kitchen/orders/[id]/route.ts"
 type: "code"
 community: "Community None"
-location: "L4"
+location: "L5"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,14 +12,14 @@ tags:
 # PATCH()
 
 ## Connections
-- [[route.ts_3]] - `contains` [EXTRACTED]
-- [[route.ts_6]] - `contains` [EXTRACTED]
+- [[route.ts_1]] - `contains` [EXTRACTED]
+- [[route.ts_5]] - `contains` [EXTRACTED]
 - [[route.ts_8]] - `contains` [EXTRACTED]
-- [[route.ts_11]] - `contains` [EXTRACTED]
+- [[route.ts_10]] - `contains` [EXTRACTED]
 - [[route.ts_13]] - `contains` [EXTRACTED]
 - [[route.ts_15]] - `contains` [EXTRACTED]
-- [[route.ts_23]] - `contains` [EXTRACTED]
-- [[route.ts_25]] - `contains` [EXTRACTED]
+- [[route.ts_17]] - `contains` [EXTRACTED]
+- [[route.ts_24]] - `contains` [EXTRACTED]
 - [[route.ts_32]] - `contains` [EXTRACTED]
 - [[route.ts_34]] - `contains` [EXTRACTED]
 
