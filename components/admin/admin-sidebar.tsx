@@ -4,13 +4,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
-  Truck, Shield, ExternalLink, Layers,
+  Truck, Shield, ExternalLink, Layers, TrendingUp,
 } from 'lucide-react'
 import SignOutButton from './sign-out-button'
 import { usePermissions } from './permissions-provider'
 
 const ALL_NAV = [
   { id: 'dashboard',  label: 'Dashboard',       icon: LayoutDashboard, href: '/admin/dashboard',  permission: 'Dashboard'     },
+  { id: 'analytics',  label: 'Analytics',       icon: TrendingUp,      href: '/admin/analytics',  permission: 'Analytics'     },
   { id: 'menu',       label: 'Menu Manager',    icon: UtensilsCrossed, href: '/admin',               permission: 'MenuManager'   },
   { id: 'categories', label: 'Categories',      icon: Layers,          href: '/admin/categories',  permission: 'Categories'    },
   { id: 'settings',   label: 'Store Settings',  icon: Settings,        href: '/admin/settings',    permission: 'StoreSettings' },
