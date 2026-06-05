@@ -13,6 +13,9 @@ import {
   Trash2,
   ChevronDown,
   Image as ImageIcon,
+  Search,
+  LayoutGrid,
+  List,
 } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 
@@ -33,12 +36,15 @@ interface MenuItem {
   is_available: boolean
   extras: Extra[]
   removals: string[]
+  dietary_flags: string[]
   created_at: string
 }
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
 
 interface DbCategory { id: string; name: string; slug: string; sort_order: number; is_active: boolean }
+
+const DIETARY_FLAGS = ['Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Spicy', 'Nut-Free']
 
 const COLOUR_PALETTE = [
   'bg-orange-500/15 text-orange-300 ring-1 ring-orange-500/30',
@@ -256,6 +262,7 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
   )
   const [removals, setRemovals]         = useState<string[]>(() => editingItem?.removals ?? [])
   const [extras, setExtras]             = useState<Extra[]>(() => editingItem?.extras ?? [])
+  const [dietaryFlags, setDietaryFlags] = useState<string[]>(() => editingItem?.dietary_flags ?? [])
   const [removalInput, setRemovalInput] = useState('')
   const [extraInput, setExtraInput]     = useState({ name: '', price: '' })
   const [saving, setSaving]             = useState(false)
@@ -305,9 +312,10 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       price:        parsed,
       image_url:    form.image_url.trim() || null,
       category:     form.category,
-      is_available: editingItem ? editingItem.is_available : true,
+      is_available:  editingItem ? editingItem.is_available : true,
       removals,
       extras,
+      dietary_flags: dietaryFlags,
     }
 
     setSaving(true)
@@ -475,6 +483,33 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
             )}
           </div>
 
+          {/* ── Dietary Flags ── */}
+          <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
+            <div>
+              <p className="text-xs font-semibold text-zinc-300">Dietary Flags</p>
+              <p className="text-[11px] text-zinc-600 mt-0.5">Tag this item so customers can filter by diet</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {DIETARY_FLAGS.map((flag) => {
+                const active = dietaryFlags.includes(flag)
+                return (
+                  <button
+                    key={flag}
+                    type="button"
+                    onClick={() => setDietaryFlags((prev) => active ? prev.filter((f) => f !== flag) : [...prev, flag])}
+                    className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors border ${
+                      active
+                        ? 'bg-brand-red/20 border-brand-red/50 text-red-300'
+                        : 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300'
+                    }`}
+                  >
+                    {flag}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
           {error && (
             <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>
           )}
@@ -550,6 +585,10 @@ export default function AdminPage() {
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<MenuItem | null>(null)
   const [categories, setCategories] = useState<DbCategory[]>([])
+  const [searchQuery, setSearchQuery]   = useState('')
+  const [catFilter, setCatFilter]       = useState('')
+  const [statusFilter, setStatusFilter] = useState('')
+  const [viewMode, setViewMode]         = useState<'table' | 'grid'>('table')
 
   useEffect(() => {
     fetch('/api/admin/categories')
@@ -594,11 +633,21 @@ export default function AdminPage() {
     setDeleteTarget(null)
   }
 
+  // Client-side filtering
+  const filteredItems = items.filter((i) => {
+    const q = searchQuery.toLowerCase().trim()
+    if (q && !i.name.toLowerCase().includes(q) && !(i.description ?? '').toLowerCase().includes(q)) return false
+    if (catFilter && i.category.toLowerCase() !== catFilter) return false
+    if (statusFilter === 'active' && !i.is_available) return false
+    if (statusFilter === 'inactive' && i.is_available) return false
+    return true
+  })
+
   // Group by category
   const grouped = categories.map((cat, idx) => ({
     cat,
     idx,
-    rows: items.filter((i) => i.category.toLowerCase() === cat.slug),
+    rows: filteredItems.filter((i) => i.category.toLowerCase() === cat.slug),
   })).filter((g) => g.rows.length > 0)
 
   // Summary stats
@@ -628,6 +677,63 @@ export default function AdminPage() {
           </button>
         </header>
 
+        {/* Control bar */}
+        <div className="px-8 py-3 border-b border-zinc-800 bg-zinc-900/30 flex items-center gap-3 flex-wrap shrink-0">
+          {/* Search */}
+          <div className="relative flex-1 min-w-48">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
+            <input
+              type="text"
+              placeholder="Search items…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-8 pr-3 py-1.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red"
+            />
+          </div>
+          {/* Category filter */}
+          <div className="relative">
+            <select
+              value={catFilter}
+              onChange={(e) => setCatFilter(e.target.value)}
+              className="appearance-none bg-zinc-800 border border-zinc-700 rounded-lg pl-3 pr-7 py-1.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red"
+            >
+              <option value="">All Categories</option>
+              {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-500" />
+          </div>
+          {/* Status filter */}
+          <div className="relative">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="appearance-none bg-zinc-800 border border-zinc-700 rounded-lg pl-3 pr-7 py-1.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red"
+            >
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-500" />
+          </div>
+          {/* View toggle */}
+          <div className="flex items-center gap-1 bg-zinc-800 rounded-lg p-1">
+            <button
+              onClick={() => setViewMode('table')}
+              className={`p-1.5 rounded-md transition-colors ${viewMode === 'table' ? 'bg-zinc-600 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
+              title="Table view"
+            >
+              <List className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-zinc-600 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
+              title="Grid view"
+            >
+              <LayoutGrid className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
         {/* Content */}
         <div className="flex-1 px-8 py-6 overflow-auto">
           {loading ? (
@@ -639,6 +745,67 @@ export default function AdminPage() {
               <UtensilsCrossed className="w-12 h-12 text-zinc-700 mb-3" />
               <p className="text-zinc-400 font-medium">No menu items yet</p>
               <p className="text-zinc-600 text-sm mt-1">Click "Add New Item" to get started.</p>
+            </div>
+          ) : filteredItems.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-64 text-center">
+              <Search className="w-10 h-10 text-zinc-700 mb-3" />
+              <p className="text-zinc-400 font-medium">No items found</p>
+              <p className="text-zinc-600 text-sm mt-1">Try adjusting your search or filters.</p>
+            </div>
+          ) : viewMode === 'grid' ? (
+            <div className="space-y-8">
+              {grouped.map(({ cat, idx, rows }) => (
+                <section key={cat.slug}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${COLOUR_PALETTE[idx % COLOUR_PALETTE.length]}`}>
+                      {cat.name}
+                    </span>
+                    <span className="text-xs text-zinc-600">{rows.length} item{rows.length !== 1 ? 's' : ''}</span>
+                  </div>
+                  <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                    {rows.map((item) => (
+                      <div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-700 transition-all group flex flex-col">
+                        <div className="relative h-32 bg-zinc-800 shrink-0">
+                          {item.image_url ? (
+                            <Image src={item.image_url} alt={item.name} fill className="object-cover" sizes="200px" unoptimized />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <ImageIcon className="w-6 h-6 text-zinc-700" />
+                            </div>
+                          )}
+                          <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onClick={() => setEditingItem(item)} className="p-1.5 rounded-md bg-zinc-900/80 text-zinc-400 hover:text-blue-400 backdrop-blur-sm" title="Edit">
+                              <Pencil className="w-3 h-3" />
+                            </button>
+                            <button onClick={() => setDeleteTarget(item)} className="p-1.5 rounded-md bg-zinc-900/80 text-zinc-400 hover:text-red-400 backdrop-blur-sm" title="Delete">
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </div>
+                        <div className="p-3 flex flex-col gap-2 flex-1">
+                          <div>
+                            <p className="text-sm font-semibold text-white leading-tight line-clamp-1">{item.name}</p>
+                            {item.description && (
+                              <p className="text-[11px] text-zinc-500 mt-0.5 line-clamp-2">{item.description}</p>
+                            )}
+                          </div>
+                          {item.dietary_flags?.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {item.dietary_flags.map((f) => (
+                                <span key={f} className="text-[10px] px-1.5 py-0.5 rounded bg-brand-red/15 text-red-300">{f}</span>
+                              ))}
+                            </div>
+                          )}
+                          <div className="flex items-center justify-between mt-auto pt-1 border-t border-zinc-800">
+                            <PriceCell item={item} onSave={handlePriceSave} />
+                            <AvailabilityToggle item={item} onToggle={handleToggle} />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ))}
             </div>
           ) : (
             <div className="space-y-8">

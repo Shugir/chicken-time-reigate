@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import {
   ShoppingCart,
@@ -10,12 +10,16 @@ import {
   Minus,
   X,
   ChevronRight,
+  Search,
+  SlidersHorizontal,
+  LayoutGrid,
+  List,
 } from 'lucide-react'
 import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type MenuItem = ProductItem
+type MenuItem = ProductItem & { dietaryFlags?: string[] }
 interface CartEntry { qty: number; removals: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
 
@@ -213,6 +217,8 @@ const MENU_ITEMS: MenuItem[] = [
   },
 ]
 
+const DIETARY_FLAGS = ['Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Spicy', 'Nut-Free']
+
 const DELIVERY_FEE = 1.99
 
 const BADGE_STYLES: Record<string, string> = {
@@ -231,8 +237,9 @@ interface DbMenuItem {
   image_url: string | null
   category: string
   is_available: boolean
-  extras:   Array<{ name: string; price: number }> | null
-  removals: string[] | null
+  extras:        Array<{ name: string; price: number }> | null
+  removals:      string[] | null
+  dietary_flags: string[] | null
   custom_options: {
     emoji?: string
     badge?: string
@@ -254,8 +261,9 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     emoji:       opts.emoji ?? '🍽️',
     image:       item.image_url || FALLBACK_IMG,
     allergens:   opts.allergens ?? [],
-    removables:  item.removals?.length  ? item.removals  : (opts.removables ?? []),
-    add_ons:     item.extras?.length    ? item.extras    : (opts.add_ons    ?? []),
+    removables:   item.removals?.length  ? item.removals  : (opts.removables ?? []),
+    add_ons:      item.extras?.length    ? item.extras    : (opts.add_ons    ?? []),
+    dietaryFlags: item.dietary_flags ?? [],
   }
 }
 
@@ -357,6 +365,153 @@ function MenuCard({ item, qty, gradient, onOpenModal, onAdd, onRemove }: {
           <Plus size={15} />
           Add to Order
         </button>
+      </div>
+    </div>
+  )
+}
+
+// ─── Filters Popover ─────────────────────────────────────────────────────────
+
+function FiltersPopover({
+  selectedFlags, sortBy,
+  onFlagsChange, onSortChange, onClose,
+}: {
+  selectedFlags: string[]
+  sortBy: string
+  onFlagsChange: (flags: string[]) => void
+  onSortChange: (sort: string) => void
+  onClose: () => void
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose()
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [onClose])
+
+  function toggleFlag(flag: string) {
+    if (selectedFlags.includes(flag)) onFlagsChange(selectedFlags.filter((f) => f !== flag))
+    else onFlagsChange([...selectedFlags, flag])
+  }
+
+  return (
+    <div
+      ref={ref}
+      className="absolute right-0 top-full mt-2 z-50 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 space-y-4"
+    >
+      <div>
+        <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Dietary</p>
+        <div className="space-y-1.5">
+          {DIETARY_FLAGS.map((flag) => (
+            <label key={flag} className="flex items-center gap-2.5 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={selectedFlags.includes(flag)}
+                onChange={() => toggleFlag(flag)}
+                className="w-4 h-4 accent-brand-red rounded"
+              />
+              <span className="text-sm text-gray-700 group-hover:text-brand-dark">{flag}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+      <div>
+        <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Sort By</p>
+        <div className="space-y-1.5">
+          {([['default', 'Default order'], ['price-asc', 'Price: Low to High'], ['price-desc', 'Price: High to Low']] as const).map(([val, label]) => (
+            <label key={val} className="flex items-center gap-2.5 cursor-pointer group">
+              <input
+                type="radio"
+                name="sortBy"
+                checked={sortBy === val}
+                onChange={() => onSortChange(val)}
+                className="w-4 h-4 accent-brand-red"
+              />
+              <span className="text-sm text-gray-700 group-hover:text-brand-dark">{label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+      {(selectedFlags.length > 0 || sortBy !== 'default') && (
+        <button
+          onClick={() => { onFlagsChange([]); onSortChange('default') }}
+          className="w-full text-center text-xs text-brand-red font-semibold hover:underline"
+        >
+          Clear all filters
+        </button>
+      )}
+    </div>
+  )
+}
+
+// ─── Compact List Item ────────────────────────────────────────────────────────
+
+function CompactListItem({ item, qty, onOpenModal, onAdd, onRemove }: {
+  item: MenuItem
+  qty: number
+  onOpenModal: () => void
+  onAdd: () => void
+  onRemove: () => void
+}) {
+  return (
+    <div className="bg-white rounded-xl border border-gray-100/80 shadow-sm hover:shadow-md transition-all flex items-center gap-3 p-3">
+      <button
+        onClick={onOpenModal}
+        className="shrink-0 relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100"
+        aria-label={`View ${item.name} details`}
+      >
+        <Image src={item.image} alt={item.name} fill sizes="64px" className="object-cover" />
+        {item.badge && (
+          <span className={`absolute top-1 left-1 text-[9px] font-bold px-1 py-0.5 rounded-full ${BADGE_STYLES[item.badge] ?? 'bg-gray-100 text-gray-600'}`}>
+            {item.badge}
+          </span>
+        )}
+      </button>
+      <div className="flex-1 min-w-0">
+        <h3
+          className="font-heading font-bold text-sm text-brand-dark truncate cursor-pointer hover:text-brand-red transition-colors"
+          onClick={onOpenModal}
+        >
+          {item.name}
+        </h3>
+        <p className="text-[11px] text-gray-400 truncate mt-0.5">{item.description}</p>
+        {item.dietaryFlags && item.dietaryFlags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-1">
+            {item.dietaryFlags.slice(0, 3).map((f) => (
+              <span key={f} className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-green-50 text-green-700">{f}</span>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="shrink-0 flex flex-col items-end gap-1.5">
+        <span className="font-heading font-black text-base text-brand-dark">£{item.price.toFixed(2)}</span>
+        {qty > 0 ? (
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={onRemove}
+              className="w-6 h-6 rounded-full border-2 border-brand-red text-brand-red hover:bg-red-50 flex items-center justify-center transition-colors"
+            >
+              <Minus size={10} />
+            </button>
+            <span className="w-4 text-center text-xs font-black text-brand-dark">{qty}</span>
+            <button
+              onClick={onAdd}
+              className="w-6 h-6 rounded-full bg-brand-red hover:bg-red-700 text-white flex items-center justify-center transition-colors"
+            >
+              <Plus size={10} />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onOpenModal}
+            className="flex items-center gap-1 text-brand-red hover:text-red-700 text-xs font-bold transition-colors"
+          >
+            <Plus size={12} /> Add
+          </button>
+        )}
       </div>
     </div>
   )
@@ -506,6 +661,11 @@ export default function OrderPage() {
   const [menuItems, setMenuItems]       = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen]       = useState(true)
   const [prepTime, setPrepTime]         = useState(25)
+  const [searchQuery, setSearchQuery]   = useState('')
+  const [selectedFlags, setSelectedFlags] = useState<string[]>([])
+  const [sortBy, setSortBy]             = useState<'default' | 'price-asc' | 'price-desc'>('default')
+  const [viewMode, setViewMode]         = useState<'grid' | 'list'>('grid')
+  const [filtersOpen, setFiltersOpen]   = useState(false)
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
 
   useEffect(() => {
@@ -541,6 +701,23 @@ export default function OrderPage() {
         console.error('Failed to load menu items from database:', err)
       })
   }, [])
+
+  const isFiltering = searchQuery.trim() !== '' || selectedFlags.length > 0 || sortBy !== 'default'
+
+  const displayedItems = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim()
+    let result = menuItems.filter((item) => {
+      if (q && !item.name.toLowerCase().includes(q) && !(item.description ?? '').toLowerCase().includes(q)) return false
+      if (selectedFlags.length > 0) {
+        const flags = item.dietaryFlags ?? []
+        if (!selectedFlags.every((f) => flags.includes(f))) return false
+      }
+      return true
+    })
+    if (sortBy === 'price-asc')  result = [...result].sort((a, b) => a.price - b.price)
+    if (sortBy === 'price-desc') result = [...result].sort((a, b) => b.price - a.price)
+    return result
+  }, [menuItems, searchQuery, selectedFlags, sortBy])
 
   const count = cartCount(cart)
   const total = cartTotal(cart, menuItems)
@@ -686,43 +863,188 @@ export default function OrderPage() {
         </aside>
 
         {/* Menu sections */}
-        <main className="flex-1 min-w-0 space-y-12 pb-32">
-          {categories.map(({ slug, name, image_url }, catIdx) => {
-            const gradient = GRADIENTS[catIdx % GRADIENTS.length]
-            const items = menuItems.filter((m) => m.category.toLowerCase() === slug)
-            return (
-              <section
-                key={slug}
-                id={slug}
-                ref={(el) => { sectionRefs.current[slug] = el }}
-                className="scroll-mt-4"
-              >
-                {/* Section header */}
-                <div className="flex items-center gap-3 mb-6">
-                  <Image src={image_url || FALLBACK_IMG} alt={name} width={40} height={40} className="w-10 h-10 rounded-xl object-cover shadow-sm shrink-0" />
-                  <div>
-                    <h2 className="font-heading font-black text-2xl text-brand-dark leading-none">{name}</h2>
-                    <p className="text-xs text-gray-400 mt-0.5">{items.length} items</p>
-                  </div>
-                </div>
+        <main className="flex-1 min-w-0 pb-32">
 
-                {/* Premium card grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {items.map((item) => (
-                    <MenuCard
-                      key={item.id}
-                      item={item}
-                      qty={cart[item.id]?.qty ?? 0}
-                      gradient={gradient}
-                      onOpenModal={() => setSelectedItem(item)}
-                      onAdd={() => addToCart(item.id)}
-                      onRemove={() => removeFromCart(item.id)}
-                    />
-                  ))}
-                </div>
-              </section>
+          {/* Search + filter bar */}
+          <div className="mb-6 flex flex-wrap items-center gap-2">
+            {/* Search input */}
+            <div className="relative flex-1 min-w-48">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Search menu…"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-all"
+              />
+            </div>
+            {/* Filters button */}
+            <div className="relative">
+              <button
+                onClick={() => setFiltersOpen((v) => !v)}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-semibold shadow-sm transition-all ${
+                  selectedFlags.length > 0 || sortBy !== 'default'
+                    ? 'bg-brand-red text-white border-brand-red'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <SlidersHorizontal size={15} />
+                Filters
+                {(selectedFlags.length > 0 || sortBy !== 'default') && (
+                  <span className="bg-white/30 text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">
+                    {selectedFlags.length + (sortBy !== 'default' ? 1 : 0)}
+                  </span>
+                )}
+              </button>
+              {filtersOpen && (
+                <FiltersPopover
+                  selectedFlags={selectedFlags}
+                  sortBy={sortBy}
+                  onFlagsChange={setSelectedFlags}
+                  onSortChange={(v) => setSortBy(v as 'default' | 'price-asc' | 'price-desc')}
+                  onClose={() => setFiltersOpen(false)}
+                />
+              )}
+            </div>
+            {/* View toggle */}
+            <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-xl p-1 shadow-sm">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-gray-100 text-gray-800' : 'text-gray-400 hover:text-gray-600'}`}
+                title="Grid view"
+              >
+                <LayoutGrid size={16} />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-1.5 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-gray-100 text-gray-800' : 'text-gray-400 hover:text-gray-600'}`}
+                title="List view"
+              >
+                <List size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Active filter chips */}
+          {(selectedFlags.length > 0 || sortBy !== 'default') && (
+            <div className="flex flex-wrap gap-2 mb-4 -mt-2">
+              {selectedFlags.map((f) => (
+                <span key={f} className="flex items-center gap-1 bg-green-50 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                  {f}
+                  <button onClick={() => setSelectedFlags((prev) => prev.filter((x) => x !== f))} className="hover:text-green-900 ml-0.5">
+                    <X size={11} />
+                  </button>
+                </span>
+              ))}
+              {sortBy !== 'default' && (
+                <span className="flex items-center gap-1 bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                  {sortBy === 'price-asc' ? 'Price ↑' : 'Price ↓'}
+                  <button onClick={() => setSortBy('default')} className="hover:text-blue-900 ml-0.5">
+                    <X size={11} />
+                  </button>
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Filtered flat view */}
+          {isFiltering ? (
+            displayedItems.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-24 text-center">
+                <Search size={40} className="text-gray-200 mb-4" />
+                <p className="font-heading font-black text-lg text-gray-400">No items found</p>
+                <p className="text-sm text-gray-400 mt-1">Try adjusting your search or filters.</p>
+                <button
+                  onClick={() => { setSearchQuery(''); setSelectedFlags([]); setSortBy('default') }}
+                  className="mt-4 text-sm text-brand-red font-semibold hover:underline"
+                >
+                  Clear all filters
+                </button>
+              </div>
+            ) : viewMode === 'list' ? (
+              <div className="space-y-2">
+                {displayedItems.map((item) => (
+                  <CompactListItem
+                    key={item.id}
+                    item={item}
+                    qty={cart[item.id]?.qty ?? 0}
+                    onOpenModal={() => setSelectedItem(item)}
+                    onAdd={() => addToCart(item.id)}
+                    onRemove={() => removeFromCart(item.id)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                {displayedItems.map((item, i) => (
+                  <MenuCard
+                    key={item.id}
+                    item={item}
+                    qty={cart[item.id]?.qty ?? 0}
+                    gradient={GRADIENTS[i % GRADIENTS.length]}
+                    onOpenModal={() => setSelectedItem(item)}
+                    onAdd={() => addToCart(item.id)}
+                    onRemove={() => removeFromCart(item.id)}
+                  />
+                ))}
+              </div>
             )
-          })}
+          ) : (
+            /* Category sections (default) */
+            <div className="space-y-12">
+              {categories.map(({ slug, name, image_url }, catIdx) => {
+                const gradient = GRADIENTS[catIdx % GRADIENTS.length]
+                const items = menuItems.filter((m) => m.category.toLowerCase() === slug)
+                return (
+                  <section
+                    key={slug}
+                    id={slug}
+                    ref={(el) => { sectionRefs.current[slug] = el }}
+                    className="scroll-mt-4"
+                  >
+                    {/* Section header */}
+                    <div className="flex items-center gap-3 mb-6">
+                      <Image src={image_url || FALLBACK_IMG} alt={name} width={40} height={40} className="w-10 h-10 rounded-xl object-cover shadow-sm shrink-0" />
+                      <div>
+                        <h2 className="font-heading font-black text-2xl text-brand-dark leading-none">{name}</h2>
+                        <p className="text-xs text-gray-400 mt-0.5">{items.length} items</p>
+                      </div>
+                    </div>
+
+                    {/* Card view */}
+                    {viewMode === 'list' ? (
+                      <div className="space-y-2">
+                        {items.map((item) => (
+                          <CompactListItem
+                            key={item.id}
+                            item={item}
+                            qty={cart[item.id]?.qty ?? 0}
+                            onOpenModal={() => setSelectedItem(item)}
+                            onAdd={() => addToCart(item.id)}
+                            onRemove={() => removeFromCart(item.id)}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                        {items.map((item) => (
+                          <MenuCard
+                            key={item.id}
+                            item={item}
+                            qty={cart[item.id]?.qty ?? 0}
+                            gradient={gradient}
+                            onOpenModal={() => setSelectedItem(item)}
+                            onAdd={() => addToCart(item.id)}
+                            onRemove={() => removeFromCart(item.id)}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                )
+              })}
+            </div>
+          )}
         </main>
       </div>
 
