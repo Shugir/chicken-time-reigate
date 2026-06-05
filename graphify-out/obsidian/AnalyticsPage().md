@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[fmtGbp()]] - `calls` [EXTRACTED]
+- [[formatDateHeader()]] - `calls` [EXTRACTED]
 - [[page.tsx_4]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

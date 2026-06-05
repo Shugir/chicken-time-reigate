@@ -1,5 +1,5 @@
 ---
-source_file: "admin/drivers/page.tsx"
+source_file: "admin/dashboard/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,11 +12,17 @@ tags:
 # page.tsx
 
 ## Connections
-- [[Driver]] - `contains` [EXTRACTED]
-- [[DriverForm]] - `contains` [EXTRACTED]
-- [[DriversPage()]] - `contains` [EXTRACTED]
-- [[EMPTY_FORM_2]] - `contains` [EXTRACTED]
-- [[STATUS_LABELS]] - `contains` [EXTRACTED]
-- [[STATUS_STYLES_1]] - `contains` [EXTRACTED]
+- [[DashboardData]] - `contains` [EXTRACTED]
+- [[DashboardPage()]] - `contains` [EXTRACTED]
+- [[NAV]] - `contains` [EXTRACTED]
+- [[OrderItem_1]] - `contains` [EXTRACTED]
+- [[RecentOrder]] - `contains` [EXTRACTED]
+- [[STATUS_DOTS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES]] - `contains` [EXTRACTED]
+- [[StatCard()_1]] - `contains` [EXTRACTED]
+- [[formatItems()]] - `contains` [EXTRACTED]
+- [[formatTime()]] - `contains` [EXTRACTED]
+- [[shortId()]] - `contains` [EXTRACTED]
+- [[todayLabel()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

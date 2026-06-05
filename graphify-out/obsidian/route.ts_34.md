@@ -1,5 +1,5 @@
 ---
-source_file: "api/checkout/route.ts"
+source_file: "route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -13,8 +13,13 @@ tags:
 
 ## Connections
 - [[CartItem]] - `contains` [EXTRACTED]
-- [[Extra_1]] - `contains` [EXTRACTED]
-- [[POST()_7]] - `contains` [EXTRACTED]
-- [[stripe_1]] - `contains` [EXTRACTED]
+- [[DELETE()]] - `contains` [EXTRACTED]
+- [[Extra]] - `contains` [EXTRACTED]
+- [[GET()_12]] - `contains` [EXTRACTED]
+- [[PATCH()]] - `contains` [EXTRACTED]
+- [[POST()_9]] - `contains` [EXTRACTED]
+- [[Supabase Admin Client]] - `imports` [EXTRACTED]
+- [[stripe_2]] - `contains` [EXTRACTED]
+- [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

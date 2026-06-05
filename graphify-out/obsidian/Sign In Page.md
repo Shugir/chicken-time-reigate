@@ -15,6 +15,6 @@ tags:
 - [[Sign Up Page]] - `references` [EXTRACTED]
 - [[SiteHeader Component]] - `references` [EXTRACTED]
 - [[Supabase Admin Client]] - `shares_data_with` [AMBIGUOUS]
-- [[page.tsx_21]] - `contains` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

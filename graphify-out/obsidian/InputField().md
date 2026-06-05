@@ -12,7 +12,7 @@ tags:
 # InputField()
 
 ## Connections
-- [[page.tsx_14]] - `contains` [EXTRACTED]
-- [[page.tsx_21]] - `contains` [EXTRACTED]
+- [[page.tsx_15]] - `contains` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

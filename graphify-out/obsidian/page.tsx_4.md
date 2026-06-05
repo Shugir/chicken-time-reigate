@@ -27,6 +27,9 @@ tags:
 - [[TopItem]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[fmtGbp()]] - `contains` [EXTRACTED]
+- [[format-date.ts]] - `imports_from` [EXTRACTED]
+- [[formatDateHeader()]] - `imports` [EXTRACTED]
+- [[formatDateShort()]] - `imports` [EXTRACTED]
 - [[shortDate()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

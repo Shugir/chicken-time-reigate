@@ -2,7 +2,7 @@
 source_file: "app/admin/dashboard/page.tsx"
 type: "code"
 community: "Community None"
-location: "L59"
+location: "L60"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,8 @@ tags:
 # formatTime()
 
 ## Connections
+- [[formatDateShort()]] - `calls` [EXTRACTED]
 - [[page.tsx_6]] - `contains` [EXTRACTED]
-- [[page.tsx_22]] - `contains` [EXTRACTED]
+- [[page.tsx_24]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

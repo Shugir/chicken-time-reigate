@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/webhook/route.ts"
+source_file: "app/api/store-settings/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[POST()_8]] - `contains` [EXTRACTED]
-- [[stripe_2]] - `contains` [EXTRACTED]
+- [[GET()_9]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

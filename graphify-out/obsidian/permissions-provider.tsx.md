@@ -18,7 +18,7 @@ tags:
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_1]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_10]] - `imports_from` [EXTRACTED]
-- [[page.tsx_15]] - `imports_from` [EXTRACTED]
+- [[page.tsx_16]] - `imports_from` [EXTRACTED]
 - [[usePermissions()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
