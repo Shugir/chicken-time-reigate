@@ -252,7 +252,7 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     category:    item.category.toLowerCase(),
     badge:       opts.badge,
     emoji:       opts.emoji ?? '🍽️',
-    image:       item.image_url ?? '',
+    image:       item.image_url || FALLBACK_IMG,
     allergens:   opts.allergens ?? [],
     removables:  item.removals?.length  ? item.removals  : (opts.removables ?? []),
     add_ons:     item.extras?.length    ? item.extras    : (opts.add_ons    ?? []),
