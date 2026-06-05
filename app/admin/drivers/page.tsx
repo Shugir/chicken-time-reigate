@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import {
-  Truck, Loader2, Plus, Pencil, X, Check,
+  Truck, Loader2, Plus, Pencil, X, Check, BookOpen,
 } from 'lucide-react'
+import Link from 'next/link'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 
 interface Driver {
@@ -204,6 +205,13 @@ export default function DriversPage() {
                             </td>
                             <td className="px-6 py-3.5 text-right">
                               <div className="flex items-center justify-end gap-2">
+                                <Link
+                                  href={`/admin/drivers/${driver.id}`}
+                                  className="p-1.5 rounded-lg text-zinc-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                                  title="View Ledger"
+                                >
+                                  <BookOpen className="w-3.5 h-3.5" />
+                                </Link>
                                 <button
                                   onClick={() => openEdit(driver)}
                                   className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors"

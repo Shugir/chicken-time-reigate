@@ -440,7 +440,7 @@ export default function AnalyticsPage() {
                           <ChartTooltip
                             active={active}
                             payload={payload?.map(p => ({ ...p, name: p.name as string, value: p.value as number, color: p.color as string }))}
-                            label={label}
+                            label={String(label)}
                             fmtValue={v => fmtGbp(v)}
                           />
                         )}
