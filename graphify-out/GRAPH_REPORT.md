@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e02b7f86`
+- Built from commit: `10195012`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -202,7 +202,7 @@ Nodes (4): CLAUDE.md Knowledge Graph Instructions, God Nodes Design Decision, Kn
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **146 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+141 more)
+- **146 isolated node(s):** `Driver`, `DriverForm`, `EMPTY_FORM`, `STATUS_STYLES`, `STATUS_LABELS` (+141 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -219,7 +219,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.149) - this node is a cross-community bridge._
 - **Are the 7 inferred relationships involving `DB Table: menu_items` (e.g. with `MENU_ITEMS Static Data` and `ProductItem Interface`) actually correct?**
   _`DB Table: menu_items` has 7 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
+- **What connects `Driver`, `DriverForm`, `EMPTY_FORM` to the rest of the system?**
   _150 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._
