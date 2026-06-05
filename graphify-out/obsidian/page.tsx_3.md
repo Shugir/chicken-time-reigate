@@ -22,7 +22,8 @@ tags:
 - [[DbCategory]] - `contains` [EXTRACTED]
 - [[DeleteConfirmModal()]] - `contains` [EXTRACTED]
 - [[EMPTY_FORM]] - `contains` [EXTRACTED]
-- [[Extra_1]] - `contains` [EXTRACTED]
+- [[Extra]] - `contains` [EXTRACTED]
+- [[ExtraNameInput()]] - `contains` [EXTRACTED]
 - [[ItemModal()]] - `contains` [EXTRACTED]
 - [[ItemModalProps]] - `contains` [EXTRACTED]
 - [[MenuItem]] - `contains` [EXTRACTED]
@@ -30,6 +31,7 @@ tags:
 - [[NavItem]] - `contains` [EXTRACTED]
 - [[PriceCell()]] - `contains` [EXTRACTED]
 - [[SaveState]] - `contains` [EXTRACTED]
+- [[TagAutocomplete()]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 

@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/kitchen/orders/route.ts"
+source_file: "app/api/kitchen/delivery/route.ts"
 type: "code"
 community: "Community None"
 location: "L6"
@@ -12,7 +12,6 @@ tags:
 # GET()
 
 ## Connections
-- [[route.ts]] - `contains` [EXTRACTED]
-- [[route.ts_26]] - `contains` [EXTRACTED]
+- [[route.ts_23]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

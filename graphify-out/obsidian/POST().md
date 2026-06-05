@@ -1,8 +1,8 @@
 ---
-source_file: "route.ts"
+source_file: "app/api/account/close/route.ts"
 type: "code"
 community: "Community None"
-location: "L247"
+location: "L6"
 tags:
   - graphify/code
   - graphify/EXTRACTED

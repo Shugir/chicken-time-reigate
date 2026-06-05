@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[formatTimeFull()]] - `calls` [EXTRACTED]
 - [[page.tsx_16]] - `contains` [EXTRACTED]
-- [[page.tsx_23]] - `contains` [EXTRACTED]
+- [[page.tsx_24]] - `contains` [EXTRACTED]
 - [[page.tsx_30]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

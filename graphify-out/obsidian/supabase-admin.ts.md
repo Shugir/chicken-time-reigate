@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[get-user-permissions.ts]] - `imports_from` [EXTRACTED]
+- [[route.ts]] - `imports_from` [EXTRACTED]
 - [[route.ts_1]] - `imports_from` [EXTRACTED]
 - [[route.ts_2]] - `imports_from` [EXTRACTED]
 - [[route.ts_3]] - `imports_from` [EXTRACTED]

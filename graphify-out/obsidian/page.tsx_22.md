@@ -1,5 +1,5 @@
 ---
-source_file: "admin/drivers/page.tsx"
+source_file: "admin/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,13 +12,25 @@ tags:
 # page.tsx
 
 ## Connections
-- [[Aggregates]] - `contains` [EXTRACTED]
-- [[Driver]] - `contains` [EXTRACTED]
-- [[DriverForm]] - `contains` [EXTRACTED]
-- [[DriversPage()]] - `contains` [EXTRACTED]
-- [[EMPTY_FORM_2]] - `contains` [EXTRACTED]
-- [[STATUS_LABELS]] - `contains` [EXTRACTED]
-- [[STATUS_STYLES_1]] - `contains` [EXTRACTED]
-- [[fmtGbp()_1]] - `contains` [EXTRACTED]
+- [[AdminPage()]] - `contains` [EXTRACTED]
+- [[AvailabilityToggle()]] - `contains` [EXTRACTED]
+- [[CATEGORIES]] - `contains` [EXTRACTED]
+- [[CATEGORY_COLOURS]] - `contains` [EXTRACTED]
+- [[CATEGORY_LABELS]] - `contains` [EXTRACTED]
+- [[COLOUR_PALETTE]] - `contains` [EXTRACTED]
+- [[Category_1]] - `contains` [EXTRACTED]
+- [[DbCategory]] - `contains` [EXTRACTED]
+- [[DeleteConfirmModal()]] - `contains` [EXTRACTED]
+- [[EMPTY_FORM]] - `contains` [EXTRACTED]
+- [[Extra]] - `contains` [EXTRACTED]
+- [[ExtraNameInput()]] - `contains` [EXTRACTED]
+- [[ItemModal()]] - `contains` [EXTRACTED]
+- [[ItemModalProps]] - `contains` [EXTRACTED]
+- [[MenuItem]] - `contains` [EXTRACTED]
+- [[NAV_3]] - `contains` [EXTRACTED]
+- [[NavItem]] - `contains` [EXTRACTED]
+- [[PriceCell()]] - `contains` [EXTRACTED]
+- [[SaveState]] - `contains` [EXTRACTED]
+- [[TagAutocomplete()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

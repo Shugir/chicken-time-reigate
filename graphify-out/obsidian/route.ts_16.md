@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/promotions/[id]/route.ts"
+source_file: "app/api/admin/staff/[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"

@@ -14,6 +14,6 @@ tags:
 ## Connections
 - [[fmtGbp()_1]] - `calls` [EXTRACTED]
 - [[page.tsx_8]] - `contains` [EXTRACTED]
-- [[page.tsx_22]] - `contains` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
