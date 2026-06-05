@@ -1,45 +1,43 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
-import { Loader2, AlertCircle } from 'lucide-react'
+import { Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 
-export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail]       = useState('')
+export default function SignupPage() {
+  const [email, setEmail]     = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading]   = useState(false)
+  const [name, setName]       = useState('')
+  const [loading, setLoading] = useState(false)
   const [oauthLoading, setOauthLoading] = useState<string | null>(null)
-  const [error, setError]       = useState<string | null>(null)
+  const [error, setError]     = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   )
 
-  async function redirectByRole() {
-    const res = await fetch('/api/auth/role')
-    const { isStaff } = await res.json()
-    router.push(isStaff ? '/admin/redirect' : '/account')
-    router.refresh()
-  }
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     setError(null)
 
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
+    const { error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { full_name: name.trim() || null } },
+    })
 
     if (authError) {
-      setError('Invalid email or password.')
+      setError(authError.message)
       setLoading(false)
       return
     }
 
-    await redirectByRole()
+    setSuccess(true)
+    setLoading(false)
   }
 
   async function handleOAuth(provider: 'google' | 'facebook') {
@@ -51,19 +49,36 @@ export default function LoginPage() {
     })
   }
 
+  if (success) {
+    return (
+      <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+        <div className="w-full max-w-sm text-center">
+          <CheckCircle2 className="w-12 h-12 text-green-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-white mb-2">Check your email</h2>
+          <p className="text-sm text-zinc-400 mb-6">
+            We sent a confirmation link to{' '}
+            <span className="text-white">{email}</span>.
+            Click it to activate your account.
+          </p>
+          <Link href="/login" className="text-sm text-brand-red hover:text-brand-red/80">
+            Back to Sign In
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <span className="text-5xl mb-3">🍗</span>
           <h1 className="text-xl font-bold text-white">Chicken Time</h1>
           <p className="text-sm text-zinc-500 mt-1">Reigate</p>
         </div>
 
-        {/* Card */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-7">
-          <h2 className="text-base font-semibold text-white mb-5">Sign in to continue</h2>
+          <h2 className="text-base font-semibold text-white mb-5">Create your account</h2>
 
           {/* OAuth */}
           <div className="space-y-3 mb-5">
@@ -112,9 +127,20 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1.5">
-                Email address
-              </label>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Full name</label>
+              <input
+                type="text"
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3.5 py-2.5 text-sm text-white
+                           placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-brand-red"
+                placeholder="Jane Smith"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Email address</label>
               <input
                 type="email"
                 autoComplete="email"
@@ -128,18 +154,17 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1.5">
-                Password
-              </label>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Password</label>
               <input
                 type="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 required
+                minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3.5 py-2.5 text-sm text-white
                            placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-brand-red"
-                placeholder="••••••••"
+                placeholder="Min. 6 characters"
               />
             </div>
 
@@ -157,21 +182,16 @@ export default function LoginPage() {
                          rounded-lg py-2.5 text-sm transition-colors flex items-center justify-center gap-2"
             >
               {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Signing in…
-                </>
+                <><Loader2 className="w-4 h-4 animate-spin" />Creating account…</>
               ) : (
-                'Sign In'
+                'Create Account'
               )}
             </button>
           </form>
 
           <p className="text-center text-xs text-zinc-500 mt-4">
-            No account?{' '}
-            <Link href="/signup" className="text-zinc-300 hover:text-white underline">
-              Create one
-            </Link>
+            Already have an account?{' '}
+            <Link href="/login" className="text-zinc-300 hover:text-white underline">Sign in</Link>
           </p>
         </div>
       </div>

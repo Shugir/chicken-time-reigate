@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { createServerClient } from '@supabase/ssr'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -20,6 +21,20 @@ interface CartItem {
 
 export async function POST(request: NextRequest) {
   try {
+    // Detect logged-in user to link order to their account
+    const supabaseClient = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return request.cookies.getAll() },
+          setAll() {},
+        },
+      },
+    )
+    const { data: { user: authUser } } = await supabaseClient.auth.getUser()
+    const userId = authUser?.id ?? null
+
     const { items, delivery_fee = 0, postcode, promo_code, customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes }: {
       items: CartItem[]
       delivery_fee?: number
@@ -68,6 +83,7 @@ export async function POST(request: NextRequest) {
       .insert({
         status:              'pending',
         total_amount:        total,
+        user_id:             userId,
         customer_name:       customer_name       ?? null,
         customer_phone:      customer_phone      ?? null,
         delivery_address:    delivery_address    ?? null,
