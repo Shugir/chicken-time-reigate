@@ -1,7 +1,7 @@
-# Graph Report - chicken-time-reigate  (2026-06-06)
+# Graph Report - chicken-time-reigate  (2026-06-07)
 
 ## Corpus Check
-- 121 files · ~1,776,530 words
+- 121 files · ~1,776,528 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8fbc6b2c`
+- Built from commit: `b8ef3306`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
