@@ -101,7 +101,7 @@ export default function DriverDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <div className="fixed inset-0 z-[200] bg-zinc-950 text-white overflow-auto">
       <div className="max-w-md mx-auto px-4 pb-10">
 
         {/* Header */}
