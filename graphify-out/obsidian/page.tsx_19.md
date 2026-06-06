@@ -13,5 +13,6 @@ tags:
 
 ## Connections
 - [[SignInPage()]] - `contains` [EXTRACTED]
+- [[supabase_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

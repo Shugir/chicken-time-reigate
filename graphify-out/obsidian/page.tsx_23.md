@@ -1,5 +1,5 @@
 ---
-source_file: "login/page.tsx"
+source_file: "sign-up/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,6 +12,7 @@ tags:
 # page.tsx
 
 ## Connections
-- [[LoginPage()]] - `contains` [EXTRACTED]
+- [[SignUpPage()]] - `contains` [EXTRACTED]
+- [[supabase_4]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
