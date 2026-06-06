@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-06-06)
 
 ## Corpus Check
-- 111 files · ~1,088,927 words
+- 111 files · ~1,088,933 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 684 nodes · 1127 edges · 60 communities (31 shown, 29 thin omitted)
+- 684 nodes · 1129 edges · 60 communities (31 shown, 29 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `85dce890`
+- Built from commit: `ca304796`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,6 +19,7 @@
 - [[_COMMUNITY_Community 1|Community 1]]
 - [[_COMMUNITY_Community 2|Community 2]]
 - [[_COMMUNITY_Community 3|Community 3]]
+- [[_COMMUNITY_Community 4|Community 4]]
 - [[_COMMUNITY_Community 5|Community 5]]
 - [[_COMMUNITY_Community 6|Community 6]]
 - [[_COMMUNITY_Community 7|Community 7]]
@@ -67,7 +68,6 @@
 - [[_COMMUNITY_Community 61|Community 61]]
 - [[_COMMUNITY_Community 63|Community 63]]
 - [[_COMMUNITY_Community 64|Community 64]]
-- [[_COMMUNITY_Community 65|Community 65]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `supabaseAdmin` - 43 edges
@@ -105,8 +105,8 @@ Cohesion: 0.26
 Nodes (14): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+6 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.06
-Nodes (66): AboutPage(), oswald, STATS, VALUES, AdminPage(), AvailabilityToggle(), CATEGORIES, Category (+58 more)
+Cohesion: 0.05
+Nodes (70): AboutPage(), oswald, STATS, VALUES, AdminPage(), AvailabilityToggle(), CATEGORIES, Category (+62 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.06
@@ -115,6 +115,10 @@ Nodes (33): eslintConfig, dependencies, lucide-react, next, react, react-dom, re
 ### Community 3 - "Community 3"
 Cohesion: 0.05
 Nodes (21): DOW_LABELS, GET(), GET(), GET(), GET(), POST(), DELETE(), PATCH() (+13 more)
+
+### Community 4 - "Community 4"
+Cohesion: 0.33
+Nodes (9): Aggregates, Driver, DriverForm, DriversPage(), EMPTY_FORM, fmtGbp(), NAV, STATUS_LABELS (+1 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.05
@@ -133,7 +137,7 @@ Cohesion: 0.16
 Nodes (12): menu_items, order_items, orders, profiles, set_updated_at(), trg_menu_items_updated_at, trg_orders_updated_at, trg_profiles_updated_at (+4 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.25
+Cohesion: 0.27
 Nodes (10): geistMono, geistSans, HOURS, inter, metadata, QUICK_LINKS, RootLayout(), NewsletterForm() (+2 more)
 
 ### Community 11 - "Community 11"
@@ -177,8 +181,8 @@ Cohesion: 0.67
 Nodes (3): About Page, About Stats Data (STATS), Brand Values Data (VALUES)
 
 ### Community 47 - "Community 47"
-Cohesion: 0.06
-Nodes (34): AdminSidebar(), ALL_NAV, Category, CategoryForm, EMPTY_FORM, DeleteConfirm(), DeliveryPage(), DeliveryZone (+26 more)
+Cohesion: 0.08
+Nodes (25): AdminSidebar(), ALL_NAV, Category, CategoryForm, EMPTY_FORM, DeleteConfirm(), DeliveryPage(), DeliveryZone (+17 more)
 
 ### Community 50 - "Community 50"
 Cohesion: 0.05
@@ -191,10 +195,6 @@ Nodes (9): CartItem, Extra, POST(), stripe, buildHtml(), EmailOrderData, OrderEm
 ### Community 61 - "Community 61"
 Cohesion: 0.08
 Nodes (39): AddItemModal Component, Admin Page, AvailabilityToggle Component, DeleteConfirmModal Component, PriceCell Component, API: Admin Menu Items [id] Route (PATCH/DELETE), API: Admin Menu Items Route (GET/POST), API Checkout POST (+31 more)
-
-### Community 65 - "Community 65"
-Cohesion: 0.5
-Nodes (4): Contact Page, FormState Type, Opening Hours Data (HOURS), InputField Component
 
 ## Ambiguous Edges - Review These
 - `Supabase Admin Client` → `Sign In Page`  [AMBIGUOUS]
@@ -223,4 +223,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `name`, `version`, `private` to the rest of the system?**
   _178 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.06 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
