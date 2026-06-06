@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
 
 const NAV_LINKS = [
@@ -16,6 +16,14 @@ const NAV_LINKS = [
 export function SiteHeader() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const [logoUrl, setLogoUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/admin/store-settings')
+      .then((r) => r.json())
+      .then((d) => { if (d.logo_url) setLogoUrl(d.logo_url) })
+      .catch(() => {})
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 bg-brand-dark border-b border-white/10 shadow-lg shadow-black/30">
@@ -24,11 +32,12 @@ export function SiteHeader() {
         {/* Logo */}
         <Link href="/" className="flex items-center shrink-0">
           <Image
-            src="/chicken-time-logo_v1.png"
+            src={logoUrl ?? '/chicken-time-logo_v1.png'}
             alt="Chicken Time Reigate Logo"
             width={700}
             height={150}
             className="h-14 w-auto"
+            unoptimized={!!logoUrl}
           />
         </Link>
 
