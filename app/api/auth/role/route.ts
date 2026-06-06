@@ -28,7 +28,7 @@ export async function GET() {
     .maybeSingle()
 
   const isStaff  = !!data
-  const isDriver = isStaff && (data.role === 'owner' || (data.permissions ?? []).includes('Driver'))
+  const isDriver = isStaff && (data.permissions ?? []).includes('Driver')
 
   return NextResponse.json({ isStaff, isDriver })
 }
