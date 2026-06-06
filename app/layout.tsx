@@ -72,11 +72,11 @@ export default function RootLayout({
             <div className="space-y-4">
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/chicken-time-logo_v1.png"
+                  src="/LOGOS.png"
                   alt="Chicken Time Reigate Logo"
-                  width={700}
-                  height={150}
-                  className="h-24 w-auto"
+                  width={960}
+                  height={200}
+                  className="w-full max-w-[280px] h-auto"
                 />
               </Link>
               <p className="text-sm text-white/60 leading-relaxed max-w-[220px]">
