@@ -24,6 +24,7 @@ const ALL_PERMISSIONS = [
   { key: 'Fleet',            label: 'Fleet & Drivers',    desc: 'Manage drivers and wages' },
   { key: 'Kitchen',          label: 'Kitchen Display',    desc: 'Access the kitchen order dashboard' },
   { key: 'DispatchController', label: 'Dispatch Controller', desc: 'Manage out-for-delivery orders' },
+  { key: 'Driver',           label: 'Driver',             desc: 'Access the driver delivery dashboard' },
   { key: 'UserControl',      label: 'User Control',       desc: 'Manage staff accounts and permissions' },
 ]
 

@@ -21,6 +21,16 @@ export async function GET() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+  // Must have Driver permission in staff_permissions
+  const { data: perms } = await supabaseAdmin
+    .from('staff_permissions')
+    .select('role, permissions')
+    .eq('email', user.email!)
+    .maybeSingle()
+
+  const hasDriverPerm = perms?.role === 'owner' || (perms?.permissions ?? []).includes('Driver')
+  if (!hasDriverPerm) return NextResponse.json({ error: 'Not a driver' }, { status: 403 })
+
   const { data: driver } = await supabaseAdmin
     .from('drivers')
     .select('id')
