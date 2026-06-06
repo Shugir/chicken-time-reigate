@@ -208,9 +208,20 @@ const MENU_ITEMS: MenuItem[] = [
   },
 ]
 
-const DIETARY_FLAGS = ['Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Spicy', 'Nut-Free']
-
 const DELIVERY_FEE = 1.99
+
+function getUniqueTags(items: MenuItem[]) {
+  const flags     = new Set<string>()
+  const allergens = new Set<string>()
+  for (const item of items) {
+    for (const f of item.dietaryFlags ?? []) flags.add(f)
+    for (const a of item.allergens    ?? []) allergens.add(a)
+  }
+  return {
+    dietaryFlags: [...flags].sort(),
+    allergens:    [...allergens].sort(),
+  }
+}
 
 // ─── DB → ProductItem mapper ──────────────────────────────────────────────────
 
@@ -225,6 +236,7 @@ interface DbMenuItem {
   extras:        Array<{ name: string; price: number }> | null
   removals:      string[] | null
   dietary_flags: string[] | null
+  allergens: string[] | null
   custom_options: {
     emoji?: string
     badge?: string
@@ -245,7 +257,7 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     badge:        opts.badge,
     emoji:        opts.emoji ?? '🍽️',
     image:        item.image_url || FALLBACK_IMG,
-    allergens:    opts.allergens ?? [],
+    allergens:    item.allergens?.length ? item.allergens : (opts.allergens ?? []),
     removables:   item.removals?.length ? item.removals  : (opts.removables ?? []),
     add_ons:      item.extras?.length   ? item.extras    : (opts.add_ons    ?? []),
     dietaryFlags: item.dietary_flags ?? [],
@@ -295,6 +307,11 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
         {item.badge && (
           <span className="absolute top-3 left-3 z-10 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/95 text-zinc-800 tracking-wide border border-zinc-200/80">
             {item.badge}
+          </span>
+        )}
+        {item.allergens && item.allergens.length > 0 && (
+          <span className="absolute bottom-2 right-2 z-10 text-[9px] font-semibold px-2 py-0.5 rounded-full bg-amber-50/95 text-amber-700 border border-amber-200/80">
+            ⚠ Allergens
           </span>
         )}
       </button>
@@ -355,12 +372,17 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
 // ─── Filters Popover ─────────────────────────────────────────────────────────
 
 function FiltersPopover({
-  selectedFlags, sortBy,
-  onFlagsChange, onSortChange, onClose,
+  availableDietaryFlags, selectedFlags, onFlagsChange,
+  availableAllergens, excludedAllergens, onExcludedAllergensChange,
+  sortBy, onSortChange, onClose,
 }: {
+  availableDietaryFlags: string[]
   selectedFlags: string[]
-  sortBy: string
   onFlagsChange: (flags: string[]) => void
+  availableAllergens: string[]
+  excludedAllergens: string[]
+  onExcludedAllergensChange: (allergens: string[]) => void
+  sortBy: string
   onSortChange: (sort: string) => void
   onClose: () => void
 }) {
@@ -374,32 +396,60 @@ function FiltersPopover({
     return () => document.removeEventListener('mousedown', handler)
   }, [onClose])
 
-  function toggleFlag(flag: string) {
-    if (selectedFlags.includes(flag)) onFlagsChange(selectedFlags.filter((f) => f !== flag))
-    else onFlagsChange([...selectedFlags, flag])
-  }
+  const hasFilters = selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default'
 
   return (
     <div
       ref={ref}
-      className="absolute right-0 top-full mt-2 z-50 w-60 bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-zinc-100 p-5 space-y-5"
+      className="absolute right-0 top-full mt-2 z-50 w-64 bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-zinc-100 p-5 space-y-5"
     >
-      <div>
-        <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Dietary</p>
-        <div className="space-y-2">
-          {DIETARY_FLAGS.map((flag) => (
-            <label key={flag} className="flex items-center gap-2.5 cursor-pointer group">
-              <input
-                type="checkbox"
-                checked={selectedFlags.includes(flag)}
-                onChange={() => toggleFlag(flag)}
-                className="w-4 h-4 accent-zinc-900 rounded"
-              />
-              <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">{flag}</span>
-            </label>
-          ))}
+      {availableDietaryFlags.length > 0 && (
+        <div>
+          <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Dietary</p>
+          <p className="text-[10px] text-zinc-400 mb-2.5 -mt-1">Show items that match all selected</p>
+          <div className="space-y-2">
+            {availableDietaryFlags.map((flag) => (
+              <label key={flag} className="flex items-center gap-2.5 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={selectedFlags.includes(flag)}
+                  onChange={() => onFlagsChange(
+                    selectedFlags.includes(flag)
+                      ? selectedFlags.filter((f) => f !== flag)
+                      : [...selectedFlags, flag]
+                  )}
+                  className="w-4 h-4 accent-zinc-900 rounded"
+                />
+                <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">{flag}</span>
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {availableAllergens.length > 0 && (
+        <div className={availableDietaryFlags.length > 0 ? 'border-t border-zinc-100 pt-5' : ''}>
+          <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Exclude Allergens</p>
+          <p className="text-[10px] text-zinc-400 mb-2.5 -mt-1">Hide items that contain these</p>
+          <div className="space-y-2">
+            {availableAllergens.map((allergen) => (
+              <label key={allergen} className="flex items-center gap-2.5 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={excludedAllergens.includes(allergen)}
+                  onChange={() => onExcludedAllergensChange(
+                    excludedAllergens.includes(allergen)
+                      ? excludedAllergens.filter((a) => a !== allergen)
+                      : [...excludedAllergens, allergen]
+                  )}
+                  className="w-4 h-4 accent-amber-600 rounded"
+                />
+                <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">{allergen}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="border-t border-zinc-100 pt-5">
         <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Sort By</p>
@@ -423,9 +473,9 @@ function FiltersPopover({
         </div>
       </div>
 
-      {(selectedFlags.length > 0 || sortBy !== 'default') && (
+      {hasFilters && (
         <button
-          onClick={() => { onFlagsChange([]); onSortChange('default') }}
+          onClick={() => { onFlagsChange([]); onExcludedAllergensChange([]); onSortChange('default') }}
           className="w-full text-center text-xs text-zinc-400 hover:text-zinc-900 font-medium transition-colors underline underline-offset-2"
         >
           Clear all
@@ -469,13 +519,14 @@ function CompactListItem({ item, qty, onOpenModal, onAdd, onRemove }: {
           )}
         </div>
         <p className="text-xs text-zinc-400 truncate mt-0.5">{item.description}</p>
-        {item.dietaryFlags && item.dietaryFlags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-1.5">
-            {item.dietaryFlags.slice(0, 3).map((f) => (
-              <span key={f} className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-500">{f}</span>
-            ))}
-          </div>
-        )}
+        <div className="flex flex-wrap gap-1 mt-1.5">
+          {item.dietaryFlags?.slice(0, 3).map((f) => (
+            <span key={f} className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-500">{f}</span>
+          ))}
+          {item.allergens && item.allergens.length > 0 && (
+            <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-amber-200 text-amber-600 bg-amber-50">⚠ Allergens</span>
+          )}
+        </div>
       </div>
 
       <div className="shrink-0 flex flex-col items-end gap-2">
@@ -653,9 +704,10 @@ export default function OrderPage() {
   const [menuItems, setMenuItems]         = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen]         = useState(true)
   const [prepTime, setPrepTime]           = useState(25)
-  const [searchQuery, setSearchQuery]     = useState('')
-  const [selectedFlags, setSelectedFlags] = useState<string[]>([])
-  const [sortBy, setSortBy]               = useState<'default' | 'price-asc' | 'price-desc'>('default')
+  const [searchQuery, setSearchQuery]         = useState('')
+  const [selectedFlags, setSelectedFlags]     = useState<string[]>([])
+  const [excludedAllergens, setExcludedAllergens] = useState<string[]>([])
+  const [sortBy, setSortBy]                   = useState<'default' | 'price-asc' | 'price-desc'>('default')
   const [viewMode, setViewMode]           = useState<'grid' | 'list'>('grid')
   const [filtersOpen, setFiltersOpen]     = useState(false)
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
@@ -692,7 +744,12 @@ export default function OrderPage() {
       .catch((err) => { console.error('Failed to load menu items from database:', err) })
   }, [])
 
-  const isFiltering = searchQuery.trim() !== '' || selectedFlags.length > 0 || sortBy !== 'default'
+  const { dietaryFlags: availableDietaryFlags, allergens: availableAllergens } = useMemo(
+    () => getUniqueTags(menuItems),
+    [menuItems],
+  )
+
+  const isFiltering = searchQuery.trim() !== '' || selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default'
 
   const displayedItems = useMemo(() => {
     const q = searchQuery.toLowerCase().trim()
@@ -702,12 +759,16 @@ export default function OrderPage() {
         const flags = item.dietaryFlags ?? []
         if (!selectedFlags.every((f) => flags.includes(f))) return false
       }
+      if (excludedAllergens.length > 0) {
+        const itemAllergens = item.allergens ?? []
+        if (excludedAllergens.some((a) => itemAllergens.includes(a))) return false
+      }
       return true
     })
     if (sortBy === 'price-asc')  result = [...result].sort((a, b) => a.price - b.price)
     if (sortBy === 'price-desc') result = [...result].sort((a, b) => b.price - a.price)
     return result
-  }, [menuItems, searchQuery, selectedFlags, sortBy])
+  }, [menuItems, searchQuery, selectedFlags, excludedAllergens, sortBy])
 
   const count = cartCount(cart)
   const total = cartTotal(cart, menuItems)
@@ -867,24 +928,28 @@ export default function OrderPage() {
               <button
                 onClick={() => setFiltersOpen((v) => !v)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${
-                  selectedFlags.length > 0 || sortBy !== 'default'
+                  selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default'
                     ? 'bg-zinc-900 text-white border-zinc-900'
                     : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900'
                 }`}
               >
                 <SlidersHorizontal size={14} />
                 Filters
-                {(selectedFlags.length > 0 || sortBy !== 'default') && (
+                {(selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default') && (
                   <span className="bg-white/20 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    {selectedFlags.length + (sortBy !== 'default' ? 1 : 0)}
+                    {selectedFlags.length + excludedAllergens.length + (sortBy !== 'default' ? 1 : 0)}
                   </span>
                 )}
               </button>
               {filtersOpen && (
                 <FiltersPopover
+                  availableDietaryFlags={availableDietaryFlags}
                   selectedFlags={selectedFlags}
-                  sortBy={sortBy}
                   onFlagsChange={setSelectedFlags}
+                  availableAllergens={availableAllergens}
+                  excludedAllergens={excludedAllergens}
+                  onExcludedAllergensChange={setExcludedAllergens}
+                  sortBy={sortBy}
                   onSortChange={(v) => setSortBy(v as 'default' | 'price-asc' | 'price-desc')}
                   onClose={() => setFiltersOpen(false)}
                 />
@@ -910,12 +975,20 @@ export default function OrderPage() {
           </div>
 
           {/* Active filter chips */}
-          {(selectedFlags.length > 0 || sortBy !== 'default') && (
+          {(selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default') && (
             <div className="flex flex-wrap gap-2 mb-6 -mt-4">
               {selectedFlags.map((f) => (
                 <span key={f} className="flex items-center gap-1.5 border border-zinc-200 text-zinc-600 text-xs font-medium px-3 py-1 rounded-full">
                   {f}
                   <button onClick={() => setSelectedFlags((prev) => prev.filter((x) => x !== f))} className="text-zinc-400 hover:text-zinc-700 transition-colors">
+                    <X size={11} />
+                  </button>
+                </span>
+              ))}
+              {excludedAllergens.map((a) => (
+                <span key={a} className="flex items-center gap-1.5 border border-amber-200 text-amber-700 bg-amber-50 text-xs font-medium px-3 py-1 rounded-full">
+                  No {a}
+                  <button onClick={() => setExcludedAllergens((prev) => prev.filter((x) => x !== a))} className="text-amber-400 hover:text-amber-700 transition-colors">
                     <X size={11} />
                   </button>
                 </span>
@@ -939,7 +1012,7 @@ export default function OrderPage() {
                 <p className="font-heading font-bold text-base text-zinc-400">No items found</p>
                 <p className="text-sm text-zinc-300 mt-1">Try adjusting your search or filters.</p>
                 <button
-                  onClick={() => { setSearchQuery(''); setSelectedFlags([]); setSortBy('default') }}
+                  onClick={() => { setSearchQuery(''); setSelectedFlags([]); setExcludedAllergens([]); setSortBy('default') }}
                   className="mt-5 text-sm text-zinc-500 font-medium underline underline-offset-2 hover:text-zinc-900 transition-colors"
                 >
                   Clear all filters

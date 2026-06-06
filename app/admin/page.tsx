@@ -37,6 +37,7 @@ interface MenuItem {
   extras: Extra[]
   removals: string[]
   dietary_flags: string[]
+  allergens: string[]
   created_at: string
 }
 
@@ -45,6 +46,7 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error'
 interface DbCategory { id: string; name: string; slug: string; sort_order: number; is_active: boolean }
 
 const DIETARY_FLAGS = ['Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Spicy', 'Nut-Free']
+const COMMON_ALLERGENS = ['Celery', 'Crustaceans', 'Dairy', 'Eggs', 'Fish', 'Gluten', 'Lupin', 'Molluscs', 'Mustard', 'Nuts', 'Peanuts', 'Sesame', 'Soya', 'Sulphites']
 
 const COLOUR_PALETTE = [
   'bg-orange-500/15 text-orange-300 ring-1 ring-orange-500/30',
@@ -263,11 +265,13 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
   const [removals, setRemovals]         = useState<string[]>(() => editingItem?.removals ?? [])
   const [extras, setExtras]             = useState<Extra[]>(() => editingItem?.extras ?? [])
   const [dietaryFlags, setDietaryFlags] = useState<string[]>(() => editingItem?.dietary_flags ?? [])
+  const [allergens, setAllergens]       = useState<string[]>(() => editingItem?.allergens ?? [])
   const [removalInput, setRemovalInput] = useState('')
+  const [allergenInput, setAllergenInput] = useState('')
   const [extraInput, setExtraInput]     = useState({ name: '', price: '' })
   const [saving, setSaving]             = useState(false)
   const [error, setError]               = useState<string | null>(null)
-  const [suggestions, setSuggestions]   = useState<{ removals: string[]; extras: string[] }>({ removals: [], extras: [] })
+  const [suggestions, setSuggestions]   = useState<{ removals: string[]; extras: string[]; allergens: string[] }>({ removals: [], extras: [], allergens: [] })
 
   useEffect(() => {
     fetch('/api/admin/menu/suggestions')
@@ -287,6 +291,13 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     if (!val || removals.includes(val)) return
     setRemovals((prev) => [...prev, val])
     setRemovalInput('')
+  }
+
+  function addAllergen() {
+    const val = allergenInput.trim()
+    if (!val || allergens.includes(val)) return
+    setAllergens((prev) => [...prev, val])
+    setAllergenInput('')
   }
 
   function addExtra() {
@@ -316,6 +327,7 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       removals,
       extras,
       dietary_flags: dietaryFlags,
+      allergens,
     }
 
     setSaving(true)
@@ -508,6 +520,42 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                 )
               })}
             </div>
+          </div>
+
+          {/* ── Allergens ── */}
+          <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
+            <div>
+              <p className="text-xs font-semibold text-zinc-300">Allergens</p>
+              <p className="text-[11px] text-zinc-600 mt-0.5">Allergy warnings shown to customers on the menu</p>
+            </div>
+            <div className="flex gap-2">
+              <ExtraNameInput
+                value={allergenInput}
+                onChange={setAllergenInput}
+                onEnter={addAllergen}
+                suggestions={[...new Set([...COMMON_ALLERGENS, ...suggestions.allergens])]}
+                placeholder="e.g. Gluten, Dairy, Nuts…"
+              />
+              <button
+                type="button"
+                onClick={addAllergen}
+                className="px-3 py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+            {allergens.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {allergens.map((a) => (
+                  <span key={a} className="flex items-center gap-1 bg-amber-900/30 text-amber-300 border border-amber-700/40 text-xs px-2.5 py-1 rounded-full">
+                    {a}
+                    <button type="button" onClick={() => setAllergens((prev) => prev.filter((x) => x !== a))} className="text-amber-500 hover:text-white ml-0.5">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {error && (
