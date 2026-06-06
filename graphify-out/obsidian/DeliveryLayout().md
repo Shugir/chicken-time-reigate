@@ -15,6 +15,6 @@ tags:
 - [[getUserPermissions]] - `calls` [EXTRACTED]
 - [[hasPermission()]] - `calls` [EXTRACTED]
 - [[layout.tsx_5]] - `contains` [EXTRACTED]
-- [[layout.tsx_12]] - `contains` [EXTRACTED]
+- [[layout.tsx_13]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

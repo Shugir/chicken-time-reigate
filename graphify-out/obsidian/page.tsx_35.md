@@ -1,5 +1,5 @@
 ---
-source_file: "admin/staff/page.tsx"
+source_file: "admin/delivery/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,10 +12,11 @@ tags:
 # page.tsx
 
 ## Connections
-- [[ALL_PERMISSIONS]] - `contains` [EXTRACTED]
-- [[EMPTY_FORM_3]] - `contains` [EXTRACTED]
-- [[StaffForm]] - `contains` [EXTRACTED]
-- [[StaffMember]] - `contains` [EXTRACTED]
-- [[StaffPage()]] - `contains` [EXTRACTED]
+- [[DeleteConfirm()]] - `contains` [EXTRACTED]
+- [[DeliveryPage()]] - `contains` [EXTRACTED]
+- [[DeliveryZone]] - `contains` [EXTRACTED]
+- [[NAV_1]] - `contains` [EXTRACTED]
+- [[SaveState_1]] - `contains` [EXTRACTED]
+- [[ZoneModal()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

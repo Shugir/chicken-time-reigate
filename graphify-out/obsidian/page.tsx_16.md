@@ -1,5 +1,5 @@
 ---
-source_file: "app/kitchen/page.tsx"
+source_file: "app/contact/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,23 +12,12 @@ tags:
 # page.tsx
 
 ## Connections
-- [[CustomerReceipt()]] - `contains` [EXTRACTED]
-- [[DispatchOrder]] - `contains` [EXTRACTED]
-- [[Driver_2]] - `contains` [EXTRACTED]
-- [[Extra_2]] - `contains` [EXTRACTED]
-- [[KitchenDashboard()]] - `contains` [EXTRACTED]
-- [[KitchenTicket()]] - `contains` [EXTRACTED]
-- [[Order_1]] - `contains` [EXTRACTED]
-- [[OrderCard()_1]] - `contains` [EXTRACTED]
-- [[OrderItem_2]] - `contains` [EXTRACTED]
-- [[elapsed()]] - `contains` [EXTRACTED]
-- [[format-date.ts]] - `imports_from` [EXTRACTED]
-- [[formatDateClockLabel()]] - `imports` [EXTRACTED]
-- [[formatDateMedium()]] - `imports` [EXTRACTED]
-- [[formatTime()_1]] - `imports` [EXTRACTED]
-- [[formatTimeFull()]] - `imports` [EXTRACTED]
-- [[permissions-provider.tsx]] - `imports_from` [EXTRACTED]
-- [[supabase_2]] - `contains` [EXTRACTED]
-- [[usePermissions()]] - `imports` [EXTRACTED]
+- [[ContactPage()]] - `contains` [EXTRACTED]
+- [[EMPTY]] - `contains` [EXTRACTED]
+- [[FormState]] - `contains` [EXTRACTED]
+- [[HOURS_1]] - `contains` [EXTRACTED]
+- [[InputField()]] - `contains` [EXTRACTED]
+- [[SUBJECTS]] - `contains` [EXTRACTED]
+- [[oswald_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

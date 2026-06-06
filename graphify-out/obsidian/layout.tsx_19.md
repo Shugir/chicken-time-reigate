@@ -1,5 +1,5 @@
 ---
-source_file: "layout.tsx"
+source_file: "kitchen/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,14 +12,8 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[HOURS]] - `contains` [EXTRACTED]
-- [[NewsletterForm.tsx]] - `imports` [EXTRACTED]
-- [[QUICK_LINKS]] - `contains` [EXTRACTED]
-- [[RootLayout()]] - `contains` [EXTRACTED]
-- [[SiteHeader.tsx]] - `imports` [EXTRACTED]
-- [[geistMono]] - `contains` [EXTRACTED]
-- [[geistSans]] - `contains` [EXTRACTED]
-- [[inter]] - `contains` [EXTRACTED]
-- [[metadata]] - `contains` [EXTRACTED]
+- [[KitchenLayout()]] - `contains` [EXTRACTED]
+- [[getUserPermissions]] - `imports` [EXTRACTED]
+- [[hasPermission()]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

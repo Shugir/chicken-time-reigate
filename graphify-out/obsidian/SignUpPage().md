@@ -12,7 +12,7 @@ tags:
 # SignupPage()
 
 ## Connections
-- [[page.tsx_21]] - `contains` [EXTRACTED]
-- [[page.tsx_26]] - `contains` [EXTRACTED]
+- [[page.tsx_23]] - `contains` [EXTRACTED]
+- [[page.tsx_29]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
