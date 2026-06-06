@@ -23,9 +23,12 @@ export async function GET() {
 
   const { data } = await supabaseAdmin
     .from('staff_permissions')
-    .select('role')
+    .select('role, permissions')
     .eq('email', user.email)
     .maybeSingle()
 
-  return NextResponse.json({ isStaff: !!data })
+  const isStaff  = !!data
+  const isDriver = isStaff && (data.role === 'owner' || (data.permissions ?? []).includes('Driver'))
+
+  return NextResponse.json({ isStaff, isDriver })
 }

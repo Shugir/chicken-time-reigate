@@ -21,8 +21,8 @@ export default function LoginPage() {
 
   async function redirectByRole() {
     const res = await fetch('/api/auth/role')
-    const { isStaff } = await res.json()
-    router.push(isStaff ? '/admin/redirect' : '/account')
+    const { isStaff, isDriver } = await res.json()
+    router.push(isDriver ? '/driver/dashboard' : isStaff ? '/admin/redirect' : '/account')
     router.refresh()
   }
 

@@ -34,8 +34,8 @@ export default function SignInPage() {
       return
     }
     const res = await fetch('/api/auth/role')
-    const { isStaff } = await res.json().catch(() => ({ isStaff: false }))
-    router.push(isStaff ? '/admin/redirect' : '/account')
+    const { isStaff, isDriver } = await res.json().catch(() => ({ isStaff: false, isDriver: false }))
+    router.push(isDriver ? '/driver/dashboard' : isStaff ? '/admin/redirect' : '/account')
     router.refresh()
   }
 
