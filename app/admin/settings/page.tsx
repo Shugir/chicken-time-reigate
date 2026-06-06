@@ -228,7 +228,7 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-6 mb-5">
                   <div className="w-32 h-16 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center overflow-hidden shrink-0">
                     <Image
-                      src={settings.logo_url ?? '/chicken-time-logo.png'}
+                      src={settings.logo_url ?? '/chicken-time-logo_v1.png'}
                       alt="Brand logo preview"
                       width={128}
                       height={64}

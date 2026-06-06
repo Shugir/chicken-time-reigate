@@ -72,7 +72,7 @@ export default function RootLayout({
             <div className="space-y-4">
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/chicken-time-logo.png"
+                  src="/chicken-time-logo_v1.png"
                   alt="Chicken Time Reigate Logo"
                   width={700}
                   height={150}
