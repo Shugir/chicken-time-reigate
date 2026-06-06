@@ -16,9 +16,9 @@ tags:
 - [[KitchenDashboard()]] - `calls` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports` [EXTRACTED]
 - [[admin-sidebar.tsx_1]] - `imports` [EXTRACTED]
-- [[page.tsx_17]] - `imports` [EXTRACTED]
-- [[page.tsx_30]] - `imports` [EXTRACTED]
-- [[page.tsx_39]] - `imports` [EXTRACTED]
+- [[page.tsx_18]] - `imports` [EXTRACTED]
+- [[page.tsx_26]] - `imports` [EXTRACTED]
+- [[page.tsx_40]] - `imports` [EXTRACTED]
 - [[permissions-provider.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "admin/staff/page.tsx"
+source_file: "admin/settings/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,10 +12,8 @@ tags:
 # page.tsx
 
 ## Connections
-- [[ALL_PERMISSIONS]] - `contains` [EXTRACTED]
-- [[EMPTY_FORM_3]] - `contains` [EXTRACTED]
-- [[StaffForm]] - `contains` [EXTRACTED]
-- [[StaffMember]] - `contains` [EXTRACTED]
-- [[StaffPage()]] - `contains` [EXTRACTED]
+- [[SaveState_3]] - `contains` [EXTRACTED]
+- [[SettingsPage()]] - `contains` [EXTRACTED]
+- [[StoreSettings]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

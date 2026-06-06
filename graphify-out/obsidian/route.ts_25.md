@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/kitchen/orders/route.ts"
+source_file: "app/api/kitchen/delivery/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"

@@ -1,5 +1,5 @@
 ---
-source_file: "app/sign-in/page.tsx"
+source_file: "app/privacy/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,6 @@ tags:
 # page.tsx
 
 ## Connections
-- [[SignInPage()]] - `contains` [EXTRACTED]
-- [[supabase_4]] - `contains` [EXTRACTED]
+- [[PrivacyPage()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

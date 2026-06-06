@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 707 nodes · 1153 edges · 65 communities (33 shown, 32 thin omitted)
+- 707 nodes · 1155 edges · 65 communities (33 shown, 32 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3e7177e7`
+- Built from commit: `de2a6d6b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -115,11 +115,11 @@ Nodes (21): DOW_LABELS, GET(), GET(), GET(), GET(), POST(), DELETE(), PATCH() (+
 
 ### Community 4 - "Community 4"
 Cohesion: 0.09
-Nodes (41): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+33 more)
+Nodes (40): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+32 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.1
-Nodes (26): AnalyticsData, AnalyticsPage(), CHART_THEME, DailyPoint, DowPoint, fmtGbp(), HourlyPoint, PERIODS (+18 more)
+Nodes (27): AnalyticsData, AnalyticsPage(), CHART_THEME, DailyPoint, DowPoint, fmtGbp(), HourlyPoint, PERIODS (+19 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.13
@@ -196,7 +196,7 @@ Nodes (45): AddItemModal Component, Admin Page, AvailabilityToggle Component, De
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **176 isolated node(s):** `config`, `drivers`, `eslintConfig`, `nextConfig`, `name` (+171 more)
+- **176 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+171 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -208,12 +208,12 @@ _Questions this graph is uniquely positioned to answer:_
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **Why does `supabaseAdmin` connect `Community 3` to `Community 56`, `Community 12`?**
-  _High betweenness centrality (0.144) - this node is a cross-community bridge._
+  _High betweenness centrality (0.143) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 61` to `Community 1`, `Community 50`, `Community 3`?**
   _High betweenness centrality (0.134) - this node is a cross-community bridge._
 - **Why does `Extra` connect `Community 1` to `Community 3`?**
-  _High betweenness centrality (0.118) - this node is a cross-community bridge._
-- **What connects `config`, `drivers`, `eslintConfig` to the rest of the system?**
+  _High betweenness centrality (0.117) - this node is a cross-community bridge._
+- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
   _180 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
