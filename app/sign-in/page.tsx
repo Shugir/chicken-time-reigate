@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createBrowserClient } from '@supabase/ssr'
 import { Mail, Lock, Eye, EyeOff, ChevronRight, ArrowLeft, Loader2, AlertCircle } from 'lucide-react'
+import Image from 'next/image'
 import toast from 'react-hot-toast'
 
 const supabase = createBrowserClient(
@@ -78,7 +79,9 @@ export default function SignInPage() {
           </Link>
         </div>
         <div className="relative z-10 flex flex-col gap-8">
-          <div className="text-[80px] leading-none select-none">🍗</div>
+          <div className="bg-white rounded-2xl px-8 py-4 shadow-2xl shadow-black/40">
+            <Image src="/chicken-time-logo.png" alt="Chicken Time" width={700} height={150} className="w-64 h-auto" />
+          </div>
           <div>
             <h2 className="font-heading font-black text-white text-5xl leading-tight">
               The best<br />
