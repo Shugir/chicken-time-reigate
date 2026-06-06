@@ -28,6 +28,7 @@ export default function SignInPage() {
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
     if (authError) {
       setError('Invalid email or password.')
+      toast.error('Invalid email or password.')
       setLoading(false)
       return
     }

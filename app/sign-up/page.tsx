@@ -38,6 +38,7 @@ export default function SignUpPage() {
     })
     if (authError) {
       setError(authError.message)
+      toast.error(authError.message)
       setLoading(false)
       return
     }

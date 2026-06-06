@@ -53,6 +53,132 @@
   },
   "nodes": [
     {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L1",
+      "id": "account_page_tsx",
+      "community": 0,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "supabase",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L19",
+      "id": "account_page_supabase",
+      "community": 0,
+      "norm_label": "supabase"
+    },
+    {
+      "label": "OrderItem",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L26",
+      "id": "account_page_orderitem",
+      "community": 0,
+      "norm_label": "orderitem"
+    },
+    {
+      "label": "Order",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L36",
+      "id": "account_page_order",
+      "community": 0,
+      "norm_label": "order"
+    },
+    {
+      "label": "PromoCode",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L52",
+      "id": "account_page_promocode",
+      "community": 0,
+      "norm_label": "promocode"
+    },
+    {
+      "label": "Profile",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L59",
+      "id": "account_page_profile",
+      "community": 0,
+      "norm_label": "profile"
+    },
+    {
+      "label": "Tab",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L65",
+      "id": "account_page_tab",
+      "community": 0,
+      "norm_label": "tab"
+    },
+    {
+      "label": "TIMELINE",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L69",
+      "id": "account_page_timeline",
+      "community": 0,
+      "norm_label": "timeline"
+    },
+    {
+      "label": "trackingStep()",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L76",
+      "id": "account_page_trackingstep",
+      "community": 0,
+      "norm_label": "trackingstep()"
+    },
+    {
+      "label": "statusLabel()",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L83",
+      "id": "account_page_statuslabel",
+      "community": 0,
+      "norm_label": "statuslabel()"
+    },
+    {
+      "label": "statusColor()",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L93",
+      "id": "account_page_statuscolor",
+      "community": 0,
+      "norm_label": "statuscolor()"
+    },
+    {
+      "label": "OfferCard()",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L102",
+      "id": "account_page_offercard",
+      "community": 0,
+      "norm_label": "offercard()"
+    },
+    {
+      "label": "OrderCard()",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L153",
+      "id": "account_page_ordercard",
+      "community": 0,
+      "norm_label": "ordercard()"
+    },
+    {
+      "label": "AccountPage()",
+      "file_type": "code",
+      "source_file": "account/page.tsx",
+      "source_location": "L262",
+      "id": "account_page_accountpage",
+      "community": 0,
+      "norm_label": "accountpage()"
+    },
+    {
       "label": "layout.tsx",
       "file_type": "code",
       "source_file": "layout.tsx",
@@ -123,6 +249,60 @@
       "id": "app_layout_rootlayout",
       "community": 9,
       "norm_label": "rootlayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "sign-in/page.tsx",
+      "source_location": "L1",
+      "id": "sign_in_page_tsx",
+      "community": 25,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "supabase",
+      "file_type": "code",
+      "source_file": "sign-in/page.tsx",
+      "source_location": "L10",
+      "id": "sign_in_page_supabase",
+      "community": 25,
+      "norm_label": "supabase"
+    },
+    {
+      "label": "SignInPage()",
+      "file_type": "code",
+      "source_file": "sign-in/page.tsx",
+      "source_location": "L15",
+      "id": "sign_in_page_signinpage",
+      "community": 25,
+      "norm_label": "signinpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "sign-up/page.tsx",
+      "source_location": "L1",
+      "id": "sign_up_page_tsx",
+      "community": 26,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "supabase",
+      "file_type": "code",
+      "source_file": "sign-up/page.tsx",
+      "source_location": "L9",
+      "id": "sign_up_page_supabase",
+      "community": 26,
+      "norm_label": "supabase"
+    },
+    {
+      "label": "SignUpPage()",
+      "file_type": "code",
+      "source_file": "sign-up/page.tsx",
+      "source_location": "L14",
+      "id": "sign_up_page_signuppage",
+      "community": 26,
+      "norm_label": "signuppage()"
     },
     {
       "label": "package.json",
@@ -762,123 +942,6 @@
       "community": 0,
       "norm_label": "page.tsx",
       "id": "app_account_page_tsx"
-    },
-    {
-      "label": "supabase",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L18",
-      "community": 0,
-      "norm_label": "supabase",
-      "id": "account_page_supabase"
-    },
-    {
-      "label": "OrderItem",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L25",
-      "community": 0,
-      "norm_label": "orderitem",
-      "id": "account_page_orderitem"
-    },
-    {
-      "label": "Order",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L35",
-      "community": 0,
-      "norm_label": "order",
-      "id": "account_page_order"
-    },
-    {
-      "label": "PromoCode",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L51",
-      "community": 0,
-      "norm_label": "promocode",
-      "id": "account_page_promocode"
-    },
-    {
-      "label": "Profile",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L58",
-      "community": 0,
-      "norm_label": "profile",
-      "id": "account_page_profile"
-    },
-    {
-      "label": "Tab",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L64",
-      "community": 0,
-      "norm_label": "tab",
-      "id": "account_page_tab"
-    },
-    {
-      "label": "TIMELINE",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L68",
-      "community": 0,
-      "norm_label": "timeline",
-      "id": "account_page_timeline"
-    },
-    {
-      "label": "trackingStep()",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L75",
-      "community": 0,
-      "norm_label": "trackingstep()",
-      "id": "account_page_trackingstep"
-    },
-    {
-      "label": "statusLabel()",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L82",
-      "community": 0,
-      "norm_label": "statuslabel()",
-      "id": "account_page_statuslabel"
-    },
-    {
-      "label": "statusColor()",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L92",
-      "community": 0,
-      "norm_label": "statuscolor()",
-      "id": "account_page_statuscolor"
-    },
-    {
-      "label": "OfferCard()",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L101",
-      "community": 0,
-      "norm_label": "offercard()",
-      "id": "account_page_offercard"
-    },
-    {
-      "label": "OrderCard()",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L152",
-      "community": 0,
-      "norm_label": "ordercard()",
-      "id": "account_page_ordercard"
-    },
-    {
-      "label": "AccountPage()",
-      "file_type": "code",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L261",
-      "community": 0,
-      "norm_label": "accountpage()",
-      "id": "account_page_accountpage"
     },
     {
       "label": "layout.tsx",
@@ -2897,24 +2960,6 @@
       "id": "app_sign_in_page_tsx"
     },
     {
-      "label": "supabase",
-      "file_type": "code",
-      "source_file": "app/sign-in/page.tsx",
-      "source_location": "L9",
-      "community": 25,
-      "norm_label": "supabase",
-      "id": "sign_in_page_supabase"
-    },
-    {
-      "label": "SignInPage()",
-      "file_type": "code",
-      "source_file": "app/sign-in/page.tsx",
-      "source_location": "L14",
-      "community": 25,
-      "norm_label": "signinpage()",
-      "id": "sign_in_page_signinpage"
-    },
-    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/sign-up/page.tsx",
@@ -2922,24 +2967,6 @@
       "community": 26,
       "norm_label": "page.tsx",
       "id": "app_sign_up_page_tsx"
-    },
-    {
-      "label": "supabase",
-      "file_type": "code",
-      "source_file": "app/sign-up/page.tsx",
-      "source_location": "L8",
-      "community": 26,
-      "norm_label": "supabase",
-      "id": "sign_up_page_supabase"
-    },
-    {
-      "label": "SignUpPage()",
-      "file_type": "code",
-      "source_file": "app/sign-up/page.tsx",
-      "source_location": "L13",
-      "community": 26,
-      "norm_label": "signuppage()",
-      "id": "sign_up_page_signuppage"
     },
     {
       "label": "page.tsx",
@@ -4029,33 +4056,6 @@
       "community": 19,
       "norm_label": "deploy on vercel",
       "id": "chicken_time_reigate_readme_deploy_on_vercel"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "sign-in/page.tsx",
-      "source_location": "L1",
-      "community": 25,
-      "norm_label": "page.tsx",
-      "id": "sign_in_page_tsx"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "sign-up/page.tsx",
-      "source_location": "L1",
-      "community": 26,
-      "norm_label": "page.tsx",
-      "id": "sign_up_page_tsx"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "account/page.tsx",
-      "source_location": "L1",
-      "community": 0,
-      "norm_label": "page.tsx",
-      "id": "account_page_tsx"
     },
     {
       "label": "page.tsx",
@@ -6946,12 +6946,338 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "utils_format_date_formatdatetime"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_supabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_orderitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_order"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_promocode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L58",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_profile"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_tab"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_timeline"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L75",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_trackingstep"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L82",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_statuslabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L92",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_statuscolor"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_offercard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L152",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_ordercard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "account/page.tsx",
+      "source_location": "L261",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_tsx",
+      "target": "account_page_accountpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_supabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_orderitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_order"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_promocode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_profile"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L53",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_tab"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_timeline"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_ordercard",
+      "target": "account_page_trackingstep"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_trackingstep"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L117",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_ordercard",
+      "target": "account_page_statuslabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L71",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_statuslabel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L116",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_ordercard",
+      "target": "account_page_statuscolor"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L81",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_statuscolor"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_offercard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L102",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_ordercard"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/account/page.tsx",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "account_page_ordercard",
+      "target": "utils_format_date_formatdatetime"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_page_ordercard",
+      "target": "account_page_fmtdate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/account/page.tsx",
+      "source_location": "L189",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_account_page_tsx",
+      "target": "account_page_accountpage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "layout.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "layout_tsx",
-      "target": "components_siteheader_siteheader",
-      "confidence_score": 1.0
+      "target": "components_siteheader_siteheader"
     },
     {
       "relation": "imports",
@@ -6960,9 +7286,9 @@
       "source_file": "layout.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "layout_tsx",
-      "target": "components_newsletterform_newsletterform",
-      "confidence_score": 1.0
+      "target": "components_newsletterform_newsletterform"
     },
     {
       "relation": "contains",
@@ -7135,6 +7461,86 @@
       "confidence_score": 1.0,
       "source": "app_layout_rootlayout",
       "target": "app_layout_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "sign-in/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sign_in_page_tsx",
+      "target": "sign_in_page_supabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "sign-in/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sign_in_page_tsx",
+      "target": "sign_in_page_signinpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign-in/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_sign_in_page_tsx",
+      "target": "sign_in_page_supabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign-in/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_sign_in_page_tsx",
+      "target": "sign_in_page_signinpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "sign-up/page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sign_up_page_tsx",
+      "target": "sign_up_page_supabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "sign-up/page.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sign_up_page_tsx",
+      "target": "sign_up_page_signuppage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign-up/page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_sign_up_page_tsx",
+      "target": "sign_up_page_supabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign-up/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_sign_up_page_tsx",
+      "target": "sign_up_page_signuppage"
     },
     {
       "relation": "contains",
@@ -7896,326 +8302,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/account/page.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_supabase"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_orderitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L33",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_order"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_promocode"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_profile"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L53",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_tab"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_timeline"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L64",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_trackingstep"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L71",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_statuslabel"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L81",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_statuscolor"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L101",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_offercard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L102",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_ordercard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L189",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_account_page_tsx",
-      "target": "account_page_accountpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
       "source_location": "L87",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "app_account_page_tsx",
       "target": "account_page_fmtdate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_supabase"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_orderitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_order"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_promocode"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L58",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_profile"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L64",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_tab"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L68",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_timeline"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L104",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_ordercard",
-      "target": "account_page_trackingstep"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L75",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_trackingstep"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L117",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_ordercard",
-      "target": "account_page_statuslabel"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L82",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_statuslabel"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L116",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_ordercard",
-      "target": "account_page_statuscolor"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L92",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_statuscolor"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L101",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_offercard"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/account/page.tsx",
-      "source_location": "L109",
-      "weight": 1.0,
-      "source": "account_page_ordercard",
-      "target": "utils_format_date_formatdatetime"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L152",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_ordercard"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/account/page.tsx",
-      "source_location": "L114",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_ordercard",
-      "target": "account_page_fmtdate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L261",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "account_page_accountpage"
     },
     {
       "relation": "imports_from",
@@ -13827,86 +13918,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/sign-in/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_sign_in_page_tsx",
-      "target": "sign_in_page_supabase"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/sign-in/page.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_sign_in_page_tsx",
-      "target": "sign_in_page_signinpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "sign-in/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "sign_in_page_tsx",
-      "target": "sign_in_page_supabase"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "sign-in/page.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "sign_in_page_tsx",
-      "target": "sign_in_page_signinpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/sign-up/page.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_sign_up_page_tsx",
-      "target": "sign_up_page_supabase"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/sign-up/page.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_sign_up_page_tsx",
-      "target": "sign_up_page_signuppage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "sign-up/page.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "sign_up_page_tsx",
-      "target": "sign_up_page_supabase"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "sign-up/page.tsx",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "sign_up_page_tsx",
-      "target": "sign_up_page_signuppage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/signup/page.tsx",
       "source_location": "L8",
       "weight": 1.0,
@@ -14962,17 +14973,6 @@
       "confidence_score": 1.0,
       "source": "utils_format_date_formatdatetime",
       "target": "utils_format_date_formattime"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "account/page.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_page_tsx",
-      "target": "utils_format_date_formatdatetime"
     },
     {
       "relation": "contains",
@@ -18535,5 +18535,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "ca3047963a2b0f4460233bfcecf371856f7c16e0"
+  "built_at_commit": "854473ee2b8f1843a7f4d6a6e1ec823b05e2c122"
 }
