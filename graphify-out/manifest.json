@@ -35,8 +35,8 @@
     "semantic_hash": "02fc19ad21338c2ab820a70136310db4"
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\layout.tsx": {
-    "mtime": 1780715416.7915597,
-    "ast_hash": "d32fd9700636ede7b4fd51feff7bb19d",
+    "mtime": 1780716475.4486344,
+    "ast_hash": "19c42071f9e9cd782e3b6a7d433a2645",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\page.tsx": {
@@ -140,8 +140,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\settings\\page.tsx": {
-    "mtime": 1780715576.0331492,
-    "ast_hash": "fcbdef6bad19670ad796a36d24871571",
+    "mtime": 1780716190.1954958,
+    "ast_hash": "6fc356f90bc1c903095aa219d0f39c5b",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\staff\\layout.tsx": {
@@ -390,9 +390,9 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\SiteHeader.tsx": {
-    "mtime": 1780510161.6377082,
-    "ast_hash": "df2b5073edba0dbbfc838a3dd2b3d2ea",
-    "semantic_hash": "df2b5073edba0dbbfc838a3dd2b3d2ea"
+    "mtime": 1780716769.9943898,
+    "ast_hash": "2ea57e98b259051e350efe9af2b98e10",
+    "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\access-denied.tsx": {
     "mtime": 1780618805.5497723,
@@ -574,6 +574,11 @@
     "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
     "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\chicken-time-logo.png": {
+    "mtime": 1780716311.5516627,
+    "ast_hash": "6c574334fcb88653c5120d61d1f503ca",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\logo.jpeg": {
     "mtime": 1780509336.7681425,
     "ast_hash": "6aa852b83138caf73f4d0fb20bd4bc98",
@@ -603,6 +608,11 @@
     "mtime": 1780510124.0614655,
     "ast_hash": "0f99e93b14b5824b7b4f919fa735131c",
     "semantic_hash": "0f99e93b14b5824b7b4f919fa735131c"
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\public\\chicken-time-logo.png": {
+    "mtime": 1780716099.5951385,
+    "ast_hash": "07a017610c9015e605c8a6f3f2164156",
+    "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\public\\file.svg": {
     "mtime": 1780494077.2115748,
