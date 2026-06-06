@@ -53,364 +53,445 @@
   },
   "nodes": [
     {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L1",
+      "id": "app_api_checkout_route_ts",
+      "community": 56,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "stripe",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L7",
+      "id": "checkout_route_stripe",
+      "community": 56,
+      "norm_label": "stripe"
+    },
+    {
+      "label": "Extra",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L11",
+      "id": "checkout_route_extra",
+      "community": 56,
+      "norm_label": "extra"
+    },
+    {
+      "label": "CartItem",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L13",
+      "id": "checkout_route_cartitem",
+      "community": 56,
+      "norm_label": "cartitem"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L23",
+      "id": "checkout_route_post",
+      "community": 56,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/promo-codes/route.ts",
+      "source_location": "L1",
+      "id": "app_api_promo_codes_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/promo-codes/route.ts",
+      "source_location": "L6",
+      "id": "promo_codes_route_get",
+      "community": 3,
+      "norm_label": "get()"
+    },
+    {
+      "label": "20260619_promo_codes.sql",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260619_promo_codes.sql",
+      "source_location": null,
+      "id": "supabase_migrations_20260619_promo_codes_sql",
+      "community": 46,
+      "norm_label": "20260619_promo_codes.sql"
+    },
+    {
+      "label": "orders",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260619_promo_codes.sql",
+      "source_location": "L2",
+      "id": "20260619_promo_codes_orders",
+      "community": 46,
+      "norm_label": "orders"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L1",
-      "id": "app_admin_page_tsx",
       "community": 1,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "app_admin_page_tsx"
     },
     {
       "label": "Extra",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L24",
-      "id": "admin_page_extra",
       "community": 1,
-      "norm_label": "extra"
+      "norm_label": "extra",
+      "id": "admin_page_extra"
     },
     {
       "label": "MenuItem",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L29",
-      "id": "admin_page_menuitem",
       "community": 1,
-      "norm_label": "menuitem"
+      "norm_label": "menuitem",
+      "id": "admin_page_menuitem"
     },
     {
       "label": "SaveState",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L44",
-      "id": "admin_page_savestate",
       "community": 1,
-      "norm_label": "savestate"
+      "norm_label": "savestate",
+      "id": "admin_page_savestate"
     },
     {
       "label": "DbCategory",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L46",
-      "id": "admin_page_dbcategory",
       "community": 1,
-      "norm_label": "dbcategory"
+      "norm_label": "dbcategory",
+      "id": "admin_page_dbcategory"
     },
     {
       "label": "DIETARY_FLAGS",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L48",
-      "id": "admin_page_dietary_flags",
       "community": 1,
-      "norm_label": "dietary_flags"
+      "norm_label": "dietary_flags",
+      "id": "admin_page_dietary_flags"
     },
     {
       "label": "COMMON_ALLERGENS",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L49",
-      "id": "admin_page_common_allergens",
       "community": 1,
-      "norm_label": "common_allergens"
+      "norm_label": "common_allergens",
+      "id": "admin_page_common_allergens"
     },
     {
       "label": "COLOUR_PALETTE",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L51",
-      "id": "admin_page_colour_palette",
       "community": 1,
-      "norm_label": "colour_palette"
+      "norm_label": "colour_palette",
+      "id": "admin_page_colour_palette"
     },
     {
       "label": "PriceCell()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L63",
-      "id": "admin_page_pricecell",
       "community": 1,
-      "norm_label": "pricecell()"
+      "norm_label": "pricecell()",
+      "id": "admin_page_pricecell"
     },
     {
       "label": "AvailabilityToggle()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L112",
-      "id": "admin_page_availabilitytoggle",
       "community": 1,
-      "norm_label": "availabilitytoggle()"
+      "norm_label": "availabilitytoggle()",
+      "id": "admin_page_availabilitytoggle"
     },
     {
       "label": "ExtraNameInput()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L161",
-      "id": "admin_page_extranameinput",
       "community": 1,
-      "norm_label": "extranameinput()"
+      "norm_label": "extranameinput()",
+      "id": "admin_page_extranameinput"
     },
     {
       "label": "ItemModalProps",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L244",
-      "id": "admin_page_itemmodalprops",
       "community": 1,
-      "norm_label": "itemmodalprops"
+      "norm_label": "itemmodalprops",
+      "id": "admin_page_itemmodalprops"
     },
     {
       "label": "EMPTY_FORM",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L251",
-      "id": "admin_page_empty_form",
       "community": 1,
-      "norm_label": "empty_form"
+      "norm_label": "empty_form",
+      "id": "admin_page_empty_form"
     },
     {
       "label": "ItemModal()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L253",
-      "id": "admin_page_itemmodal",
       "community": 1,
-      "norm_label": "itemmodal()"
+      "norm_label": "itemmodal()",
+      "id": "admin_page_itemmodal"
     },
     {
       "label": "DeleteConfirmModal()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L592",
-      "id": "admin_page_deleteconfirmmodal",
       "community": 1,
-      "norm_label": "deleteconfirmmodal()"
+      "norm_label": "deleteconfirmmodal()",
+      "id": "admin_page_deleteconfirmmodal"
     },
     {
       "label": "AdminPage()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L629",
-      "id": "admin_page_adminpage",
       "community": 1,
-      "norm_label": "adminpage()"
+      "norm_label": "adminpage()",
+      "id": "admin_page_adminpage"
     },
     {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "app/api/admin/menu-items/route.ts",
       "source_location": "L1",
-      "id": "app_api_admin_menu_items_route_ts",
       "community": 3,
-      "norm_label": "route.ts"
+      "norm_label": "route.ts",
+      "id": "app_api_admin_menu_items_route_ts"
     },
     {
       "label": "GET()",
       "file_type": "code",
       "source_file": "app/api/menu-items/route.ts",
       "source_location": "L6",
-      "id": "menu_items_route_get",
       "community": 3,
-      "norm_label": "get()"
+      "norm_label": "get()",
+      "id": "menu_items_route_get"
     },
     {
       "label": "POST()",
       "file_type": "code",
       "source_file": "app/api/admin/menu-items/route.ts",
       "source_location": "L15",
-      "id": "menu_items_route_post",
       "community": 3,
-      "norm_label": "post()"
+      "norm_label": "post()",
+      "id": "menu_items_route_post"
     },
     {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
-      "id": "app_api_admin_menu_suggestions_route_ts",
       "community": 3,
-      "norm_label": "route.ts"
+      "norm_label": "route.ts",
+      "id": "app_api_admin_menu_suggestions_route_ts"
     },
     {
       "label": "GET()",
       "file_type": "code",
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L6",
-      "id": "suggestions_route_get",
       "community": 3,
-      "norm_label": "get()"
+      "norm_label": "get()",
+      "id": "suggestions_route_get"
     },
     {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "app/api/menu-items/route.ts",
       "source_location": "L1",
-      "id": "app_api_menu_items_route_ts",
       "community": 3,
-      "norm_label": "route.ts"
+      "norm_label": "route.ts",
+      "id": "app_api_menu_items_route_ts"
     },
     {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L1",
-      "id": "app_order_page_tsx",
       "community": 1,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "app_order_page_tsx"
     },
     {
       "label": "MenuItem",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L22",
-      "id": "order_page_menuitem",
       "community": 1,
-      "norm_label": "menuitem"
+      "norm_label": "menuitem",
+      "id": "order_page_menuitem"
     },
     {
       "label": "CartEntry",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L23",
-      "id": "order_page_cartentry",
       "community": 1,
-      "norm_label": "cartentry"
+      "norm_label": "cartentry",
+      "id": "order_page_cartentry"
     },
     {
       "label": "Cart",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L24",
-      "id": "order_page_cart",
       "community": 1,
-      "norm_label": "cart"
+      "norm_label": "cart",
+      "id": "order_page_cart"
     },
     {
       "label": "DbCategory",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L26",
-      "id": "order_page_dbcategory",
       "community": 1,
-      "norm_label": "dbcategory"
+      "norm_label": "dbcategory",
+      "id": "order_page_dbcategory"
     },
     {
       "label": "MENU_ITEMS",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L33",
-      "id": "order_page_menu_items",
       "community": 8,
-      "norm_label": "menu_items"
+      "norm_label": "menu_items",
+      "id": "order_page_menu_items"
     },
     {
       "label": "getUniqueTags()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L213",
-      "id": "order_page_getuniquetags",
       "community": 1,
-      "norm_label": "getuniquetags()"
+      "norm_label": "getuniquetags()",
+      "id": "order_page_getuniquetags"
     },
     {
       "label": "DbMenuItem",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L228",
-      "id": "order_page_dbmenuitem",
       "community": 1,
-      "norm_label": "dbmenuitem"
+      "norm_label": "dbmenuitem",
+      "id": "order_page_dbmenuitem"
     },
     {
       "label": "dbToMenuItem()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L249",
-      "id": "order_page_dbtomenuitem",
       "community": 1,
-      "norm_label": "dbtomenuitem()"
+      "norm_label": "dbtomenuitem()",
+      "id": "order_page_dbtomenuitem"
     },
     {
       "label": "cartTotal()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L269",
-      "id": "order_page_carttotal",
       "community": 1,
-      "norm_label": "carttotal()"
+      "norm_label": "carttotal()",
+      "id": "order_page_carttotal"
     },
     {
       "label": "cartCount()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L278",
-      "id": "order_page_cartcount",
       "community": 1,
-      "norm_label": "cartcount()"
+      "norm_label": "cartcount()",
+      "id": "order_page_cartcount"
     },
     {
       "label": "MenuCard()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L284",
-      "id": "order_page_menucard",
       "community": 1,
-      "norm_label": "menucard()"
+      "norm_label": "menucard()",
+      "id": "order_page_menucard"
     },
     {
       "label": "FiltersPopover()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L374",
-      "id": "order_page_filterspopover",
       "community": 1,
-      "norm_label": "filterspopover()"
+      "norm_label": "filterspopover()",
+      "id": "order_page_filterspopover"
     },
     {
       "label": "CompactListItem()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L490",
-      "id": "order_page_compactlistitem",
       "community": 1,
-      "norm_label": "compactlistitem()"
+      "norm_label": "compactlistitem()",
+      "id": "order_page_compactlistitem"
     },
     {
       "label": "CartDrawer()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L565",
-      "id": "order_page_cartdrawer",
       "community": 1,
-      "norm_label": "cartdrawer()"
+      "norm_label": "cartdrawer()",
+      "id": "order_page_cartdrawer"
     },
     {
       "label": "OrderPage()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L698",
-      "id": "order_page_orderpage",
       "community": 1,
-      "norm_label": "orderpage()"
+      "norm_label": "orderpage()",
+      "id": "order_page_orderpage"
     },
     {
       "label": "20260618_allergens.sql",
       "file_type": "code",
       "source_file": "supabase/migrations/20260618_allergens.sql",
       "source_location": null,
-      "id": "supabase_migrations_20260618_allergens_sql",
       "community": 63,
-      "norm_label": "20260618_allergens.sql"
+      "norm_label": "20260618_allergens.sql",
+      "id": "supabase_migrations_20260618_allergens_sql"
     },
     {
       "label": "menu_items",
       "file_type": "code",
       "source_file": "supabase/migrations/20260618_allergens.sql",
       "source_location": "L1",
-      "id": "20260618_allergens_menu_items",
       "community": 63,
-      "norm_label": "menu_items"
+      "norm_label": "menu_items",
+      "id": "20260618_allergens_menu_items"
     },
     {
       "label": "eslint.config.mjs",
@@ -2413,51 +2494,6 @@
     {
       "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L1",
-      "community": 56,
-      "norm_label": "route.ts",
-      "id": "app_api_checkout_route_ts"
-    },
-    {
-      "label": "stripe",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L7",
-      "community": 56,
-      "norm_label": "stripe",
-      "id": "checkout_route_stripe"
-    },
-    {
-      "label": "Extra",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L11",
-      "community": 56,
-      "norm_label": "extra",
-      "id": "checkout_route_extra"
-    },
-    {
-      "label": "CartItem",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L13",
-      "community": 56,
-      "norm_label": "cartitem",
-      "id": "checkout_route_cartitem"
-    },
-    {
-      "label": "POST()",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L23",
-      "community": 56,
-      "norm_label": "post()",
-      "id": "checkout_route_post"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
       "source_file": "app/api/delivery-zones/route.ts",
       "source_location": "L1",
       "community": 3,
@@ -3360,7 +3396,7 @@
       "file_type": "code",
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L48",
-      "community": 0,
+      "community": 5,
       "norm_label": "formatdateheader()",
       "id": "utils_format_date_formatdateheader"
     },
@@ -4541,7 +4577,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "landing page",
       "id": "page_landingpage"
     },
@@ -4554,7 +4590,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "popular items data (popular)",
       "id": "page_popular_items"
     },
@@ -4567,7 +4603,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "why choose us data (reasons)",
       "id": "page_reasons"
     },
@@ -4580,7 +4616,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "oswald font (landing page)",
       "id": "page_oswald_font"
     },
@@ -4684,7 +4720,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "order page",
       "id": "order_orderpage"
     },
@@ -4697,7 +4733,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "menucard component",
       "id": "order_menucard"
     },
@@ -4710,7 +4746,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "cartdrawer component",
       "id": "order_cartdrawer"
     },
@@ -4723,7 +4759,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "menu_items static data",
       "id": "order_menuitems"
     },
@@ -4736,7 +4772,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "categories data",
       "id": "order_categories"
     },
@@ -4749,7 +4785,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "cart type (record<string,number>)",
       "id": "order_cart_type"
     },
@@ -4762,7 +4798,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "carttotal helper",
       "id": "order_carttotal"
     },
@@ -4788,7 +4824,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "productitem interface",
       "id": "productmodal_productitem"
     },
@@ -4827,7 +4863,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "itemcategory type",
       "id": "productmodal_itemcategory"
     },
@@ -4840,7 +4876,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "toggle sub-component",
       "id": "productmodal_toggle"
     },
@@ -4853,7 +4889,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "allergyaccordion sub-component",
       "id": "productmodal_allergyaccordion"
     },
@@ -4866,7 +4902,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "allergen_details static map",
       "id": "productmodal_allergen_details"
     },
@@ -4879,7 +4915,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 50,
       "norm_label": "supabase linked project (chickentime)",
       "id": "supabase_linked_project"
     },
@@ -4892,7 +4928,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 50,
       "norm_label": "initial db schema migration",
       "id": "supabase_migration_schema"
     },
@@ -4905,7 +4941,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 50,
       "norm_label": "db table: profiles",
       "id": "supabase_table_profiles"
     },
@@ -4918,7 +4954,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 50,
       "norm_label": "db enum: order_status",
       "id": "supabase_enum_order_status"
     },
@@ -4931,7 +4967,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 50,
       "norm_label": "db function: set_updated_at",
       "id": "supabase_fn_set_updated_at"
     },
@@ -4944,7 +4980,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 50,
       "norm_label": "row level security policies",
       "id": "supabase_rls_policies"
     },
@@ -5258,7 +5294,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "graph.json (177 nodes, 173 edges, 30 communities)",
       "id": "CLAUDE_graph_json"
     },
@@ -5284,7 +5320,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "compileroptions (god node)",
       "id": "CLAUDE_compiler_options"
     },
@@ -5297,7 +5333,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "order page (god node)",
       "id": "CLAUDE_order_page"
     },
@@ -5310,7 +5346,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "community: product modal & types",
       "id": "CLAUDE_community_product_modal_types"
     },
@@ -5323,7 +5359,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "community: order menu components",
       "id": "CLAUDE_community_order_menu_components"
     },
@@ -5336,7 +5372,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "community: supabase database schema",
       "id": "CLAUDE_community_supabase_db_schema"
     },
@@ -5349,7 +5385,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "community: landing page",
       "id": "CLAUDE_community_landing_page"
     },
@@ -5362,7 +5398,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "community: about page",
       "id": "CLAUDE_community_about_page"
     },
@@ -5375,7 +5411,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "community: contact page",
       "id": "CLAUDE_community_contact_page"
     },
@@ -5388,7 +5424,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "community: app layout & fonts",
       "id": "CLAUDE_community_app_layout_fonts"
     },
@@ -5401,7 +5437,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "community: core package manifest",
       "id": "CLAUDE_community_core_package_manifest"
     },
@@ -5414,7 +5450,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 50,
       "norm_label": "graphify query tool",
       "id": "CLAUDE_graphify_query_tool"
     },
@@ -5427,7 +5463,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 50,
       "norm_label": "supabase/migrations/",
       "id": "CLAUDE_supabase_migrations"
     },
@@ -5440,7 +5476,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "components/productmodal.tsx",
       "id": "CLAUDE_productmodal_tsx"
     },
@@ -5453,7 +5489,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "app/order/page.tsx",
       "id": "CLAUDE_order_page_tsx"
     },
@@ -5466,7 +5502,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 50,
       "norm_label": "menu_items hardcoded duplicate \u2014 supabase not yet wired",
       "id": "CLAUDE_hardcoded_duplicate_rationale"
     },
@@ -5505,7 +5541,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 61,
       "norm_label": "admin page",
       "id": "admin_adminpage"
     },
@@ -5518,7 +5554,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 50,
       "norm_label": "menuitem interface (admin)",
       "id": "admin_menuitem_interface"
     },
@@ -5544,7 +5580,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 61,
       "norm_label": "additemmodal component",
       "id": "admin_additemmodal"
     },
@@ -5557,7 +5593,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 61,
       "norm_label": "deleteconfirmmodal component",
       "id": "admin_deleteconfirmmodal"
     },
@@ -5570,7 +5606,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 61,
       "norm_label": "pricecell component",
       "id": "admin_pricecell"
     },
@@ -5583,7 +5619,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 61,
       "norm_label": "availabilitytoggle component",
       "id": "admin_availabilitytoggle"
     },
@@ -5596,7 +5632,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 61,
       "norm_label": "api: admin menu items route (get/post)",
       "id": "api_admin_menuitems_route"
     },
@@ -5609,7 +5645,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 61,
       "norm_label": "api: admin menu items [id] route (patch/delete)",
       "id": "api_admin_menuitems_id_route"
     },
@@ -5674,7 +5710,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 50,
       "norm_label": "api: public menu items route (get)",
       "id": "api_menuitems_route"
     },
@@ -5791,7 +5827,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 50,
       "norm_label": "dbmenuitem interface (order page)",
       "id": "order_dbmenuitem_interface"
     },
@@ -5804,7 +5840,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 50,
       "norm_label": "dbtomenuitem mapper function",
       "id": "order_dbtomenuitem"
     },
@@ -5830,7 +5866,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 50,
       "norm_label": "db table: menu_items",
       "id": "db_table_menu_items"
     },
@@ -5895,7 +5931,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "toggle switch component",
       "id": "productmodal_toggle_component"
     },
@@ -5908,7 +5944,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "productmodal component",
       "id": "productmodal_component"
     },
@@ -6051,7 +6087,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 50,
       "norm_label": "migration: public menu read (20260610)",
       "id": "migration_public_menu"
     },
@@ -6272,7 +6308,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 58,
+      "community": 50,
       "norm_label": "rls policy: menu_items public read",
       "id": "policy_menu_items_public_read"
     },
@@ -6298,7 +6334,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 53,
+      "community": 50,
       "norm_label": "claude.md knowledge graph instructions",
       "id": "claude_md_doc"
     },
@@ -6311,7 +6347,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 53,
+      "community": 50,
       "norm_label": "knowledge graph rag concept",
       "id": "claude_md_graph_concept"
     },
@@ -6324,7 +6360,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 53,
+      "community": 50,
       "norm_label": "god nodes design decision",
       "id": "claude_md_god_nodes"
     },
@@ -6337,7 +6373,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 53,
+      "community": 50,
       "norm_label": "design decision: menu_items db-to-code gap",
       "id": "claude_md_menu_items_gap"
     },
@@ -6472,7 +6508,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 60,
+      "community": 50,
       "norm_label": "allergyaccordion component",
       "id": "productmodal_allergyaccordion_component"
     },
@@ -6817,6 +6853,182 @@
   ],
   "links": [
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_checkout_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_checkout_route_ts",
+      "target": "lib_email_sendorderstatusemail"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_stripe",
+      "target": "app_api_checkout_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_extra",
+      "target": "app_api_checkout_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_cartitem",
+      "target": "app_api_checkout_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_post",
+      "target": "app_api_checkout_route_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_checkout_route_ts",
+      "target": "lib_supabase_admin_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_checkout_route_ts",
+      "target": "lib_email_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/checkout/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_checkout_route_ts",
+      "target": "checkout_route_stripe"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/checkout/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_checkout_route_ts",
+      "target": "checkout_route_extra"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_cartitem",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/checkout/route.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_checkout_route_ts",
+      "target": "checkout_route_cartitem"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "checkout_route_post",
+      "target": "lib_email_sendorderstatusemail"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/checkout/route.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_checkout_route_ts",
+      "target": "checkout_route_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/promo-codes/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_promo_codes_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/promo-codes/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_api_promo_codes_route_ts",
+      "target": "promo_codes_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/migrations/20260619_promo_codes.sql",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "supabase_migrations_20260619_promo_codes_sql",
+      "target": "20260619_promo_codes_orders",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
@@ -6872,9 +7084,9 @@
       "source_file": "app/admin/page.tsx",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_admin_page_tsx",
-      "target": "admin_page_common_allergens",
-      "confidence_score": 1.0
+      "target": "admin_page_common_allergens"
     },
     {
       "relation": "contains",
@@ -7584,9 +7796,9 @@
       "source_file": "app/order/page.tsx",
       "source_location": "L213",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_order_page_tsx",
-      "target": "order_page_getuniquetags",
-      "confidence_score": 1.0
+      "target": "order_page_getuniquetags"
     },
     {
       "relation": "contains",
@@ -8098,9 +8310,9 @@
       "source_file": "supabase/migrations/20260618_allergens.sql",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_migrations_20260618_allergens_sql",
-      "target": "20260618_allergens_menu_items",
-      "confidence_score": 1.0
+      "target": "20260618_allergens_menu_items"
     },
     {
       "relation": "contains",
@@ -12234,151 +12446,6 @@
       "confidence_score": 1.0,
       "source": "app_api_categories_route_ts",
       "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_checkout_route_ts",
-      "target": "lib_supabase_admin_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_checkout_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_checkout_route_ts",
-      "target": "lib_email_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_checkout_route_ts",
-      "target": "lib_email_sendorderstatusemail"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_route_stripe",
-      "target": "app_api_checkout_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_route_extra",
-      "target": "app_api_checkout_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_route_cartitem",
-      "target": "app_api_checkout_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_route_post",
-      "target": "app_api_checkout_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/checkout/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_checkout_route_ts",
-      "target": "checkout_route_stripe"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/checkout/route.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_checkout_route_ts",
-      "target": "checkout_route_extra"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_route_cartitem",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/checkout/route.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_checkout_route_ts",
-      "target": "checkout_route_cartitem"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L165",
-      "weight": 1.0,
-      "source": "checkout_route_post",
-      "target": "lib_email_sendorderstatusemail"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/checkout/route.ts",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_checkout_route_ts",
-      "target": "checkout_route_post"
     },
     {
       "relation": "imports_from",
@@ -18094,5 +18161,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "7b9a36f13505a2d2e7c4509f80f4f607c6140c8a"
+  "built_at_commit": "919fc8940a977a3fee7b32c1d898126f41d8688f"
 }
