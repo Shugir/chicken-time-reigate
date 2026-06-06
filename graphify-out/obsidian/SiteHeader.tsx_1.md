@@ -1,18 +1,18 @@
 ---
-source_file: "components/SiteHeader.tsx"
+source_file: "SiteHeader.tsx"
 type: "code"
 community: "Community None"
-location: "L9"
+location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# NAV_LINKS
+# SiteHeader.tsx
 
 ## Connections
-- [[SiteHeader.tsx]] - `contains` [EXTRACTED]
-- [[SiteHeader.tsx_1]] - `contains` [EXTRACTED]
+- [[NAV_LINKS]] - `contains` [EXTRACTED]
+- [[SiteHeader()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[SiteHeader.tsx]] - `contains` [EXTRACTED]
+- [[SiteHeader.tsx_1]] - `contains` [EXTRACTED]
 - [[layout.tsx]] - `imports` [EXTRACTED]
 - [[layout.tsx_11]] - `imports` [EXTRACTED]
 
