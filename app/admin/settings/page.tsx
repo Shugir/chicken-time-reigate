@@ -8,13 +8,22 @@ import {
   X,
   Clock,
   Store,
+  UploadCloud,
 } from 'lucide-react'
+import Image from 'next/image'
+import { createBrowserClient } from '@supabase/ssr'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+
+const supabase = createBrowserClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+)
 
 interface StoreSettings {
   id: number
   is_open: boolean
   prep_time_minutes: number
+  logo_url: string | null
 }
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
@@ -22,10 +31,12 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error'
 export default function SettingsPage() {
   const [settings, setSettings]   = useState<StoreSettings | null>(null)
   const [loading, setLoading]     = useState(true)
-  const [toggleBusy, setToggleBusy] = useState(false)
-  const [prepSave, setPrepSave]   = useState<SaveState>('idle')
-  const [prepValue, setPrepValue] = useState('')
+  const [toggleBusy, setToggleBusy]   = useState(false)
+  const [prepSave, setPrepSave]       = useState<SaveState>('idle')
+  const [prepValue, setPrepValue]     = useState('')
   const prepTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [logoUploading, setLogoUploading] = useState(false)
+  const [logoError, setLogoError]         = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/api/admin/store-settings')
@@ -80,6 +91,28 @@ export default function SettingsPage() {
         setPrepSave('error')
       }
     }, 700)
+  }
+
+  async function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setLogoUploading(true)
+    setLogoError(null)
+    try {
+      const { error: uploadError } = await supabase.storage
+        .from('brand')
+        .upload('logos/logo', file, { upsert: true, contentType: file.type })
+      if (uploadError) throw new Error(uploadError.message)
+      const { data: { publicUrl } } = supabase.storage.from('brand').getPublicUrl('logos/logo')
+      const logoUrl = `${publicUrl}?t=${Date.now()}`
+      const updated = await patch({ logo_url: logoUrl })
+      setSettings(updated)
+    } catch (err) {
+      setLogoError(err instanceof Error ? err.message : 'Upload failed')
+    } finally {
+      setLogoUploading(false)
+      e.target.value = ''
+    }
   }
 
   return (
@@ -178,6 +211,57 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <p className="text-xs text-zinc-600 mt-3">Saves automatically · 1–120 minutes</p>
+              </div>
+
+              {/* ── Brand Logo ── */}
+              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center shrink-0">
+                    <UploadCloud className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-base font-semibold text-white">Brand Logo</p>
+                    <p className="text-sm text-zinc-500 mt-0.5">Shown in the header and receipts</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-6 mb-5">
+                  <div className="w-32 h-16 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center overflow-hidden shrink-0">
+                    <Image
+                      src={settings.logo_url ?? '/brand-logo.png'}
+                      alt="Brand logo preview"
+                      width={128}
+                      height={64}
+                      className="object-contain w-full h-full p-1"
+                      unoptimized={!!settings.logo_url}
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-zinc-500 mb-2">PNG, JPEG or WebP · max 2 MB</p>
+                    <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-colors
+                      ${logoUploading ? 'bg-zinc-700 text-zinc-400 cursor-not-allowed' : 'bg-zinc-800 hover:bg-zinc-700 text-white'}`}>
+                      {logoUploading ? (
+                        <><Loader2 className="w-4 h-4 animate-spin" /> Uploading…</>
+                      ) : (
+                        <><UploadCloud className="w-4 h-4" /> Upload logo</>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp"
+                        className="sr-only"
+                        disabled={logoUploading}
+                        onChange={handleLogoUpload}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                {logoError && (
+                  <div className="flex items-center gap-2 text-xs text-red-400 mt-1">
+                    <X className="w-3.5 h-3.5 shrink-0" />
+                    {logoError}
+                  </div>
+                )}
               </div>
 
             </div>

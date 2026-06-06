@@ -868,8 +868,8 @@ export default function AdminPage() {
                   </div>
 
                   {/* Table */}
-                  <div className="rounded-xl border border-zinc-800 overflow-hidden">
-                    <table className="w-full text-sm">
+                  <div className="rounded-xl border border-zinc-800 overflow-hidden overflow-x-auto">
+                    <table className="w-full text-sm min-w-[640px]">
                       <thead>
                         <tr className="bg-zinc-900 border-b border-zinc-800">
                           <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wide w-12">Image</th>

@@ -55,14 +55,15 @@ function fmtGbp(n: number) {
 }
 
 export default function DriversPage() {
-  const [drivers, setDrivers]       = useState<Driver[]>([])
-  const [aggregates, setAggregates] = useState<Aggregates | null>(null)
-  const [loading, setLoading]       = useState(true)
-  const [showForm, setShowForm]     = useState(false)
-  const [editing, setEditing]       = useState<Driver | null>(null)
-  const [form, setForm]             = useState<DriverForm>(EMPTY_FORM)
-  const [saving, setSaving]         = useState(false)
-  const [saveError, setSaveError]   = useState('')
+  const [drivers, setDrivers]         = useState<Driver[]>([])
+  const [aggregates, setAggregates]   = useState<Aggregates | null>(null)
+  const [loading, setLoading]         = useState(true)
+  const [showForm, setShowForm]       = useState(false)
+  const [editing, setEditing]         = useState<Driver | null>(null)
+  const [form, setForm]               = useState<DriverForm>(EMPTY_FORM)
+  const [saving, setSaving]           = useState(false)
+  const [saveError, setSaveError]     = useState('')
+  const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set())
 
   async function fetchDrivers() {
     const res = await fetch('/api/admin/drivers')
@@ -137,12 +138,14 @@ export default function DriversPage() {
   }
 
   async function handleToggleActive(driver: Driver) {
+    setTogglingIds((prev) => new Set(prev).add(driver.id))
     await fetch(`/api/admin/drivers/${driver.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ is_active: !driver.is_active }),
     })
     await fetchDrivers()
+    setTogglingIds((prev) => { const s = new Set(prev); s.delete(driver.id); return s })
   }
 
   const active   = drivers.filter((d) => d.is_active)
@@ -330,10 +333,11 @@ export default function DriversPage() {
                                   </button>
                                   <button
                                     onClick={() => handleToggleActive(driver)}
-                                    className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                                    disabled={togglingIds.has(driver.id)}
+                                    className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                                     title="Deactivate driver"
                                   >
-                                    <X className="w-3.5 h-3.5" />
+                                    {togglingIds.has(driver.id) ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <X className="w-3.5 h-3.5" />}
                                   </button>
                                 </div>
                               </td>

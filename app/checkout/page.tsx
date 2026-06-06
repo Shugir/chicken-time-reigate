@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { ChevronRight, MapPin, AlertCircle, Loader2, ShoppingCart, Tag, User } from 'lucide-react'
+import toast from 'react-hot-toast'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -123,8 +124,11 @@ export default function CheckoutPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Invalid promo code')
       setPromoApplied(data)
+      toast.success(`Code ${data.code} applied — -£${data.discount_amount.toFixed(2)}`)
     } catch (err) {
-      setPromoError(err instanceof Error ? err.message : 'Error applying promo code')
+      const msg = err instanceof Error ? err.message : 'Error applying promo code'
+      setPromoError(msg)
+      toast.error(msg)
     } finally {
       setPromoLoading(false)
     }
@@ -158,7 +162,9 @@ export default function CheckoutPage() {
       sessionStorage.removeItem('pendingCart')
       window.location.href = data.url
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Something went wrong')
+      const msg = err instanceof Error ? err.message : 'Something went wrong'
+      setSubmitError(msg)
+      toast.error(msg)
       setSubmitting(false)
     }
   }
