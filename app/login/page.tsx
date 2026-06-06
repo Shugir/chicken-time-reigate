@@ -55,15 +55,14 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div className="mb-3 w-1/3 aspect-square relative">
-            <Image
-              src={logoUrl ?? '/chicken-time-logo_v1.png'}
-              alt="Chicken Time"
-              fill
-              className="object-contain drop-shadow-lg"
-              unoptimized={!!logoUrl}
-            />
-          </div>
+          <Image
+            src={logoUrl ?? '/chicken-time-logo_v1.png'}
+            alt="Chicken Time"
+            width={400}
+            height={150}
+            className="mb-3 w-full h-auto object-contain drop-shadow-lg"
+            unoptimized={!!logoUrl}
+          />
           <h1 className="text-xl font-bold text-white">Chicken Time</h1>
           <p className="text-sm text-zinc-500 mt-1">Reigate</p>
         </div>
