@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { createBrowserClient } from '@supabase/ssr'
 import { Mail, Lock, Eye, EyeOff, User, ChevronRight, ArrowLeft, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

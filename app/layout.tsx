@@ -56,6 +56,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-white text-brand-dark" suppressHydrationWarning>
 
         <SiteHeader />
+        <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
 
         <main className="flex-1 min-h-[60vh]">
           {children}

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { formatDateTime } from '@/lib/utils/format-date'
+import toast from 'react-hot-toast'
 
 // ─── Supabase (module-level so it's not re-created on every render) ───────────
 
@@ -422,9 +423,11 @@ export default function AccountPage() {
       .upsert({ id: user!.id, ...profile })
     if (error) {
       setProfileError(error.message)
+      toast.error(error.message)
     } else {
       setProfileSaved(true)
       setTimeout(() => setProfileSaved(false), 3000)
+      toast.success('Profile saved!')
     }
     setProfileSaving(false)
   }
@@ -436,6 +439,7 @@ export default function AccountPage() {
       redirectTo: `${window.location.origin}/account`,
     })
     setResetSent(true)
+    toast.success('Reset email sent — check your inbox.')
     setResetLoading(false)
   }
 
@@ -446,6 +450,7 @@ export default function AccountPage() {
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
       setCloseError(body.error ?? 'Failed to close account')
+      toast.error(body.error ?? 'Failed to close account')
       setCloseLoading(false)
       return
     }
