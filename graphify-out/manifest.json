@@ -35,8 +35,8 @@
     "semantic_hash": "02fc19ad21338c2ab820a70136310db4"
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\layout.tsx": {
-    "mtime": 1780716475.4486344,
-    "ast_hash": "19c42071f9e9cd782e3b6a7d433a2645",
+    "mtime": 1780722700.9525597,
+    "ast_hash": "8fd0b190b4a8e5e65d879588aae30a4e",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\page.tsx": {
@@ -140,8 +140,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\settings\\page.tsx": {
-    "mtime": 1780716190.1954958,
-    "ast_hash": "6fc356f90bc1c903095aa219d0f39c5b",
+    "mtime": 1780719773.791008,
+    "ast_hash": "838528e1ce5988b2a8c79b4579b8500f",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\staff\\layout.tsx": {
@@ -360,13 +360,13 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\sign-in\\page.tsx": {
-    "mtime": 1780715457.9760883,
-    "ast_hash": "656c39f80addd472a7b327f348192cd2",
+    "mtime": 1780722288.8178759,
+    "ast_hash": "f0a86a670a55d31eb23591f534b8acee",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\sign-up\\page.tsx": {
-    "mtime": 1780715459.4093957,
-    "ast_hash": "5375b2471efb040e551bf4d7c1e3b7ce",
+    "mtime": 1780722290.4856873,
+    "ast_hash": "f3d8716cdbff7043345354a83fb4b09c",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\signup\\page.tsx": {
@@ -390,8 +390,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\SiteHeader.tsx": {
-    "mtime": 1780716769.9943898,
-    "ast_hash": "2ea57e98b259051e350efe9af2b98e10",
+    "mtime": 1780720460.486597,
+    "ast_hash": "5feb154cf7ce2f6ed1ebc026eefd3ae5",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\access-denied.tsx": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\admin-sidebar.tsx": {
-    "mtime": 1780678956.0698595,
-    "ast_hash": "9df5ee64c4c2eee2ac8118ceb71e7a7e",
+    "mtime": 1780723478.3074975,
+    "ast_hash": "593d666833db52d15dca70481680e589",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\permissions-provider.tsx": {
@@ -539,6 +539,11 @@
     "ast_hash": "952c06c0d8df68de8a31501d6b316ac8",
     "semantic_hash": ""
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\supabase\\migrations\\20260620_brand_storage.sql": {
+    "mtime": 1780720329.773235,
+    "ast_hash": "d045f29d2c0bc78fd7333fd4bc64929a",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\supabase\\migrations\\20260620_delivery_postcode.sql": {
     "mtime": 1780672406.9929366,
     "ast_hash": "adb9070cee2e7d76de9eb2f3464360b2",
@@ -575,8 +580,28 @@
     "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
   "E:\\ChickenTime\\chicken-time-reigate\\chicken-time-logo.png": {
+    "mtime": 1780719420.591194,
+    "ast_hash": "674eb931d1e05846a7aef7df8760f40d",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\chicken-time-logo_v1.png": {
     "mtime": 1780716311.5516627,
     "ast_hash": "6c574334fcb88653c5120d61d1f503ca",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\Gemini_Generated_Image_yh83mlyh83mlyh83.png": {
+    "mtime": 1780721809.487242,
+    "ast_hash": "3b7922d164f5a90bc83b92c0204b94bd",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\Gemini_Generated_Image_yitrmvyitrmvyitr-removebg-preview.png": {
+    "mtime": 1780721971.7352448,
+    "ast_hash": "76b7fc8e870790ce634c262713ec5672",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\Gemini_Generated_Image_yitrmvyitrmvyitr.png": {
+    "mtime": 1780721876.6513262,
+    "ast_hash": "c115e68941f99b9fc3dae97bbf93ff24",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\logo.jpeg": {
@@ -589,6 +614,11 @@
     "ast_hash": "1936b5171e037f15e96b675f5509cfb4",
     "semantic_hash": "1936b5171e037f15e96b675f5509cfb4"
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\LOGOS!.png": {
+    "mtime": 1780722060.866584,
+    "ast_hash": "eeb384938e7f1fdec554d678297b0555",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\Logo_v1.png": {
     "mtime": 1780509530.391268,
     "ast_hash": "2db89ebfa1d5f14570bd18dd2d98d198",
@@ -598,6 +628,11 @@
     "mtime": 1780509738.293368,
     "ast_hash": "0f99e93b14b5824b7b4f919fa735131c",
     "semantic_hash": "0f99e93b14b5824b7b4f919fa735131c"
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\Logo_v3-removebg-preview.png": {
+    "mtime": 1780720034.4538393,
+    "ast_hash": "48ba202c7b23b9e2c1272904164e38f3",
+    "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\Logo_v3.png": {
     "mtime": 1780509887.3503263,
@@ -614,6 +649,11 @@
     "ast_hash": "07a017610c9015e605c8a6f3f2164156",
     "semantic_hash": ""
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\public\\chicken-time-logo_v1.png": {
+    "mtime": 1780716311.5516627,
+    "ast_hash": "6c574334fcb88653c5120d61d1f503ca",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\public\\file.svg": {
     "mtime": 1780494077.2115748,
     "ast_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71",
@@ -623,6 +663,21 @@
     "mtime": 1780494077.222526,
     "ast_hash": "2aaafa6a49b6563925fe440891e32717",
     "semantic_hash": "2aaafa6a49b6563925fe440891e32717"
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\public\\LOGOS.png": {
+    "mtime": 1780722060.866584,
+    "ast_hash": "eeb384938e7f1fdec554d678297b0555",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\public\\Logo_v3-removebg-preview.png": {
+    "mtime": 1780720034.4538393,
+    "ast_hash": "48ba202c7b23b9e2c1272904164e38f3",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\public\\Logo_v3.png": {
+    "mtime": 1780509887.3503263,
+    "ast_hash": "abe9ce55376873a767cf6c0296b1687b",
+    "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\public\\next.svg": {
     "mtime": 1780494077.2360115,
