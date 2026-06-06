@@ -13,7 +13,7 @@ tags:
 
 ## Connections
 - [[page.tsx_3]] - `contains` [EXTRACTED]
-- [[page.tsx_32]] - `contains` [EXTRACTED]
+- [[page.tsx_26]] - `contains` [EXTRACTED]
 - [[page.tsx_36]] - `contains` [EXTRACTED]
 - [[route.ts_37]] - `contains` [EXTRACTED]
 
