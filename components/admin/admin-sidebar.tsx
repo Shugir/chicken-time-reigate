@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
@@ -31,7 +32,7 @@ export default function AdminSidebar() {
     <aside className="w-56 shrink-0 bg-zinc-900 border-r border-zinc-800 flex flex-col">
       <div className="px-5 py-5 border-b border-zinc-800">
         <div className="flex items-center gap-2.5">
-          <span className="text-2xl">🍗</span>
+          <Image src="/Logo_v3-removebg-preview.png" alt="Chicken Time" width={40} height={40} className="w-10 h-10 object-contain" />
           <div>
             <p className="text-xs font-bold text-white leading-tight">Chicken Time</p>
             <p className="text-[10px] text-zinc-500 leading-tight">Admin Panel</p>
