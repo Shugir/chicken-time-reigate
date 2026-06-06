@@ -1,5 +1,5 @@
 ---
-source_file: "admin/settings/page.tsx"
+source_file: "admin/promotions/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,11 @@ tags:
 # page.tsx
 
 ## Connections
-- [[SaveState_3]] - `contains` [EXTRACTED]
-- [[SettingsPage()]] - `contains` [EXTRACTED]
-- [[StoreSettings]] - `contains` [EXTRACTED]
+- [[DeleteConfirm()_1]] - `contains` [EXTRACTED]
+- [[NAV_4]] - `contains` [EXTRACTED]
+- [[PromoModal()]] - `contains` [EXTRACTED]
+- [[Promotion]] - `contains` [EXTRACTED]
+- [[PromotionsPage()]] - `contains` [EXTRACTED]
+- [[SaveState_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

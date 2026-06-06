@@ -1,18 +1,18 @@
 ---
-source_file: "app/api/admin/menu/suggestions/route.ts"
+source_file: "api/admin/dashboard/route.ts"
 type: "code"
 community: "Community None"
-location: "L6"
+location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# GET()
+# route.ts
 
 ## Connections
-- [[route.ts_11]] - `contains` [EXTRACTED]
-- [[route.ts_44]] - `contains` [EXTRACTED]
+- [[GET()_3]] - `contains` [EXTRACTED]
+- [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

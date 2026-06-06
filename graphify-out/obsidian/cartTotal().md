@@ -15,7 +15,7 @@ tags:
 - [[CartDrawer()]] - `calls` [EXTRACTED]
 - [[OrderPage()]] - `calls` [EXTRACTED]
 - [[page.tsx_20]] - `contains` [EXTRACTED]
-- [[page.tsx_27]] - `contains` [EXTRACTED]
-- [[page.tsx_34]] - `contains` [EXTRACTED]
+- [[page.tsx_30]] - `contains` [EXTRACTED]
+- [[page.tsx_35]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
