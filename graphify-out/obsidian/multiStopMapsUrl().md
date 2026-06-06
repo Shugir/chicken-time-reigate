@@ -1,18 +1,18 @@
 ---
-source_file: "api/admin/dashboard/route.ts"
+source_file: "app/driver/dashboard/page.tsx"
 type: "code"
 community: "Community None"
-location: "L1"
+location: "L32"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# route.ts
+# multiStopMapsUrl()
 
 ## Connections
-- [[GET()_3]] - `contains` [EXTRACTED]
-- [[supabaseAdmin]] - `imports` [EXTRACTED]
+- [[page.tsx_17]] - `contains` [EXTRACTED]
+- [[page.tsx_26]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

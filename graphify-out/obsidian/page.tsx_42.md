@@ -1,5 +1,5 @@
 ---
-source_file: "api/admin/dashboard/route.ts"
+source_file: "checkout/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -9,10 +9,11 @@ tags:
   - community/Community_None
 ---
 
-# route.ts
+# page.tsx
 
 ## Connections
-- [[GET()_3]] - `contains` [EXTRACTED]
-- [[supabaseAdmin]] - `imports` [EXTRACTED]
+- [[CartItem_1]] - `contains` [EXTRACTED]
+- [[CheckoutPage()]] - `contains` [EXTRACTED]
+- [[DeliveryZone_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

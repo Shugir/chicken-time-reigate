@@ -1,5 +1,5 @@
 ---
-source_file: "admin/page.tsx"
+source_file: "account/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,26 +12,19 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AdminPage()]] - `contains` [EXTRACTED]
-- [[AvailabilityToggle()]] - `contains` [EXTRACTED]
-- [[CATEGORIES]] - `contains` [EXTRACTED]
-- [[CATEGORY_COLOURS]] - `contains` [EXTRACTED]
-- [[CATEGORY_LABELS]] - `contains` [EXTRACTED]
-- [[COLOUR_PALETTE]] - `contains` [EXTRACTED]
-- [[Category_1]] - `contains` [EXTRACTED]
-- [[DIETARY_FLAGS]] - `contains` [EXTRACTED]
-- [[DbCategory]] - `contains` [EXTRACTED]
-- [[DeleteConfirmModal()]] - `contains` [EXTRACTED]
-- [[EMPTY_FORM]] - `contains` [EXTRACTED]
-- [[Extra]] - `contains` [EXTRACTED]
-- [[ExtraNameInput()]] - `contains` [EXTRACTED]
-- [[ItemModal()]] - `contains` [EXTRACTED]
-- [[ItemModalProps]] - `contains` [EXTRACTED]
-- [[MenuItem]] - `contains` [EXTRACTED]
-- [[NAV_3]] - `contains` [EXTRACTED]
-- [[NavItem]] - `contains` [EXTRACTED]
-- [[PriceCell()]] - `contains` [EXTRACTED]
-- [[SaveState]] - `contains` [EXTRACTED]
-- [[TagAutocomplete()]] - `contains` [EXTRACTED]
+- [[AccountPage()]] - `contains` [EXTRACTED]
+- [[OfferCard()]] - `contains` [EXTRACTED]
+- [[Order]] - `contains` [EXTRACTED]
+- [[OrderCard()]] - `contains` [EXTRACTED]
+- [[OrderItem]] - `contains` [EXTRACTED]
+- [[Profile]] - `contains` [EXTRACTED]
+- [[PromoCode]] - `contains` [EXTRACTED]
+- [[TIMELINE]] - `contains` [EXTRACTED]
+- [[Tab]] - `contains` [EXTRACTED]
+- [[formatDateTime()]] - `imports` [EXTRACTED]
+- [[statusColor()]] - `contains` [EXTRACTED]
+- [[statusLabel()]] - `contains` [EXTRACTED]
+- [[supabase]] - `contains` [EXTRACTED]
+- [[trackingStep()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
