@@ -1,5 +1,5 @@
 ---
-source_file: "admin/page.tsx"
+source_file: "order/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,25 +12,29 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AdminPage()]] - `contains` [EXTRACTED]
-- [[AvailabilityToggle()]] - `contains` [EXTRACTED]
-- [[CATEGORIES]] - `contains` [EXTRACTED]
-- [[CATEGORY_COLOURS]] - `contains` [EXTRACTED]
-- [[CATEGORY_LABELS]] - `contains` [EXTRACTED]
-- [[COLOUR_PALETTE]] - `contains` [EXTRACTED]
-- [[Category_1]] - `contains` [EXTRACTED]
-- [[DbCategory]] - `contains` [EXTRACTED]
-- [[DeleteConfirmModal()]] - `contains` [EXTRACTED]
-- [[EMPTY_FORM]] - `contains` [EXTRACTED]
-- [[Extra]] - `contains` [EXTRACTED]
-- [[ExtraNameInput()]] - `contains` [EXTRACTED]
-- [[ItemModal()]] - `contains` [EXTRACTED]
-- [[ItemModalProps]] - `contains` [EXTRACTED]
-- [[MenuItem]] - `contains` [EXTRACTED]
-- [[NAV_3]] - `contains` [EXTRACTED]
-- [[NavItem]] - `contains` [EXTRACTED]
-- [[PriceCell()]] - `contains` [EXTRACTED]
-- [[SaveState]] - `contains` [EXTRACTED]
-- [[TagAutocomplete()]] - `contains` [EXTRACTED]
+- [[AddOn]] - `imports` [EXTRACTED]
+- [[BADGE_STYLES]] - `contains` [EXTRACTED]
+- [[CARD_GRADIENT]] - `contains` [EXTRACTED]
+- [[CATEGORIES_1]] - `contains` [EXTRACTED]
+- [[Cart]] - `contains` [EXTRACTED]
+- [[CartDrawer()]] - `contains` [EXTRACTED]
+- [[CartEntry]] - `contains` [EXTRACTED]
+- [[Category_2]] - `contains` [EXTRACTED]
+- [[CompactListItem()]] - `contains` [EXTRACTED]
+- [[DIETARY_FLAGS_1]] - `contains` [EXTRACTED]
+- [[DbCategory_1]] - `contains` [EXTRACTED]
+- [[DbMenuItem]] - `contains` [EXTRACTED]
+- [[FiltersPopover()]] - `contains` [EXTRACTED]
+- [[GRADIENTS]] - `contains` [EXTRACTED]
+- [[MENU_ITEMS]] - `contains` [EXTRACTED]
+- [[MenuCard()]] - `contains` [EXTRACTED]
+- [[MenuItem_1]] - `contains` [EXTRACTED]
+- [[OrderPage()]] - `contains` [EXTRACTED]
+- [[OrderSelection]] - `imports` [EXTRACTED]
+- [[ProductItem]] - `imports` [EXTRACTED]
+- [[ProductModal()]] - `imports` [EXTRACTED]
+- [[cartCount()]] - `contains` [EXTRACTED]
+- [[cartTotal()]] - `contains` [EXTRACTED]
+- [[dbToMenuItem()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

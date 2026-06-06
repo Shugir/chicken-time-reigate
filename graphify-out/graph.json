@@ -55,187 +55,16 @@
     {
       "label": "page.tsx",
       "file_type": "code",
-      "source_file": "admin/page.tsx",
+      "source_file": "page.tsx",
       "source_location": "L1",
-      "id": "admin_page_tsx",
-      "community": 1,
-      "norm_label": "page.tsx"
-    },
-    {
-      "label": "Extra",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L24",
-      "id": "admin_page_extra",
-      "community": 1,
-      "norm_label": "extra"
-    },
-    {
-      "label": "MenuItem",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L29",
-      "id": "admin_page_menuitem",
-      "community": 1,
-      "norm_label": "menuitem"
-    },
-    {
-      "label": "SaveState",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L43",
-      "id": "admin_page_savestate",
-      "community": 1,
-      "norm_label": "savestate"
-    },
-    {
-      "label": "DbCategory",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L45",
-      "id": "admin_page_dbcategory",
-      "community": 1,
-      "norm_label": "dbcategory"
-    },
-    {
-      "label": "DIETARY_FLAGS",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L47",
-      "id": "admin_page_dietary_flags",
-      "community": 1,
-      "norm_label": "dietary_flags"
-    },
-    {
-      "label": "COLOUR_PALETTE",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L49",
-      "id": "admin_page_colour_palette",
-      "community": 1,
-      "norm_label": "colour_palette"
-    },
-    {
-      "label": "PriceCell()",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L61",
-      "id": "admin_page_pricecell",
-      "community": 1,
-      "norm_label": "pricecell()"
-    },
-    {
-      "label": "AvailabilityToggle()",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L110",
-      "id": "admin_page_availabilitytoggle",
-      "community": 1,
-      "norm_label": "availabilitytoggle()"
-    },
-    {
-      "label": "ExtraNameInput()",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L159",
-      "id": "admin_page_extranameinput",
-      "community": 1,
-      "norm_label": "extranameinput()"
-    },
-    {
-      "label": "ItemModalProps",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L242",
-      "id": "admin_page_itemmodalprops",
-      "community": 1,
-      "norm_label": "itemmodalprops"
-    },
-    {
-      "label": "EMPTY_FORM",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L249",
-      "id": "admin_page_empty_form",
-      "community": 1,
-      "norm_label": "empty_form"
-    },
-    {
-      "label": "ItemModal()",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L251",
-      "id": "admin_page_itemmodal",
-      "community": 1,
-      "norm_label": "itemmodal()"
-    },
-    {
-      "label": "DeleteConfirmModal()",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L544",
-      "id": "admin_page_deleteconfirmmodal",
-      "community": 1,
-      "norm_label": "deleteconfirmmodal()"
-    },
-    {
-      "label": "AdminPage()",
-      "file_type": "code",
-      "source_file": "admin/page.tsx",
-      "source_location": "L581",
-      "id": "admin_page_adminpage",
-      "community": 1,
-      "norm_label": "adminpage()"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "api/admin/menu-items/route.ts",
-      "source_location": "L1",
-      "id": "api_admin_menu_items_route_ts",
-      "community": 3,
-      "norm_label": "route.ts"
-    },
-    {
-      "label": "GET()",
-      "file_type": "code",
-      "source_file": "api/menu-items/route.ts",
-      "source_location": "L6",
-      "id": "menu_items_route_get",
-      "community": 3,
-      "norm_label": "get()"
-    },
-    {
-      "label": "POST()",
-      "file_type": "code",
-      "source_file": "api/admin/menu-items/route.ts",
-      "source_location": "L15",
-      "id": "menu_items_route_post",
-      "community": 3,
-      "norm_label": "post()"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "api/menu-items/route.ts",
-      "source_location": "L1",
-      "id": "api_menu_items_route_ts",
-      "community": 3,
-      "norm_label": "route.ts"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L1",
-      "id": "order_page_tsx",
+      "id": "page_tsx",
       "community": 1,
       "norm_label": "page.tsx"
     },
     {
       "label": "MenuItem",
       "file_type": "code",
-      "source_file": "order/page.tsx",
+      "source_file": "page.tsx",
       "source_location": "L22",
       "id": "order_page_menuitem",
       "community": 1,
@@ -244,7 +73,7 @@
     {
       "label": "CartEntry",
       "file_type": "code",
-      "source_file": "order/page.tsx",
+      "source_file": "page.tsx",
       "source_location": "L23",
       "id": "order_page_cartentry",
       "community": 1,
@@ -253,7 +82,7 @@
     {
       "label": "Cart",
       "file_type": "code",
-      "source_file": "order/page.tsx",
+      "source_file": "page.tsx",
       "source_location": "L24",
       "id": "order_page_cart",
       "community": 1,
@@ -262,53 +91,35 @@
     {
       "label": "DbCategory",
       "file_type": "code",
-      "source_file": "order/page.tsx",
+      "source_file": "page.tsx",
       "source_location": "L26",
       "id": "order_page_dbcategory",
       "community": 1,
       "norm_label": "dbcategory"
     },
     {
-      "label": "GRADIENTS",
-      "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L31",
-      "id": "order_page_gradients",
-      "community": 1,
-      "norm_label": "gradients"
-    },
-    {
       "label": "MENU_ITEMS",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L42",
+      "source_file": "page.tsx",
+      "source_location": "L33",
       "id": "order_page_menu_items",
-      "community": 8,
+      "community": 1,
       "norm_label": "menu_items"
     },
     {
       "label": "DIETARY_FLAGS",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L220",
+      "source_file": "page.tsx",
+      "source_location": "L211",
       "id": "order_page_dietary_flags",
       "community": 1,
       "norm_label": "dietary_flags"
     },
     {
-      "label": "BADGE_STYLES",
-      "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L224",
-      "id": "order_page_badge_styles",
-      "community": 1,
-      "norm_label": "badge_styles"
-    },
-    {
       "label": "DbMenuItem",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L232",
+      "source_file": "page.tsx",
+      "source_location": "L217",
       "id": "order_page_dbmenuitem",
       "community": 1,
       "norm_label": "dbmenuitem"
@@ -316,8 +127,8 @@
     {
       "label": "dbToMenuItem()",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L252",
+      "source_file": "page.tsx",
+      "source_location": "L237",
       "id": "order_page_dbtomenuitem",
       "community": 1,
       "norm_label": "dbtomenuitem()"
@@ -325,8 +136,8 @@
     {
       "label": "cartTotal()",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L272",
+      "source_file": "page.tsx",
+      "source_location": "L257",
       "id": "order_page_carttotal",
       "community": 1,
       "norm_label": "carttotal()"
@@ -334,8 +145,8 @@
     {
       "label": "cartCount()",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L281",
+      "source_file": "page.tsx",
+      "source_location": "L266",
       "id": "order_page_cartcount",
       "community": 1,
       "norm_label": "cartcount()"
@@ -343,8 +154,8 @@
     {
       "label": "MenuCard()",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L287",
+      "source_file": "page.tsx",
+      "source_location": "L272",
       "id": "order_page_menucard",
       "community": 1,
       "norm_label": "menucard()"
@@ -352,8 +163,8 @@
     {
       "label": "FiltersPopover()",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L375",
+      "source_file": "page.tsx",
+      "source_location": "L357",
       "id": "order_page_filterspopover",
       "community": 1,
       "norm_label": "filterspopover()"
@@ -361,8 +172,8 @@
     {
       "label": "CompactListItem()",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L452",
+      "source_file": "page.tsx",
+      "source_location": "L440",
       "id": "order_page_compactlistitem",
       "community": 1,
       "norm_label": "compactlistitem()"
@@ -370,8 +181,8 @@
     {
       "label": "CartDrawer()",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L522",
+      "source_file": "page.tsx",
+      "source_location": "L514",
       "id": "order_page_cartdrawer",
       "community": 1,
       "norm_label": "cartdrawer()"
@@ -379,11 +190,29 @@
     {
       "label": "OrderPage()",
       "file_type": "code",
-      "source_file": "order/page.tsx",
-      "source_location": "L655",
+      "source_file": "page.tsx",
+      "source_location": "L647",
       "id": "order_page_orderpage",
       "community": 1,
       "norm_label": "orderpage()"
+    },
+    {
+      "label": "GRADIENTS",
+      "file_type": "code",
+      "source_file": "page.tsx",
+      "source_location": "L31",
+      "community": 1,
+      "norm_label": "gradients",
+      "id": "order_page_gradients"
+    },
+    {
+      "label": "BADGE_STYLES",
+      "file_type": "code",
+      "source_file": "page.tsx",
+      "source_location": "L224",
+      "community": 1,
+      "norm_label": "badge_styles",
+      "id": "order_page_badge_styles"
     },
     {
       "label": "eslint.config.mjs",
@@ -1074,7 +903,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L1",
-      "community": 53,
+      "community": 0,
       "norm_label": "page.tsx",
       "id": "app_account_page_tsx"
     },
@@ -1083,7 +912,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L17",
-      "community": 53,
+      "community": 0,
       "norm_label": "supabase",
       "id": "account_page_supabase"
     },
@@ -1092,7 +921,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L24",
-      "community": 53,
+      "community": 0,
       "norm_label": "orderitem",
       "id": "account_page_orderitem"
     },
@@ -1101,7 +930,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L34",
-      "community": 53,
+      "community": 0,
       "norm_label": "order",
       "id": "account_page_order"
     },
@@ -1110,7 +939,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L48",
-      "community": 53,
+      "community": 0,
       "norm_label": "profile",
       "id": "account_page_profile"
     },
@@ -1119,7 +948,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L54",
-      "community": 53,
+      "community": 0,
       "norm_label": "tab",
       "id": "account_page_tab"
     },
@@ -1128,7 +957,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L58",
-      "community": 53,
+      "community": 0,
       "norm_label": "timeline",
       "id": "account_page_timeline"
     },
@@ -1137,7 +966,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L65",
-      "community": 53,
+      "community": 0,
       "norm_label": "trackingstep()",
       "id": "account_page_trackingstep"
     },
@@ -1146,7 +975,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L72",
-      "community": 53,
+      "community": 0,
       "norm_label": "statuslabel()",
       "id": "account_page_statuslabel"
     },
@@ -1155,7 +984,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L82",
-      "community": 53,
+      "community": 0,
       "norm_label": "statuscolor()",
       "id": "account_page_statuscolor"
     },
@@ -1164,7 +993,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L97",
-      "community": 53,
+      "community": 0,
       "norm_label": "ordercard()",
       "id": "account_page_ordercard"
     },
@@ -1173,7 +1002,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L184",
-      "community": 53,
+      "community": 0,
       "norm_label": "accountpage()",
       "id": "account_page_accountpage"
     },
@@ -1203,6 +1032,132 @@
       "community": 1,
       "norm_label": "page.tsx",
       "id": "app_admin_page_tsx"
+    },
+    {
+      "label": "Extra",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L24",
+      "community": 1,
+      "norm_label": "extra",
+      "id": "admin_page_extra"
+    },
+    {
+      "label": "MenuItem",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L29",
+      "community": 1,
+      "norm_label": "menuitem",
+      "id": "admin_page_menuitem"
+    },
+    {
+      "label": "SaveState",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L43",
+      "community": 1,
+      "norm_label": "savestate",
+      "id": "admin_page_savestate"
+    },
+    {
+      "label": "DbCategory",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L45",
+      "community": 1,
+      "norm_label": "dbcategory",
+      "id": "admin_page_dbcategory"
+    },
+    {
+      "label": "DIETARY_FLAGS",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L47",
+      "community": 1,
+      "norm_label": "dietary_flags",
+      "id": "admin_page_dietary_flags"
+    },
+    {
+      "label": "COLOUR_PALETTE",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L49",
+      "community": 1,
+      "norm_label": "colour_palette",
+      "id": "admin_page_colour_palette"
+    },
+    {
+      "label": "PriceCell()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L61",
+      "community": 1,
+      "norm_label": "pricecell()",
+      "id": "admin_page_pricecell"
+    },
+    {
+      "label": "AvailabilityToggle()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L110",
+      "community": 1,
+      "norm_label": "availabilitytoggle()",
+      "id": "admin_page_availabilitytoggle"
+    },
+    {
+      "label": "ExtraNameInput()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L159",
+      "community": 1,
+      "norm_label": "extranameinput()",
+      "id": "admin_page_extranameinput"
+    },
+    {
+      "label": "ItemModalProps",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L242",
+      "community": 1,
+      "norm_label": "itemmodalprops",
+      "id": "admin_page_itemmodalprops"
+    },
+    {
+      "label": "EMPTY_FORM",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L249",
+      "community": 1,
+      "norm_label": "empty_form",
+      "id": "admin_page_empty_form"
+    },
+    {
+      "label": "ItemModal()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L251",
+      "community": 1,
+      "norm_label": "itemmodal()",
+      "id": "admin_page_itemmodal"
+    },
+    {
+      "label": "DeleteConfirmModal()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L544",
+      "community": 1,
+      "norm_label": "deleteconfirmmodal()",
+      "id": "admin_page_deleteconfirmmodal"
+    },
+    {
+      "label": "AdminPage()",
+      "file_type": "code",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L581",
+      "community": 1,
+      "norm_label": "adminpage()",
+      "id": "admin_page_adminpage"
     },
     {
       "label": "layout.tsx",
@@ -1740,7 +1695,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L1",
-      "community": 0,
+      "community": 53,
       "norm_label": "page.tsx",
       "id": "app_admin_drivers_id_page_tsx"
     },
@@ -1749,7 +1704,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L13",
-      "community": 0,
+      "community": 53,
       "norm_label": "driver",
       "id": "id_page_driver"
     },
@@ -1758,7 +1713,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L22",
-      "community": 0,
+      "community": 53,
       "norm_label": "delivery",
       "id": "id_page_delivery"
     },
@@ -1767,7 +1722,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L31",
-      "community": 0,
+      "community": 53,
       "norm_label": "payout",
       "id": "id_page_payout"
     },
@@ -1776,7 +1731,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L39",
-      "community": 0,
+      "community": 53,
       "norm_label": "ledgerdata",
       "id": "id_page_ledgerdata"
     },
@@ -1785,7 +1740,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L48",
-      "community": 0,
+      "community": 53,
       "norm_label": "todatestr()",
       "id": "id_page_todatestr"
     },
@@ -1794,7 +1749,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L52",
-      "community": 0,
+      "community": 53,
       "norm_label": "fmtgbp()",
       "id": "id_page_fmtgbp"
     },
@@ -1803,7 +1758,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L56",
-      "community": 0,
+      "community": 53,
       "norm_label": "driverledgerpage()",
       "id": "id_page_driverledgerpage"
     },
@@ -2283,6 +2238,24 @@
       "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_menu_items_route_ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/menu-items/route.ts",
+      "source_location": "L6",
+      "community": 3,
+      "norm_label": "get()",
+      "id": "menu_items_route_get"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/admin/menu-items/route.ts",
+      "source_location": "L15",
+      "community": 3,
+      "norm_label": "post()",
+      "id": "menu_items_route_post"
     },
     {
       "label": "route.ts",
@@ -3968,6 +3941,42 @@
       "id": "chicken_time_reigate_readme_deploy_on_vercel"
     },
     {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "admin/page.tsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "page.tsx",
+      "id": "admin_page_tsx"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "api/admin/menu-items/route.ts",
+      "source_location": "L1",
+      "community": 3,
+      "norm_label": "route.ts",
+      "id": "api_admin_menu_items_route_ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "api/menu-items/route.ts",
+      "source_location": "L1",
+      "community": 3,
+      "norm_label": "route.ts",
+      "id": "api_menu_items_route_ts"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "order/page.tsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "page.tsx",
+      "id": "order_page_tsx"
+    },
+    {
       "label": "20260617_advanced_filters.sql",
       "file_type": "code",
       "source_file": "20260617_advanced_filters.sql",
@@ -3975,15 +3984,6 @@
       "community": 57,
       "norm_label": "20260617_advanced_filters.sql",
       "id": "20260617_advanced_filters_sql"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "page.tsx",
-      "source_location": "L1",
-      "community": 1,
-      "norm_label": "page.tsx",
-      "id": "page_tsx"
     },
     {
       "label": "TagAutocomplete()",
@@ -4062,7 +4062,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L51",
-      "community": 0,
+      "community": 53,
       "norm_label": "fmtdate()",
       "id": "id_page_fmtdate"
     },
@@ -4071,7 +4071,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L87",
-      "community": 53,
+      "community": 0,
       "norm_label": "fmtdate()",
       "id": "account_page_fmtdate"
     },
@@ -4386,7 +4386,7 @@
       "file_type": "code",
       "source_file": "20260608_item_customizations.sql",
       "source_location": null,
-      "community": 8,
+      "community": 1,
       "norm_label": "20260608_item_customizations.sql",
       "id": "20260608_item_customizations_sql"
     },
@@ -4596,7 +4596,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 63,
+      "community": 62,
       "norm_label": "contact page",
       "id": "contact_contactpage"
     },
@@ -4609,7 +4609,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 63,
+      "community": 62,
       "norm_label": "inputfield component",
       "id": "contact_inputfield"
     },
@@ -4622,7 +4622,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 63,
+      "community": 62,
       "norm_label": "formstate type",
       "id": "contact_formstate"
     },
@@ -4635,7 +4635,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 63,
+      "community": 62,
       "norm_label": "opening hours data (hours)",
       "id": "contact_hours"
     },
@@ -4648,7 +4648,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 60,
       "norm_label": "order page",
       "id": "order_orderpage"
     },
@@ -4661,7 +4661,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 60,
       "norm_label": "menucard component",
       "id": "order_menucard"
     },
@@ -4674,7 +4674,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 46,
       "norm_label": "cartdrawer component",
       "id": "order_cartdrawer"
     },
@@ -4687,7 +4687,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 46,
       "norm_label": "menu_items static data",
       "id": "order_menuitems"
     },
@@ -4700,7 +4700,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 60,
       "norm_label": "categories data",
       "id": "order_categories"
     },
@@ -4713,7 +4713,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 60,
       "norm_label": "cart type (record<string,number>)",
       "id": "order_cart_type"
     },
@@ -4726,7 +4726,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 46,
       "norm_label": "carttotal helper",
       "id": "order_carttotal"
     },
@@ -4765,7 +4765,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 50,
+      "community": 60,
       "norm_label": "orderselection interface",
       "id": "productmodal_orderselection"
     },
@@ -4843,7 +4843,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 61,
       "norm_label": "supabase linked project (chickentime)",
       "id": "supabase_linked_project"
     },
@@ -4856,7 +4856,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 61,
       "norm_label": "initial db schema migration",
       "id": "supabase_migration_schema"
     },
@@ -4869,7 +4869,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 61,
       "norm_label": "db table: profiles",
       "id": "supabase_table_profiles"
     },
@@ -4882,7 +4882,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 61,
       "norm_label": "db enum: order_status",
       "id": "supabase_enum_order_status"
     },
@@ -4895,7 +4895,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 61,
       "norm_label": "db function: set_updated_at",
       "id": "supabase_fn_set_updated_at"
     },
@@ -4908,7 +4908,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 61,
       "norm_label": "row level security policies",
       "id": "supabase_rls_policies"
     },
@@ -5417,7 +5417,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 46,
       "norm_label": "app/order/page.tsx",
       "id": "CLAUDE_order_page_tsx"
     },
@@ -5430,7 +5430,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 59,
+      "community": 46,
       "norm_label": "menu_items hardcoded duplicate \u2014 supabase not yet wired",
       "id": "CLAUDE_hardcoded_duplicate_rationale"
     },
@@ -5612,7 +5612,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 61,
       "norm_label": "api: kitchen orders route (get)",
       "id": "api_kitchen_orders_route"
     },
@@ -5716,7 +5716,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 61,
       "norm_label": "order interface (kitchen)",
       "id": "kitchen_order_interface"
     },
@@ -5729,7 +5729,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 61,
       "norm_label": "orderitem interface (kitchen)",
       "id": "kitchen_orderitem_interface"
     },
@@ -5807,7 +5807,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 61,
       "norm_label": "db table: orders",
       "id": "db_table_orders"
     },
@@ -5820,7 +5820,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 50,
+      "community": 61,
       "norm_label": "db table: order_items",
       "id": "db_table_order_items"
     },
@@ -5937,7 +5937,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 62,
+      "community": 61,
       "norm_label": "migration: allow guest orders (20260604)",
       "id": "migration_allow_guest_orders"
     },
@@ -5950,7 +5950,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 62,
+      "community": 61,
       "norm_label": "migration: guest checkout (20260605)",
       "id": "migration_guest_checkout"
     },
@@ -5963,7 +5963,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 61,
       "norm_label": "migration: enable realtime (20260606)",
       "id": "migration_enable_realtime"
     },
@@ -6054,7 +6054,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 62,
+      "community": 61,
       "norm_label": "orders.user_id (nullable - guest support)",
       "id": "db_col_orders_user_id_nullable"
     },
@@ -6067,7 +6067,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 62,
+      "community": 61,
       "norm_label": "orders.stripe_session_id column",
       "id": "db_col_orders_stripe_session_id"
     },
@@ -6080,7 +6080,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 62,
+      "community": 61,
       "norm_label": "order_items.item_name column",
       "id": "db_col_order_items_item_name"
     },
@@ -6249,7 +6249,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 61,
       "norm_label": "supabase realtime: orders publication",
       "id": "realtime_orders_publication"
     },
@@ -6358,7 +6358,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 65,
+      "community": 4,
       "norm_label": "sign in page",
       "id": "signin_signinpage"
     },
@@ -6371,7 +6371,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 65,
+      "community": 4,
       "norm_label": "sign up page",
       "id": "signup_signuppage"
     },
@@ -6781,224 +6781,288 @@
   ],
   "links": [
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "components_productmodal_productitem"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "components_productmodal_productmodal"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "components_productmodal_orderselection"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "components_productmodal_addon"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
+      "source_file": "page.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "order_page_menuitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_cartentry",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_cart",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
       "source_location": "L22",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_extra"
+      "source": "page_tsx",
+      "target": "order_page_dbcategory"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_menuitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L40",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_savestate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
+      "source_file": "app/order/page.tsx",
       "source_location": "L41",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_dbcategory"
+      "source": "order_page_menu_items",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_dietary_flags",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L43",
+      "source_file": "page.tsx",
+      "source_location": "L220",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_colour_palette"
+      "source": "page_tsx",
+      "target": "order_page_dietary_flags"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L63",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L229",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_pricecell"
+      "source": "order_page_dbmenuitem",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L112",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L248",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_availabilitytoggle"
+      "source": "order_page_dbtomenuitem",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L256",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L267",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_extranameinput"
+      "source": "order_page_carttotal",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L157",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L276",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_itemmodalprops"
+      "source": "order_page_cartcount",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L163",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L282",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_empty_form"
+      "source": "order_page_menucard",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L165",
+      "source_file": "page.tsx",
+      "source_location": "L375",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_itemmodal"
+      "source": "page_tsx",
+      "target": "order_page_filterspopover"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L421",
+      "source_file": "page.tsx",
+      "source_location": "L452",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_deleteconfirmmodal"
+      "source": "page_tsx",
+      "target": "order_page_compactlistitem"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L465",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L370",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_adminpage"
+      "source": "order_page_cartdrawer",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L151",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L519",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_tagautocomplete"
+      "source": "order_page_orderpage",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L42",
+      "source_file": "page.tsx",
+      "source_location": "L27",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_categories"
+      "source": "page_tsx",
+      "target": "order_page_gradients"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L43",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L221",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_category"
+      "source": "order_page_badge_styles",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L45",
+      "source_file": "app/contact/page.tsx",
+      "source_location": "L13",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_category_labels"
+      "source": "page_tsx",
+      "target": "app_layout_hours"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L53",
+      "source_file": "app/page.tsx",
+      "source_location": "L6",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_category_colours"
+      "source": "page_tsx",
+      "target": "app_page_oswald"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L457",
+      "source_file": "app/page.tsx",
+      "source_location": "L14",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_navitem"
+      "source": "page_tsx",
+      "target": "app_page_popular"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "admin/page.tsx",
-      "source_location": "L459",
+      "source_file": "app/page.tsx",
+      "source_location": "L57",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_tsx",
-      "target": "admin_page_nav"
+      "source": "page_tsx",
+      "target": "app_page_reasons"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L22",
+      "source_file": "app/about/page.tsx",
+      "source_location": "L10",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_extra",
-      "target": "app_admin_page_tsx"
+      "source": "page_tsx",
+      "target": "about_page_stats"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/about/page.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "about_page_values"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/about/page.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "about_page_aboutpage"
     },
     {
       "relation": "contains",
@@ -7009,26 +7073,6 @@
       "confidence_score": 1.0,
       "source": "admin_page_extra",
       "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_extra",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_menuitem",
-      "target": "app_admin_page_tsx"
     },
     {
       "relation": "contains",
@@ -7044,31 +7088,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
-      "source_location": "L40",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_savestate",
-      "target": "app_admin_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
       "source_location": "L38",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_page_savestate",
       "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L40",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_page_tsx",
-      "target": "admin_page_dbcategory"
     },
     {
       "relation": "contains",
@@ -7083,32 +7107,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L42",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_page_tsx",
-      "target": "admin_page_colour_palette"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "page.tsx",
       "source_location": "L43",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "page_tsx",
       "target": "admin_page_colour_palette"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L63",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_pricecell",
-      "target": "app_admin_page_tsx"
     },
     {
       "relation": "contains",
@@ -7124,31 +7128,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
-      "source_location": "L112",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_availabilitytoggle",
-      "target": "app_admin_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
       "source_location": "L110",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_page_availabilitytoggle",
       "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L256",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_page_tsx",
-      "target": "admin_page_extranameinput"
     },
     {
       "relation": "contains",
@@ -7159,16 +7143,6 @@
       "confidence_score": 1.0,
       "source": "page_tsx",
       "target": "admin_page_extranameinput"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L157",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_itemmodalprops",
-      "target": "app_admin_page_tsx"
     },
     {
       "relation": "contains",
@@ -7184,31 +7158,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
-      "source_location": "L163",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_empty_form",
-      "target": "app_admin_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
       "source_location": "L160",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_page_empty_form",
       "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L165",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_itemmodal",
-      "target": "app_admin_page_tsx"
     },
     {
       "relation": "contains",
@@ -7224,31 +7178,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
-      "source_location": "L421",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_deleteconfirmmodal",
-      "target": "app_admin_page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
       "source_location": "L407",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_page_deleteconfirmmodal",
       "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L465",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_adminpage",
-      "target": "app_admin_page_tsx"
     },
     {
       "relation": "contains",
@@ -7261,330 +7195,316 @@
       "target": "page_tsx"
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/menu-items/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "source": "api_admin_menu_items_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "api/admin/menu-items/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "source": "api_admin_menu_items_route_ts",
-      "target": "menu_items_route_get",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/menu-items/route.ts",
-      "source_location": "L15",
-      "weight": 1.0,
-      "source": "api_admin_menu_items_route_ts",
-      "target": "menu_items_route_post",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/menu-items/route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "source": "api_menu_items_route_ts",
-      "target": "menu_items_route_get",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/menu-items/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_menu_items_route_ts",
-      "target": "menu_items_route_get"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/menu-items/route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "menu_items_route_get",
-      "target": "app_api_menu_items_route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/menu-items/route.ts",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_menu_items_route_ts",
-      "target": "menu_items_route_post"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "api/menu-items/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "source": "api_menu_items_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "components_productmodal_productitem"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "components_productmodal_productmodal"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "components_productmodal_orderselection"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "components_productmodal_addon"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_menuitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
+      "source_file": "app/contact/page.tsx",
       "source_location": "L20",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_cartentry"
+      "source": "page_tsx",
+      "target": "contact_page_subjects"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
+      "source_file": "app/contact/page.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "contact_page_formstate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/contact/page.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "contact_page_empty"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/contact/page.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "contact_page_inputfield"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "kitchen_page_supabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
       "source_location": "L21",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_cart"
+      "source": "page_tsx",
+      "target": "kitchen_page_extra"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L26",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L17",
       "weight": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_dbcategory",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "kitchen_page_orderitem"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L31",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L27",
       "weight": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_gradients",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "kitchen_page_order"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
+      "source_file": "page.tsx",
       "source_location": "L41",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_menu_items"
+      "source": "page_tsx",
+      "target": "kitchen_page_driver"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L220",
-      "weight": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_dietary_flags",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L221",
+      "source_file": "page.tsx",
+      "source_location": "L47",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_badge_styles"
+      "source": "page_tsx",
+      "target": "kitchen_page_dispatchorder"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L229",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L35",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_dbmenuitem"
+      "source": "page_tsx",
+      "target": "kitchen_page_elapsed"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L248",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L43",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_dbtomenuitem"
+      "source": "page_tsx",
+      "target": "kitchen_page_ordercard"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L267",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L190",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_carttotal"
+      "source": "page_tsx",
+      "target": "kitchen_page_kitchenticket"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L276",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L243",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_cartcount"
+      "source": "page_tsx",
+      "target": "kitchen_page_customerreceipt"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L282",
+      "source_file": "page.tsx",
+      "source_location": "L345",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_menucard"
+      "source": "page_tsx",
+      "target": "kitchen_page_kitchendashboard"
     },
     {
-      "relation": "contains",
+      "relation": "imports",
+      "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L375",
-      "weight": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_filterspopover",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L452",
-      "weight": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_compactlistitem",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L370",
+      "source_file": "page.tsx",
+      "source_location": "L6",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_cartdrawer"
+      "source": "page_tsx",
+      "target": "admin_permissions_provider_usepermissions"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L503",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_orderpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
+      "source_file": "app/order/page.tsx",
       "source_location": "L18",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_category"
+      "source": "admin_page_category",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
-      "source_location": "L25",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L43",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_categories"
+      "source": "admin_page_category_labels",
+      "target": "page_tsx"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "order/page.tsx",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_category_colours",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
       "source_location": "L33",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_tsx",
-      "target": "order_page_card_gradient"
+      "source": "order_page_card_gradient",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L443",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_navitem",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L445",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_nav",
+      "target": "page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L321",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "kitchen_kitchendashboard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "order_categories"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "page_landingpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L162",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "admin_page_additemmodal"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "productmodal_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "order_page_iconcomponent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign-in/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "signin_page"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign-up/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "signup_page"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/contact/page.tsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "contact_contactpage"
     },
     {
       "relation": "contains",
@@ -7599,11 +7519,11 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L18",
+      "source_file": "order/page.tsx",
+      "source_location": "L19",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "page_tsx",
+      "source": "order_page_tsx",
       "target": "order_page_menuitem"
     },
     {
@@ -7619,12 +7539,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L20",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_cartentry",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_cartentry"
     },
     {
       "relation": "contains",
@@ -7639,12 +7559,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L21",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_cart",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_cart"
     },
     {
       "relation": "contains",
@@ -7659,32 +7579,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L22",
+      "source_file": "order/page.tsx",
+      "source_location": "L26",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "page_tsx",
+      "source": "order_page_tsx",
       "target": "order_page_dbcategory"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_order_page_tsx",
-      "target": "order_page_gradients"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "order_page_gradients"
     },
     {
       "relation": "contains",
@@ -7699,12 +7599,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L41",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_menu_items",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_menu_items"
     },
     {
       "relation": "contains",
@@ -7740,31 +7640,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/order/page.tsx",
-      "source_location": "L221",
+      "source_location": "L220",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_badge_styles",
-      "target": "app_order_page_tsx"
+      "source": "app_order_page_tsx",
+      "target": "order_page_dietary_flags"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L221",
+      "source_file": "order/page.tsx",
+      "source_location": "L220",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_badge_styles",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L229",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "order_page_dbmenuitem",
-      "target": "app_order_page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_dietary_flags"
     },
     {
       "relation": "contains",
@@ -7774,7 +7664,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "order_page_dbmenuitem",
-      "target": "page_tsx"
+      "target": "app_order_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "order/page.tsx",
+      "source_location": "L229",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_tsx",
+      "target": "order_page_dbmenuitem"
     },
     {
       "relation": "contains",
@@ -7789,12 +7689,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L248",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_dbtomenuitem",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_dbtomenuitem"
     },
     {
       "relation": "calls",
@@ -7831,12 +7731,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L267",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_carttotal",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_carttotal"
     },
     {
       "relation": "calls",
@@ -7862,12 +7762,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L276",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_cartcount",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_cartcount"
     },
     {
       "relation": "contains",
@@ -7882,12 +7782,52 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L282",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_menucard",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_menucard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L375",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_order_page_tsx",
+      "target": "order_page_filterspopover"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "order/page.tsx",
+      "source_location": "L375",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_tsx",
+      "target": "order_page_filterspopover"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L452",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_order_page_tsx",
+      "target": "order_page_compactlistitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "order/page.tsx",
+      "source_location": "L452",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_tsx",
+      "target": "order_page_compactlistitem"
     },
     {
       "relation": "contains",
@@ -7902,12 +7842,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L370",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_cartdrawer",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_cartdrawer"
     },
     {
       "relation": "contains",
@@ -7922,12 +7862,52 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L519",
+      "source_file": "order/page.tsx",
+      "source_location": "L503",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_orderpage",
-      "target": "page_tsx"
+      "source": "order_page_tsx",
+      "target": "order_page_orderpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_order_page_tsx",
+      "target": "order_page_gradients"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "order/page.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_tsx",
+      "target": "order_page_gradients"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/order/page.tsx",
+      "source_location": "L221",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_badge_styles",
+      "target": "app_order_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "order/page.tsx",
+      "source_location": "L221",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_tsx",
+      "target": "order_page_badge_styles"
     },
     {
       "relation": "contains",
@@ -8636,16 +8616,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/contact/page.tsx",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "app_layout_hours"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/layout.tsx",
       "source_location": "L37",
       "weight": 1.0,
@@ -8706,36 +8676,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/page.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "app_page_oswald"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "app_page_popular"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.tsx",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "app_page_reasons"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/about/page.tsx",
       "source_location": "L4",
       "weight": 1.0,
@@ -8771,36 +8711,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "app_about_page_tsx",
-      "target": "about_page_aboutpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/about/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "about_page_stats"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/about/page.tsx",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "about_page_values"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/about/page.tsx",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
       "target": "about_page_aboutpage"
     },
     {
@@ -9079,6 +8989,146 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/page.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_extra",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_menuitem",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_savestate",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_page_tsx",
+      "target": "admin_page_dbcategory"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_page_tsx",
+      "target": "admin_page_dietary_flags"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_page_tsx",
+      "target": "admin_page_colour_palette"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L63",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_pricecell",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_availabilitytoggle",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_page_tsx",
+      "target": "admin_page_extranameinput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L157",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_itemmodalprops",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L163",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_empty_form",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L165",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_itemmodal",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L421",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_deleteconfirmmodal",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
+      "source_location": "L465",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_adminpage",
+      "target": "app_admin_page_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/page.tsx",
       "source_location": "L151",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -9155,6 +9205,156 @@
       "confidence_score": 1.0,
       "source": "app_admin_page_tsx",
       "target": "components_admin_sign_out_button_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_extra"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_extra",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_menuitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_savestate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_dbcategory"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_dietary_flags"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_colour_palette"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L63",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_pricecell"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_availabilitytoggle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_extranameinput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L157",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_itemmodalprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L163",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_empty_form"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L165",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_itemmodal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L421",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_deleteconfirmmodal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L465",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_adminpage"
     },
     {
       "relation": "imports_from",
@@ -11933,6 +12133,66 @@
       "target": "lib_supabase_admin_supabaseadmin"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/menu-items/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_menu_items_route_ts",
+      "target": "menu_items_route_get"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/menu-items/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_menu_items_route_ts",
+      "target": "menu_items_route_post"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/menu-items/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "menu_items_route_get",
+      "target": "app_api_menu_items_route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/menu-items/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_menu_items_route_ts",
+      "target": "menu_items_route_get"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/menu-items/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_menu_items_route_ts",
+      "target": "menu_items_route_get"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/menu-items/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_menu_items_route_ts",
+      "target": "menu_items_route_post"
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -12848,46 +13108,6 @@
       "target": "contact_page_contactpage"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/contact/page.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "contact_page_subjects"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/contact/page.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "contact_page_formstate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/contact/page.tsx",
-      "source_location": "L30",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "contact_page_empty"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/contact/page.tsx",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "contact_page_inputfield"
-    },
-    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -13174,16 +13394,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_supabase"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
       "source_location": "L12",
       "weight": 1.0,
@@ -13194,32 +13404,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_extra"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
       "source_location": "L17",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
       "target": "kitchen_page_extra"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_orderitem"
     },
     {
       "relation": "contains",
@@ -13234,16 +13424,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_order"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
       "source_location": "L29",
       "weight": 1.0,
@@ -13254,32 +13434,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L41",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_driver"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
       "source_location": "L41",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
       "target": "kitchen_page_driver"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_dispatchorder"
     },
     {
       "relation": "contains",
@@ -13305,32 +13465,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_elapsed"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
       "source_location": "L37",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
       "target": "kitchen_page_elapsed"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L43",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_ordercard"
     },
     {
       "relation": "contains",
@@ -13356,16 +13496,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L190",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_kitchenticket"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
       "source_location": "L192",
       "weight": 1.0,
@@ -13383,16 +13513,6 @@
       "weight": 1.0,
       "source": "kitchen_page_customerreceipt",
       "target": "utils_format_date_formatdatemedium"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L243",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_customerreceipt"
     },
     {
       "relation": "contains",
@@ -13436,16 +13556,6 @@
       "weight": 1.0,
       "source": "kitchen_page_kitchendashboard",
       "target": "utils_format_date_formatdateclocklabel"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L345",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_page_kitchendashboard"
     },
     {
       "relation": "contains",
@@ -13717,11 +13827,11 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L14",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "page_tsx",
+      "source": "order_page_tsx",
       "target": "components_productmodal_addon"
     },
     {
@@ -13738,11 +13848,11 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L14",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "page_tsx",
+      "source": "order_page_tsx",
       "target": "components_productmodal_productitem"
     },
     {
@@ -13759,11 +13869,11 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L14",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "page_tsx",
+      "source": "order_page_tsx",
       "target": "components_productmodal_orderselection"
     },
     {
@@ -13830,11 +13940,11 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "order/page.tsx",
       "source_location": "L14",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "page_tsx",
+      "source": "order_page_tsx",
       "target": "components_productmodal_productmodal"
     },
     {
@@ -13991,17 +14101,6 @@
       "confidence_score": 1.0,
       "source": "components_admin_permissions_provider_tsx",
       "target": "admin_permissions_provider_permissionsprovider"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "admin_permissions_provider_usepermissions"
     },
     {
       "relation": "imports",
@@ -14310,6 +14409,28 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_supabase_admin_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/menu-items/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_menu_items_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "api/menu-items/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_menu_items_route_ts",
       "target": "lib_supabase_admin_supabaseadmin"
     },
     {
@@ -15150,153 +15271,102 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L18",
+      "source_file": "admin/page.tsx",
+      "source_location": "L151",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_category",
-      "target": "page_tsx"
+      "source": "admin_page_tsx",
+      "target": "admin_page_tagautocomplete"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
+      "source_file": "admin/page.tsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_categories"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
       "source_location": "L43",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_category_labels",
-      "target": "page_tsx"
+      "source": "admin_page_tsx",
+      "target": "admin_page_category"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L51",
+      "source_file": "admin/page.tsx",
+      "source_location": "L45",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_page_category_colours",
-      "target": "page_tsx"
+      "source": "admin_page_tsx",
+      "target": "admin_page_category_labels"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
+      "source_file": "admin/page.tsx",
+      "source_location": "L53",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_category_colours"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L457",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_navitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/page.tsx",
+      "source_location": "L459",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_tsx",
+      "target": "admin_page_nav"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "order/page.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_tsx",
+      "target": "order_page_category"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "order/page.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "order_page_tsx",
+      "target": "order_page_categories"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "order/page.tsx",
       "source_location": "L33",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "order_page_card_gradient",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L443",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_navitem",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L445",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_nav",
-      "target": "page_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L321",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "kitchen_kitchendashboard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "order_categories"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.tsx",
-      "source_location": "L80",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "page_landingpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/page.tsx",
-      "source_location": "L162",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "admin_page_additemmodal"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "productmodal_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/order/page.tsx",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "order_page_iconcomponent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/sign-in/page.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "signin_page"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/sign-up/page.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "signup_page"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/contact/page.tsx",
-      "source_location": "L59",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "contact_contactpage"
+      "source": "order_page_tsx",
+      "target": "order_page_card_gradient"
     },
     {
       "relation": "contains",
@@ -17958,5 +18028,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "1995899b86b607000f9b685a42013a5a95338994"
+  "built_at_commit": "054927aa9543dccb0e86233dba6d4033cd986b43"
 }

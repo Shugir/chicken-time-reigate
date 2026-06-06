@@ -19,6 +19,7 @@ tags:
 - [[CATEGORY_LABELS]] - `contains` [EXTRACTED]
 - [[COLOUR_PALETTE]] - `contains` [EXTRACTED]
 - [[Category_1]] - `contains` [EXTRACTED]
+- [[DIETARY_FLAGS]] - `contains` [EXTRACTED]
 - [[DbCategory]] - `contains` [EXTRACTED]
 - [[DeleteConfirmModal()]] - `contains` [EXTRACTED]
 - [[EMPTY_FORM]] - `contains` [EXTRACTED]
