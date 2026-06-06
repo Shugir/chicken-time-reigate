@@ -55,7 +55,7 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div className="mb-3 w-24 h-24 relative">
+          <div className="mb-3 w-1/3 aspect-square relative">
             <Image
               src={logoUrl ?? '/chicken-time-logo_v1.png'}
               alt="Chicken Time"
