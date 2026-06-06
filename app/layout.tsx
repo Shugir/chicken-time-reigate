@@ -76,7 +76,7 @@ export default function RootLayout({
                   alt="Chicken Time Reigate Logo"
                   width={700}
                   height={150}
-                  className="h-20 w-auto"
+                  className="h-24 w-auto"
                 />
               </Link>
               <p className="text-sm text-white/60 leading-relaxed max-w-[220px]">
