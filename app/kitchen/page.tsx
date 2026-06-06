@@ -51,6 +51,8 @@ interface Driver {
   id: string
   name: string
   phone: string | null
+  status: string
+  active_orders: number
 }
 
 interface DispatchOrder {
@@ -997,31 +999,36 @@ export default function KitchenDashboard() {
             ) : availableDrivers.length === 0 ? (
               <div className="text-center py-8">
                 <Truck size={32} className="text-white/20 mx-auto mb-2" />
-                <p className="text-white/40 text-sm">No available drivers</p>
-                <p className="text-white/20 text-xs mt-1">All drivers are currently on delivery</p>
+                <p className="text-white/40 text-sm">No active drivers</p>
               </div>
             ) : (
               <div className="space-y-2">
-                {availableDrivers.map((driver) => (
-                  <button
-                    key={driver.id}
-                    onClick={() => handleDispatch(driver)}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-sky-500/30 transition-all text-left group"
-                  >
-                    <div className="w-9 h-9 rounded-xl bg-sky-500/20 flex items-center justify-center shrink-0 group-hover:bg-sky-500/30 transition-colors">
-                      <Truck size={16} className="text-sky-400" />
-                    </div>
-                    <div>
-                      <p className="font-bold text-white text-sm">{driver.name}</p>
-                      {driver.phone && (
-                        <p className="text-xs text-white/40">{driver.phone}</p>
-                      )}
-                    </div>
-                    <span className="ml-auto text-xs text-sky-400 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                      Select →
-                    </span>
-                  </button>
-                ))}
+                {availableDrivers.map((driver) => {
+                  const load = driver.active_orders ?? 0
+                  const loadColor = load === 0 ? 'bg-emerald-500' : load === 1 ? 'bg-amber-500' : 'bg-red-500'
+                  const loadLabel = load === 0 ? 'Available' : `${load} active`
+                  return (
+                    <button
+                      key={driver.id}
+                      onClick={() => handleDispatch(driver)}
+                      className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-sky-500/30 transition-all text-left group"
+                    >
+                      <div className="w-9 h-9 rounded-xl bg-sky-500/20 flex items-center justify-center shrink-0 group-hover:bg-sky-500/30 transition-colors">
+                        <Truck size={16} className="text-sky-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-white text-sm">{driver.name}</p>
+                        {driver.phone && (
+                          <p className="text-xs text-white/40">{driver.phone}</p>
+                        )}
+                      </div>
+                      <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold text-white ${loadColor}`}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/60" />
+                        {loadLabel}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             )}
 

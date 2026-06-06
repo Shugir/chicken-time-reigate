@@ -29,6 +29,17 @@ function mapsUrl(address: string | null, postcode: string | null) {
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`
 }
 
+function multiStopMapsUrl(orders: Order[]) {
+  if (orders.length === 0) return null
+  const stops = orders.map((o) =>
+    [o.delivery_address, o.delivery_postcode].filter(Boolean).join(', '),
+  )
+  if (stops.length === 1) return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(stops[0])}`
+  const destination = encodeURIComponent(stops[stops.length - 1])
+  const waypoints = stops.slice(0, -1).map(encodeURIComponent).join('|')
+  return `https://www.google.com/maps/dir/?api=1&destination=${destination}&waypoints=${waypoints}`
+}
+
 export default function DriverDashboard() {
   const router = useRouter()
   const [orders, setOrders]     = useState<Order[]>([])
@@ -162,14 +173,35 @@ export default function DriverDashboard() {
               </button>
             </div>
           ) : (
+            <>
+              {/* Multi-stop route button */}
+              {(() => {
+                const routeUrl = multiStopMapsUrl(orders)
+                return routeUrl ? (
+                  <a
+                    href={routeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-3 w-full py-5 rounded-2xl bg-violet-600 active:bg-violet-500 text-white font-black text-xl tracking-wide shadow-lg shadow-violet-900/40 mb-5"
+                  >
+                    🗺️ Map Entire Route ({orders.length} stops)
+                  </a>
+                ) : null
+              })()}
+
             <div className="space-y-5">
-              {orders.map((order) => (
+              {orders.map((order, idx) => (
                 <div key={order.id} className="bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden shadow-xl">
 
                   {/* Order header */}
                   <div className="flex items-center justify-between px-5 py-4 bg-zinc-800/50 border-b border-zinc-700">
                     <div>
-                      <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Order Ref</p>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="w-6 h-6 rounded-full bg-violet-600 flex items-center justify-center text-white font-black text-xs">
+                          {idx + 1}
+                        </span>
+                        <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Order Ref</p>
+                      </div>
                       <p className="font-mono font-black text-white text-2xl tracking-wider">
                         #{order.id.slice(-6).toUpperCase()}
                       </p>
@@ -280,6 +312,7 @@ export default function DriverDashboard() {
                 </div>
               ))}
             </div>
+            </>
           )}
         </div>
 
