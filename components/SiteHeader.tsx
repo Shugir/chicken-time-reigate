@@ -28,7 +28,7 @@ export function SiteHeader() {
             alt="Chicken Time Reigate Logo"
             width={700}
             height={150}
-            className="h-8 w-auto"
+            className="h-12 w-auto"
           />
         </Link>
 
