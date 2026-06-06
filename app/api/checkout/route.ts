@@ -90,6 +90,8 @@ export async function POST(request: NextRequest) {
         delivery_address:    delivery_address    ?? null,
         delivery_postcode:   delivery_postcode   ?? postcode ?? null,
         customer_notes:      customer_notes      ?? null,
+        promo_code_used:     discountAmount > 0 ? (promo_code?.trim().toUpperCase() ?? null) : null,
+        discount_applied:    discountAmount,
       })
       .select('id')
       .single()
