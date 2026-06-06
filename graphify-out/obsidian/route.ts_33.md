@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_7]] - `contains` [EXTRACTED]
+- [[GET()]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

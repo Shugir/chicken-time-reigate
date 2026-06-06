@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/kitchen/delivery/route.ts"
+source_file: "app/api/drivers/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_12]] - `contains` [EXTRACTED]
+- [[GET()_6]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

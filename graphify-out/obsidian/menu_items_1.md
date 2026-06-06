@@ -1,8 +1,8 @@
 ---
-source_file: "supabase/migrations/20260608_item_customizations.sql"
+source_file: "supabase/migrations/20260603_initial_schema.sql"
 type: "code"
 community: "Community None"
-location: "L1"
+location: "L29"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,7 @@ tags:
 # menu_items
 
 ## Connections
-- [[20260608_item_customizations.sql]] - `contains` [EXTRACTED]
+- [[20260603_initial_schema.sql]] - `contains` [EXTRACTED]
+- [[order_items]] - `references` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

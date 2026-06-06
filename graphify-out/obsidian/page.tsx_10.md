@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/promotions/page.tsx"
+source_file: "app/admin/drivers/[id]/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,13 +12,16 @@ tags:
 # page.tsx
 
 ## Connections
-- [[DeleteConfirm()_1]] - `contains` [EXTRACTED]
-- [[NAV_4]] - `contains` [EXTRACTED]
-- [[PromoModal()]] - `contains` [EXTRACTED]
-- [[Promotion]] - `contains` [EXTRACTED]
-- [[PromotionsPage()]] - `contains` [EXTRACTED]
-- [[SaveState_2]] - `contains` [EXTRACTED]
+- [[Delivery]] - `contains` [EXTRACTED]
+- [[Driver_1]] - `contains` [EXTRACTED]
+- [[DriverLedgerPage()]] - `contains` [EXTRACTED]
+- [[LedgerData]] - `contains` [EXTRACTED]
+- [[Payout]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
-- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[fmtDate()]] - `contains` [EXTRACTED]
+- [[fmtGbp()_2]] - `contains` [EXTRACTED]
+- [[format-date.ts]] - `imports_from` [EXTRACTED]
+- [[formatDate()]] - `imports` [EXTRACTED]
+- [[toDateStr()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

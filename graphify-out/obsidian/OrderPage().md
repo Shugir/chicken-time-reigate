@@ -2,7 +2,7 @@
 source_file: "app/order/page.tsx"
 type: "code"
 community: "Community None"
-location: "L647"
+location: "L698"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[cartCount()]] - `calls` [EXTRACTED]
 - [[cartTotal()]] - `calls` [EXTRACTED]
-- [[page.tsx_18]] - `contains` [EXTRACTED]
+- [[page.tsx_1]] - `contains` [EXTRACTED]
 - [[page.tsx_22]] - `contains` [EXTRACTED]
 - [[page.tsx_24]] - `contains` [EXTRACTED]
 

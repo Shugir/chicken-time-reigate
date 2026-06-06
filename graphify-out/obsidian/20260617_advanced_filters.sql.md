@@ -11,6 +11,6 @@ tags:
 # 20260617_advanced_filters.sql
 
 ## Connections
-- [[menu_items_2]] - `contains` [EXTRACTED]
+- [[menu_items_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

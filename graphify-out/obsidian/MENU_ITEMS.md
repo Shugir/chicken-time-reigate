@@ -1,8 +1,8 @@
 ---
-source_file: "supabase/migrations/20260603_initial_schema.sql"
+source_file: "supabase/migrations/20260618_allergens.sql"
 type: "code"
 community: "Community None"
-location: "L29"
+location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,6 @@ tags:
 # menu_items
 
 ## Connections
-- [[20260603_initial_schema.sql]] - `contains` [EXTRACTED]
-- [[order_items]] - `references` [EXTRACTED]
+- [[20260618_allergens.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -12,8 +12,8 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_7]] - `contains` [EXTRACTED]
-- [[POST()_5]] - `contains` [EXTRACTED]
+- [[GET()]] - `contains` [EXTRACTED]
+- [[POST()]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "app/about/page.tsx"
+source_file: "app/order/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,31 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AboutPage()]] - `contains` [EXTRACTED]
-- [[STATS]] - `contains` [EXTRACTED]
-- [[VALUES]] - `contains` [EXTRACTED]
-- [[oswald_1]] - `contains` [EXTRACTED]
+- [[AddOn]] - `imports` [EXTRACTED]
+- [[BADGE_STYLES]] - `contains` [EXTRACTED]
+- [[CARD_GRADIENT]] - `contains` [EXTRACTED]
+- [[CATEGORIES_1]] - `contains` [EXTRACTED]
+- [[Cart]] - `contains` [EXTRACTED]
+- [[CartDrawer()]] - `contains` [EXTRACTED]
+- [[CartEntry]] - `contains` [EXTRACTED]
+- [[Category_2]] - `contains` [EXTRACTED]
+- [[CompactListItem()]] - `contains` [EXTRACTED]
+- [[DIETARY_FLAGS_1]] - `contains` [EXTRACTED]
+- [[DbCategory_1]] - `contains` [EXTRACTED]
+- [[DbMenuItem]] - `contains` [EXTRACTED]
+- [[FiltersPopover()]] - `contains` [EXTRACTED]
+- [[GRADIENTS]] - `contains` [EXTRACTED]
+- [[MENU_ITEMS]] - `contains` [EXTRACTED]
+- [[MenuCard()]] - `contains` [EXTRACTED]
+- [[MenuItem_1]] - `contains` [EXTRACTED]
+- [[OrderPage()]] - `contains` [EXTRACTED]
+- [[OrderSelection]] - `imports` [EXTRACTED]
+- [[ProductItem]] - `imports` [EXTRACTED]
+- [[ProductModal()]] - `imports` [EXTRACTED]
+- [[ProductModal.tsx]] - `imports_from` [EXTRACTED]
+- [[cartCount()]] - `contains` [EXTRACTED]
+- [[cartTotal()]] - `contains` [EXTRACTED]
+- [[dbToMenuItem()]] - `contains` [EXTRACTED]
+- [[getUniqueTags()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -2,7 +2,7 @@
 source_file: "app/order/page.tsx"
 type: "code"
 community: "Community None"
-location: "L272"
+location: "L284"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,7 @@ tags:
 # MenuCard()
 
 ## Connections
-- [[page.tsx_18]] - `contains` [EXTRACTED]
+- [[page.tsx_1]] - `contains` [EXTRACTED]
 - [[page.tsx_22]] - `contains` [EXTRACTED]
 - [[page.tsx_24]] - `contains` [EXTRACTED]
 

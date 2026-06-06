@@ -11,6 +11,6 @@ tags:
 # 20260608_item_customizations.sql
 
 ## Connections
-- [[menu_items_1]] - `contains` [EXTRACTED]
+- [[menu_items_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

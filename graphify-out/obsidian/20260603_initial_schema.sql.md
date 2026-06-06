@@ -12,7 +12,7 @@ tags:
 
 ## Connections
 - [[MENU_ITEMS]] - `contains` [EXTRACTED]
-- [[menu_items]] - `contains` [EXTRACTED]
+- [[menu_items_1]] - `contains` [EXTRACTED]
 - [[order_items]] - `contains` [EXTRACTED]
 - [[order_items_1]] - `contains` [EXTRACTED]
 - [[orders]] - `contains` [EXTRACTED]
