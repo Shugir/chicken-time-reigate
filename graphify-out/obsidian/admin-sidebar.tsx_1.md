@@ -1,18 +1,19 @@
 ---
-source_file: "components/admin/admin-sidebar.tsx"
+source_file: "admin-sidebar.tsx"
 type: "code"
 community: "Community None"
-location: "L13"
+location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# ALL_NAV
+# admin-sidebar.tsx
 
 ## Connections
-- [[admin-sidebar.tsx]] - `contains` [EXTRACTED]
-- [[admin-sidebar.tsx_1]] - `contains` [EXTRACTED]
+- [[ALL_NAV]] - `contains` [EXTRACTED]
+- [[AdminSidebar()]] - `contains` [EXTRACTED]
+- [[usePermissions()]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -15,6 +15,7 @@ tags:
 - [[AdminSidebar()]] - `calls` [EXTRACTED]
 - [[KitchenDashboard()]] - `calls` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports` [EXTRACTED]
+- [[admin-sidebar.tsx_1]] - `imports` [EXTRACTED]
 - [[page.tsx_17]] - `imports` [EXTRACTED]
 - [[page.tsx_30]] - `imports` [EXTRACTED]
 - [[page.tsx_39]] - `imports` [EXTRACTED]

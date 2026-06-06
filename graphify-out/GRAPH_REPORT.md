@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 697 nodes · 1140 edges · 71 communities (40 shown, 31 thin omitted)
+- 698 nodes · 1140 edges · 72 communities (41 shown, 31 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `640ed9e9`
+- Built from commit: `21ae1e4f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -106,7 +106,7 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (71 total, 31 thin omitted)
+## Communities (72 total, 31 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.25
@@ -235,7 +235,7 @@ Nodes (4): Landing Page, Oswald Font (Landing Page), Popular Items Data (POPULAR
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **175 isolated node(s):** `supabase`, `eslintConfig`, `config`, `nextConfig`, `name` (+170 more)
+- **175 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+170 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -251,8 +251,8 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Supabase Admin Client` connect `Community 68` to `Community 11`, `Community 66`, `Community 3`, `Community 61`?**
   _High betweenness centrality (0.136) - this node is a cross-community bridge._
 - **Why does `Extra` connect `Community 1` to `Community 3`?**
-  _High betweenness centrality (0.117) - this node is a cross-community bridge._
-- **What connects `supabase`, `eslintConfig`, `config` to the rest of the system?**
+  _High betweenness centrality (0.116) - this node is a cross-community bridge._
+- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
   _179 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._

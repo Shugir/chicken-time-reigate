@@ -1,18 +1,13 @@
 ---
-source_file: "app/account/page.tsx"
+source_file: "supabase/migrations/20260620_brand_storage.sql"
 type: "code"
 community: "Community None"
-location: "L59"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# Profile
-
-## Connections
-- [[page.tsx_2]] - `contains` [EXTRACTED]
-- [[page.tsx_27]] - `contains` [EXTRACTED]
+# 20260620_brand_storage.sql
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
