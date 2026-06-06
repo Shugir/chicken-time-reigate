@@ -28,15 +28,6 @@ interface DbCategory {
   image_url: string | null; description: string | null
 }
 
-const GRADIENTS = [
-  'from-brand-red/10 via-red-50 to-orange-50',
-  'from-orange-100 via-amber-50 to-yellow-50',
-  'from-red-100 via-orange-50 to-amber-50',
-  'from-yellow-100 via-lime-50 to-green-50',
-  'from-sky-100 via-blue-50 to-indigo-50',
-  'from-purple-100 via-violet-50 to-pink-50',
-  'from-green-100 via-emerald-50 to-teal-50',
-]
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80'
 
 const MENU_ITEMS: MenuItem[] = [
@@ -138,9 +129,9 @@ const MENU_ITEMS: MenuItem[] = [
     allergens: ['Eggs', 'Soya'],
     removables: [],
     add_ons: [
-      { name: 'Add Buffalo Dip',    price: 0.75 },
+      { name: 'Add Buffalo Dip',     price: 0.75 },
       { name: 'Add Blue Cheese Dip', price: 0.75 },
-      { name: 'Extra Wings +2pc',   price: 2.50 },
+      { name: 'Extra Wings +2pc',    price: 2.50 },
     ],
   },
   {
@@ -221,12 +212,6 @@ const DIETARY_FLAGS = ['Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Fre
 
 const DELIVERY_FEE = 1.99
 
-const BADGE_STYLES: Record<string, string> = {
-  Hot:     'bg-red-100 text-red-700',
-  New:     'bg-emerald-100 text-emerald-700',
-  Popular: 'bg-amber-100 text-amber-700',
-}
-
 // ─── DB → ProductItem mapper ──────────────────────────────────────────────────
 
 interface DbMenuItem {
@@ -252,17 +237,17 @@ interface DbMenuItem {
 function dbToMenuItem(item: DbMenuItem): MenuItem {
   const opts = item.custom_options ?? {}
   return {
-    id:          item.id,
-    name:        item.name,
-    description: item.description ?? '',
-    price:       Number(item.price),
-    category:    item.category.toLowerCase(),
-    badge:       opts.badge,
-    emoji:       opts.emoji ?? '🍽️',
-    image:       item.image_url || FALLBACK_IMG,
-    allergens:   opts.allergens ?? [],
-    removables:   item.removals?.length  ? item.removals  : (opts.removables ?? []),
-    add_ons:      item.extras?.length    ? item.extras    : (opts.add_ons    ?? []),
+    id:           item.id,
+    name:         item.name,
+    description:  item.description ?? '',
+    price:        Number(item.price),
+    category:     item.category.toLowerCase(),
+    badge:        opts.badge,
+    emoji:        opts.emoji ?? '🍽️',
+    image:        item.image_url || FALLBACK_IMG,
+    allergens:    opts.allergens ?? [],
+    removables:   item.removals?.length ? item.removals  : (opts.removables ?? []),
+    add_ons:      item.extras?.length   ? item.extras    : (opts.add_ons    ?? []),
     dietaryFlags: item.dietary_flags ?? [],
   }
 }
@@ -282,24 +267,22 @@ function cartCount(cart: Cart) {
   return Object.values(cart).reduce((s, entry) => s + entry.qty, 0)
 }
 
-// ─── Premium menu card ────────────────────────────────────────────────────────
+// ─── Menu Card ────────────────────────────────────────────────────────────────
 
-function MenuCard({ item, qty, gradient, onOpenModal, onAdd, onRemove }: {
+function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
   item: MenuItem
   qty: number
-  gradient: string
   onOpenModal: () => void
   onAdd: () => void
   onRemove: () => void
 }) {
-
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col border border-gray-100/80">
+    <div className="group bg-white border border-zinc-100 rounded-2xl overflow-hidden hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col">
 
-      {/* Image area */}
+      {/* Image */}
       <button
         onClick={onOpenModal}
-        className={`relative w-full h-44 bg-gradient-to-br ${gradient} overflow-hidden shrink-0`}
+        className="relative aspect-video w-full overflow-hidden bg-zinc-100 shrink-0"
         aria-label={`View ${item.name} details`}
       >
         <Image
@@ -307,64 +290,63 @@ function MenuCard({ item, qty, gradient, onOpenModal, onAdd, onRemove }: {
           alt={item.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-          className="object-cover transition-transform duration-300 group-hover:scale-110"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
         />
         {item.badge && (
-          <span className={`absolute top-3 left-3 z-10 text-xs font-bold px-2.5 py-1 rounded-full ${BADGE_STYLES[item.badge] ?? 'bg-gray-100 text-gray-600'}`}>
+          <span className="absolute top-3 left-3 z-10 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/95 text-zinc-800 tracking-wide border border-zinc-200/80">
             {item.badge}
           </span>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </button>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-4 gap-3">
+      <div className="flex flex-col flex-1 p-5 gap-4">
         <div className="flex-1">
           <h3
-            className="font-heading font-black text-base text-brand-dark leading-snug cursor-pointer hover:text-brand-red transition-colors"
+            className="font-heading font-bold text-[15px] text-zinc-900 leading-snug cursor-pointer hover:text-brand-red transition-colors duration-200"
             onClick={onOpenModal}
           >
             {item.name}
           </h3>
-          <p className="text-xs text-gray-500 mt-1.5 leading-relaxed line-clamp-2">
+          <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed line-clamp-2">
             {item.description}
           </p>
         </div>
 
-        {/* Price row */}
-        <div className="flex items-center justify-between">
-          <span className="font-heading font-black text-xl text-brand-dark">
+        {/* Price + controls */}
+        <div className="flex items-center justify-between pt-1">
+          <span className="font-heading font-bold text-lg text-zinc-900">
             £{item.price.toFixed(2)}
           </span>
-          {qty > 0 && (
+
+          {qty > 0 ? (
             <div className="flex items-center gap-2">
               <button
                 onClick={onRemove}
-                className="w-7 h-7 rounded-full border-2 border-brand-red text-brand-red hover:bg-red-50 flex items-center justify-center transition-colors"
+                className="w-7 h-7 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
                 aria-label="Remove one"
               >
                 <Minus size={12} />
               </button>
-              <span className="w-5 text-center text-sm font-black text-brand-dark">{qty}</span>
+              <span className="w-5 text-center text-sm font-bold text-zinc-900">{qty}</span>
               <button
                 onClick={onAdd}
-                className="w-7 h-7 rounded-full bg-brand-red hover:bg-red-700 text-white flex items-center justify-center transition-colors"
+                className="w-7 h-7 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
                 aria-label="Add one more"
               >
                 <Plus size={12} />
               </button>
             </div>
+          ) : (
+            <button
+              onClick={onOpenModal}
+              className="w-8 h-8 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 flex items-center justify-center transition-all duration-200"
+              aria-label={`Add ${item.name}`}
+            >
+              <Plus size={14} />
+            </button>
           )}
         </div>
-
-        {/* CTA */}
-        <button
-          onClick={onOpenModal}
-          className="w-full bg-brand-red hover:bg-red-700 active:bg-red-800 text-white text-sm font-black py-3 rounded-xl transition-colors shadow-md shadow-red-500/20 flex items-center justify-center gap-2"
-        >
-          <Plus size={15} />
-          Add to Order
-        </button>
       </div>
     </div>
   )
@@ -400,47 +382,53 @@ function FiltersPopover({
   return (
     <div
       ref={ref}
-      className="absolute right-0 top-full mt-2 z-50 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 space-y-4"
+      className="absolute right-0 top-full mt-2 z-50 w-60 bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-zinc-100 p-5 space-y-5"
     >
       <div>
-        <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Dietary</p>
-        <div className="space-y-1.5">
+        <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Dietary</p>
+        <div className="space-y-2">
           {DIETARY_FLAGS.map((flag) => (
             <label key={flag} className="flex items-center gap-2.5 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={selectedFlags.includes(flag)}
                 onChange={() => toggleFlag(flag)}
-                className="w-4 h-4 accent-brand-red rounded"
+                className="w-4 h-4 accent-zinc-900 rounded"
               />
-              <span className="text-sm text-gray-700 group-hover:text-brand-dark">{flag}</span>
+              <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">{flag}</span>
             </label>
           ))}
         </div>
       </div>
-      <div>
-        <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Sort By</p>
-        <div className="space-y-1.5">
-          {([['default', 'Default order'], ['price-asc', 'Price: Low to High'], ['price-desc', 'Price: High to Low']] as const).map(([val, label]) => (
+
+      <div className="border-t border-zinc-100 pt-5">
+        <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Sort By</p>
+        <div className="space-y-2">
+          {([
+            ['default', 'Default order'],
+            ['price-asc', 'Price: Low to High'],
+            ['price-desc', 'Price: High to Low'],
+          ] as const).map(([val, label]) => (
             <label key={val} className="flex items-center gap-2.5 cursor-pointer group">
               <input
                 type="radio"
                 name="sortBy"
                 checked={sortBy === val}
                 onChange={() => onSortChange(val)}
-                className="w-4 h-4 accent-brand-red"
+                className="w-4 h-4 accent-zinc-900"
               />
-              <span className="text-sm text-gray-700 group-hover:text-brand-dark">{label}</span>
+              <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">{label}</span>
             </label>
           ))}
         </div>
       </div>
+
       {(selectedFlags.length > 0 || sortBy !== 'default') && (
         <button
           onClick={() => { onFlagsChange([]); onSortChange('default') }}
-          className="w-full text-center text-xs text-brand-red font-semibold hover:underline"
+          className="w-full text-center text-xs text-zinc-400 hover:text-zinc-900 font-medium transition-colors underline underline-offset-2"
         >
-          Clear all filters
+          Clear all
         </button>
       )}
     </div>
@@ -457,49 +445,53 @@ function CompactListItem({ item, qty, onOpenModal, onAdd, onRemove }: {
   onRemove: () => void
 }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-100/80 shadow-sm hover:shadow-md transition-all flex items-center gap-3 p-3">
+    <div className="bg-white border border-zinc-100 rounded-xl hover:shadow-[0_2px_16px_rgba(0,0,0,0.06)] transition-all duration-200 flex items-center gap-4 p-3">
       <button
         onClick={onOpenModal}
-        className="shrink-0 relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100"
+        className="shrink-0 relative w-16 h-16 rounded-lg overflow-hidden bg-zinc-100"
         aria-label={`View ${item.name} details`}
       >
         <Image src={item.image} alt={item.name} fill sizes="64px" className="object-cover" />
-        {item.badge && (
-          <span className={`absolute top-1 left-1 text-[9px] font-bold px-1 py-0.5 rounded-full ${BADGE_STYLES[item.badge] ?? 'bg-gray-100 text-gray-600'}`}>
-            {item.badge}
-          </span>
-        )}
       </button>
+
       <div className="flex-1 min-w-0">
-        <h3
-          className="font-heading font-bold text-sm text-brand-dark truncate cursor-pointer hover:text-brand-red transition-colors"
-          onClick={onOpenModal}
-        >
-          {item.name}
-        </h3>
-        <p className="text-[11px] text-gray-400 truncate mt-0.5">{item.description}</p>
+        <div className="flex items-center gap-2">
+          <h3
+            className="font-heading font-semibold text-sm text-zinc-900 truncate cursor-pointer hover:text-brand-red transition-colors"
+            onClick={onOpenModal}
+          >
+            {item.name}
+          </h3>
+          {item.badge && (
+            <span className="shrink-0 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-500">
+              {item.badge}
+            </span>
+          )}
+        </div>
+        <p className="text-xs text-zinc-400 truncate mt-0.5">{item.description}</p>
         {item.dietaryFlags && item.dietaryFlags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-1">
+          <div className="flex flex-wrap gap-1 mt-1.5">
             {item.dietaryFlags.slice(0, 3).map((f) => (
-              <span key={f} className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-green-50 text-green-700">{f}</span>
+              <span key={f} className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-500">{f}</span>
             ))}
           </div>
         )}
       </div>
-      <div className="shrink-0 flex flex-col items-end gap-1.5">
-        <span className="font-heading font-black text-base text-brand-dark">£{item.price.toFixed(2)}</span>
+
+      <div className="shrink-0 flex flex-col items-end gap-2">
+        <span className="font-heading font-bold text-sm text-zinc-900">£{item.price.toFixed(2)}</span>
         {qty > 0 ? (
           <div className="flex items-center gap-1.5">
             <button
               onClick={onRemove}
-              className="w-6 h-6 rounded-full border-2 border-brand-red text-brand-red hover:bg-red-50 flex items-center justify-center transition-colors"
+              className="w-6 h-6 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
             >
               <Minus size={10} />
             </button>
-            <span className="w-4 text-center text-xs font-black text-brand-dark">{qty}</span>
+            <span className="w-4 text-center text-xs font-bold text-zinc-900">{qty}</span>
             <button
               onClick={onAdd}
-              className="w-6 h-6 rounded-full bg-brand-red hover:bg-red-700 text-white flex items-center justify-center transition-colors"
+              className="w-6 h-6 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
             >
               <Plus size={10} />
             </button>
@@ -507,9 +499,9 @@ function CompactListItem({ item, qty, onOpenModal, onAdd, onRemove }: {
         ) : (
           <button
             onClick={onOpenModal}
-            className="flex items-center gap-1 text-brand-red hover:text-red-700 text-xs font-bold transition-colors"
+            className="w-7 h-7 rounded-full border border-zinc-200 text-zinc-400 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 flex items-center justify-center transition-all duration-200"
           >
-            <Plus size={12} /> Add
+            <Plus size={13} />
           </button>
         )}
       </div>
@@ -517,7 +509,7 @@ function CompactListItem({ item, qty, onOpenModal, onAdd, onRemove }: {
   )
 }
 
-// ─── Cart drawer ──────────────────────────────────────────────────────────────
+// ─── Cart Drawer ──────────────────────────────────────────────────────────────
 
 function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
   cart: Cart
@@ -553,66 +545,68 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={onClose} />
-      <div className="fixed right-0 top-0 h-full w-full max-w-sm bg-white z-50 shadow-2xl flex flex-col">
-        <div className="flex items-center justify-between px-5 py-4 bg-brand-dark text-white">
-          <div className="flex items-center gap-2">
-            <ShoppingCart size={18} />
-            <h2 className="font-heading font-bold text-base">Your Order</h2>
+      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
+      <div className="fixed right-0 top-0 h-full w-full max-w-sm bg-white z-50 flex flex-col border-l border-zinc-100">
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-100">
+          <div className="flex items-center gap-2.5">
+            <ShoppingCart size={17} className="text-zinc-700" />
+            <h2 className="font-heading font-bold text-base text-zinc-900">Your Order</h2>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center transition-colors text-zinc-400 hover:text-zinc-700"
           >
             <X size={16} />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto divide-y divide-gray-100">
+        {/* Items */}
+        <div className="flex-1 overflow-y-auto divide-y divide-zinc-50">
           {lineItems.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full gap-3 text-gray-400 p-8">
-              <ShoppingCart size={44} className="opacity-20" />
-              <p className="text-sm font-medium">Your cart is empty</p>
-              <p className="text-xs text-center">Add items from the menu to get started</p>
+            <div className="flex flex-col items-center justify-center h-full gap-3 text-zinc-300 p-8">
+              <ShoppingCart size={40} strokeWidth={1} />
+              <p className="text-sm font-medium text-zinc-400">Your cart is empty</p>
+              <p className="text-xs text-zinc-300 text-center">Add items from the menu to get started</p>
             </div>
           ) : (
             lineItems.map(({ item, entry }) => (
-              <div key={item.id} className="flex items-start gap-3 px-5 py-3.5">
-                <span className="text-2xl w-9 text-center select-none mt-0.5">{item.emoji}</span>
+              <div key={item.id} className="flex items-start gap-3 px-6 py-4">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-sm font-semibold text-zinc-900 truncate">{item.name}</p>
+                  <p className="text-xs text-zinc-400 mt-0.5">
                     £{((item.price + entry.extras.reduce((s, e) => s + e.price, 0)) * entry.qty).toFixed(2)}
                   </p>
                   {(entry.removals.length > 0 || entry.extras.length > 0) && (
-                    <div className="mt-1 flex flex-wrap gap-1">
+                    <div className="mt-1.5 flex flex-wrap gap-1">
                       {entry.removals.map((r) => (
-                        <span key={r} className="text-xs font-semibold bg-red-50 text-brand-red px-1.5 py-0.5 rounded">{r}</span>
+                        <span key={r} className="text-[10px] font-medium border border-red-200 text-red-600 px-1.5 py-0.5 rounded">{r}</span>
                       ))}
                       {entry.extras.map((e) => (
-                        <span key={e.name} className="text-xs font-semibold bg-green-50 text-green-700 px-1.5 py-0.5 rounded">+ {e.name}</span>
+                        <span key={e.name} className="text-[10px] font-medium border border-green-200 text-green-700 px-1.5 py-0.5 rounded">+ {e.name}</span>
                       ))}
                     </div>
                   )}
                   {entry.notes && (
-                    <p className="mt-1 text-xs text-amber-700 bg-amber-50 rounded px-1.5 py-0.5 italic">
-                      📝 {entry.notes}
+                    <p className="mt-1.5 text-xs text-amber-700 bg-amber-50 rounded px-2 py-1 italic">
+                      {entry.notes}
                     </p>
                   )}
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex items-center gap-2 shrink-0 pt-0.5">
                   <button
                     onClick={() => onRemove(item.id)}
-                    className="w-6 h-6 rounded-full border border-brand-red text-brand-red hover:bg-red-50 flex items-center justify-center transition-colors"
+                    className="w-6 h-6 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
                   >
-                    <Minus size={11} />
+                    <Minus size={10} />
                   </button>
-                  <span className="w-4 text-center text-sm font-bold text-gray-900">{entry.qty}</span>
+                  <span className="w-4 text-center text-sm font-bold text-zinc-900">{entry.qty}</span>
                   <button
                     onClick={() => onAdd(item.id)}
-                    className="w-6 h-6 rounded-full bg-brand-red hover:bg-red-700 text-white flex items-center justify-center transition-colors"
+                    className="w-6 h-6 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
                   >
-                    <Plus size={11} />
+                    <Plus size={10} />
                   </button>
                 </div>
               </div>
@@ -620,28 +614,26 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
           )}
         </div>
 
+        {/* Footer */}
         {lineItems.length > 0 && (
-          <div className="border-t border-gray-100 px-5 py-5 space-y-3 bg-gray-50">
+          <div className="border-t border-zinc-100 px-6 py-5 space-y-3 bg-zinc-50/50">
             {!storeOpen && (
-              <div className="bg-red-50 border border-red-200 rounded-xl px-3 py-2.5 text-center text-xs font-semibold text-red-700">
-                ⛔ Store is currently closed — orders disabled
+              <div className="border border-red-200 rounded-xl px-3 py-2.5 text-center text-xs font-semibold text-red-600">
+                Store is currently closed — orders disabled
               </div>
             )}
-            <div className="flex justify-between text-sm text-gray-600">
-              <span>Subtotal</span><span>£{subtotal.toFixed(2)}</span>
+            <div className="flex justify-between text-sm text-zinc-500">
+              <span>Subtotal</span><span className="text-zinc-900 font-semibold">£{subtotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between text-sm text-gray-400 italic">
+            <div className="flex justify-between text-xs text-zinc-400">
               <span>Delivery</span><span>calculated at checkout</span>
-            </div>
-            <div className="flex justify-between font-bold text-gray-900 text-base pt-2 border-t border-gray-200">
-              <span>Subtotal</span><span>£{subtotal.toFixed(2)}</span>
             </div>
             <button
               onClick={handleCheckout}
               disabled={!storeOpen}
-              className="w-full bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
+              className="w-full bg-zinc-900 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
             >
-              <span>Checkout</span><ChevronRight size={16} />
+              <span>Checkout</span><ChevronRight size={15} />
             </button>
           </div>
         )}
@@ -653,19 +645,19 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function OrderPage() {
-  const [cart, setCart]                 = useState<Cart>({})
-  const [cartOpen, setCartOpen]         = useState(false)
-  const [categories, setCategories]     = useState<DbCategory[]>([])
-  const [activeCategory, setActive]     = useState<string>('')
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
-  const [menuItems, setMenuItems]       = useState<MenuItem[]>(MENU_ITEMS)
-  const [storeOpen, setStoreOpen]       = useState(true)
-  const [prepTime, setPrepTime]         = useState(25)
-  const [searchQuery, setSearchQuery]   = useState('')
+  const [cart, setCart]                   = useState<Cart>({})
+  const [cartOpen, setCartOpen]           = useState(false)
+  const [categories, setCategories]       = useState<DbCategory[]>([])
+  const [activeCategory, setActive]       = useState<string>('')
+  const [selectedItem, setSelectedItem]   = useState<MenuItem | null>(null)
+  const [menuItems, setMenuItems]         = useState<MenuItem[]>(MENU_ITEMS)
+  const [storeOpen, setStoreOpen]         = useState(true)
+  const [prepTime, setPrepTime]           = useState(25)
+  const [searchQuery, setSearchQuery]     = useState('')
   const [selectedFlags, setSelectedFlags] = useState<string[]>([])
-  const [sortBy, setSortBy]             = useState<'default' | 'price-asc' | 'price-desc'>('default')
-  const [viewMode, setViewMode]         = useState<'grid' | 'list'>('grid')
-  const [filtersOpen, setFiltersOpen]   = useState(false)
+  const [sortBy, setSortBy]               = useState<'default' | 'price-asc' | 'price-desc'>('default')
+  const [viewMode, setViewMode]           = useState<'grid' | 'list'>('grid')
+  const [filtersOpen, setFiltersOpen]     = useState(false)
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
 
   useEffect(() => {
@@ -697,9 +689,7 @@ export default function OrderPage() {
       .then((data) => {
         if (data.length > 0) setMenuItems(data.map(dbToMenuItem))
       })
-      .catch((err) => {
-        console.error('Failed to load menu items from database:', err)
-      })
+      .catch((err) => { console.error('Failed to load menu items from database:', err) })
   }, [])
 
   const isFiltering = searchQuery.trim() !== '' || selectedFlags.length > 0 || sortBy !== 'default'
@@ -767,34 +757,33 @@ export default function OrderPage() {
   }, [categories])
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-white min-h-screen">
 
       {/* Closed banner */}
       {!storeOpen && (
-        <div className="bg-red-700 text-white text-center py-4 text-sm font-bold tracking-wide">
-          ⛔ Sorry, we are currently closed and not accepting orders.
+        <div className="bg-zinc-900 text-white text-center py-3.5 text-xs font-medium tracking-wide">
+          We are currently closed and not accepting orders.
         </div>
       )}
 
       {/* Delivery banner */}
-      <div className="bg-brand-red text-white text-center py-2.5 text-xs font-semibold tracking-wide">
-        🚚 Free delivery on orders over £20 · Est. {prepTime}–{prepTime + 10} min
+      <div className="bg-brand-red text-white text-center py-2.5 text-xs font-medium tracking-wide">
+        Free delivery on orders over £20 &nbsp;·&nbsp; Est. {prepTime}–{prepTime + 10} min
       </div>
 
       {/* Mobile category nav */}
-      <nav className="lg:hidden sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm overflow-x-auto">
-        <div className="flex min-w-max">
-          {categories.map(({ slug, name, image_url }) => (
+      <nav className="lg:hidden sticky top-0 z-30 bg-white border-b border-zinc-100 overflow-x-auto">
+        <div className="flex min-w-max gap-1 px-4 py-2.5">
+          {categories.map(({ slug, name }) => (
             <button
               key={slug}
               onClick={() => scrollTo(slug)}
-              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold whitespace-nowrap border-b-2 transition-colors ${
+              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${
                 activeCategory === slug
-                  ? 'border-brand-red text-brand-red'
-                  : 'border-transparent text-gray-500 hover:text-gray-800'
+                  ? 'bg-zinc-900 text-white'
+                  : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
               }`}
             >
-              <Image src={image_url || FALLBACK_IMG} alt={name} width={20} height={20} className="w-5 h-5 rounded-full object-cover shrink-0" />
               {name}
             </button>
           ))}
@@ -802,110 +791,91 @@ export default function OrderPage() {
       </nav>
 
       {/* Main layout */}
-      <div className="max-w-7xl mx-auto flex gap-8 px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto flex gap-10 px-4 sm:px-6 lg:px-8 py-10">
 
-        {/* Sticky sidebar */}
-        <aside className="hidden lg:block w-64 shrink-0">
-          <div className="sticky top-6">
-            {/* Glass panel */}
-            <div className="bg-neutral-900/60 backdrop-blur-md border border-neutral-800/70 rounded-2xl overflow-hidden shadow-xl">
-              <p className="text-[10px] font-black text-neutral-500 uppercase tracking-widest px-5 pt-5 pb-3">
-                Menu
-              </p>
+        {/* Sidebar */}
+        <aside className="hidden lg:block w-56 shrink-0">
+          <div className="sticky top-8">
+            <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.15em] px-3 mb-3">
+              Menu
+            </p>
 
-              <nav className="px-2 pb-3 space-y-0.5">
-                {categories.map(({ slug, name, image_url, description }) => {
-                  const isActive = activeCategory === slug
-                  return (
-                    <button
-                      key={slug}
-                      onClick={() => scrollTo(slug)}
-                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
-                        isActive
-                          ? 'bg-red-600 shadow-lg shadow-red-900/30'
-                          : 'hover:bg-neutral-800 transition-colors duration-200'
-                      }`}
-                    >
-                      <span className={`shrink-0 rounded-full transition-all duration-200 ${
-                        isActive ? 'ring-2 ring-white/40 ring-offset-1 ring-offset-red-600' : ''
-                      }`}>
-                        <Image
-                          src={image_url || FALLBACK_IMG}
-                          alt={name}
-                          width={40}
-                          height={40}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      </span>
-                      <div className="min-w-0">
-                        <p className={`text-sm font-bold leading-tight truncate transition-colors ${
-                          isActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'
-                        }`}>
-                          {name}
-                        </p>
-                        {description && (
-                          <p className={`text-xs mt-0.5 leading-tight truncate ${
-                            isActive ? 'text-red-200/70' : 'text-neutral-600'
-                          }`}>
-                            {description}
-                          </p>
-                        )}
-                      </div>
-                    </button>
-                  )
-                })}
-              </nav>
-            </div>
+            <nav className="space-y-0.5">
+              {categories.map(({ slug, name, image_url }) => {
+                const isActive = activeCategory === slug
+                return (
+                  <button
+                    key={slug}
+                    onClick={() => scrollTo(slug)}
+                    className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-full transition-all duration-200 ${
+                      isActive
+                        ? 'bg-zinc-900 text-white'
+                        : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'
+                    }`}
+                  >
+                    <Image
+                      src={image_url || FALLBACK_IMG}
+                      alt={name}
+                      width={28}
+                      height={28}
+                      className="w-7 h-7 rounded-full object-cover shrink-0"
+                    />
+                    <span className="text-sm font-semibold truncate">{name}</span>
+                  </button>
+                )
+              })}
+            </nav>
 
             {/* Sidebar cart summary */}
             {count > 0 && (
-              <div className="mt-3 bg-neutral-900/60 backdrop-blur-md border border-neutral-800/70 rounded-2xl p-4 shadow-xl">
-                <p className="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Your Order</p>
-                <div className="flex justify-between text-sm font-semibold text-white mb-4">
+              <div className="mt-6 border border-zinc-100 rounded-2xl p-4">
+                <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.15em] mb-3">
+                  Your Order
+                </p>
+                <div className="flex justify-between text-sm font-semibold text-zinc-900 mb-3">
                   <span>{count} item{count > 1 ? 's' : ''}</span>
                   <span>£{total.toFixed(2)}</span>
                 </div>
                 <button
                   onClick={() => setCartOpen(true)}
-                  className="w-full bg-red-600 hover:bg-red-700 transition-colors text-white text-sm font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-red-900/30"
+                  className="w-full bg-zinc-900 hover:bg-zinc-700 text-white text-sm font-semibold py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
                 >
-                  <ShoppingCart size={14} /> View Cart
+                  <ShoppingCart size={13} /> View Cart
                 </button>
               </div>
             )}
           </div>
         </aside>
 
-        {/* Menu sections */}
+        {/* Menu content */}
         <main className="flex-1 min-w-0 pb-32">
 
           {/* Search + filter bar */}
-          <div className="mb-6 flex flex-wrap items-center gap-2">
-            {/* Search input */}
+          <div className="mb-8 flex flex-wrap items-center gap-2">
             <div className="relative flex-1 min-w-48">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search menu…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-all"
+                className="w-full bg-white border border-zinc-200 rounded-full pl-10 pr-4 py-2.5 text-sm text-zinc-800 placeholder-zinc-400 focus:outline-none focus:border-zinc-400 transition-colors"
               />
             </div>
-            {/* Filters button */}
+
             <div className="relative">
               <button
                 onClick={() => setFiltersOpen((v) => !v)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-semibold shadow-sm transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${
                   selectedFlags.length > 0 || sortBy !== 'default'
-                    ? 'bg-brand-red text-white border-brand-red'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                    ? 'bg-zinc-900 text-white border-zinc-900'
+                    : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900'
                 }`}
               >
-                <SlidersHorizontal size={15} />
+                <SlidersHorizontal size={14} />
                 Filters
                 {(selectedFlags.length > 0 || sortBy !== 'default') && (
-                  <span className="bg-white/30 text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">
+                  <span className="bg-white/20 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     {selectedFlags.length + (sortBy !== 'default' ? 1 : 0)}
                   </span>
                 )}
@@ -920,40 +890,40 @@ export default function OrderPage() {
                 />
               )}
             </div>
-            {/* View toggle */}
-            <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-xl p-1 shadow-sm">
+
+            <div className="flex items-center gap-0.5 border border-zinc-200 rounded-full p-1">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-gray-100 text-gray-800' : 'text-gray-400 hover:text-gray-600'}`}
+                className={`p-1.5 rounded-full transition-all duration-200 ${viewMode === 'grid' ? 'bg-zinc-900 text-white' : 'text-zinc-400 hover:text-zinc-700'}`}
                 title="Grid view"
               >
-                <LayoutGrid size={16} />
+                <LayoutGrid size={14} />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-gray-100 text-gray-800' : 'text-gray-400 hover:text-gray-600'}`}
+                className={`p-1.5 rounded-full transition-all duration-200 ${viewMode === 'list' ? 'bg-zinc-900 text-white' : 'text-zinc-400 hover:text-zinc-700'}`}
                 title="List view"
               >
-                <List size={16} />
+                <List size={14} />
               </button>
             </div>
           </div>
 
           {/* Active filter chips */}
           {(selectedFlags.length > 0 || sortBy !== 'default') && (
-            <div className="flex flex-wrap gap-2 mb-4 -mt-2">
+            <div className="flex flex-wrap gap-2 mb-6 -mt-4">
               {selectedFlags.map((f) => (
-                <span key={f} className="flex items-center gap-1 bg-green-50 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                <span key={f} className="flex items-center gap-1.5 border border-zinc-200 text-zinc-600 text-xs font-medium px-3 py-1 rounded-full">
                   {f}
-                  <button onClick={() => setSelectedFlags((prev) => prev.filter((x) => x !== f))} className="hover:text-green-900 ml-0.5">
+                  <button onClick={() => setSelectedFlags((prev) => prev.filter((x) => x !== f))} className="text-zinc-400 hover:text-zinc-700 transition-colors">
                     <X size={11} />
                   </button>
                 </span>
               ))}
               {sortBy !== 'default' && (
-                <span className="flex items-center gap-1 bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-                  {sortBy === 'price-asc' ? 'Price ↑' : 'Price ↓'}
-                  <button onClick={() => setSortBy('default')} className="hover:text-blue-900 ml-0.5">
+                <span className="flex items-center gap-1.5 border border-zinc-200 text-zinc-600 text-xs font-medium px-3 py-1 rounded-full">
+                  {sortBy === 'price-asc' ? 'Price: Low → High' : 'Price: High → Low'}
+                  <button onClick={() => setSortBy('default')} className="text-zinc-400 hover:text-zinc-700 transition-colors">
                     <X size={11} />
                   </button>
                 </span>
@@ -961,16 +931,16 @@ export default function OrderPage() {
             </div>
           )}
 
-          {/* Filtered flat view */}
+          {/* Content */}
           {isFiltering ? (
             displayedItems.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-24 text-center">
-                <Search size={40} className="text-gray-200 mb-4" />
-                <p className="font-heading font-black text-lg text-gray-400">No items found</p>
-                <p className="text-sm text-gray-400 mt-1">Try adjusting your search or filters.</p>
+              <div className="flex flex-col items-center justify-center py-28 text-center">
+                <Search size={32} strokeWidth={1} className="text-zinc-200 mb-4" />
+                <p className="font-heading font-bold text-base text-zinc-400">No items found</p>
+                <p className="text-sm text-zinc-300 mt-1">Try adjusting your search or filters.</p>
                 <button
                   onClick={() => { setSearchQuery(''); setSelectedFlags([]); setSortBy('default') }}
-                  className="mt-4 text-sm text-brand-red font-semibold hover:underline"
+                  className="mt-5 text-sm text-zinc-500 font-medium underline underline-offset-2 hover:text-zinc-900 transition-colors"
                 >
                   Clear all filters
                 </button>
@@ -979,9 +949,7 @@ export default function OrderPage() {
               <div className="space-y-2">
                 {displayedItems.map((item) => (
                   <CompactListItem
-                    key={item.id}
-                    item={item}
-                    qty={cart[item.id]?.qty ?? 0}
+                    key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
                     onOpenModal={() => setSelectedItem(item)}
                     onAdd={() => addToCart(item.id)}
                     onRemove={() => removeFromCart(item.id)}
@@ -989,13 +957,10 @@ export default function OrderPage() {
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                {displayedItems.map((item, i) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                {displayedItems.map((item) => (
                   <MenuCard
-                    key={item.id}
-                    item={item}
-                    qty={cart[item.id]?.qty ?? 0}
-                    gradient={GRADIENTS[i % GRADIENTS.length]}
+                    key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
                     onOpenModal={() => setSelectedItem(item)}
                     onAdd={() => addToCart(item.id)}
                     onRemove={() => removeFromCart(item.id)}
@@ -1004,35 +969,36 @@ export default function OrderPage() {
               </div>
             )
           ) : (
-            /* Category sections (default) */
-            <div className="space-y-12">
-              {categories.map(({ slug, name, image_url }, catIdx) => {
-                const gradient = GRADIENTS[catIdx % GRADIENTS.length]
+            <div className="space-y-14">
+              {categories.map(({ slug, name, image_url }) => {
                 const items = menuItems.filter((m) => m.category.toLowerCase() === slug)
                 return (
                   <section
                     key={slug}
                     id={slug}
                     ref={(el) => { sectionRefs.current[slug] = el }}
-                    className="scroll-mt-4"
+                    className="scroll-mt-6"
                   >
                     {/* Section header */}
-                    <div className="flex items-center gap-3 mb-6">
-                      <Image src={image_url || FALLBACK_IMG} alt={name} width={40} height={40} className="w-10 h-10 rounded-xl object-cover shadow-sm shrink-0" />
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-100">
+                      <Image
+                        src={image_url || FALLBACK_IMG}
+                        alt={name}
+                        width={36}
+                        height={36}
+                        className="w-9 h-9 rounded-xl object-cover shrink-0"
+                      />
                       <div>
-                        <h2 className="font-heading font-black text-2xl text-brand-dark leading-none">{name}</h2>
-                        <p className="text-xs text-gray-400 mt-0.5">{items.length} items</p>
+                        <h2 className="font-heading font-black text-xl text-zinc-900 leading-none">{name}</h2>
+                        <p className="text-xs text-zinc-400 mt-0.5">{items.length} items</p>
                       </div>
                     </div>
 
-                    {/* Card view */}
                     {viewMode === 'list' ? (
                       <div className="space-y-2">
                         {items.map((item) => (
                           <CompactListItem
-                            key={item.id}
-                            item={item}
-                            qty={cart[item.id]?.qty ?? 0}
+                            key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
                             onOpenModal={() => setSelectedItem(item)}
                             onAdd={() => addToCart(item.id)}
                             onRemove={() => removeFromCart(item.id)}
@@ -1040,13 +1006,10 @@ export default function OrderPage() {
                         ))}
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                         {items.map((item) => (
                           <MenuCard
-                            key={item.id}
-                            item={item}
-                            qty={cart[item.id]?.qty ?? 0}
-                            gradient={gradient}
+                            key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
                             onOpenModal={() => setSelectedItem(item)}
                             onAdd={() => addToCart(item.id)}
                             onRemove={() => removeFromCart(item.id)}
@@ -1066,19 +1029,19 @@ export default function OrderPage() {
       <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <button
           onClick={() => setCartOpen(true)}
-          className="flex items-center gap-3 bg-brand-dark text-white font-bold px-7 py-3.5 rounded-full shadow-2xl hover:bg-black transition-colors"
+          className="flex items-center gap-3 bg-zinc-900 text-white font-semibold px-6 py-3.5 rounded-full shadow-lg hover:bg-zinc-700 transition-colors text-sm"
         >
           <div className="relative">
-            <ShoppingCart size={19} />
+            <ShoppingCart size={17} />
             {count > 0 && (
-              <span className="absolute -top-2 -right-2 bg-brand-red text-white text-xs font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
+              <span className="absolute -top-2 -right-2 bg-brand-red text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {count}
               </span>
             )}
           </div>
           {count === 0
             ? 'Cart'
-            : <><span>{count} item{count > 1 ? 's' : ''}</span><span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">£{total.toFixed(2)}</span></>
+            : <><span>{count} item{count > 1 ? 's' : ''}</span><span className="bg-white/15 px-2 py-0.5 rounded-full text-xs">£{total.toFixed(2)}</span></>
           }
         </button>
       </div>
@@ -1086,12 +1049,9 @@ export default function OrderPage() {
       {/* Overlays */}
       {cartOpen && (
         <CartDrawer
-          cart={cart}
-          menuItems={menuItems}
-          storeOpen={storeOpen}
+          cart={cart} menuItems={menuItems} storeOpen={storeOpen}
           onClose={() => setCartOpen(false)}
-          onAdd={addToCart}
-          onRemove={removeFromCart}
+          onAdd={addToCart} onRemove={removeFromCart}
         />
       )}
 
