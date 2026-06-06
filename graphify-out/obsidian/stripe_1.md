@@ -12,7 +12,7 @@ tags:
 # stripe
 
 ## Connections
-- [[route.ts_20]] - `contains` [EXTRACTED]
-- [[route.ts_43]] - `contains` [EXTRACTED]
+- [[route.ts_21]] - `contains` [EXTRACTED]
+- [[route.ts_46]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

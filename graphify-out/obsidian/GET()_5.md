@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/admin/drivers/[id]/ledger/route.ts"
+source_file: "app/api/drivers/route.ts"
 type: "code"
 community: "Community None"
-location: "L8"
+location: "L6"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,8 @@ tags:
 # GET()
 
 ## Connections
-- [[route.ts_9]] - `contains` [EXTRACTED]
+- [[route.ts_8]] - `contains` [EXTRACTED]
+- [[route.ts_25]] - `contains` [EXTRACTED]
+- [[route.ts_38]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[Aggregates]] - `contains` [EXTRACTED]
+- [[AuthUser]] - `contains` [EXTRACTED]
 - [[Driver]] - `contains` [EXTRACTED]
 - [[DriverForm]] - `contains` [EXTRACTED]
 - [[DriversPage()]] - `contains` [EXTRACTED]
