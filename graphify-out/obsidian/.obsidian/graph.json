@@ -1,4 +1,11 @@
 {
+  "collapse-filter": false,
+  "search": "logo",
+  "showTags": true,
+  "showAttachments": true,
+  "hideUnresolved": true,
+  "showOrphans": true,
+  "collapse-color-groups": true,
   "colorGroups": [
     {
       "query": "tag:#community/Community_0",
@@ -26,6 +33,13 @@
       "color": {
         "a": 1,
         "rgb": 7780274
+      }
+    },
+    {
+      "query": "tag:#community/Community_4",
+      "color": {
+        "a": 1,
+        "rgb": 5873999
       }
     },
     {
@@ -412,13 +426,18 @@
         "a": 1,
         "rgb": 5873999
       }
-    },
-    {
-      "query": "tag:#community/Community_65",
-      "color": {
-        "a": 1,
-        "rgb": 15583560
-      }
     }
-  ]
+  ],
+  "collapse-display": true,
+  "showArrow": false,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": true,
+  "centerStrength": 0.518713248970312,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 1,
+  "close": false
 }
