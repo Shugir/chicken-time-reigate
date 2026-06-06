@@ -12,6 +12,6 @@ tags:
 # DailyPoint
 
 ## Connections
-- [[page.tsx_5]] - `contains` [EXTRACTED]
+- [[page.tsx_4]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

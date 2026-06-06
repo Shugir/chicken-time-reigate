@@ -11,6 +11,6 @@ tags:
 # 20260618_allergens.sql
 
 ## Connections
-- [[menu_items]] - `contains` [EXTRACTED]
+- [[menu_items_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

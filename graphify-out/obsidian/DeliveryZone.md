@@ -12,7 +12,7 @@ tags:
 # DeliveryZone
 
 ## Connections
-- [[page.tsx_8]] - `contains` [EXTRACTED]
+- [[page.tsx_7]] - `contains` [EXTRACTED]
 - [[page.tsx_27]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

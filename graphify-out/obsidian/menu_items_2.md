@@ -1,5 +1,5 @@
 ---
-source_file: "supabase/migrations/20260608_item_customizations.sql"
+source_file: "supabase/migrations/20260617_advanced_filters.sql"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,6 +12,7 @@ tags:
 # menu_items
 
 ## Connections
-- [[20260608_item_customizations.sql]] - `contains` [EXTRACTED]
+- [[20260617_advanced_filters.sql]] - `contains` [EXTRACTED]
+- [[20260617_advanced_filters.sql_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

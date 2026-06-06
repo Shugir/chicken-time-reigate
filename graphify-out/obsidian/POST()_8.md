@@ -12,8 +12,8 @@ tags:
 # POST()
 
 ## Connections
-- [[route.ts_21]] - `contains` [EXTRACTED]
-- [[route.ts_40]] - `contains` [EXTRACTED]
+- [[route.ts_20]] - `contains` [EXTRACTED]
+- [[route.ts_41]] - `contains` [EXTRACTED]
 - [[sendOrderStatusEmail()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

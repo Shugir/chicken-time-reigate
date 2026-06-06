@@ -1,5 +1,5 @@
 ---
-source_file: "supabase/migrations/20260617_advanced_filters.sql"
+source_file: "supabase/migrations/20260618_allergens.sql"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,6 @@ tags:
 # menu_items
 
 ## Connections
-- [[20260617_advanced_filters.sql]] - `contains` [EXTRACTED]
-- [[20260617_advanced_filters.sql_1]] - `contains` [EXTRACTED]
+- [[20260618_allergens.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

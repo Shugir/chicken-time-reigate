@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[CartDrawer()]] - `calls` [EXTRACTED]
 - [[OrderPage()]] - `calls` [EXTRACTED]
-- [[page.tsx_1]] - `contains` [EXTRACTED]
+- [[page.tsx_18]] - `contains` [EXTRACTED]
 - [[page.tsx_22]] - `contains` [EXTRACTED]
 - [[page.tsx_24]] - `contains` [EXTRACTED]
 

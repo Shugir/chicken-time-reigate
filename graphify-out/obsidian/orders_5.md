@@ -1,5 +1,5 @@
 ---
-source_file: "supabase/migrations/20260620_delivery_postcode.sql"
+source_file: "supabase/migrations/20260619_promo_codes.sql"
 type: "code"
 community: "Community None"
 location: "L2"
@@ -12,6 +12,6 @@ tags:
 # orders
 
 ## Connections
-- [[20260620_delivery_postcode.sql]] - `contains` [EXTRACTED]
+- [[20260619_promo_codes.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

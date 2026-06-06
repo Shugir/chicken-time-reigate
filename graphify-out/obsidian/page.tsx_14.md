@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/staff/page.tsx"
+source_file: "app/checkout/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,11 +12,9 @@ tags:
 # page.tsx
 
 ## Connections
-- [[ALL_PERMISSIONS]] - `contains` [EXTRACTED]
-- [[EMPTY_FORM_3]] - `contains` [EXTRACTED]
-- [[StaffForm]] - `contains` [EXTRACTED]
-- [[StaffMember]] - `contains` [EXTRACTED]
-- [[StaffPage()]] - `contains` [EXTRACTED]
-- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[CartItem_1]] - `contains` [EXTRACTED]
+- [[CheckoutPage()]] - `contains` [EXTRACTED]
+- [[DeliveryZone_1]] - `contains` [EXTRACTED]
+- [[supabase_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

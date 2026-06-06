@@ -1,5 +1,5 @@
 ---
-source_file: "app/checkout/page.tsx"
+source_file: "app/contact/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,12 @@ tags:
 # page.tsx
 
 ## Connections
-- [[CartItem_1]] - `contains` [EXTRACTED]
-- [[CheckoutPage()]] - `contains` [EXTRACTED]
-- [[DeliveryZone_1]] - `contains` [EXTRACTED]
-- [[supabase_1]] - `contains` [EXTRACTED]
+- [[ContactPage()]] - `contains` [EXTRACTED]
+- [[EMPTY]] - `contains` [EXTRACTED]
+- [[FormState]] - `contains` [EXTRACTED]
+- [[HOURS_1]] - `contains` [EXTRACTED]
+- [[InputField()]] - `contains` [EXTRACTED]
+- [[SUBJECTS]] - `contains` [EXTRACTED]
+- [[oswald_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

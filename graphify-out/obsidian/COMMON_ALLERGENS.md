@@ -12,6 +12,6 @@ tags:
 # COMMON_ALLERGENS
 
 ## Connections
-- [[page.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

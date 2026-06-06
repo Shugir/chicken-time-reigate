@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/categories/[id]/route.ts"
+source_file: "app/api/admin/delivery-zones/[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"

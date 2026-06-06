@@ -12,7 +12,7 @@ tags:
 # CATEGORIES
 
 ## Connections
-- [[page.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
 - [[page.tsx_23]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

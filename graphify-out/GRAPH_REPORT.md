@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 674 nodes · 1101 edges · 61 communities (36 shown, 25 thin omitted)
+- 674 nodes · 1102 edges · 60 communities (35 shown, 25 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `919fc894`
+- Built from commit: `52d3d7be`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -62,7 +62,6 @@
 - [[_COMMUNITY_Community 56|Community 56]]
 - [[_COMMUNITY_Community 57|Community 57]]
 - [[_COMMUNITY_Community 61|Community 61]]
-- [[_COMMUNITY_Community 62|Community 62]]
 - [[_COMMUNITY_Community 63|Community 63]]
 - [[_COMMUNITY_Community 64|Community 64]]
 
@@ -95,7 +94,7 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (61 total, 25 thin omitted)
+## Communities (60 total, 25 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.07
@@ -114,8 +113,8 @@ Cohesion: 0.05
 Nodes (21): DOW_LABELS, GET(), GET(), GET(), GET(), POST(), DELETE(), PATCH() (+13 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.33
-Nodes (9): Aggregates, Driver, DriverForm, DriversPage(), EMPTY_FORM, fmtGbp(), NAV, STATUS_LABELS (+1 more)
+Cohesion: 0.48
+Nodes (5): ALL_PERMISSIONS, EMPTY_FORM, StaffForm, StaffMember, StaffPage()
 
 ### Community 5 - "Community 5"
 Cohesion: 0.1
@@ -138,8 +137,8 @@ Cohesion: 0.25
 Nodes (10): geistMono, geistSans, HOURS, inter, metadata, QUICK_LINKS, RootLayout(), NewsletterForm() (+2 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.47
-Nodes (6): Auth Provider (TODO: Supabase/NextAuth), NewsletterForm Component, Sign In Page, Sign Up Page, SiteHeader Component, NAV_LINKS Static Config
+Cohesion: 0.22
+Nodes (10): Auth Provider (TODO: Supabase/NextAuth), Contact Page, FormState Type, Opening Hours Data (HOURS), InputField Component, NewsletterForm Component, Sign In Page, Sign Up Page (+2 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.15
@@ -178,8 +177,8 @@ Cohesion: 0.67
 Nodes (3): About Page, About Stats Data (STATS), Brand Values Data (VALUES)
 
 ### Community 47 - "Community 47"
-Cohesion: 0.08
-Nodes (25): AdminSidebar(), ALL_NAV, Category, CategoryForm, EMPTY_FORM, DeleteConfirm(), DeliveryPage(), DeliveryZone (+17 more)
+Cohesion: 0.07
+Nodes (29): AdminSidebar(), ALL_NAV, Category, CategoryForm, EMPTY_FORM, DeleteConfirm(), DeliveryPage(), DeliveryZone (+21 more)
 
 ### Community 50 - "Community 50"
 Cohesion: 0.05
@@ -193,10 +192,6 @@ Nodes (9): CartItem, Extra, POST(), stripe, buildHtml(), EmailOrderData, OrderEm
 Cohesion: 0.08
 Nodes (39): AddItemModal Component, Admin Page, AvailabilityToggle Component, DeleteConfirmModal Component, PriceCell Component, API: Admin Menu Items [id] Route (PATCH/DELETE), API: Admin Menu Items Route (GET/POST), API Checkout POST (+31 more)
 
-### Community 62 - "Community 62"
-Cohesion: 0.5
-Nodes (4): Contact Page, FormState Type, Opening Hours Data (HOURS), InputField Component
-
 ## Ambiguous Edges - Review These
 - `Supabase Admin Client` → `Sign In Page`  [AMBIGUOUS]
   app/sign-in/page.tsx · relation: shares_data_with
@@ -204,7 +199,7 @@ Nodes (4): Contact Page, FormState Type, Opening Hours Data (HOURS), InputField 
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **179 isolated node(s):** `orders`, `COMMON_ALLERGENS`, `menu_items`, `eslintConfig`, `config` (+174 more)
+- **179 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+174 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **25 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -216,12 +211,12 @@ _Questions this graph is uniquely positioned to answer:_
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **Why does `supabaseAdmin` connect `Community 3` to `Community 56`, `Community 12`?**
-  _High betweenness centrality (0.153) - this node is a cross-community bridge._
+  _High betweenness centrality (0.152) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 61` to `Community 11`, `Community 50`, `Community 3`?**
   _High betweenness centrality (0.144) - this node is a cross-community bridge._
 - **Why does `Extra` connect `Community 1` to `Community 3`?**
   _High betweenness centrality (0.122) - this node is a cross-community bridge._
-- **What connects `orders`, `COMMON_ALLERGENS`, `menu_items` to the rest of the system?**
+- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
   _183 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.07 - nodes in this community are weakly interconnected._

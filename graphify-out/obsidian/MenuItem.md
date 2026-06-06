@@ -12,7 +12,7 @@ tags:
 # MenuItem
 
 ## Connections
-- [[page.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
 - [[page.tsx_22]] - `contains` [EXTRACTED]
 - [[page.tsx_23]] - `contains` [EXTRACTED]
 

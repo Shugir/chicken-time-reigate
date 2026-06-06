@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[ProductModal.tsx]] - `contains` [EXTRACTED]
 - [[ProductModal.tsx_1]] - `contains` [EXTRACTED]
-- [[page.tsx_1]] - `imports` [EXTRACTED]
+- [[page.tsx_18]] - `imports` [EXTRACTED]
 - [[page.tsx_22]] - `imports` [EXTRACTED]
 - [[page.tsx_24]] - `imports` [EXTRACTED]
 

@@ -12,7 +12,7 @@ tags:
 # CartItem
 
 ## Connections
-- [[page.tsx_15]] - `contains` [EXTRACTED]
+- [[page.tsx_14]] - `contains` [EXTRACTED]
 - [[page.tsx_32]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/delivery/page.tsx"
+source_file: "app/admin/drivers/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,13 +12,16 @@ tags:
 # page.tsx
 
 ## Connections
-- [[DeleteConfirm()]] - `contains` [EXTRACTED]
-- [[DeliveryPage()]] - `contains` [EXTRACTED]
-- [[DeliveryZone]] - `contains` [EXTRACTED]
-- [[NAV_1]] - `contains` [EXTRACTED]
-- [[SaveState_1]] - `contains` [EXTRACTED]
-- [[ZoneModal()]] - `contains` [EXTRACTED]
+- [[Aggregates]] - `contains` [EXTRACTED]
+- [[Driver]] - `contains` [EXTRACTED]
+- [[DriverForm]] - `contains` [EXTRACTED]
+- [[DriversPage()]] - `contains` [EXTRACTED]
+- [[EMPTY_FORM_2]] - `contains` [EXTRACTED]
+- [[NAV_2]] - `contains` [EXTRACTED]
+- [[STATUS_LABELS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES_1]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[fmtGbp()_1]] - `contains` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
