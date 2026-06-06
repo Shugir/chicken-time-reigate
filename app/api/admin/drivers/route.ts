@@ -7,7 +7,7 @@ export async function GET() {
   const { data, error } = await supabaseAdmin
     .from('drivers')
     .select(`
-      id, name, phone, status, per_delivery_wage, is_active, created_at,
+      id, name, phone, status, per_delivery_wage, is_active, created_at, user_id,
       orders!orders_driver_id_fkey(delivery_status, is_driver_paid)
     `)
     .order('name', { ascending: true })
@@ -30,6 +30,7 @@ export async function GET() {
       per_delivery_wage:   d.per_delivery_wage,
       is_active:           d.is_active,
       created_at:          d.created_at,
+      user_id:             d.user_id ?? null,
       completed_deliveries: successful_drops,
       total_wages:         successful_drops * Number(d.per_delivery_wage),
       successful_drops,

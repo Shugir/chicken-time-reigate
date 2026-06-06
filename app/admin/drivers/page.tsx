@@ -21,6 +21,12 @@ interface Driver {
   successful_drops: number
   failed_returns: number
   pending_wages: number
+  user_id: string | null
+}
+
+interface AuthUser {
+  id: string
+  email: string
 }
 
 interface Aggregates {
@@ -34,9 +40,10 @@ interface DriverForm {
   name: string
   phone: string
   per_delivery_wage: string
+  user_id: string
 }
 
-const EMPTY_FORM: DriverForm = { name: '', phone: '', per_delivery_wage: '0' }
+const EMPTY_FORM: DriverForm = { name: '', phone: '', per_delivery_wage: '0', user_id: '' }
 
 const STATUS_STYLES: Record<string, string> = {
   available:   'bg-emerald-500/20 text-emerald-400',
@@ -64,6 +71,8 @@ export default function DriversPage() {
   const [saving, setSaving]           = useState(false)
   const [saveError, setSaveError]     = useState('')
   const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set())
+  const [authUsers, setAuthUsers]     = useState<AuthUser[]>([])
+  const [authLoading, setAuthLoading] = useState(false)
 
   async function fetchDrivers() {
     const res = await fetch('/api/admin/drivers')
@@ -77,11 +86,19 @@ export default function DriversPage() {
 
   useEffect(() => { fetchDrivers() }, [])
 
+  async function fetchAuthUsers() {
+    setAuthLoading(true)
+    const res = await fetch('/api/admin/auth-users')
+    if (res.ok) setAuthUsers(await res.json())
+    setAuthLoading(false)
+  }
+
   function openAdd() {
     setEditing(null)
     setForm(EMPTY_FORM)
     setSaveError('')
     setShowForm(true)
+    fetchAuthUsers()
   }
 
   function openEdit(driver: Driver) {
@@ -90,9 +107,11 @@ export default function DriversPage() {
       name:              driver.name,
       phone:             driver.phone ?? '',
       per_delivery_wage: String(driver.per_delivery_wage),
+      user_id:           driver.user_id ?? '',
     })
     setSaveError('')
     setShowForm(true)
+    fetchAuthUsers()
   }
 
   function closeForm() {
@@ -113,6 +132,7 @@ export default function DriversPage() {
         name:              form.name.trim(),
         phone:             form.phone.trim() || null,
         per_delivery_wage: wage,
+        user_id:           form.user_id || null,
       }
       const res = editing
         ? await fetch(`/api/admin/drivers/${editing.id}`, {
@@ -451,6 +471,26 @@ export default function DriversPage() {
                   onChange={(e) => setForm((f) => ({ ...f, per_delivery_wage: e.target.value }))}
                   className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-zinc-400 mb-1.5">Auth Account</label>
+                {authLoading ? (
+                  <div className="flex items-center gap-2 text-xs text-zinc-500 py-2">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> Loading users…
+                  </div>
+                ) : (
+                  <select
+                    value={form.user_id}
+                    onChange={(e) => setForm((f) => ({ ...f, user_id: e.target.value }))}
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-red"
+                  >
+                    <option value="">— Not linked —</option>
+                    {authUsers.map((u) => (
+                      <option key={u.id} value={u.id}>{u.email}</option>
+                    ))}
+                  </select>
+                )}
               </div>
 
               {saveError && (

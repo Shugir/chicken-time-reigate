@@ -6,14 +6,15 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params
-  const { name, phone, per_delivery_wage, is_active, status } = await request.json()
+  const { name, phone, per_delivery_wage, is_active, status, user_id } = await request.json()
 
   const updates: Record<string, unknown> = {}
-  if (name            !== undefined) updates.name             = name
-  if (phone           !== undefined) updates.phone            = phone
+  if (name              !== undefined) updates.name              = name
+  if (phone             !== undefined) updates.phone             = phone
   if (per_delivery_wage !== undefined) updates.per_delivery_wage = per_delivery_wage
-  if (is_active       !== undefined) updates.is_active        = is_active
-  if (status          !== undefined) updates.status           = status
+  if (is_active         !== undefined) updates.is_active         = is_active
+  if (status            !== undefined) updates.status            = status
+  if (user_id           !== undefined) updates.user_id           = user_id ?? null
 
   const { data, error } = await supabaseAdmin
     .from('drivers')
