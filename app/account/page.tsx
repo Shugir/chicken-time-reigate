@@ -8,6 +8,7 @@ import {
   ShoppingBag, Clock, User as UserIcon, Shield, LogOut,
   CheckCircle2, Truck, Package, RefreshCw,
   Loader2, Save, Trash2, AlertTriangle, ChevronRight,
+  Tag, Printer, Copy, Check,
 } from 'lucide-react'
 import Link from 'next/link'
 import { formatDateTime } from '@/lib/utils/format-date'
@@ -42,7 +43,16 @@ interface Order {
   delivery_address:  string | null
   delivery_postcode: string | null
   customer_notes:    string | null
+  promo_code_used:   string | null
+  discount_applied:  number
   order_items:       OrderItem[]
+}
+
+interface PromoCode {
+  code:             string
+  discount_type:    'percentage' | 'flat'
+  discount_value:   number
+  min_order_amount: number
 }
 
 interface Profile {
@@ -51,7 +61,7 @@ interface Profile {
   address:   string | null
 }
 
-type Tab = 'active' | 'history' | 'profile' | 'security'
+type Tab = 'active' | 'history' | 'profile' | 'security' | 'offers'
 
 // ─── Order tracking helpers ───────────────────────────────────────────────────
 
@@ -86,15 +96,64 @@ function statusColor(order: Order): string {
 }
 
 
+// ─── OfferCard component ──────────────────────────────────────────────────────
+
+function OfferCard({ promo }: { promo: PromoCode }) {
+  const [copied, setCopied] = useState(false)
+
+  function copyCode() {
+    navigator.clipboard.writeText(promo.code).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  const discountLabel = promo.discount_type === 'percentage'
+    ? `${promo.discount_value}% off`
+    : `£${Number(promo.discount_value).toFixed(2)} off`
+
+  return (
+    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 flex items-center justify-between gap-4">
+      <div className="min-w-0">
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="font-mono text-sm font-bold text-white tracking-widest">
+            {promo.code}
+          </span>
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-400">
+            {discountLabel}
+          </span>
+        </div>
+        {Number(promo.min_order_amount) > 0 && (
+          <p className="text-xs text-zinc-500">
+            Min. order £{Number(promo.min_order_amount).toFixed(2)}
+          </p>
+        )}
+      </div>
+      <button
+        onClick={copyCode}
+        className="shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors text-zinc-300"
+      >
+        {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
+        {copied ? 'Copied!' : 'Copy'}
+      </button>
+    </div>
+  )
+}
+
 const ORDER_SELECT = `
   id, status, delivery_status, total_amount, created_at,
   customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes,
+  promo_code_used, discount_applied,
   order_items(id, item_name, quantity, unit_price, extras, removals, notes)
 `
 
 // ─── OrderCard component ──────────────────────────────────────────────────────
 
-function OrderCard({ order, onReorder }: { order: Order; onReorder?: (o: Order) => void }) {
+function OrderCard({ order, onReorder, onPrintReceipt }: {
+  order: Order
+  onReorder?: (o: Order) => void
+  onPrintReceipt?: (o: Order) => void
+}) {
   const failed = order.delivery_status === 'failed'
   const step   = trackingStep(order)
 
@@ -160,20 +219,38 @@ function OrderCard({ order, onReorder }: { order: Order; onReorder?: (o: Order) 
         ))}
       </div>
 
-      {/* Total + Reorder */}
+      {/* Total + Actions */}
       <div className="flex items-center justify-between pt-3 border-t border-zinc-800">
-        <span className="text-sm font-bold text-white">
-          £{Number(order.total_amount).toFixed(2)}
-        </span>
-        {onReorder && (
-          <button
-            onClick={() => onReorder(order)}
-            className="flex items-center gap-1.5 text-xs font-medium text-brand-red hover:text-brand-red/80 transition-colors"
-          >
-            <RefreshCw size={12} />
-            Reorder
-          </button>
-        )}
+        <div>
+          <span className="text-sm font-bold text-white">
+            £{Number(order.total_amount).toFixed(2)}
+          </span>
+          {order.promo_code_used && Number(order.discount_applied) > 0 && (
+            <span className="ml-2 text-[10px] text-green-400 font-medium">
+              -{order.promo_code_used} (−£{Number(order.discount_applied).toFixed(2)})
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-3">
+          {onPrintReceipt && (
+            <button
+              onClick={() => onPrintReceipt(order)}
+              className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-300 transition-colors"
+            >
+              <Printer size={12} />
+              Receipt
+            </button>
+          )}
+          {onReorder && (
+            <button
+              onClick={() => onReorder(order)}
+              className="flex items-center gap-1.5 text-xs font-medium text-brand-red hover:text-brand-red/80 transition-colors"
+            >
+              <RefreshCw size={12} />
+              Reorder
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -204,6 +281,10 @@ export default function AccountPage() {
   const [profileSaving, setProfileSaving]   = useState(false)
   const [profileSaved, setProfileSaved]     = useState(false)
   const [profileError, setProfileError]     = useState<string | null>(null)
+
+  // Offers
+  const [offers, setOffers]           = useState<PromoCode[]>([])
+  const [offersLoaded, setOffersLoaded] = useState(false)
 
   // Security
   const [resetSent, setResetSent]       = useState(false)
@@ -238,6 +319,15 @@ export default function AccountPage() {
     setHistoryLoaded(true)
   }
 
+  async function fetchOffers() {
+    const res = await fetch('/api/promo-codes')
+    if (res.ok) {
+      const data = await res.json()
+      setOffers(data)
+    }
+    setOffersLoaded(true)
+  }
+
   async function fetchProfile() {
     setProfileLoading(true)
     const { data } = await supabase
@@ -266,6 +356,7 @@ export default function AccountPage() {
     if (loading) return
     if (tab === 'history' && !historyLoaded) fetchHistory()
     if (tab === 'profile' && !profileLoaded) fetchProfile()
+    if (tab === 'offers'  && !offersLoaded)  fetchOffers()
   }, [tab, loading]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Handlers ─────────────────────────────────────────────────────────────
@@ -282,6 +373,45 @@ export default function AccountPage() {
     }))
     sessionStorage.setItem('pendingCart', JSON.stringify(cart))
     router.push('/checkout')
+  }
+
+  function handlePrintReceipt(order: Order) {
+    const win = window.open('', '_blank')
+    if (!win) return
+    const subtotal = order.order_items.reduce((s, i) => s + i.unit_price * i.quantity, 0)
+    const discount = Number(order.discount_applied) || 0
+    const delivery = Number(order.total_amount) - subtotal + discount
+    const rows = order.order_items.map(i => `
+      <tr>
+        <td style="padding:6px 0;border-bottom:1px solid #eee">${i.quantity}× ${i.item_name}${i.extras?.length ? ` <small style="color:#888">+${i.extras.map(e => e.name).join(', ')}</small>` : ''}</td>
+        <td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right">£${(i.unit_price * i.quantity).toFixed(2)}</td>
+      </tr>`).join('')
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Receipt #${order.id.slice(-6).toUpperCase()}</title>
+      <style>body{font-family:Georgia,serif;max-width:480px;margin:40px auto;color:#1a1a1a;line-height:1.5}
+      h1{font-size:22px;margin:0 0 2px}p{margin:2px 0}table{width:100%;border-collapse:collapse;margin:16px 0}
+      .total{font-weight:bold;font-size:16px}.mono{font-family:monospace;letter-spacing:1px}
+      .footer{margin-top:32px;font-size:11px;color:#999;text-align:center}hr{border:none;border-top:1px solid #ddd;margin:16px 0}
+      @media print{.no-print{display:none}}</style></head><body>
+      <div class="no-print" style="margin-bottom:20px"><button onclick="window.print()" style="padding:8px 20px;cursor:pointer">Print</button></div>
+      <h1>Chicken Time Reigate</h1>
+      <p style="color:#888;font-size:13px">85 High Street, Reigate RH2 9AE</p>
+      <hr>
+      <p><strong>Receipt</strong></p>
+      <p class="mono" style="font-size:13px">#${order.id.slice(-6).toUpperCase()}</p>
+      <p style="font-size:13px;color:#555">${new Date(order.created_at).toLocaleString('en-GB')}</p>
+      ${order.customer_name ? `<p style="font-size:13px">Customer: ${order.customer_name}</p>` : ''}
+      ${order.delivery_address ? `<p style="font-size:13px">Delivery: ${order.delivery_address}</p>` : ''}
+      <hr>
+      <table><tbody>${rows}</tbody></table>
+      <table style="margin-top:0"><tbody>
+        <tr><td style="padding:4px 0;color:#555">Subtotal</td><td style="text-align:right">£${subtotal.toFixed(2)}</td></tr>
+        ${discount > 0 ? `<tr><td style="padding:4px 0;color:#16a34a">Discount (${order.promo_code_used})</td><td style="text-align:right;color:#16a34a">−£${discount.toFixed(2)}</td></tr>` : ''}
+        ${delivery > 0 ? `<tr><td style="padding:4px 0;color:#555">Delivery</td><td style="text-align:right">£${delivery.toFixed(2)}</td></tr>` : ''}
+        <tr class="total"><td style="padding:8px 0;border-top:2px solid #1a1a1a">Total</td><td style="text-align:right;border-top:2px solid #1a1a1a">£${Number(order.total_amount).toFixed(2)}</td></tr>
+      </tbody></table>
+      <div class="footer"><p>Thank you for ordering with Chicken Time Reigate!</p><p>chickentimereigate.co.uk</p></div>
+    </body></html>`)
+    win.document.close()
   }
 
   async function handleSaveProfile() {
@@ -341,8 +471,9 @@ export default function AccountPage() {
   const TABS: { id: Tab; label: string; icon: React.ElementType }[] = [
     { id: 'active',   label: 'Active',   icon: Clock },
     { id: 'history',  label: 'History',  icon: ShoppingBag },
+    { id: 'offers',   label: 'Offers',   icon: Tag },
     { id: 'profile',  label: 'Profile',  icon: UserIcon },
-    { id: 'security', label: 'Security', icon: Shield },
+    { id: 'security', label: 'Account',  icon: Shield },
   ]
 
   return (
@@ -376,7 +507,7 @@ export default function AccountPage() {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-3.5 text-xs font-medium border-b-2 transition-colors flex-1 justify-center ${
+                className={`flex items-center gap-1 px-1.5 py-3.5 text-[10px] font-medium border-b-2 transition-colors flex-1 justify-center ${
                   tab === t.id
                     ? 'border-brand-red text-white'
                     : 'border-transparent text-zinc-500 hover:text-zinc-300'
@@ -450,7 +581,7 @@ export default function AccountPage() {
               </div>
             ) : (
               historyOrders.map(order => (
-                <OrderCard key={order.id} order={order} onReorder={handleReorder} />
+                <OrderCard key={order.id} order={order} onReorder={handleReorder} onPrintReceipt={handlePrintReceipt} />
               ))
             )}
           </div>
@@ -529,6 +660,30 @@ export default function AccountPage() {
                   )}
                 </button>
               </div>
+            )}
+          </div>
+        )}
+
+        {/* ── Offers ────────────────────────────────────────────────────────── */}
+        {tab === 'offers' && (
+          <div className="space-y-4">
+            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+              Your Offers
+            </h2>
+
+            {!offersLoaded ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-5 h-5 text-zinc-600 animate-spin" />
+              </div>
+            ) : offers.length === 0 ? (
+              <div className="text-center py-14">
+                <Tag size={36} className="text-zinc-800 mx-auto mb-3" />
+                <p className="text-sm text-zinc-500">No active offers right now</p>
+              </div>
+            ) : (
+              offers.map(promo => (
+                <OfferCard key={promo.code} promo={promo} />
+              ))
             )}
           </div>
         )}
