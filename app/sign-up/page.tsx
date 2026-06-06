@@ -106,7 +106,7 @@ export default function SignUpPage() {
           </Link>
         </div>
         <div className="relative z-10 flex flex-col gap-8">
-          <Image src="/Logo_v3.png" alt="Chicken Time" width={600} height={600} className="w-72 h-auto drop-shadow-2xl" />
+          <Image src="/Logo_v3-removebg-preview.png" alt="Chicken Time" width={600} height={600} className="w-72 h-auto drop-shadow-2xl" />
           <div>
             <h2 className="font-heading font-black text-white text-5xl leading-tight">
               Join the<br />
