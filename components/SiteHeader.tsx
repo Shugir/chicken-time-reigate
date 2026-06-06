@@ -24,11 +24,11 @@ export function SiteHeader() {
         {/* Logo */}
         <Link href="/" className="flex items-center shrink-0">
           <Image
-            src="/brand-logo.png"
+            src="/chicken-time-logo.png"
             alt="Chicken Time Reigate Logo"
-            width={160}
-            height={40}
-            className="h-10 w-auto"
+            width={700}
+            height={150}
+            className="h-8 w-auto"
           />
         </Link>
 
