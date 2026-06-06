@@ -2,14 +2,14 @@
 source_file: "package.json"
 type: "code"
 community: "Community None"
-location: "L19"
+location: "L18"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# recharts
+# react-hot-toast
 
 ## Connections
 - [[dependencies]] - `contains` [EXTRACTED]

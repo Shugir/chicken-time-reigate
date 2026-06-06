@@ -19,6 +19,7 @@ tags:
 - [[package.json]] - `contains` [EXTRACTED]
 - [[react]] - `contains` [EXTRACTED]
 - [[react-dom]] - `contains` [EXTRACTED]
+- [[react-hot-toast]] - `contains` [EXTRACTED]
 - [[recharts]] - `contains` [EXTRACTED]
 - [[resend]] - `contains` [EXTRACTED]
 - [[stripe]] - `contains` [EXTRACTED]
