@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 679 nodes · 1118 edges · 61 communities (34 shown, 27 thin omitted)
+- 679 nodes · 1120 edges · 61 communities (34 shown, 27 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `664e650b`
+- Built from commit: `9e97c505`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -101,7 +101,7 @@
 
 ### Community 0 - "Community 0"
 Cohesion: 0.1
-Nodes (36): AccountPage(), fmtDate(), Order, OrderCard(), OrderItem, Profile, PromoCode, statusColor() (+28 more)
+Nodes (37): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+29 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.05
@@ -116,8 +116,8 @@ Cohesion: 0.05
 Nodes (21): DOW_LABELS, GET(), GET(), GET(), GET(), POST(), DELETE(), PATCH() (+13 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.48
-Nodes (5): ALL_PERMISSIONS, EMPTY_FORM, StaffForm, StaffMember, StaffPage()
+Cohesion: 0.33
+Nodes (9): Aggregates, Driver, DriverForm, DriversPage(), EMPTY_FORM, fmtGbp(), NAV, STATUS_LABELS (+1 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.1
@@ -180,8 +180,8 @@ Cohesion: 0.67
 Nodes (3): About Page, About Stats Data (STATS), Brand Values Data (VALUES)
 
 ### Community 47 - "Community 47"
-Cohesion: 0.07
-Nodes (29): AdminSidebar(), ALL_NAV, Category, CategoryForm, EMPTY_FORM, DeleteConfirm(), DeliveryPage(), DeliveryZone (+21 more)
+Cohesion: 0.08
+Nodes (25): AdminSidebar(), ALL_NAV, Category, CategoryForm, EMPTY_FORM, DeleteConfirm(), DeliveryPage(), DeliveryZone (+17 more)
 
 ### Community 50 - "Community 50"
 Cohesion: 0.05
@@ -206,7 +206,7 @@ Nodes (45): AddItemModal Component, Admin Page, AvailabilityToggle Component, De
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **174 isolated node(s):** `PromoCode`, `eslintConfig`, `config`, `nextConfig`, `name` (+169 more)
+- **173 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+168 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -223,7 +223,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.142) - this node is a cross-community bridge._
 - **Why does `Extra` connect `Community 1` to `Community 3`?**
   _High betweenness centrality (0.121) - this node is a cross-community bridge._
-- **What connects `PromoCode`, `eslintConfig`, `config` to the rest of the system?**
-  _178 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
+  _177 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.1 - nodes in this community are weakly interconnected._

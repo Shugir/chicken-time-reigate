@@ -1,19 +1,19 @@
 ---
-source_file: "app/admin/page.tsx"
+source_file: "checkout/page.tsx"
 type: "code"
 community: "Community None"
-location: "L29"
+location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# MenuItem
+# page.tsx
 
 ## Connections
-- [[page.tsx_3]] - `contains` [EXTRACTED]
-- [[page.tsx_25]] - `contains` [EXTRACTED]
-- [[page.tsx_26]] - `contains` [EXTRACTED]
+- [[CartItem_1]] - `contains` [EXTRACTED]
+- [[CheckoutPage()]] - `contains` [EXTRACTED]
+- [[DeliveryZone_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

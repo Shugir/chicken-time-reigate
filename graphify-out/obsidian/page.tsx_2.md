@@ -13,10 +13,12 @@ tags:
 
 ## Connections
 - [[AccountPage()]] - `contains` [EXTRACTED]
+- [[OfferCard()]] - `contains` [EXTRACTED]
 - [[Order]] - `contains` [EXTRACTED]
 - [[OrderCard()]] - `contains` [EXTRACTED]
 - [[OrderItem]] - `contains` [EXTRACTED]
 - [[Profile]] - `contains` [EXTRACTED]
+- [[PromoCode]] - `contains` [EXTRACTED]
 - [[TIMELINE]] - `contains` [EXTRACTED]
 - [[Tab]] - `contains` [EXTRACTED]
 - [[fmtDate()_1]] - `contains` [EXTRACTED]
