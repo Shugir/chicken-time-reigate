@@ -16,8 +16,8 @@ export async function PATCH(
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 })
   }
-  if ('discount_amount' in update && isNaN(update.discount_amount as number)) {
-    return NextResponse.json({ error: 'discount_amount must be a number' }, { status: 400 })
+  if ('discount_amount' in update && (isNaN(update.discount_amount as number) || (update.discount_amount as number) < 0)) {
+    return NextResponse.json({ error: 'discount_amount must be a non-negative number' }, { status: 400 })
   }
 
   const { data, error } = await supabaseAdmin
