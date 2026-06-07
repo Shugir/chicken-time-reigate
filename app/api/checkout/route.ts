@@ -3,6 +3,7 @@ import Stripe from 'stripe'
 import { createServerClient } from '@supabase/ssr'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendOrderStatusEmail } from '@/lib/email'
+import { checkStoreStatus, BusinessHours, Holiday } from '@/lib/store-status'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
@@ -35,6 +36,24 @@ export async function POST(request: NextRequest) {
     )
     const { data: { user: authUser } } = await supabaseClient.auth.getUser()
     const userId = authUser?.id ?? null
+
+    // Store status guard
+    const { data: storeSettings } = await supabaseAdmin
+      .from('store_settings')
+      .select('is_accepting_orders, business_hours, holidays')
+      .eq('id', 1)
+      .single()
+    if (storeSettings) {
+      const status = checkStoreStatus(
+        storeSettings.is_accepting_orders ?? true,
+        storeSettings.business_hours as BusinessHours | null,
+        storeSettings.holidays as Holiday[] | null,
+      )
+      if (!status.isOpen) {
+        const msg = ['Store is currently closed.', status.closedUntil].filter(Boolean).join(' ')
+        return NextResponse.json({ error: msg }, { status: 400 })
+      }
+    }
 
     const { items, delivery_fee = 0, postcode, promo_code, redeem_points, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes }: {
       items: CartItem[]
