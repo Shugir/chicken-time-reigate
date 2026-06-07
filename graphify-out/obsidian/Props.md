@@ -1,18 +1,17 @@
 ---
-source_file: "app/admin/drivers/page.tsx"
+source_file: "components/AdminDataTable.tsx"
 type: "code"
 community: "Community None"
-location: "L42"
+location: "L21"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# DriverForm
+# Props
 
 ## Connections
-- [[page.tsx_8]] - `contains` [EXTRACTED]
-- [[page.tsx_35]] - `contains` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -2,7 +2,7 @@
 source_file: "app/admin/loyalty/page.tsx"
 type: "code"
 community: "Community None"
-location: "L22"
+location: "L24"
 tags:
   - graphify/code
   - graphify/EXTRACTED

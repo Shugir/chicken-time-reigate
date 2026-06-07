@@ -2,7 +2,7 @@
 source_file: "app/api/admin/promotions/route.ts"
 type: "code"
 community: "Community None"
-location: "L14"
+location: "L20"
 tags:
   - graphify/code
   - graphify/EXTRACTED

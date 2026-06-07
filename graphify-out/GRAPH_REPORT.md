@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-06-07)
 
 ## Corpus Check
-- 138 files · ~1,783,627 words
+- 139 files · ~1,784,253 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 789 nodes · 1296 edges · 90 communities (45 shown, 45 thin omitted)
+- 794 nodes · 1316 edges · 92 communities (48 shown, 44 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a8b2635a`
+- Built from commit: `f966b25b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -119,7 +119,7 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (90 total, 45 thin omitted)
+## Communities (92 total, 44 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.15
@@ -198,7 +198,7 @@ Cohesion: 0.23
 Nodes (12): menu_items.extras JSONB Column, menu_items.removals JSONB Column, order_items.extras JSONB Column, order_items.notes Column, order_items.removals JSONB Column, Migration: Item Customizations (20260608), Migration: Order Items Customizations (20260613), Migration: Order Items Notes (20260609) (+4 more)
 
 ### Community 56 - "Community 56"
-Cohesion: 0.09
+Cohesion: 0.08
 Nodes (28): CartItem, Extra, POST(), stripe, buildHtml(), EmailOrderData, OrderEmailStatus, sendOrderStatusEmail() (+20 more)
 
 ### Community 61 - "Community 61"
@@ -210,16 +210,20 @@ Cohesion: 0.5
 Nodes (4): Landing Page, Oswald Font (Landing Page), Popular Items Data (POPULAR), Why Choose Us Data (REASONS)
 
 ### Community 68 - "Community 68"
-Cohesion: 0.12
-Nodes (4): GET(), GET(), supabaseAdmin, GET()
+Cohesion: 0.14
+Nodes (6): GET(), GET(), supabaseAdmin, GET(), POST(), GET()
 
 ### Community 69 - "Community 69"
 Cohesion: 0.18
 Nodes (13): API Checkout POST, API: Kitchen Orders [id] Route (PATCH), API: Public Menu Items Route (GET), API: Stripe Webhook Route (POST), CustomerReceipt Print Component, Kitchen Dashboard Page, KitchenTicket Print Component, OrderCard Component (+5 more)
 
+### Community 70 - "Community 70"
+Cohesion: 0.48
+Nodes (5): ALL_PERMISSIONS, EMPTY_FORM, StaffForm, StaffMember, StaffPage()
+
 ### Community 72 - "Community 72"
-Cohesion: 0.05
-Nodes (41): AdminSidebar(), ALL_NAV, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm, EMPTY_FORM (+33 more)
+Cohesion: 0.06
+Nodes (40): AdminSidebar(), ALL_NAV, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm, EMPTY_FORM (+32 more)
 
 ### Community 79 - "Community 79"
 Cohesion: 0.14
@@ -244,9 +248,9 @@ Nodes (4): getStep(), OrderData, STEPS, TrackPage()
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **202 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+197 more)
+- **203 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+198 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **45 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **44 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -255,13 +259,13 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
-- **Why does `supabaseAdmin` connect `Community 68` to `Community 0`, `Community 3`, `Community 70`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 12`, `Community 81`, `Community 18`, `Community 83`, `Community 84`, `Community 56`, `Community 93`, `Community 94`?**
-  _High betweenness centrality (0.156) - this node is a cross-community bridge._
+- **Why does `supabaseAdmin` connect `Community 68` to `Community 0`, `Community 3`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 12`, `Community 81`, `Community 18`, `Community 83`, `Community 84`, `Community 87`, `Community 56`, `Community 89`, `Community 93`, `Community 94`?**
+  _High betweenness centrality (0.155) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 69` to `Community 0`, `Community 82`, `Community 61`, `Community 5`?**
   _High betweenness centrality (0.126) - this node is a cross-community bridge._
 - **Why does `Extra` connect `Community 1` to `Community 0`?**
   _High betweenness centrality (0.116) - this node is a cross-community bridge._
 - **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
-  _206 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _207 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._

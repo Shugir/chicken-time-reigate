@@ -13,7 +13,10 @@ tags:
 
 ## Connections
 - [[AdjustForm_1]] - `contains` [EXTRACTED]
+- [[AdminDataTable()]] - `imports` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
 - [[AuthUser_1]] - `contains` [EXTRACTED]
+- [[Column]] - `imports` [EXTRACTED]
 - [[Driver_2]] - `contains` [EXTRACTED]
 - [[LoyaltyEntry]] - `contains` [EXTRACTED]
 - [[UsersPage()]] - `contains` [EXTRACTED]

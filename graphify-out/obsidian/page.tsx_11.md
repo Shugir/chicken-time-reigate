@@ -12,6 +12,9 @@ tags:
 # page.tsx
 
 ## Connections
+- [[AdminDataTable()]] - `imports` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
+- [[Column]] - `imports` [EXTRACTED]
 - [[DeleteConfirm()_1]] - `contains` [EXTRACTED]
 - [[NAV_4]] - `contains` [EXTRACTED]
 - [[PromoModal()]] - `contains` [EXTRACTED]

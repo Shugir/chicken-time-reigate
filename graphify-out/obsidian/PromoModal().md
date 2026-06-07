@@ -2,7 +2,7 @@
 source_file: "app/admin/promotions/page.tsx"
 type: "code"
 community: "Community None"
-location: "L26"
+location: "L23"
 tags:
   - graphify/code
   - graphify/EXTRACTED

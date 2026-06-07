@@ -180,6 +180,11 @@
   },
   "active": "796242612f467268",
   "lastOpenFiles": [
+    "AdminDataTable().md",
+    "Props.md",
+    "FilterConfig.md",
+    "Column.md",
+    "AdminDataTable.tsx.md",
     "page.tsx_45.md",
     "route.ts_55.md",
     "route.ts_54.md",
@@ -201,11 +206,6 @@
     "getUKNow().md",
     "StoreStatusResult.md",
     "Holiday_1.md",
-    "BusinessHours_2.md",
-    "DayHours_2.md",
-    "DayKey.md",
-    "DAYS.md",
-    "store-status.ts.md",
     "graph.canvas",
     "Untitled 1.canvas",
     "Untitled.canvas"

@@ -13,6 +13,9 @@ tags:
 
 ## Connections
 - [[AdjustForm]] - `contains` [EXTRACTED]
+- [[AdminDataTable()]] - `imports` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
+- [[Column]] - `imports` [EXTRACTED]
 - [[LoyaltyPage()]] - `contains` [EXTRACTED]
 - [[UserBalance]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
