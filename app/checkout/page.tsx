@@ -56,7 +56,7 @@ export default function CheckoutPage() {
   const [confirmDetails, setConfirmDetails]             = useState(false)
   const [confirmDetailsError, setConfirmDetailsError]   = useState(false)
   const [loyaltyBalance, setLoyaltyBalance]             = useState(0)
-  const [useLoyaltyPoints, setUseLoyaltyPoints]         = useState(false)
+  const [pointsToSpend, setPointsToSpend]               = useState(0)
 
   const UK_PHONE_RE = /^(\+44|0044|0)(7\d{9}|[1-9]\d{8,9})$/
   function isValidUKPhone(val: string) {
@@ -95,8 +95,8 @@ export default function CheckoutPage() {
   const subtotal = cartItems.reduce((s, i) => s + i.totalPrice, 0)
   const discount = promoApplied ? promoApplied.discount_amount : 0
   const deliveryFee = zone ? Number(zone.delivery_fee) : 0
-  const maxRedeemPoints = Math.floor(loyaltyBalance / 100) * 100
-  const loyaltyDiscount = useLoyaltyPoints && maxRedeemPoints >= 100 ? maxRedeemPoints / 100 : 0
+  const maxRedeemPoints = Math.floor(Math.min(loyaltyBalance, Math.floor(subtotal * 100)) / 100) * 100
+  const loyaltyDiscount = pointsToSpend / 100
   const total = subtotal - discount - loyaltyDiscount + deliveryFee
 
   async function handleFindAddress() {
@@ -202,7 +202,7 @@ export default function CheckoutPage() {
           customer_name:       customerName.trim(),
           customer_phone:      customerPhone.trim(),
           customer_email:      customerEmail.trim() || null,
-          redeem_points:       useLoyaltyPoints && maxRedeemPoints >= 100 ? maxRedeemPoints : null,
+          redeem_points:       pointsToSpend >= 100 ? pointsToSpend : null,
           delivery_address:    fullAddress,
           delivery_postcode:   postcode.trim().toUpperCase(),
           customer_notes:      customerNotes.trim() || null,
@@ -471,23 +471,36 @@ export default function CheckoutPage() {
         </div>
 
         {/* Loyalty Points */}
-        {loyaltyBalance >= 100 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-            <label className="flex items-center justify-between cursor-pointer gap-4">
+        {loyaltyBalance >= 100 && maxRedeemPoints >= 100 && (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
+            <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-gray-900">Use Loyalty Points</p>
+                <p className="text-sm font-semibold text-gray-900">🍗 Loyalty Points</p>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  You have <span className="font-semibold text-amber-600">{loyaltyBalance.toLocaleString()} pts</span>
-                  {' '}— redeem <span className="font-semibold">{maxRedeemPoints} pts</span> for <span className="font-semibold text-green-600">-£{loyaltyDiscount > 0 ? loyaltyDiscount.toFixed(2) : (maxRedeemPoints / 100).toFixed(2)}</span>
+                  Balance: <span className="font-semibold text-amber-600">{loyaltyBalance.toLocaleString()} pts</span>
+                  {' '}· 100 pts = £1
                 </p>
               </div>
-              <div className="relative shrink-0">
-                <input type="checkbox" className="sr-only" checked={useLoyaltyPoints} onChange={(e) => setUseLoyaltyPoints(e.target.checked)} />
-                <div className={`w-11 h-6 rounded-full transition-colors ${useLoyaltyPoints ? 'bg-brand-red' : 'bg-gray-200'}`}>
-                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${useLoyaltyPoints ? 'translate-x-5' : ''}`} />
-                </div>
-              </div>
-            </label>
+              {pointsToSpend > 0 && (
+                <span className="text-sm font-bold text-green-600">-£{loyaltyDiscount.toFixed(2)}</span>
+              )}
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={maxRedeemPoints}
+              step={100}
+              value={pointsToSpend}
+              onChange={(e) => setPointsToSpend(Number(e.target.value))}
+              className="w-full accent-brand-red cursor-pointer"
+            />
+            <div className="flex justify-between text-xs text-gray-400">
+              <span>0 pts</span>
+              <span className="font-medium text-gray-500">
+                {pointsToSpend > 0 ? `Using ${pointsToSpend.toLocaleString()} pts` : 'Drag to redeem'}
+              </span>
+              <span>{maxRedeemPoints.toLocaleString()} pts</span>
+            </div>
           </div>
         )}
 
@@ -504,7 +517,7 @@ export default function CheckoutPage() {
           )}
           {loyaltyDiscount > 0 && (
             <div className="flex justify-between text-sm text-amber-600">
-              <span>Loyalty Points ({maxRedeemPoints} pts)</span>
+              <span>Loyalty Points ({pointsToSpend.toLocaleString()} pts)</span>
               <span>-£{loyaltyDiscount.toFixed(2)}</span>
             </div>
           )}

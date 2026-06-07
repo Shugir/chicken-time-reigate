@@ -13,15 +13,12 @@ export async function GET(request: NextRequest) {
   const { data: { user } } = await supabaseClient.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { data, error } = await supabaseAdmin
-    .from('loyalty_transactions')
-    .select('id, points, type, note, created_at, order_id')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(30)
+  const [profileRes, txnsRes] = await Promise.all([
+    supabaseAdmin.from('profiles').select('loyalty_points').eq('id', user.id).single(),
+    supabaseAdmin.from('loyalty_transactions').select('id, points, type, note, created_at, order_id')
+      .eq('user_id', user.id).order('created_at', { ascending: false }).limit(30),
+  ])
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-
-  const balance = (data ?? []).reduce((sum, t) => sum + t.points, 0)
-  return NextResponse.json({ balance, transactions: data ?? [] })
+  const balance = profileRes.data?.loyalty_points ?? 0
+  return NextResponse.json({ balance, transactions: txnsRes.data ?? [] })
 }

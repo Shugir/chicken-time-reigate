@@ -5,6 +5,12 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+)
 
 const NAV_LINKS = [
   { label: 'Home',     href: '/' },
@@ -15,14 +21,26 @@ const NAV_LINKS = [
 
 export function SiteHeader() {
   const pathname = usePathname()
-  const [open, setOpen] = useState(false)
-  const [logoUrl, setLogoUrl] = useState<string | null>(null)
+  const [open, setOpen]               = useState(false)
+  const [logoUrl, setLogoUrl]         = useState<string | null>(null)
+  const [isLoggedIn, setIsLoggedIn]   = useState(false)
+  const [loyaltyPoints, setLoyaltyPoints] = useState<number | null>(null)
 
   useEffect(() => {
     fetch('/api/admin/store-settings')
       .then((r) => r.json())
       .then((d) => { if (d.logo_url) setLogoUrl(d.logo_url) })
       .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) return
+      setIsLoggedIn(true)
+      fetch('/api/loyalty/balance').then(async (r) => {
+        if (r.ok) { const d = await r.json(); setLoyaltyPoints(d.balance ?? 0) }
+      })
+    })
   }, [])
 
   return (
@@ -58,21 +76,39 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* Auth UI */}
+        {/* Desktop auth UI */}
         <div className="hidden md:flex items-center gap-2 shrink-0">
-          {/* TODO: replace with <UserProfileButton /> when auth is wired */}
-          <Link
-            href="/sign-in"
-            className="px-4 py-2 text-sm font-semibold text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/[0.08]"
-          >
-            Sign In
-          </Link>
-          <Link
-            href="/sign-up"
-            className="px-4 py-2 text-sm font-bold bg-brand-red hover:bg-red-700 active:bg-red-800 text-white rounded-lg transition-colors shadow-md shadow-red-900/40"
-          >
-            Sign Up
-          </Link>
+          {isLoggedIn && loyaltyPoints !== null && (
+            <Link
+              href="/account"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold hover:bg-amber-500/30 transition-colors"
+            >
+              🍗 {loyaltyPoints.toLocaleString()} pts
+            </Link>
+          )}
+          {isLoggedIn ? (
+            <Link
+              href="/account"
+              className="px-4 py-2 text-sm font-semibold text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/[0.08]"
+            >
+              My Account
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/sign-in"
+                className="px-4 py-2 text-sm font-semibold text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/[0.08]"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/sign-up"
+                className="px-4 py-2 text-sm font-bold bg-brand-red hover:bg-red-700 active:bg-red-800 text-white rounded-lg transition-colors shadow-md shadow-red-900/40"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -104,20 +140,32 @@ export function SiteHeader() {
             </Link>
           ))}
           <div className="flex gap-2 pt-3 border-t border-white/10 mt-3">
-            <Link
-              href="/sign-in"
-              onClick={() => setOpen(false)}
-              className="flex-1 text-center px-4 py-2.5 text-sm font-semibold text-white border border-white/20 rounded-lg hover:bg-white/[0.08] transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/sign-up"
-              onClick={() => setOpen(false)}
-              className="flex-1 text-center px-4 py-2.5 text-sm font-bold bg-brand-red hover:bg-red-700 text-white rounded-lg transition-colors"
-            >
-              Sign Up
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                href="/account"
+                onClick={() => setOpen(false)}
+                className="flex-1 text-center px-4 py-2.5 text-sm font-semibold text-white border border-white/20 rounded-lg hover:bg-white/[0.08] transition-colors"
+              >
+                {loyaltyPoints !== null ? `🍗 ${loyaltyPoints.toLocaleString()} pts · My Account` : 'My Account'}
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/sign-in"
+                  onClick={() => setOpen(false)}
+                  className="flex-1 text-center px-4 py-2.5 text-sm font-semibold text-white border border-white/20 rounded-lg hover:bg-white/[0.08] transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/sign-up"
+                  onClick={() => setOpen(false)}
+                  className="flex-1 text-center px-4 py-2.5 text-sm font-bold bg-brand-red hover:bg-red-700 text-white rounded-lg transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

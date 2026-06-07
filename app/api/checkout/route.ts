@@ -69,17 +69,18 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Loyalty points redemption: 100 pts = £1, must be multiple of 100
+    // Loyalty points redemption: validate vs profiles.loyalty_points (source of truth)
     let pointsDiscountValue = 0
     const pointsToRedeem = redeem_points && userId && redeem_points >= 100
       ? Math.floor(redeem_points / 100) * 100
       : 0
     if (pointsToRedeem > 0) {
-      const { data: txns } = await supabaseAdmin
-        .from('loyalty_transactions')
-        .select('points')
-        .eq('user_id', userId!)
-      const balance = (txns ?? []).reduce((sum, t) => sum + t.points, 0)
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('loyalty_points')
+        .eq('id', userId!)
+        .single()
+      const balance = profile?.loyalty_points ?? 0
       if (balance < pointsToRedeem) {
         return NextResponse.json({ error: 'Insufficient loyalty points' }, { status: 400 })
       }
@@ -144,15 +145,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to save order items' }, { status: 500 })
     }
 
-    // Record loyalty points redemption (non-blocking)
-    if (pointsToRedeem > 0 && userId) {
-      supabaseAdmin.from('loyalty_transactions').insert({
-        user_id:  userId,
-        order_id: order.id,
-        points:   -pointsToRedeem,
-        type:     'redeem',
-        note:     `Redeemed at checkout`,
-      })
+    // Loyalty: earn + redeem atomically via RPC (non-blocking)
+    if (userId) {
+      const pointsEarned = Math.floor(subtotal * 10)
+      if (pointsToRedeem > 0) {
+        supabaseAdmin.rpc('adjust_loyalty', { uid: userId, delta: -pointsToRedeem })
+        supabaseAdmin.from('loyalty_transactions').insert({
+          user_id: userId, order_id: order.id, points: -pointsToRedeem, type: 'redeem', note: 'Redeemed at checkout',
+        })
+      }
+      if (pointsEarned > 0) {
+        supabaseAdmin.rpc('adjust_loyalty', { uid: userId, delta: pointsEarned })
+        supabaseAdmin.from('loyalty_transactions').insert({
+          user_id: userId, order_id: order.id, points: pointsEarned, type: 'earn', note: 'Earned from order',
+        })
+      }
+      if (pointsEarned > 0 || pointsToRedeem > 0) {
+        supabaseAdmin.from('orders').update({
+          points_earned: pointsEarned, points_redeemed: pointsToRedeem,
+        }).eq('id', order.id)
+      }
     }
 
     // Create Stripe checkout session
