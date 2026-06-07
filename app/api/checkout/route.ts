@@ -36,11 +36,12 @@ export async function POST(request: NextRequest) {
     const { data: { user: authUser } } = await supabaseClient.auth.getUser()
     const userId = authUser?.id ?? null
 
-    const { items, delivery_fee = 0, postcode, promo_code, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes }: {
+    const { items, delivery_fee = 0, postcode, promo_code, redeem_points, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes }: {
       items: CartItem[]
       delivery_fee?: number
       postcode?: string
       promo_code?: string | null
+      redeem_points?: number | null
       customer_name?: string
       customer_phone?: string
       customer_email?: string
@@ -53,7 +54,6 @@ export async function POST(request: NextRequest) {
     const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)
 
     let discountAmount = 0
-    let stripeCouponId: string | undefined
     if (promo_code) {
       const { data: promo } = await supabaseAdmin
         .from('promotions')
@@ -66,18 +66,39 @@ export async function POST(request: NextRequest) {
         discountAmount = promo.discount_type === 'percentage'
           ? Math.round(subtotal * (Number(promo.discount_value) / 100) * 100) / 100
           : Math.min(Number(promo.discount_value), subtotal)
-
-        const coupon = await stripe.coupons.create({
-          amount_off: Math.round(discountAmount * 100),
-          currency: 'gbp',
-          duration: 'once',
-          name: promo_code.trim().toUpperCase(),
-        })
-        stripeCouponId = coupon.id
       }
     }
 
-    const total = subtotal - discountAmount + delivery_fee
+    // Loyalty points redemption: 100 pts = £1, must be multiple of 100
+    let pointsDiscountValue = 0
+    const pointsToRedeem = redeem_points && userId && redeem_points >= 100
+      ? Math.floor(redeem_points / 100) * 100
+      : 0
+    if (pointsToRedeem > 0) {
+      const { data: txns } = await supabaseAdmin
+        .from('loyalty_transactions')
+        .select('points')
+        .eq('user_id', userId!)
+      const balance = (txns ?? []).reduce((sum, t) => sum + t.points, 0)
+      if (balance < pointsToRedeem) {
+        return NextResponse.json({ error: 'Insufficient loyalty points' }, { status: 400 })
+      }
+      pointsDiscountValue = pointsToRedeem / 100
+    }
+
+    const totalDiscountForStripe = discountAmount + pointsDiscountValue
+    let stripeCouponId: string | undefined
+    if (totalDiscountForStripe > 0) {
+      const coupon = await stripe.coupons.create({
+        amount_off: Math.round(totalDiscountForStripe * 100),
+        currency:   'gbp',
+        duration:   'once',
+        name:       [promo_code?.trim().toUpperCase(), pointsToRedeem ? `${pointsToRedeem}pts` : ''].filter(Boolean).join('+') || 'Discount',
+      })
+      stripeCouponId = coupon.id
+    }
+
+    const total = subtotal - discountAmount - pointsDiscountValue + delivery_fee
 
     // Insert pending order
     const { data: order, error: orderError } = await supabaseAdmin
@@ -121,6 +142,17 @@ export async function POST(request: NextRequest) {
     if (itemsError) {
       console.error('Supabase order_items insert error:', itemsError)
       return NextResponse.json({ error: 'Failed to save order items' }, { status: 500 })
+    }
+
+    // Record loyalty points redemption (non-blocking)
+    if (pointsToRedeem > 0 && userId) {
+      supabaseAdmin.from('loyalty_transactions').insert({
+        user_id:  userId,
+        order_id: order.id,
+        points:   -pointsToRedeem,
+        type:     'redeem',
+        note:     `Redeemed at checkout`,
+      })
     }
 
     // Create Stripe checkout session

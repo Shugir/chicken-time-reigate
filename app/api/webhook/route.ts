@@ -33,6 +33,26 @@ export async function POST(req: Request) {
         .update({ status: 'preparing' })
         .eq('id', orderId)
         .eq('status', 'pending')
+
+      // Earn loyalty points: 10 pts per £1 of order total
+      const { data: order } = await supabaseAdmin
+        .from('orders')
+        .select('user_id, total_amount')
+        .eq('id', orderId)
+        .single()
+
+      if (order?.user_id) {
+        const earned = Math.floor(Number(order.total_amount) * 10)
+        if (earned > 0) {
+          await supabaseAdmin.from('loyalty_transactions').insert({
+            user_id:  order.user_id,
+            order_id: orderId,
+            points:   earned,
+            type:     'earn',
+            note:     `Earned from order ${orderId.slice(0, 8)}`,
+          })
+        }
+      }
     }
   }
 

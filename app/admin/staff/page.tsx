@@ -26,6 +26,7 @@ const ALL_PERMISSIONS = [
   { key: 'DispatchController', label: 'Dispatch Controller', desc: 'Manage out-for-delivery orders' },
   { key: 'Driver',           label: 'Driver',             desc: 'Access the driver delivery dashboard' },
   { key: 'UserControl',      label: 'User Control',       desc: 'Manage staff accounts and permissions' },
+  { key: 'Loyalty',          label: 'Loyalty Points',     desc: 'View and adjust customer loyalty balances' },
 ]
 
 interface StaffForm {
