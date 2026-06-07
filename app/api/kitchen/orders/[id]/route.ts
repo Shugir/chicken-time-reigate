@@ -9,6 +9,16 @@ export async function PATCH(
   const { id } = await params
   const { status, driver_id, delivery_status } = await request.json()
 
+  // Fetch current driver when we need to manage driver status transitions
+  const needsDriverLookup =
+    status === 'preparing' || // revert: must free old driver
+    (driver_id !== undefined && status === undefined) // reassign: swap old → new
+  let oldDriverId: string | null = null
+  if (needsDriverLookup) {
+    const { data } = await supabaseAdmin.from('orders').select('driver_id').eq('id', id).single()
+    oldDriverId = data?.driver_id ?? null
+  }
+
   const updates: Record<string, unknown> = {}
   if (status          !== undefined) updates.status          = status
   if (driver_id       !== undefined) updates.driver_id       = driver_id
@@ -23,17 +33,24 @@ export async function PATCH(
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // When dispatching with a driver, mark driver as on_delivery
-  if (status === 'dispatched' && driver_id) {
-    await supabaseAdmin
-      .from('drivers')
-      .update({ status: 'on_delivery' })
-      .eq('id', driver_id)
+  // Driver status management
+  if (status === 'preparing' && oldDriverId) {
+    // Revert to prep: free the previously assigned driver
+    await supabaseAdmin.from('drivers').update({ status: 'available' }).eq('id', oldDriverId)
+  } else if (status === 'dispatched' && driver_id) {
+    // Initial dispatch: mark driver on_delivery
+    await supabaseAdmin.from('drivers').update({ status: 'on_delivery' }).eq('id', driver_id)
+  } else if (driver_id !== undefined && driver_id !== null && status === undefined) {
+    // Reassignment: free old driver, assign new
+    if (oldDriverId && oldDriverId !== driver_id) {
+      await supabaseAdmin.from('drivers').update({ status: 'available' }).eq('id', oldDriverId)
+    }
+    await supabaseAdmin.from('drivers').update({ status: 'on_delivery' }).eq('id', driver_id)
   }
 
-  // Fire status emails (non-blocking)
-  const emailStatus = status === 'preparing' ? 'cooking'
-    : (status === 'dispatched' || delivery_status === 'out_for_delivery') ? 'out_for_delivery'
+  // Fire status emails — skip revert (preparing) and reassign-only patches
+  const emailStatus = status === 'dispatched' ? 'out_for_delivery'
+    : delivery_status === 'out_for_delivery' ? 'out_for_delivery'
     : null
 
   if (emailStatus && updatedOrder?.user_id) {

@@ -7,7 +7,7 @@ import { usePermissions } from '@/components/admin/permissions-provider'
 import { createClient } from '@supabase/supabase-js'
 import {
   ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer,
-  ArrowLeft, LogOut, Truck, AlertCircle, PackageCheck, MapPin, Phone, MessageSquare, User,
+  ArrowLeft, LogOut, Truck, AlertCircle, AlertTriangle, PackageCheck, MapPin, Phone, MessageSquare, User,
 } from 'lucide-react'
 
 import {
@@ -88,6 +88,7 @@ function OrderCard({
   updating,
   onReprintKitchen,
   onReprintCustomer,
+  onSendBackToPrep,
 }: {
   order: Order
   onAction?: () => void
@@ -96,6 +97,7 @@ function OrderCard({
   updating: boolean
   onReprintKitchen: () => void
   onReprintCustomer: () => void
+  onSendBackToPrep?: () => void
 }) {
   const [, setTick] = useState(0)
   useEffect(() => {
@@ -209,6 +211,18 @@ function OrderCard({
           ) : (
             <><CheckCircle size={18} />{actionLabel}</>
           )}
+        </button>
+      )}
+
+      {/* Send Back to Prep */}
+      {onSendBackToPrep && (
+        <button
+          onClick={onSendBackToPrep}
+          disabled={updating}
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 text-sm font-black border border-amber-500/20 transition-colors disabled:opacity-50"
+        >
+          <AlertTriangle size={14} />
+          ⚠️ Send Back to Prep
         </button>
       )}
 
@@ -466,9 +480,10 @@ export default function KitchenDashboard() {
   const [failReason, setFailReason]             = useState('')
 
   // Driver select modal
-  const [driverModalOrder, setDriverModalOrder] = useState<Order | null>(null)
-  const [availableDrivers, setAvailableDrivers] = useState<Driver[]>([])
-  const [driversLoading, setDriversLoading]     = useState(false)
+  const [driverModalOrder, setDriverModalOrder]         = useState<Order | null>(null)
+  const [reassignDispatchOrder, setReassignDispatchOrder] = useState<DispatchOrder | null>(null)
+  const [availableDrivers, setAvailableDrivers]         = useState<Driver[]>([])
+  const [driversLoading, setDriversLoading]             = useState(false)
 
   // Print
   const [now, setNow]                 = useState(new Date())
@@ -581,6 +596,50 @@ export default function KitchenDashboard() {
     const res = await fetch('/api/drivers')
     if (res.ok) setAvailableDrivers(await res.json())
     setDriversLoading(false)
+  }
+
+  async function openReassignModal(order: DispatchOrder) {
+    setReassignDispatchOrder(order)
+    setDriversLoading(true)
+    const res = await fetch('/api/drivers')
+    if (res.ok) setAvailableDrivers(await res.json())
+    setDriversLoading(false)
+  }
+
+  async function handleReassign(driver: Driver) {
+    if (!reassignDispatchOrder) return
+    const order = reassignDispatchOrder
+    setReassignDispatchOrder(null)
+    setDispatchUpdating(order.id)
+    await fetch(`/api/kitchen/orders/${order.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ driver_id: driver.id }),
+    })
+    setDispatchUpdating(null)
+    fetchDispatchOrders()
+  }
+
+  async function sendBackToPrep(id: string) {
+    setUpdating(id)
+    await fetch(`/api/kitchen/orders/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'preparing', driver_id: null, delivery_status: null }),
+    })
+    setUpdating(null)
+    fetchOrders()
+  }
+
+  async function sendBackToPrepFromDispatch(order: DispatchOrder) {
+    setDispatchUpdating(order.id)
+    await fetch(`/api/kitchen/orders/${order.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'preparing', driver_id: null, delivery_status: null }),
+    })
+    setDispatchUpdating(null)
+    await Promise.all([fetchOrders(), fetchDispatchOrders()])
   }
 
   async function handleDispatch(driver: Driver) {
@@ -795,6 +854,7 @@ export default function KitchenDashboard() {
                       updating={updating === order.id}
                       onReprintKitchen={() => triggerReprint(order, 'kitchen')}
                       onReprintCustomer={() => triggerReprint(order, 'customer')}
+                      onSendBackToPrep={() => sendBackToPrep(order.id)}
                     />
                   ))
                 )}
@@ -903,18 +963,30 @@ export default function KitchenDashboard() {
                       </div>
                     )}
 
-                    {/* Driver */}
-                    {order.drivers && (
-                      <div className="flex items-center gap-2 bg-white/5 rounded-xl px-3 py-2">
-                        <Truck size={14} className="text-sky-400 shrink-0" />
-                        <div>
-                          <p className="text-sm font-bold text-white leading-none">{order.drivers.name}</p>
-                          {order.drivers.phone && (
-                            <p className="text-xs text-white/40 mt-0.5">{order.drivers.phone}</p>
-                          )}
-                        </div>
+                    {/* Driver — with reassign */}
+                    <div className="flex items-center gap-2 bg-white/5 rounded-xl px-3 py-2">
+                      <Truck size={14} className="text-sky-400 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        {order.drivers ? (
+                          <>
+                            <p className="text-sm font-bold text-white leading-none">{order.drivers.name}</p>
+                            {order.drivers.phone && (
+                              <p className="text-xs text-white/40 mt-0.5">{order.drivers.phone}</p>
+                            )}
+                          </>
+                        ) : (
+                          <p className="text-sm text-white/40 italic">No driver assigned</p>
+                        )}
                       </div>
-                    )}
+                      <button
+                        onClick={() => openReassignModal(order)}
+                        disabled={dispatchUpdating === order.id}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-400 text-xs font-bold transition-colors disabled:opacity-50 shrink-0"
+                      >
+                        <RefreshCw size={11} />
+                        Reassign
+                      </button>
+                    </div>
 
                     {/* Items summary */}
                     <div className="border-t border-white/10 pt-3 space-y-1">
@@ -938,26 +1010,36 @@ export default function KitchenDashboard() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-2">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleDelivered(order)}
+                          disabled={dispatchUpdating === order.id}
+                          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-black transition-colors disabled:opacity-50"
+                        >
+                          {dispatchUpdating === order.id ? (
+                            <RefreshCw size={14} className="animate-spin" />
+                          ) : (
+                            <PackageCheck size={14} />
+                          )}
+                          Delivered
+                        </button>
+                        <button
+                          onClick={() => { setFailModalOrder(order); setFailReason('') }}
+                          disabled={dispatchUpdating === order.id}
+                          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 text-sm font-black transition-colors disabled:opacity-50"
+                        >
+                          <AlertCircle size={14} />
+                          Failed
+                        </button>
+                      </div>
                       <button
-                        onClick={() => handleDelivered(order)}
+                        onClick={() => sendBackToPrepFromDispatch(order)}
                         disabled={dispatchUpdating === order.id}
-                        className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-black transition-colors disabled:opacity-50"
+                        className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 text-sm font-black border border-amber-500/20 transition-colors disabled:opacity-50"
                       >
-                        {dispatchUpdating === order.id ? (
-                          <RefreshCw size={14} className="animate-spin" />
-                        ) : (
-                          <PackageCheck size={14} />
-                        )}
-                        Delivered
-                      </button>
-                      <button
-                        onClick={() => { setFailModalOrder(order); setFailReason('') }}
-                        disabled={dispatchUpdating === order.id}
-                        className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 text-sm font-black transition-colors disabled:opacity-50"
-                      >
-                        <AlertCircle size={14} />
-                        Failed
+                        <AlertTriangle size={14} />
+                        ⚠️ Send Back to Prep
                       </button>
                     </div>
                   </div>
@@ -973,74 +1055,80 @@ export default function KitchenDashboard() {
       {printOrder && printMode === 'kitchen'  && <KitchenTicket order={printOrder} />}
       {printOrder && printMode === 'customer' && <CustomerReceipt order={printOrder} />}
 
-      {/* ── Driver Select Modal ── */}
-      {driverModalOrder && (
-        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#1a1a1a] border border-white/15 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
-            <div className="flex items-center justify-between mb-5">
-              <div>
-                <p className="font-black text-white text-base">Select Driver</p>
-                <p className="text-xs text-white/40 mt-0.5">
-                  Order #{driverModalOrder.id.slice(-6).toUpperCase()}
-                </p>
+      {/* ── Driver Select / Reassign Modal ── */}
+      {(driverModalOrder || reassignDispatchOrder) && (() => {
+        const isReassign = reassignDispatchOrder !== null
+        const activeOrderId = driverModalOrder?.id ?? reassignDispatchOrder!.id
+        const closeModal = () => { setDriverModalOrder(null); setReassignDispatchOrder(null) }
+        const selectDriver = (driver: Driver) => isReassign ? handleReassign(driver) : handleDispatch(driver)
+        return (
+          <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/70 backdrop-blur-sm">
+            <div className="bg-[#1a1a1a] border border-white/15 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <p className="font-black text-white text-base">{isReassign ? 'Reassign Driver' : 'Select Driver'}</p>
+                  <p className="text-xs text-white/40 mt-0.5">
+                    Order #{activeOrderId.slice(-6).toUpperCase()}
+                  </p>
+                </div>
+                <button
+                  onClick={closeModal}
+                  className="p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  ✕
+                </button>
               </div>
+
+              {driversLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <RefreshCw size={20} className="text-white/30 animate-spin" />
+                </div>
+              ) : availableDrivers.length === 0 ? (
+                <div className="text-center py-8">
+                  <Truck size={32} className="text-white/20 mx-auto mb-2" />
+                  <p className="text-white/40 text-sm">No active drivers</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {availableDrivers.map((driver) => {
+                    const load = driver.active_orders ?? 0
+                    const loadColor = load === 0 ? 'bg-emerald-500' : load === 1 ? 'bg-amber-500' : 'bg-red-500'
+                    const loadLabel = load === 0 ? 'Available' : `${load} active`
+                    return (
+                      <button
+                        key={driver.id}
+                        onClick={() => selectDriver(driver)}
+                        className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-sky-500/30 transition-all text-left group"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-sky-500/20 flex items-center justify-center shrink-0 group-hover:bg-sky-500/30 transition-colors">
+                          <Truck size={16} className="text-sky-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-white text-sm">{driver.name}</p>
+                          {driver.phone && (
+                            <p className="text-xs text-white/40">{driver.phone}</p>
+                          )}
+                        </div>
+                        <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold text-white ${loadColor}`}>
+                          <span className="w-1.5 h-1.5 rounded-full bg-white/60" />
+                          {loadLabel}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+
               <button
-                onClick={() => setDriverModalOrder(null)}
-                className="p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/10 transition-colors"
+                onClick={closeModal}
+                className="w-full mt-4 py-2.5 rounded-xl border border-white/10 text-white/40 hover:text-white text-sm font-bold transition-colors"
               >
-                ✕
+                Cancel
               </button>
             </div>
-
-            {driversLoading ? (
-              <div className="flex items-center justify-center py-8">
-                <RefreshCw size={20} className="text-white/30 animate-spin" />
-              </div>
-            ) : availableDrivers.length === 0 ? (
-              <div className="text-center py-8">
-                <Truck size={32} className="text-white/20 mx-auto mb-2" />
-                <p className="text-white/40 text-sm">No active drivers</p>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {availableDrivers.map((driver) => {
-                  const load = driver.active_orders ?? 0
-                  const loadColor = load === 0 ? 'bg-emerald-500' : load === 1 ? 'bg-amber-500' : 'bg-red-500'
-                  const loadLabel = load === 0 ? 'Available' : `${load} active`
-                  return (
-                    <button
-                      key={driver.id}
-                      onClick={() => handleDispatch(driver)}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-sky-500/30 transition-all text-left group"
-                    >
-                      <div className="w-9 h-9 rounded-xl bg-sky-500/20 flex items-center justify-center shrink-0 group-hover:bg-sky-500/30 transition-colors">
-                        <Truck size={16} className="text-sky-400" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-bold text-white text-sm">{driver.name}</p>
-                        {driver.phone && (
-                          <p className="text-xs text-white/40">{driver.phone}</p>
-                        )}
-                      </div>
-                      <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold text-white ${loadColor}`}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-white/60" />
-                        {loadLabel}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-            )}
-
-            <button
-              onClick={() => setDriverModalOrder(null)}
-              className="w-full mt-4 py-2.5 rounded-xl border border-white/10 text-white/40 hover:text-white text-sm font-bold transition-colors"
-            >
-              Cancel
-            </button>
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* ── Fail Reason Modal ── */}
       {failModalOrder && (
