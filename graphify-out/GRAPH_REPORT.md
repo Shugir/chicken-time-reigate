@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-06-07)
 
 ## Corpus Check
-- 127 files · ~1,778,879 words
+- 133 files · ~1,780,691 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 736 nodes · 1217 edges · 82 communities (37 shown, 45 thin omitted)
+- 752 nodes · 1238 edges · 83 communities (36 shown, 47 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `43d29c01`
+- Built from commit: `a461a2ab`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,6 +33,7 @@
 - [[_COMMUNITY_Community 15|Community 15]]
 - [[_COMMUNITY_Community 16|Community 16]]
 - [[_COMMUNITY_Community 17|Community 17]]
+- [[_COMMUNITY_Community 18|Community 18]]
 - [[_COMMUNITY_Community 19|Community 19]]
 - [[_COMMUNITY_Community 20|Community 20]]
 - [[_COMMUNITY_Community 21|Community 21]]
@@ -49,6 +50,7 @@
 - [[_COMMUNITY_Community 37|Community 37]]
 - [[_COMMUNITY_Community 38|Community 38]]
 - [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 42|Community 42]]
 - [[_COMMUNITY_Community 43|Community 43]]
 - [[_COMMUNITY_Community 44|Community 44]]
 - [[_COMMUNITY_Community 45|Community 45]]
@@ -59,6 +61,7 @@
 - [[_COMMUNITY_Community 50|Community 50]]
 - [[_COMMUNITY_Community 51|Community 51]]
 - [[_COMMUNITY_Community 52|Community 52]]
+- [[_COMMUNITY_Community 53|Community 53]]
 - [[_COMMUNITY_Community 54|Community 54]]
 - [[_COMMUNITY_Community 55|Community 55]]
 - [[_COMMUNITY_Community 56|Community 56]]
@@ -72,14 +75,12 @@
 - [[_COMMUNITY_Community 68|Community 68]]
 - [[_COMMUNITY_Community 69|Community 69]]
 - [[_COMMUNITY_Community 70|Community 70]]
-- [[_COMMUNITY_Community 72|Community 72]]
 - [[_COMMUNITY_Community 73|Community 73]]
 - [[_COMMUNITY_Community 74|Community 74]]
 - [[_COMMUNITY_Community 75|Community 75]]
 - [[_COMMUNITY_Community 76|Community 76]]
 - [[_COMMUNITY_Community 77|Community 77]]
 - [[_COMMUNITY_Community 78|Community 78]]
-- [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 81|Community 81]]
 - [[_COMMUNITY_Community 83|Community 83]]
 - [[_COMMUNITY_Community 84|Community 84]]
@@ -88,9 +89,9 @@
 - [[_COMMUNITY_Community 88|Community 88]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `supabaseAdmin` - 54 edges
-2. `getUserPermissions` - 33 edges
-3. `hasPermission()` - 28 edges
+1. `supabaseAdmin` - 56 edges
+2. `getUserPermissions` - 35 edges
+3. `hasPermission()` - 30 edges
 4. `compilerOptions` - 16 edges
 5. `graph.json (177 nodes, 173 edges, 30 communities)` - 16 edges
 6. `DB Table: menu_items` - 15 edges
@@ -116,7 +117,7 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (82 total, 45 thin omitted)
+## Communities (83 total, 47 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.22
@@ -135,12 +136,12 @@ Cohesion: 0.3
 Nodes (3): DELETE(), PATCH(), supabaseAdmin
 
 ### Community 4 - "Community 4"
-Cohesion: 0.3
-Nodes (10): Aggregates, AuthUser, Driver, DriverForm, DriversPage(), EMPTY_FORM, fmtGbp(), NAV (+2 more)
+Cohesion: 0.1
+Nodes (26): AnalyticsData, AnalyticsPage(), CHART_THEME, DailyPoint, DowPoint, fmtGbp(), HourlyPoint, PERIODS (+18 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.14
-Nodes (25): Delivery, Driver, DriverLedgerPage(), fmtGbp(), LedgerData, Payout, toDateStr(), CustomerReceipt() (+17 more)
+Cohesion: 0.48
+Nodes (5): ALL_PERMISSIONS, EMPTY_FORM, StaffForm, StaffMember, StaffPage()
 
 ### Community 6 - "Community 6"
 Cohesion: 0.13
@@ -159,12 +160,12 @@ Cohesion: 0.26
 Nodes (10): geistMono, geistSans, HOURS, inter, metadata, QUICK_LINKS, RootLayout(), NewsletterForm() (+2 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.1
-Nodes (27): AnalyticsData, AnalyticsPage(), CHART_THEME, DailyPoint, DowPoint, fmtGbp(), HourlyPoint, PERIODS (+19 more)
+Cohesion: 0.09
+Nodes (41): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+33 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.14
-Nodes (16): AdminLayout(), AnalyticsLayout(), CategoriesLayout(), DashboardLayout(), DeliveryLayout(), DriversLayout(), KitchenLayout(), getUserPermissions (+8 more)
+Nodes (17): AdminLayout(), AnalyticsLayout(), CategoriesLayout(), DashboardLayout(), DeliveryLayout(), DriversLayout(), KitchenLayout(), getUserPermissions (+9 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.29
@@ -195,8 +196,8 @@ Cohesion: 0.67
 Nodes (3): About Page, About Stats Data (STATS), Brand Values Data (VALUES)
 
 ### Community 47 - "Community 47"
-Cohesion: 0.06
-Nodes (31): AdminSidebar(), ALL_NAV, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm, EMPTY_FORM (+23 more)
+Cohesion: 0.05
+Nodes (38): AdminSidebar(), ALL_NAV, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm, EMPTY_FORM (+30 more)
 
 ### Community 50 - "Community 50"
 Cohesion: 0.05
@@ -209,10 +210,6 @@ Nodes (9): CartItem, Extra, POST(), stripe, buildHtml(), EmailOrderData, OrderEm
 ### Community 61 - "Community 61"
 Cohesion: 0.06
 Nodes (51): AddItemModal Component, Admin Page, AvailabilityToggle Component, DeleteConfirmModal Component, PriceCell Component, API: Admin Menu Items [id] Route (PATCH/DELETE), API: Admin Menu Items Route (GET/POST), API Checkout POST (+43 more)
-
-### Community 72 - "Community 72"
-Cohesion: 0.25
-Nodes (15): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+7 more)
 
 ### Community 81 - "Community 81"
 Cohesion: 0.5
@@ -229,9 +226,9 @@ Nodes (4): getStep(), OrderData, STEPS, TrackPage()
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **181 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+176 more)
+- **186 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+181 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **45 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **47 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -240,13 +237,13 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
-- **Why does `supabaseAdmin` connect `Community 3` to `Community 0`, `Community 68`, `Community 69`, `Community 70`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 12`, `Community 83`, `Community 84`, `Community 56`?**
-  _High betweenness centrality (0.155) - this node is a cross-community bridge._
+- **Why does `supabaseAdmin` connect `Community 3` to `Community 0`, `Community 68`, `Community 69`, `Community 70`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 12`, `Community 18`, `Community 83`, `Community 84`, `Community 56`?**
+  _High betweenness centrality (0.159) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 61` to `Community 0`, `Community 50`?**
-  _High betweenness centrality (0.133) - this node is a cross-community bridge._
+  _High betweenness centrality (0.131) - this node is a cross-community bridge._
 - **Why does `Extra` connect `Community 1` to `Community 0`?**
-  _High betweenness centrality (0.128) - this node is a cross-community bridge._
+  _High betweenness centrality (0.127) - this node is a cross-community bridge._
 - **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
-  _185 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _190 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._

@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/promotions/layout.tsx"
+source_file: "app/admin/loyalty/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[PromotionsLayout()]] - `contains` [EXTRACTED]
+- [[LoyaltyLayout()]] - `contains` [EXTRACTED]
 - [[access-denied.tsx]] - `imports_from` [EXTRACTED]
 - [[get-user-permissions.ts]] - `imports_from` [EXTRACTED]
 - [[getUserPermissions]] - `imports` [EXTRACTED]

@@ -12,8 +12,8 @@ tags:
 # CompactListItem()
 
 ## Connections
-- [[page.tsx_21]] - `contains` [EXTRACTED]
-- [[page.tsx_28]] - `contains` [EXTRACTED]
-- [[page.tsx_39]] - `contains` [EXTRACTED]
+- [[page.tsx_22]] - `contains` [EXTRACTED]
+- [[page.tsx_29]] - `contains` [EXTRACTED]
+- [[page.tsx_40]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

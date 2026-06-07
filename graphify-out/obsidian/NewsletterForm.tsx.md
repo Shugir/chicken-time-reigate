@@ -14,6 +14,6 @@ tags:
 ## Connections
 - [[NewsletterForm()]] - `contains` [EXTRACTED]
 - [[layout.tsx]] - `imports_from` [EXTRACTED]
-- [[layout.tsx_12]] - `imports` [EXTRACTED]
+- [[layout.tsx_13]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

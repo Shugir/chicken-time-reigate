@@ -1,5 +1,5 @@
 ---
-source_file: "admin/drivers/layout.tsx"
+source_file: "admin/delivery/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[DriversLayout()]] - `contains` [EXTRACTED]
+- [[DeliveryLayout()]] - `contains` [EXTRACTED]
 - [[getUserPermissions]] - `imports` [EXTRACTED]
 - [[hasPermission()]] - `imports` [EXTRACTED]
 

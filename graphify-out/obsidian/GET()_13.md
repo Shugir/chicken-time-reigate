@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/kitchen/orders/route.ts"
+source_file: "app/api/auth/role/route.ts"
 type: "code"
 community: "Community None"
-location: "L6"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,9 +12,8 @@ tags:
 # GET()
 
 ## Connections
-- [[route.ts_23]] - `contains` [EXTRACTED]
-- [[route.ts_28]] - `contains` [EXTRACTED]
-- [[route.ts_39]] - `contains` [EXTRACTED]
+- [[route.ts_20]] - `contains` [EXTRACTED]
+- [[route.ts_41]] - `contains` [EXTRACTED]
 - [[route.ts_42]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

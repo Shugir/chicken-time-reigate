@@ -12,7 +12,7 @@ tags:
 # supabase
 
 ## Connections
-- [[page.tsx_16]] - `contains` [EXTRACTED]
-- [[page.tsx_28]] - `contains` [EXTRACTED]
+- [[page.tsx_17]] - `contains` [EXTRACTED]
+- [[page.tsx_29]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

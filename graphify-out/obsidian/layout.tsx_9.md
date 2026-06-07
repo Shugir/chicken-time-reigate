@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/staff/layout.tsx"
+source_file: "app/admin/settings/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[StaffLayout()]] - `contains` [EXTRACTED]
+- [[SettingsLayout()]] - `contains` [EXTRACTED]
 - [[access-denied.tsx]] - `imports_from` [EXTRACTED]
 - [[get-user-permissions.ts]] - `imports_from` [EXTRACTED]
 - [[getUserPermissions]] - `imports` [EXTRACTED]

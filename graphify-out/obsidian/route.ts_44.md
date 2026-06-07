@@ -1,5 +1,5 @@
 ---
-source_file: "api/admin/drivers/[id]/route.ts"
+source_file: "api/driver/orders/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[DELETE()]] - `contains` [EXTRACTED]
-- [[PATCH()]] - `contains` [EXTRACTED]
+- [[GET()_14]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
