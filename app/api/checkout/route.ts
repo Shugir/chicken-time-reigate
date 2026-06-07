@@ -36,13 +36,14 @@ export async function POST(request: NextRequest) {
     const { data: { user: authUser } } = await supabaseClient.auth.getUser()
     const userId = authUser?.id ?? null
 
-    const { items, delivery_fee = 0, postcode, promo_code, customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes }: {
+    const { items, delivery_fee = 0, postcode, promo_code, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes }: {
       items: CartItem[]
       delivery_fee?: number
       postcode?: string
       promo_code?: string | null
       customer_name?: string
       customer_phone?: string
+      customer_email?: string
       delivery_address?: string
       delivery_postcode?: string
       customer_notes?: string | null
@@ -90,6 +91,7 @@ export async function POST(request: NextRequest) {
         delivery_address:    delivery_address    ?? null,
         delivery_postcode:   delivery_postcode   ?? postcode ?? null,
         customer_notes:      customer_notes      ?? null,
+        customer_email:      customer_email      ?? authUser?.email ?? null,
         promo_code_used:     discountAmount > 0 ? (promo_code?.trim().toUpperCase() ?? null) : null,
         discount_applied:    discountAmount,
       })

@@ -43,6 +43,7 @@ export default function CheckoutPage() {
   const [promoLoading, setPromoLoading] = useState(false)
 
   const [customerName, setCustomerName]                 = useState('')
+  const [customerEmail, setCustomerEmail]               = useState('')
   const [customerPhone, setCustomerPhone]               = useState('')
   const [phoneError, setPhoneError]                     = useState<string | null>(null)
   const [addressLine1, setAddressLine1]                 = useState('')
@@ -80,6 +81,7 @@ export default function CheckoutPage() {
         if (data.phone)     setCustomerPhone(data.phone)
         if (data.address)   setAddressLine1(data.address)
       }
+      if (session.user.email) setCustomerEmail(session.user.email)
     })
   }, [])
 
@@ -189,6 +191,7 @@ export default function CheckoutPage() {
           promo_code:          promoApplied?.code ?? null,
           customer_name:       customerName.trim(),
           customer_phone:      customerPhone.trim(),
+          customer_email:      customerEmail.trim() || null,
           delivery_address:    fullAddress,
           delivery_postcode:   postcode.trim().toUpperCase(),
           customer_notes:      customerNotes.trim() || null,
@@ -334,6 +337,18 @@ export default function CheckoutPage() {
                   {phoneError}
                 </p>
               )}
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 mb-1">
+                Email Address <span className="text-gray-400 font-normal">(for order tracking)</span>
+              </label>
+              <input
+                type="email"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                placeholder="e.g. john@example.com"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+              />
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 mb-1">Address Line 1 *</label>
