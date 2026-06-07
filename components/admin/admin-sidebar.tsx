@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
-  Truck, Shield, ExternalLink, Layers, TrendingUp,
+  Truck, Shield, ExternalLink, Layers, TrendingUp, Users,
 } from 'lucide-react'
 import SignOutButton from './sign-out-button'
 import { usePermissions } from './permissions-provider'
@@ -20,6 +20,7 @@ const ALL_NAV = [
   { id: 'promotions', label: 'Promotions',       icon: Tag,             href: '/admin/promotions', permission: 'Promotions'    },
   { id: 'drivers',    label: 'Fleet & Drivers',  icon: Truck,           href: '/admin/drivers',    permission: 'Fleet'         },
   { id: 'staff',      label: 'User Control',     icon: Shield,          href: '/admin/staff',      permission: 'UserControl'   },
+  { id: 'users',      label: 'Auth Users',       icon: Users,           href: '/admin/users',      permission: 'UserControl'   },
 ]
 
 export default function AdminSidebar() {

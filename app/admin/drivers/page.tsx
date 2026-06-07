@@ -6,6 +6,7 @@ import {
   Truck, Loader2, Plus, Pencil, X, Check, BookOpen,
   Banknote, TrendingUp, AlertTriangle, Users,
 } from 'lucide-react'
+import toast from 'react-hot-toast'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 
 interface Driver {
@@ -147,7 +148,9 @@ export default function DriversPage() {
           })
       if (!res.ok) {
         const e = await res.json()
-        setSaveError(e.error ?? 'Save failed')
+        const msg = e.error ?? 'Save failed'
+        setSaveError(msg)
+        if (msg.includes('already assigned')) toast.error(msg)
         return
       }
       await fetchDrivers()
