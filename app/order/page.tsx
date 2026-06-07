@@ -393,7 +393,7 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
 function FiltersPopover({
   availableDietaryFlags, selectedFlags, onFlagsChange,
   availableAllergens, excludedAllergens, onExcludedAllergensChange,
-  sortBy, onSortChange, onClose,
+  sortBy, onSortChange, showOffersOnly, onOffersChange, onClose,
 }: {
   availableDietaryFlags: string[]
   selectedFlags: string[]
@@ -403,6 +403,8 @@ function FiltersPopover({
   onExcludedAllergensChange: (allergens: string[]) => void
   sortBy: string
   onSortChange: (sort: string) => void
+  showOffersOnly: boolean
+  onOffersChange: (v: boolean) => void
   onClose: () => void
 }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -415,13 +417,26 @@ function FiltersPopover({
     return () => document.removeEventListener('mousedown', handler)
   }, [onClose])
 
-  const hasFilters = selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default'
+  const hasFilters = selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default' || showOffersOnly
 
   return (
     <div
       ref={ref}
       className="absolute right-0 top-full mt-2 z-50 w-64 bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-zinc-100 p-5 space-y-5"
     >
+      {/* Offers */}
+      <div>
+        <label className="flex items-center gap-2.5 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={showOffersOnly}
+            onChange={() => onOffersChange(!showOffersOnly)}
+            className="w-4 h-4 accent-red-600 rounded"
+          />
+          <span className="text-sm font-semibold text-zinc-700 group-hover:text-zinc-900 transition-colors">🔥 Offers only</span>
+        </label>
+      </div>
+
       {availableDietaryFlags.length > 0 && (
         <div>
           <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Dietary</p>
@@ -494,7 +509,7 @@ function FiltersPopover({
 
       {hasFilters && (
         <button
-          onClick={() => { onFlagsChange([]); onExcludedAllergensChange([]); onSortChange('default') }}
+          onClick={() => { onFlagsChange([]); onExcludedAllergensChange([]); onSortChange('default'); onOffersChange(false) }}
           className="w-full text-center text-xs text-zinc-400 hover:text-zinc-900 font-medium transition-colors underline underline-offset-2"
         >
           Clear all
@@ -727,6 +742,7 @@ export default function OrderPage() {
   const [selectedFlags, setSelectedFlags]     = useState<string[]>([])
   const [excludedAllergens, setExcludedAllergens] = useState<string[]>([])
   const [sortBy, setSortBy]                   = useState<'default' | 'price-asc' | 'price-desc'>('default')
+  const [showOffersOnly, setShowOffersOnly]   = useState(false)
   const [viewMode, setViewMode]           = useState<'grid' | 'list'>('grid')
   const [filtersOpen, setFiltersOpen]     = useState(false)
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
@@ -768,7 +784,7 @@ export default function OrderPage() {
     [menuItems],
   )
 
-  const isFiltering = searchQuery.trim() !== '' || selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default'
+  const isFiltering = searchQuery.trim() !== '' || selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default' || showOffersOnly
 
   const displayedItems = useMemo(() => {
     const q = searchQuery.toLowerCase().trim()
@@ -782,12 +798,13 @@ export default function OrderPage() {
         const itemAllergens = item.allergens ?? []
         if (excludedAllergens.some((a) => itemAllergens.includes(a))) return false
       }
+      if (showOffersOnly && !(item.compare_at_price != null && item.compare_at_price > item.price)) return false
       return true
     })
     if (sortBy === 'price-asc')  result = [...result].sort((a, b) => a.price - b.price)
     if (sortBy === 'price-desc') result = [...result].sort((a, b) => b.price - a.price)
     return result
-  }, [menuItems, searchQuery, selectedFlags, excludedAllergens, sortBy])
+  }, [menuItems, searchQuery, selectedFlags, excludedAllergens, sortBy, showOffersOnly])
 
   const count = cartCount(cart)
   const total = cartTotal(cart, menuItems)
@@ -963,16 +980,16 @@ export default function OrderPage() {
               <button
                 onClick={() => setFiltersOpen((v) => !v)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${
-                  selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default'
+                  selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default' || showOffersOnly
                     ? 'bg-zinc-900 text-white border-zinc-900'
                     : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900'
                 }`}
               >
                 <SlidersHorizontal size={14} />
                 Filters
-                {(selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default') && (
+                {(selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default' || showOffersOnly) && (
                   <span className="bg-white/20 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    {selectedFlags.length + excludedAllergens.length + (sortBy !== 'default' ? 1 : 0)}
+                    {selectedFlags.length + excludedAllergens.length + (sortBy !== 'default' ? 1 : 0) + (showOffersOnly ? 1 : 0)}
                   </span>
                 )}
               </button>
@@ -986,6 +1003,8 @@ export default function OrderPage() {
                   onExcludedAllergensChange={setExcludedAllergens}
                   sortBy={sortBy}
                   onSortChange={(v) => setSortBy(v as 'default' | 'price-asc' | 'price-desc')}
+                  showOffersOnly={showOffersOnly}
+                  onOffersChange={setShowOffersOnly}
                   onClose={() => setFiltersOpen(false)}
                 />
               )}
@@ -1010,8 +1029,16 @@ export default function OrderPage() {
           </div>
 
           {/* Active filter chips */}
-          {(selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default') && (
+          {(selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default' || showOffersOnly) && (
             <div className="flex flex-wrap gap-2 mb-6 -mt-4">
+              {showOffersOnly && (
+                <span className="flex items-center gap-1.5 border border-red-200 text-red-700 bg-red-50 text-xs font-medium px-3 py-1 rounded-full">
+                  🔥 Offers only
+                  <button onClick={() => setShowOffersOnly(false)} className="text-red-400 hover:text-red-700 transition-colors">
+                    <X size={11} />
+                  </button>
+                </span>
+              )}
               {selectedFlags.map((f) => (
                 <span key={f} className="flex items-center gap-1.5 border border-zinc-200 text-zinc-600 text-xs font-medium px-3 py-1 rounded-full">
                   {f}
@@ -1047,7 +1074,7 @@ export default function OrderPage() {
                 <p className="font-heading font-bold text-base text-zinc-400">No items found</p>
                 <p className="text-sm text-zinc-300 mt-1">Try adjusting your search or filters.</p>
                 <button
-                  onClick={() => { setSearchQuery(''); setSelectedFlags([]); setExcludedAllergens([]); setSortBy('default') }}
+                  onClick={() => { setSearchQuery(''); setSelectedFlags([]); setExcludedAllergens([]); setSortBy('default'); setShowOffersOnly(false) }}
                   className="mt-5 text-sm text-zinc-500 font-medium underline underline-offset-2 hover:text-zinc-900 transition-colors"
                 >
                   Clear all filters
