@@ -42,10 +42,17 @@ export default function CheckoutPage() {
   const [promoError, setPromoError]     = useState<string | null>(null)
   const [promoLoading, setPromoLoading] = useState(false)
 
-  const [customerName, setCustomerName]         = useState('')
-  const [customerPhone, setCustomerPhone]       = useState('')
-  const [deliveryAddress, setDeliveryAddress]   = useState('')
-  const [customerNotes, setCustomerNotes]       = useState('')
+  const [customerName, setCustomerName]           = useState('')
+  const [customerPhone, setCustomerPhone]         = useState('')
+  const [phoneError, setPhoneError]               = useState<string | null>(null)
+  const [deliveryAddress, setDeliveryAddress]     = useState('')
+  const [customerNotes, setCustomerNotes]         = useState('')
+  const [addressLookupLoading, setAddressLookupLoading] = useState(false)
+
+  const UK_PHONE_RE = /^(\+44|0044|0)(7\d{9}|[1-9]\d{8,9})$/
+  function isValidUKPhone(val: string) {
+    return UK_PHONE_RE.test(val.replace(/[\s\-().]/g, ''))
+  }
 
   useEffect(() => {
     try {
@@ -77,12 +84,37 @@ export default function CheckoutPage() {
   const deliveryFee = zone ? Number(zone.delivery_fee) : 0
   const total = subtotal - discount + deliveryFee
 
+  async function handleFindAddress() {
+    const pc = postcode.trim().replace(/\s/g, '').toUpperCase()
+    if (!pc) { toast.error('Enter a postcode first'); return }
+    setAddressLookupLoading(true)
+    try {
+      const res = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(pc)}`)
+      const data = await res.json()
+      if (data.status !== 200) { toast.error('Invalid postcode — please check and try again'); return }
+      const r = data.result
+      const town   = r.parish || r.admin_ward || r.admin_district || ''
+      const county = r.admin_county || ''
+      const formatted = postcode.trim().toUpperCase()
+      if (!deliveryAddress.trim()) {
+        setDeliveryAddress(`${town}${county ? ', ' + county : ''}, ${formatted}`)
+      }
+      toast.success(`Found: ${town}${county ? ', ' + county : ''}`)
+      validatePostcode(formatted)
+    } catch {
+      toast.error('Could not look up postcode — please try again')
+    } finally {
+      setAddressLookupLoading(false)
+    }
+  }
+
   function handlePostcodeChange(val: string) {
-    setPostcode(val)
+    const upper = val.toUpperCase()
+    setPostcode(upper)
     setZone(null)
     setZoneError(null)
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    const trimmed = val.trim()
+    const trimmed = upper.trim()
     if (!trimmed) return
     debounceRef.current = setTimeout(() => validatePostcode(trimmed), 600)
   }
@@ -136,9 +168,10 @@ export default function CheckoutPage() {
 
   async function handlePay() {
     if (!zone || cartItems.length === 0) return
-    if (!customerName.trim())    { setSubmitError('Please enter your full name');       return }
-    if (!customerPhone.trim())   { setSubmitError('Please enter your phone number');    return }
-    if (!deliveryAddress.trim()) { setSubmitError('Please enter your delivery address'); return }
+    if (!customerName.trim())              { setSubmitError('Please enter your full name');                  return }
+    if (!customerPhone.trim())             { setSubmitError('Please enter your phone number');               return }
+    if (!isValidUKPhone(customerPhone))    { setSubmitError('Please enter a valid UK phone number');         return }
+    if (!deliveryAddress.trim())           { setSubmitError('Please enter your delivery address');           return }
     setSubmitting(true)
     setSubmitError(null)
     try {
@@ -216,14 +249,24 @@ export default function CheckoutPage() {
             <MapPin size={16} className="text-brand-red" />
             Delivery Postcode
           </h2>
-          <input
-            type="text"
-            value={postcode}
-            onChange={(e) => handlePostcodeChange(e.target.value)}
-            placeholder="e.g. RH2 8AB"
-            maxLength={8}
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red uppercase"
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={postcode}
+              onChange={(e) => handlePostcodeChange(e.target.value)}
+              placeholder="e.g. RH2 8AB"
+              maxLength={8}
+              className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red uppercase"
+            />
+            <button
+              onClick={handleFindAddress}
+              disabled={!postcode.trim() || addressLookupLoading}
+              className="px-4 py-3 bg-brand-dark hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition-colors flex items-center gap-2 shrink-0"
+            >
+              {addressLookupLoading ? <Loader2 size={14} className="animate-spin" /> : <MapPin size={14} />}
+              {addressLookupLoading ? '' : 'Find Address'}
+            </button>
+          </div>
 
           {zoneLoading && (
             <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -271,10 +314,21 @@ export default function CheckoutPage() {
               <input
                 type="tel"
                 value={customerPhone}
-                onChange={(e) => setCustomerPhone(e.target.value)}
+                onChange={(e) => { setCustomerPhone(e.target.value); if (phoneError) setPhoneError(null) }}
+                onBlur={() => {
+                  if (customerPhone.trim() && !isValidUKPhone(customerPhone))
+                    setPhoneError('Please enter a valid UK phone number')
+                  else setPhoneError(null)
+                }}
                 placeholder="e.g. 07700 900000"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+                className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${phoneError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
               />
+              {phoneError && (
+                <p className="flex items-center gap-1.5 text-xs text-red-600 mt-1.5">
+                  <AlertCircle size={12} />
+                  {phoneError}
+                </p>
+              )}
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 mb-1">Delivery Address *</label>
