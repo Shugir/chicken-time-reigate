@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-06-07)
 
 ## Corpus Check
-- 139 files · ~1,784,253 words
+- 139 files · ~1,784,282 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 794 nodes · 1316 edges · 92 communities (48 shown, 44 thin omitted)
+- 794 nodes · 1323 edges · 92 communities (48 shown, 44 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f966b25b`
+- Built from commit: `c7cf735a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -218,12 +218,12 @@ Cohesion: 0.18
 Nodes (13): API Checkout POST, API: Kitchen Orders [id] Route (PATCH), API: Public Menu Items Route (GET), API: Stripe Webhook Route (POST), CustomerReceipt Print Component, Kitchen Dashboard Page, KitchenTicket Print Component, OrderCard Component (+5 more)
 
 ### Community 70 - "Community 70"
-Cohesion: 0.48
-Nodes (5): ALL_PERMISSIONS, EMPTY_FORM, StaffForm, StaffMember, StaffPage()
+Cohesion: 0.33
+Nodes (3): Category, CategoryForm, EMPTY_FORM
 
 ### Community 72 - "Community 72"
 Cohesion: 0.06
-Nodes (40): AdminSidebar(), ALL_NAV, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm, EMPTY_FORM (+32 more)
+Nodes (42): AdminSidebar(), ALL_NAV, PermissionsContext, PermissionsContextType, usePermissions(), AdminDataTable(), Column, FilterConfig (+34 more)
 
 ### Community 79 - "Community 79"
 Cohesion: 0.14

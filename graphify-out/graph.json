@@ -1201,7 +1201,7 @@
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L1",
       "id": "app_admin_categories_page_tsx",
-      "community": 72,
+      "community": 70,
       "norm_label": "page.tsx"
     },
     {
@@ -1210,7 +1210,7 @@
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L10",
       "id": "categories_page_category",
-      "community": 72,
+      "community": 70,
       "norm_label": "category"
     },
     {
@@ -1219,7 +1219,7 @@
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L21",
       "id": "categories_page_categoryform",
-      "community": 72,
+      "community": 70,
       "norm_label": "categoryform"
     },
     {
@@ -1228,7 +1228,7 @@
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L28",
       "id": "categories_page_empty_form",
-      "community": 72,
+      "community": 70,
       "norm_label": "empty_form"
     },
     {
@@ -1237,7 +1237,7 @@
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L30",
       "id": "categories_page_slugify",
-      "community": 72,
+      "community": 70,
       "norm_label": "slugify()"
     },
     {
@@ -1246,7 +1246,7 @@
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L34",
       "id": "categories_page_categoriespage",
-      "community": 72,
+      "community": 70,
       "norm_label": "categoriespage()"
     },
     {
@@ -1912,52 +1912,52 @@
       "source_file": "app/admin/staff/page.tsx",
       "source_location": "L1",
       "id": "app_admin_staff_page_tsx",
-      "community": 70,
+      "community": 72,
       "norm_label": "page.tsx"
     },
     {
       "label": "StaffMember",
       "file_type": "code",
       "source_file": "app/admin/staff/page.tsx",
-      "source_location": "L9",
+      "source_location": "L11",
       "id": "staff_page_staffmember",
-      "community": 70,
+      "community": 72,
       "norm_label": "staffmember"
     },
     {
       "label": "ALL_PERMISSIONS",
       "file_type": "code",
       "source_file": "app/admin/staff/page.tsx",
-      "source_location": "L17",
+      "source_location": "L19",
       "id": "staff_page_all_permissions",
-      "community": 70,
+      "community": 72,
       "norm_label": "all_permissions"
     },
     {
       "label": "StaffForm",
       "file_type": "code",
       "source_file": "app/admin/staff/page.tsx",
-      "source_location": "L32",
+      "source_location": "L34",
       "id": "staff_page_staffform",
-      "community": 70,
+      "community": 72,
       "norm_label": "staffform"
     },
     {
       "label": "EMPTY_FORM",
       "file_type": "code",
       "source_file": "app/admin/staff/page.tsx",
-      "source_location": "L39",
+      "source_location": "L41",
       "id": "staff_page_empty_form",
-      "community": 70,
+      "community": 72,
       "norm_label": "empty_form"
     },
     {
       "label": "StaffPage()",
       "file_type": "code",
       "source_file": "app/admin/staff/page.tsx",
-      "source_location": "L41",
+      "source_location": "L43",
       "id": "staff_page_staffpage",
-      "community": 70,
+      "community": 72,
       "norm_label": "staffpage()"
     },
     {
@@ -2441,7 +2441,7 @@
       "label": "POST()",
       "file_type": "code",
       "source_file": "app/api/admin/staff/route.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "id": "staff_route_post",
       "community": 73,
       "norm_label": "post()"
@@ -4886,6 +4886,24 @@
       "norm_label": "deploy on vercel"
     },
     {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "admin/staff/page.tsx",
+      "source_location": "L1",
+      "community": 72,
+      "norm_label": "page.tsx",
+      "id": "admin_staff_page_tsx"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "api/admin/staff/route.ts",
+      "source_location": "L1",
+      "community": 73,
+      "norm_label": "route.ts",
+      "id": "api_admin_staff_route_ts"
+    },
+    {
       "label": "20260626_loyalty_schema_update.sql",
       "file_type": "code",
       "source_file": "20260626_loyalty_schema_update.sql",
@@ -4992,15 +5010,6 @@
       "community": 25,
       "norm_label": "page.tsx",
       "id": "sign_in_page_tsx"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "admin/staff/page.tsx",
-      "source_location": "L1",
-      "community": 70,
-      "norm_label": "page.tsx",
-      "id": "admin_staff_page_tsx"
     },
     {
       "label": "route.ts",
@@ -5424,15 +5433,6 @@
       "community": 3,
       "norm_label": "route.ts",
       "id": "api_admin_staff_id_route_ts"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "api/admin/staff/route.ts",
-      "source_location": "L1",
-      "community": 73,
-      "norm_label": "route.ts",
-      "id": "api_admin_staff_route_ts"
     },
     {
       "label": "layout.tsx",
@@ -12159,6 +12159,50 @@
       "target": "components_admin_admin_sidebar_tsx"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/staff/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "app_admin_staff_page_tsx",
+      "target": "components_admindatatable_tsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/staff/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "app_admin_staff_page_tsx",
+      "target": "components_admindatatable_admindatatable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/staff/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "app_admin_staff_page_tsx",
+      "target": "components_admindatatable_column",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/staff/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "app_admin_staff_page_tsx",
+      "target": "components_admindatatable_filterconfig",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/staff/page.tsx",
@@ -16183,6 +16227,39 @@
       "target": "components_admindatatable_admindatatable"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/staff/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_staff_page_tsx",
+      "target": "components_admindatatable_column"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/staff/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_staff_page_tsx",
+      "target": "components_admindatatable_filterconfig"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/staff/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_staff_page_tsx",
+      "target": "components_admindatatable_admindatatable"
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -17320,6 +17397,17 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "api/admin/staff/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_staff_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "api/kitchen/orders/[id]/route.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -17457,17 +17545,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "api_admin_staff_id_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/staff/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_admin_staff_route_ts",
       "target": "lib_supabase_admin_supabaseadmin"
     },
     {
@@ -21480,5 +21557,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "f966b25baf762b9f147bc8249afd07d5c801e8fc"
+  "built_at_commit": "c7cf735afe8a67ce37d77cbb0d6bbf1e67b836ea"
 }

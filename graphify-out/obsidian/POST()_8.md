@@ -2,7 +2,7 @@
 source_file: "app/api/admin/staff/route.ts"
 type: "code"
 community: "Community None"
-location: "L16"
+location: "L24"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,6 +13,6 @@ tags:
 
 ## Connections
 - [[route.ts_17]] - `contains` [EXTRACTED]
-- [[route.ts_53]] - `contains` [EXTRACTED]
+- [[route.ts_40]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

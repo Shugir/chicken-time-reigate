@@ -13,7 +13,11 @@ tags:
 
 ## Connections
 - [[ALL_PERMISSIONS]] - `contains` [EXTRACTED]
+- [[AdminDataTable()]] - `imports` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
+- [[Column]] - `imports` [EXTRACTED]
 - [[EMPTY_FORM_3]] - `contains` [EXTRACTED]
+- [[FilterConfig]] - `imports` [EXTRACTED]
 - [[StaffForm]] - `contains` [EXTRACTED]
 - [[StaffMember]] - `contains` [EXTRACTED]
 - [[StaffPage()]] - `contains` [EXTRACTED]
