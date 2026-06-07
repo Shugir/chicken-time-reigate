@@ -15,6 +15,7 @@ const ALL_NAV = [
   { id: 'analytics',  label: 'Analytics',       icon: TrendingUp,      href: '/admin/analytics',  permission: 'Analytics'     },
   { id: 'menu',       label: 'Menu Manager',    icon: UtensilsCrossed, href: '/admin',               permission: 'MenuManager'   },
   { id: 'categories', label: 'Categories',      icon: Layers,          href: '/admin/categories',  permission: 'Categories'    },
+  { id: 'combos',     label: 'Combos',          icon: Layers,          href: '/admin/combos',      permission: 'MenuManager'   },
   { id: 'settings',   label: 'Store Settings',  icon: Settings,        href: '/admin/settings',    permission: 'StoreSettings' },
   { id: 'delivery',   label: 'Delivery Zones',  icon: MapPin,          href: '/admin/delivery',   permission: 'DeliveryZones' },
   { id: 'promotions', label: 'Promotions',       icon: Tag,             href: '/admin/promotions', permission: 'Promotions'    },
