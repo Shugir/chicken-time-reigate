@@ -39,6 +39,8 @@ interface MenuItem {
   dietary_flags: string[]
   allergens: string[]
   created_at: string
+  combo_category: 'main' | 'side' | 'drink' | null
+  size_tier:      'regular' | 'large' | null
 }
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
@@ -254,13 +256,15 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
   const [form, setForm] = useState(() =>
     editingItem
       ? {
-          name:        editingItem.name,
-          description: editingItem.description ?? '',
-          price:       editingItem.price.toFixed(2),
-          image_url:   editingItem.image_url ?? '',
-          category:    editingItem.category,
+          name:           editingItem.name,
+          description:    editingItem.description ?? '',
+          price:          editingItem.price.toFixed(2),
+          image_url:      editingItem.image_url ?? '',
+          category:       editingItem.category,
+          combo_category: editingItem.combo_category ?? null,
+          size_tier:      editingItem.size_tier ?? null,
         }
-      : { ...EMPTY_FORM, category: categories[0]?.slug ?? '' }
+      : { ...EMPTY_FORM, category: categories[0]?.slug ?? '', combo_category: null as 'main' | 'side' | 'drink' | null, size_tier: null as 'regular' | 'large' | null }
   )
   const [removals, setRemovals]         = useState<string[]>(() => editingItem?.removals ?? [])
   const [extras, setExtras]             = useState<Extra[]>(() => editingItem?.extras ?? [])
@@ -318,16 +322,18 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     if (!form.category) return setError('Category is required.')
 
     const payload = {
-      name:         form.name.trim(),
-      description:  form.description.trim() || null,
-      price:        parsed,
-      image_url:    form.image_url.trim() || null,
-      category:     form.category,
-      is_available:  editingItem ? editingItem.is_available : true,
+      name:           form.name.trim(),
+      description:    form.description.trim() || null,
+      price:          parsed,
+      image_url:      form.image_url.trim() || null,
+      category:       form.category,
+      is_available:   editingItem ? editingItem.is_available : true,
       removals,
       extras,
-      dietary_flags: dietaryFlags,
+      dietary_flags:  dietaryFlags,
       allergens,
+      combo_category: form.combo_category,
+      size_tier:      form.size_tier,
     }
 
     setSaving(true)
@@ -556,6 +562,45 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                 ))}
               </div>
             )}
+          </div>
+
+          {/* Combo Role */}
+          <div>
+            <label className="block text-xs font-medium text-zinc-400 mb-1">Combo Role</label>
+            <select
+              value={form.combo_category ?? ''}
+              onChange={e =>
+                setForm(f => ({
+                  ...f,
+                  combo_category: (e.target.value || null) as 'main' | 'side' | 'drink' | null,
+                }))
+              }
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red"
+            >
+              <option value="">None</option>
+              <option value="main">Main</option>
+              <option value="side">Side</option>
+              <option value="drink">Drink</option>
+            </select>
+          </div>
+
+          {/* Size Tier */}
+          <div>
+            <label className="block text-xs font-medium text-zinc-400 mb-1">Size Tier</label>
+            <select
+              value={form.size_tier ?? ''}
+              onChange={e =>
+                setForm(f => ({
+                  ...f,
+                  size_tier: (e.target.value || null) as 'regular' | 'large' | null,
+                }))
+              }
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red"
+            >
+              <option value="">None</option>
+              <option value="regular">Regular</option>
+              <option value="large">Large</option>
+            </select>
           </div>
 
           {error && (
