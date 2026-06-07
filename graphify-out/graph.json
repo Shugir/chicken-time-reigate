@@ -661,7 +661,7 @@
       "source_file": "app/page.tsx",
       "source_location": "L1",
       "id": "app_page_tsx",
-      "community": 80,
+      "community": 53,
       "norm_label": "page.tsx"
     },
     {
@@ -670,7 +670,7 @@
       "source_file": "app/page.tsx",
       "source_location": "L6",
       "id": "app_page_oswald",
-      "community": 80,
+      "community": 53,
       "norm_label": "oswald"
     },
     {
@@ -679,7 +679,7 @@
       "source_file": "app/page.tsx",
       "source_location": "L14",
       "id": "app_page_popular",
-      "community": 80,
+      "community": 53,
       "norm_label": "popular"
     },
     {
@@ -688,7 +688,7 @@
       "source_file": "app/page.tsx",
       "source_location": "L57",
       "id": "app_page_reasons",
-      "community": 80,
+      "community": 53,
       "norm_label": "reasons"
     },
     {
@@ -697,7 +697,7 @@
       "source_file": "app/page.tsx",
       "source_location": "L80",
       "id": "app_page_landingpage",
-      "community": 80,
+      "community": 53,
       "norm_label": "landingpage()"
     },
     {
@@ -706,7 +706,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L1",
       "id": "app_about_page_tsx",
-      "community": 69,
+      "community": 53,
       "norm_label": "page.tsx"
     },
     {
@@ -715,7 +715,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L4",
       "id": "about_page_oswald",
-      "community": 69,
+      "community": 53,
       "norm_label": "oswald"
     },
     {
@@ -724,7 +724,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L10",
       "id": "about_page_stats",
-      "community": 69,
+      "community": 53,
       "norm_label": "stats"
     },
     {
@@ -733,7 +733,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L17",
       "id": "about_page_values",
-      "community": 69,
+      "community": 53,
       "norm_label": "values"
     },
     {
@@ -742,7 +742,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L32",
       "id": "about_page_aboutpage",
-      "community": 69,
+      "community": 53,
       "norm_label": "aboutpage()"
     },
     {
@@ -1912,7 +1912,7 @@
       "source_file": "app/api/account/close/route.ts",
       "source_location": "L1",
       "id": "app_api_account_close_route_ts",
-      "community": 68,
+      "community": 3,
       "norm_label": "route.ts"
     },
     {
@@ -1921,7 +1921,7 @@
       "source_file": "app/api/account/close/route.ts",
       "source_location": "L6",
       "id": "close_route_post",
-      "community": 68,
+      "community": 3,
       "norm_label": "post()"
     },
     {
@@ -2083,7 +2083,7 @@
       "source_file": "app/api/admin/drivers/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_drivers_route_ts",
-      "community": 83,
+      "community": 68,
       "norm_label": "route.ts"
     },
     {
@@ -2092,7 +2092,7 @@
       "source_file": "app/api/drivers/route.ts",
       "source_location": "L6",
       "id": "drivers_route_get",
-      "community": 83,
+      "community": 68,
       "norm_label": "get()"
     },
     {
@@ -2101,7 +2101,7 @@
       "source_file": "app/api/admin/drivers/route.ts",
       "source_location": "L63",
       "id": "drivers_route_post",
-      "community": 83,
+      "community": 68,
       "norm_label": "post()"
     },
     {
@@ -2416,7 +2416,7 @@
       "source_file": "app/api/drivers/route.ts",
       "source_location": "L1",
       "id": "app_api_drivers_route_ts",
-      "community": 83,
+      "community": 68,
       "norm_label": "route.ts"
     },
     {
@@ -2425,7 +2425,7 @@
       "source_file": "app/api/kitchen/delivery/route.ts",
       "source_location": "L1",
       "id": "app_api_kitchen_delivery_route_ts",
-      "community": 68,
+      "community": 69,
       "norm_label": "route.ts"
     },
     {
@@ -2434,7 +2434,7 @@
       "source_file": "app/api/kitchen/delivery/route.ts",
       "source_location": "L6",
       "id": "delivery_route_get",
-      "community": 68,
+      "community": 69,
       "norm_label": "get()"
     },
     {
@@ -2479,7 +2479,7 @@
       "source_file": "app/api/promo-codes/route.ts",
       "source_location": "L1",
       "id": "app_api_promo_codes_route_ts",
-      "community": 68,
+      "community": 80,
       "norm_label": "route.ts"
     },
     {
@@ -2488,7 +2488,7 @@
       "source_file": "app/api/promo-codes/route.ts",
       "source_location": "L6",
       "id": "promo_codes_route_get",
-      "community": 68,
+      "community": 80,
       "norm_label": "get()"
     },
     {
@@ -2542,7 +2542,7 @@
       "source_file": "app/auth/callback/route.ts",
       "source_location": "L1",
       "id": "app_auth_callback_route_ts",
-      "community": 68,
+      "community": 83,
       "norm_label": "route.ts"
     },
     {
@@ -2551,7 +2551,7 @@
       "source_file": "app/auth/callback/route.ts",
       "source_location": "L6",
       "id": "callback_route_get",
-      "community": 68,
+      "community": 83,
       "norm_label": "get()"
     },
     {
@@ -2920,7 +2920,7 @@
       "source_file": "app/order/page.tsx",
       "source_location": "L33",
       "id": "order_page_menu_items",
-      "community": 4,
+      "community": 8,
       "norm_label": "menu_items"
     },
     {
@@ -4238,6 +4238,15 @@
       "norm_label": "deploy on vercel"
     },
     {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "page.tsx",
+      "source_location": "L1",
+      "community": 53,
+      "norm_label": "page.tsx",
+      "id": "page_tsx"
+    },
+    {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "api/kitchen/orders/[id]/route.ts",
@@ -4256,20 +4265,11 @@
       "id": "kitchen_page_tsx"
     },
     {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "page.tsx",
-      "source_location": "L1",
-      "community": 1,
-      "norm_label": "page.tsx",
-      "id": "page_tsx"
-    },
-    {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "api/drivers/route.ts",
       "source_location": "L1",
-      "community": 83,
+      "community": 68,
       "norm_label": "route.ts",
       "id": "api_drivers_route_ts"
     },
@@ -4377,7 +4377,7 @@
       "file_type": "code",
       "source_file": "api/admin/drivers/route.ts",
       "source_location": "L1",
-      "community": 83,
+      "community": 68,
       "norm_label": "route.ts",
       "id": "api_admin_drivers_route_ts"
     },
@@ -4854,7 +4854,7 @@
       "file_type": "code",
       "source_file": "admin/page.tsx",
       "source_location": "L162",
-      "community": 1,
+      "community": 53,
       "norm_label": "additemmodal()",
       "id": "admin_page_additemmodal"
     },
@@ -4872,7 +4872,7 @@
       "file_type": "code",
       "source_file": "20260608_item_customizations.sql",
       "source_location": null,
-      "community": 4,
+      "community": 8,
       "norm_label": "20260608_item_customizations.sql",
       "id": "20260608_item_customizations_sql"
     },
@@ -4917,7 +4917,7 @@
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L24",
-      "community": 1,
+      "community": 53,
       "norm_label": "iconcomponent",
       "id": "order_page_iconcomponent"
     },
@@ -12996,6 +12996,26 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "checkout_page_supabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "checkout_page_cartitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "checkout/page.tsx",
       "source_location": "L6",
       "weight": 1.0,
@@ -13006,12 +13026,32 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "checkout_page_deliveryzone"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "checkout/page.tsx",
       "source_location": "L16",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "checkout_page_tsx",
       "target": "checkout_page_deliveryzone"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "checkout_page_checkoutpage"
     },
     {
       "relation": "contains",
@@ -13560,16 +13600,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "kitchen/page.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "kitchen_page_tsx",
-      "target": "kitchen_page_supabase"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L10",
       "weight": 1.0,
@@ -13581,11 +13611,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
-      "source_location": "L17",
+      "source_location": "L12",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
-      "target": "kitchen_page_extra"
+      "target": "kitchen_page_supabase"
     },
     {
       "relation": "contains",
@@ -13601,11 +13631,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
-      "source_location": "L19",
+      "source_location": "L17",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
-      "target": "kitchen_page_orderitem"
+      "target": "kitchen_page_extra"
     },
     {
       "relation": "contains",
@@ -13621,11 +13651,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
-      "source_location": "L29",
+      "source_location": "L19",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
-      "target": "kitchen_page_order"
+      "target": "kitchen_page_orderitem"
     },
     {
       "relation": "contains",
@@ -13641,11 +13671,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
-      "source_location": "L41",
+      "source_location": "L29",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
-      "target": "kitchen_page_driver"
+      "target": "kitchen_page_order"
     },
     {
       "relation": "contains",
@@ -13661,11 +13691,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
-      "source_location": "L47",
+      "source_location": "L41",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
-      "target": "kitchen_page_dispatchorder"
+      "target": "kitchen_page_driver"
     },
     {
       "relation": "contains",
@@ -13675,6 +13705,16 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "page_tsx",
+      "target": "kitchen_page_dispatchorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kitchen/page.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "kitchen_page_tsx",
       "target": "kitchen_page_dispatchorder"
     },
     {
@@ -13691,16 +13731,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "kitchen/page.tsx",
-      "source_location": "L37",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "kitchen_page_tsx",
-      "target": "kitchen_page_elapsed"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L35",
       "weight": 1.0,
@@ -13712,11 +13742,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "kitchen/page.tsx",
-      "source_location": "L45",
+      "source_location": "L37",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "kitchen_page_tsx",
-      "target": "kitchen_page_ordercard"
+      "target": "kitchen_page_elapsed"
     },
     {
       "relation": "contains",
@@ -13726,6 +13756,16 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "page_tsx",
+      "target": "kitchen_page_ordercard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kitchen/page.tsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "kitchen_page_tsx",
       "target": "kitchen_page_ordercard"
     },
     {
@@ -13742,21 +13782,21 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "kitchen/page.tsx",
-      "source_location": "L192",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "kitchen_page_tsx",
-      "target": "kitchen_page_kitchenticket"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L190",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "page_tsx",
+      "target": "kitchen_page_kitchenticket"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kitchen/page.tsx",
+      "source_location": "L192",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "kitchen_page_tsx",
       "target": "kitchen_page_kitchenticket"
     },
     {
@@ -13773,21 +13813,21 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "kitchen/page.tsx",
-      "source_location": "L245",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "kitchen_page_tsx",
-      "target": "kitchen_page_customerreceipt"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L243",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "page_tsx",
+      "target": "kitchen_page_customerreceipt"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kitchen/page.tsx",
+      "source_location": "L245",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "kitchen_page_tsx",
       "target": "kitchen_page_customerreceipt"
     },
     {
@@ -13826,21 +13866,21 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "kitchen/page.tsx",
-      "source_location": "L323",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "kitchen_page_tsx",
-      "target": "kitchen_page_kitchendashboard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "page.tsx",
       "source_location": "L345",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "page_tsx",
+      "target": "kitchen_page_kitchendashboard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kitchen/page.tsx",
+      "source_location": "L323",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "kitchen_page_tsx",
       "target": "kitchen_page_kitchendashboard"
     },
     {
@@ -15121,22 +15161,22 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "kitchen/page.tsx",
+      "source_file": "page.tsx",
       "source_location": "L6",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "kitchen_page_tsx",
+      "source": "page_tsx",
       "target": "admin_permissions_provider_usepermissions"
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
+      "source_file": "kitchen/page.tsx",
       "source_location": "L6",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "page_tsx",
+      "source": "kitchen_page_tsx",
       "target": "admin_permissions_provider_usepermissions"
     },
     {
@@ -19459,5 +19499,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "a6d7650376cc1ef50199666046c6a84055454f02"
+  "built_at_commit": "296cb0dcbf27d40e8d7d63f1c68aae43f15060ee"
 }
