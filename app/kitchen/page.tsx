@@ -727,7 +727,7 @@ export default function KitchenDashboard() {
               <ChefHat size={14} />
               Kitchen
             </button>
-            {can('DispatchController') && (
+            {mounted && can('DispatchController') && (
               <button
                 onClick={() => setActiveTab('dispatch')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
@@ -893,7 +893,7 @@ export default function KitchenDashboard() {
         )}
 
         {/* ── Dispatch Tab ── */}
-        {activeTab === 'dispatch' && can('DispatchController') && (
+        {activeTab === 'dispatch' && mounted && can('DispatchController') && (
           <div className="flex-1 overflow-auto p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
