@@ -892,8 +892,8 @@ export default function OrderPage() {
 
         {/* Sidebar */}
         <aside className="hidden lg:block w-56 shrink-0">
-          <div className="sticky top-8">
-            <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.15em] px-3 mb-3">
+          <div className="sticky top-8 bg-brand-dark rounded-2xl p-4">
+            <p className="text-[10px] font-semibold text-white/50 uppercase tracking-[0.15em] px-3 mb-3">
               Menu
             </p>
 
@@ -906,8 +906,8 @@ export default function OrderPage() {
                     onClick={() => scrollTo(slug)}
                     className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-full transition-all duration-200 ${
                       isActive
-                        ? 'bg-zinc-900 text-white'
-                        : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'
+                        ? 'bg-white/10 text-white'
+                        : 'text-white/60 hover:bg-white/[0.08] hover:text-white'
                     }`}
                   >
                     <Image
@@ -925,17 +925,17 @@ export default function OrderPage() {
 
             {/* Sidebar cart summary */}
             {count > 0 && (
-              <div className="mt-6 border border-zinc-100 rounded-2xl p-4">
-                <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.15em] mb-3">
+              <div className="mt-6 border border-white/10 rounded-2xl p-4">
+                <p className="text-[10px] font-semibold text-white/50 uppercase tracking-[0.15em] mb-3">
                   Your Order
                 </p>
-                <div className="flex justify-between text-sm font-semibold text-zinc-900 mb-3">
+                <div className="flex justify-between text-sm font-semibold text-white mb-3">
                   <span>{count} item{count > 1 ? 's' : ''}</span>
                   <span>£{total.toFixed(2)}</span>
                 </div>
                 <button
                   onClick={() => setCartOpen(true)}
-                  className="w-full bg-zinc-900 hover:bg-zinc-700 text-white text-sm font-semibold py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
+                  className="w-full bg-brand-red hover:bg-red-700 text-white text-sm font-semibold py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
                 >
                   <ShoppingCart size={13} /> View Cart
                 </button>
