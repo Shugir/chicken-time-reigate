@@ -42,11 +42,14 @@ export default function CheckoutPage() {
   const [promoError, setPromoError]     = useState<string | null>(null)
   const [promoLoading, setPromoLoading] = useState(false)
 
-  const [customerName, setCustomerName]           = useState('')
-  const [customerPhone, setCustomerPhone]         = useState('')
-  const [phoneError, setPhoneError]               = useState<string | null>(null)
-  const [deliveryAddress, setDeliveryAddress]     = useState('')
-  const [customerNotes, setCustomerNotes]         = useState('')
+  const [customerName, setCustomerName]                 = useState('')
+  const [customerPhone, setCustomerPhone]               = useState('')
+  const [phoneError, setPhoneError]                     = useState<string | null>(null)
+  const [addressLine1, setAddressLine1]                 = useState('')
+  const [city, setCity]                                 = useState('')
+  const [county, setCounty]                             = useState('')
+  const [customerNotes, setCustomerNotes]               = useState('')
+  const [addressSuggestions, setAddressSuggestions]     = useState<string[]>([])
   const [addressLookupLoading, setAddressLookupLoading] = useState(false)
 
   const UK_PHONE_RE = /^(\+44|0044|0)(7\d{9}|[1-9]\d{8,9})$/
@@ -74,7 +77,7 @@ export default function CheckoutPage() {
       if (data) {
         if (data.full_name) setCustomerName(data.full_name)
         if (data.phone)     setCustomerPhone(data.phone)
-        if (data.address)   setDeliveryAddress(data.address)
+        if (data.address)   setAddressLine1(data.address)
       }
     })
   }, [])
@@ -88,24 +91,41 @@ export default function CheckoutPage() {
     const pc = postcode.trim().replace(/\s/g, '').toUpperCase()
     if (!pc) { toast.error('Enter a postcode first'); return }
     setAddressLookupLoading(true)
+    setAddressSuggestions([])
     try {
+      // ─────────────────────────────────────────────────────────────────────────
+      // PRODUCTION: Replace this postcodes.io call with the Royal Mail PAF API
+      // (e.g. getAddress.io: GET https://api.getAddress.io/find/{postcode}?api-key=KEY)
+      // Parse the real response to build the suggestions array below.
+      // ─────────────────────────────────────────────────────────────────────────
       const res = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(pc)}`)
       const data = await res.json()
       if (data.status !== 200) { toast.error('Invalid postcode — please check and try again'); return }
       const r = data.result
       const town   = r.parish || r.admin_ward || r.admin_district || ''
-      const county = r.admin_county || ''
-      const formatted = postcode.trim().toUpperCase()
-      if (!deliveryAddress.trim()) {
-        setDeliveryAddress(`${town}${county ? ', ' + county : ''}, ${formatted}`)
-      }
-      toast.success(`Found: ${town}${county ? ', ' + county : ''}`)
-      validatePostcode(formatted)
+      const cty    = r.admin_county || ''
+      const fmt    = postcode.trim().toUpperCase()
+      // Mock door-level suggestions — replace with real PAF results in production
+      const street = 'High Street'
+      setAddressSuggestions([
+        `1 ${street}, ${town}, ${cty}, ${fmt}`,
+        `2 ${street}, ${town}, ${cty}, ${fmt}`,
+        `Flat 3, ${street}, ${town}, ${cty}, ${fmt}`,
+      ])
+      validatePostcode(fmt)
     } catch {
       toast.error('Could not look up postcode — please try again')
     } finally {
       setAddressLookupLoading(false)
     }
+  }
+
+  function selectAddress(full: string) {
+    const parts = full.split(', ')
+    setAddressLine1(parts[0] ?? '')
+    setCity(parts[1] ?? '')
+    setCounty(parts[2] ?? '')
+    setAddressSuggestions([])
   }
 
   function handlePostcodeChange(val: string) {
@@ -171,7 +191,8 @@ export default function CheckoutPage() {
     if (!customerName.trim())              { setSubmitError('Please enter your full name');                  return }
     if (!customerPhone.trim())             { setSubmitError('Please enter your phone number');               return }
     if (!isValidUKPhone(customerPhone))    { setSubmitError('Please enter a valid UK phone number');         return }
-    if (!deliveryAddress.trim())           { setSubmitError('Please enter your delivery address');           return }
+    if (!addressLine1.trim())              { setSubmitError('Please enter your delivery address');           return }
+    const fullAddress = [addressLine1, city, county, postcode.trim().toUpperCase()].filter(Boolean).join(', ')
     setSubmitting(true)
     setSubmitError(null)
     try {
@@ -185,7 +206,7 @@ export default function CheckoutPage() {
           promo_code:          promoApplied?.code ?? null,
           customer_name:       customerName.trim(),
           customer_phone:      customerPhone.trim(),
-          delivery_address:    deliveryAddress.trim(),
+          delivery_address:    fullAddress,
           delivery_postcode:   postcode.trim().toUpperCase(),
           customer_notes:      customerNotes.trim() || null,
         }),
@@ -290,6 +311,21 @@ export default function CheckoutPage() {
               </span>
             </div>
           )}
+
+          {addressSuggestions.length > 0 && (
+            <div className="border border-brand-red/30 rounded-xl overflow-hidden shadow-sm">
+              <p className="text-xs font-semibold text-gray-500 px-3 pt-2.5 pb-1">Select your address:</p>
+              {addressSuggestions.map((addr) => (
+                <button
+                  key={addr}
+                  onClick={() => selectAddress(addr)}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-800 hover:bg-brand-red hover:text-white transition-colors border-t border-gray-100 first:border-t-0 font-medium"
+                >
+                  {addr}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Your Details */}
@@ -331,14 +367,36 @@ export default function CheckoutPage() {
               )}
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1">Delivery Address *</label>
+              <label className="block text-xs font-semibold text-gray-500 mb-1">Address Line 1 *</label>
               <input
                 type="text"
-                value={deliveryAddress}
-                onChange={(e) => setDeliveryAddress(e.target.value)}
-                placeholder="e.g. 12 High Street, Reigate, RH2 8AB"
+                value={addressLine1}
+                onChange={(e) => setAddressLine1(e.target.value)}
+                placeholder="e.g. 12 High Street"
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
               />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 mb-1">City / Town</label>
+                <input
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="e.g. Reigate"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 mb-1">County</label>
+                <input
+                  type="text"
+                  value={county}
+                  onChange={(e) => setCounty(e.target.value)}
+                  placeholder="e.g. Surrey"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 mb-1">Order Notes</label>
