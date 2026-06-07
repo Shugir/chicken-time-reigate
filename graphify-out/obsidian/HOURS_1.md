@@ -1,8 +1,8 @@
 ---
-source_file: "app/contact/page.tsx"
+source_file: "app/layout.tsx"
 type: "code"
 community: "Community None"
-location: "L13"
+location: "L38"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,8 @@ tags:
 # HOURS
 
 ## Connections
-- [[page.tsx_18]] - `contains` [EXTRACTED]
+- [[layout.tsx]] - `contains` [EXTRACTED]
+- [[layout.tsx_13]] - `contains` [EXTRACTED]
+- [[page.tsx_29]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

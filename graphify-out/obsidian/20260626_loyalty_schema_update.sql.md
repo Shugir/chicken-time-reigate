@@ -11,6 +11,7 @@ tags:
 # 20260626_loyalty_schema_update.sql
 
 ## Connections
+- [[adjust_loyalty()]] - `contains` [EXTRACTED]
 - [[orders_9]] - `contains` [EXTRACTED]
 - [[profiles_1]] - `contains` [EXTRACTED]
 

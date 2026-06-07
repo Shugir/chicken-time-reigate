@@ -12,10 +12,10 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[HOURS]] - `contains` [EXTRACTED]
+- [[HOURS_1]] - `contains` [EXTRACTED]
 - [[NewsletterForm()]] - `imports` [EXTRACTED]
 - [[NewsletterForm.tsx]] - `imports` [EXTRACTED]
-- [[QUICK_LINKS]] - `contains` [EXTRACTED]
+- [[QUICK_LINKS_1]] - `contains` [EXTRACTED]
 - [[RootLayout()]] - `contains` [EXTRACTED]
 - [[SiteHeader()]] - `imports` [EXTRACTED]
 - [[SiteHeader.tsx]] - `imports` [EXTRACTED]

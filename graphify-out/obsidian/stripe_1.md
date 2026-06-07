@@ -2,7 +2,7 @@
 source_file: "app/api/checkout/route.ts"
 type: "code"
 community: "Community None"
-location: "L7"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,7 @@ tags:
 # stripe
 
 ## Connections
-- [[route.ts_22]] - `contains` [EXTRACTED]
-- [[route.ts_54]] - `contains` [EXTRACTED]
+- [[route.ts_23]] - `contains` [EXTRACTED]
+- [[route.ts_55]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

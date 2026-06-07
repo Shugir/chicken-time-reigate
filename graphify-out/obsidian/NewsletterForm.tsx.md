@@ -12,6 +12,7 @@ tags:
 # NewsletterForm.tsx
 
 ## Connections
+- [[Footer.tsx]] - `imports_from` [EXTRACTED]
 - [[NewsletterForm()]] - `contains` [EXTRACTED]
 - [[layout.tsx]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_13]] - `imports` [EXTRACTED]

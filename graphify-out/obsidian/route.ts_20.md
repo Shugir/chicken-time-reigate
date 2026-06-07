@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/auth/role/route.ts"
+source_file: "app/api/admin/users/[id]/points/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_13]] - `contains` [EXTRACTED]
+- [[POST()_9]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

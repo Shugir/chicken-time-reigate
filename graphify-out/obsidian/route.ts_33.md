@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/promo-codes/route.ts"
+source_file: "app/api/menu-items/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_17]] - `contains` [EXTRACTED]
+- [[GET()_9]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

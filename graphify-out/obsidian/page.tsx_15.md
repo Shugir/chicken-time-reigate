@@ -12,8 +12,10 @@ tags:
 # page.tsx
 
 ## Connections
+- [[AdjustForm_1]] - `contains` [EXTRACTED]
 - [[AuthUser_1]] - `contains` [EXTRACTED]
 - [[Driver_2]] - `contains` [EXTRACTED]
+- [[LoyaltyEntry]] - `contains` [EXTRACTED]
 - [[UsersPage()]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 

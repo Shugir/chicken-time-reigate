@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/webhook/route.ts"
+source_file: "app/api/checkout/route.ts"
 type: "code"
 community: "Community None"
-location: "L12"
+location: "L24"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,9 @@ tags:
 # POST()
 
 ## Connections
-- [[route.ts_37]] - `contains` [EXTRACTED]
-- [[route.ts_41]] - `contains` [EXTRACTED]
+- [[checkStoreStatus()]] - `calls` [EXTRACTED]
+- [[route.ts_23]] - `contains` [EXTRACTED]
+- [[route.ts_55]] - `contains` [EXTRACTED]
+- [[sendOrderStatusEmail()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

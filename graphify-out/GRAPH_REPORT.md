@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-06-07)
 
 ## Corpus Check
-- 133 files · ~1,780,691 words
+- 138 files · ~1,783,627 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 752 nodes · 1238 edges · 83 communities (36 shown, 47 thin omitted)
+- 789 nodes · 1296 edges · 90 communities (45 shown, 45 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a461a2ab`
+- Built from commit: `a8b2635a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -72,24 +72,26 @@
 - [[_COMMUNITY_Community 63|Community 63]]
 - [[_COMMUNITY_Community 64|Community 64]]
 - [[_COMMUNITY_Community 66|Community 66]]
+- [[_COMMUNITY_Community 67|Community 67]]
 - [[_COMMUNITY_Community 68|Community 68]]
 - [[_COMMUNITY_Community 69|Community 69]]
 - [[_COMMUNITY_Community 70|Community 70]]
+- [[_COMMUNITY_Community 72|Community 72]]
 - [[_COMMUNITY_Community 73|Community 73]]
-- [[_COMMUNITY_Community 74|Community 74]]
 - [[_COMMUNITY_Community 75|Community 75]]
 - [[_COMMUNITY_Community 76|Community 76]]
 - [[_COMMUNITY_Community 77|Community 77]]
-- [[_COMMUNITY_Community 78|Community 78]]
-- [[_COMMUNITY_Community 81|Community 81]]
-- [[_COMMUNITY_Community 83|Community 83]]
+- [[_COMMUNITY_Community 79|Community 79]]
+- [[_COMMUNITY_Community 80|Community 80]]
+- [[_COMMUNITY_Community 82|Community 82]]
 - [[_COMMUNITY_Community 84|Community 84]]
 - [[_COMMUNITY_Community 85|Community 85]]
 - [[_COMMUNITY_Community 86|Community 86]]
 - [[_COMMUNITY_Community 88|Community 88]]
+- [[_COMMUNITY_Community 93|Community 93]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `supabaseAdmin` - 56 edges
+1. `supabaseAdmin` - 57 edges
 2. `getUserPermissions` - 35 edges
 3. `hasPermission()` - 30 edges
 4. `compilerOptions` - 16 edges
@@ -101,47 +103,43 @@
 10. `dependencies` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `ProductItem Interface` --semantically_similar_to--> `DB Table: menu_items`  [INFERRED] [semantically similar]
+  components/ProductModal.tsx → lib/supabase-admin.ts
+- `ProductItem Interface` --conceptually_related_to--> `Community: Product Modal & Types`  [INFERRED]
+  components/ProductModal.tsx → CLAUDE.md
 - `OrderSelection Interface` --semantically_similar_to--> `DB Table: order_items`  [INFERRED] [semantically similar]
   components/ProductModal.tsx → lib/supabase-admin.ts
-- `Initial DB Schema Migration` --conceptually_related_to--> `Community: Supabase Database Schema`  [INFERRED]
-  supabase/migrations/20260603_initial_schema.sql → CLAUDE.md
-- `DB Table: order_items` --semantically_similar_to--> `OrderSelection Interface`  [INFERRED] [semantically similar]
-  lib/supabase-admin.ts → components/ProductModal.tsx
-- `MENU_ITEMS Static Data` --references--> `app/order/page.tsx`  [EXTRACTED]
-  app/order/page.tsx → CLAUDE.md
-- `MENU_ITEMS Static Data` --rationale_for--> `MENU_ITEMS hardcoded duplicate — Supabase not yet wired`  [EXTRACTED]
-  app/order/page.tsx → CLAUDE.md
+- `OrderSelection Interface` --semantically_similar_to--> `order_items.notes Column`  [INFERRED] [semantically similar]
+  components/ProductModal.tsx → supabase/migrations/20260609_order_items_notes.sql
+- `OrderSelection Interface` --semantically_similar_to--> `order_items.extras JSONB Column`  [INFERRED] [semantically similar]
+  components/ProductModal.tsx → supabase/migrations/20260613_order_items_customizations.sql
 
 ## Hyperedges (group relationships)
 - **End-to-End Checkout Flow** — order_page_CartDrawer, session_storage_cart, checkout_page_CheckoutPage, api_delivery_zones_route, api_checkout_route, stripe_integration [EXTRACTED 0.95]
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (83 total, 47 thin omitted)
+## Communities (90 total, 45 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.22
-Nodes (4): GET(), SEED, POST(), stripe
+Cohesion: 0.15
+Nodes (5): GET(), GET(), SEED, POST(), stripe
 
 ### Community 1 - "Community 1"
 Cohesion: 0.05
-Nodes (76): AboutPage(), oswald, STATS, VALUES, AdminPage(), AvailabilityToggle(), CATEGORIES, Category (+68 more)
+Nodes (64): AboutPage(), oswald, STATS, VALUES, AdminPage(), AvailabilityToggle(), CATEGORIES, Category (+56 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.06
 Nodes (33): eslintConfig, dependencies, lucide-react, next, react, react-dom, react-hot-toast, recharts (+25 more)
 
-### Community 3 - "Community 3"
-Cohesion: 0.3
-Nodes (3): DELETE(), PATCH(), supabaseAdmin
-
 ### Community 4 - "Community 4"
-Cohesion: 0.1
-Nodes (26): AnalyticsData, AnalyticsPage(), CHART_THEME, DailyPoint, DowPoint, fmtGbp(), HourlyPoint, PERIODS (+18 more)
+Cohesion: 0.12
+Nodes (30): AddOn, ALLERGEN_DETAILS, AllergyAccordion(), CATEGORY_GRADIENT, ItemCategory, OrderSelection, ProductItem, ProductModal() (+22 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.48
-Nodes (5): ALL_PERMISSIONS, EMPTY_FORM, StaffForm, StaffMember, StaffPage()
+Cohesion: 0.12
+Nodes (18): supabase/migrations/, AddItemModal Component, Admin Page, AvailabilityToggle Component, DeleteConfirmModal Component, MenuItem Interface (Admin), PriceCell Component, API: Admin Menu Items [id] Route (PATCH/DELETE) (+10 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.13
@@ -156,12 +154,12 @@ Cohesion: 0.16
 Nodes (12): menu_items, order_items, orders, profiles, set_updated_at(), trg_menu_items_updated_at, trg_orders_updated_at, trg_profiles_updated_at (+4 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.26
-Nodes (10): geistMono, geistSans, HOURS, inter, metadata, QUICK_LINKS, RootLayout(), NewsletterForm() (+2 more)
+Cohesion: 0.12
+Nodes (22): geistMono, geistSans, HOURS, inter, metadata, QUICK_LINKS, RootLayout(), buildHoursRows() (+14 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.09
-Nodes (41): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+33 more)
+Cohesion: 0.06
+Nodes (53): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+45 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.14
@@ -195,25 +193,45 @@ Nodes (4): Globe SVG Icon, Next.js Public Asset, UI Icon, World Globe
 Cohesion: 0.67
 Nodes (3): About Page, About Stats Data (STATS), Brand Values Data (VALUES)
 
-### Community 47 - "Community 47"
-Cohesion: 0.05
-Nodes (38): AdminSidebar(), ALL_NAV, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm, EMPTY_FORM (+30 more)
-
 ### Community 50 - "Community 50"
-Cohesion: 0.05
-Nodes (60): Community: About Page, Community: App Layout & Fonts, Community: Contact Page, Community: Core Package Manifest, Community: Landing Page, Community: Order Menu Components, Community: Product Modal & Types, Community: Supabase Database Schema (+52 more)
+Cohesion: 0.23
+Nodes (12): menu_items.extras JSONB Column, menu_items.removals JSONB Column, order_items.extras JSONB Column, order_items.notes Column, order_items.removals JSONB Column, Migration: Item Customizations (20260608), Migration: Order Items Customizations (20260613), Migration: Order Items Notes (20260609) (+4 more)
 
 ### Community 56 - "Community 56"
-Cohesion: 0.24
-Nodes (9): CartItem, Extra, POST(), stripe, buildHtml(), EmailOrderData, OrderEmailStatus, sendOrderStatusEmail() (+1 more)
+Cohesion: 0.09
+Nodes (28): CartItem, Extra, POST(), stripe, buildHtml(), EmailOrderData, OrderEmailStatus, sendOrderStatusEmail() (+20 more)
 
 ### Community 61 - "Community 61"
-Cohesion: 0.06
-Nodes (51): AddItemModal Component, Admin Page, AvailabilityToggle Component, DeleteConfirmModal Component, PriceCell Component, API: Admin Menu Items [id] Route (PATCH/DELETE), API: Admin Menu Items Route (GET/POST), API Checkout POST (+43 more)
+Cohesion: 0.12
+Nodes (26): API: Kitchen Orders Route (GET), order_items.item_name Column, orders.stripe_session_id Column, orders.user_id (nullable - guest support), DB Table: order_items, DB Table: orders, Order Interface (Kitchen), OrderItem Interface (Kitchen) (+18 more)
 
-### Community 81 - "Community 81"
+### Community 67 - "Community 67"
 Cohesion: 0.5
-Nodes (4): Contact Page, FormState Type, Opening Hours Data (HOURS), InputField Component
+Nodes (4): Landing Page, Oswald Font (Landing Page), Popular Items Data (POPULAR), Why Choose Us Data (REASONS)
+
+### Community 68 - "Community 68"
+Cohesion: 0.12
+Nodes (4): GET(), GET(), supabaseAdmin, GET()
+
+### Community 69 - "Community 69"
+Cohesion: 0.18
+Nodes (13): API Checkout POST, API: Kitchen Orders [id] Route (PATCH), API: Public Menu Items Route (GET), API: Stripe Webhook Route (POST), CustomerReceipt Print Component, Kitchen Dashboard Page, KitchenTicket Print Component, OrderCard Component (+5 more)
+
+### Community 72 - "Community 72"
+Cohesion: 0.05
+Nodes (41): AdminSidebar(), ALL_NAV, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm, EMPTY_FORM (+33 more)
+
+### Community 79 - "Community 79"
+Cohesion: 0.14
+Nodes (17): Community: About Page, Community: App Layout & Fonts, Community: Contact Page, Community: Core Package Manifest, Community: Landing Page, Community: Order Menu Components, Community: Product Modal & Types, Community: Supabase Database Schema (+9 more)
+
+### Community 80 - "Community 80"
+Cohesion: 0.19
+Nodes (15): components/ProductModal.tsx, Cart Type (Record<string,number>), CATEGORIES Data, MenuCard Component, Order Page, AddOn Interface, ALLERGEN_DETAILS Static Map, AllergyAccordion Sub-component (+7 more)
+
+### Community 82 - "Community 82"
+Cohesion: 0.47
+Nodes (6): Auth Provider (TODO: Supabase/NextAuth), NewsletterForm Component, Sign In Page, Sign Up Page, SiteHeader Component, NAV_LINKS Static Config
 
 ### Community 85 - "Community 85"
 Cohesion: 0.5
@@ -226,9 +244,9 @@ Nodes (4): getStep(), OrderData, STEPS, TrackPage()
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **186 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+181 more)
+- **202 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+197 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **47 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **45 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -237,13 +255,13 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
-- **Why does `supabaseAdmin` connect `Community 3` to `Community 0`, `Community 68`, `Community 69`, `Community 70`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 12`, `Community 18`, `Community 83`, `Community 84`, `Community 56`?**
-  _High betweenness centrality (0.159) - this node is a cross-community bridge._
-- **Why does `Supabase Admin Client` connect `Community 61` to `Community 0`, `Community 50`?**
-  _High betweenness centrality (0.131) - this node is a cross-community bridge._
+- **Why does `supabaseAdmin` connect `Community 68` to `Community 0`, `Community 3`, `Community 70`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 12`, `Community 81`, `Community 18`, `Community 83`, `Community 84`, `Community 56`, `Community 93`, `Community 94`?**
+  _High betweenness centrality (0.156) - this node is a cross-community bridge._
+- **Why does `Supabase Admin Client` connect `Community 69` to `Community 0`, `Community 82`, `Community 61`, `Community 5`?**
+  _High betweenness centrality (0.126) - this node is a cross-community bridge._
 - **Why does `Extra` connect `Community 1` to `Community 0`?**
-  _High betweenness centrality (0.127) - this node is a cross-community bridge._
+  _High betweenness centrality (0.116) - this node is a cross-community bridge._
 - **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
-  _190 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _206 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._

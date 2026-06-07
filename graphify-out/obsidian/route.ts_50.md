@@ -1,5 +1,5 @@
 ---
-source_file: "api/admin/menu/suggestions/route.ts"
+source_file: "api/menu-items/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_8]] - `contains` [EXTRACTED]
+- [[GET()_9]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

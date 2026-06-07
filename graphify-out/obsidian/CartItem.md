@@ -2,7 +2,7 @@
 source_file: "app/api/checkout/route.ts"
 type: "code"
 community: "Community None"
-location: "L13"
+location: "L14"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,8 @@ tags:
 # CartItem
 
 ## Connections
-- [[route.ts_22]] - `contains` [EXTRACTED]
-- [[route.ts_41]] - `contains` [EXTRACTED]
-- [[route.ts_54]] - `contains` [EXTRACTED]
+- [[route.ts_23]] - `contains` [EXTRACTED]
+- [[route.ts_42]] - `contains` [EXTRACTED]
+- [[route.ts_55]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

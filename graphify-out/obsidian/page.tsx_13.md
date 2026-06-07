@@ -12,11 +12,19 @@ tags:
 # page.tsx
 
 ## Connections
+- [[BusinessHours]] - `contains` [EXTRACTED]
+- [[DAYS]] - `imports` [EXTRACTED]
+- [[DAY_LABELS]] - `contains` [EXTRACTED]
+- [[DEFAULT_HOURS]] - `contains` [EXTRACTED]
+- [[DayHours]] - `contains` [EXTRACTED]
+- [[DayKey]] - `imports` [EXTRACTED]
+- [[Holiday]] - `contains` [EXTRACTED]
 - [[SaveState_3]] - `contains` [EXTRACTED]
 - [[SettingsPage()]] - `contains` [EXTRACTED]
 - [[StoreSettings]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[store-status.ts]] - `imports_from` [EXTRACTED]
 - [[supabase_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
