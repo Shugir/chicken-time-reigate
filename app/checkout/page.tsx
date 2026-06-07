@@ -49,8 +49,8 @@ export default function CheckoutPage() {
   const [city, setCity]                                 = useState('')
   const [county, setCounty]                             = useState('')
   const [customerNotes, setCustomerNotes]               = useState('')
-  const [addressSuggestions, setAddressSuggestions]     = useState<string[]>([])
   const [addressLookupLoading, setAddressLookupLoading] = useState(false)
+  const [addressAutoFilled, setAddressAutoFilled]       = useState(false)
 
   const UK_PHONE_RE = /^(\+44|0044|0)(7\d{9}|[1-9]\d{8,9})$/
   function isValidUKPhone(val: string) {
@@ -91,41 +91,23 @@ export default function CheckoutPage() {
     const pc = postcode.trim().replace(/\s/g, '').toUpperCase()
     if (!pc) { toast.error('Enter a postcode first'); return }
     setAddressLookupLoading(true)
-    setAddressSuggestions([])
+    setAddressAutoFilled(false)
     try {
-      // ─────────────────────────────────────────────────────────────────────────
-      // PRODUCTION: Replace this postcodes.io call with the Royal Mail PAF API
-      // (e.g. getAddress.io: GET https://api.getAddress.io/find/{postcode}?api-key=KEY)
-      // Parse the real response to build the suggestions array below.
-      // ─────────────────────────────────────────────────────────────────────────
       const res = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(pc)}`)
       const data = await res.json()
       if (data.status !== 200) { toast.error('Invalid postcode — please check and try again'); return }
       const r = data.result
-      const town   = r.parish || r.admin_ward || r.admin_district || ''
-      const cty    = r.admin_county || ''
-      const fmt    = postcode.trim().toUpperCase()
-      // Mock door-level suggestions — replace with real PAF results in production
-      const street = 'High Street'
-      setAddressSuggestions([
-        `1 ${street}, ${town}, ${cty}, ${fmt}`,
-        `2 ${street}, ${town}, ${cty}, ${fmt}`,
-        `Flat 3, ${street}, ${town}, ${cty}, ${fmt}`,
-      ])
-      validatePostcode(fmt)
+      const town = r.parish || r.admin_ward || r.admin_district || ''
+      const cty  = r.admin_county || ''
+      setCity(town)
+      setCounty(cty)
+      setAddressAutoFilled(true)
+      validatePostcode(postcode.trim().toUpperCase())
     } catch {
       toast.error('Could not look up postcode — please try again')
     } finally {
       setAddressLookupLoading(false)
     }
-  }
-
-  function selectAddress(full: string) {
-    const parts = full.split(', ')
-    setAddressLine1(parts[0] ?? '')
-    setCity(parts[1] ?? '')
-    setCounty(parts[2] ?? '')
-    setAddressSuggestions([])
   }
 
   function handlePostcodeChange(val: string) {
@@ -312,20 +294,6 @@ export default function CheckoutPage() {
             </div>
           )}
 
-          {addressSuggestions.length > 0 && (
-            <div className="border border-brand-red/30 rounded-xl overflow-hidden shadow-sm">
-              <p className="text-xs font-semibold text-gray-500 px-3 pt-2.5 pb-1">Select your address:</p>
-              {addressSuggestions.map((addr) => (
-                <button
-                  key={addr}
-                  onClick={() => selectAddress(addr)}
-                  className="w-full text-left px-4 py-3 text-sm text-gray-800 hover:bg-brand-red hover:text-white transition-colors border-t border-gray-100 first:border-t-0 font-medium"
-                >
-                  {addr}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Your Details */}
@@ -378,23 +346,29 @@ export default function CheckoutPage() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-gray-500 mb-1">City / Town</label>
+                <label className="block text-xs font-semibold text-gray-500 mb-1">
+                  City / Town
+                  {addressAutoFilled && city && <span className="ml-1.5 text-emerald-600 font-semibold">✓ auto-filled</span>}
+                </label>
                 <input
                   type="text"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   placeholder="e.g. Reigate"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+                  className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressAutoFilled && city ? 'border-emerald-300 bg-emerald-50/50' : 'border-gray-200'}`}
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 mb-1">County</label>
+                <label className="block text-xs font-semibold text-gray-500 mb-1">
+                  County
+                  {addressAutoFilled && county && <span className="ml-1.5 text-emerald-600 font-semibold">✓ auto-filled</span>}
+                </label>
                 <input
                   type="text"
                   value={county}
                   onChange={(e) => setCounty(e.target.value)}
                   placeholder="e.g. Surrey"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+                  className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressAutoFilled && county ? 'border-emerald-300 bg-emerald-50/50' : 'border-gray-200'}`}
                 />
               </div>
             </div>
