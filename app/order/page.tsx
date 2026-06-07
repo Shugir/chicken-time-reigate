@@ -15,6 +15,7 @@ import {
   LayoutGrid,
   List,
 } from 'lucide-react'
+import Link from 'next/link'
 import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -910,6 +911,22 @@ export default function OrderPage() {
 
         {/* Menu content */}
         <main className="flex-1 min-w-0 pb-32">
+
+          {/* Build Your Meal combo entry point */}
+          <div className="mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 border border-zinc-700 rounded-xl p-4 flex items-center justify-between gap-4">
+            <div>
+              <div className="font-bold text-white text-sm">🍗 Build Your Meal</div>
+              <div className="text-xs text-zinc-400 mt-0.5">
+                Pick your main, side &amp; drink — combo discount applied
+              </div>
+            </div>
+            <Link
+              href="/menu/combo"
+              className="shrink-0 bg-brand-red hover:bg-brand-red/80 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+            >
+              Build Now
+            </Link>
+          </div>
 
           {/* Search + filter bar */}
           <div className="mb-8 flex flex-wrap items-center gap-2">
