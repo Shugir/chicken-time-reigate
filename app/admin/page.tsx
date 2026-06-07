@@ -31,6 +31,7 @@ interface MenuItem {
   name: string
   description: string | null
   price: number
+  compare_at_price: number | null
   image_url: string | null
   category: string
   is_available: boolean
@@ -250,19 +251,20 @@ interface ItemModalProps {
   onSave: (item: MenuItem) => void
 }
 
-const EMPTY_FORM = { name: '', description: '', price: '', image_url: '', category: '' }
+const EMPTY_FORM = { name: '', description: '', price: '', compare_at_price: '', image_url: '', category: '' }
 
 function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps) {
   const [form, setForm] = useState(() =>
     editingItem
       ? {
-          name:           editingItem.name,
-          description:    editingItem.description ?? '',
-          price:          editingItem.price.toFixed(2),
-          image_url:      editingItem.image_url ?? '',
-          category:       editingItem.category,
-          combo_category: editingItem.combo_category ?? null,
-          size_tier:      editingItem.size_tier ?? null,
+          name:             editingItem.name,
+          description:      editingItem.description ?? '',
+          price:            editingItem.price.toFixed(2),
+          compare_at_price: editingItem.compare_at_price != null ? editingItem.compare_at_price.toFixed(2) : '',
+          image_url:        editingItem.image_url ?? '',
+          category:         editingItem.category,
+          combo_category:   editingItem.combo_category ?? null,
+          size_tier:        editingItem.size_tier ?? null,
         }
       : { ...EMPTY_FORM, category: categories[0]?.slug ?? '', combo_category: null as 'main' | 'side' | 'drink' | null, size_tier: null as 'regular' | 'large' | null }
   )
@@ -322,10 +324,11 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     if (!form.category) return setError('Category is required.')
 
     const payload = {
-      name:           form.name.trim(),
-      description:    form.description.trim() || null,
-      price:          parsed,
-      image_url:      form.image_url.trim() || null,
+      name:             form.name.trim(),
+      description:      form.description.trim() || null,
+      price:            parsed,
+      compare_at_price: form.compare_at_price ? parseFloat(form.compare_at_price as string) || null : null,
+      image_url:        form.image_url.trim() || null,
       category:       form.category,
       is_available:   editingItem ? editingItem.is_available : true,
       removals,
@@ -407,6 +410,28 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                 <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" />
               </div>
             </div>
+          </div>
+
+          {/* Compare at Price */}
+          <div>
+            <label className="block text-xs font-medium text-zinc-400 mb-1">
+              Compare at Price (Optional)
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">£</span>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder="0.00"
+                value={form.compare_at_price ?? ''}
+                onChange={(e) => setForm((f) => ({ ...f, compare_at_price: e.target.value }))}
+                className={`w-full pl-7 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`}
+              />
+            </div>
+            <p className="text-[11px] text-zinc-500 mt-1">
+              If higher than the selling price, the item shows an offer badge with a crossed-out original price.
+            </p>
           </div>
 
           {/* Image URL */}
