@@ -11,14 +11,22 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 interface Extra { name: string; price: number }
 
+interface ComboComponent {
+  id:        string
+  name:      string
+  category:  'main' | 'side' | 'drink'
+  size_tier: 'regular' | 'large'
+}
+
 interface CartItem {
-  name: string
-  price: number      // unit price already including extras
-  quantity: number
-  totalPrice: number // price × quantity
-  extras:   Extra[]
-  removals: string[]
-  notes?: string     // free-text only
+  name:              string
+  price:             number      // unit price already including extras
+  quantity:          number
+  totalPrice:        number      // price × quantity
+  extras:            Extra[]
+  removals:          string[]
+  notes?:            string      // free-text only
+  combo_components?: ComboComponent[]
 }
 
 export async function POST(request: NextRequest) {
@@ -149,13 +157,14 @@ export async function POST(request: NextRequest) {
       .from('order_items')
       .insert(
         items.map((item) => ({
-          order_id:   order.id,
-          item_name:  item.name,
-          quantity:   item.quantity,
-          unit_price: item.price,
-          extras:     item.extras   ?? [],
-          removals:   item.removals ?? [],
-          notes:      item.notes    ?? null,
+          order_id:          order.id,
+          item_name:         item.name,
+          quantity:          item.quantity,
+          unit_price:        item.price,
+          extras:            item.extras            ?? [],
+          removals:          item.removals          ?? [],
+          notes:             item.notes             ?? null,
+          combo_components:  item.combo_components  ?? null,
         })),
       )
 
