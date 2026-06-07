@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import {
   Loader2, Plus, Pencil, X, Check, Shield, ShieldCheck,
 } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+import { AdminDataTable, type Column, type FilterConfig } from '@/components/AdminDataTable'
 
 interface StaffMember {
   id: string
@@ -15,18 +17,18 @@ interface StaffMember {
 }
 
 const ALL_PERMISSIONS = [
-  { key: 'Dashboard',        label: 'Dashboard',          desc: 'View stats and recent orders' },
-  { key: 'MenuManager',      label: 'Menu Manager',       desc: 'Add, edit and delete menu items' },
-  { key: 'Categories',       label: 'Categories',         desc: 'Manage menu categories and display order' },
-  { key: 'StoreSettings',    label: 'Store Settings',     desc: 'Toggle store open/closed and prep time' },
-  { key: 'DeliveryZones',    label: 'Delivery Zones',     desc: 'Manage delivery areas and fees' },
-  { key: 'Promotions',       label: 'Promotions',         desc: 'Create and manage discount codes' },
-  { key: 'Fleet',            label: 'Fleet & Drivers',    desc: 'Manage drivers and wages' },
-  { key: 'Kitchen',          label: 'Kitchen Display',    desc: 'Access the kitchen order dashboard' },
+  { key: 'Dashboard',          label: 'Dashboard',           desc: 'View stats and recent orders' },
+  { key: 'MenuManager',        label: 'Menu Manager',        desc: 'Add, edit and delete menu items' },
+  { key: 'Categories',         label: 'Categories',          desc: 'Manage menu categories and display order' },
+  { key: 'StoreSettings',      label: 'Store Settings',      desc: 'Toggle store open/closed and prep time' },
+  { key: 'DeliveryZones',      label: 'Delivery Zones',      desc: 'Manage delivery areas and fees' },
+  { key: 'Promotions',         label: 'Promotions',          desc: 'Create and manage discount codes' },
+  { key: 'Fleet',              label: 'Fleet & Drivers',     desc: 'Manage drivers and wages' },
+  { key: 'Kitchen',            label: 'Kitchen Display',     desc: 'Access the kitchen order dashboard' },
   { key: 'DispatchController', label: 'Dispatch Controller', desc: 'Manage out-for-delivery orders' },
-  { key: 'Driver',           label: 'Driver',             desc: 'Access the driver delivery dashboard' },
-  { key: 'UserControl',      label: 'User Control',       desc: 'Manage staff accounts and permissions' },
-  { key: 'Loyalty',          label: 'Loyalty Points',     desc: 'View and adjust customer loyalty balances' },
+  { key: 'Driver',             label: 'Driver',              desc: 'Access the driver delivery dashboard' },
+  { key: 'UserControl',        label: 'User Control',        desc: 'Manage staff accounts and permissions' },
+  { key: 'Loyalty',            label: 'Loyalty Points',      desc: 'View and adjust customer loyalty balances' },
 ]
 
 interface StaffForm {
@@ -39,6 +41,10 @@ interface StaffForm {
 const EMPTY_FORM: StaffForm = { email: '', password: '', role: 'staff', permissions: [] }
 
 export default function StaffPage() {
+  const searchParams = useSearchParams()
+  const q    = searchParams.get('q') ?? ''
+  const role = searchParams.get('role') ?? ''
+
   const [staff, setStaff]         = useState<StaffMember[]>([])
   const [loading, setLoading]     = useState(true)
   const [showForm, setShowForm]   = useState(false)
@@ -49,12 +55,16 @@ export default function StaffPage() {
   const [deleteTarget, setDeleteTarget] = useState<StaffMember | null>(null)
 
   async function fetchStaff() {
-    const res = await fetch('/api/admin/staff')
+    setLoading(true)
+    const sp = new URLSearchParams()
+    if (q)    sp.set('q', q)
+    if (role) sp.set('role', role)
+    const res = await fetch(`/api/admin/staff?${sp}`)
     if (res.ok) setStaff(await res.json())
     setLoading(false)
   }
 
-  useEffect(() => { fetchStaff() }, [])
+  useEffect(() => { fetchStaff() }, [q, role])
 
   function openAdd() {
     setEditing(null); setForm(EMPTY_FORM); setSaveError(''); setShowForm(true)
@@ -105,6 +115,80 @@ export default function StaffPage() {
     await fetchStaff()
   }
 
+  const columns: Column<StaffMember>[] = [
+    {
+      key: 'email',
+      label: 'Email',
+      render: (member) => (
+        <div className="flex items-center gap-2">
+          {member.role === 'owner'
+            ? <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
+            : <Shield className="w-4 h-4 text-zinc-600 shrink-0" />
+          }
+          <span className="text-white font-medium">{member.email}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'role',
+      label: 'Role',
+      render: (member) => (
+        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
+          member.role === 'owner' ? 'bg-amber-500/20 text-amber-400' : 'bg-zinc-700/60 text-zinc-300'
+        }`}>
+          {member.role === 'owner' ? 'Owner' : 'Staff'}
+        </span>
+      ),
+    },
+    {
+      key: 'permissions',
+      label: 'Permissions',
+      render: (member) => member.role === 'owner' ? (
+        <span className="text-xs text-zinc-500 italic">All permissions</span>
+      ) : member.permissions.length === 0 ? (
+        <span className="text-xs text-zinc-600">No permissions</span>
+      ) : (
+        <div className="flex flex-wrap gap-1">
+          {member.permissions.slice(0, 4).map((p) => (
+            <span key={p} className="px-2 py-0.5 bg-zinc-800 rounded text-xs text-zinc-400">
+              {ALL_PERMISSIONS.find((x) => x.key === p)?.label ?? p}
+            </span>
+          ))}
+          {member.permissions.length > 4 && (
+            <span className="px-2 py-0.5 bg-zinc-800 rounded text-xs text-zinc-600">
+              +{member.permissions.length - 4}
+            </span>
+          )}
+        </div>
+      ),
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right',
+      render: (member) => (
+        <div className="flex items-center justify-end gap-2">
+          <button onClick={() => openEdit(member)} className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors">
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+          <button onClick={() => setDeleteTarget(member)} className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      ),
+    },
+  ]
+
+  const roleFilter: FilterConfig = {
+    paramKey: 'role',
+    allLabel: 'All Roles',
+    options: [
+      { label: 'Owner', value: 'owner' },
+      { label: 'Staff', value: 'staff' },
+    ],
+  }
+
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex">
       <AdminSidebar />
@@ -125,90 +209,19 @@ export default function StaffPage() {
         </header>
 
         <div className="flex-1 px-8 py-8 overflow-auto">
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <Loader2 className="w-8 h-8 text-zinc-600 animate-spin" />
-            </div>
-          ) : staff.length === 0 ? (
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-12 text-center">
-              <Shield className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
-              <p className="text-zinc-500 text-sm font-medium">No staff accounts yet</p>
-              <p className="text-zinc-700 text-xs mt-1">
-                Add staff members to grant them limited access to this panel.
-              </p>
-            </div>
-          ) : (
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-zinc-800/60">
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Email</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Role</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Permissions</th>
-                    <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-800/40">
-                  {staff.map((member) => (
-                    <tr key={member.id} className="hover:bg-zinc-800/20 transition-colors">
-                      <td className="px-6 py-3.5">
-                        <div className="flex items-center gap-2">
-                          {member.role === 'owner'
-                            ? <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
-                            : <Shield className="w-4 h-4 text-zinc-600 shrink-0" />
-                          }
-                          <span className="text-white font-medium">{member.email}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-3.5">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
-                          member.role === 'owner'
-                            ? 'bg-amber-500/20 text-amber-400'
-                            : 'bg-zinc-700/60 text-zinc-300'
-                        }`}>
-                          {member.role === 'owner' ? 'Owner' : 'Staff'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-3.5">
-                        {member.role === 'owner' ? (
-                          <span className="text-xs text-zinc-500 italic">All permissions</span>
-                        ) : member.permissions.length === 0 ? (
-                          <span className="text-xs text-zinc-600">No permissions</span>
-                        ) : (
-                          <div className="flex flex-wrap gap-1">
-                            {member.permissions.slice(0, 4).map((p) => (
-                              <span key={p} className="px-2 py-0.5 bg-zinc-800 rounded text-xs text-zinc-400">
-                                {ALL_PERMISSIONS.find((x) => x.key === p)?.label ?? p}
-                              </span>
-                            ))}
-                            {member.permissions.length > 4 && (
-                              <span className="px-2 py-0.5 bg-zinc-800 rounded text-xs text-zinc-600">
-                                +{member.permissions.length - 4}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-6 py-3.5 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button onClick={() => openEdit(member)} className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors">
-                            <Pencil className="w-3.5 h-3.5" />
-                          </button>
-                          <button onClick={() => setDeleteTarget(member)} className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors">
-                            <X className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+          <AdminDataTable
+            columns={columns}
+            data={staff}
+            loading={loading}
+            searchPlaceholder="Search by email…"
+            filters={[roleFilter]}
+            emptyIcon={<Shield className="w-12 h-12" />}
+            emptyText={q || role ? 'No staff match your filters' : 'No staff accounts yet'}
+            keyExtractor={(m) => m.id}
+          />
         </div>
       </main>
 
-      {/* Add/Edit Modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false) }}>
           <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -316,7 +329,6 @@ export default function StaffPage() {
         </div>
       )}
 
-      {/* Delete confirm */}
       {deleteTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
