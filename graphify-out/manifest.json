@@ -110,8 +110,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\drivers\\page.tsx": {
-    "mtime": 1780726939.5382762,
-    "ast_hash": "ad3d76222eca7ea77fffa4fb15f79810",
+    "mtime": 1780795548.6488223,
+    "ast_hash": "f5d51cd0fb3cd51c31b20ce6113afca1",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\drivers\\[id]\\page.tsx": {
@@ -152,6 +152,16 @@
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\staff\\page.tsx": {
     "mtime": 1780727933.9542365,
     "ast_hash": "d5990220098fa48e7dc0fc84a860e7fc",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\users\\layout.tsx": {
+    "mtime": 1780795556.5190156,
+    "ast_hash": "122dd66dac2cb4d4c5b02338a400f6f4",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\users\\page.tsx": {
+    "mtime": 1780795574.5585902,
+    "ast_hash": "5af6712b351f6a72e50156b7860c2910",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\allergens\\page.tsx": {
@@ -205,8 +215,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\admin\\drivers\\[id]\\route.ts": {
-    "mtime": 1780726886.165089,
-    "ast_hash": "9e8165f657e8534c9274f23a0b2295d8",
+    "mtime": 1780795538.7504847,
+    "ast_hash": "c5f791fb81db20ec70f1082af15b910d",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\admin\\drivers\\[id]\\ledger\\route.ts": {
@@ -365,8 +375,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\kitchen\\page.tsx": {
-    "mtime": 1780790466.6159122,
-    "ast_hash": "781c2cc86994d41eb26769347fef4a92",
+    "mtime": 1780794607.405705,
+    "ast_hash": "6c604a98af2810bb22956ff4b078b0e4",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\login\\page.tsx": {
@@ -430,8 +440,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\admin-sidebar.tsx": {
-    "mtime": 1780723478.3074975,
-    "ast_hash": "593d666833db52d15dca70481680e589",
+    "mtime": 1780795584.819023,
+    "ast_hash": "5203aa12209129f31e8723a1fe112363",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\permissions-provider.tsx": {
@@ -602,6 +612,11 @@
   "E:\\ChickenTime\\chicken-time-reigate\\supabase\\migrations\\20260623_guest_tracking.sql": {
     "mtime": 1780793689.1709282,
     "ast_hash": "058384b5c82bb65fcacdccadb7b7d49c",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\supabase\\migrations\\20260624_unique_driver_user.sql": {
+    "mtime": 1780795533.7180204,
+    "ast_hash": "458d387e9a96926fd30ee56505ceb960",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\AGENTS.md": {

@@ -1,5 +1,5 @@
 ---
-source_file: "admin/delivery/layout.tsx"
+source_file: "admin/dashboard/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[DeliveryLayout()]] - `contains` [EXTRACTED]
+- [[DashboardLayout()]] - `contains` [EXTRACTED]
 - [[getUserPermissions]] - `imports` [EXTRACTED]
 - [[hasPermission()]] - `imports` [EXTRACTED]
 
