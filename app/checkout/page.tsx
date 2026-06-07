@@ -46,6 +46,7 @@ export default function CheckoutPage() {
   const [customerPhone, setCustomerPhone]               = useState('')
   const [phoneError, setPhoneError]                     = useState<string | null>(null)
   const [addressLine1, setAddressLine1]                 = useState('')
+  const [addressLine1Error, setAddressLine1Error]       = useState<string | null>(null)
   const [city, setCity]                                 = useState('')
   const [county, setCounty]                             = useState('')
   const [customerNotes, setCustomerNotes]               = useState('')
@@ -339,10 +340,20 @@ export default function CheckoutPage() {
               <input
                 type="text"
                 value={addressLine1}
-                onChange={(e) => setAddressLine1(e.target.value)}
+                onChange={(e) => { setAddressLine1(e.target.value); if (addressLine1Error) setAddressLine1Error(null) }}
+                onBlur={() => {
+                  if (!addressLine1.trim()) setAddressLine1Error('Address is required')
+                  else setAddressLine1Error(null)
+                }}
                 placeholder="e.g. 12 High Street"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+                className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressLine1Error ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
               />
+              {addressLine1Error && (
+                <p className="flex items-center gap-1.5 text-xs text-red-600 mt-1.5">
+                  <AlertCircle size={12} />
+                  {addressLine1Error}
+                </p>
+              )}
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
