@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/drivers/route.ts"
+source_file: "app/api/delivery-zones/route.ts"
 type: "code"
 community: "Community None"
 location: "L6"
@@ -13,8 +13,6 @@ tags:
 
 ## Connections
 - [[route.ts_8]] - `contains` [EXTRACTED]
-- [[route.ts_27]] - `contains` [EXTRACTED]
-- [[route.ts_42]] - `contains` [EXTRACTED]
-- [[route.ts_49]] - `contains` [EXTRACTED]
+- [[route.ts_26]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

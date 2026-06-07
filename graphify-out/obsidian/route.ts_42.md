@@ -1,5 +1,5 @@
 ---
-source_file: "api/drivers/route.ts"
+source_file: "app/api/webhook/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,9 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_5]] - `contains` [EXTRACTED]
+- [[POST()_12]] - `contains` [EXTRACTED]
+- [[stripe_2]] - `contains` [EXTRACTED]
+- [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "account/page.tsx"
+source_file: "admin/drivers/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,19 +12,14 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AccountPage()]] - `contains` [EXTRACTED]
-- [[OfferCard()]] - `contains` [EXTRACTED]
-- [[Order]] - `contains` [EXTRACTED]
-- [[OrderCard()]] - `contains` [EXTRACTED]
-- [[OrderItem]] - `contains` [EXTRACTED]
-- [[Profile]] - `contains` [EXTRACTED]
-- [[PromoCode]] - `contains` [EXTRACTED]
-- [[TIMELINE]] - `contains` [EXTRACTED]
-- [[Tab]] - `contains` [EXTRACTED]
-- [[formatDateTime()]] - `imports` [EXTRACTED]
-- [[statusColor()]] - `contains` [EXTRACTED]
-- [[statusLabel()]] - `contains` [EXTRACTED]
-- [[supabase]] - `contains` [EXTRACTED]
-- [[trackingStep()]] - `contains` [EXTRACTED]
+- [[Aggregates]] - `contains` [EXTRACTED]
+- [[AuthUser]] - `contains` [EXTRACTED]
+- [[Driver]] - `contains` [EXTRACTED]
+- [[DriverForm]] - `contains` [EXTRACTED]
+- [[DriversPage()]] - `contains` [EXTRACTED]
+- [[EMPTY_FORM_2]] - `contains` [EXTRACTED]
+- [[STATUS_LABELS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES_1]] - `contains` [EXTRACTED]
+- [[fmtGbp()_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

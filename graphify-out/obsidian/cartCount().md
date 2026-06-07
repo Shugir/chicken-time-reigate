@@ -2,7 +2,7 @@
 source_file: "app/order/page.tsx"
 type: "code"
 community: "Community None"
-location: "L278"
+location: "L279"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,8 +13,8 @@ tags:
 
 ## Connections
 - [[OrderPage()]] - `calls` [EXTRACTED]
-- [[page.tsx_22]] - `contains` [EXTRACTED]
-- [[page.tsx_30]] - `contains` [EXTRACTED]
-- [[page.tsx_40]] - `contains` [EXTRACTED]
+- [[page.tsx_24]] - `contains` [EXTRACTED]
+- [[page.tsx_31]] - `contains` [EXTRACTED]
+- [[page.tsx_42]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

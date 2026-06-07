@@ -15,6 +15,6 @@ tags:
 - [[Footer.tsx]] - `imports` [EXTRACTED]
 - [[NewsletterForm.tsx]] - `contains` [EXTRACTED]
 - [[layout.tsx]] - `imports` [EXTRACTED]
-- [[layout.tsx_13]] - `imports` [EXTRACTED]
+- [[layout.tsx_14]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

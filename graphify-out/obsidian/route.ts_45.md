@@ -1,5 +1,5 @@
 ---
-source_file: "api/driver/orders/[id]/route.ts"
+source_file: "[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"

@@ -1,5 +1,5 @@
 ---
-source_file: "app/track/page.tsx"
+source_file: "app/signup/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,6 @@ tags:
 # page.tsx
 
 ## Connections
-- [[OrderData]] - `contains` [EXTRACTED]
-- [[STEPS]] - `contains` [EXTRACTED]
-- [[TrackPage()]] - `contains` [EXTRACTED]
-- [[getStep()]] - `contains` [EXTRACTED]
+- [[SignupPage()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

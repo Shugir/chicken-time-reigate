@@ -1,5 +1,5 @@
 ---
-source_file: "app/driver/dashboard/page.tsx"
+source_file: "app/contact/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,10 +12,12 @@ tags:
 # page.tsx
 
 ## Connections
-- [[DriverDashboard()]] - `contains` [EXTRACTED]
-- [[Order_1]] - `contains` [EXTRACTED]
-- [[mapsUrl()]] - `contains` [EXTRACTED]
-- [[multiStopMapsUrl()]] - `contains` [EXTRACTED]
-- [[supabase_3]] - `contains` [EXTRACTED]
+- [[ContactPage()]] - `contains` [EXTRACTED]
+- [[EMPTY]] - `contains` [EXTRACTED]
+- [[FormState]] - `contains` [EXTRACTED]
+- [[HOURS]] - `contains` [EXTRACTED]
+- [[InputField()]] - `contains` [EXTRACTED]
+- [[SUBJECTS]] - `contains` [EXTRACTED]
+- [[oswald_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

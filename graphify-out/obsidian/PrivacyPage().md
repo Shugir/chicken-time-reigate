@@ -12,6 +12,6 @@ tags:
 # PrivacyPage()
 
 ## Connections
-- [[page.tsx_23]] - `contains` [EXTRACTED]
+- [[page.tsx_25]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

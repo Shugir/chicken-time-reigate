@@ -12,8 +12,8 @@ tags:
 # CARD_GRADIENT
 
 ## Connections
-- [[page.tsx_22]] - `contains` [EXTRACTED]
-- [[page.tsx_30]] - `contains` [EXTRACTED]
-- [[page.tsx_40]] - `contains` [EXTRACTED]
+- [[page.tsx_24]] - `contains` [EXTRACTED]
+- [[page.tsx_31]] - `contains` [EXTRACTED]
+- [[page.tsx_42]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

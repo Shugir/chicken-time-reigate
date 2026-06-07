@@ -1,5 +1,5 @@
 ---
-source_file: "kitchen/layout.tsx"
+source_file: "admin/staff/layout.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # layout.tsx
 
 ## Connections
-- [[KitchenLayout()]] - `contains` [EXTRACTED]
+- [[StaffLayout()]] - `contains` [EXTRACTED]
 - [[getUserPermissions]] - `imports` [EXTRACTED]
 - [[hasPermission()]] - `imports` [EXTRACTED]
 
