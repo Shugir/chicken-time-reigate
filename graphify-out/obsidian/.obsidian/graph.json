@@ -1,4 +1,11 @@
 {
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": true,
+  "hideUnresolved": true,
+  "showOrphans": true,
+  "collapse-color-groups": true,
   "colorGroups": [
     {
       "query": "tag:#community/Community_0",
@@ -470,13 +477,6 @@
       }
     },
     {
-      "query": "tag:#community/Community_67",
-      "color": {
-        "a": 1,
-        "rgb": 16752039
-      }
-    },
-    {
       "query": "tag:#community/Community_68",
       "color": {
         "a": 1,
@@ -502,13 +502,6 @@
       "color": {
         "a": 1,
         "rgb": 15896107
-      }
-    },
-    {
-      "query": "tag:#community/Community_72",
-      "color": {
-        "a": 1,
-        "rgb": 14767961
       }
     },
     {
@@ -554,31 +547,10 @@
       }
     },
     {
-      "query": "tag:#community/Community_79",
-      "color": {
-        "a": 1,
-        "rgb": 12234924
-      }
-    },
-    {
-      "query": "tag:#community/Community_80",
-      "color": {
-        "a": 1,
-        "rgb": 5142951
-      }
-    },
-    {
       "query": "tag:#community/Community_81",
       "color": {
         "a": 1,
         "rgb": 15896107
-      }
-    },
-    {
-      "query": "tag:#community/Community_82",
-      "color": {
-        "a": 1,
-        "rgb": 14767961
       }
     },
     {
@@ -615,20 +587,18 @@
         "a": 1,
         "rgb": 10253663
       }
-    },
-    {
-      "query": "tag:#community/Community_93",
-      "color": {
-        "a": 1,
-        "rgb": 7780274
-      }
-    },
-    {
-      "query": "tag:#community/Community_94",
-      "color": {
-        "a": 1,
-        "rgb": 5873999
-      }
     }
-  ]
+  ],
+  "collapse-display": true,
+  "showArrow": false,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": true,
+  "centerStrength": 0.518713248970312,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 0.09392927902846952,
+  "close": false
 }

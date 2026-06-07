@@ -7,7 +7,7 @@ import { usePermissions } from '@/components/admin/permissions-provider'
 import { createClient } from '@supabase/supabase-js'
 import {
   ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer,
-  ArrowLeft, LogOut, Truck, AlertCircle, AlertTriangle, PackageCheck, MapPin, Phone, MessageSquare, User,
+  ArrowLeft, LogOut, Truck, AlertCircle, AlertTriangle, PackageCheck, MapPin, Phone, MessageSquare, User, Search,
 } from 'lucide-react'
 
 import {
@@ -485,6 +485,10 @@ export default function KitchenDashboard() {
   const [availableDrivers, setAvailableDrivers]         = useState<Driver[]>([])
   const [driversLoading, setDriversLoading]             = useState(false)
 
+  // Search / filter
+  const [searchQuery, setSearchQuery]   = useState('')
+  const [driverFilter, setDriverFilter] = useState('')
+
   // Print
   const [now, setNow]                 = useState(new Date())
   const [mounted, setMounted]         = useState(false)
@@ -690,12 +694,16 @@ export default function KitchenDashboard() {
     fetchDispatchOrders()
   }
 
-  const preparing  = orders.filter((o) => o.status === 'preparing')
-  const ready      = orders.filter((o) => o.status === 'ready')
+  const sq = searchQuery.trim().toLowerCase()
+  const preparing  = orders.filter((o) => o.status === 'preparing' && (!sq || o.id.toLowerCase().includes(sq)))
+  const ready      = orders.filter((o) => o.status === 'ready'     && (!sq || o.id.toLowerCase().includes(sq)))
   const dispatched = orders
-    .filter((o) => o.status === 'dispatched')
+    .filter((o) => o.status === 'dispatched' && (!sq || o.id.toLowerCase().includes(sq)))
     .slice(-MAX_DISPATCHED)
     .reverse()
+  const filteredDispatchOrders = driverFilter
+    ? dispatchOrders.filter((o) => o.drivers?.name?.toLowerCase().includes(driverFilter.toLowerCase()))
+    : dispatchOrders
 
   return (
     <div className="fixed inset-0 z-[200] bg-[#0d0d0d] overflow-hidden flex flex-col">
@@ -796,6 +804,22 @@ export default function KitchenDashboard() {
 
         {/* ── Kitchen Tab ── */}
         {activeTab === 'kitchen' && (
+          <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="px-6 py-2.5 border-b border-white/10 bg-[#111] shrink-0 flex items-center gap-3">
+            <Search size={14} className="text-white/30 shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by order ID…"
+              className="flex-1 bg-transparent text-sm text-white placeholder-white/20 focus:outline-none font-mono"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery('')} className="text-white/30 hover:text-white/60 text-xs font-bold transition-colors">
+                ✕
+              </button>
+            )}
+          </div>
           <div className="flex-1 grid grid-cols-3 gap-0 overflow-hidden">
 
             {/* Preparing */}
@@ -890,6 +914,7 @@ export default function KitchenDashboard() {
             </div>
 
           </div>
+          </div>
         )}
 
         {/* ── Dispatch Tab ── */}
@@ -900,28 +925,40 @@ export default function KitchenDashboard() {
                 <h2 className="text-lg font-black text-white">Dispatch Controller</h2>
                 <p className="text-xs text-white/40 mt-0.5">Orders currently out for delivery</p>
               </div>
-              <button
-                onClick={fetchDispatchOrders}
-                disabled={dispatchLoading}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
-              >
-                <RefreshCw size={13} className={dispatchLoading ? 'animate-spin' : ''} />
-                Refresh
-              </button>
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={driverFilter}
+                    onChange={(e) => setDriverFilter(e.target.value)}
+                    placeholder="Filter by driver…"
+                    className="bg-white/5 border border-white/10 rounded-lg pl-7 pr-3 py-1.5 text-xs text-white placeholder-white/20 focus:outline-none focus:border-white/20 w-40"
+                  />
+                </div>
+                <button
+                  onClick={fetchDispatchOrders}
+                  disabled={dispatchLoading}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
+                >
+                  <RefreshCw size={13} className={dispatchLoading ? 'animate-spin' : ''} />
+                  Refresh
+                </button>
+              </div>
             </div>
 
             {dispatchLoading ? (
               <div className="flex items-center justify-center h-64">
                 <RefreshCw size={28} className="text-white/20 animate-spin" />
               </div>
-            ) : dispatchOrders.length === 0 ? (
+            ) : filteredDispatchOrders.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-center">
                 <Truck size={40} className="text-white/10 mb-3" />
                 <p className="text-white/30 text-sm font-bold">No orders out for delivery</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 max-w-5xl">
-                {dispatchOrders.map((order) => (
+                {filteredDispatchOrders.map((order) => (
                   <div key={order.id} className="bg-[#1a1a1a] rounded-2xl border border-white/10 p-5 flex flex-col gap-4">
                     {/* Header */}
                     <div className="flex items-start justify-between gap-3">

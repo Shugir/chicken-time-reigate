@@ -3,7 +3,9 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const q = request.nextUrl.searchParams.get('q')?.trim().toLowerCase() ?? ''
+
   const [{ data: txns, error }, { data: usersData }] = await Promise.all([
     supabaseAdmin.from('loyalty_transactions').select('user_id, points'),
     supabaseAdmin.auth.admin.listUsers({ perPage: 1000 }),
@@ -19,9 +21,11 @@ export async function GET() {
     balanceMap.set(t.user_id, (balanceMap.get(t.user_id) ?? 0) + t.points)
   }
 
-  const leaderboard = Array.from(balanceMap.entries())
+  let leaderboard = Array.from(balanceMap.entries())
     .map(([user_id, balance]) => ({ user_id, email: emailMap.get(user_id) ?? '—', balance }))
     .sort((a, b) => b.balance - a.balance)
+
+  if (q) leaderboard = leaderboard.filter((u) => u.email.toLowerCase().includes(q))
 
   return NextResponse.json(leaderboard)
 }

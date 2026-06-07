@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import {
   Truck, Loader2, Plus, Pencil, X, Check, BookOpen,
   Banknote, TrendingUp, AlertTriangle, Users,
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+import { AdminDataTable, type Column, type FilterConfig } from '@/components/AdminDataTable'
 
 interface Driver {
   id: string
@@ -63,6 +65,10 @@ function fmtGbp(n: number) {
 }
 
 export default function DriversPage() {
+  const searchParams = useSearchParams()
+  const q            = searchParams.get('q') ?? ''
+  const statusFilter = searchParams.get('status') ?? ''
+
   const [drivers, setDrivers]         = useState<Driver[]>([])
   const [aggregates, setAggregates]   = useState<Aggregates | null>(null)
   const [loading, setLoading]         = useState(true)
@@ -75,8 +81,11 @@ export default function DriversPage() {
   const [authUsers, setAuthUsers]     = useState<AuthUser[]>([])
   const [authLoading, setAuthLoading] = useState(false)
 
-  async function fetchDrivers() {
-    const res = await fetch('/api/admin/drivers')
+  async function fetchDrivers(query: string, status: string) {
+    const sp = new URLSearchParams()
+    if (query)  sp.set('q', query)
+    if (status) sp.set('status', status)
+    const res = await fetch(`/api/admin/drivers?${sp}`)
     if (res.ok) {
       const json = await res.json()
       setDrivers(json.drivers ?? [])
@@ -85,7 +94,7 @@ export default function DriversPage() {
     setLoading(false)
   }
 
-  useEffect(() => { fetchDrivers() }, [])
+  useEffect(() => { fetchDrivers(q, statusFilter) }, [q, statusFilter])
 
   async function fetchAuthUsers() {
     setAuthLoading(true)
@@ -95,57 +104,28 @@ export default function DriversPage() {
   }
 
   function openAdd() {
-    setEditing(null)
-    setForm(EMPTY_FORM)
-    setSaveError('')
-    setShowForm(true)
-    fetchAuthUsers()
+    setEditing(null); setForm(EMPTY_FORM); setSaveError(''); setShowForm(true); fetchAuthUsers()
   }
 
   function openEdit(driver: Driver) {
     setEditing(driver)
-    setForm({
-      name:              driver.name,
-      phone:             driver.phone ?? '',
-      per_delivery_wage: String(driver.per_delivery_wage),
-      user_id:           driver.user_id ?? '',
-    })
-    setSaveError('')
-    setShowForm(true)
-    fetchAuthUsers()
+    setForm({ name: driver.name, phone: driver.phone ?? '', per_delivery_wage: String(driver.per_delivery_wage), user_id: driver.user_id ?? '' })
+    setSaveError(''); setShowForm(true); fetchAuthUsers()
   }
 
-  function closeForm() {
-    setShowForm(false)
-    setEditing(null)
-    setSaveError('')
-  }
+  function closeForm() { setShowForm(false); setEditing(null); setSaveError('') }
 
   async function handleSave() {
     if (!form.name.trim()) { setSaveError('Name is required'); return }
     const wage = parseFloat(form.per_delivery_wage)
     if (isNaN(wage) || wage < 0) { setSaveError('Wage must be a valid number'); return }
 
-    setSaving(true)
-    setSaveError('')
+    setSaving(true); setSaveError('')
     try {
-      const body = {
-        name:              form.name.trim(),
-        phone:             form.phone.trim() || null,
-        per_delivery_wage: wage,
-        user_id:           form.user_id || null,
-      }
+      const body = { name: form.name.trim(), phone: form.phone.trim() || null, per_delivery_wage: wage, user_id: form.user_id || null }
       const res = editing
-        ? await fetch(`/api/admin/drivers/${editing.id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-          })
-        : await fetch('/api/admin/drivers', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-          })
+        ? await fetch(`/api/admin/drivers/${editing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        : await fetch('/api/admin/drivers', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       if (!res.ok) {
         const e = await res.json()
         const msg = e.error ?? 'Save failed'
@@ -153,7 +133,7 @@ export default function DriversPage() {
         if (msg.includes('already assigned')) toast.error(msg)
         return
       }
-      await fetchDrivers()
+      await fetchDrivers(q, statusFilter)
       closeForm()
     } finally {
       setSaving(false)
@@ -162,17 +142,117 @@ export default function DriversPage() {
 
   async function handleToggleActive(driver: Driver) {
     setTogglingIds((prev) => new Set(prev).add(driver.id))
-    await fetch(`/api/admin/drivers/${driver.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ is_active: !driver.is_active }),
-    })
-    await fetchDrivers()
+    await fetch(`/api/admin/drivers/${driver.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ is_active: !driver.is_active }) })
+    await fetchDrivers(q, statusFilter)
     setTogglingIds((prev) => { const s = new Set(prev); s.delete(driver.id); return s })
   }
 
   const active   = drivers.filter((d) => d.is_active)
   const inactive = drivers.filter((d) => !d.is_active)
+
+  const activeColumns: Column<Driver>[] = [
+    {
+      key: 'name',
+      label: 'Name',
+      render: (d) => (
+        <Link href={`/admin/drivers/${d.id}`} className="font-semibold text-white hover:text-amber-400 transition-colors">
+          {d.name}
+        </Link>
+      ),
+    },
+    {
+      key: 'phone',
+      label: 'Phone',
+      render: (d) => <span className="text-zinc-400">{d.phone ?? '—'}</span>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (d) => (
+        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${STATUS_STYLES[d.status] ?? STATUS_STYLES.offline}`}>
+          {STATUS_LABELS[d.status] ?? d.status}
+        </span>
+      ),
+    },
+    {
+      key: 'drops',
+      label: 'Drops ✓',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right',
+      render: (d) => <span className="font-semibold text-white">{d.successful_drops}</span>,
+    },
+    {
+      key: 'failed',
+      label: 'Failed ✗',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right',
+      render: (d) => (
+        <span className={d.failed_returns > 0 ? 'font-semibold text-red-400' : 'text-zinc-600'}>
+          {d.failed_returns}
+        </span>
+      ),
+    },
+    {
+      key: 'wages',
+      label: 'Total Wages',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right',
+      render: (d) => <span className="font-semibold text-emerald-400">{fmtGbp(d.total_wages)}</span>,
+    },
+    {
+      key: 'pending',
+      label: 'Pending',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right',
+      render: (d) => (
+        <span className={d.pending_wages > 0 ? 'font-bold text-amber-400' : 'text-zinc-600'}>
+          {fmtGbp(d.pending_wages)}
+        </span>
+      ),
+    },
+    {
+      key: 'per_drop',
+      label: 'Per Drop',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right text-zinc-400',
+      render: (d) => fmtGbp(Number(d.per_delivery_wage)),
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right',
+      render: (d) => (
+        <div className="flex items-center justify-end gap-2">
+          <Link href={`/admin/drivers/${d.id}`}
+            className="p-1.5 rounded-lg text-zinc-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" title="View Ledger">
+            <BookOpen className="w-3.5 h-3.5" />
+          </Link>
+          <button onClick={() => openEdit(d)}
+            className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors">
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+          <button onClick={() => handleToggleActive(d)} disabled={togglingIds.has(d.id)}
+            className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            title="Deactivate driver">
+            {togglingIds.has(d.id) ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <X className="w-3.5 h-3.5" />}
+          </button>
+        </div>
+      ),
+    },
+  ]
+
+  const statusFilters: FilterConfig[] = [
+    {
+      paramKey: 'status',
+      allLabel: 'All Statuses',
+      options: [
+        { label: 'Available',    value: 'available' },
+        { label: 'On Delivery',  value: 'on_delivery' },
+        { label: 'Offline',      value: 'offline' },
+      ],
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex">
@@ -184,20 +264,16 @@ export default function DriversPage() {
             <h1 className="text-xl font-bold text-white">Fleet Control Tower</h1>
             <p className="text-sm text-zinc-500 mt-0.5">Fleet overview, payroll, and driver management</p>
           </div>
-          <button
-            onClick={openAdd}
-            className="flex items-center gap-2 px-4 py-2 bg-brand-red hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Add Driver
+          <button onClick={openAdd}
+            className="flex items-center gap-2 px-4 py-2 bg-brand-red hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors">
+            <Plus className="w-4 h-4" /> Add Driver
           </button>
         </header>
 
         <div className="flex-1 px-8 py-8 space-y-8 overflow-auto">
 
-          {/* ── Stat Cards ─────────────────────────────────────────────────────── */}
+          {/* Stat Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Total Pending Payroll */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5">
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
@@ -214,8 +290,6 @@ export default function DriversPage() {
                 </>
               )}
             </div>
-
-            {/* Fleet Success Rate */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5">
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
@@ -232,8 +306,6 @@ export default function DriversPage() {
                 </>
               )}
             </div>
-
-            {/* Total Shrinkage */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5">
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
@@ -250,8 +322,6 @@ export default function DriversPage() {
                 </>
               )}
             </div>
-
-            {/* Active Roster */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5">
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="w-8 h-8 rounded-lg bg-sky-500/10 flex items-center justify-center">
@@ -270,212 +340,97 @@ export default function DriversPage() {
             </div>
           </div>
 
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <Loader2 className="w-8 h-8 text-zinc-600 animate-spin" />
-            </div>
-          ) : (
-            <>
-              {/* ── Active Drivers ────────────────────────────────────────────── */}
-              <section>
-                <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wide mb-4">
-                  Active Drivers ({active.length})
-                </h2>
-                {active.length === 0 ? (
-                  <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center">
-                    <Truck className="w-10 h-10 text-zinc-700 mx-auto mb-3" />
-                    <p className="text-zinc-500 text-sm">No active drivers. Add one above.</p>
-                  </div>
-                ) : (
-                  <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm min-w-[900px]">
-                        <thead>
-                          <tr className="border-b border-zinc-800/60">
-                            <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Name</th>
-                            <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Phone</th>
-                            <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Status</th>
-                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Drops ✓</th>
-                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Failed ✗</th>
-                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Total Wages</th>
-                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Pending</th>
-                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Per Drop</th>
-                            <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-zinc-800/40">
-                          {active.map((driver) => (
-                            <tr key={driver.id} className="hover:bg-zinc-800/20 transition-colors">
-                              <td className="px-5 py-3.5">
-                                <Link
-                                  href={`/admin/drivers/${driver.id}`}
-                                  className="font-semibold text-white hover:text-amber-400 transition-colors"
-                                >
-                                  {driver.name}
-                                </Link>
-                              </td>
-                              <td className="px-5 py-3.5 text-zinc-400">{driver.phone ?? '—'}</td>
-                              <td className="px-5 py-3.5">
-                                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${STATUS_STYLES[driver.status] ?? STATUS_STYLES.offline}`}>
-                                  {STATUS_LABELS[driver.status] ?? driver.status}
-                                </span>
-                              </td>
-                              <td className="px-5 py-3.5 text-right">
-                                <span className="font-semibold text-white">{driver.successful_drops}</span>
-                              </td>
-                              <td className="px-5 py-3.5 text-right">
-                                <span className={driver.failed_returns > 0 ? 'font-semibold text-red-400' : 'text-zinc-600'}>
-                                  {driver.failed_returns}
-                                </span>
-                              </td>
-                              <td className="px-5 py-3.5 text-right">
-                                <span className="font-semibold text-emerald-400">{fmtGbp(driver.total_wages)}</span>
-                              </td>
-                              <td className="px-5 py-3.5 text-right">
-                                <span className={driver.pending_wages > 0 ? 'font-bold text-amber-400' : 'text-zinc-600'}>
-                                  {fmtGbp(driver.pending_wages)}
-                                </span>
-                              </td>
-                              <td className="px-5 py-3.5 text-right text-zinc-400">
-                                {fmtGbp(Number(driver.per_delivery_wage))}
-                              </td>
-                              <td className="px-5 py-3.5 text-right">
-                                <div className="flex items-center justify-end gap-2">
-                                  <Link
-                                    href={`/admin/drivers/${driver.id}`}
-                                    className="p-1.5 rounded-lg text-zinc-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
-                                    title="View Ledger"
-                                  >
-                                    <BookOpen className="w-3.5 h-3.5" />
-                                  </Link>
-                                  <button
-                                    onClick={() => openEdit(driver)}
-                                    className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors"
-                                  >
-                                    <Pencil className="w-3.5 h-3.5" />
-                                  </button>
-                                  <button
-                                    onClick={() => handleToggleActive(driver)}
-                                    disabled={togglingIds.has(driver.id)}
-                                    className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                                    title="Deactivate driver"
-                                  >
-                                    {togglingIds.has(driver.id) ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <X className="w-3.5 h-3.5" />}
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-              </section>
+          {/* Active Drivers */}
+          <section>
+            <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wide mb-4">
+              Active Drivers ({active.length})
+            </h2>
+            <AdminDataTable
+              columns={activeColumns}
+              data={active}
+              loading={loading}
+              searchPlaceholder="Search by driver name…"
+              filters={statusFilters}
+              emptyIcon={<Truck className="w-10 h-10" />}
+              emptyText={q || statusFilter ? 'No active drivers match your filter' : 'No active drivers. Add one above.'}
+              keyExtractor={(d) => d.id}
+            />
+          </section>
 
-              {/* ── Inactive Drivers ──────────────────────────────────────────── */}
-              {inactive.length > 0 && (
-                <section>
-                  <h2 className="text-sm font-semibold text-zinc-600 uppercase tracking-wide mb-4">
-                    Inactive Drivers ({inactive.length})
-                  </h2>
-                  <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden opacity-60">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-zinc-800/60">
-                          <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Name</th>
-                          <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Phone</th>
-                          <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Drops</th>
-                          <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Total Wages</th>
-                          <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-zinc-800/40">
-                        {inactive.map((driver) => (
-                          <tr key={driver.id} className="hover:bg-zinc-800/20 transition-colors">
-                            <td className="px-5 py-3.5">
-                              <Link
-                                href={`/admin/drivers/${driver.id}`}
-                                className="font-semibold text-zinc-500 hover:text-zinc-300 transition-colors"
-                              >
-                                {driver.name}
-                              </Link>
-                            </td>
-                            <td className="px-5 py-3.5 text-zinc-600">{driver.phone ?? '—'}</td>
-                            <td className="px-5 py-3.5 text-right text-zinc-500">{driver.successful_drops}</td>
-                            <td className="px-5 py-3.5 text-right text-zinc-500">{fmtGbp(driver.total_wages)}</td>
-                            <td className="px-5 py-3.5 text-right">
-                              <button
-                                onClick={() => handleToggleActive(driver)}
-                                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
-                              >
-                                <Check className="w-3.5 h-3.5" />
-                                Reactivate
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </section>
-              )}
-            </>
+          {/* Inactive Drivers */}
+          {!loading && inactive.length > 0 && (
+            <section>
+              <h2 className="text-sm font-semibold text-zinc-600 uppercase tracking-wide mb-4">
+                Inactive Drivers ({inactive.length})
+              </h2>
+              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden opacity-60">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-zinc-800/60">
+                      <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Name</th>
+                      <th className="px-5 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Phone</th>
+                      <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Drops</th>
+                      <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Total Wages</th>
+                      <th className="px-5 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-800/40">
+                    {inactive.map((driver) => (
+                      <tr key={driver.id} className="hover:bg-zinc-800/20 transition-colors">
+                        <td className="px-5 py-3.5">
+                          <Link href={`/admin/drivers/${driver.id}`} className="font-semibold text-zinc-500 hover:text-zinc-300 transition-colors">
+                            {driver.name}
+                          </Link>
+                        </td>
+                        <td className="px-5 py-3.5 text-zinc-600">{driver.phone ?? '—'}</td>
+                        <td className="px-5 py-3.5 text-right text-zinc-500">{driver.successful_drops}</td>
+                        <td className="px-5 py-3.5 text-right text-zinc-500">{fmtGbp(driver.total_wages)}</td>
+                        <td className="px-5 py-3.5 text-right">
+                          <button onClick={() => handleToggleActive(driver)}
+                            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+                            <Check className="w-3.5 h-3.5" /> Reactivate
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
           )}
         </div>
       </main>
 
-      {/* ── Add / Edit Modal ──────────────────────────────────────────────────── */}
+      {/* Add / Edit Modal */}
       {showForm && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-          onClick={(e) => { if (e.target === e.currentTarget) closeForm() }}
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) closeForm() }}>
           <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold text-white">
-                {editing ? 'Edit Driver' : 'Add Driver'}
-              </h2>
+              <h2 className="text-lg font-bold text-white">{editing ? 'Edit Driver' : 'Add Driver'}</h2>
               <button onClick={closeForm} className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
-
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-zinc-400 mb-1.5">Name *</label>
-                <input
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                <input type="text" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   placeholder="e.g. John Smith"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red"
-                />
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red" />
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-zinc-400 mb-1.5">Phone</label>
-                <input
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                <input type="tel" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                   placeholder="e.g. 07700 900000"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red"
-                />
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red" />
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-zinc-400 mb-1.5">Wage per Delivery (£)</label>
-                <input
-                  type="number"
-                  min={0}
-                  step={0.50}
-                  value={form.per_delivery_wage}
+                <input type="number" min={0} step={0.50} value={form.per_delivery_wage}
                   onChange={(e) => setForm((f) => ({ ...f, per_delivery_wage: e.target.value }))}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
-                />
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none" />
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-zinc-400 mb-1.5">Auth Account</label>
                 {authLoading ? (
@@ -483,35 +438,21 @@ export default function DriversPage() {
                     <Loader2 className="w-3.5 h-3.5 animate-spin" /> Loading users…
                   </div>
                 ) : (
-                  <select
-                    value={form.user_id}
-                    onChange={(e) => setForm((f) => ({ ...f, user_id: e.target.value }))}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-red"
-                  >
+                  <select value={form.user_id} onChange={(e) => setForm((f) => ({ ...f, user_id: e.target.value }))}
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-red">
                     <option value="">— Not linked —</option>
-                    {authUsers.map((u) => (
-                      <option key={u.id} value={u.id}>{u.email}</option>
-                    ))}
+                    {authUsers.map((u) => <option key={u.id} value={u.id}>{u.email}</option>)}
                   </select>
                 )}
               </div>
-
-              {saveError && (
-                <p className="text-sm text-red-400">{saveError}</p>
-              )}
-
+              {saveError && <p className="text-sm text-red-400">{saveError}</p>}
               <div className="flex gap-3 pt-2">
-                <button
-                  onClick={closeForm}
-                  className="flex-1 px-4 py-2.5 rounded-lg border border-zinc-700 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-                >
+                <button onClick={closeForm}
+                  className="flex-1 px-4 py-2.5 rounded-lg border border-zinc-700 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
                   Cancel
                 </button>
-                <button
-                  onClick={handleSave}
-                  disabled={saving}
-                  className="flex-1 px-4 py-2.5 rounded-lg bg-brand-red hover:bg-red-600 text-white text-sm font-semibold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-                >
+                <button onClick={handleSave} disabled={saving}
+                  className="flex-1 px-4 py-2.5 rounded-lg bg-brand-red hover:bg-red-600 text-white text-sm font-semibold transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
                   {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                   {editing ? 'Save Changes' : 'Add Driver'}
                 </button>

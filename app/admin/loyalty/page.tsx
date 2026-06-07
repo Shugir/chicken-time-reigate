@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Loader2, Star, Plus, Minus, X, Check } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { Star, Plus, Minus, X, Check, Loader2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+import { AdminDataTable, type Column } from '@/components/AdminDataTable'
 
 interface UserBalance {
   user_id: string
@@ -20,19 +22,25 @@ interface AdjustForm {
 }
 
 export default function LoyaltyPage() {
+  const searchParams = useSearchParams()
+  const q = searchParams.get('q') ?? ''
+
   const [leaderboard, setLeaderboard] = useState<UserBalance[]>([])
   const [loading, setLoading]         = useState(true)
   const [adjustTarget, setAdjustTarget] = useState<UserBalance | null>(null)
   const [form, setForm]               = useState<AdjustForm | null>(null)
   const [saving, setSaving]           = useState(false)
 
-  async function fetchLeaderboard() {
-    const res = await fetch('/api/admin/loyalty')
+  async function fetchLeaderboard(query: string) {
+    setLoading(true)
+    const sp = new URLSearchParams()
+    if (query) sp.set('q', query)
+    const res = await fetch(`/api/admin/loyalty?${sp}`)
     if (res.ok) setLeaderboard(await res.json())
     setLoading(false)
   }
 
-  useEffect(() => { fetchLeaderboard() }, [])
+  useEffect(() => { fetchLeaderboard(q) }, [q])
 
   function openAdjust(user: UserBalance, type: 'admin_credit' | 'admin_debit') {
     setAdjustTarget(user)
@@ -53,11 +61,61 @@ export default function LoyaltyPage() {
       if (!res.ok) { toast.error((await res.json()).error ?? 'Failed'); return }
       toast.success(`${form.type === 'admin_credit' ? '+' : '-'}${pts} points applied`)
       setAdjustTarget(null); setForm(null)
-      await fetchLeaderboard()
+      await fetchLeaderboard(q)
     } finally {
       setSaving(false)
     }
   }
+
+  const columns: Column<UserBalance>[] = [
+    {
+      key: 'email',
+      label: 'Customer',
+      render: (u) => <span className="text-white font-medium">{u.email}</span>,
+    },
+    {
+      key: 'balance',
+      label: 'Balance',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right',
+      render: (u) => (
+        <span className={`font-bold ${u.balance > 0 ? 'text-amber-400' : 'text-zinc-600'}`}>
+          {u.balance.toLocaleString()} pts
+        </span>
+      ),
+    },
+    {
+      key: 'worth',
+      label: 'Worth',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right text-zinc-400 text-xs',
+      render: (u) => `£${Math.floor(u.balance / 100).toFixed(2)} redeemable`,
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      headerClassName: 'text-right',
+      cellClassName: 'text-right',
+      render: (u) => (
+        <div className="flex items-center justify-end gap-1">
+          <button
+            onClick={() => openAdjust(u, 'admin_credit')}
+            className="p-1.5 rounded-lg text-zinc-500 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+            title="Add points"
+          >
+            <Plus className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={() => openAdjust(u, 'admin_debit')}
+            className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+            title="Deduct points"
+          >
+            <Minus className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      ),
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex">
@@ -72,63 +130,15 @@ export default function LoyaltyPage() {
         </header>
 
         <div className="flex-1 px-8 py-8 overflow-auto">
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <Loader2 className="w-8 h-8 text-zinc-600 animate-spin" />
-            </div>
-          ) : leaderboard.length === 0 ? (
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-12 text-center">
-              <Star className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
-              <p className="text-zinc-500 text-sm font-medium">No loyalty transactions yet</p>
-              <p className="text-zinc-700 text-xs mt-1">Points accrue automatically after each paid order.</p>
-            </div>
-          ) : (
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-zinc-800/60">
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Customer</th>
-                    <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Balance</th>
-                    <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Worth</th>
-                    <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-800/40">
-                  {leaderboard.map((user) => (
-                    <tr key={user.user_id} className="hover:bg-zinc-800/20 transition-colors">
-                      <td className="px-6 py-3.5 text-white font-medium">{user.email}</td>
-                      <td className="px-6 py-3.5 text-right">
-                        <span className={`font-bold ${user.balance > 0 ? 'text-amber-400' : 'text-zinc-600'}`}>
-                          {user.balance.toLocaleString()} pts
-                        </span>
-                      </td>
-                      <td className="px-6 py-3.5 text-right text-zinc-400 text-xs">
-                        £{(Math.floor(user.balance / 100)).toFixed(2)} redeemable
-                      </td>
-                      <td className="px-6 py-3.5 text-right">
-                        <div className="flex items-center justify-end gap-1">
-                          <button
-                            onClick={() => openAdjust(user, 'admin_credit')}
-                            className="p-1.5 rounded-lg text-zinc-500 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
-                            title="Add points"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => openAdjust(user, 'admin_debit')}
-                            className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                            title="Deduct points"
-                          >
-                            <Minus className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+          <AdminDataTable
+            columns={columns}
+            data={leaderboard}
+            loading={loading}
+            searchPlaceholder="Search by email…"
+            emptyIcon={<Star className="w-12 h-12" />}
+            emptyText={q ? 'No customers match your search' : 'No loyalty transactions yet'}
+            keyExtractor={(u) => u.user_id}
+          />
         </div>
       </main>
 
@@ -143,11 +153,17 @@ export default function LoyaltyPage() {
               <h2 className="text-base font-bold text-white">
                 {form.type === 'admin_credit' ? 'Add Points' : 'Deduct Points'}
               </h2>
-              <button onClick={() => { setAdjustTarget(null); setForm(null) }} className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors">
+              <button
+                onClick={() => { setAdjustTarget(null); setForm(null) }}
+                className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-xs text-zinc-500 mb-4">{form.email} · current balance: <span className="text-amber-400 font-semibold">{adjustTarget.balance.toLocaleString()} pts</span></p>
+            <p className="text-xs text-zinc-500 mb-4">
+              {form.email} · current balance:{' '}
+              <span className="text-amber-400 font-semibold">{adjustTarget.balance.toLocaleString()} pts</span>
+            </p>
 
             <div className="space-y-3">
               <div>

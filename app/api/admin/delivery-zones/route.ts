@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
-export async function GET() {
-  const { data, error } = await supabaseAdmin
+export async function GET(request: NextRequest) {
+  const q = request.nextUrl.searchParams.get('q')?.trim() ?? ''
+
+  let dbQuery = supabaseAdmin
     .from('delivery_zones')
     .select('*')
     .order('postcode_prefix', { ascending: true })
+
+  if (q) dbQuery = dbQuery.ilike('postcode_prefix', `%${q}%`)
+
+  const { data, error } = await dbQuery
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data)

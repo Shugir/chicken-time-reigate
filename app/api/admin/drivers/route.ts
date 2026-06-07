@@ -3,8 +3,11 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
-  const { data, error } = await supabaseAdmin
+export async function GET(request: NextRequest) {
+  const q            = request.nextUrl.searchParams.get('q')?.trim() ?? ''
+  const statusFilter = request.nextUrl.searchParams.get('status')?.trim() ?? ''
+
+  let dbQuery = supabaseAdmin
     .from('drivers')
     .select(`
       id, name, phone, status, per_delivery_wage, is_active, created_at, user_id,
@@ -12,27 +15,32 @@ export async function GET() {
     `)
     .order('name', { ascending: true })
 
+  if (q)            dbQuery = dbQuery.ilike('name', `%${q}%`)
+  if (statusFilter) dbQuery = dbQuery.eq('status', statusFilter)
+
+  const { data, error } = await dbQuery
+
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   type OrderRow = { delivery_status: string | null; is_driver_paid: boolean }
 
   const drivers = (data ?? []).map((d) => {
-    const orders         = (d.orders as OrderRow[]) ?? []
+    const orders           = (d.orders as OrderRow[]) ?? []
     const successful_drops = orders.filter((o) => o.delivery_status === 'delivered').length
     const failed_returns   = orders.filter((o) => o.delivery_status === 'failed').length
     const unpaid_count     = orders.filter((o) => o.delivery_status === 'delivered' && !o.is_driver_paid).length
     const pending_wages    = unpaid_count * Number(d.per_delivery_wage)
     return {
-      id:                  d.id,
-      name:                d.name,
-      phone:               d.phone,
-      status:              d.status,
-      per_delivery_wage:   d.per_delivery_wage,
-      is_active:           d.is_active,
-      created_at:          d.created_at,
-      user_id:             d.user_id ?? null,
+      id:                   d.id,
+      name:                 d.name,
+      phone:                d.phone,
+      status:               d.status,
+      per_delivery_wage:    d.per_delivery_wage,
+      is_active:            d.is_active,
+      created_at:           d.created_at,
+      user_id:              d.user_id ?? null,
       completed_deliveries: successful_drops,
-      total_wages:         successful_drops * Number(d.per_delivery_wage),
+      total_wages:          successful_drops * Number(d.per_delivery_wage),
       successful_drops,
       failed_returns,
       pending_wages,
