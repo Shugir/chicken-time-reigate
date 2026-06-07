@@ -53,6 +53,8 @@ export default function CheckoutPage() {
   const [customerNotes, setCustomerNotes]               = useState('')
   const [addressLookupLoading, setAddressLookupLoading] = useState(false)
   const [addressAutoFilled, setAddressAutoFilled]       = useState(false)
+  const [confirmDetails, setConfirmDetails]             = useState(false)
+  const [confirmDetailsError, setConfirmDetailsError]   = useState(false)
 
   const UK_PHONE_RE = /^(\+44|0044|0)(7\d{9}|[1-9]\d{8,9})$/
   function isValidUKPhone(val: string) {
@@ -177,6 +179,7 @@ export default function CheckoutPage() {
     if (!customerPhone.trim())             { setSubmitError('Please enter your phone number');               return }
     if (!isValidUKPhone(customerPhone))    { setSubmitError('Please enter a valid UK phone number');         return }
     if (!addressLine1.trim())              { setSubmitError('Please enter your delivery address');           return }
+    if (!confirmDetails)                   { setConfirmDetailsError(true); setSubmitError('Please confirm your details before placing your order'); return }
     const fullAddress = [addressLine1, city, county, postcode.trim().toUpperCase()].filter(Boolean).join(', ')
     setSubmitting(true)
     setSubmitError(null)
@@ -479,6 +482,51 @@ export default function CheckoutPage() {
             <span>{zone ? `£${total.toFixed(2)}` : '—'}</span>
           </div>
         </div>
+
+        {/* Liability confirmation */}
+        <label
+          className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-colors ${
+            confirmDetailsError
+              ? 'border-red-400 bg-red-50'
+              : 'border-gray-200 bg-white hover:bg-gray-50'
+          }`}
+        >
+          <div className="relative shrink-0 mt-0.5">
+            <input
+              type="checkbox"
+              checked={confirmDetails}
+              onChange={(e) => {
+                setConfirmDetails(e.target.checked)
+                if (e.target.checked) setConfirmDetailsError(false)
+              }}
+              className="sr-only"
+            />
+            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+              confirmDetails
+                ? 'bg-brand-red border-brand-red'
+                : confirmDetailsError
+                  ? 'border-red-400 bg-white'
+                  : 'border-gray-300 bg-white'
+            }`}>
+              {confirmDetails && (
+                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2 6l3 3 5-5" />
+                </svg>
+              )}
+            </div>
+          </div>
+          <div>
+            <p className={`text-sm font-medium leading-snug ${confirmDetailsError ? 'text-red-700' : 'text-gray-800'}`}>
+              I confirm my delivery address and phone number are 100% correct. I understand the restaurant is not liable for delayed or failed deliveries due to incorrect details.
+            </p>
+            {confirmDetailsError && (
+              <p className="flex items-center gap-1.5 text-xs text-red-600 mt-1.5">
+                <AlertCircle size={12} />
+                Please confirm before placing your order
+              </p>
+            )}
+          </div>
+        </label>
 
         {/* Pay button */}
         {submitError && (
