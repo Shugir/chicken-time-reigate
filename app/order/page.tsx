@@ -20,7 +20,7 @@ import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../componen
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type MenuItem = ProductItem & { dietaryFlags?: string[] }
+type MenuItem = ProductItem & { dietaryFlags?: string[]; compare_at_price?: number | null }
 interface CartEntry { qty: number; removals: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
 
@@ -231,6 +231,7 @@ interface DbMenuItem {
   name: string
   description: string | null
   price: number
+  compare_at_price: number | null
   image_url: string | null
   category: string
   is_available: boolean
@@ -250,18 +251,19 @@ interface DbMenuItem {
 function dbToMenuItem(item: DbMenuItem): MenuItem {
   const opts = item.custom_options ?? {}
   return {
-    id:           item.id,
-    name:         item.name,
-    description:  item.description ?? '',
-    price:        Number(item.price),
-    category:     item.category.toLowerCase(),
-    badge:        opts.badge,
-    emoji:        opts.emoji ?? '🍽️',
-    image:        item.image_url || FALLBACK_IMG,
-    allergens:    item.allergens?.length ? item.allergens : (opts.allergens ?? []),
-    removables:   item.removals?.length ? item.removals  : (opts.removables ?? []),
-    add_ons:      item.extras?.length   ? item.extras    : (opts.add_ons    ?? []),
-    dietaryFlags: item.dietary_flags ?? [],
+    id:              item.id,
+    name:            item.name,
+    description:     item.description ?? '',
+    price:           Number(item.price),
+    compare_at_price: item.compare_at_price != null ? Number(item.compare_at_price) : null,
+    category:        item.category.toLowerCase(),
+    badge:           opts.badge,
+    emoji:           opts.emoji ?? '🍽️',
+    image:           item.image_url || FALLBACK_IMG,
+    allergens:       item.allergens?.length ? item.allergens : (opts.allergens ?? []),
+    removables:      item.removals?.length ? item.removals  : (opts.removables ?? []),
+    add_ons:         item.extras?.length   ? item.extras    : (opts.add_ons    ?? []),
+    dietaryFlags:    item.dietary_flags ?? [],
   }
 }
 
@@ -310,6 +312,11 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
             {item.badge}
           </span>
         )}
+        {item.compare_at_price != null && item.compare_at_price > item.price && (
+          <span className="absolute top-3 right-3 z-10 text-[10px] font-bold px-2.5 py-1 rounded-full bg-brand-red text-white tracking-wide shadow-md">
+            🔥 OFFER
+          </span>
+        )}
         {item.allergens && item.allergens.length > 0 && (
           <span className="absolute bottom-2 right-2 z-10 text-[9px] font-semibold px-2 py-0.5 rounded-full bg-amber-50/95 text-amber-700 border border-amber-200/80">
             ⚠ Allergens
@@ -333,9 +340,20 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
 
         {/* Price + controls */}
         <div className="flex items-center justify-between pt-1">
-          <span className="font-heading font-bold text-lg text-zinc-900">
-            £{item.price.toFixed(2)}
-          </span>
+          {item.compare_at_price != null && item.compare_at_price > item.price ? (
+            <div className="flex flex-col gap-0.5">
+              <span className="text-xs text-zinc-400 line-through leading-none">
+                £{item.compare_at_price.toFixed(2)}
+              </span>
+              <span className="font-heading font-bold text-lg text-brand-red leading-none">
+                £{item.price.toFixed(2)}
+              </span>
+            </div>
+          ) : (
+            <span className="font-heading font-bold text-lg text-zinc-900">
+              £{item.price.toFixed(2)}
+            </span>
+          )}
 
           {qty > 0 ? (
             <div className="flex items-center gap-2">
