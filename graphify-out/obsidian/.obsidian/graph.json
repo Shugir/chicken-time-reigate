@@ -587,6 +587,27 @@
         "a": 1,
         "rgb": 7780274
       }
+    },
+    {
+      "query": "tag:#community/Community_84",
+      "color": {
+        "a": 1,
+        "rgb": 5873999
+      }
+    },
+    {
+      "query": "tag:#community/Community_85",
+      "color": {
+        "a": 1,
+        "rgb": 15583560
+      }
+    },
+    {
+      "query": "tag:#community/Community_86",
+      "color": {
+        "a": 1,
+        "rgb": 11565729
+      }
     }
   ]
 }
