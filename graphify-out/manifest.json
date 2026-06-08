@@ -154,6 +154,11 @@
     "ast_hash": "322739651f031bfc74b28365ce6cffa6",
     "semantic_hash": ""
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\receipts\\page.tsx": {
+    "mtime": 1780901623.8514078,
+    "ast_hash": "bcf02097c0b620332748273819024c26",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\redirect\\page.tsx": {
     "mtime": 1780662516.7410128,
     "ast_hash": "081970413503135259d66b274c7b16ed",
@@ -175,8 +180,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\staff\\page.tsx": {
-    "mtime": 1780823150.7292638,
-    "ast_hash": "20045c6175d4d464fe400c1d94769d53",
+    "mtime": 1780899655.6885278,
+    "ast_hash": "2871f6fa744e2bece736b16dea984406",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\users\\layout.tsx": {
@@ -302,6 +307,11 @@
   "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\admin\\promotions\\[id]\\route.ts": {
     "mtime": 1780611830.8932035,
     "ast_hash": "7b1bca38cf65384cfc16f20452366c92",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\admin\\receipts\\route.ts": {
+    "mtime": 1780900921.371934,
+    "ast_hash": "78815015b672cf4cd7c1839178e49d40",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\admin\\staff\\route.ts": {
@@ -545,8 +555,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\admin-sidebar.tsx": {
-    "mtime": 1780884523.2204387,
-    "ast_hash": "b51b08a0d3f8daddf0aab5fe935b2e73",
+    "mtime": 1780899666.255126,
+    "ast_hash": "3ebcbed6bf8d60f9c645c4cab40703bc",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\permissions-provider.tsx": {
@@ -557,6 +567,31 @@
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\sign-out-button.tsx": {
     "mtime": 1780613776.882028,
     "ast_hash": "a110532787b8bdceea8af15ce830ad68",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\receipts\\ReceiptDrawer.tsx": {
+    "mtime": 1780901012.563086,
+    "ast_hash": "84a75f4be17d84313701af367fe38415",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\receipts\\ReceiptsCards.tsx": {
+    "mtime": 1780901006.518056,
+    "ast_hash": "3d60c0f66b822af7aca92e42b653c2e7",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\receipts\\ReceiptsTable.tsx": {
+    "mtime": 1780901000.9288938,
+    "ast_hash": "afbc47e44bad9b2275340904e7aa6d96",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\receipts\\types.ts": {
+    "mtime": 1780899801.940315,
+    "ast_hash": "36e42d6a67bc3fbac078a920517e2dbb",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\receipts\\utils.ts": {
+    "mtime": 1780900994.2775695,
+    "ast_hash": "62dfc80256826712c4608fe186bb4b3e",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\Menu\\ItemCustomizerDrawer.tsx": {
