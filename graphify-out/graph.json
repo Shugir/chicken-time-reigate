@@ -53,103 +53,121 @@
   },
   "nodes": [
     {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "route.ts",
+      "source_location": "L1",
+      "id": "route_ts",
+      "community": 109,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "route.ts",
+      "source_location": "L15",
+      "id": "print_route_post",
+      "community": 18,
+      "norm_label": "post()"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L1",
-      "id": "page_tsx",
       "community": 1,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "page_tsx"
     },
     {
       "label": "localDate()",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L15",
-      "id": "receipts_page_localdate",
       "community": 113,
-      "norm_label": "localdate()"
+      "norm_label": "localdate()",
+      "id": "receipts_page_localdate"
     },
     {
       "label": "todayRange()",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L18",
-      "id": "receipts_page_todayrange",
       "community": 113,
-      "norm_label": "todayrange()"
+      "norm_label": "todayrange()",
+      "id": "receipts_page_todayrange"
     },
     {
       "label": "yesterdayRange()",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L22",
-      "id": "receipts_page_yesterdayrange",
       "community": 113,
-      "norm_label": "yesterdayrange()"
+      "norm_label": "yesterdayrange()",
+      "id": "receipts_page_yesterdayrange"
     },
     {
       "label": "thisWeekRange()",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L27",
-      "id": "receipts_page_thisweekrange",
       "community": 113,
-      "norm_label": "thisweekrange()"
+      "norm_label": "thisweekrange()",
+      "id": "receipts_page_thisweekrange"
     },
     {
       "label": "thisMonthRange()",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L34",
-      "id": "receipts_page_thismonthrange",
       "community": 113,
-      "norm_label": "thismonthrange()"
+      "norm_label": "thismonthrange()",
+      "id": "receipts_page_thismonthrange"
     },
     {
       "label": "DATE_PRESETS",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L41",
-      "id": "receipts_page_date_presets",
       "community": 113,
-      "norm_label": "date_presets"
+      "norm_label": "date_presets",
+      "id": "receipts_page_date_presets"
     },
     {
       "label": "AMOUNT_PRESETS",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L48",
-      "id": "receipts_page_amount_presets",
       "community": 113,
-      "norm_label": "amount_presets"
+      "norm_label": "amount_presets",
+      "id": "receipts_page_amount_presets"
     },
     {
       "label": "ALL_STATUSES",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L56",
-      "id": "receipts_page_all_statuses",
       "community": 113,
-      "norm_label": "all_statuses"
+      "norm_label": "all_statuses",
+      "id": "receipts_page_all_statuses"
     },
     {
       "label": "Driver",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L58",
-      "id": "receipts_page_driver",
       "community": 113,
-      "norm_label": "driver"
+      "norm_label": "driver",
+      "id": "receipts_page_driver"
     },
     {
       "label": "ReceiptsPage()",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L60",
-      "id": "receipts_page_receiptspage",
       "community": 113,
-      "norm_label": "receiptspage()"
+      "norm_label": "receiptspage()",
+      "id": "receipts_page_receiptspage"
     },
     {
       "label": "ReceiptDrawer.tsx",
@@ -309,7 +327,7 @@
       "file_type": "code",
       "source_file": "api/admin/receipts/route.ts",
       "source_location": "L1",
-      "community": 0,
+      "community": 109,
       "norm_label": "route.ts",
       "id": "api_admin_receipts_route_ts"
     },
@@ -318,7 +336,7 @@
       "file_type": "code",
       "source_file": "api/admin/receipts/route.ts",
       "source_location": "L9",
-      "community": 0,
+      "community": 109,
       "norm_label": "buildquery()",
       "id": "receipts_route_buildquery"
     },
@@ -327,7 +345,7 @@
       "file_type": "code",
       "source_file": "api/admin/receipts/route.ts",
       "source_location": "L49",
-      "community": 0,
+      "community": 109,
       "norm_label": "normalise()",
       "id": "receipts_route_normalise"
     },
@@ -336,7 +354,7 @@
       "file_type": "code",
       "source_file": "api/admin/receipts/route.ts",
       "source_location": "L71",
-      "community": 0,
+      "community": 109,
       "norm_label": "tocsv()",
       "id": "receipts_route_tocsv"
     },
@@ -345,7 +363,7 @@
       "file_type": "code",
       "source_file": "api/admin/receipts/route.ts",
       "source_location": "L104",
-      "community": 0,
+      "community": 109,
       "norm_label": "get()",
       "id": "receipts_route_get"
     },
@@ -404,20 +422,11 @@
       "id": "receipts_receiptdrawer_status_styles"
     },
     {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "route.ts",
-      "source_location": "L1",
-      "community": 0,
-      "norm_label": "route.ts",
-      "id": "route_ts"
-    },
-    {
       "label": "getAuthedUser()",
       "file_type": "code",
       "source_file": "route.ts",
       "source_location": "L10",
-      "community": 0,
+      "community": 109,
       "norm_label": "getautheduser()",
       "id": "receipts_route_getautheduser"
     },
@@ -444,7 +453,7 @@
       "file_type": "code",
       "source_file": "types.ts",
       "source_location": "L13",
-      "community": 0,
+      "community": 109,
       "norm_label": "adminreceiptorder",
       "id": "receipts_types_adminreceiptorder"
     },
@@ -1398,7 +1407,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
-      "community": 100,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_menu_suggestions_route_ts"
     },
@@ -1407,7 +1416,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L6",
-      "community": 100,
+      "community": 3,
       "norm_label": "get()",
       "id": "suggestions_route_get"
     },
@@ -3504,7 +3513,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L1",
-      "community": 0,
+      "community": 68,
       "norm_label": "page.tsx",
       "id": "app_admin_settings_page_tsx"
     },
@@ -3513,7 +3522,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L14",
-      "community": 0,
+      "community": 68,
       "norm_label": "supabase",
       "id": "settings_page_supabase"
     },
@@ -3522,7 +3531,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L19",
-      "community": 0,
+      "community": 68,
       "norm_label": "day_labels",
       "id": "settings_page_day_labels"
     },
@@ -3531,7 +3540,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L24",
-      "community": 0,
+      "community": 68,
       "norm_label": "dayhours",
       "id": "settings_page_dayhours"
     },
@@ -3540,7 +3549,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L25",
-      "community": 0,
+      "community": 68,
       "norm_label": "businesshours",
       "id": "settings_page_businesshours"
     },
@@ -3549,7 +3558,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L26",
-      "community": 0,
+      "community": 68,
       "norm_label": "holiday",
       "id": "settings_page_holiday"
     },
@@ -3558,7 +3567,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L28",
-      "community": 0,
+      "community": 68,
       "norm_label": "storesettings",
       "id": "settings_page_storesettings"
     },
@@ -3567,7 +3576,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L41",
-      "community": 0,
+      "community": 68,
       "norm_label": "default_hours",
       "id": "settings_page_default_hours"
     },
@@ -3576,7 +3585,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L51",
-      "community": 0,
+      "community": 68,
       "norm_label": "savestate",
       "id": "settings_page_savestate"
     },
@@ -3585,7 +3594,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L53",
-      "community": 0,
+      "community": 68,
       "norm_label": "settingspage()",
       "id": "settings_page_settingspage"
     },
@@ -3729,7 +3738,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L1",
-      "community": 104,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_admin_analytics_route_ts"
     },
@@ -3738,7 +3747,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L6",
-      "community": 104,
+      "community": 80,
       "norm_label": "dow_labels",
       "id": "analytics_route_dow_labels"
     },
@@ -3747,7 +3756,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L8",
-      "community": 104,
+      "community": 80,
       "norm_label": "get()",
       "id": "analytics_route_get"
     },
@@ -3756,7 +3765,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/auth-users/route.ts",
       "source_location": "L1",
-      "community": 94,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_auth_users_route_ts"
     },
@@ -3765,7 +3774,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/auth-users/route.ts",
       "source_location": "L6",
-      "community": 94,
+      "community": 3,
       "norm_label": "get()",
       "id": "auth_users_route_get"
     },
@@ -3774,7 +3783,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/categories/route.ts",
       "source_location": "L1",
-      "community": 101,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_admin_categories_route_ts"
     },
@@ -3783,7 +3792,7 @@
       "file_type": "code",
       "source_file": "app/api/categories/route.ts",
       "source_location": "L6",
-      "community": 101,
+      "community": 80,
       "norm_label": "get()",
       "id": "categories_route_get"
     },
@@ -3792,7 +3801,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/categories/route.ts",
       "source_location": "L16",
-      "community": 101,
+      "community": 80,
       "norm_label": "post()",
       "id": "categories_route_post"
     },
@@ -3828,7 +3837,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/combo-discounts/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 109,
       "norm_label": "route.ts",
       "id": "app_api_admin_combo_discounts_route_ts"
     },
@@ -3837,7 +3846,7 @@
       "file_type": "code",
       "source_file": "app/api/menu/combo-discounts/route.ts",
       "source_location": "L4",
-      "community": 80,
+      "community": 109,
       "norm_label": "get()",
       "id": "combo_discounts_route_get"
     },
@@ -3846,7 +3855,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/combo-discounts/route.ts",
       "source_location": "L14",
-      "community": 0,
+      "community": 109,
       "norm_label": "post()",
       "id": "combo_discounts_route_post"
     },
@@ -3864,7 +3873,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L1",
-      "community": 97,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_dashboard_route_ts"
     },
@@ -3873,7 +3882,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L6",
-      "community": 97,
+      "community": 3,
       "norm_label": "get()",
       "id": "dashboard_route_get"
     },
@@ -4035,7 +4044,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L1",
-      "community": 110,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_admin_loyalty_route_ts"
     },
@@ -4044,7 +4053,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L6",
-      "community": 110,
+      "community": 80,
       "norm_label": "get()",
       "id": "loyalty_route_get"
     },
@@ -4053,7 +4062,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L33",
-      "community": 110,
+      "community": 80,
       "norm_label": "post()",
       "id": "loyalty_route_post"
     },
@@ -4076,20 +4085,11 @@
       "id": "app_api_admin_print_route_ts"
     },
     {
-      "label": "POST()",
-      "file_type": "code",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L15",
-      "community": 18,
-      "norm_label": "post()",
-      "id": "print_route_post"
-    },
-    {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "app/api/admin/promotions/route.ts",
       "source_location": "L1",
-      "community": 68,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_admin_promotions_route_ts"
     },
@@ -4098,7 +4098,7 @@
       "file_type": "code",
       "source_file": "app/api/promotions/route.ts",
       "source_location": "L4",
-      "community": 68,
+      "community": 80,
       "norm_label": "get()",
       "id": "promotions_route_get"
     },
@@ -4107,7 +4107,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/promotions/route.ts",
       "source_location": "L20",
-      "community": 68,
+      "community": 80,
       "norm_label": "post()",
       "id": "promotions_route_post"
     },
@@ -4224,7 +4224,7 @@
       "file_type": "code",
       "source_file": "app/api/categories/route.ts",
       "source_location": "L1",
-      "community": 101,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_categories_route_ts"
     },
@@ -4368,7 +4368,7 @@
       "file_type": "code",
       "source_file": "app/api/kitchen/orders/[id]/route.ts",
       "source_location": "L1",
-      "community": 3,
+      "community": 0,
       "norm_label": "route.ts",
       "id": "app_api_kitchen_orders_id_route_ts"
     },
@@ -4395,7 +4395,7 @@
       "file_type": "code",
       "source_file": "app/api/menu/combo-discounts/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 109,
       "norm_label": "route.ts",
       "id": "app_api_menu_combo_discounts_route_ts"
     },
@@ -4404,7 +4404,7 @@
       "file_type": "code",
       "source_file": "app/api/menu/combo-items/route.ts",
       "source_location": "L1",
-      "community": 111,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_menu_combo_items_route_ts"
     },
@@ -4413,7 +4413,7 @@
       "file_type": "code",
       "source_file": "app/api/menu/combo-items/route.ts",
       "source_location": "L4",
-      "community": 111,
+      "community": 3,
       "norm_label": "get()",
       "id": "combo_items_route_get"
     },
@@ -4440,7 +4440,7 @@
       "file_type": "code",
       "source_file": "app/api/promotions/route.ts",
       "source_location": "L1",
-      "community": 68,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_promotions_route_ts"
     },
@@ -4476,7 +4476,7 @@
       "file_type": "code",
       "source_file": "app/api/webhook/route.ts",
       "source_location": "L1",
-      "community": 0,
+      "community": 109,
       "norm_label": "route.ts",
       "id": "app_api_webhook_route_ts"
     },
@@ -4485,7 +4485,7 @@
       "file_type": "code",
       "source_file": "app/api/webhook/route.ts",
       "source_location": "L8",
-      "community": 0,
+      "community": 109,
       "norm_label": "stripe",
       "id": "webhook_route_stripe"
     },
@@ -4494,7 +4494,7 @@
       "file_type": "code",
       "source_file": "app/api/webhook/route.ts",
       "source_location": "L12",
-      "community": 0,
+      "community": 109,
       "norm_label": "post()",
       "id": "webhook_route_post"
     },
@@ -5511,7 +5511,7 @@
       "file_type": "code",
       "source_file": "lib/store-status.ts",
       "source_location": "L1",
-      "community": 0,
+      "community": 68,
       "norm_label": "days",
       "id": "lib_store_status_days"
     },
@@ -5520,7 +5520,7 @@
       "file_type": "code",
       "source_file": "lib/store-status.ts",
       "source_location": "L4",
-      "community": 0,
+      "community": 68,
       "norm_label": "daykey",
       "id": "lib_store_status_daykey"
     },
@@ -5754,7 +5754,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": null,
-      "community": 4,
+      "community": 8,
       "norm_label": "20260603_initial_schema.sql",
       "id": "supabase_migrations_20260603_initial_schema_sql"
     },
@@ -5763,7 +5763,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L18",
-      "community": 4,
+      "community": 8,
       "norm_label": "profiles",
       "id": "20260603_initial_schema_profiles"
     },
@@ -5772,7 +5772,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L29",
-      "community": 4,
+      "community": 8,
       "norm_label": "menu_items",
       "id": "20260603_initial_schema_menu_items"
     },
@@ -5781,7 +5781,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L43",
-      "community": 4,
+      "community": 8,
       "norm_label": "orders",
       "id": "20260603_initial_schema_orders"
     },
@@ -5790,7 +5790,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L57",
-      "community": 4,
+      "community": 8,
       "norm_label": "order_items",
       "id": "20260603_initial_schema_order_items"
     },
@@ -5799,7 +5799,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L80",
-      "community": 4,
+      "community": 8,
       "norm_label": "set_updated_at()",
       "id": "20260603_initial_schema_set_updated_at"
     },
@@ -5808,7 +5808,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L88",
-      "community": 4,
+      "community": 8,
       "norm_label": "trg_profiles_updated_at",
       "id": "20260603_initial_schema_trg_profiles_updated_at"
     },
@@ -5817,7 +5817,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L92",
-      "community": 4,
+      "community": 8,
       "norm_label": "trg_menu_items_updated_at",
       "id": "20260603_initial_schema_trg_menu_items_updated_at"
     },
@@ -5826,7 +5826,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L96",
-      "community": 4,
+      "community": 8,
       "norm_label": "trg_orders_updated_at",
       "id": "20260603_initial_schema_trg_orders_updated_at"
     },
@@ -5853,7 +5853,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260605_guest_checkout.sql",
       "source_location": null,
-      "community": 4,
+      "community": 8,
       "norm_label": "20260605_guest_checkout.sql",
       "id": "supabase_migrations_20260605_guest_checkout_sql"
     },
@@ -5862,7 +5862,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260605_guest_checkout.sql",
       "source_location": "L2",
-      "community": 4,
+      "community": 8,
       "norm_label": "orders",
       "id": "20260605_guest_checkout_orders"
     },
@@ -5871,7 +5871,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260605_guest_checkout.sql",
       "source_location": "L8",
-      "community": 4,
+      "community": 8,
       "norm_label": "order_items",
       "id": "20260605_guest_checkout_order_items"
     },
@@ -5943,7 +5943,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260609_order_items_notes.sql",
       "source_location": null,
-      "community": 4,
+      "community": 8,
       "norm_label": "20260609_order_items_notes.sql",
       "id": "supabase_migrations_20260609_order_items_notes_sql"
     },
@@ -5952,7 +5952,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260609_order_items_notes.sql",
       "source_location": "L1",
-      "community": 4,
+      "community": 8,
       "norm_label": "order_items",
       "id": "20260609_order_items_notes_order_items"
     },
@@ -5979,7 +5979,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260613_order_items_customizations.sql",
       "source_location": null,
-      "community": 4,
+      "community": 8,
       "norm_label": "20260613_order_items_customizations.sql",
       "id": "supabase_migrations_20260613_order_items_customizations_sql"
     },
@@ -5988,7 +5988,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260613_order_items_customizations.sql",
       "source_location": "L1",
-      "community": 4,
+      "community": 8,
       "norm_label": "order_items",
       "id": "20260613_order_items_customizations_order_items"
     },
@@ -7806,7 +7806,7 @@
       "file_type": "code",
       "source_file": "combo-discounts/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 109,
       "norm_label": "route.ts",
       "id": "combo_discounts_route_ts"
     },
@@ -7815,7 +7815,7 @@
       "file_type": "code",
       "source_file": "combo-items/route.ts",
       "source_location": "L1",
-      "community": 111,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "combo_items_route_ts"
     },
@@ -7968,7 +7968,7 @@
       "file_type": "code",
       "source_file": "api/admin/auth-users/route.ts",
       "source_location": "L1",
-      "community": 94,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "api_admin_auth_users_route_ts"
     },
@@ -8130,7 +8130,7 @@
       "file_type": "code",
       "source_file": "api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
-      "community": 100,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "api_admin_menu_suggestions_route_ts"
     },
@@ -8139,7 +8139,7 @@
       "file_type": "code",
       "source_file": "route.ts",
       "source_location": "L4",
-      "community": 0,
+      "community": 109,
       "norm_label": "img()",
       "id": "seed_route_img"
     },
@@ -8148,7 +8148,7 @@
       "file_type": "code",
       "source_file": "route.ts",
       "source_location": "L6",
-      "community": 0,
+      "community": 109,
       "norm_label": "seed",
       "id": "seed_route_seed"
     },
@@ -8157,7 +8157,7 @@
       "file_type": "code",
       "source_file": "route.ts",
       "source_location": "L247",
-      "community": 0,
+      "community": 109,
       "norm_label": "post()",
       "id": "seed_route_post"
     },
@@ -8328,7 +8328,7 @@
       "file_type": "code",
       "source_file": "admin/settings/page.tsx",
       "source_location": "L1",
-      "community": 0,
+      "community": 68,
       "norm_label": "page.tsx",
       "id": "admin_settings_page_tsx"
     },
@@ -8418,7 +8418,7 @@
       "file_type": "code",
       "source_file": "api/admin/dashboard/route.ts",
       "source_location": "L1",
-      "community": 97,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "api_admin_dashboard_route_ts"
     },
@@ -8490,7 +8490,7 @@
       "file_type": "code",
       "source_file": "20260604_allow_guest_orders.sql",
       "source_location": null,
-      "community": 4,
+      "community": 8,
       "norm_label": "20260604_allow_guest_orders.sql",
       "id": "20260604_allow_guest_orders_sql"
     },
@@ -8499,7 +8499,7 @@
       "file_type": "code",
       "source_file": "20260605_guest_checkout.sql",
       "source_location": null,
-      "community": 4,
+      "community": 8,
       "norm_label": "20260605_guest_checkout.sql",
       "id": "20260605_guest_checkout_sql"
     },
@@ -9342,7 +9342,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "community: product modal & types",
       "id": "CLAUDE_community_product_modal_types"
     },
@@ -9368,7 +9368,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 5,
       "norm_label": "community: supabase database schema",
       "id": "CLAUDE_community_supabase_db_schema"
     },
@@ -10426,7 +10426,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 94,
       "norm_label": "sign in page",
       "id": "signin_signinpage"
     },
@@ -10439,7 +10439,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 94,
       "norm_label": "sign up page",
       "id": "signup_signuppage"
     },
@@ -10852,6 +10852,377 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "route_ts",
+      "target": "lib_printer_generatereceiptbuffer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "route_ts",
+      "target": "lib_printer_sendtoprinter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "route_ts",
+      "target": "print_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_buildquery"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_normalise"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L87",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_tocsv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L120",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_get"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_getautheduser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_page_extra",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "menu_items_route_get"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/kitchen/orders/[id]/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_patch",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/menu-items/[id]/route.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "id_route_delete",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "combo_discounts_route_get"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "combo_discounts_route_post"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "role_route_get"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "checkout_route_stripe"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "checkout_route_extra"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "checkout_route_combocomponent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "checkout_route_cartitem",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "checkout_route_post"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/menu-items/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "orders_route_get",
+      "target": "route_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "webhook_route_stripe"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/route.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "webhook_route_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "lib_email_sendorderstatusemail"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "lib_store_status_businesshours"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "lib_store_status_holiday"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "lib_store_status_checkstorestatus"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "seed_route_img"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "seed_route_seed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L247",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "seed_route_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "lib_supabaseadmin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_print_route_ts",
+      "target": "print_route_post"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "print_route_post",
+      "target": "lib_printer_generatereceiptbuffer"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "print_route_post",
+      "target": "lib_printer_sendtoprinter"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "page.tsx",
       "source_location": "L9",
       "weight": 1.0,
@@ -10909,9 +11280,9 @@
       "source_file": "page.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "receipts_page_localdate",
-      "confidence_score": 1.0
+      "target": "receipts_page_localdate"
     },
     {
       "relation": "contains",
@@ -12000,9 +12371,9 @@
       "source_file": "page.tsx",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "receipts_page_todayrange",
-      "target": "receipts_page_localdate",
-      "confidence_score": 1.0
+      "target": "receipts_page_localdate"
     },
     {
       "relation": "calls",
@@ -12011,9 +12382,9 @@
       "source_file": "page.tsx",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "receipts_page_yesterdayrange",
-      "target": "receipts_page_localdate",
-      "confidence_score": 1.0
+      "target": "receipts_page_localdate"
     },
     {
       "relation": "calls",
@@ -12022,9 +12393,9 @@
       "source_file": "page.tsx",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "receipts_page_thisweekrange",
-      "target": "receipts_page_localdate",
-      "confidence_score": 1.0
+      "target": "receipts_page_localdate"
     },
     {
       "relation": "calls",
@@ -12033,9 +12404,9 @@
       "source_file": "page.tsx",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "receipts_page_thismonthrange",
-      "target": "receipts_page_localdate",
-      "confidence_score": 1.0
+      "target": "receipts_page_localdate"
     },
     {
       "relation": "calls",
@@ -12744,16 +13115,6 @@
       "target": "receipts_route_buildquery"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L28",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_route_buildquery"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -12762,16 +13123,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "receipts_route_get",
-      "target": "receipts_route_normalise"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L65",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
       "target": "receipts_route_normalise"
     },
     {
@@ -12784,26 +13135,6 @@
       "confidence_score": 1.0,
       "source": "receipts_route_get",
       "target": "receipts_route_tocsv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L87",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_route_tocsv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L120",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_route_get"
     },
     {
       "relation": "calls",
@@ -12815,273 +13146,6 @@
       "confidence_score": 1.0,
       "source": "receipts_route_get",
       "target": "receipts_route_getautheduser"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_route_getautheduser"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_page_extra",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "menu_items_route_get"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/kitchen/orders/[id]/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_patch",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/menu-items/[id]/route.ts",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "id_route_delete",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "combo_discounts_route_get"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "combo_discounts_route_post"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "role_route_get"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "checkout_route_stripe"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "checkout_route_extra"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "checkout_route_combocomponent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "checkout_route_cartitem",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "checkout_route_post"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/menu-items/route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "orders_route_get",
-      "target": "route_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/webhook/route.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "webhook_route_stripe"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/webhook/route.ts",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "webhook_route_post"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "lib_email_sendorderstatusemail"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "lib_store_status_businesshours"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "lib_store_status_holiday"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "lib_store_status_checkstorestatus"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "seed_route_img"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "seed_route_seed"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L247",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "seed_route_post"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/webhook/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "lib_supabaseadmin"
     },
     {
       "relation": "contains",
@@ -20845,38 +20909,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "app_api_admin_print_route_ts",
-      "target": "lib_printer_sendtoprinter"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_print_route_ts",
-      "target": "print_route_post"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L53",
-      "weight": 1.0,
-      "source": "print_route_post",
-      "target": "lib_printer_generatereceiptbuffer"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L56",
-      "weight": 1.0,
-      "source": "print_route_post",
       "target": "lib_printer_sendtoprinter"
     },
     {
@@ -29198,5 +29230,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "7d0b2333cc21c760eccccb4b32fba0d2eaebb757"
+  "built_at_commit": "7bd50e5ddd08921d3d5ae0ae24e6c4f857a0bf4c"
 }
