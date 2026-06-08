@@ -16,8 +16,15 @@ import {
   Search,
   LayoutGrid,
   List,
+  UploadCloud,
 } from 'lucide-react'
+import { createBrowserClient } from '@supabase/ssr'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+
+const supabase = createBrowserClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+)
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -41,7 +48,7 @@ interface MenuItem {
   allergens: string[]
   created_at: string
   combo_category: 'main' | 'side' | 'drink' | null
-  size_tier:      'regular' | 'large' | null
+  size_tier: 'regular' | 'large' | null
 }
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
@@ -104,8 +111,8 @@ function PriceCell({ item, onSave }: { item: MenuItem; onSave: (id: string, pric
                    [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
       />
       {saveState === 'saving' && <Loader2 className="w-3.5 h-3.5 text-zinc-500 animate-spin" />}
-      {saveState === 'saved'  && <Check className="w-3.5 h-3.5 text-emerald-400" />}
-      {saveState === 'error'  && <X    className="w-3.5 h-3.5 text-red-400" />}
+      {saveState === 'saved' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+      {saveState === 'error' && <X className="w-3.5 h-3.5 text-red-400" />}
     </div>
   )
 }
@@ -168,10 +175,10 @@ function ExtraNameInput({ value, onChange, onEnter, suggestions, placeholder }: 
   suggestions: string[]
   placeholder?: string
 }) {
-  const [open, setOpen]         = useState(false)
+  const [open, setOpen] = useState(false)
   const [activeIdx, setActiveIdx] = useState(-1)
-  const containerRef            = useRef<HTMLDivElement>(null)
-  const [rect, setRect]         = useState<DOMRect | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [rect, setRect] = useState<DOMRect | null>(null)
 
   const filtered = value.trim()
     ? suggestions.filter((s) => s.toLowerCase().includes(value.toLowerCase()))
@@ -208,23 +215,23 @@ function ExtraNameInput({ value, onChange, onEnter, suggestions, placeholder }: 
 
   const dropdown = open && filtered.length > 0 && rect
     ? createPortal(
-        <div
-          style={{ position: 'fixed', top: rect.bottom + 4, left: rect.left, width: rect.width, zIndex: 9999 }}
-          className="bg-zinc-800 border border-zinc-700 rounded-lg shadow-2xl overflow-hidden max-h-48 overflow-y-auto"
-        >
-          {filtered.map((s, i) => (
-            <button
-              key={s}
-              type="button"
-              onMouseDown={(e) => { e.preventDefault(); onChange(s); setOpen(false); setActiveIdx(-1) }}
-              className={`w-full text-left px-3 py-2 text-sm transition-colors ${i === activeIdx ? 'bg-zinc-600 text-white' : 'text-zinc-300 hover:bg-zinc-700'}`}
-            >
-              {s}
-            </button>
-          ))}
-        </div>,
-        document.body,
-      )
+      <div
+        style={{ position: 'fixed', top: rect.bottom + 4, left: rect.left, width: rect.width, zIndex: 9999 }}
+        className="bg-zinc-800 border border-zinc-700 rounded-lg shadow-2xl overflow-hidden max-h-48 overflow-y-auto"
+      >
+        {filtered.map((s, i) => (
+          <button
+            key={s}
+            type="button"
+            onMouseDown={(e) => { e.preventDefault(); onChange(s); setOpen(false); setActiveIdx(-1) }}
+            className={`w-full text-left px-3 py-2 text-sm transition-colors ${i === activeIdx ? 'bg-zinc-600 text-white' : 'text-zinc-300 hover:bg-zinc-700'}`}
+          >
+            {s}
+          </button>
+        ))}
+      </div>,
+      document.body,
+    )
     : null
 
   return (
@@ -246,7 +253,7 @@ function ExtraNameInput({ value, onChange, onEnter, suggestions, placeholder }: 
 
 interface ItemModalProps {
   editingItem: MenuItem | null
-  categories:  DbCategory[]
+  categories: DbCategory[]
   onClose: () => void
   onSave: (item: MenuItem) => void
 }
@@ -257,33 +264,37 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
   const [form, setForm] = useState(() =>
     editingItem
       ? {
-          name:             editingItem.name,
-          description:      editingItem.description ?? '',
-          price:            editingItem.price.toFixed(2),
-          compare_at_price: editingItem.compare_at_price != null ? editingItem.compare_at_price.toFixed(2) : '',
-          image_url:        editingItem.image_url ?? '',
-          category:         editingItem.category,
-          combo_category:   editingItem.combo_category ?? null,
-          size_tier:        editingItem.size_tier ?? null,
-        }
+        name: editingItem.name,
+        description: editingItem.description ?? '',
+        price: editingItem.price.toFixed(2),
+        compare_at_price: editingItem.compare_at_price != null ? editingItem.compare_at_price.toFixed(2) : '',
+        image_url: editingItem.image_url ?? '',
+        category: editingItem.category,
+        combo_category: editingItem.combo_category ?? null,
+        size_tier: editingItem.size_tier ?? null,
+      }
       : { ...EMPTY_FORM, category: categories[0]?.slug ?? '', combo_category: null as 'main' | 'side' | 'drink' | null, size_tier: null as 'regular' | 'large' | null }
   )
-  const [removals, setRemovals]         = useState<string[]>(() => editingItem?.removals ?? [])
-  const [extras, setExtras]             = useState<Extra[]>(() => editingItem?.extras ?? [])
+  const [removals, setRemovals] = useState<string[]>(() => editingItem?.removals ?? [])
+  const [extras, setExtras] = useState<Extra[]>(() => editingItem?.extras ?? [])
   const [dietaryFlags, setDietaryFlags] = useState<string[]>(() => editingItem?.dietary_flags ?? [])
-  const [allergens, setAllergens]       = useState<string[]>(() => editingItem?.allergens ?? [])
+  const [allergens, setAllergens] = useState<string[]>(() => editingItem?.allergens ?? [])
   const [removalInput, setRemovalInput] = useState('')
   const [allergenInput, setAllergenInput] = useState('')
-  const [extraInput, setExtraInput]     = useState({ name: '', price: '' })
-  const [saving, setSaving]             = useState(false)
-  const [error, setError]               = useState<string | null>(null)
-  const [suggestions, setSuggestions]   = useState<{ removals: string[]; extras: string[]; allergens: string[] }>({ removals: [], extras: [], allergens: [] })
+  const [extraInput, setExtraInput] = useState({ name: '', price: '' })
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [suggestions, setSuggestions] = useState<{ removals: string[]; extras: string[]; allergens: string[] }>({ removals: [], extras: [], allergens: [] })
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [imageUploading, setImageUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     fetch('/api/admin/menu/suggestions')
       .then((r) => r.json())
       .then((d) => setSuggestions(d))
-      .catch(() => {})
+      .catch(() => { })
   }, [])
 
   const field = (key: keyof typeof EMPTY_FORM) => ({
@@ -315,6 +326,20 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     setExtraInput({ name: '', price: '' })
   }
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setImageFile(file)
+    setImagePreview(URL.createObjectURL(file))
+  }
+
+  function clearImage() {
+    setImageFile(null)
+    setImagePreview(null)
+    setForm((f) => ({ ...f, image_url: '' }))
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -323,25 +348,38 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     if (isNaN(parsed) || parsed <= 0) return setError('Enter a valid price.')
     if (!form.category) return setError('Category is required.')
 
+    // Upload file first if one was selected; its URL takes priority over the text field
+    let resolvedImageUrl = form.image_url.trim() || null
+    if (imageFile) {
+      setImageUploading(true)
+      const ext = imageFile.name.split('.').pop()
+      const path = `menu-items/${Date.now()}.${ext}`
+      const { error: uploadErr } = await supabase.storage.from('menu-images').upload(path, imageFile, { upsert: true, contentType: imageFile.type })
+      setImageUploading(false)
+      if (uploadErr) return setError(`Image upload failed: ${uploadErr.message}`)
+      const { data: { publicUrl } } = supabase.storage.from('menu-images').getPublicUrl(path)
+      resolvedImageUrl = publicUrl
+    }
+
     const payload = {
-      name:             form.name.trim(),
-      description:      form.description.trim() || null,
-      price:            parsed,
+      name: form.name.trim(),
+      description: form.description.trim() || null,
+      price: parsed,
       compare_at_price: form.compare_at_price ? parseFloat(form.compare_at_price as string) || null : null,
-      image_url:        form.image_url.trim() || null,
-      category:       form.category,
-      is_available:   editingItem ? editingItem.is_available : true,
+      image_url: resolvedImageUrl,
+      category: form.category,
+      is_available: editingItem ? editingItem.is_available : true,
       removals,
       extras,
-      dietary_flags:  dietaryFlags,
+      dietary_flags: dietaryFlags,
       allergens,
       combo_category: form.combo_category,
-      size_tier:      form.size_tier,
+      size_tier: form.size_tier,
     }
 
     setSaving(true)
     try {
-      const url    = editingItem ? `/api/admin/menu-items/${editingItem.id}` : '/api/admin/menu-items'
+      const url = editingItem ? `/api/admin/menu-items/${editingItem.id}` : '/api/admin/menu-items'
       const method = editingItem ? 'PATCH' : 'POST'
       const res = await fetch(url, {
         method,
@@ -434,10 +472,63 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
             </p>
           </div>
 
-          {/* Image URL */}
-          <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Image URL</label>
-            <input {...field('image_url')} type="url" placeholder="https://images.unsplash.com/..." className={`w-full ${inputCls}`} />
+          {/* ── Product Image ── */}
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-zinc-400">Product Image</label>
+
+            {/* Preview */}
+            {(imagePreview || form.image_url) && (
+              <div className="relative w-full h-36 rounded-xl overflow-hidden bg-zinc-800 border border-zinc-700">
+                <Image
+                  src={imagePreview ?? form.image_url}
+                  alt="Preview"
+                  fill
+                  className="object-cover"
+                  sizes="480px"
+                  unoptimized
+                />
+                <button
+                  type="button"
+                  onClick={clearImage}
+                  className="absolute top-2 right-2 p-1 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
+            {/* Upload button (primary) */}
+            <label className={`flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border border-dashed text-sm font-medium cursor-pointer transition-colors
+              ${imageUploading ? 'border-zinc-700 text-zinc-600 cursor-not-allowed' : 'border-zinc-600 text-zinc-400 hover:border-brand-red hover:text-white'}`}>
+              {imageUploading
+                ? <><Loader2 className="w-4 h-4 animate-spin" /> Uploading…</>
+                : <><UploadCloud className="w-4 h-4" /> Upload from file</>}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                className="sr-only"
+                disabled={imageUploading}
+                onChange={handleFileChange}
+              />
+            </label>
+
+            {/* URL fallback (secondary) */}
+            <div className="flex items-center gap-2">
+              <div className="flex-1 h-px bg-zinc-800" />
+              <span className="text-[10px] text-zinc-600 uppercase tracking-widest">or paste URL</span>
+              <div className="flex-1 h-px bg-zinc-800" />
+            </div>
+            <input
+              {...field('image_url')}
+              type="url"
+              placeholder="https://images.unsplash.com/..."
+              className={`w-full ${inputCls}`}
+              disabled={!!imageFile}
+            />
+            {imageFile && (
+              <p className="text-[11px] text-zinc-500">URL field disabled — uploaded file takes priority.</p>
+            )}
           </div>
 
           {/* ── Removable Ingredients ── */}
@@ -540,11 +631,10 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                     key={flag}
                     type="button"
                     onClick={() => setDietaryFlags((prev) => active ? prev.filter((f) => f !== flag) : [...prev, flag])}
-                    className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors border ${
-                      active
-                        ? 'bg-brand-red/20 border-brand-red/50 text-red-300'
-                        : 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300'
-                    }`}
+                    className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors border ${active
+                      ? 'bg-brand-red/20 border-brand-red/50 text-red-300'
+                      : 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300'
+                      }`}
                   >
                     {flag}
                   </button>
@@ -616,23 +706,23 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
 
           {/* Size Tier — hidden for mains */}
           {form.combo_category !== 'main' && (
-          <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1">Size Tier</label>
-            <select
-              value={form.size_tier ?? ''}
-              onChange={e =>
-                setForm(f => ({
-                  ...f,
-                  size_tier: (e.target.value || null) as 'regular' | 'large' | null,
-                }))
-              }
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red"
-            >
-              <option value="">None</option>
-              <option value="regular">Regular</option>
-              <option value="large">Large</option>
-            </select>
-          </div>
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1">Size Tier</label>
+              <select
+                value={form.size_tier ?? ''}
+                onChange={e =>
+                  setForm(f => ({
+                    ...f,
+                    size_tier: (e.target.value || null) as 'regular' | 'large' | null,
+                  }))
+                }
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red"
+              >
+                <option value="">None</option>
+                <option value="regular">Regular</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
           )}
 
           {error && (
@@ -712,24 +802,24 @@ export default function AdminPage() {
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<MenuItem | null>(null)
   const [categories, setCategories] = useState<DbCategory[]>([])
-  const [searchQuery, setSearchQuery]   = useState('')
-  const [catFilter, setCatFilter]       = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [catFilter, setCatFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
-  const [viewMode, setViewMode]         = useState<'table' | 'grid'>('table')
-  const [stats, setStats]               = useState<QuickStats | null>(null)
+  const [viewMode, setViewMode] = useState<'table' | 'grid'>('table')
+  const [stats, setStats] = useState<QuickStats | null>(null)
 
   useEffect(() => {
     fetch('/api/admin/dashboard')
       .then((r) => r.ok ? r.json() : null)
       .then((d) => { if (d) setStats(d) })
-      .catch(() => {})
+      .catch(() => { })
   }, [])
 
   useEffect(() => {
     fetch('/api/admin/categories')
       .then((r) => r.json())
       .then(setCategories)
-      .catch(() => {})
+      .catch(() => { })
   }, [])
 
   const loadItems = useCallback(async () => {
@@ -816,9 +906,9 @@ export default function AdminPage() {
           {/* Bento quick-stats */}
           <div className="grid grid-cols-3 gap-3 mt-5">
             {[
-              { label: 'Total Items',   value: loading ? '…' : String(totalItems),                                                 color: 'text-blue-400',   border: 'border-blue-500/20',   bg: 'bg-blue-500/10'   },
-              { label: 'Active Promos', value: stats ? String(stats.active_promotions) : '—',                                      color: 'text-violet-400', border: 'border-violet-500/20', bg: 'bg-violet-500/10' },
-              { label: 'Out of Stock',  value: loading ? '…' : String(items.filter((i) => !i.is_available).length),                color: 'text-amber-400',  border: 'border-amber-500/20',  bg: 'bg-amber-500/10'  },
+              { label: 'Total Items', value: loading ? '…' : String(totalItems), color: 'text-blue-400', border: 'border-blue-500/20', bg: 'bg-blue-500/10' },
+              { label: 'Active Promos', value: stats ? String(stats.active_promotions) : '—', color: 'text-violet-400', border: 'border-violet-500/20', bg: 'bg-violet-500/10' },
+              { label: 'Out of Stock', value: loading ? '…' : String(items.filter((i) => !i.is_available).length), color: 'text-amber-400', border: 'border-amber-500/20', bg: 'bg-amber-500/10' },
             ].map(({ label, value, color, border, bg }) => (
               <div key={label} className={`${bg} border ${border} rounded-xl px-4 py-3 flex items-center justify-between`}>
                 <span className="text-xs text-zinc-500 font-medium">{label}</span>

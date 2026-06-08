@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import {
   Radio, RefreshCw, Loader2, Truck, MapPin, User, Clock,
   AlertCircle, Flag, PackageCheck, AlertTriangle, Phone,
-  MessageSquare, StickyNote, ArrowLeft, ChefHat, Search, X,
+  MessageSquare, StickyNote, ArrowLeft, ChefHat, Search, X, Printer,
 } from 'lucide-react'
 import {
   formatTimeFull, formatDateClockLabel,
@@ -80,6 +80,7 @@ function OrderCard({
   onFailed,
   onSendBack,
   onNoteBlur,
+  onThermalPrint,
   updating,
 }: {
   order: DispatchOrder
@@ -90,6 +91,7 @@ function OrderCard({
   onFailed: (order: DispatchOrder) => void
   onSendBack: (orderId: string) => void
   onNoteBlur: (orderId: string, note: string) => void
+  onThermalPrint: (orderId: string) => void
   updating: boolean
 }) {
   const assigned = !!order.driver_id
@@ -116,6 +118,13 @@ function OrderCard({
           <span className="font-mono font-black text-white text-sm tracking-wider">
             #{order.id.slice(-6).toUpperCase()}
           </span>
+          <button
+            onClick={() => onThermalPrint(order.id)}
+            title="Thermal Print (Troubleshoot)"
+            className="p-1.5 rounded-lg bg-zinc-700/50 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors"
+          >
+            <Printer size={13} />
+          </button>
         </div>
         <div className="flex items-center gap-1.5 text-zinc-500 text-[11px]">
           <Clock size={11} />
@@ -402,6 +411,25 @@ export default function DispatchPage() {
     await patch({ order_id: orderId, driver_notes: note })
   }
 
+  async function handleThermalPrint(orderId: string) {
+    const t = toast.loading('Sending to thermal printer...')
+    try {
+      const res = await fetch('/api/admin/print', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        toast.success('Print sent successfully', { id: t })
+      } else {
+        toast.error(data.error || 'Print failed', { id: t })
+      }
+    } catch (err) {
+      toast.error('Could not connect to printer', { id: t })
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[60vh]">
@@ -585,6 +613,7 @@ export default function DispatchPage() {
                     onFailed={(o) => { setFailModal(o); setFailReason('') }}
                     onSendBack={handleSendBack}
                     onNoteBlur={handleNoteBlur}
+                    onThermalPrint={handleThermalPrint}
                     updating={updating === order.id}
                   />
                 ))
@@ -639,6 +668,7 @@ export default function DispatchPage() {
                         onFailed={(o) => { setFailModal(o); setFailReason('') }}
                         onSendBack={handleSendBack}
                         onNoteBlur={handleNoteBlur}
+                        onThermalPrint={handleThermalPrint}
                         updating={updating === order.id}
                       />
                     ))
