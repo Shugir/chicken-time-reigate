@@ -13,13 +13,17 @@ import {
   Search,
   SlidersHorizontal,
 } from 'lucide-react'
-import Link from 'next/link'
 import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
 import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type MenuItem = ProductItem & { dietaryFlags?: string[]; compare_at_price?: number | null }
+type MenuItem = ProductItem & {
+  dietaryFlags?: string[]
+  compare_at_price?: number | null
+  combo_category?: 'main' | 'side' | 'drink' | null
+  size_tier?: 'regular' | 'large' | null
+}
 interface CartEntry { qty: number; removals: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
 
@@ -238,6 +242,8 @@ interface DbMenuItem {
   removals:      string[] | null
   dietary_flags: string[] | null
   allergens: string[] | null
+  combo_category: 'main' | 'side' | 'drink' | null
+  size_tier: 'regular' | 'large' | null
   custom_options: {
     emoji?: string
     badge?: string
@@ -263,6 +269,8 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     removables:      item.removals?.length ? item.removals  : (opts.removables ?? []),
     add_ons:         item.extras?.length   ? item.extras    : (opts.add_ons    ?? []),
     dietaryFlags:    item.dietary_flags ?? [],
+    combo_category:  item.combo_category ?? null,
+    size_tier:       item.size_tier ?? null,
   }
 }
 
@@ -822,22 +830,6 @@ export default function OrderPage() {
 
       {/* Main layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-        {/* Build Your Meal combo CTA */}
-        <div className="mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 border border-zinc-700 rounded-2xl p-5 flex items-center justify-between gap-4">
-          <div>
-            <div className="font-bold text-white text-base">🍗 Build Your Meal</div>
-            <div className="text-sm text-zinc-400 mt-0.5">
-              Pick your main, side &amp; drink — combo discount applied
-            </div>
-          </div>
-          <Link
-            href="/menu/combo"
-            className="shrink-0 bg-brand-red hover:bg-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors shadow-lg shadow-red-900/30"
-          >
-            Build Now
-          </Link>
-        </div>
 
         {/* Search + filter bar */}
         <div className="mb-8 flex flex-wrap items-center gap-2">

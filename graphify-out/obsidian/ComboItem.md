@@ -1,5 +1,5 @@
 ---
-source_file: "app/menu/combo/page.tsx"
+source_file: "components/Menu/ItemCustomizerDrawer.tsx"
 type: "code"
 community: "Community None"
 location: "L8"
@@ -12,7 +12,6 @@ tags:
 # ComboItem
 
 ## Connections
-- [[page.tsx_23]] - `contains` [EXTRACTED]
-- [[page.tsx_31]] - `contains` [EXTRACTED]
+- [[ItemCustomizerDrawer.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

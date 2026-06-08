@@ -14,6 +14,8 @@ tags:
 ## Connections
 - [[AccordionSection()]] - `contains` [EXTRACTED]
 - [[AddOn]] - `imports` [EXTRACTED]
+- [[ComboItem]] - `contains` [EXTRACTED]
+- [[ComboItemCard()]] - `contains` [EXTRACTED]
 - [[DrawerItem]] - `contains` [EXTRACTED]
 - [[ItemCustomizerDrawer()]] - `contains` [EXTRACTED]
 - [[OrderSelection]] - `imports` [EXTRACTED]

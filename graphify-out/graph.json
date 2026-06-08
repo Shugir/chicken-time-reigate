@@ -886,7 +886,7 @@
       "source_file": "app/admin/page.tsx",
       "source_location": "L24",
       "id": "admin_page_extra",
-      "community": 11,
+      "community": 0,
       "norm_label": "extra"
     },
     {
@@ -1606,7 +1606,7 @@
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L1",
       "id": "app_admin_drivers_id_page_tsx",
-      "community": 74,
+      "community": 18,
       "norm_label": "page.tsx"
     },
     {
@@ -1615,7 +1615,7 @@
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L13",
       "id": "id_page_driver",
-      "community": 74,
+      "community": 18,
       "norm_label": "driver"
     },
     {
@@ -1624,7 +1624,7 @@
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L22",
       "id": "id_page_delivery",
-      "community": 74,
+      "community": 18,
       "norm_label": "delivery"
     },
     {
@@ -1633,7 +1633,7 @@
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L31",
       "id": "id_page_payout",
-      "community": 74,
+      "community": 18,
       "norm_label": "payout"
     },
     {
@@ -1642,7 +1642,7 @@
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L39",
       "id": "id_page_ledgerdata",
-      "community": 74,
+      "community": 18,
       "norm_label": "ledgerdata"
     },
     {
@@ -1651,7 +1651,7 @@
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L48",
       "id": "id_page_todatestr",
-      "community": 74,
+      "community": 18,
       "norm_label": "todatestr()"
     },
     {
@@ -1660,7 +1660,7 @@
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L52",
       "id": "id_page_fmtgbp",
-      "community": 74,
+      "community": 18,
       "norm_label": "fmtgbp()"
     },
     {
@@ -1669,7 +1669,7 @@
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L56",
       "id": "id_page_driverledgerpage",
-      "community": 74,
+      "community": 18,
       "norm_label": "driverledgerpage()"
     },
     {
@@ -2128,7 +2128,7 @@
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_analytics_route_ts",
-      "community": 68,
+      "community": 89,
       "norm_label": "route.ts"
     },
     {
@@ -2137,7 +2137,7 @@
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L6",
       "id": "analytics_route_dow_labels",
-      "community": 68,
+      "community": 89,
       "norm_label": "dow_labels"
     },
     {
@@ -2146,7 +2146,7 @@
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L8",
       "id": "analytics_route_get",
-      "community": 68,
+      "community": 89,
       "norm_label": "get()"
     },
     {
@@ -2155,7 +2155,7 @@
       "source_file": "app/api/admin/auth-users/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_auth_users_route_ts",
-      "community": 97,
+      "community": 3,
       "norm_label": "route.ts"
     },
     {
@@ -2164,7 +2164,7 @@
       "source_file": "app/api/admin/auth-users/route.ts",
       "source_location": "L6",
       "id": "auth_users_route_get",
-      "community": 97,
+      "community": 3,
       "norm_label": "get()"
     },
     {
@@ -2173,7 +2173,7 @@
       "source_file": "app/api/admin/categories/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_categories_route_ts",
-      "community": 92,
+      "community": 68,
       "norm_label": "route.ts"
     },
     {
@@ -2182,7 +2182,7 @@
       "source_file": "app/api/categories/route.ts",
       "source_location": "L6",
       "id": "categories_route_get",
-      "community": 92,
+      "community": 68,
       "norm_label": "get()"
     },
     {
@@ -2191,7 +2191,7 @@
       "source_file": "app/api/admin/categories/route.ts",
       "source_location": "L16",
       "id": "categories_route_post",
-      "community": 92,
+      "community": 68,
       "norm_label": "post()"
     },
     {
@@ -2263,7 +2263,7 @@
       "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_dashboard_route_ts",
-      "community": 3,
+      "community": 90,
       "norm_label": "route.ts"
     },
     {
@@ -2272,7 +2272,7 @@
       "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L6",
       "id": "dashboard_route_get",
-      "community": 3,
+      "community": 90,
       "norm_label": "get()"
     },
     {
@@ -2353,7 +2353,7 @@
       "source_file": "app/api/admin/drivers/[id]/ledger/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_drivers_id_ledger_route_ts",
-      "community": 68,
+      "community": 80,
       "norm_label": "route.ts"
     },
     {
@@ -2362,7 +2362,7 @@
       "source_file": "app/api/admin/drivers/[id]/ledger/route.ts",
       "source_location": "L6",
       "id": "ledger_route_params",
-      "community": 68,
+      "community": 80,
       "norm_label": "params"
     },
     {
@@ -2371,7 +2371,7 @@
       "source_file": "app/api/admin/drivers/[id]/ledger/route.ts",
       "source_location": "L8",
       "id": "ledger_route_get",
-      "community": 68,
+      "community": 80,
       "norm_label": "get()"
     },
     {
@@ -2380,7 +2380,7 @@
       "source_file": "app/api/admin/drivers/[id]/ledger/route.ts",
       "source_location": "L68",
       "id": "ledger_route_post",
-      "community": 68,
+      "community": 80,
       "norm_label": "post()"
     },
     {
@@ -2416,7 +2416,7 @@
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_menu_suggestions_route_ts",
-      "community": 87,
+      "community": 3,
       "norm_label": "route.ts"
     },
     {
@@ -2425,7 +2425,7 @@
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L6",
       "id": "suggestions_route_get",
-      "community": 87,
+      "community": 3,
       "norm_label": "get()"
     },
     {
@@ -2551,7 +2551,7 @@
       "source_file": "app/api/store-settings/route.ts",
       "source_location": "L7",
       "id": "store_settings_route_get",
-      "community": 0,
+      "community": 107,
       "norm_label": "get()"
     },
     {
@@ -2587,7 +2587,7 @@
       "source_file": "app/api/auth/role/route.ts",
       "source_location": "L1",
       "id": "app_api_auth_role_route_ts",
-      "community": 3,
+      "community": 68,
       "norm_label": "route.ts"
     },
     {
@@ -2596,7 +2596,7 @@
       "source_file": "app/api/auth/role/route.ts",
       "source_location": "L8",
       "id": "role_route_get",
-      "community": 3,
+      "community": 68,
       "norm_label": "get()"
     },
     {
@@ -2605,7 +2605,7 @@
       "source_file": "app/api/categories/route.ts",
       "source_location": "L1",
       "id": "app_api_categories_route_ts",
-      "community": 92,
+      "community": 68,
       "norm_label": "route.ts"
     },
     {
@@ -2749,7 +2749,7 @@
       "source_file": "app/api/kitchen/orders/[id]/route.ts",
       "source_location": "L1",
       "id": "app_api_kitchen_orders_id_route_ts",
-      "community": 89,
+      "community": 0,
       "norm_label": "route.ts"
     },
     {
@@ -2839,7 +2839,7 @@
       "source_file": "app/api/store-settings/route.ts",
       "source_location": "L1",
       "id": "app_api_store_settings_route_ts",
-      "community": 0,
+      "community": 107,
       "norm_label": "route.ts"
     },
     {
@@ -3100,7 +3100,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L1",
       "id": "app_kitchen_page_tsx",
-      "community": 74,
+      "community": 18,
       "norm_label": "page.tsx"
     },
     {
@@ -3109,7 +3109,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L20",
       "id": "kitchen_page_supabase",
-      "community": 74,
+      "community": 18,
       "norm_label": "supabase"
     },
     {
@@ -3118,7 +3118,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L25",
       "id": "kitchen_page_extra",
-      "community": 74,
+      "community": 18,
       "norm_label": "extra"
     },
     {
@@ -3127,7 +3127,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L27",
       "id": "kitchen_page_orderitem",
-      "community": 74,
+      "community": 18,
       "norm_label": "orderitem"
     },
     {
@@ -3136,7 +3136,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L37",
       "id": "kitchen_page_order",
-      "community": 74,
+      "community": 18,
       "norm_label": "order"
     },
     {
@@ -3145,7 +3145,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L50",
       "id": "kitchen_page_driver",
-      "community": 74,
+      "community": 18,
       "norm_label": "driver"
     },
     {
@@ -3154,7 +3154,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L58",
       "id": "kitchen_page_dispatchorder",
-      "community": 74,
+      "community": 18,
       "norm_label": "dispatchorder"
     },
     {
@@ -3163,7 +3163,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L75",
       "id": "kitchen_page_elapsed",
-      "community": 74,
+      "community": 18,
       "norm_label": "elapsed()"
     },
     {
@@ -3172,7 +3172,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L83",
       "id": "kitchen_page_ordercard",
-      "community": 74,
+      "community": 18,
       "norm_label": "ordercard()"
     },
     {
@@ -3181,7 +3181,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L274",
       "id": "kitchen_page_kitchenticket",
-      "community": 74,
+      "community": 18,
       "norm_label": "kitchenticket()"
     },
     {
@@ -3190,7 +3190,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L346",
       "id": "kitchen_page_customerreceipt",
-      "community": 74,
+      "community": 18,
       "norm_label": "customerreceipt()"
     },
     {
@@ -3199,7 +3199,7 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L465",
       "id": "kitchen_page_kitchendashboard",
-      "community": 74,
+      "community": 18,
       "norm_label": "kitchendashboard()"
     },
     {
@@ -3230,94 +3230,13 @@
       "norm_label": "page.tsx"
     },
     {
-      "label": "ComboItem",
+      "label": "DeprecatedComboPage()",
       "file_type": "code",
       "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L8",
-      "id": "combo_page_comboitem",
+      "source_location": "L3",
+      "id": "combo_page_deprecatedcombopage",
       "community": 1,
-      "norm_label": "comboitem"
-    },
-    {
-      "label": "ComboDiscount",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L17",
-      "id": "combo_page_combodiscount",
-      "community": 1,
-      "norm_label": "combodiscount"
-    },
-    {
-      "label": "ComboComponent",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L24",
-      "id": "combo_page_combocomponent",
-      "community": 1,
-      "norm_label": "combocomponent"
-    },
-    {
-      "label": "StoredCartItem",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L31",
-      "id": "combo_page_storedcartitem",
-      "community": 1,
-      "norm_label": "storedcartitem"
-    },
-    {
-      "label": "MealSize",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L42",
-      "id": "combo_page_mealsize",
-      "community": 1,
-      "norm_label": "mealsize"
-    },
-    {
-      "label": "Step",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L43",
-      "id": "combo_page_step",
-      "community": 1,
-      "norm_label": "step"
-    },
-    {
-      "label": "Selection",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L45",
-      "id": "combo_page_selection",
-      "community": 1,
-      "norm_label": "selection"
-    },
-    {
-      "label": "STEP_LABELS",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L52",
-      "id": "combo_page_step_labels",
-      "community": 1,
-      "norm_label": "step_labels"
-    },
-    {
-      "label": "ComboBuilderPage()",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L59",
-      "id": "combo_page_combobuilderpage",
-      "community": 1,
-      "norm_label": "combobuilderpage()"
-    },
-    {
-      "label": "ItemGrid()",
-      "file_type": "code",
-      "source_file": "app/menu/combo/page.tsx",
-      "source_location": "L301",
-      "id": "combo_page_itemgrid",
-      "community": 1,
-      "norm_label": "itemgrid()"
+      "norm_label": "deprecatedcombopage()"
     },
     {
       "label": "page.tsx",
@@ -3332,7 +3251,7 @@
       "label": "MenuItem",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L22",
+      "source_location": "L21",
       "id": "order_page_menuitem",
       "community": 4,
       "norm_label": "menuitem"
@@ -3341,7 +3260,7 @@
       "label": "CartEntry",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L23",
+      "source_location": "L27",
       "id": "order_page_cartentry",
       "community": 4,
       "norm_label": "cartentry"
@@ -3350,7 +3269,7 @@
       "label": "Cart",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L24",
+      "source_location": "L28",
       "id": "order_page_cart",
       "community": 4,
       "norm_label": "cart"
@@ -3359,7 +3278,7 @@
       "label": "DbCategory",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L26",
+      "source_location": "L30",
       "id": "order_page_dbcategory",
       "community": 4,
       "norm_label": "dbcategory"
@@ -3368,7 +3287,7 @@
       "label": "MENU_ITEMS",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L33",
+      "source_location": "L37",
       "id": "order_page_menu_items",
       "community": 4,
       "norm_label": "menu_items"
@@ -3377,7 +3296,7 @@
       "label": "getUniqueTags()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L213",
+      "source_location": "L217",
       "id": "order_page_getuniquetags",
       "community": 1,
       "norm_label": "getuniquetags()"
@@ -3386,7 +3305,7 @@
       "label": "DbMenuItem",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L228",
+      "source_location": "L232",
       "id": "order_page_dbmenuitem",
       "community": 4,
       "norm_label": "dbmenuitem"
@@ -3395,7 +3314,7 @@
       "label": "dbToMenuItem()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L250",
+      "source_location": "L256",
       "id": "order_page_dbtomenuitem",
       "community": 4,
       "norm_label": "dbtomenuitem()"
@@ -3404,7 +3323,7 @@
       "label": "cartTotal()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L271",
+      "source_location": "L279",
       "id": "order_page_carttotal",
       "community": 4,
       "norm_label": "carttotal()"
@@ -3413,7 +3332,7 @@
       "label": "cartCount()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L280",
+      "source_location": "L288",
       "id": "order_page_cartcount",
       "community": 4,
       "norm_label": "cartcount()"
@@ -3422,7 +3341,7 @@
       "label": "MenuCard()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L286",
+      "source_location": "L294",
       "id": "order_page_menucard",
       "community": 4,
       "norm_label": "menucard()"
@@ -3431,7 +3350,7 @@
       "label": "FiltersPopover()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L398",
+      "source_location": "L406",
       "id": "order_page_filterspopover",
       "community": 4,
       "norm_label": "filterspopover()"
@@ -3440,7 +3359,7 @@
       "label": "CartDrawer()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L526",
+      "source_location": "L534",
       "id": "order_page_cartdrawer",
       "community": 4,
       "norm_label": "cartdrawer()"
@@ -3449,7 +3368,7 @@
       "label": "OrderPage()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
-      "source_location": "L655",
+      "source_location": "L663",
       "id": "order_page_orderpage",
       "community": 4,
       "norm_label": "orderpage()"
@@ -4040,10 +3959,19 @@
       "norm_label": "itemcustomizerdrawer.tsx"
     },
     {
-      "label": "DrawerItem",
+      "label": "ComboItem",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L8",
+      "id": "menu_itemcustomizerdrawer_comboitem",
+      "community": 77,
+      "norm_label": "comboitem"
+    },
+    {
+      "label": "DrawerItem",
+      "file_type": "code",
+      "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
+      "source_location": "L16",
       "id": "menu_itemcustomizerdrawer_draweritem",
       "community": 77,
       "norm_label": "draweritem"
@@ -4052,7 +3980,7 @@
       "label": "Props",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
-      "source_location": "L10",
+      "source_location": "L22",
       "id": "menu_itemcustomizerdrawer_props",
       "community": 77,
       "norm_label": "props"
@@ -4061,16 +3989,25 @@
       "label": "AccordionSection()",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
-      "source_location": "L16",
+      "source_location": "L28",
       "id": "menu_itemcustomizerdrawer_accordionsection",
       "community": 77,
       "norm_label": "accordionsection()"
     },
     {
+      "label": "ComboItemCard()",
+      "file_type": "code",
+      "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
+      "source_location": "L65",
+      "id": "menu_itemcustomizerdrawer_comboitemcard",
+      "community": 77,
+      "norm_label": "comboitemcard()"
+    },
+    {
       "label": "ItemCustomizerDrawer()",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
-      "source_location": "L53",
+      "source_location": "L100",
       "id": "menu_itemcustomizerdrawer_itemcustomizerdrawer",
       "community": 77,
       "norm_label": "itemcustomizerdrawer()"
@@ -4081,7 +4018,7 @@
       "source_file": "lib/email.ts",
       "source_location": "L1",
       "id": "lib_email_ts",
-      "community": 89,
+      "community": 0,
       "norm_label": "email.ts"
     },
     {
@@ -4090,7 +4027,7 @@
       "source_file": "lib/email.ts",
       "source_location": "L3",
       "id": "lib_email_emailorderdata",
-      "community": 89,
+      "community": 0,
       "norm_label": "emailorderdata"
     },
     {
@@ -4099,7 +4036,7 @@
       "source_file": "lib/email.ts",
       "source_location": "L11",
       "id": "lib_email_orderemailstatus",
-      "community": 89,
+      "community": 0,
       "norm_label": "orderemailstatus"
     },
     {
@@ -4108,7 +4045,7 @@
       "source_file": "lib/email.ts",
       "source_location": "L13",
       "id": "lib_email_status_config",
-      "community": 89,
+      "community": 0,
       "norm_label": "status_config"
     },
     {
@@ -4117,7 +4054,7 @@
       "source_file": "lib/email.ts",
       "source_location": "L47",
       "id": "lib_email_buildhtml",
-      "community": 89,
+      "community": 0,
       "norm_label": "buildhtml()"
     },
     {
@@ -4126,7 +4063,7 @@
       "source_file": "lib/email.ts",
       "source_location": "L127",
       "id": "lib_email_sendorderstatusemail",
-      "community": 89,
+      "community": 0,
       "norm_label": "sendorderstatusemail()"
     },
     {
@@ -4171,7 +4108,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L1",
       "id": "lib_store_status_ts",
-      "community": 0,
+      "community": 107,
       "norm_label": "store-status.ts"
     },
     {
@@ -4198,7 +4135,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L6",
       "id": "lib_store_status_dayhours",
-      "community": 0,
+      "community": 107,
       "norm_label": "dayhours"
     },
     {
@@ -4207,7 +4144,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L12",
       "id": "lib_store_status_businesshours",
-      "community": 0,
+      "community": 107,
       "norm_label": "businesshours"
     },
     {
@@ -4216,7 +4153,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L14",
       "id": "lib_store_status_holiday",
-      "community": 0,
+      "community": 107,
       "norm_label": "holiday"
     },
     {
@@ -4225,7 +4162,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L19",
       "id": "lib_store_status_storestatusresult",
-      "community": 0,
+      "community": 107,
       "norm_label": "storestatusresult"
     },
     {
@@ -4234,7 +4171,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L25",
       "id": "lib_store_status_getuknow",
-      "community": 0,
+      "community": 107,
       "norm_label": "getuknow()"
     },
     {
@@ -4243,7 +4180,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L41",
       "id": "lib_store_status_checkstorestatus",
-      "community": 0,
+      "community": 107,
       "norm_label": "checkstorestatus()"
     },
     {
@@ -4252,7 +4189,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L87",
       "id": "lib_store_status_getnextopenday",
-      "community": 0,
+      "community": 107,
       "norm_label": "getnextopenday()"
     },
     {
@@ -4279,7 +4216,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L1",
       "id": "lib_utils_format_date_ts",
-      "community": 74,
+      "community": 18,
       "norm_label": "format-date.ts"
     },
     {
@@ -4288,7 +4225,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L1",
       "id": "utils_format_date_dateinput",
-      "community": 74,
+      "community": 18,
       "norm_label": "dateinput"
     },
     {
@@ -4297,7 +4234,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L3",
       "id": "utils_format_date_d",
-      "community": 74,
+      "community": 18,
       "norm_label": "d()"
     },
     {
@@ -4306,7 +4243,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L8",
       "id": "utils_format_date_formatdate",
-      "community": 74,
+      "community": 18,
       "norm_label": "formatdate()"
     },
     {
@@ -4315,7 +4252,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L15",
       "id": "utils_format_date_formattime",
-      "community": 74,
+      "community": 18,
       "norm_label": "formattime()"
     },
     {
@@ -4324,7 +4261,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L22",
       "id": "utils_format_date_formattimefull",
-      "community": 74,
+      "community": 18,
       "norm_label": "formattimefull()"
     },
     {
@@ -4351,7 +4288,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L41",
       "id": "utils_format_date_formatdatemedium",
-      "community": 74,
+      "community": 18,
       "norm_label": "formatdatemedium()"
     },
     {
@@ -4369,7 +4306,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L55",
       "id": "utils_format_date_formatdateclocklabel",
-      "community": 74,
+      "community": 18,
       "norm_label": "formatdateclocklabel()"
     },
     {
@@ -6272,6 +6209,96 @@
       "norm_label": "8. out of scope"
     },
     {
+      "label": "ComboItem",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L8",
+      "community": 1,
+      "norm_label": "comboitem",
+      "id": "combo_page_comboitem"
+    },
+    {
+      "label": "ComboDiscount",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L17",
+      "community": 1,
+      "norm_label": "combodiscount",
+      "id": "combo_page_combodiscount"
+    },
+    {
+      "label": "ComboComponent",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L24",
+      "community": 1,
+      "norm_label": "combocomponent",
+      "id": "combo_page_combocomponent"
+    },
+    {
+      "label": "StoredCartItem",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L31",
+      "community": 1,
+      "norm_label": "storedcartitem",
+      "id": "combo_page_storedcartitem"
+    },
+    {
+      "label": "MealSize",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L42",
+      "community": 1,
+      "norm_label": "mealsize",
+      "id": "combo_page_mealsize"
+    },
+    {
+      "label": "Step",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L43",
+      "community": 1,
+      "norm_label": "step",
+      "id": "combo_page_step"
+    },
+    {
+      "label": "Selection",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L45",
+      "community": 1,
+      "norm_label": "selection",
+      "id": "combo_page_selection"
+    },
+    {
+      "label": "STEP_LABELS",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L52",
+      "community": 1,
+      "norm_label": "step_labels",
+      "id": "combo_page_step_labels"
+    },
+    {
+      "label": "ComboBuilderPage()",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L59",
+      "community": 1,
+      "norm_label": "combobuilderpage()",
+      "id": "combo_page_combobuilderpage"
+    },
+    {
+      "label": "ItemGrid()",
+      "file_type": "code",
+      "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L301",
+      "community": 1,
+      "norm_label": "itemgrid()",
+      "id": "combo_page_itemgrid"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "page.tsx",
@@ -6420,7 +6447,7 @@
       "file_type": "code",
       "source_file": "kitchen/page.tsx",
       "source_location": "L1",
-      "community": 74,
+      "community": 18,
       "norm_label": "page.tsx",
       "id": "kitchen_page_tsx"
     },
@@ -6447,7 +6474,7 @@
       "file_type": "code",
       "source_file": "api/auth/role/route.ts",
       "source_location": "L1",
-      "community": 3,
+      "community": 68,
       "norm_label": "route.ts",
       "id": "api_auth_role_route_ts"
     },
@@ -6501,7 +6528,7 @@
       "file_type": "code",
       "source_file": "api/admin/auth-users/route.ts",
       "source_location": "L1",
-      "community": 97,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "api_admin_auth_users_route_ts"
     },
@@ -6672,7 +6699,7 @@
       "file_type": "code",
       "source_file": "api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
-      "community": 87,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "api_admin_menu_suggestions_route_ts"
     },
@@ -6708,7 +6735,7 @@
       "file_type": "code",
       "source_file": "app/admin/drivers/[id]/page.tsx",
       "source_location": "L51",
-      "community": 74,
+      "community": 18,
       "norm_label": "fmtdate()",
       "id": "id_page_fmtdate"
     },
@@ -6960,7 +6987,7 @@
       "file_type": "code",
       "source_file": "api/admin/dashboard/route.ts",
       "source_location": "L1",
-      "community": 3,
+      "community": 90,
       "norm_label": "route.ts",
       "id": "api_admin_dashboard_route_ts"
     },
@@ -7115,7 +7142,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 87,
       "norm_label": "landing page",
       "id": "page_landingpage"
     },
@@ -7128,7 +7155,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 87,
       "norm_label": "popular items data (popular)",
       "id": "page_popular_items"
     },
@@ -7141,7 +7168,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 87,
       "norm_label": "why choose us data (reasons)",
       "id": "page_reasons"
     },
@@ -7154,7 +7181,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 87,
       "norm_label": "oswald font (landing page)",
       "id": "page_oswald_font"
     },
@@ -7284,7 +7311,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 79,
       "norm_label": "cartdrawer component",
       "id": "order_cartdrawer"
     },
@@ -7297,7 +7324,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 79,
       "norm_label": "menu_items static data",
       "id": "order_menuitems"
     },
@@ -7336,7 +7363,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 79,
       "norm_label": "carttotal helper",
       "id": "order_carttotal"
     },
@@ -7362,7 +7389,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "productitem interface",
       "id": "productmodal_productitem"
     },
@@ -7375,7 +7402,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 50,
+      "community": 67,
       "norm_label": "orderselection interface",
       "id": "productmodal_orderselection"
     },
@@ -7388,7 +7415,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "addon interface",
       "id": "productmodal_addon"
     },
@@ -7401,7 +7428,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "itemcategory type",
       "id": "productmodal_itemcategory"
     },
@@ -7414,7 +7441,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "toggle sub-component",
       "id": "productmodal_toggle"
     },
@@ -7427,7 +7454,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "allergyaccordion sub-component",
       "id": "productmodal_allergyaccordion"
     },
@@ -7440,7 +7467,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "allergen_details static map",
       "id": "productmodal_allergen_details"
     },
@@ -7453,7 +7480,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 61,
       "norm_label": "supabase linked project (chickentime)",
       "id": "supabase_linked_project"
     },
@@ -7466,7 +7493,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 61,
       "norm_label": "initial db schema migration",
       "id": "supabase_migration_schema"
     },
@@ -7479,7 +7506,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 61,
       "norm_label": "db table: profiles",
       "id": "supabase_table_profiles"
     },
@@ -7492,7 +7519,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 61,
       "norm_label": "db enum: order_status",
       "id": "supabase_enum_order_status"
     },
@@ -7505,7 +7532,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 61,
       "norm_label": "db function: set_updated_at",
       "id": "supabase_fn_set_updated_at"
     },
@@ -7518,7 +7545,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 61,
       "norm_label": "row level security policies",
       "id": "supabase_rls_policies"
     },
@@ -8014,7 +8041,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "components/productmodal.tsx",
       "id": "CLAUDE_productmodal_tsx"
     },
@@ -8027,7 +8054,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 79,
       "norm_label": "app/order/page.tsx",
       "id": "CLAUDE_order_page_tsx"
     },
@@ -8040,7 +8067,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 79,
       "norm_label": "menu_items hardcoded duplicate \u2014 supabase not yet wired",
       "id": "CLAUDE_hardcoded_duplicate_rationale"
     },
@@ -8079,7 +8106,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 80,
+      "community": 5,
       "norm_label": "admin page",
       "id": "admin_adminpage"
     },
@@ -8118,7 +8145,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 80,
+      "community": 5,
       "norm_label": "additemmodal component",
       "id": "admin_additemmodal"
     },
@@ -8131,7 +8158,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 80,
+      "community": 5,
       "norm_label": "deleteconfirmmodal component",
       "id": "admin_deleteconfirmmodal"
     },
@@ -8144,7 +8171,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 80,
+      "community": 5,
       "norm_label": "pricecell component",
       "id": "admin_pricecell"
     },
@@ -8157,7 +8184,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 80,
+      "community": 5,
       "norm_label": "availabilitytoggle component",
       "id": "admin_availabilitytoggle"
     },
@@ -8170,7 +8197,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 80,
+      "community": 5,
       "norm_label": "api: admin menu items route (get/post)",
       "id": "api_admin_menuitems_route"
     },
@@ -8183,7 +8210,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 80,
+      "community": 5,
       "norm_label": "api: admin menu items [id] route (patch/delete)",
       "id": "api_admin_menuitems_id_route"
     },
@@ -8196,7 +8223,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "api checkout post",
       "id": "api_checkout_route"
     },
@@ -8235,7 +8262,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "api: kitchen orders [id] route (patch)",
       "id": "api_kitchen_orders_id_route"
     },
@@ -8248,7 +8275,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "api: public menu items route (get)",
       "id": "api_menuitems_route"
     },
@@ -8261,7 +8288,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "api: stripe webhook route (post)",
       "id": "api_webhook_route"
     },
@@ -8274,7 +8301,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "kitchen dashboard page",
       "id": "kitchen_kitchendashboard"
     },
@@ -8287,7 +8314,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "ordercard component",
       "id": "kitchen_ordercard"
     },
@@ -8300,7 +8327,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "kitchenticket print component",
       "id": "kitchen_kitchenticket"
     },
@@ -8313,7 +8340,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "customerreceipt print component",
       "id": "kitchen_customerreceipt"
     },
@@ -8352,7 +8379,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "supabase realtime client (kitchen)",
       "id": "kitchen_supabase_realtime"
     },
@@ -8365,7 +8392,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 5,
       "norm_label": "dbmenuitem interface (order page)",
       "id": "order_dbmenuitem_interface"
     },
@@ -8378,7 +8405,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 5,
       "norm_label": "dbtomenuitem mapper function",
       "id": "order_dbtomenuitem"
     },
@@ -8391,7 +8418,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "supabase admin client",
       "id": "lib_supabaseadmin"
     },
@@ -8430,7 +8457,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 50,
+      "community": 61,
       "norm_label": "db table: order_items",
       "id": "db_table_order_items"
     },
@@ -8443,7 +8470,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 61,
+      "community": 76,
       "norm_label": "stripe checkout integration",
       "id": "stripe_integration"
     },
@@ -8469,7 +8496,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "toggle switch component",
       "id": "productmodal_toggle_component"
     },
@@ -8482,7 +8509,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "productmodal component",
       "id": "productmodal_component"
     },
@@ -8586,7 +8613,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 61,
       "norm_label": "migration: kitchen policies (20260607)",
       "id": "migration_kitchen_policies"
     },
@@ -8638,7 +8665,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 61,
       "norm_label": "migration: kitchen rls permissive (20260612)",
       "id": "migration_kitchen_rls"
     },
@@ -8768,7 +8795,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 61,
       "norm_label": "rls policy: kitchen read active orders",
       "id": "policy_kitchen_read_active_orders"
     },
@@ -8781,7 +8808,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 61,
       "norm_label": "rls policy: kitchen update status",
       "id": "policy_kitchen_update_status"
     },
@@ -8794,7 +8821,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 61,
       "norm_label": "rls policy: kitchen read order items",
       "id": "policy_kitchen_read_order_items"
     },
@@ -8807,7 +8834,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 61,
       "norm_label": "rls policy: kitchen_select_orders (permissive)",
       "id": "policy_kitchen_select_orders"
     },
@@ -8820,7 +8847,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 61,
       "norm_label": "rls policy: kitchen_update_orders (permissive)",
       "id": "policy_kitchen_update_orders"
     },
@@ -8833,7 +8860,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 61,
       "norm_label": "rls policy: kitchen_select_items (permissive)",
       "id": "policy_kitchen_select_items"
     },
@@ -8968,7 +8995,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 82,
+      "community": 76,
       "norm_label": "sign in page",
       "id": "signin_signinpage"
     },
@@ -8981,7 +9008,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 82,
+      "community": 76,
       "norm_label": "sign up page",
       "id": "signup_signuppage"
     },
@@ -9046,7 +9073,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "allergyaccordion component",
       "id": "productmodal_allergyaccordion_component"
     },
@@ -10856,9 +10883,9 @@
       "source_file": "app/admin/page.tsx",
       "source_location": "L699",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_admin_page_tsx",
-      "target": "admin_page_quickstats",
-      "confidence_score": 1.0
+      "target": "admin_page_quickstats"
     },
     {
       "relation": "contains",
@@ -12014,9 +12041,9 @@
       "source_file": "app/admin/dashboard/page.tsx",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_bentocard",
-      "confidence_score": 1.0
+      "target": "dashboard_page_bentocard"
     },
     {
       "relation": "contains",
@@ -17244,6 +17271,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/menu/combo/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "app_menu_combo_page_tsx",
+      "target": "combo_page_deprecatedcombopage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/menu/combo/page.tsx",
       "source_location": "L8",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -17338,106 +17375,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "app_menu_combo_page_tsx",
-      "target": "combo_page_itemgrid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_comboitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_combodiscount"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L24",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_combocomponent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_storedcartitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L42",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_mealsize"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L43",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_step"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L45",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_selection"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L52",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_step_labels"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L59",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "combo_page_combobuilderpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L301",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
       "target": "combo_page_itemgrid"
     },
     {
@@ -17502,9 +17439,9 @@
       "source_file": "app/order/page.tsx",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_order_page_tsx",
-      "target": "components_menu_itemcustomizerdrawer_tsx",
-      "confidence_score": 1.0
+      "target": "components_menu_itemcustomizerdrawer_tsx"
     },
     {
       "relation": "contains",
@@ -18566,9 +18503,9 @@
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_menu_itemcustomizerdrawer_tsx",
-      "target": "components_productmodal_tsx",
-      "confidence_score": 1.0
+      "target": "components_productmodal_tsx"
     },
     {
       "relation": "contains",
@@ -18587,9 +18524,9 @@
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_menu_itemcustomizerdrawer_tsx",
-      "target": "components_productmodal_addon",
-      "confidence_score": 1.0
+      "target": "components_productmodal_addon"
     },
     {
       "relation": "imports",
@@ -18630,9 +18567,9 @@
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_menu_itemcustomizerdrawer_tsx",
-      "target": "components_productmodal_productitem",
-      "confidence_score": 1.0
+      "target": "components_productmodal_productitem"
     },
     {
       "relation": "imports",
@@ -18673,9 +18610,9 @@
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_menu_itemcustomizerdrawer_tsx",
-      "target": "components_productmodal_orderselection",
-      "confidence_score": 1.0
+      "target": "components_productmodal_orderselection"
     },
     {
       "relation": "imports",
@@ -18932,9 +18869,9 @@
       "source_file": "components/admin/admin-sidebar.tsx",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_admin_admin_sidebar_tsx",
-      "target": "admin_admin_sidebar_nav_groups",
-      "confidence_score": 1.0
+      "target": "admin_admin_sidebar_nav_groups"
     },
     {
       "relation": "contains",
@@ -19067,8 +19004,18 @@
       "source_location": "L8",
       "weight": 1.0,
       "source": "components_menu_itemcustomizerdrawer_tsx",
-      "target": "menu_itemcustomizerdrawer_draweritem",
+      "target": "menu_itemcustomizerdrawer_comboitem",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_menu_itemcustomizerdrawer_tsx",
+      "target": "menu_itemcustomizerdrawer_draweritem"
     },
     {
       "relation": "contains",
@@ -19076,9 +19023,9 @@
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_menu_itemcustomizerdrawer_tsx",
-      "target": "menu_itemcustomizerdrawer_props",
-      "confidence_score": 1.0
+      "target": "menu_itemcustomizerdrawer_props"
     },
     {
       "relation": "contains",
@@ -19086,8 +19033,18 @@
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_menu_itemcustomizerdrawer_tsx",
-      "target": "menu_itemcustomizerdrawer_accordionsection",
+      "target": "menu_itemcustomizerdrawer_accordionsection"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "components_menu_itemcustomizerdrawer_tsx",
+      "target": "menu_itemcustomizerdrawer_comboitemcard",
       "confidence_score": 1.0
     },
     {
@@ -19096,9 +19053,9 @@
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_menu_itemcustomizerdrawer_tsx",
-      "target": "menu_itemcustomizerdrawer_itemcustomizerdrawer",
-      "confidence_score": 1.0
+      "target": "menu_itemcustomizerdrawer_itemcustomizerdrawer"
     },
     {
       "relation": "contains",
@@ -22001,6 +21958,106 @@
       "confidence_score": 1.0,
       "source": "specs_2026_06_07_combo_meal_design_order_items_insert",
       "target": "specs_2026_06_07_combo_meal_design_codeblock_9"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_comboitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_combodiscount"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_combocomponent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_storedcartitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_mealsize"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_step"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_selection"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_step_labels"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_combobuilderpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L301",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "combo_page_itemgrid"
     },
     {
       "relation": "contains",
@@ -25053,5 +25110,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "584ed089781ab002c9ed939e592d1d9203baad9f"
+  "built_at_commit": "f775cda2a8d04f48a90d121026710ea18f9d5a56"
 }

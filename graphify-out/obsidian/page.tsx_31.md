@@ -33,7 +33,7 @@ tags:
 - [[ComboBuilderPage()]] - `contains` [EXTRACTED]
 - [[ComboComponent_1]] - `contains` [EXTRACTED]
 - [[ComboDiscount_1]] - `contains` [EXTRACTED]
-- [[ComboItem]] - `contains` [EXTRACTED]
+- [[ComboItem_1]] - `contains` [EXTRACTED]
 - [[CompactListItem()]] - `contains` [EXTRACTED]
 - [[Contact Page]] - `contains` [EXTRACTED]
 - [[CustomerReceipt()]] - `contains` [EXTRACTED]

@@ -2,7 +2,7 @@
 source_file: "components/Menu/ItemCustomizerDrawer.tsx"
 type: "code"
 community: "Community None"
-location: "L10"
+location: "L22"
 tags:
   - graphify/code
   - graphify/EXTRACTED
