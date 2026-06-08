@@ -27,6 +27,7 @@ async function getAuthedUser() {
 
 function buildQuery(sp: URLSearchParams) {
   const q          = sp.get('q')?.trim() ?? ''
+  const safeQ      = q.replace(/[%_(),]/g, '')
   const driverId   = sp.get('driver_id')?.trim() ?? ''
   const statuses   = sp.get('status')?.trim() ?? ''
   const dateFrom   = sp.get('date_from')?.trim() ?? ''
@@ -47,17 +48,19 @@ function buildQuery(sp: URLSearchParams) {
 
   if (q) {
     query = query.or(
-      `customer_name.ilike.%${q}%,customer_phone.ilike.%${q}%,` +
-      `customer_email.ilike.%${q}%,delivery_postcode.ilike.%${q}%,` +
-      `id.ilike.%${q}%`
+      `customer_name.ilike.%${safeQ}%,customer_phone.ilike.%${safeQ}%,` +
+      `customer_email.ilike.%${safeQ}%,delivery_postcode.ilike.%${safeQ}%,` +
+      `id.ilike.%${safeQ}%`
     )
   }
   if (driverId) query = query.eq('driver_id', driverId)
   if (statuses) query = query.in('status', statuses.split(','))
   if (dateFrom) query = query.gte('created_at', `${dateFrom}T00:00:00`)
   if (dateTo)   query = query.lte('created_at', `${dateTo}T23:59:59`)
-  if (amountMin) query = query.gte('total_amount', Number(amountMin))
-  if (amountMax) query = query.lte('total_amount', Number(amountMax))
+  const minVal = Number(amountMin)
+  const maxVal = Number(amountMax)
+  if (amountMin && !isNaN(minVal)) query = query.gte('total_amount', minVal)
+  if (amountMax && !isNaN(maxVal)) query = query.lte('total_amount', maxVal)
 
   return query
 }
@@ -128,7 +131,7 @@ export async function GET(req: NextRequest) {
 
   // For CSV: fetch all matching rows (no pagination)
   if (format === 'csv') {
-    const { data, error } = await buildQuery(sp)
+    const { data, error } = await buildQuery(sp).limit(5000)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     const csv      = toCsv(normalise((data ?? []) as Record<string, unknown>[]))
     const today    = new Date().toISOString().slice(0, 10)
@@ -141,14 +144,14 @@ export async function GET(req: NextRequest) {
   }
 
   // JSON: paginated + summary
-  const [{ data, error, count }, { data: summaryData }] = await Promise.all([
+  const [{ data, error }, { data: summaryData }] = await Promise.all([
     buildQuery(sp).range((page - 1) * perPage, page * perPage - 1),
     buildQuery(sp).select('total_amount'),
   ])
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  const total   = count ?? summaryData?.length ?? 0
+  const total   = summaryData?.length ?? 0
   const revenue = (summaryData ?? []).reduce((s: number, o: { total_amount: number }) => s + Number(o.total_amount), 0)
   const orders  = normalise((data ?? []) as Record<string, unknown>[])
 
