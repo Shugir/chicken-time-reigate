@@ -35,6 +35,7 @@ tags:
 - [[ProductItem]] - `imports` [EXTRACTED]
 - [[ProductModal()]] - `imports` [EXTRACTED]
 - [[ProductModal.tsx]] - `imports_from` [EXTRACTED]
+- [[ScrollToTop.tsx]] - `imports_from` [EXTRACTED]
 - [[cartCount()]] - `contains` [EXTRACTED]
 - [[cartTotal()]] - `contains` [EXTRACTED]
 - [[dbToMenuItem()]] - `contains` [EXTRACTED]

@@ -10,11 +10,13 @@ import {
   Minus,
   X,
   ChevronRight,
+  ChevronLeft,
   Search,
   SlidersHorizontal,
 } from 'lucide-react'
 import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
 import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
+import ScrollToTop from '@/components/UI/ScrollToTop'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -675,7 +677,17 @@ export default function OrderPage() {
   const [sortBy, setSortBy]                   = useState<'default' | 'price-asc' | 'price-desc'>('default')
   const [showOffersOnly, setShowOffersOnly]   = useState(false)
   const [filtersOpen, setFiltersOpen]     = useState(false)
-  const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
+  const sectionRefs    = useRef<Record<string, HTMLElement | null>>({})
+  const navScrollRef   = useRef<HTMLDivElement>(null)
+  const [canScrollLeft,  setCanScrollLeft]  = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  function checkNavScroll() {
+    const el = navScrollRef.current
+    if (!el) return
+    setCanScrollLeft(el.scrollLeft > 2)
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 2)
+  }
 
   useEffect(() => {
     fetch('/api/categories')
@@ -686,6 +698,8 @@ export default function OrderPage() {
 
   useEffect(() => {
     if (categories.length > 0 && !activeCategory) setActive(categories[0].slug)
+    // re-check arrow visibility whenever category list changes
+    setTimeout(checkNavScroll, 50)
   }, [categories])
 
   useEffect(() => {
@@ -801,30 +815,61 @@ export default function OrderPage() {
       </div>
 
       {/* ── STICKY SCROLL-SPY CATEGORY NAV ── */}
-      <nav className="sticky top-0 z-30 backdrop-blur-md bg-white/90 border-b border-zinc-100/80 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-1 overflow-x-auto py-2.5 [&::-webkit-scrollbar]:hidden">
-          {categories.map(({ slug, name, image_url }) => (
+      <nav className="sticky top-16 z-40 backdrop-blur-md bg-white/95 border-b border-zinc-100/80 shadow-sm">
+        <div className="relative">
+          {/* Left fade + arrow */}
+          <div className={`absolute left-0 top-0 bottom-0 w-14 bg-gradient-to-r from-white/95 to-transparent pointer-events-none z-10 transition-opacity duration-200 ${canScrollLeft ? 'opacity-100' : 'opacity-0'}`} />
+          {canScrollLeft && (
             <button
-              key={slug}
-              onClick={() => scrollTo(slug)}
-              className={`flex-none flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${
-                activeCategory === slug
-                  ? 'bg-zinc-900 text-white shadow-sm'
-                  : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
-              }`}
+              onClick={() => { navScrollRef.current?.scrollBy({ left: -200, behavior: 'smooth' }) }}
+              aria-label="Scroll categories left"
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 h-7 bg-white border border-zinc-200 rounded-full shadow-sm flex items-center justify-center hover:bg-zinc-50 transition-colors"
             >
-              {image_url && (
-                <Image
-                  src={image_url}
-                  alt={name}
-                  width={20}
-                  height={20}
-                  className="w-5 h-5 rounded-full object-cover shrink-0"
-                />
-              )}
-              {name}
+              <ChevronLeft size={14} className="text-zinc-700" />
             </button>
-          ))}
+          )}
+
+          {/* Scrollable pills */}
+          <div
+            ref={navScrollRef}
+            onScroll={checkNavScroll}
+            className="flex items-center gap-1 overflow-x-auto py-2.5 px-4 sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden scroll-smooth"
+          >
+            {categories.map(({ slug, name, image_url }) => (
+              <button
+                key={slug}
+                onClick={() => scrollTo(slug)}
+                className={`flex-none flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${
+                  activeCategory === slug
+                    ? 'bg-zinc-900 text-white shadow-sm'
+                    : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
+                }`}
+              >
+                {image_url && (
+                  <Image
+                    src={image_url}
+                    alt={name}
+                    width={20}
+                    height={20}
+                    className="w-5 h-5 rounded-full object-cover shrink-0"
+                  />
+                )}
+                {name}
+              </button>
+            ))}
+          </div>
+
+          {/* Right fade + arrow */}
+          <div className={`absolute right-0 top-0 bottom-0 w-14 bg-gradient-to-l from-white/95 to-transparent pointer-events-none z-10 transition-opacity duration-200 ${canScrollRight ? 'opacity-100' : 'opacity-0'}`} />
+          {canScrollRight && (
+            <button
+              onClick={() => { navScrollRef.current?.scrollBy({ left: 200, behavior: 'smooth' }) }}
+              aria-label="Scroll categories right"
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 h-7 bg-white border border-zinc-200 rounded-full shadow-sm flex items-center justify-center hover:bg-zinc-50 transition-colors"
+            >
+              <ChevronRight size={14} className="text-zinc-700" />
+            </button>
+          )}
         </div>
       </nav>
 
@@ -1025,6 +1070,8 @@ export default function OrderPage() {
           onAddToOrder={handleAddToOrder}
         />
       )}
+
+      <ScrollToTop />
     </div>
   )
 }

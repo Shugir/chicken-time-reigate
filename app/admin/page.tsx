@@ -594,12 +594,14 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
             <label className="block text-xs font-medium text-zinc-400 mb-1">Combo Role</label>
             <select
               value={form.combo_category ?? ''}
-              onChange={e =>
+              onChange={e => {
+                const val = (e.target.value || null) as 'main' | 'side' | 'drink' | null
                 setForm(f => ({
                   ...f,
-                  combo_category: (e.target.value || null) as 'main' | 'side' | 'drink' | null,
+                  combo_category: val,
+                  size_tier: val === 'main' ? null : f.size_tier,
                 }))
-              }
+              }}
               className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red"
             >
               <option value="">None</option>
@@ -607,9 +609,13 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
               <option value="side">Side</option>
               <option value="drink">Drink</option>
             </select>
+            {form.combo_category === 'main' && (
+              <p className="text-[11px] text-zinc-500 mt-1">Mains are always regular size — no size tier needed.</p>
+            )}
           </div>
 
-          {/* Size Tier */}
+          {/* Size Tier — hidden for mains */}
+          {form.combo_category !== 'main' && (
           <div>
             <label className="block text-xs font-medium text-zinc-400 mb-1">Size Tier</label>
             <select
@@ -627,6 +633,7 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
               <option value="large">Large</option>
             </select>
           </div>
+          )}
 
           {error && (
             <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>
@@ -809,9 +816,9 @@ export default function AdminPage() {
           {/* Bento quick-stats */}
           <div className="grid grid-cols-3 gap-3 mt-5">
             {[
-              { label: "Today's Revenue", value: stats ? `£${stats.revenue_today.toFixed(2)}` : '—', color: 'text-emerald-400', border: 'border-emerald-500/20', bg: 'bg-emerald-500/10' },
-              { label: "Orders Today",    value: stats ? String(stats.orders_today) : '—',            color: 'text-blue-400',    border: 'border-blue-500/20',    bg: 'bg-blue-500/10'    },
-              { label: "Active Promos",   value: stats ? String(stats.active_promotions) : '—',        color: 'text-violet-400',  border: 'border-violet-500/20',  bg: 'bg-violet-500/10'  },
+              { label: 'Total Items',   value: loading ? '…' : String(totalItems),                                                 color: 'text-blue-400',   border: 'border-blue-500/20',   bg: 'bg-blue-500/10'   },
+              { label: 'Active Promos', value: stats ? String(stats.active_promotions) : '—',                                      color: 'text-violet-400', border: 'border-violet-500/20', bg: 'bg-violet-500/10' },
+              { label: 'Out of Stock',  value: loading ? '…' : String(items.filter((i) => !i.is_available).length),                color: 'text-amber-400',  border: 'border-amber-500/20',  bg: 'bg-amber-500/10'  },
             ].map(({ label, value, color, border, bg }) => (
               <div key={label} className={`${bg} border ${border} rounded-xl px-4 py-3 flex items-center justify-between`}>
                 <span className="text-xs text-zinc-500 font-medium">{label}</span>
@@ -967,12 +974,12 @@ export default function AdminPage() {
                   <div className="rounded-xl border border-zinc-800 overflow-hidden overflow-x-auto">
                     <table className="w-full text-sm min-w-[640px]">
                       <thead>
-                        <tr className="bg-zinc-800/80 border-b border-zinc-700/50">
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wide w-12">Image</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wide">Name</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wide w-36">Price</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wide w-28">Available</th>
-                          <th className="px-4 py-3 text-right text-xs font-semibold text-zinc-400 uppercase tracking-wide w-24">Actions</th>
+                        <tr className="bg-zinc-800/90 border-b border-zinc-700/50">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-white uppercase tracking-wide w-12">Image</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-white uppercase tracking-wide">Name</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-white uppercase tracking-wide w-36">Price</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-white uppercase tracking-wide w-28">Available</th>
+                          <th className="px-4 py-3 text-right text-xs font-semibold text-white uppercase tracking-wide w-24">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-zinc-800/40">

@@ -26,17 +26,14 @@ interface Props {
 }
 
 function AccordionSection({
-  title,
-  subtitle,
-  open,
-  onToggle,
-  children,
+  title, subtitle, open, onToggle, children, badge,
 }: {
   title: string
   subtitle: string
   open: boolean
   onToggle: () => void
   children: React.ReactNode
+  badge?: string
 }) {
   return (
     <div>
@@ -44,33 +41,29 @@ function AccordionSection({
         onClick={onToggle}
         className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-zinc-50 transition-colors"
       >
-        <div>
-          <p className="font-heading font-semibold text-zinc-900 text-sm">{title}</p>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <p className="font-heading font-semibold text-zinc-900 text-sm">{title}</p>
+            {badge && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-red">
+                <Check size={10} />
+                {badge}
+              </span>
+            )}
+          </div>
           <p className="text-xs text-zinc-400 mt-0.5">{subtitle}</p>
         </div>
         <ChevronDown
           size={16}
-          className={`text-zinc-400 transition-transform duration-200 shrink-0 ${open ? 'rotate-180' : ''}`}
+          className={`text-zinc-400 transition-transform duration-200 shrink-0 ml-3 ${open ? 'rotate-180' : ''}`}
         />
       </button>
-      {open && (
-        <div className="px-5 pb-5">
-          {children}
-        </div>
-      )}
+      {open && <div className="px-5 pb-5">{children}</div>}
     </div>
   )
 }
 
-function ComboItemCard({
-  item,
-  selected,
-  onSelect,
-}: {
-  item: ComboItem
-  selected: boolean
-  onSelect: () => void
-}) {
+function ComboItemCard({ item, selected, onSelect }: { item: ComboItem; selected: boolean; onSelect: () => void }) {
   return (
     <button
       onClick={onSelect}
@@ -107,22 +100,22 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
     (item.add_ons?.length ?? 0) > 0 ? 'extras' : (item.removables?.length ?? 0) > 0 ? 'removals' : null,
   )
 
-  const [mealMode, setMealMode]         = useState(false)
-  const [comboLoading, setComboLoading] = useState(false)
-  const [comboItems, setComboItems]     = useState<{ sides: ComboItem[]; drinks: ComboItem[] }>({ sides: [], drinks: [] })
+  // Meal mode state
+  const [mealMode, setMealMode]           = useState(false)
+  const [comboLoading, setComboLoading]   = useState(false)
+  const [comboItems, setComboItems]       = useState<{ sides: ComboItem[]; drinks: ComboItem[] }>({ sides: [], drinks: [] })
+  const [selectedSize, setSelectedSize]   = useState<'medium' | 'large' | null>(null)
   const [selectedSide, setSelectedSide]   = useState<ComboItem | null>(null)
   const [selectedDrink, setSelectedDrink] = useState<ComboItem | null>(null)
-  const [comboDiscount, setComboDiscount] = useState(0)
+  const [discounts, setDiscounts]         = useState<{ medium: number; large: number }>({ medium: 0, large: 0 })
+  const [comboStep, setComboStep]         = useState<'size' | 'side' | 'drink' | null>(null)
 
   const isMain = item.combo_category === 'main'
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true))
     document.body.style.overflow = 'hidden'
-    return () => {
-      cancelAnimationFrame(id)
-      document.body.style.overflow = ''
-    }
+    return () => { cancelAnimationFrame(id); document.body.style.overflow = '' }
   }, [])
 
   useEffect(() => {
@@ -132,43 +125,55 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
       fetch('/api/menu/combo-items?category=side').then(r => r.json()),
       fetch('/api/menu/combo-items?category=drink').then(r => r.json()),
       fetch('/api/menu/combo-discounts?size=medium').then(r => r.json()),
+      fetch('/api/menu/combo-discounts?size=large').then(r => r.json()),
     ])
-      .then(([sides, drinks, discounts]) => {
-        setComboItems({
-          sides:  (sides  as ComboItem[]).filter(i => i.size_tier !== 'large'),
-          drinks: (drinks as ComboItem[]).filter(i => i.size_tier !== 'large'),
+      .then(([sides, drinks, medDisc, lrgDisc]) => {
+        setComboItems({ sides: sides as ComboItem[], drinks: drinks as ComboItem[] })
+        const md = Array.isArray(medDisc) ? medDisc[0] : medDisc
+        const ld = Array.isArray(lrgDisc) ? lrgDisc[0] : lrgDisc
+        setDiscounts({
+          medium: Number(md?.discount_amount ?? 0),
+          large:  Number(ld?.discount_amount ?? 0),
         })
-        const d = Array.isArray(discounts) ? discounts[0] : discounts
-        setComboDiscount(Number(d?.discount_amount ?? 0))
       })
       .catch(() => {})
       .finally(() => setComboLoading(false))
   }, [mealMode])
 
-  const extrasTotal = extras.reduce((s, e) => s + e.price, 0)
-  const comboAddPrice = mealMode
-    ? Math.max(0, (selectedSide?.price ?? 0) + (selectedDrink?.price ?? 0) - comboDiscount)
+  // Items filtered by chosen size
+  const filteredSides  = selectedSize === 'large'
+    ? comboItems.sides.filter(i => i.size_tier !== 'regular')
+    : comboItems.sides.filter(i => i.size_tier !== 'large')
+  const filteredDrinks = selectedSize === 'large'
+    ? comboItems.drinks.filter(i => i.size_tier !== 'regular')
+    : comboItems.drinks.filter(i => i.size_tier !== 'large')
+
+  const activeDiscount = selectedSize === 'large' ? discounts.large : discounts.medium
+  const extrasTotal    = extras.reduce((s, e) => s + e.price, 0)
+  const mealComplete   = mealMode && selectedSize !== null && selectedSide !== null && selectedDrink !== null
+  const comboAddPrice  = mealComplete
+    ? Math.max(0, (selectedSide!.price) + (selectedDrink!.price) - activeDiscount)
     : 0
-  const total   = (item.price + extrasTotal + comboAddPrice) * qty
+  const total  = (item.price + extrasTotal + comboAddPrice) * qty
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
 
   const hasExtras   = (item.add_ons ?? []).length > 0
   const hasRemovals = (item.removables ?? []).length > 0
 
-  const comboBothSelected = mealMode && selectedSide !== null && selectedDrink !== null
-  const comboSaving = comboBothSelected ? comboDiscount : 0
+  // Button validation
+  const missingStep = mealMode
+    ? !selectedSize  ? 'Select a Meal Size'
+    : !selectedSide  ? 'Select a Side'
+    : !selectedDrink ? 'Select a Drink'
+    : null
+    : null
+  const buttonDisabled = missingStep !== null
+  const buttonLabel = missingStep ?? `Add${qty > 1 ? ` ${qty}×` : ''} to Order`
 
-  const toggleExtra = (addon: AddOn) => {
-    setExtras(prev =>
-      prev.some(e => e.name === addon.name)
-        ? prev.filter(e => e.name !== addon.name)
-        : [...prev, addon],
-    )
-  }
-
-  const toggleRemoval = (r: string) => {
-    setRemovals(prev => prev.includes(r) ? prev.filter(x => x !== r) : [...prev, r])
-  }
+  const toggleExtra   = (addon: AddOn) => setExtras(prev =>
+    prev.some(e => e.name === addon.name) ? prev.filter(e => e.name !== addon.name) : [...prev, addon])
+  const toggleRemoval = (r: string) => setRemovals(prev =>
+    prev.includes(r) ? prev.filter(x => x !== r) : [...prev, r])
 
   const handleAdd = () => {
     onAddToOrder({ item, quantity: qty, removals, extras, notes: notes.trim(), totalPrice: total })
@@ -176,9 +181,29 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
   }
 
   const handleToggleMeal = () => {
-    setMealMode(m => !m)
+    const next = !mealMode
+    setMealMode(next)
+    setSelectedSize(null)
     setSelectedSide(null)
     setSelectedDrink(null)
+    setComboStep(next ? 'size' : null)
+  }
+
+  const handleSizeSelect = (sz: 'medium' | 'large') => {
+    setSelectedSize(sz)
+    setSelectedSide(null)
+    setSelectedDrink(null)
+    setComboStep('side')
+  }
+
+  const handleSideSelect = (side: ComboItem) => {
+    const next = selectedSide?.id === side.id ? null : side
+    setSelectedSide(next)
+    if (next !== null) setComboStep('drink')
+  }
+
+  const handleDrinkSelect = (drink: ComboItem) => {
+    setSelectedDrink(d => d?.id === drink.id ? null : drink)
   }
 
   return (
@@ -190,27 +215,23 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
       />
 
       {/* Drawer panel */}
-      <div
-        className={`fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}
-      >
+      <div className={`fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}>
+
         {/* Hero image */}
         <div className="relative h-56 shrink-0 overflow-hidden bg-zinc-100">
           <Image src={item.image} alt={item.name} fill sizes="448px" className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
-
           <button
             onClick={onClose}
             className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/40 text-white backdrop-blur-sm flex items-center justify-center hover:bg-black/60 transition-colors"
           >
             <X size={16} />
           </button>
-
           {isOffer && (
             <div className="absolute top-0 right-14 bg-brand-red text-white text-[11px] font-black px-3 py-1.5 rounded-b-xl flex items-center gap-1 shadow-lg">
               🔥 OFFER
             </div>
           )}
-
           <div className="absolute bottom-4 left-5 right-14">
             <h2 className="font-heading font-black text-xl text-white leading-tight">{item.name}</h2>
             <p className="text-white/70 text-sm mt-1 line-clamp-2">{item.description}</p>
@@ -262,65 +283,102 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
                   className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${mealMode ? 'bg-brand-red' : 'bg-zinc-300'}`}
                   aria-pressed={mealMode}
                 >
-                  <span
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${mealMode ? 'translate-x-5' : 'translate-x-0'}`}
-                  />
+                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${mealMode ? 'translate-x-5' : 'translate-x-0'}`} />
                 </button>
               </div>
             </div>
           )}
 
-          {/* Combo selectors */}
+          {/* Combo accordion steps */}
           {mealMode && (
-            <div>
-              {comboLoading ? (
-                <div className="px-5 py-6 text-center text-sm text-zinc-400">Loading combo items…</div>
-              ) : (
-                <>
-                  <div className="px-5 pt-4 pb-3">
-                    <p className="font-heading font-semibold text-zinc-900 text-sm mb-3">
-                      Choose Side
-                      {selectedSide && <span className="ml-2 text-brand-red text-xs font-normal">✓ {selectedSide.name}</span>}
-                    </p>
-                    {comboItems.sides.length === 0 ? (
-                      <p className="text-xs text-zinc-400">No sides available.</p>
-                    ) : (
-                      <div className="grid grid-cols-2 gap-2">
-                        {comboItems.sides.map(side => (
-                          <ComboItemCard
-                            key={side.id}
-                            item={side}
-                            selected={selectedSide?.id === side.id}
-                            onSelect={() => setSelectedSide(s => s?.id === side.id ? null : side)}
-                          />
-                        ))}
-                      </div>
-                    )}
+            comboLoading ? (
+              <div className="px-5 py-6 text-center text-sm text-zinc-400">Loading combo items…</div>
+            ) : (
+              <>
+                {/* Step 1 — Size */}
+                <AccordionSection
+                  title="1. Choose Size"
+                  subtitle={selectedSize ? `${selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1)} selected` : 'Pick your meal size'}
+                  open={comboStep === 'size'}
+                  onToggle={() => setComboStep(s => s === 'size' ? null : 'size')}
+                  badge={selectedSize ? selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1) : undefined}
+                >
+                  <div className="grid grid-cols-2 gap-3">
+                    {(['medium', 'large'] as const).map(sz => (
+                      <button
+                        key={sz}
+                        onClick={() => handleSizeSelect(sz)}
+                        className={`rounded-xl border-2 p-4 flex flex-col items-center gap-1.5 transition-all ${
+                          selectedSize === sz
+                            ? 'border-brand-red bg-brand-red/5'
+                            : 'border-zinc-100 hover:border-zinc-200'
+                        }`}
+                      >
+                        <span className="text-2xl">{sz === 'medium' ? '🥤' : '🧃'}</span>
+                        <p className={`text-sm font-bold capitalize ${selectedSize === sz ? 'text-brand-red' : 'text-zinc-800'}`}>
+                          {sz}
+                        </p>
+                        <p className={`text-[11px] text-center ${selectedSize === sz ? 'text-brand-red/70' : 'text-zinc-400'}`}>
+                          {sz === 'medium' ? 'Regular sides & drinks' : 'Large sides & drinks'}
+                        </p>
+                      </button>
+                    ))}
                   </div>
+                </AccordionSection>
 
-                  <div className="px-5 pb-4">
-                    <p className="font-heading font-semibold text-zinc-900 text-sm mb-3">
-                      Choose Drink
-                      {selectedDrink && <span className="ml-2 text-brand-red text-xs font-normal">✓ {selectedDrink.name}</span>}
-                    </p>
-                    {comboItems.drinks.length === 0 ? (
-                      <p className="text-xs text-zinc-400">No drinks available.</p>
-                    ) : (
-                      <div className="grid grid-cols-2 gap-2">
-                        {comboItems.drinks.map(drink => (
-                          <ComboItemCard
-                            key={drink.id}
-                            item={drink}
-                            selected={selectedDrink?.id === drink.id}
-                            onSelect={() => setSelectedDrink(d => d?.id === drink.id ? null : drink)}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
+                {/* Step 2 — Side */}
+                <AccordionSection
+                  title="2. Choose Side"
+                  subtitle={selectedSide ? selectedSide.name : 'Pick a side dish'}
+                  open={comboStep === 'side'}
+                  onToggle={() => setComboStep(s => s === 'side' ? null : 'side')}
+                  badge={selectedSide ? selectedSide.name : undefined}
+                >
+                  {!selectedSize ? (
+                    <p className="text-xs text-zinc-400">Select a size first to see available sides.</p>
+                  ) : filteredSides.length === 0 ? (
+                    <p className="text-xs text-zinc-400">No sides available for this size.</p>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-2">
+                      {filteredSides.map(side => (
+                        <ComboItemCard
+                          key={side.id}
+                          item={side}
+                          selected={selectedSide?.id === side.id}
+                          onSelect={() => handleSideSelect(side)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </AccordionSection>
+
+                {/* Step 3 — Drink */}
+                <AccordionSection
+                  title="3. Choose Drink"
+                  subtitle={selectedDrink ? selectedDrink.name : 'Pick a drink'}
+                  open={comboStep === 'drink'}
+                  onToggle={() => setComboStep(s => s === 'drink' ? null : 'drink')}
+                  badge={selectedDrink ? selectedDrink.name : undefined}
+                >
+                  {!selectedSize ? (
+                    <p className="text-xs text-zinc-400">Select a size first to see available drinks.</p>
+                  ) : filteredDrinks.length === 0 ? (
+                    <p className="text-xs text-zinc-400">No drinks available for this size.</p>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-2">
+                      {filteredDrinks.map(drink => (
+                        <ComboItemCard
+                          key={drink.id}
+                          item={drink}
+                          selected={selectedDrink?.id === drink.id}
+                          onSelect={() => handleDrinkSelect(drink)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </AccordionSection>
+              </>
+            )
           )}
 
           {/* Extras accordion */}
@@ -342,13 +400,9 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
                         sel ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'
                       }`}
                     >
-                      <span className={`font-medium text-sm ${sel ? 'text-brand-red' : 'text-zinc-700'}`}>
-                        {addon.name}
-                      </span>
+                      <span className={`font-medium text-sm ${sel ? 'text-brand-red' : 'text-zinc-700'}`}>{addon.name}</span>
                       <div className="flex items-center gap-2.5">
-                        <span className={`text-sm font-bold ${sel ? 'text-brand-red' : 'text-zinc-400'}`}>
-                          +£{addon.price.toFixed(2)}
-                        </span>
+                        <span className={`text-sm font-bold ${sel ? 'text-brand-red' : 'text-zinc-400'}`}>+£{addon.price.toFixed(2)}</span>
                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${sel ? 'border-brand-red bg-brand-red' : 'border-zinc-300'}`}>
                           {sel && <Check size={10} className="text-white" />}
                         </div>
@@ -376,9 +430,7 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
                       key={r}
                       onClick={() => toggleRemoval(r)}
                       className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all ${
-                        sel
-                          ? 'border-zinc-900 bg-zinc-900 text-white'
-                          : 'border-zinc-200 text-zinc-600 hover:border-zinc-400'
+                        sel ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 text-zinc-600 hover:border-zinc-400'
                       }`}
                     >
                       {sel && <X size={12} />}
@@ -411,25 +463,28 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
         <div className="border-t border-zinc-100 px-5 py-4 bg-white shrink-0">
           {extras.length > 0 && (
             <div className="flex justify-between text-xs text-zinc-400 mb-2">
-              <span>Extras</span>
-              <span>+£{extrasTotal.toFixed(2)}</span>
+              <span>Extras</span><span>+£{extrasTotal.toFixed(2)}</span>
             </div>
           )}
-          {comboBothSelected && comboSaving > 0 && (
+          {mealComplete && activeDiscount > 0 && (
             <div className="flex justify-between text-xs text-emerald-600 mb-2">
-              <span>Combo saving</span>
-              <span>−£{comboSaving.toFixed(2)}</span>
+              <span>Combo saving</span><span>−£{activeDiscount.toFixed(2)}</span>
             </div>
           )}
           <button
             onClick={handleAdd}
-            className="w-full bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white font-bold py-4 rounded-2xl flex items-center justify-between px-5 transition-all shadow-lg shadow-red-900/20"
+            disabled={buttonDisabled}
+            className={`w-full font-bold py-4 rounded-2xl flex items-center justify-between px-5 transition-all ${
+              buttonDisabled
+                ? 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
+                : 'bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20'
+            }`}
           >
             <span className="flex items-center gap-2 text-base">
               <ShoppingBag size={18} />
-              Add{qty > 1 ? ` ${qty}×` : ''} to Order
+              {buttonLabel}
             </span>
-            <span className="text-base">£{total.toFixed(2)}</span>
+            {!buttonDisabled && <span className="text-base">£{total.toFixed(2)}</span>}
           </button>
         </div>
       </div>

@@ -13,6 +13,7 @@ interface RecentOrder {
 }
 interface DashboardData {
   revenue_today: number; orders_today: number; avg_order_value: number; active_promotions: number
+  drivers_online?: number; top_selling_combo?: string | null; revenue_yesterday?: number
   recent_orders: RecentOrder[]
 }
 
@@ -98,11 +99,18 @@ export default function DashboardPage() {
 
   useEffect(() => { fetchData() }, [])
 
+  const revenueChange = data?.revenue_yesterday != null && data.revenue_yesterday > 0
+    ? ((data.revenue_today - data.revenue_yesterday) / data.revenue_yesterday * 100)
+    : null
+  const revenueSubLabel = revenueChange != null
+    ? `${revenueChange >= 0 ? '+' : ''}${revenueChange.toFixed(0)}% vs yesterday`
+    : 'Today'
+
   const bentoCards = [
-    { label: 'Revenue Today',      value: data ? `£${data.revenue_today.toFixed(2)}` : '—', subLabel: 'Today',  icon: TrendingUp, accent: 'emerald', wide: false },
-    { label: 'Orders Today',       value: data ? String(data.orders_today) : '—',            subLabel: undefined, icon: ShoppingBag, accent: 'blue',    wide: false },
-    { label: 'Avg Order Value',    value: data ? `£${data.avg_order_value.toFixed(2)}` : '—', subLabel: 'Today', icon: BarChart3,  accent: 'amber',   wide: false },
-    { label: 'Active Promotions',  value: data ? String(data.active_promotions) : '—',        subLabel: 'Live',  icon: Tag,        accent: 'violet',  wide: false },
+    { label: "Today's Revenue",   value: data ? `£${data.revenue_today.toFixed(2)}` : '—',           subLabel: revenueSubLabel,                        icon: TrendingUp, accent: 'emerald', wide: false },
+    { label: 'Active Orders',     value: data ? String(data.orders_today) : '—',                       subLabel: 'In progress',                          icon: ShoppingBag, accent: 'blue',   wide: false },
+    { label: 'Drivers Online',    value: data?.drivers_online != null ? String(data.drivers_online) : '—', subLabel: 'On shift',                         icon: Truck,      accent: 'amber',  wide: false },
+    { label: 'Top Selling Combo', value: data?.top_selling_combo ?? '—',                               subLabel: data?.top_selling_combo ? 'Today' : undefined, icon: Tag, accent: 'violet', wide: false },
   ]
 
   return (
