@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipt Drawer Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #09090b; color: #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; display: flex; min-height: 100vh; }
+
+  /* Blurred page behind */
+  .page-bg {
+    flex: 1; padding: 24px; opacity: 0.3; filter: blur(1px); pointer-events: none;
+    background: #09090b;
+  }
+  .fake-table-row { border-bottom: 1px solid #1f1f1f; padding: 12px 0; display: flex; gap: 40px; align-items: center; }
+  .fake-row-id { color: #dc2626; font-weight: 700; }
+  .fake-row-text { color: #71717a; font-size: 11px; }
+
+  /* Overlay */
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); }
+
+  /* Drawer */
+  .drawer {
+    position: fixed; right: 0; top: 0; bottom: 0; width: 420px;
+    background: #0f0f0f; border-left: 1px solid #27272a;
+    display: flex; flex-direction: column; z-index: 50;
+    overflow: hidden;
+  }
+
+  /* Drawer header */
+  .drawer-header {
+    padding: 18px 20px; border-bottom: 1px solid #1f1f1f;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .drawer-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .drawer-subtitle { font-size: 11px; color: #52525b; margin-top: 3px; }
+  .close-btn {
+    background: #1f1f1f; border: 1px solid #27272a; color: #71717a;
+    width: 28px; height: 28px; border-radius: 6px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Drawer body */
+  .drawer-body { flex: 1; overflow-y: auto; padding: 0; }
+
+  /* Sections */
+  .section { padding: 16px 20px; border-bottom: 1px solid #1a1a1a; }
+  .section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #52525b; margin-bottom: 10px; }
+
+  .info-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .info-key { font-size: 11px; color: #71717a; }
+  .info-val { font-size: 11px; color: #d4d4d8; text-align: right; max-width: 220px; }
+  .info-val.bold { font-weight: 600; color: #fff; }
+  .info-val.red { color: #dc2626; font-weight: 700; }
+  .info-val.green { color: #22c55e; font-weight: 700; }
+
+  /* Status badge */
+  .badge { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .badge.delivered { background: #14532d; color: #4ade80; }
+  .badge.failed { background: #450a0a; color: #f87171; }
+  .badge.preparing { background: #1c1400; color: #fbbf24; }
+
+  /* Items list */
+  .item-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #1a1a1a; }
+  .item-row:last-child { border-bottom: none; }
+  .item-name { font-size: 12px; color: #e5e7eb; font-weight: 500; }
+  .item-detail { font-size: 10px; color: #52525b; margin-top: 2px; }
+  .item-detail.green { color: #15803d; }
+  .item-detail.red { color: #9f1239; }
+  .item-price { font-size: 12px; color: #9ca3af; text-align: right; white-space: nowrap; margin-left: 12px; }
+
+  /* Totals */
+  .total-row { display: flex; justify-content: space-between; padding: 5px 0; }
+  .total-label { font-size: 11px; color: #71717a; }
+  .total-val { font-size: 11px; color: #d4d4d8; }
+  .total-row.grand { border-top: 1px solid #27272a; margin-top: 4px; padding-top: 10px; }
+  .total-row.grand .total-label { font-size: 13px; color: #fff; font-weight: 700; }
+  .total-row.grand .total-val { font-size: 14px; color: #22c55e; font-weight: 700; }
+
+  /* Actions footer */
+  .drawer-footer {
+    padding: 14px 20px; border-top: 1px solid #1f1f1f;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .action-btn {
+    flex: 1; padding: 9px 14px; border-radius: 7px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: none; text-align: center;
+  }
+  .action-btn.primary { background: #dc2626; color: #fff; }
+  .action-btn.secondary { background: #18181b; border: 1px solid #27272a; color: #d4d4d8; flex: unset; padding: 9px 16px; }
+  .action-btn.secondary:last-child { margin-left: auto; }
+</style>
+</head>
+<body>
+
+<!-- Blurred background (representing the table behind) -->
+<div class="page-bg">
+  <div style="padding: 20px 24px; border-bottom: 1px solid #1f1f1f;">
+    <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:4px">Receipts</div>
+    <div style="font-size:11px;color:#52525b">247 orders · £18,440 total</div>
+  </div>
+  <div style="padding: 16px 24px;">
+    <div class="fake-table-row"><span class="fake-row-id">#A1B2C3</span><span class="fake-row-text">James K. · Ali · RH2 7AB · £24.50</span><span style="background:#14532d;color:#4ade80;padding:2px 8px;border-radius:4px;font-size:10px;">Delivered</span></div>
+    <div class="fake-table-row" style="background:#1a1a1a;border-left:2px solid #dc2626;padding-left:8px"><span class="fake-row-id">#D4E5F6</span><span class="fake-row-text">Sarah M. · Raj · RH1 4CD · £18.90</span><span style="background:#14532d;color:#4ade80;padding:2px 8px;border-radius:4px;font-size:10px;">Delivered</span></div>
+    <div class="fake-table-row"><span class="fake-row-id">#G7H8I9</span><span class="fake-row-text">Tom B. · Ali · RH2 9EF · £31.00</span><span style="background:#450a0a;color:#f87171;padding:2px 8px;border-radius:4px;font-size:10px;">Failed</span></div>
+  </div>
+</div>
+
+<!-- Semi-transparent overlay -->
+<div class="overlay"></div>
+
+<!-- Drawer -->
+<div class="drawer">
+  <div class="drawer-header">
+    <div>
+      <div class="drawer-title">Order #D4E5F6</div>
+      <div class="drawer-subtitle">8 Jun 2026 · 16:18 · <span class="badge delivered">Delivered</span></div>
+    </div>
+    <div class="close-btn">✕</div>
+  </div>
+
+  <div class="drawer-body">
+
+    <!-- Customer -->
+    <div class="section">
+      <div class="section-label">Customer</div>
+      <div class="info-row"><span class="info-key">Name</span><span class="info-val bold">Sarah M.</span></div>
+      <div class="info-row"><span class="info-key">Phone</span><span class="info-val">07700 900456</span></div>
+      <div class="info-row"><span class="info-key">Email</span><span class="info-val">sarah.m@email.com</span></div>
+    </div>
+
+    <!-- Delivery -->
+    <div class="section">
+      <div class="section-label">Delivery</div>
+      <div class="info-row"><span class="info-key">Address</span><span class="info-val">5 Church Lane, Reigate</span></div>
+      <div class="info-row"><span class="info-key">Postcode</span><span class="info-val bold">RH1 4CD</span></div>
+      <div class="info-row"><span class="info-key">Driver</span><span class="info-val bold">Raj</span></div>
+      <div class="info-row"><span class="info-key">Notes</span><span class="info-val" style="color:#52525b;font-style:italic">Leave at door</span></div>
+    </div>
+
+    <!-- Items -->
+    <div class="section">
+      <div class="section-label">Items</div>
+      <div class="item-row">
+        <div>
+          <div class="item-name">Wrap Meal <span style="color:#52525b;font-weight:400">× 1</span></div>
+          <div class="item-detail green">+ Extra sauce</div>
+          <div class="item-detail red">– No onions</div>
+        </div>
+        <div class="item-price">£9.50</div>
+      </div>
+      <div class="item-row">
+        <div>
+          <div class="item-name">Wings (6pc) <span style="color:#52525b;font-weight:400">× 2</span></div>
+          <div class="item-detail">Hot flavour</div>
+        </div>
+        <div class="item-price">£9.40</div>
+      </div>
+    </div>
+
+    <!-- Totals -->
+    <div class="section">
+      <div class="total-row"><span class="total-label">Subtotal</span><span class="total-val">£18.90</span></div>
+      <div class="total-row"><span class="total-label">Promo (CHICKEN10)</span><span class="total-val" style="color:#22c55e">−£1.89</span></div>
+      <div class="total-row"><span class="total-label">Delivery</span><span class="total-val">£0.00</span></div>
+      <div class="total-row grand"><span class="total-label">Total</span><span class="total-val">£17.01</span></div>
+    </div>
+
+    <!-- Meta -->
+    <div class="section">
+      <div class="section-label">Transaction</div>
+      <div class="info-row"><span class="info-key">Stripe session</span><span class="info-val" style="font-size:10px;color:#3f3f46;font-family:monospace">cs_live_a1B2c3…</span></div>
+      <div class="info-row"><span class="info-key">Order placed</span><span class="info-val">8 Jun 2026, 16:18</span></div>
+    </div>
+
+  </div>
+
+  <!-- Footer actions -->
+  <div class="drawer-footer">
+    <button class="action-btn primary">🖨 Print Receipt</button>
+    <button class="action-btn secondary">🔗 Copy Link</button>
+  </div>
+</div>
+
+</body>
+</html>

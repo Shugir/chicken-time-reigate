@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipts — Admin Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #09090b; color: #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  aside {
+    width: 240px; min-width: 240px; background: #09090b; border-right: 1px solid #27272a;
+    display: flex; flex-direction: column; height: 100vh; position: sticky; top: 0;
+  }
+  .brand { padding: 18px 20px; border-bottom: 1px solid #27272a; display: flex; align-items: center; gap: 10px; }
+  .brand-icon { width: 36px; height: 36px; background: #dc2626; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .brand-name { font-size: 13px; font-weight: 700; color: #fff; }
+  .brand-sub { font-size: 10px; color: #52525b; margin-top: 1px; }
+  nav { padding: 16px 12px; flex: 1; overflow-y: auto; }
+  .nav-group-label { font-size: 10px; font-weight: 700; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; padding: 0 10px; margin-bottom: 4px; margin-top: 16px; }
+  .nav-group-label:first-child { margin-top: 0; }
+  .nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 7px; color: #71717a; font-size: 12px; cursor: pointer; margin-bottom: 1px; text-decoration: none; }
+  .nav-item:hover { background: #18181b; color: #d4d4d8; }
+  .nav-item.active { background: #1c0a0a; color: #dc2626; font-weight: 600; }
+  .nav-item .icon { font-size: 14px; width: 16px; text-align: center; }
+  .nav-dot { width: 6px; height: 6px; background: #dc2626; border-radius: 50%; margin-left: auto; }
+
+  /* Main content */
+  main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; overflow: auto; }
+
+  /* Page header */
+  .page-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px 16px; border-bottom: 1px solid #1f1f1f; }
+  .page-title { font-size: 18px; font-weight: 700; color: #fff; }
+  .page-meta { font-size: 11px; color: #52525b; margin-top: 2px; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* View toggle */
+  .view-toggle { display: flex; background: #18181b; border: 1px solid #27272a; border-radius: 7px; overflow: hidden; }
+  .view-btn { border: none; padding: 5px 12px; font-size: 11px; cursor: pointer; font-weight: 600; }
+  .view-btn.active { background: #dc2626; color: #fff; }
+  .view-btn.inactive { background: transparent; color: #52525b; }
+
+  /* Export btn */
+  .export-btn { background: #18181b; border: 1px solid #27272a; color: #9ca3af; padding: 5px 14px; border-radius: 7px; font-size: 11px; cursor: pointer; }
+
+  /* Search bar */
+  .search-zone { padding: 12px 24px; background: #0a0a0a; border-bottom: 1px solid #1a1a1a; }
+  .search-input { width: 100%; background: #18181b; border: 1px solid #27272a; color: #fff; padding: 8px 14px; border-radius: 8px; font-size: 12px; margin-bottom: 10px; }
+  .search-input::placeholder { color: #3f3f46; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { padding: 3px 12px; border-radius: 20px; font-size: 11px; cursor: pointer; border: 1px solid; }
+  .chip.active { border-color: #dc2626; color: #dc2626; background: #1c0a0a; }
+  .chip.inactive { border-color: #27272a; color: #71717a; background: #18181b; }
+
+  /* Results summary */
+  .results-summary { padding: 8px 24px; font-size: 11px; color: #52525b; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
+  .results-summary b { color: #9ca3af; }
+
+  /* Day group header */
+  .day-group-header { display: flex; justify-content: space-between; align-items: center; padding: 7px 24px; background: #111; border-bottom: 1px solid #1a1a1a; }
+  .day-label { font-size: 10px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.1em; }
+  .day-meta { font-size: 10px; color: #3f3f46; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #0f0f0f; color: #52525b; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 12px; text-align: left; border-bottom: 1px solid #1a1a1a; }
+  th:first-child { padding-left: 24px; }
+  td { padding: 8px 12px; border-bottom: 1px solid #1a1a1a; vertical-align: middle; }
+  td:first-child { padding-left: 24px; }
+  tr:hover td { background: #111; }
+  .order-id { color: #dc2626; font-weight: 700; font-size: 12px; }
+  .time-cell { color: #71717a; font-size: 11px; }
+  .customer-name { color: #e5e7eb; font-size: 12px; }
+  .customer-phone { color: #52525b; font-size: 10px; margin-top: 1px; }
+  .driver-name { color: #d4d4d8; font-size: 12px; }
+  .address-cell { color: #71717a; font-size: 11px; max-width: 130px; }
+  .postcode { color: #9ca3af; font-size: 11px; font-weight: 600; }
+  .amount { color: #22c55e; font-weight: 700; font-size: 13px; }
+  .badge { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+  .badge.delivered { background: #14532d; color: #4ade80; }
+  .badge.failed { background: #450a0a; color: #f87171; }
+  .badge.pending { background: #1c1917; color: #a8a29e; }
+  .badge.preparing { background: #1c1400; color: #fbbf24; }
+  .badge.dispatched { background: #0c1a2e; color: #60a5fa; }
+  .action-icon { color: #3f3f46; cursor: pointer; font-size: 14px; margin-right: 8px; }
+  .action-icon:hover { color: #9ca3af; }
+
+  /* Pagination */
+  .pagination { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; border-top: 1px solid #1a1a1a; margin-top: auto; }
+  .pagination span { font-size: 11px; color: #52525b; }
+  .pg-btn { background: #18181b; border: 1px solid #27272a; color: #71717a; padding: 5px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+  .pg-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .pg-btn.active { color: #d4d4d8; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside>
+  <div class="brand">
+    <div class="brand-icon">🍗</div>
+    <div>
+      <div class="brand-name">Chicken Time</div>
+      <div class="brand-sub">Admin Console</div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-group-label">Overview</div>
+    <a class="nav-item" href="#"><span class="icon">▦</span> Dashboard</a>
+    <a class="nav-item" href="#"><span class="icon">↗</span> Analytics</a>
+
+    <div class="nav-group-label">Menu</div>
+    <a class="nav-item" href="#"><span class="icon">🍴</span> Menu Manager</a>
+    <a class="nav-item" href="#"><span class="icon">⊞</span> Categories</a>
+    <a class="nav-item" href="#"><span class="icon">⊞</span> Combos</a>
+    <a class="nav-item" href="#"><span class="icon">🏷</span> Promotions</a>
+
+    <div class="nav-group-label">Operations</div>
+    <a class="nav-item" href="#"><span class="icon">📡</span> Live Dispatch</a>
+    <a class="nav-item" href="#"><span class="icon">🚗</span> Fleet &amp; Drivers</a>
+    <a class="nav-item active" href="#"><span class="icon">🧾</span> Receipts <span class="nav-dot"></span></a>
+    <a class="nav-item" href="#"><span class="icon">📍</span> Delivery Zones</a>
+
+    <div class="nav-group-label">Access</div>
+    <a class="nav-item" href="#"><span class="icon">🛡</span> User Control</a>
+    <a class="nav-item" href="#"><span class="icon">👤</span> Auth Users</a>
+    <a class="nav-item" href="#"><span class="icon">⭐</span> Loyalty Points</a>
+    <a class="nav-item" href="#"><span class="icon">⚙</span> Store Settings</a>
+  </nav>
+</aside>
+
+<!-- Main content -->
+<main>
+  <!-- Page header -->
+  <div class="page-header">
+    <div>
+      <div class="page-title">Receipts</div>
+      <div class="page-meta">247 orders · £18,440 total revenue</div>
+    </div>
+    <div class="header-actions">
+      <div class="view-toggle">
+        <button class="view-btn active">≡ Table</button>
+        <button class="view-btn inactive">▦ Cards</button>
+      </div>
+      <button class="export-btn">↓ Export CSV</button>
+    </div>
+  </div>
+
+  <!-- Search + filter chips -->
+  <div class="search-zone">
+    <input class="search-input" placeholder="🔍  Search by name, postcode, order ID, phone…">
+    <div class="chips">
+      <span class="chip active">📅 Today ▾</span>
+      <span class="chip inactive">🚗 All drivers ▾</span>
+      <span class="chip inactive">📋 All statuses ▾</span>
+      <span class="chip inactive">💷 Any amount ▾</span>
+    </div>
+  </div>
+
+  <!-- Results summary -->
+  <div class="results-summary">
+    <span>Showing <b>12 orders</b> for today</span>
+    <span>Total: <b>£284.50</b></span>
+  </div>
+
+  <!-- Day group: Today -->
+  <div class="day-group-header">
+    <span class="day-label">Today — 8 Jun 2026</span>
+    <span class="day-meta">12 orders · £284.50</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th><th>Time</th><th>Customer</th><th>Collected by</th><th>Address</th><th>Post</th><th>Amount</th><th>Status</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="cursor:pointer">
+        <td><span class="order-id">#A1B2C3</span></td>
+        <td><span class="time-cell">16:42</span></td>
+        <td><div class="customer-name">James K.</div><div class="customer-phone">07700 900123</div></td>
+        <td><div class="driver-name">Ali</div><div class="customer-phone">Driver</div></td>
+        <td><span class="address-cell">12 High Street</span></td>
+        <td><span class="postcode">RH2 7AB</span></td>
+        <td><span class="amount">£24.50</span></td>
+        <td><span class="badge delivered">Delivered</span></td>
+        <td><span class="action-icon" title="Print">🖨</span><span class="action-icon" title="Copy receipt link">🔗</span></td>
+      </tr>
+      <tr style="cursor:pointer">
+        <td><span class="order-id">#D4E5F6</span></td>
+        <td><span class="time-cell">16:18</span></td>
+        <td><div class="customer-name">Sarah M.</div><div class="customer-phone">07700 900456</div></td>
+        <td><div class="driver-name">Raj</div><div class="customer-phone">Driver</div></td>
+        <td><span class="address-cell">5 Church Lane</span></td>
+        <td><span class="postcode">RH1 4CD</span></td>
+        <td><span class="amount">£18.90</span></td>
+        <td><span class="badge delivered">Delivered</span></td>
+        <td><span class="action-icon" title="Print">🖨</span><span class="action-icon" title="Copy receipt link">🔗</span></td>
+      </tr>
+      <tr style="cursor:pointer">
+        <td><span class="order-id">#G7H8I9</span></td>
+        <td><span class="time-cell">15:55</span></td>
+        <td><div class="customer-name">Tom B.</div><div class="customer-phone">07700 900789</div></td>
+        <td><div class="driver-name">Ali</div><div class="customer-phone">Driver</div></td>
+        <td><span class="address-cell">8 Park Road</span></td>
+        <td><span class="postcode">RH2 9EF</span></td>
+        <td><span class="amount">£31.00</span></td>
+        <td><span class="badge failed">Failed</span></td>
+        <td><span class="action-icon" title="Print">🖨</span><span class="action-icon" title="Copy receipt link">🔗</span></td>
+      </tr>
+      <tr style="cursor:pointer">
+        <td><span class="order-id">#J1K2L3</span></td>
+        <td><span class="time-cell">15:30</span></td>
+        <td><div class="customer-name">Emma D.</div><div class="customer-phone">07700 900321</div></td>
+        <td><div class="driver-name">Raj</div><div class="customer-phone">Driver</div></td>
+        <td><span class="address-cell">3 Mill Lane</span></td>
+        <td><span class="postcode">RH2 0GH</span></td>
+        <td><span class="amount">£22.00</span></td>
+        <td><span class="badge preparing">Preparing</span></td>
+        <td><span class="action-icon" title="Print">🖨</span><span class="action-icon" title="Copy receipt link">🔗</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Day group: Yesterday -->
+  <div class="day-group-header" style="margin-top:4px">
+    <span class="day-label">Yesterday — 7 Jun 2026</span>
+    <span class="day-meta">31 orders · £742.80</span>
+  </div>
+  <table>
+    <tbody>
+      <tr style="cursor:pointer">
+        <td style="padding-left:24px"><span class="order-id">#M4N5O6</span></td>
+        <td><span class="time-cell">21:14</span></td>
+        <td><div class="customer-name">Chris P.</div><div class="customer-phone">07700 900654</div></td>
+        <td><div class="driver-name">Ali</div><div class="customer-phone">Driver</div></td>
+        <td><span class="address-cell">9 Bell Street</span></td>
+        <td><span class="postcode">RH1 1IJ</span></td>
+        <td><span class="amount">£27.80</span></td>
+        <td><span class="badge delivered">Delivered</span></td>
+        <td><span class="action-icon">🖨</span><span class="action-icon">🔗</span></td>
+      </tr>
+      <tr>
+        <td colspan="9" style="padding:8px 24px;color:#3f3f46;font-size:11px;font-style:italic">…30 more rows</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <span>Showing 1–50 of 247 orders</span>
+    <div style="display:flex;gap:6px">
+      <button class="pg-btn" disabled>← Prev</button>
+      <button class="pg-btn active">Next →</button>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

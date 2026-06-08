@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipt Drawer — Exact Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Tokens matching globals.css ── */
+  :root {
+    --brand-red:   #E4002B;
+    --bg:          #09090b; /* zinc-950 */
+    --bg-900:      #18181b; /* zinc-900 */
+    --bg-800:      #27272a; /* zinc-800 */
+    --zinc-700:    #3f3f46;
+    --zinc-600:    #52525b;
+    --zinc-500:    #71717a;
+    --zinc-400:    #a1a1aa;
+    --zinc-300:    #d4d4d8;
+    --zinc-200:    #e4e4e7;
+    --green-900:   #14532d;
+    --green-400:   #4ade80;
+    --red-900:     #450a0a;
+    --red-400:     #f87171;
+    --amber-900:   #1c1400;
+    --amber-400:   #fbbf24;
+    --font-body:   'Inter', 'Geist', -apple-system, sans-serif;
+    --font-heading:'Inter', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--zinc-300);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── Blurred background table ── */
+  .page-bg {
+    flex: 1;
+    padding: 24px 28px;
+    opacity: 0.25;
+    filter: blur(2px);
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .page-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .page-sub { font-size: 11px; color: var(--zinc-600); margin-bottom: 20px; }
+  .fake-row { display: flex; gap: 28px; align-items: center; padding: 11px 0; border-bottom: 1px solid #1a1a1a; }
+  .fake-id  { color: var(--brand-red); font-weight: 700; font-size: 12px; min-width: 72px; }
+  .fake-txt { color: var(--zinc-500); font-size: 11px; }
+
+  /* ── Overlay ── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2px);
+    z-index: 40;
+  }
+
+  /* ── Drawer ── */
+  .drawer {
+    position: fixed; right: 0; top: 0; bottom: 0;
+    width: 420px;
+    background: var(--bg-900);
+    border-left: 1px solid var(--bg-800);
+    display: flex; flex-direction: column;
+    z-index: 50;
+    box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+  }
+
+  /* header */
+  .dh {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--bg-800);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px;
+  }
+  .dh-title {
+    font-family: var(--font-heading);
+    font-size: 15px; font-weight: 700; color: #fff;
+    letter-spacing: -0.01em;
+  }
+  .dh-meta { font-size: 11px; color: var(--zinc-600); margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+  .close {
+    background: var(--bg);
+    border: 1px solid var(--bg-800);
+    color: var(--zinc-500);
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+    transition: color 0.15s;
+  }
+  .close:hover { color: var(--zinc-300); }
+
+  /* body */
+  .db { flex: 1; overflow-y: auto; }
+
+  /* section */
+  .sec { padding: 14px 20px; border-bottom: 1px solid #1f1f1f; }
+  .sec-label {
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--zinc-600);
+    margin-bottom: 10px;
+  }
+
+  /* info rows */
+  .ir { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; gap: 8px; }
+  .ir:last-child { margin-bottom: 0; }
+  .ik { font-size: 11px; color: var(--zinc-500); white-space: nowrap; }
+  .iv { font-size: 11px; color: var(--zinc-300); text-align: right; }
+  .iv.bold { font-weight: 600; color: #fff; }
+  .iv.mono { font-family: monospace; font-size: 10px; color: var(--zinc-700); word-break: break-all; }
+  .iv.green { color: #22c55e; font-weight: 600; }
+
+  /* badges */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 10px; font-weight: 600; }
+  .badge.delivered { background: var(--green-900); color: var(--green-400); }
+  .badge.failed    { background: var(--red-900);   color: var(--red-400);   }
+  .badge.preparing { background: var(--amber-900); color: var(--amber-400); }
+
+  /* items */
+  .item { padding: 9px 0; border-bottom: 1px solid #1f1f1f; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .item:last-child { border-bottom: none; }
+  .item-left { flex: 1; }
+  .item-name { font-size: 12px; font-weight: 500; color: #fff; }
+  .item-qty  { color: var(--zinc-600); font-weight: 400; }
+  .item-extra{ font-size: 10px; color: #16a34a; margin-top: 2px; }
+  .item-remove{ font-size: 10px; color: #9f1239; margin-top: 1px; }
+  .item-note { font-size: 10px; color: var(--zinc-600); font-style: italic; margin-top: 1px; }
+  .item-price{ font-size: 12px; color: var(--zinc-400); white-space: nowrap; padding-top: 1px; }
+
+  /* totals */
+  .trow { display: flex; justify-content: space-between; padding: 4px 0; }
+  .trow .tk { font-size: 11px; color: var(--zinc-500); }
+  .trow .tv { font-size: 11px; color: var(--zinc-300); }
+  .trow.grand { border-top: 1px solid var(--bg-800); margin-top: 6px; padding-top: 10px; }
+  .trow.grand .tk { font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: #fff; }
+  .trow.grand .tv { font-size: 15px; font-weight: 700; color: #22c55e; }
+  .trow .tv.discount { color: #22c55e; }
+
+  /* footer */
+  .df {
+    padding: 14px 20px;
+    border-top: 1px solid var(--bg-800);
+    display: flex; gap: 8px;
+    background: var(--bg-900);
+  }
+  .btn-primary {
+    flex: 1;
+    background: var(--brand-red);
+    color: #fff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-body);
+    letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { background: #c0001f; }
+  .btn-secondary {
+    background: var(--bg);
+    border: 1px solid var(--bg-800);
+    color: var(--zinc-300);
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .btn-secondary:hover { border-color: var(--zinc-700); color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- Background (blurred table) -->
+<div class="page-bg">
+  <div class="page-title">Receipts</div>
+  <div class="page-sub">247 orders · £18,440 total revenue</div>
+  <div class="fake-row"><span class="fake-id">#A1B2C3</span><span class="fake-txt">James K. · Ali · RH2 7AB · £24.50</span><span style="background:#14532d;color:#4ade80;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600">Delivered</span></div>
+  <div class="fake-row" style="border-left: 2px solid #E4002B; padding-left: 10px; background:#111"><span class="fake-id">#D4E5F6</span><span class="fake-txt">Sarah M. · Raj · RH1 4CD · £18.90</span><span style="background:#14532d;color:#4ade80;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600">Delivered</span></div>
+  <div class="fake-row"><span class="fake-id">#G7H8I9</span><span class="fake-txt">Tom B. · Ali · RH2 9EF · £31.00</span><span style="background:#450a0a;color:#f87171;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600">Failed</span></div>
+  <div class="fake-row"><span class="fake-id">#J1K2L3</span><span class="fake-txt">Emma D. · Raj · RH2 0GH · £22.00</span><span style="background:#1c1400;color:#fbbf24;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600">Preparing</span></div>
+</div>
+
+<div class="overlay"></div>
+
+<!-- Drawer -->
+<div class="drawer">
+
+  <div class="dh">
+    <div>
+      <div class="dh-title">Order #D4E5F6</div>
+      <div class="dh-meta">
+        <span>8 Jun 2026 · 16:18</span>
+        <span class="badge delivered">Delivered</span>
+      </div>
+    </div>
+    <button class="close">✕</button>
+  </div>
+
+  <div class="db">
+
+    <div class="sec">
+      <div class="sec-label">Customer</div>
+      <div class="ir"><span class="ik">Name</span>   <span class="iv bold">Sarah M.</span></div>
+      <div class="ir"><span class="ik">Phone</span>  <span class="iv">07700 900456</span></div>
+      <div class="ir"><span class="ik">Email</span>  <span class="iv">sarah.m@email.com</span></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Delivery</div>
+      <div class="ir"><span class="ik">Address</span>  <span class="iv">5 Church Lane, Reigate</span></div>
+      <div class="ir"><span class="ik">Postcode</span> <span class="iv bold">RH1 4CD</span></div>
+      <div class="ir"><span class="ik">Driver</span>   <span class="iv bold">Raj</span></div>
+      <div class="ir"><span class="ik">Notes</span>    <span class="iv" style="color:var(--zinc-600);font-style:italic">Leave at door</span></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Items</div>
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name">Wrap Meal <span class="item-qty">× 1</span></div>
+          <div class="item-extra">+ Extra sauce</div>
+          <div class="item-remove">− No onions</div>
+        </div>
+        <div class="item-price">£9.50</div>
+      </div>
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name">Wings (6pc) <span class="item-qty">× 2</span></div>
+          <div class="item-note">Hot flavour</div>
+        </div>
+        <div class="item-price">£9.40</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Summary</div>
+      <div class="trow"><span class="tk">Subtotal</span>             <span class="tv">£18.90</span></div>
+      <div class="trow"><span class="tk">Promo (CHICKEN10)</span>    <span class="tv discount">−£1.89</span></div>
+      <div class="trow"><span class="tk">Delivery fee</span>         <span class="tv">£0.00</span></div>
+      <div class="trow grand"><span class="tk">Total</span>           <span class="tv">£17.01</span></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Transaction</div>
+      <div class="ir"><span class="ik">Stripe session</span><span class="iv mono">cs_live_a1B2c3D4e5F6g7…</span></div>
+      <div class="ir"><span class="ik">Placed</span>        <span class="iv">8 Jun 2026, 16:18</span></div>
+    </div>
+
+  </div>
+
+  <div class="df">
+    <button class="btn-primary">🖨&nbsp; Print Receipt</button>
+    <button class="btn-secondary">🔗&nbsp; Copy Link</button>
+  </div>
+
+</div>
+
+</body>
+</html>

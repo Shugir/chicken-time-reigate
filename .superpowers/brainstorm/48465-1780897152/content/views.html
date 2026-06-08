@@ -1,0 +1,112 @@
+<h2>Which views do you want for Receipts?</h2>
+<p class="subtitle">Pick one or more — these are the ways to browse past orders</p>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="table" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Dense Table</h3>
+      <p>Spreadsheet-style rows: Order#, Date, Customer, Driver, Address, Postcode, Amount, Status. Compact, scannable, sortable columns. Best for bulk lookup and filtering.</p>
+      <div class="mockup" style="margin-top:10px;font-size:11px">
+        <div class="mockup-body" style="overflow:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:11px">
+            <thead>
+              <tr style="background:#1f1f1f;color:#aaa;text-align:left">
+                <th style="padding:4px 6px">#</th>
+                <th style="padding:4px 6px">Date</th>
+                <th style="padding:4px 6px">Customer</th>
+                <th style="padding:4px 6px">Driver</th>
+                <th style="padding:4px 6px">Postcode</th>
+                <th style="padding:4px 6px">Amount</th>
+                <th style="padding:4px 6px">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #2a2a2a">
+                <td style="padding:4px 6px;color:#e44">#A1B2C3</td>
+                <td style="padding:4px 6px">08 Jun 16:42</td>
+                <td style="padding:4px 6px">James K.</td>
+                <td style="padding:4px 6px">Ali</td>
+                <td style="padding:4px 6px">RH2 7AB</td>
+                <td style="padding:4px 6px;color:#22c55e">£24.50</td>
+                <td style="padding:4px 6px"><span style="background:#14532d;color:#4ade80;padding:1px 6px;border-radius:4px;font-size:10px">Delivered</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #2a2a2a">
+                <td style="padding:4px 6px;color:#e44">#D4E5F6</td>
+                <td style="padding:4px 6px">08 Jun 16:18</td>
+                <td style="padding:4px 6px">Sarah M.</td>
+                <td style="padding:4px 6px">Raj</td>
+                <td style="padding:4px 6px">RH1 4CD</td>
+                <td style="padding:4px 6px;color:#22c55e">£18.90</td>
+                <td style="padding:4px 6px"><span style="background:#14532d;color:#4ade80;padding:1px 6px;border-radius:4px;font-size:10px">Delivered</span></td>
+              </tr>
+              <tr>
+                <td style="padding:4px 6px;color:#e44">#G7H8I9</td>
+                <td style="padding:4px 6px">08 Jun 15:55</td>
+                <td style="padding:4px 6px">Tom B.</td>
+                <td style="padding:4px 6px">Ali</td>
+                <td style="padding:4px 6px">RH2 9EF</td>
+                <td style="padding:4px 6px;color:#22c55e">£31.00</td>
+                <td style="padding:4px 6px"><span style="background:#7f1d1d;color:#f87171;padding:1px 6px;border-radius:4px;font-size:10px">Failed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="cards" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Receipt Cards</h3>
+      <p>Each order as a card showing full details at a glance: customer, driver, items summary, address, amount. Richer but fewer per screen. Good for reading individual orders.</p>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:10px;flex:1;font-size:11px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="color:#e44;font-weight:bold">#A1B2C3</span>
+            <span style="background:#14532d;color:#4ade80;padding:1px 6px;border-radius:4px;font-size:10px">Delivered</span>
+          </div>
+          <div style="color:#ccc;margin-bottom:2px">👤 James K. · 07700 900123</div>
+          <div style="color:#ccc;margin-bottom:2px">🚗 Driver: Ali</div>
+          <div style="color:#999;margin-bottom:2px;font-size:10px">12 High St, RH2 7AB</div>
+          <div style="color:#999;font-size:10px">2x Chicken Burger, 1x Fries</div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;border-top:1px solid #2a2a2a;padding-top:6px">
+            <span style="color:#999;font-size:10px">08 Jun 16:42</span>
+            <span style="color:#22c55e;font-weight:bold">£24.50</span>
+          </div>
+        </div>
+        <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:10px;flex:1;font-size:11px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="color:#e44;font-weight:bold">#D4E5F6</span>
+            <span style="background:#14532d;color:#4ade80;padding:1px 6px;border-radius:4px;font-size:10px">Delivered</span>
+          </div>
+          <div style="color:#ccc;margin-bottom:2px">👤 Sarah M. · 07700 900456</div>
+          <div style="color:#ccc;margin-bottom:2px">🚗 Driver: Raj</div>
+          <div style="color:#999;margin-bottom:2px;font-size:10px">5 Church Lane, RH1 4CD</div>
+          <div style="color:#999;font-size:10px">1x Wrap Meal, 2x Wings</div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;border-top:1px solid #2a2a2a;padding-top:6px">
+            <span style="color:#999;font-size:10px">08 Jun 16:18</span>
+            <span style="color:#22c55e;font-weight:bold">£18.90</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="both" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Both — Toggle Between Views</h3>
+      <p>Table view as default (fast scanning), card view on demand (full order detail). Toggle button top-right. Click a table row to see receipt card detail in a slide-out drawer.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="timeline" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Timeline / Day Groups</h3>
+      <p>Orders grouped by date with a day header (Today, Yesterday, 07 Jun…). Within each day, rows sorted by time. Good for end-of-day review. Can combine with table or cards.</p>
+    </div>
+  </div>
+</div>
