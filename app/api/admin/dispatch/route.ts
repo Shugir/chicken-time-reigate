@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { buildDispatchActionUpdate } from '@/lib/order-status'
 
 export const dynamic = 'force-dynamic'
 
@@ -108,19 +109,8 @@ export async function PATCH(req: NextRequest) {
   const update: Record<string, unknown> = {}
 
   // ── Action shortcuts ──────────────────────────────────────────────────────
-  if (action === 'delivered') {
-    update.delivery_status = 'delivered'
-    update.status = 'delivered'
-  } else if (action === 'failed') {
-    update.delivery_status = 'failed'
-    update.status = 'failed'
-    update.failure_reason = failure_reason ?? 'Unknown'
-  } else if (action === 'send_back') {
-    // Tri-app sync: status → 'preparing' broadcasts to kitchen realtime listener
-    update.status = 'preparing'
-    update.delivery_status = null
-    update.driver_id = null
-    update.stop_sequence = 1
+  if (action) {
+    Object.assign(update, buildDispatchActionUpdate(action, failure_reason))
   }
 
   // ── Driver note ───────────────────────────────────────────────────────────

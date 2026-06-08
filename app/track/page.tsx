@@ -32,17 +32,22 @@ function getStep(status: string, delivery_status: string | null): number {
 
 export default function TrackPage() {
   const [orderId, setOrderId]       = useState('')
+  const [email, setEmail]           = useState('')
   const [order, setOrder]           = useState<OrderData | null>(null)
   const [loading, setLoading]       = useState(false)
   const [error, setError]           = useState<string | null>(null)
   const [autoRan, setAutoRan]       = useState(false)
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null)
 
-  const lookup = useCallback(async (id: string) => {
+  // email is only passed for manual form lookups (second-factor guard).
+  // Auto-run from share links uses ID only (admin-generated, trusted origin).
+  const lookup = useCallback(async (id: string, em?: string) => {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch(`/api/track?id=${encodeURIComponent(id)}`)
+      const params = new URLSearchParams({ id })
+      if (em) params.set('email', em)
+      const res = await fetch(`/api/track?${params}`)
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Lookup failed')
       setOrder(data)
@@ -73,17 +78,18 @@ export default function TrackPage() {
     const currentStep = getStep(order.status, order.delivery_status)
     if (currentStep === 4) return // delivered — stop polling
 
-    const interval = setInterval(() => lookup(orderId), 15000)
+    // Poll uses same auth context as the original lookup
+    const interval = setInterval(() => lookup(orderId, email || undefined), 15000)
     return () => clearInterval(interval)
-  }, [order, orderId, lookup])
+  }, [order, orderId, email, lookup])
 
   const currentStep = order ? getStep(order.status, order.delivery_status) : -1
   const showForm = !autoRan || error
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!orderId.trim()) return
-    lookup(orderId.trim())
+    if (!orderId.trim() || !email.trim()) return
+    lookup(orderId.trim(), email.trim())
   }
 
   return (
@@ -109,12 +115,22 @@ export default function TrackPage() {
                   className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
                 />
               </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 mb-1">Email Address</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email used at checkout"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
+                />
+              </div>
               {error && (
                 <p className="text-sm text-red-600 bg-red-50 rounded-xl px-3 py-2.5">{error}</p>
               )}
               <button
                 type="submit"
-                disabled={loading || !orderId.trim()}
+                disabled={loading || !orderId.trim() || !email.trim()}
                 className="w-full bg-brand-red hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-xl py-3 transition-colors flex items-center justify-center gap-2"
               >
                 {loading ? <><Loader2 size={16} className="animate-spin" /> Searching…</> : 'Track Order'}

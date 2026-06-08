@@ -68,5 +68,6 @@ describe('buildDispatchActionUpdate', () => {
     expect(update.status).toBe('preparing')
     expect(update.delivery_status).toBeNull()
     expect(update.driver_id).toBeNull()
+    expect(update.stop_sequence).toBe(1)
   })
 })

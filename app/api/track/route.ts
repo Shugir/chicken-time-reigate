@@ -10,6 +10,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Order ID is required' }, { status: 400 })
   }
 
+  // Email is optional: admin-generated share links contain only the UUID (trusted origin).
+  // Manual form lookups pass email as a second factor to limit UI-driven enumeration.
+  // UUIDs are 128-bit random so brute-force is impractical, but email reduces exposure
+  // if a link is forwarded without the customer's consent.
   let query = supabaseAdmin
     .from('orders')
     .select('id, status, delivery_status, total_amount, created_at, customer_name, delivery_address, customer_email, order_items(item_name, quantity, unit_price)')
