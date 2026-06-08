@@ -696,6 +696,8 @@ function DeleteConfirmModal({ item, onClose, onConfirm }: { item: MenuItem; onCl
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 
+interface QuickStats { revenue_today: number; orders_today: number; active_promotions: number }
+
 export default function AdminPage() {
   const [items, setItems] = useState<MenuItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -707,6 +709,14 @@ export default function AdminPage() {
   const [catFilter, setCatFilter]       = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [viewMode, setViewMode]         = useState<'table' | 'grid'>('table')
+  const [stats, setStats]               = useState<QuickStats | null>(null)
+
+  useEffect(() => {
+    fetch('/api/admin/dashboard')
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (d) setStats(d) })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     fetch('/api/admin/categories')
@@ -779,20 +789,36 @@ export default function AdminPage() {
       {/* ── Main ── */}
       <main className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
-          <div>
-            <h1 className="text-xl font-bold text-white">Menu Manager</h1>
-            <p className="text-sm text-zinc-500 mt-0.5">
-              {loading ? 'Loading…' : `${totalItems} items · ${activeItems} active`}
-            </p>
+        <header className="px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-bold text-white">Menu Manager</h1>
+              <p className="text-sm text-zinc-500 mt-0.5">
+                {loading ? 'Loading…' : `${totalItems} items · ${activeItems} active`}
+              </p>
+            </div>
+            <button
+              onClick={() => { setEditingItem(null); setShowAddModal(true) }}
+              className="flex items-center gap-2 px-4 py-2 bg-brand-red rounded-lg text-sm font-semibold text-white hover:bg-red-600 transition-colors shadow-lg shadow-red-900/30"
+            >
+              <Plus className="w-4 h-4" />
+              Add New Item
+            </button>
           </div>
-          <button
-            onClick={() => { setEditingItem(null); setShowAddModal(true) }}
-            className="flex items-center gap-2 px-4 py-2 bg-brand-red rounded-lg text-sm font-semibold text-white hover:bg-red-600 transition-colors shadow-lg shadow-red-900/30"
-          >
-            <Plus className="w-4 h-4" />
-            Add New Item
-          </button>
+
+          {/* Bento quick-stats */}
+          <div className="grid grid-cols-3 gap-3 mt-5">
+            {[
+              { label: "Today's Revenue", value: stats ? `£${stats.revenue_today.toFixed(2)}` : '—', color: 'text-emerald-400', border: 'border-emerald-500/20', bg: 'bg-emerald-500/10' },
+              { label: "Orders Today",    value: stats ? String(stats.orders_today) : '—',            color: 'text-blue-400',    border: 'border-blue-500/20',    bg: 'bg-blue-500/10'    },
+              { label: "Active Promos",   value: stats ? String(stats.active_promotions) : '—',        color: 'text-violet-400',  border: 'border-violet-500/20',  bg: 'bg-violet-500/10'  },
+            ].map(({ label, value, color, border, bg }) => (
+              <div key={label} className={`${bg} border ${border} rounded-xl px-4 py-3 flex items-center justify-between`}>
+                <span className="text-xs text-zinc-500 font-medium">{label}</span>
+                <span className={`text-base font-bold ${color}`}>{value}</span>
+              </div>
+            ))}
+          </div>
         </header>
 
         {/* Control bar */}
@@ -941,17 +967,17 @@ export default function AdminPage() {
                   <div className="rounded-xl border border-zinc-800 overflow-hidden overflow-x-auto">
                     <table className="w-full text-sm min-w-[640px]">
                       <thead>
-                        <tr className="bg-zinc-900 border-b border-zinc-800">
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wide w-12">Image</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wide">Name</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wide w-36">Price</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wide w-28">Available</th>
-                          <th className="px-4 py-3 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wide w-24">Actions</th>
+                        <tr className="bg-zinc-800/80 border-b border-zinc-700/50">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wide w-12">Image</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wide">Name</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wide w-36">Price</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wide w-28">Available</th>
+                          <th className="px-4 py-3 text-right text-xs font-semibold text-zinc-400 uppercase tracking-wide w-24">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-zinc-800/60">
+                      <tbody className="divide-y divide-zinc-800/40">
                         {rows.map((item) => (
-                          <tr key={item.id} className="bg-zinc-950/50 hover:bg-zinc-800/30 transition-colors group">
+                          <tr key={item.id} className="bg-zinc-900 hover:bg-zinc-800/40 transition-colors group">
                             {/* Image */}
                             <td className="px-4 py-3">
                               {item.image_url ? (

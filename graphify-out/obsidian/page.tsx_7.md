@@ -12,6 +12,7 @@ tags:
 # page.tsx
 
 ## Connections
+- [[BentoCard()]] - `contains` [EXTRACTED]
 - [[DashboardData]] - `contains` [EXTRACTED]
 - [[DashboardPage()]] - `contains` [EXTRACTED]
 - [[NAV]] - `contains` [EXTRACTED]

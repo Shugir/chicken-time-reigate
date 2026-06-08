@@ -26,6 +26,7 @@ tags:
 - [[DbMenuItem]] - `contains` [EXTRACTED]
 - [[FiltersPopover()]] - `contains` [EXTRACTED]
 - [[GRADIENTS]] - `contains` [EXTRACTED]
+- [[ItemCustomizerDrawer.tsx]] - `imports_from` [EXTRACTED]
 - [[MENU_ITEMS]] - `contains` [EXTRACTED]
 - [[MenuCard()]] - `contains` [EXTRACTED]
 - [[MenuItem_1]] - `contains` [EXTRACTED]

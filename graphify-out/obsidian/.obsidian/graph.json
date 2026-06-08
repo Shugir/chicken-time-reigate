@@ -631,13 +631,6 @@
       }
     },
     {
-      "query": "tag:#community/Community_90",
-      "color": {
-        "a": 1,
-        "rgb": 5142951
-      }
-    },
-    {
       "query": "tag:#community/Community_91",
       "color": {
         "a": 1,
@@ -649,20 +642,6 @@
       "color": {
         "a": 1,
         "rgb": 14767961
-      }
-    },
-    {
-      "query": "tag:#community/Community_93",
-      "color": {
-        "a": 1,
-        "rgb": 7780274
-      }
-    },
-    {
-      "query": "tag:#community/Community_94",
-      "color": {
-        "a": 1,
-        "rgb": 5873999
       }
     },
     {
@@ -694,20 +673,6 @@
       }
     },
     {
-      "query": "tag:#community/Community_99",
-      "color": {
-        "a": 1,
-        "rgb": 12234924
-      }
-    },
-    {
-      "query": "tag:#community/Community_100",
-      "color": {
-        "a": 1,
-        "rgb": 5142951
-      }
-    },
-    {
       "query": "tag:#community/Community_101",
       "color": {
         "a": 1,
@@ -719,13 +684,6 @@
       "color": {
         "a": 1,
         "rgb": 14767961
-      }
-    },
-    {
-      "query": "tag:#community/Community_104",
-      "color": {
-        "a": 1,
-        "rgb": 5873999
       }
     },
     {
@@ -747,13 +705,6 @@
       "color": {
         "a": 1,
         "rgb": 16752039
-      }
-    },
-    {
-      "query": "tag:#community/Community_108",
-      "color": {
-        "a": 1,
-        "rgb": 10253663
       }
     }
   ]

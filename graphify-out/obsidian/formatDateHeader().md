@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[AnalyticsPage()]] - `calls` [EXTRACTED]
+- [[DashboardPage()]] - `calls` [EXTRACTED]
 - [[d()]] - `calls` [EXTRACTED]
 - [[format-date.ts]] - `contains` [EXTRACTED]
 - [[page.tsx_4]] - `imports` [EXTRACTED]

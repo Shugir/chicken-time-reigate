@@ -1,19 +1,17 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "components/admin/admin-sidebar.tsx"
 type: "code"
 community: "Community None"
-location: "L24"
+location: "L13"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# Cart
+# NAV_GROUPS
 
 ## Connections
-- [[page.tsx_24]] - `contains` [EXTRACTED]
-- [[page.tsx_31]] - `contains` [EXTRACTED]
-- [[page.tsx_42]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

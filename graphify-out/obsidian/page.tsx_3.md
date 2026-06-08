@@ -32,6 +32,7 @@ tags:
 - [[NAV_3]] - `contains` [EXTRACTED]
 - [[NavItem]] - `contains` [EXTRACTED]
 - [[PriceCell()]] - `contains` [EXTRACTED]
+- [[QuickStats]] - `contains` [EXTRACTED]
 - [[SaveState]] - `contains` [EXTRACTED]
 - [[TagAutocomplete()]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]

@@ -1,19 +1,17 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "app/admin/dashboard/page.tsx"
 type: "code"
 community: "Community None"
-location: "L24"
+location: "L47"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# Cart
+# BentoCard()
 
 ## Connections
-- [[page.tsx_24]] - `contains` [EXTRACTED]
-- [[page.tsx_31]] - `contains` [EXTRACTED]
-- [[page.tsx_42]] - `contains` [EXTRACTED]
+- [[page.tsx_7]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -12,11 +12,10 @@ import {
   ChevronRight,
   Search,
   SlidersHorizontal,
-  LayoutGrid,
-  List,
 } from 'lucide-react'
 import Link from 'next/link'
 import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
+import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -282,55 +281,58 @@ function cartCount(cart: Cart) {
   return Object.values(cart).reduce((s, entry) => s + entry.qty, 0)
 }
 
-// ─── Menu Card ────────────────────────────────────────────────────────────────
+// ─── Premium Menu Card ────────────────────────────────────────────────────────
 
-function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
+function MenuCard({ item, qty, onOpenDrawer, onAdd, onRemove }: {
   item: MenuItem
   qty: number
-  onOpenModal: () => void
+  onOpenDrawer: () => void
   onAdd: () => void
   onRemove: () => void
 }) {
-  return (
-    <div className="group bg-white border border-zinc-100 rounded-2xl overflow-hidden hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col">
+  const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
 
-      {/* Image */}
-      <button
-        onClick={onOpenModal}
-        className="relative aspect-video w-full overflow-hidden bg-zinc-100 shrink-0"
-        aria-label={`View ${item.name} details`}
-      >
+  return (
+    <div
+      className="group bg-white border border-zinc-100 rounded-2xl overflow-hidden hover:shadow-[0_8px_40px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col cursor-pointer"
+      onClick={onOpenDrawer}
+    >
+      {/* Image — edge-to-edge with hover zoom */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100 shrink-0">
         <Image
           src={item.image}
           alt={item.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        {item.badge && (
-          <span className="absolute top-3 left-3 z-10 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/95 text-zinc-800 tracking-wide border border-zinc-200/80">
+
+        {/* OFFER badge — vibrant, corner-pinned */}
+        {isOffer && (
+          <div className="absolute top-0 right-0 bg-brand-red text-white text-[11px] font-black px-3 py-2 rounded-bl-2xl flex items-center gap-1 shadow-lg z-10">
+            🔥 OFFER
+          </div>
+        )}
+
+        {/* Regular badge */}
+        {item.badge && !isOffer && (
+          <span className="absolute top-3 left-3 z-10 text-[10px] font-bold px-2.5 py-1 rounded-full bg-zinc-900/80 text-white backdrop-blur-sm tracking-wide">
             {item.badge}
           </span>
         )}
-        {item.compare_at_price != null && item.compare_at_price > item.price && (
-          <span className="absolute top-3 right-3 z-10 text-[10px] font-bold px-2.5 py-1 rounded-full bg-brand-red text-white tracking-wide shadow-md">
-            🔥 OFFER
-          </span>
-        )}
+
+        {/* Allergen indicator */}
         {item.allergens && item.allergens.length > 0 && (
           <span className="absolute bottom-2 right-2 z-10 text-[9px] font-semibold px-2 py-0.5 rounded-full bg-amber-50/95 text-amber-700 border border-amber-200/80">
             ⚠ Allergens
           </span>
         )}
-      </button>
+      </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-5 gap-4">
+      <div className="flex flex-col flex-1 p-4 gap-3">
         <div className="flex-1">
-          <h3
-            className="font-heading font-bold text-[15px] text-zinc-900 leading-snug cursor-pointer hover:text-brand-red transition-colors duration-200"
-            onClick={onOpenModal}
-          >
+          <h3 className="font-heading font-bold text-[14px] text-zinc-900 leading-snug">
             {item.name}
           </h3>
           <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed line-clamp-2">
@@ -339,49 +341,52 @@ function MenuCard({ item, qty, onOpenModal, onAdd, onRemove }: {
         </div>
 
         {/* Price + controls */}
-        <div className="flex items-center justify-between pt-1">
-          {item.compare_at_price != null && item.compare_at_price > item.price ? (
+        <div className="flex items-center justify-between pt-0.5">
+          {isOffer ? (
             <div className="flex flex-col gap-0.5">
               <span className="text-xs text-zinc-400 line-through leading-none">
-                £{item.compare_at_price.toFixed(2)}
+                £{item.compare_at_price!.toFixed(2)}
               </span>
-              <span className="font-heading font-bold text-lg text-brand-red leading-none">
+              <span className="font-heading font-black text-lg text-brand-red leading-none">
                 £{item.price.toFixed(2)}
               </span>
             </div>
           ) : (
-            <span className="font-heading font-bold text-lg text-zinc-900">
+            <span className="font-heading font-black text-lg text-zinc-900">
               £{item.price.toFixed(2)}
             </span>
           )}
 
-          {qty > 0 ? (
-            <div className="flex items-center gap-2">
+          {/* Qty controls — stop propagation so they don't open drawer */}
+          <div onClick={e => e.stopPropagation()}>
+            {qty > 0 ? (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={onRemove}
+                  className="w-7 h-7 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
+                  aria-label="Remove one"
+                >
+                  <Minus size={12} />
+                </button>
+                <span className="w-5 text-center text-sm font-bold text-zinc-900">{qty}</span>
+                <button
+                  onClick={onAdd}
+                  className="w-7 h-7 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
+                  aria-label="Add one more"
+                >
+                  <Plus size={12} />
+                </button>
+              </div>
+            ) : (
               <button
-                onClick={onRemove}
-                className="w-7 h-7 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
-                aria-label="Remove one"
+                onClick={(e) => { e.stopPropagation(); onOpenDrawer() }}
+                className="w-8 h-8 rounded-full bg-brand-red text-white hover:bg-red-700 flex items-center justify-center transition-all shadow-sm"
+                aria-label={`Add ${item.name}`}
               >
-                <Minus size={12} />
+                <Plus size={14} />
               </button>
-              <span className="w-5 text-center text-sm font-bold text-zinc-900">{qty}</span>
-              <button
-                onClick={onAdd}
-                className="w-7 h-7 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
-                aria-label="Add one more"
-              >
-                <Plus size={12} />
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={onOpenModal}
-              className="w-8 h-8 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 flex items-center justify-center transition-all duration-200"
-              aria-label={`Add ${item.name}`}
-            >
-              <Plus size={14} />
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -424,7 +429,6 @@ function FiltersPopover({
       ref={ref}
       className="absolute right-0 top-full mt-2 z-50 w-64 bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-zinc-100 p-5 space-y-5"
     >
-      {/* Offers */}
       <div>
         <label className="flex items-center gap-2.5 cursor-pointer group">
           <input
@@ -440,7 +444,6 @@ function FiltersPopover({
       {availableDietaryFlags.length > 0 && (
         <div>
           <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Dietary</p>
-          <p className="text-[10px] text-zinc-400 mb-2.5 -mt-1">Show items that match all selected</p>
           <div className="space-y-2">
             {availableDietaryFlags.map((flag) => (
               <label key={flag} className="flex items-center gap-2.5 cursor-pointer group">
@@ -450,7 +453,7 @@ function FiltersPopover({
                   onChange={() => onFlagsChange(
                     selectedFlags.includes(flag)
                       ? selectedFlags.filter((f) => f !== flag)
-                      : [...selectedFlags, flag]
+                      : [...selectedFlags, flag],
                   )}
                   className="w-4 h-4 accent-zinc-900 rounded"
                 />
@@ -464,7 +467,6 @@ function FiltersPopover({
       {availableAllergens.length > 0 && (
         <div className={availableDietaryFlags.length > 0 ? 'border-t border-zinc-100 pt-5' : ''}>
           <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.12em] mb-3">Exclude Allergens</p>
-          <p className="text-[10px] text-zinc-400 mb-2.5 -mt-1">Hide items that contain these</p>
           <div className="space-y-2">
             {availableAllergens.map((allergen) => (
               <label key={allergen} className="flex items-center gap-2.5 cursor-pointer group">
@@ -474,7 +476,7 @@ function FiltersPopover({
                   onChange={() => onExcludedAllergensChange(
                     excludedAllergens.includes(allergen)
                       ? excludedAllergens.filter((a) => a !== allergen)
-                      : [...excludedAllergens, allergen]
+                      : [...excludedAllergens, allergen],
                   )}
                   className="w-4 h-4 accent-amber-600 rounded"
                 />
@@ -519,81 +521,6 @@ function FiltersPopover({
   )
 }
 
-// ─── Compact List Item ────────────────────────────────────────────────────────
-
-function CompactListItem({ item, qty, onOpenModal, onAdd, onRemove }: {
-  item: MenuItem
-  qty: number
-  onOpenModal: () => void
-  onAdd: () => void
-  onRemove: () => void
-}) {
-  return (
-    <div className="bg-white border border-zinc-100 rounded-xl hover:shadow-[0_2px_16px_rgba(0,0,0,0.06)] transition-all duration-200 flex items-center gap-4 p-3">
-      <button
-        onClick={onOpenModal}
-        className="shrink-0 relative w-16 h-16 rounded-lg overflow-hidden bg-zinc-100"
-        aria-label={`View ${item.name} details`}
-      >
-        <Image src={item.image} alt={item.name} fill sizes="64px" className="object-cover" />
-      </button>
-
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <h3
-            className="font-heading font-semibold text-sm text-zinc-900 truncate cursor-pointer hover:text-brand-red transition-colors"
-            onClick={onOpenModal}
-          >
-            {item.name}
-          </h3>
-          {item.badge && (
-            <span className="shrink-0 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-500">
-              {item.badge}
-            </span>
-          )}
-        </div>
-        <p className="text-xs text-zinc-400 truncate mt-0.5">{item.description}</p>
-        <div className="flex flex-wrap gap-1 mt-1.5">
-          {item.dietaryFlags?.slice(0, 3).map((f) => (
-            <span key={f} className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-500">{f}</span>
-          ))}
-          {item.allergens && item.allergens.length > 0 && (
-            <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-amber-200 text-amber-600 bg-amber-50">⚠ Allergens</span>
-          )}
-        </div>
-      </div>
-
-      <div className="shrink-0 flex flex-col items-end gap-2">
-        <span className="font-heading font-bold text-sm text-zinc-900">£{item.price.toFixed(2)}</span>
-        {qty > 0 ? (
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={onRemove}
-              className="w-6 h-6 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
-            >
-              <Minus size={10} />
-            </button>
-            <span className="w-4 text-center text-xs font-bold text-zinc-900">{qty}</span>
-            <button
-              onClick={onAdd}
-              className="w-6 h-6 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
-            >
-              <Plus size={10} />
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={onOpenModal}
-            className="w-7 h-7 rounded-full border border-zinc-200 text-zinc-400 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 flex items-center justify-center transition-all duration-200"
-          >
-            <Plus size={13} />
-          </button>
-        )}
-      </div>
-    </div>
-  )
-}
-
 // ─── Cart Drawer ──────────────────────────────────────────────────────────────
 
 function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
@@ -632,8 +559,6 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
     <>
       <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
       <div className="fixed right-0 top-0 h-full w-full max-w-sm bg-white z-50 flex flex-col border-l border-zinc-100">
-
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-100">
           <div className="flex items-center gap-2.5">
             <ShoppingCart size={17} className="text-zinc-700" />
@@ -647,7 +572,6 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
           </button>
         </div>
 
-        {/* Items */}
         <div className="flex-1 overflow-y-auto divide-y divide-zinc-50">
           {lineItems.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-3 text-zinc-300 p-8">
@@ -699,7 +623,6 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
           )}
         </div>
 
-        {/* Footer */}
         {lineItems.length > 0 && (
           <div className="border-t border-zinc-100 px-6 py-5 space-y-3 bg-zinc-50/50">
             {!storeOpen && (
@@ -716,7 +639,7 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
             <button
               onClick={handleCheckout}
               disabled={!storeOpen}
-              className="w-full bg-zinc-900 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
+              className="w-full bg-brand-red hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
             >
               <span>Checkout</span><ChevronRight size={15} />
             </button>
@@ -734,7 +657,7 @@ export default function OrderPage() {
   const [cartOpen, setCartOpen]           = useState(false)
   const [categories, setCategories]       = useState<DbCategory[]>([])
   const [activeCategory, setActive]       = useState<string>('')
-  const [selectedItem, setSelectedItem]   = useState<MenuItem | null>(null)
+  const [drawerItem, setDrawerItem]       = useState<MenuItem | null>(null)
   const [menuItems, setMenuItems]         = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen]         = useState(true)
   const [prepTime, setPrepTime]           = useState(25)
@@ -743,7 +666,6 @@ export default function OrderPage() {
   const [excludedAllergens, setExcludedAllergens] = useState<string[]>([])
   const [sortBy, setSortBy]                   = useState<'default' | 'price-asc' | 'price-desc'>('default')
   const [showOffersOnly, setShowOffersOnly]   = useState(false)
-  const [viewMode, setViewMode]           = useState<'grid' | 'list'>('grid')
   const [filtersOpen, setFiltersOpen]     = useState(false)
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
 
@@ -853,6 +775,8 @@ export default function OrderPage() {
     return () => observers.forEach((o) => o.disconnect())
   }, [categories])
 
+  const activeFilterCount = selectedFlags.length + excludedAllergens.length + (sortBy !== 'default' ? 1 : 0) + (showOffersOnly ? 1 : 0)
+
   return (
     <div className="bg-white min-h-screen">
 
@@ -868,19 +792,28 @@ export default function OrderPage() {
         Free delivery on orders over £20 &nbsp;·&nbsp; Est. {prepTime}–{prepTime + 10} min
       </div>
 
-      {/* Mobile category nav */}
-      <nav className="lg:hidden sticky top-0 z-30 bg-white border-b border-zinc-100 overflow-x-auto">
-        <div className="flex min-w-max gap-1 px-4 py-2.5">
-          {categories.map(({ slug, name }) => (
+      {/* ── STICKY SCROLL-SPY CATEGORY NAV ── */}
+      <nav className="sticky top-0 z-30 backdrop-blur-md bg-white/90 border-b border-zinc-100/80 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-1 overflow-x-auto py-2.5 [&::-webkit-scrollbar]:hidden">
+          {categories.map(({ slug, name, image_url }) => (
             <button
               key={slug}
               onClick={() => scrollTo(slug)}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${
+              className={`flex-none flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${
                 activeCategory === slug
-                  ? 'bg-zinc-900 text-white'
+                  ? 'bg-zinc-900 text-white shadow-sm'
                   : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
               }`}
             >
+              {image_url && (
+                <Image
+                  src={image_url}
+                  alt={name}
+                  width={20}
+                  height={20}
+                  className="w-5 h-5 rounded-full object-cover shrink-0"
+                />
+              )}
               {name}
             </button>
           ))}
@@ -888,185 +821,112 @@ export default function OrderPage() {
       </nav>
 
       {/* Main layout */}
-      <div className="max-w-7xl mx-auto flex gap-10 px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        {/* Sidebar */}
-        <aside className="hidden lg:block w-56 shrink-0">
-          <div className="sticky top-8 bg-brand-dark rounded-2xl p-4">
-            <p className="text-[10px] font-semibold text-white/50 uppercase tracking-[0.15em] px-3 mb-3">
-              Menu
-            </p>
+        {/* Build Your Meal combo CTA */}
+        <div className="mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 border border-zinc-700 rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div className="font-bold text-white text-base">🍗 Build Your Meal</div>
+            <div className="text-sm text-zinc-400 mt-0.5">
+              Pick your main, side &amp; drink — combo discount applied
+            </div>
+          </div>
+          <Link
+            href="/menu/combo"
+            className="shrink-0 bg-brand-red hover:bg-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors shadow-lg shadow-red-900/30"
+          >
+            Build Now
+          </Link>
+        </div>
 
-            <nav className="space-y-0.5">
-              {categories.map(({ slug, name, image_url }) => {
-                const isActive = activeCategory === slug
-                return (
-                  <button
-                    key={slug}
-                    onClick={() => scrollTo(slug)}
-                    className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-full transition-all duration-200 ${
-                      isActive
-                        ? 'bg-white/10 text-white'
-                        : 'text-white/60 hover:bg-white/[0.08] hover:text-white'
-                    }`}
-                  >
-                    <Image
-                      src={image_url || FALLBACK_IMG}
-                      alt={name}
-                      width={28}
-                      height={28}
-                      className="w-7 h-7 rounded-full object-cover shrink-0"
-                    />
-                    <span className="text-sm font-semibold truncate">{name}</span>
-                  </button>
-                )
-              })}
-            </nav>
+        {/* Search + filter bar */}
+        <div className="mb-8 flex flex-wrap items-center gap-2">
+          <div className="relative flex-1 min-w-48">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+            <input
+              type="text"
+              placeholder="Search menu…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white border border-zinc-200 rounded-full pl-10 pr-4 py-2.5 text-sm text-zinc-800 placeholder-zinc-400 focus:outline-none focus:border-zinc-400 transition-colors"
+            />
+          </div>
 
-            {/* Sidebar cart summary */}
-            {count > 0 && (
-              <div className="mt-6 border border-white/10 rounded-2xl p-4">
-                <p className="text-[10px] font-semibold text-white/50 uppercase tracking-[0.15em] mb-3">
-                  Your Order
-                </p>
-                <div className="flex justify-between text-sm font-semibold text-white mb-3">
-                  <span>{count} item{count > 1 ? 's' : ''}</span>
-                  <span>£{total.toFixed(2)}</span>
-                </div>
-                <button
-                  onClick={() => setCartOpen(true)}
-                  className="w-full bg-brand-red hover:bg-red-700 text-white text-sm font-semibold py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors"
-                >
-                  <ShoppingCart size={13} /> View Cart
-                </button>
-              </div>
+          <div className="relative">
+            <button
+              onClick={() => setFiltersOpen((v) => !v)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${
+                activeFilterCount > 0
+                  ? 'bg-zinc-900 text-white border-zinc-900'
+                  : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900'
+              }`}
+            >
+              <SlidersHorizontal size={14} />
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="bg-white/20 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+            {filtersOpen && (
+              <FiltersPopover
+                availableDietaryFlags={availableDietaryFlags}
+                selectedFlags={selectedFlags}
+                onFlagsChange={setSelectedFlags}
+                availableAllergens={availableAllergens}
+                excludedAllergens={excludedAllergens}
+                onExcludedAllergensChange={setExcludedAllergens}
+                sortBy={sortBy}
+                onSortChange={(v) => setSortBy(v as 'default' | 'price-asc' | 'price-desc')}
+                showOffersOnly={showOffersOnly}
+                onOffersChange={setShowOffersOnly}
+                onClose={() => setFiltersOpen(false)}
+              />
             )}
           </div>
-        </aside>
+        </div>
 
-        {/* Menu content */}
-        <main className="flex-1 min-w-0 pb-32">
-
-          {/* Build Your Meal combo entry point */}
-          <div className="mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 border border-zinc-700 rounded-xl p-4 flex items-center justify-between gap-4">
-            <div>
-              <div className="font-bold text-white text-sm">🍗 Build Your Meal</div>
-              <div className="text-xs text-zinc-400 mt-0.5">
-                Pick your main, side &amp; drink — combo discount applied
-              </div>
-            </div>
-            <Link
-              href="/menu/combo"
-              className="shrink-0 bg-brand-red hover:bg-brand-red/80 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
-            >
-              Build Now
-            </Link>
+        {/* Active filter chips */}
+        {activeFilterCount > 0 && (
+          <div className="flex flex-wrap gap-2 mb-6 -mt-4">
+            {showOffersOnly && (
+              <span className="flex items-center gap-1.5 border border-red-200 text-red-700 bg-red-50 text-xs font-medium px-3 py-1 rounded-full">
+                🔥 Offers only
+                <button onClick={() => setShowOffersOnly(false)} className="text-red-400 hover:text-red-700 transition-colors">
+                  <X size={11} />
+                </button>
+              </span>
+            )}
+            {selectedFlags.map((f) => (
+              <span key={f} className="flex items-center gap-1.5 border border-zinc-200 text-zinc-600 text-xs font-medium px-3 py-1 rounded-full">
+                {f}
+                <button onClick={() => setSelectedFlags((prev) => prev.filter((x) => x !== f))} className="text-zinc-400 hover:text-zinc-700 transition-colors">
+                  <X size={11} />
+                </button>
+              </span>
+            ))}
+            {excludedAllergens.map((a) => (
+              <span key={a} className="flex items-center gap-1.5 border border-amber-200 text-amber-700 bg-amber-50 text-xs font-medium px-3 py-1 rounded-full">
+                No {a}
+                <button onClick={() => setExcludedAllergens((prev) => prev.filter((x) => x !== a))} className="text-amber-400 hover:text-amber-700 transition-colors">
+                  <X size={11} />
+                </button>
+              </span>
+            ))}
+            {sortBy !== 'default' && (
+              <span className="flex items-center gap-1.5 border border-zinc-200 text-zinc-600 text-xs font-medium px-3 py-1 rounded-full">
+                {sortBy === 'price-asc' ? 'Price: Low → High' : 'Price: High → Low'}
+                <button onClick={() => setSortBy('default')} className="text-zinc-400 hover:text-zinc-700 transition-colors">
+                  <X size={11} />
+                </button>
+              </span>
+            )}
           </div>
+        )}
 
-          {/* Search + filter bar */}
-          <div className="mb-8 flex flex-wrap items-center gap-2">
-            <div className="relative flex-1 min-w-48">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Search menu…"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-zinc-200 rounded-full pl-10 pr-4 py-2.5 text-sm text-zinc-800 placeholder-zinc-400 focus:outline-none focus:border-zinc-400 transition-colors"
-              />
-            </div>
-
-            <div className="relative">
-              <button
-                onClick={() => setFiltersOpen((v) => !v)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${
-                  selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default' || showOffersOnly
-                    ? 'bg-zinc-900 text-white border-zinc-900'
-                    : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900'
-                }`}
-              >
-                <SlidersHorizontal size={14} />
-                Filters
-                {(selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default' || showOffersOnly) && (
-                  <span className="bg-white/20 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    {selectedFlags.length + excludedAllergens.length + (sortBy !== 'default' ? 1 : 0) + (showOffersOnly ? 1 : 0)}
-                  </span>
-                )}
-              </button>
-              {filtersOpen && (
-                <FiltersPopover
-                  availableDietaryFlags={availableDietaryFlags}
-                  selectedFlags={selectedFlags}
-                  onFlagsChange={setSelectedFlags}
-                  availableAllergens={availableAllergens}
-                  excludedAllergens={excludedAllergens}
-                  onExcludedAllergensChange={setExcludedAllergens}
-                  sortBy={sortBy}
-                  onSortChange={(v) => setSortBy(v as 'default' | 'price-asc' | 'price-desc')}
-                  showOffersOnly={showOffersOnly}
-                  onOffersChange={setShowOffersOnly}
-                  onClose={() => setFiltersOpen(false)}
-                />
-              )}
-            </div>
-
-            <div className="flex items-center gap-0.5 border border-zinc-200 rounded-full p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded-full transition-all duration-200 ${viewMode === 'grid' ? 'bg-zinc-900 text-white' : 'text-zinc-400 hover:text-zinc-700'}`}
-                title="Grid view"
-              >
-                <LayoutGrid size={14} />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded-full transition-all duration-200 ${viewMode === 'list' ? 'bg-zinc-900 text-white' : 'text-zinc-400 hover:text-zinc-700'}`}
-                title="List view"
-              >
-                <List size={14} />
-              </button>
-            </div>
-          </div>
-
-          {/* Active filter chips */}
-          {(selectedFlags.length > 0 || excludedAllergens.length > 0 || sortBy !== 'default' || showOffersOnly) && (
-            <div className="flex flex-wrap gap-2 mb-6 -mt-4">
-              {showOffersOnly && (
-                <span className="flex items-center gap-1.5 border border-red-200 text-red-700 bg-red-50 text-xs font-medium px-3 py-1 rounded-full">
-                  🔥 Offers only
-                  <button onClick={() => setShowOffersOnly(false)} className="text-red-400 hover:text-red-700 transition-colors">
-                    <X size={11} />
-                  </button>
-                </span>
-              )}
-              {selectedFlags.map((f) => (
-                <span key={f} className="flex items-center gap-1.5 border border-zinc-200 text-zinc-600 text-xs font-medium px-3 py-1 rounded-full">
-                  {f}
-                  <button onClick={() => setSelectedFlags((prev) => prev.filter((x) => x !== f))} className="text-zinc-400 hover:text-zinc-700 transition-colors">
-                    <X size={11} />
-                  </button>
-                </span>
-              ))}
-              {excludedAllergens.map((a) => (
-                <span key={a} className="flex items-center gap-1.5 border border-amber-200 text-amber-700 bg-amber-50 text-xs font-medium px-3 py-1 rounded-full">
-                  No {a}
-                  <button onClick={() => setExcludedAllergens((prev) => prev.filter((x) => x !== a))} className="text-amber-400 hover:text-amber-700 transition-colors">
-                    <X size={11} />
-                  </button>
-                </span>
-              ))}
-              {sortBy !== 'default' && (
-                <span className="flex items-center gap-1.5 border border-zinc-200 text-zinc-600 text-xs font-medium px-3 py-1 rounded-full">
-                  {sortBy === 'price-asc' ? 'Price: Low → High' : 'Price: High → Low'}
-                  <button onClick={() => setSortBy('default')} className="text-zinc-400 hover:text-zinc-700 transition-colors">
-                    <X size={11} />
-                  </button>
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Content */}
+        {/* ── Content ── */}
+        <main className="pb-28">
           {isFiltering ? (
             displayedItems.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-28 text-center">
@@ -1080,23 +940,12 @@ export default function OrderPage() {
                   Clear all filters
                 </button>
               </div>
-            ) : viewMode === 'list' ? (
-              <div className="space-y-2">
-                {displayedItems.map((item) => (
-                  <CompactListItem
-                    key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
-                    onOpenModal={() => setSelectedItem(item)}
-                    onAdd={() => addToCart(item.id)}
-                    onRemove={() => removeFromCart(item.id)}
-                  />
-                ))}
-              </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {displayedItems.map((item) => (
                   <MenuCard
                     key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
-                    onOpenModal={() => setSelectedItem(item)}
+                    onOpenDrawer={() => setDrawerItem(item)}
                     onAdd={() => addToCart(item.id)}
                     onRemove={() => removeFromCart(item.id)}
                   />
@@ -1112,7 +961,7 @@ export default function OrderPage() {
                     key={slug}
                     id={slug}
                     ref={(el) => { sectionRefs.current[slug] = el }}
-                    className="scroll-mt-6"
+                    className="scroll-mt-20"
                   >
                     {/* Section header */}
                     <div className="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-100">
@@ -1129,29 +978,16 @@ export default function OrderPage() {
                       </div>
                     </div>
 
-                    {viewMode === 'list' ? (
-                      <div className="space-y-2">
-                        {items.map((item) => (
-                          <CompactListItem
-                            key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
-                            onOpenModal={() => setSelectedItem(item)}
-                            onAdd={() => addToCart(item.id)}
-                            onRemove={() => removeFromCart(item.id)}
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                        {items.map((item) => (
-                          <MenuCard
-                            key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
-                            onOpenModal={() => setSelectedItem(item)}
-                            onAdd={() => addToCart(item.id)}
-                            onRemove={() => removeFromCart(item.id)}
-                          />
-                        ))}
-                      </div>
-                    )}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                      {items.map((item) => (
+                        <MenuCard
+                          key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
+                          onOpenDrawer={() => setDrawerItem(item)}
+                          onAdd={() => addToCart(item.id)}
+                          onRemove={() => removeFromCart(item.id)}
+                        />
+                      ))}
+                    </div>
                   </section>
                 )
               })}
@@ -1160,11 +996,11 @@ export default function OrderPage() {
         </main>
       </div>
 
-      {/* Mobile floating cart */}
-      <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
+      {/* Floating cart pill */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <button
           onClick={() => setCartOpen(true)}
-          className="flex items-center gap-3 bg-zinc-900 text-white font-semibold px-6 py-3.5 rounded-full shadow-lg hover:bg-zinc-700 transition-colors text-sm"
+          className="flex items-center gap-3 bg-zinc-900 text-white font-semibold px-6 py-3.5 rounded-full shadow-xl hover:bg-zinc-700 transition-colors text-sm"
         >
           <div className="relative">
             <ShoppingCart size={17} />
@@ -1190,10 +1026,10 @@ export default function OrderPage() {
         />
       )}
 
-      {selectedItem && (
-        <ProductModal
-          item={selectedItem}
-          onClose={() => setSelectedItem(null)}
+      {drawerItem && (
+        <ItemCustomizerDrawer
+          item={drawerItem}
+          onClose={() => setDrawerItem(null)}
           onAddToOrder={handleAddToOrder}
         />
       )}

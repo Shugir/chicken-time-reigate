@@ -1,8 +1,8 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "page.tsx"
 type: "code"
 community: "Community None"
-location: "L509"
+location: "L524"
 tags:
   - graphify/code
   - graphify/EXTRACTED

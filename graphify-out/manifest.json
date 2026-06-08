@@ -60,8 +60,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\page.tsx": {
-    "mtime": 1780867789.6306345,
-    "ast_hash": "1759cef3e5e936078b9413c4c98ffe2d",
+    "mtime": 1780877155.7253678,
+    "ast_hash": "6c6e0f075b2664cbe45e9ebf4bc120ec",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\analytics\\layout.tsx": {
@@ -100,8 +100,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\dashboard\\page.tsx": {
-    "mtime": 1780698598.8530426,
-    "ast_hash": "979f9c2bf823f9af47d8fc15d3d4c993",
+    "mtime": 1780877113.4046073,
+    "ast_hash": "d93b1f701fe090fc845010457f1e8b84",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\delivery\\layout.tsx": {
@@ -445,8 +445,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\order\\page.tsx": {
-    "mtime": 1780867925.183506,
-    "ast_hash": "fb95e80d907e9f544622536aea8337ec",
+    "mtime": 1780877024.1571393,
+    "ast_hash": "b431ec653889bc182763d5b9057bc463",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\privacy\\page.tsx": {
@@ -515,8 +515,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\admin-sidebar.tsx": {
-    "mtime": 1780863134.9228547,
-    "ast_hash": "f55e58e8b89d311aa435b43ed95ef5ff",
+    "mtime": 1780877069.8549113,
+    "ast_hash": "31548e62f45d1f25071cb41a5789f35b",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\permissions-provider.tsx": {
@@ -527,6 +527,11 @@
   "E:\\ChickenTime\\chicken-time-reigate\\components\\admin\\sign-out-button.tsx": {
     "mtime": 1780613776.882028,
     "ast_hash": "a110532787b8bdceea8af15ce830ad68",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\components\\Menu\\ItemCustomizerDrawer.tsx": {
+    "mtime": 1780876842.5849578,
+    "ast_hash": "fb9e16333c8884ca69d7b73b1079fbc8",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\lib\\email.ts": {

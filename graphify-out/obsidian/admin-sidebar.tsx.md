@@ -14,6 +14,7 @@ tags:
 ## Connections
 - [[ALL_NAV]] - `contains` [EXTRACTED]
 - [[AdminSidebar()]] - `contains` [EXTRACTED]
+- [[NAV_GROUPS]] - `contains` [EXTRACTED]
 - [[page.tsx_3]] - `imports_from` [EXTRACTED]
 - [[page.tsx_4]] - `imports_from` [EXTRACTED]
 - [[page.tsx_5]] - `imports_from` [EXTRACTED]

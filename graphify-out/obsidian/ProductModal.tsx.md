@@ -17,6 +17,7 @@ tags:
 - [[AllergyAccordion()]] - `contains` [EXTRACTED]
 - [[CATEGORY_GRADIENT]] - `contains` [EXTRACTED]
 - [[ItemCategory]] - `contains` [EXTRACTED]
+- [[ItemCustomizerDrawer.tsx]] - `imports_from` [EXTRACTED]
 - [[OrderSelection]] - `contains` [EXTRACTED]
 - [[ProductItem]] - `contains` [EXTRACTED]
 - [[ProductModal()]] - `contains` [EXTRACTED]
