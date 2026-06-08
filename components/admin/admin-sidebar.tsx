@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
-  Truck, Shield, ExternalLink, Layers, TrendingUp, Users, Star,
+  Truck, Shield, ExternalLink, Layers, TrendingUp, Users, Star, Radio,
 } from 'lucide-react'
 import SignOutButton from './sign-out-button'
 import { usePermissions } from './permissions-provider'
@@ -30,6 +30,7 @@ const NAV_GROUPS = [
   {
     label: 'Operations',
     items: [
+      { id: 'dispatch',   label: 'Live Dispatch',   icon: Radio,           href: '/admin/dispatch',  permission: 'Fleet'         },
       { id: 'drivers',    label: 'Fleet & Drivers', icon: Truck,           href: '/admin/drivers',   permission: 'Fleet'         },
       { id: 'delivery',   label: 'Delivery Zones',  icon: MapPin,          href: '/admin/delivery',  permission: 'DeliveryZones' },
     ],

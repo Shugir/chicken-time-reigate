@@ -42,10 +42,10 @@ export async function GET() {
 
   const { data, error } = await supabaseAdmin
     .from('orders')
-    .select('id, customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes, total_amount, created_at')
+    .select('id, customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes, total_amount, created_at, stop_sequence')
     .eq('delivery_status', 'out_for_delivery')
     .eq('driver_id', driver.id)
-    .order('created_at', { ascending: false })
+    .order('stop_sequence', { ascending: true })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ orders: data ?? [], driver_id: driver.id })

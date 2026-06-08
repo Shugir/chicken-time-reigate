@@ -22,6 +22,7 @@ interface Order {
   customer_notes: string | null
   total_amount: number
   created_at: string
+  stop_sequence: number
 }
 
 function mapsUrl(address: string | null, postcode: string | null) {
@@ -47,6 +48,7 @@ export default function DriverDashboard() {
   const [accessDenied, setAccessDenied] = useState(false)
   const [updating, setUpdating] = useState<string | null>(null)
   const [flash, setFlash]       = useState<{ id: string; msg: string } | null>(null)
+  const [driverId, setDriverId] = useState<string | null>(null)
 
   const fetchOrders = useCallback(async () => {
     const res = await fetch('/api/driver/orders')
@@ -54,12 +56,31 @@ export default function DriverDashboard() {
     if (res.status === 403) { setAccessDenied(true); setLoading(false); return }
     if (res.ok) {
       const data = await res.json()
-      setOrders(data.orders ?? [])
+      setOrders(
+        (data.orders ?? []).slice().sort(
+          (a: Order, b: Order) => (a.stop_sequence ?? 1) - (b.stop_sequence ?? 1),
+        ),
+      )
+      setDriverId((prev) => prev ?? (data.driver_id as string | null) ?? null)
     }
     setLoading(false)
   }, [router])
 
-  useEffect(() => { fetchOrders() }, [fetchOrders])
+  useEffect(() => {
+    fetchOrders()
+  }, [fetchOrders])
+
+  // Dedicated subscription effect — must bind .on() BEFORE .subscribe()
+  useEffect(() => {
+    if (!driverId) return
+    const channel = supabase
+      .channel(`driver-orders-${driverId}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        fetchOrders()
+      })
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [driverId, fetchOrders])
 
   async function handleAction(orderId: string, action: 'delivered' | 'return_to_kitchen') {
     setUpdating(orderId)
@@ -191,14 +212,27 @@ export default function DriverDashboard() {
 
             <div className="space-y-5">
               {orders.map((order, idx) => (
-                <div key={order.id} className="bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden shadow-xl">
+                <div key={order.id} className={`bg-zinc-900 rounded-3xl overflow-hidden shadow-xl ${
+                  idx === 0
+                    ? 'border-2 border-emerald-500 shadow-emerald-900/30'
+                    : 'border border-zinc-700'
+                }`}>
+
+                  {/* NEXT STOP banner */}
+                  {idx === 0 && (
+                    <div className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 text-black font-black text-sm tracking-widest uppercase">
+                      ⚡ NEXT STOP — Priority 1
+                    </div>
+                  )}
 
                   {/* Order header */}
                   <div className="flex items-center justify-between px-5 py-4 bg-zinc-800/50 border-b border-zinc-700">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="w-6 h-6 rounded-full bg-violet-600 flex items-center justify-center text-white font-black text-xs">
-                          {idx + 1}
+                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-white font-black text-xs ${
+                          idx === 0 ? 'bg-emerald-500' : 'bg-violet-600'
+                        }`}>
+                          {order.stop_sequence ?? idx + 1}
                         </span>
                         <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Order Ref</p>
                       </div>

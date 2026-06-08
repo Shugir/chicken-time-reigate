@@ -135,9 +135,9 @@ const MENU_ITEMS: MenuItem[] = [
     allergens: ['Eggs', 'Soya'],
     removables: [],
     add_ons: [
-      { name: 'Add Buffalo Dip',     price: 0.75 },
+      { name: 'Add Buffalo Dip', price: 0.75 },
       { name: 'Add Blue Cheese Dip', price: 0.75 },
-      { name: 'Extra Wings +2pc',    price: 2.50 },
+      { name: 'Extra Wings +2pc', price: 2.50 },
     ],
   },
   {
@@ -217,15 +217,15 @@ const MENU_ITEMS: MenuItem[] = [
 const DELIVERY_FEE = 1.99
 
 function getUniqueTags(items: MenuItem[]) {
-  const flags     = new Set<string>()
+  const flags = new Set<string>()
   const allergens = new Set<string>()
   for (const item of items) {
     for (const f of item.dietaryFlags ?? []) flags.add(f)
-    for (const a of item.allergens    ?? []) allergens.add(a)
+    for (const a of item.allergens ?? []) allergens.add(a)
   }
   return {
     dietaryFlags: [...flags].sort(),
-    allergens:    [...allergens].sort(),
+    allergens: [...allergens].sort(),
   }
 }
 
@@ -240,8 +240,8 @@ interface DbMenuItem {
   image_url: string | null
   category: string
   is_available: boolean
-  extras:        Array<{ name: string; price: number }> | null
-  removals:      string[] | null
+  extras: Array<{ name: string; price: number }> | null
+  removals: string[] | null
   dietary_flags: string[] | null
   allergens: string[] | null
   combo_category: 'main' | 'side' | 'drink' | null
@@ -258,21 +258,21 @@ interface DbMenuItem {
 function dbToMenuItem(item: DbMenuItem): MenuItem {
   const opts = item.custom_options ?? {}
   return {
-    id:              item.id,
-    name:            item.name,
-    description:     item.description ?? '',
-    price:           Number(item.price),
+    id: item.id,
+    name: item.name,
+    description: item.description ?? '',
+    price: Number(item.price),
     compare_at_price: item.compare_at_price != null ? Number(item.compare_at_price) : null,
-    category:        item.category.toLowerCase(),
-    badge:           opts.badge,
-    emoji:           opts.emoji ?? '🍽️',
-    image:           item.image_url || FALLBACK_IMG,
-    allergens:       item.allergens?.length ? item.allergens : (opts.allergens ?? []),
-    removables:      item.removals?.length ? item.removals  : (opts.removables ?? []),
-    add_ons:         item.extras?.length   ? item.extras    : (opts.add_ons    ?? []),
-    dietaryFlags:    item.dietary_flags ?? [],
-    combo_category:  item.combo_category ?? null,
-    size_tier:       item.size_tier ?? null,
+    category: item.category.toLowerCase(),
+    badge: opts.badge,
+    emoji: opts.emoji ?? '🍽️',
+    image: item.image_url || FALLBACK_IMG,
+    allergens: item.allergens?.length ? item.allergens : (opts.allergens ?? []),
+    removables: item.removals?.length ? item.removals : (opts.removables ?? []),
+    add_ons: item.extras?.length ? item.extras : (opts.add_ons ?? []),
+    dietaryFlags: item.dietary_flags ?? [],
+    combo_category: item.combo_category ?? null,
+    size_tier: item.size_tier ?? null,
   }
 }
 
@@ -552,13 +552,13 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
     const cartPayload = lineItems.map(({ item, entry }) => {
       const unitPrice = item.price + entry.extras.reduce((s, e) => s + e.price, 0)
       return {
-        name:       item.name,
-        price:      unitPrice,
-        quantity:   entry.qty,
+        name: item.name,
+        price: unitPrice,
+        quantity: entry.qty,
         totalPrice: unitPrice * entry.qty,
-        extras:     entry.extras,
-        removals:   entry.removals,
-        notes:      entry.notes?.trim() || undefined,
+        extras: entry.extras,
+        removals: entry.removals,
+        notes: entry.notes?.trim() || undefined,
       }
     })
     sessionStorage.setItem('pendingCart', JSON.stringify(cartPayload))
@@ -663,23 +663,23 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function OrderPage() {
-  const [cart, setCart]                   = useState<Cart>({})
-  const [cartOpen, setCartOpen]           = useState(false)
-  const [categories, setCategories]       = useState<DbCategory[]>([])
-  const [activeCategory, setActive]       = useState<string>('')
-  const [drawerItem, setDrawerItem]       = useState<MenuItem | null>(null)
-  const [menuItems, setMenuItems]         = useState<MenuItem[]>(MENU_ITEMS)
-  const [storeOpen, setStoreOpen]         = useState(true)
-  const [prepTime, setPrepTime]           = useState(25)
-  const [searchQuery, setSearchQuery]         = useState('')
-  const [selectedFlags, setSelectedFlags]     = useState<string[]>([])
+  const [cart, setCart] = useState<Cart>({})
+  const [cartOpen, setCartOpen] = useState(false)
+  const [categories, setCategories] = useState<DbCategory[]>([])
+  const [activeCategory, setActive] = useState<string>('')
+  const [drawerItem, setDrawerItem] = useState<MenuItem | null>(null)
+  const [menuItems, setMenuItems] = useState<MenuItem[]>(MENU_ITEMS)
+  const [storeOpen, setStoreOpen] = useState(true)
+  const [prepTime, setPrepTime] = useState(25)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedFlags, setSelectedFlags] = useState<string[]>([])
   const [excludedAllergens, setExcludedAllergens] = useState<string[]>([])
-  const [sortBy, setSortBy]                   = useState<'default' | 'price-asc' | 'price-desc'>('default')
-  const [showOffersOnly, setShowOffersOnly]   = useState(false)
-  const [filtersOpen, setFiltersOpen]     = useState(false)
-  const sectionRefs    = useRef<Record<string, HTMLElement | null>>({})
-  const navScrollRef   = useRef<HTMLDivElement>(null)
-  const [canScrollLeft,  setCanScrollLeft]  = useState(false)
+  const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc'>('default')
+  const [showOffersOnly, setShowOffersOnly] = useState(false)
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
+  const navScrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
 
   function checkNavScroll() {
@@ -693,7 +693,7 @@ export default function OrderPage() {
     fetch('/api/categories')
       .then((r) => r.ok ? r.json() : [])
       .then(setCategories)
-      .catch(() => {})
+      .catch(() => { })
   }, [])
 
   useEffect(() => {
@@ -708,7 +708,7 @@ export default function OrderPage() {
       .then((data) => {
         if (data) { setStoreOpen(data.is_open); setPrepTime(data.prep_time_minutes) }
       })
-      .catch(() => {})
+      .catch(() => { })
   }, [])
 
   useEffect(() => {
@@ -745,7 +745,7 @@ export default function OrderPage() {
       if (showOffersOnly && !(item.compare_at_price != null && item.compare_at_price > item.price)) return false
       return true
     })
-    if (sortBy === 'price-asc')  result = [...result].sort((a, b) => a.price - b.price)
+    if (sortBy === 'price-asc') result = [...result].sort((a, b) => a.price - b.price)
     if (sortBy === 'price-desc') result = [...result].sort((a, b) => b.price - a.price)
     return result
   }, [menuItems, searchQuery, selectedFlags, excludedAllergens, sortBy, showOffersOnly])
@@ -770,10 +770,10 @@ export default function OrderPage() {
     setCart((p) => ({
       ...p,
       [selection.item.id]: {
-        qty:      (p[selection.item.id]?.qty ?? 0) + selection.quantity,
+        qty: (p[selection.item.id]?.qty ?? 0) + selection.quantity,
         removals: selection.removals,
-        extras:   selection.extras,
-        notes:    selection.notes || undefined,
+        extras: selection.extras,
+        notes: selection.notes || undefined,
       },
     }))
   }
@@ -839,11 +839,10 @@ export default function OrderPage() {
               <button
                 key={slug}
                 onClick={() => scrollTo(slug)}
-                className={`flex-none shrink-0 snap-start flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${
-                  activeCategory === slug
+                className={`flex-none shrink-0 snap-start flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${activeCategory === slug
                     ? 'bg-zinc-900 text-white shadow-sm'
                     : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
-                }`}
+                  }`}
               >
                 {image_url && (
                   <Image
@@ -892,11 +891,10 @@ export default function OrderPage() {
           <div className="relative">
             <button
               onClick={() => setFiltersOpen((v) => !v)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${
-                activeFilterCount > 0
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${activeFilterCount > 0
                   ? 'bg-zinc-900 text-white border-zinc-900'
                   : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900'
-              }`}
+                }`}
             >
               <SlidersHorizontal size={14} />
               Filters
@@ -1037,7 +1035,7 @@ export default function OrderPage() {
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <button
           onClick={() => setCartOpen(true)}
-          className="flex items-center gap-3 bg-brand-red text-white font-semibold px-6 py-3.5 rounded-full shadow-xl hover:bg-red-700 transition-colors text-sm border-[3px] border-black"
+          className="cart-pill-animate flex items-center gap-3 bg-brand-red text-white font-semibold px-6 py-3.5 rounded-full shadow-xl hover:bg-red-700 transition-colors text-sm border-[3px] border-black"
         >
           <div className="relative">
             <ShoppingCart size={19} />
