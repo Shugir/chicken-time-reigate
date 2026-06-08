@@ -25,6 +25,6 @@ tags:
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 - [[store-status.ts]] - `imports_from` [EXTRACTED]
-- [[supabase_2]] - `contains` [EXTRACTED]
+- [[supabase_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -12,9 +12,9 @@ tags:
 # BusinessHours
 
 ## Connections
-- [[route.ts_26]] - `imports` [EXTRACTED]
-- [[route.ts_41]] - `imports` [EXTRACTED]
-- [[route.ts_45]] - `imports` [EXTRACTED]
+- [[route.ts_27]] - `imports` [EXTRACTED]
+- [[route.ts_42]] - `imports` [EXTRACTED]
+- [[route.ts_46]] - `imports` [EXTRACTED]
 - [[store-status.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

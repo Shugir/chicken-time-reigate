@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/track/route.ts"
+source_file: "app/api/store-settings/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,11 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_21]] - `contains` [EXTRACTED]
+- [[BusinessHours_2]] - `imports` [EXTRACTED]
+- [[GET()_14]] - `contains` [EXTRACTED]
+- [[Holiday_1]] - `imports` [EXTRACTED]
+- [[checkStoreStatus()]] - `imports` [EXTRACTED]
+- [[store-status.ts]] - `imports_from` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

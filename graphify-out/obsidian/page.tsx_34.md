@@ -26,7 +26,7 @@ tags:
 - [[formatDateMedium()]] - `imports` [EXTRACTED]
 - [[formatTime()_1]] - `imports` [EXTRACTED]
 - [[formatTimeFull()]] - `imports` [EXTRACTED]
-- [[supabase_5]] - `contains` [EXTRACTED]
+- [[supabase_6]] - `contains` [EXTRACTED]
 - [[usePermissions()]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

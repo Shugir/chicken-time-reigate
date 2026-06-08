@@ -27,7 +27,7 @@ tags:
 - [[formatTime()_1]] - `imports` [EXTRACTED]
 - [[formatTimeFull()]] - `imports` [EXTRACTED]
 - [[permissions-provider.tsx]] - `imports_from` [EXTRACTED]
-- [[supabase_1]] - `contains` [EXTRACTED]
+- [[supabase_2]] - `contains` [EXTRACTED]
 - [[timeAgo()]] - `contains` [EXTRACTED]
 - [[usePermissions()]] - `imports` [EXTRACTED]
 

@@ -106,9 +106,9 @@ tags:
 - [[getUniqueTags()]] - `contains` [EXTRACTED]
 - [[mapsUrl()]] - `contains` [EXTRACTED]
 - [[oswald]] - `contains` [EXTRACTED]
-- [[supabase_3]] - `contains` [EXTRACTED]
 - [[supabase_4]] - `contains` [EXTRACTED]
 - [[supabase_5]] - `contains` [EXTRACTED]
+- [[supabase_6]] - `contains` [EXTRACTED]
 - [[usePermissions()]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
