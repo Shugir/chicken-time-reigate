@@ -6,16 +6,8 @@ import { X, Printer, Link2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { CustomerReceipt } from '@/components/CustomerReceipt'
 import { formatDateMedium, formatTime } from '@/lib/utils/format-date'
+import { STATUS_BADGE as STATUS_STYLES } from './utils'
 import type { AdminReceiptOrder } from './types'
-
-const STATUS_STYLES: Record<string, string> = {
-  pending:    'bg-zinc-800 text-zinc-400',
-  preparing:  'bg-amber-950 text-amber-400',
-  ready:      'bg-blue-950 text-blue-400',
-  dispatched: 'bg-indigo-950 text-indigo-400',
-  delivered:  'bg-green-950 text-green-400',
-  failed:     'bg-red-950 text-red-400',
-}
 
 interface Props {
   order: AdminReceiptOrder | null
