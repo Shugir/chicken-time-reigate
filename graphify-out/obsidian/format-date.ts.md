@@ -14,6 +14,9 @@ tags:
 ## Connections
 - [[CustomerReceipt.tsx]] - `imports_from` [EXTRACTED]
 - [[DateInput]] - `contains` [EXTRACTED]
+- [[ReceiptDrawer.tsx]] - `imports_from` [EXTRACTED]
+- [[ReceiptsCards.tsx]] - `imports_from` [EXTRACTED]
+- [[ReceiptsTable.tsx]] - `imports_from` [EXTRACTED]
 - [[d()]] - `contains` [EXTRACTED]
 - [[formatDate()]] - `contains` [EXTRACTED]
 - [[formatDateClockLabel()]] - `contains` [EXTRACTED]
@@ -28,6 +31,7 @@ tags:
 - [[page.tsx_7]] - `imports_from` [EXTRACTED]
 - [[page.tsx_9]] - `imports_from` [EXTRACTED]
 - [[page.tsx_11]] - `imports_from` [EXTRACTED]
-- [[page.tsx_22]] - `imports_from` [EXTRACTED]
+- [[page.tsx_23]] - `imports_from` [EXTRACTED]
+- [[utils.ts]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

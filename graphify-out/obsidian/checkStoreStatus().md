@@ -12,13 +12,13 @@ tags:
 # checkStoreStatus()
 
 ## Connections
-- [[GET()_14]] - `calls` [EXTRACTED]
-- [[POST()_12]] - `calls` [EXTRACTED]
+- [[GET()_15]] - `calls` [EXTRACTED]
+- [[POST()_13]] - `calls` [EXTRACTED]
 - [[getNextOpenDay()]] - `calls` [EXTRACTED]
 - [[getUKNow()]] - `calls` [EXTRACTED]
-- [[route.ts_27]] - `imports` [EXTRACTED]
-- [[route.ts_42]] - `imports` [EXTRACTED]
-- [[route.ts_46]] - `imports` [EXTRACTED]
+- [[route.ts_29]] - `imports` [EXTRACTED]
+- [[route.ts_44]] - `imports` [EXTRACTED]
+- [[route.ts_49]] - `imports` [EXTRACTED]
 - [[store-status.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

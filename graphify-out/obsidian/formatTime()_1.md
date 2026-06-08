@@ -13,12 +13,18 @@ tags:
 
 ## Connections
 - [[CustomerReceipt.tsx]] - `imports` [EXTRACTED]
+- [[ReceiptDrawer.tsx]] - `imports` [EXTRACTED]
+- [[ReceiptDrawer.tsx_1]] - `imports` [EXTRACTED]
+- [[ReceiptsCards.tsx]] - `imports` [EXTRACTED]
+- [[ReceiptsCards.tsx_1]] - `imports` [EXTRACTED]
+- [[ReceiptsTable.tsx]] - `imports` [EXTRACTED]
+- [[ReceiptsTable.tsx_1]] - `imports` [EXTRACTED]
 - [[d()]] - `calls` [EXTRACTED]
 - [[format-date.ts]] - `contains` [EXTRACTED]
 - [[formatDateTime()]] - `calls` [EXTRACTED]
 - [[page.tsx_9]] - `imports` [EXTRACTED]
-- [[page.tsx_22]] - `imports` [EXTRACTED]
-- [[page.tsx_32]] - `imports` [EXTRACTED]
-- [[page.tsx_34]] - `imports` [EXTRACTED]
+- [[page.tsx_23]] - `imports` [EXTRACTED]
+- [[page.tsx_35]] - `imports` [EXTRACTED]
+- [[page.tsx_38]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

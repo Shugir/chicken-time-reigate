@@ -1,11 +1,4 @@
 {
-  "collapse-filter": false,
-  "search": "",
-  "showTags": true,
-  "showAttachments": true,
-  "hideUnresolved": true,
-  "showOrphans": true,
-  "collapse-color-groups": true,
   "colorGroups": [
     {
       "query": "tag:#community/Community_0",
@@ -477,6 +470,13 @@
       }
     },
     {
+      "query": "tag:#community/Community_67",
+      "color": {
+        "a": 1,
+        "rgb": 16752039
+      }
+    },
+    {
       "query": "tag:#community/Community_68",
       "color": {
         "a": 1,
@@ -502,6 +502,13 @@
       "color": {
         "a": 1,
         "rgb": 15896107
+      }
+    },
+    {
+      "query": "tag:#community/Community_72",
+      "color": {
+        "a": 1,
+        "rgb": 14767961
       }
     },
     {
@@ -547,10 +554,31 @@
       }
     },
     {
+      "query": "tag:#community/Community_79",
+      "color": {
+        "a": 1,
+        "rgb": 12234924
+      }
+    },
+    {
+      "query": "tag:#community/Community_80",
+      "color": {
+        "a": 1,
+        "rgb": 5142951
+      }
+    },
+    {
       "query": "tag:#community/Community_81",
       "color": {
         "a": 1,
         "rgb": 15896107
+      }
+    },
+    {
+      "query": "tag:#community/Community_82",
+      "color": {
+        "a": 1,
+        "rgb": 14767961
       }
     },
     {
@@ -582,23 +610,193 @@
       }
     },
     {
+      "query": "tag:#community/Community_87",
+      "color": {
+        "a": 1,
+        "rgb": 16752039
+      }
+    },
+    {
       "query": "tag:#community/Community_88",
       "color": {
         "a": 1,
         "rgb": 10253663
       }
+    },
+    {
+      "query": "tag:#community/Community_89",
+      "color": {
+        "a": 1,
+        "rgb": 12234924
+      }
+    },
+    {
+      "query": "tag:#community/Community_90",
+      "color": {
+        "a": 1,
+        "rgb": 5142951
+      }
+    },
+    {
+      "query": "tag:#community/Community_91",
+      "color": {
+        "a": 1,
+        "rgb": 15896107
+      }
+    },
+    {
+      "query": "tag:#community/Community_92",
+      "color": {
+        "a": 1,
+        "rgb": 14767961
+      }
+    },
+    {
+      "query": "tag:#community/Community_93",
+      "color": {
+        "a": 1,
+        "rgb": 7780274
+      }
+    },
+    {
+      "query": "tag:#community/Community_94",
+      "color": {
+        "a": 1,
+        "rgb": 5873999
+      }
+    },
+    {
+      "query": "tag:#community/Community_95",
+      "color": {
+        "a": 1,
+        "rgb": 15583560
+      }
+    },
+    {
+      "query": "tag:#community/Community_96",
+      "color": {
+        "a": 1,
+        "rgb": 11565729
+      }
+    },
+    {
+      "query": "tag:#community/Community_97",
+      "color": {
+        "a": 1,
+        "rgb": 16752039
+      }
+    },
+    {
+      "query": "tag:#community/Community_98",
+      "color": {
+        "a": 1,
+        "rgb": 10253663
+      }
+    },
+    {
+      "query": "tag:#community/Community_99",
+      "color": {
+        "a": 1,
+        "rgb": 12234924
+      }
+    },
+    {
+      "query": "tag:#community/Community_100",
+      "color": {
+        "a": 1,
+        "rgb": 5142951
+      }
+    },
+    {
+      "query": "tag:#community/Community_101",
+      "color": {
+        "a": 1,
+        "rgb": 15896107
+      }
+    },
+    {
+      "query": "tag:#community/Community_102",
+      "color": {
+        "a": 1,
+        "rgb": 14767961
+      }
+    },
+    {
+      "query": "tag:#community/Community_103",
+      "color": {
+        "a": 1,
+        "rgb": 7780274
+      }
+    },
+    {
+      "query": "tag:#community/Community_104",
+      "color": {
+        "a": 1,
+        "rgb": 5873999
+      }
+    },
+    {
+      "query": "tag:#community/Community_105",
+      "color": {
+        "a": 1,
+        "rgb": 15583560
+      }
+    },
+    {
+      "query": "tag:#community/Community_106",
+      "color": {
+        "a": 1,
+        "rgb": 11565729
+      }
+    },
+    {
+      "query": "tag:#community/Community_107",
+      "color": {
+        "a": 1,
+        "rgb": 16752039
+      }
+    },
+    {
+      "query": "tag:#community/Community_108",
+      "color": {
+        "a": 1,
+        "rgb": 10253663
+      }
+    },
+    {
+      "query": "tag:#community/Community_109",
+      "color": {
+        "a": 1,
+        "rgb": 12234924
+      }
+    },
+    {
+      "query": "tag:#community/Community_110",
+      "color": {
+        "a": 1,
+        "rgb": 5142951
+      }
+    },
+    {
+      "query": "tag:#community/Community_111",
+      "color": {
+        "a": 1,
+        "rgb": 15896107
+      }
+    },
+    {
+      "query": "tag:#community/Community_112",
+      "color": {
+        "a": 1,
+        "rgb": 14767961
+      }
+    },
+    {
+      "query": "tag:#community/Community_114",
+      "color": {
+        "a": 1,
+        "rgb": 5873999
+      }
     }
-  ],
-  "collapse-display": true,
-  "showArrow": false,
-  "textFadeMultiplier": 0,
-  "nodeSizeMultiplier": 1,
-  "lineSizeMultiplier": 1,
-  "collapse-forces": true,
-  "centerStrength": 0.518713248970312,
-  "repelStrength": 10,
-  "linkStrength": 1,
-  "linkDistance": 250,
-  "scale": 0.7132754626224385,
-  "close": false
+  ]
 }

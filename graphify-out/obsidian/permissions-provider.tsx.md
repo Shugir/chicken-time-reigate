@@ -19,7 +19,7 @@ tags:
 - [[layout.tsx_1]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_13]] - `imports_from` [EXTRACTED]
 - [[page.tsx_9]] - `imports_from` [EXTRACTED]
-- [[page.tsx_22]] - `imports_from` [EXTRACTED]
+- [[page.tsx_23]] - `imports_from` [EXTRACTED]
 - [[usePermissions()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

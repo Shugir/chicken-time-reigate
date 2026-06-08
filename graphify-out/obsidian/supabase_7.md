@@ -1,8 +1,8 @@
 ---
-source_file: "app/sign-in/page.tsx"
+source_file: "app/sign-up/page.tsx"
 type: "code"
 community: "Community None"
-location: "L11"
+location: "L10"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,7 @@ tags:
 # supabase
 
 ## Connections
-- [[page.tsx_27]] - `contains` [EXTRACTED]
-- [[page.tsx_37]] - `contains` [EXTRACTED]
+- [[page.tsx_29]] - `contains` [EXTRACTED]
+- [[page.tsx_43]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "sign-up/page.tsx"
+source_file: "driver/dashboard/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,10 @@ tags:
 # page.tsx
 
 ## Connections
-- [[SignUpPage()]] - `contains` [EXTRACTED]
-- [[supabase_8]] - `contains` [EXTRACTED]
+- [[DriverDashboard()]] - `contains` [EXTRACTED]
+- [[Order_1]] - `contains` [EXTRACTED]
+- [[mapsUrl()]] - `contains` [EXTRACTED]
+- [[multiStopMapsUrl()]] - `contains` [EXTRACTED]
+- [[supabase_4]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

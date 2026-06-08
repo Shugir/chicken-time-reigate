@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/menu/combo-items/route.ts"
+source_file: "app/api/loyalty/balance/route.ts"
 type: "code"
 community: "Community None"
-location: "L4"
+location: "L7"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,6 +13,5 @@ tags:
 
 ## Connections
 - [[route.ts_38]] - `contains` [EXTRACTED]
-- [[route.ts_49]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "app/sign-up/page.tsx"
+source_file: "components/SiteHeader.tsx"
 type: "code"
 community: "Community None"
 location: "L10"
@@ -12,7 +12,6 @@ tags:
 # supabase
 
 ## Connections
-- [[page.tsx_28]] - `contains` [EXTRACTED]
-- [[page.tsx_39]] - `contains` [EXTRACTED]
+- [[SiteHeader.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

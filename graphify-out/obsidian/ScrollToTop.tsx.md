@@ -13,6 +13,6 @@ tags:
 
 ## Connections
 - [[ScrollToTop()]] - `contains` [EXTRACTED]
-- [[page.tsx_25]] - `imports_from` [EXTRACTED]
+- [[page.tsx_26]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

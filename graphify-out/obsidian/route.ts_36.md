@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/loyalty/balance/route.ts"
+source_file: "app/api/kitchen/orders/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_18]] - `contains` [EXTRACTED]
+- [[GET()_17]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

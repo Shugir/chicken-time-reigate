@@ -20,6 +20,6 @@ tags:
 - [[ItemCustomizerDrawer()]] - `contains` [EXTRACTED]
 - [[OrderSelection]] - `imports` [EXTRACTED]
 - [[ProductItem]] - `imports` [EXTRACTED]
-- [[Props_1]] - `contains` [EXTRACTED]
+- [[Props_4]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

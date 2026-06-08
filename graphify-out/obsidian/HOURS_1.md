@@ -14,6 +14,6 @@ tags:
 ## Connections
 - [[layout.tsx]] - `contains` [EXTRACTED]
 - [[layout.tsx_14]] - `contains` [EXTRACTED]
-- [[page.tsx_32]] - `contains` [EXTRACTED]
+- [[page.tsx_35]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "api/driver/orders/[id]/route.ts"
+source_file: "combo-items/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[PATCH()]] - `contains` [EXTRACTED]
+- [[GET()_20]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

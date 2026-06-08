@@ -1,5 +1,5 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "app/menu/combo/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,33 +12,16 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AddOn]] - `imports` [EXTRACTED]
-- [[BADGE_STYLES]] - `contains` [EXTRACTED]
-- [[CARD_GRADIENT]] - `contains` [EXTRACTED]
-- [[CATEGORIES_1]] - `contains` [EXTRACTED]
-- [[Cart]] - `contains` [EXTRACTED]
-- [[CartDrawer()]] - `contains` [EXTRACTED]
-- [[CartEntry]] - `contains` [EXTRACTED]
-- [[Category_2]] - `contains` [EXTRACTED]
-- [[CompactListItem()]] - `contains` [EXTRACTED]
-- [[DIETARY_FLAGS_1]] - `contains` [EXTRACTED]
-- [[DbCategory_1]] - `contains` [EXTRACTED]
-- [[DbMenuItem]] - `contains` [EXTRACTED]
-- [[FiltersPopover()]] - `contains` [EXTRACTED]
-- [[GRADIENTS]] - `contains` [EXTRACTED]
-- [[ItemCustomizerDrawer.tsx]] - `imports_from` [EXTRACTED]
-- [[MENU_ITEMS]] - `contains` [EXTRACTED]
-- [[MenuCard()]] - `contains` [EXTRACTED]
-- [[MenuItem_1]] - `contains` [EXTRACTED]
-- [[OrderPage()]] - `contains` [EXTRACTED]
-- [[OrderSelection]] - `imports` [EXTRACTED]
-- [[ProductItem]] - `imports` [EXTRACTED]
-- [[ProductModal()]] - `imports` [EXTRACTED]
-- [[ProductModal.tsx]] - `imports_from` [EXTRACTED]
-- [[ScrollToTop.tsx]] - `imports_from` [EXTRACTED]
-- [[cartCount()]] - `contains` [EXTRACTED]
-- [[cartTotal()]] - `contains` [EXTRACTED]
-- [[dbToMenuItem()]] - `contains` [EXTRACTED]
-- [[getUniqueTags()]] - `contains` [EXTRACTED]
+- [[ComboBuilderPage()]] - `contains` [EXTRACTED]
+- [[ComboComponent_1]] - `contains` [EXTRACTED]
+- [[ComboDiscount_1]] - `contains` [EXTRACTED]
+- [[ComboItem_1]] - `contains` [EXTRACTED]
+- [[DeprecatedComboPage()]] - `contains` [EXTRACTED]
+- [[ItemGrid()]] - `contains` [EXTRACTED]
+- [[MealSize]] - `contains` [EXTRACTED]
+- [[STEP_LABELS]] - `contains` [EXTRACTED]
+- [[Selection]] - `contains` [EXTRACTED]
+- [[Step]] - `contains` [EXTRACTED]
+- [[StoredCartItem]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

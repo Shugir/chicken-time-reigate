@@ -2,7 +2,7 @@
 source_file: "app/order/page.tsx"
 type: "code"
 community: "Community None"
-location: "L536"
+location: "L538"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,8 +13,8 @@ tags:
 
 ## Connections
 - [[cartTotal()]] - `calls` [EXTRACTED]
-- [[page.tsx_25]] - `contains` [EXTRACTED]
-- [[page.tsx_32]] - `contains` [EXTRACTED]
-- [[page.tsx_43]] - `contains` [EXTRACTED]
+- [[page.tsx_26]] - `contains` [EXTRACTED]
+- [[page.tsx_35]] - `contains` [EXTRACTED]
+- [[page.tsx_46]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

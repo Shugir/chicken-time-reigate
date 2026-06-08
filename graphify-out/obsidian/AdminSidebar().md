@@ -2,7 +2,7 @@
 source_file: "components/admin/admin-sidebar.tsx"
 type: "code"
 community: "Community None"
-location: "L49"
+location: "L50"
 tags:
   - graphify/code
   - graphify/EXTRACTED

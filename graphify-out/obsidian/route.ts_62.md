@@ -1,5 +1,5 @@
 ---
-source_file: "api/admin/staff/[id]/route.ts"
+source_file: "api/admin/drivers/[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"

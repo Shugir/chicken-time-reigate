@@ -2,7 +2,7 @@
 source_file: "components/ProductModal.tsx"
 type: "code"
 community: "Community None"
-location: "L79"
+location: "L80"
 tags:
   - graphify/code
   - graphify/EXTRACTED

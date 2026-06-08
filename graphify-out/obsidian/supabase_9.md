@@ -1,8 +1,8 @@
 ---
-source_file: "components/SiteHeader.tsx"
+source_file: "app/admin/page.tsx"
 type: "code"
 community: "Community None"
-location: "L10"
+location: "L24"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,6 @@ tags:
 # supabase
 
 ## Connections
-- [[SiteHeader.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

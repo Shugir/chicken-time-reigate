@@ -12,7 +12,7 @@ tags:
 # ComboComponent
 
 ## Connections
-- [[route.ts_27]] - `contains` [EXTRACTED]
-- [[route.ts_46]] - `contains` [EXTRACTED]
+- [[route.ts_29]] - `contains` [EXTRACTED]
+- [[route.ts_49]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
