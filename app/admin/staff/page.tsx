@@ -29,6 +29,7 @@ const ALL_PERMISSIONS = [
   { key: 'Driver',             label: 'Driver',              desc: 'Access the driver delivery dashboard' },
   { key: 'UserControl',        label: 'User Control',        desc: 'Manage staff accounts and permissions' },
   { key: 'Loyalty',            label: 'Loyalty Points',      desc: 'View and adjust customer loyalty balances' },
+  { key: 'Receipts',           label: 'Receipts',            desc: 'View full order history, receipts and CSV export' },
 ]
 
 interface StaffForm {
