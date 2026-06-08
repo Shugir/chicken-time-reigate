@@ -1,11 +1,13 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
   Truck, Shield, ExternalLink, Layers, TrendingUp, Users, Star, Radio, ReceiptText,
+  Menu, X,
 } from 'lucide-react'
 import SignOutButton from './sign-out-button'
 import { usePermissions } from './permissions-provider'
@@ -50,13 +52,41 @@ const NAV_GROUPS = [
 export default function AdminSidebar() {
   const pathname       = usePathname()
   const { can, email } = usePermissions()
+  const [open, setOpen] = useState(false)
 
   function isActive(href: string) {
     return href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
   }
 
   return (
-    <aside className="w-60 fixed left-0 top-0 h-full bg-zinc-950 border-r border-zinc-800/60 flex flex-col overflow-y-auto z-30">
+    <>
+      {/* Mobile FAB — open sidebar */}
+      <button
+        onClick={() => setOpen(true)}
+        aria-label="Open navigation"
+        className="fixed bottom-6 left-4 z-50 md:hidden w-12 h-12 rounded-full bg-brand-red shadow-lg shadow-red-900/50 flex items-center justify-center"
+      >
+        <Menu size={22} className="text-white" />
+      </button>
+
+      {/* Mobile overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-30 bg-black/60 md:hidden"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
+    <aside className={`w-60 fixed left-0 top-0 h-full bg-zinc-950 border-r border-zinc-800/60 flex flex-col overflow-y-auto z-40 transition-transform duration-300 ease-in-out ${open ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+      {/* Mobile close button */}
+      <button
+        onClick={() => setOpen(false)}
+        aria-label="Close navigation"
+        className="md:hidden absolute top-4 right-4 p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors"
+      >
+        <X size={18} />
+      </button>
+
       {/* Brand */}
       <div className="px-5 py-5 border-b border-zinc-800/60">
         <div className="flex items-center gap-3">
@@ -131,5 +161,6 @@ export default function AdminSidebar() {
         <p className="text-[10px] text-zinc-700 px-3">v1.0 · Reigate</p>
       </div>
     </aside>
+    </>
   )
 }

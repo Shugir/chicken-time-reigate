@@ -40,6 +40,30 @@ describe('buildKitchenDeliveryUpdate', () => {
   })
 })
 
+describe('buildDriverOrderUpdate - return_to_kitchen with reason', () => {
+  it('return_to_kitchen with reason: includes return_reason in update', () => {
+    const update = buildDriverOrderUpdate('return_to_kitchen', 'Damaged')
+    expect(update.return_reason).toBe('Damaged')
+  })
+
+  it('return_to_kitchen without reason: does not include return_reason', () => {
+    const update = buildDriverOrderUpdate('return_to_kitchen')
+    expect(update.return_reason).toBeUndefined()
+  })
+
+  it('return_to_kitchen with reason: still resets status and clears driver fields', () => {
+    const update = buildDriverOrderUpdate('return_to_kitchen', 'No Answer')
+    expect(update.status).toBe('ready')
+    expect(update.delivery_status).toBeNull()
+    expect(update.driver_id).toBeNull()
+  })
+
+  it('delivered: does not include return_reason even when reason passed', () => {
+    const update = buildDriverOrderUpdate('delivered', 'irrelevant')
+    expect(update.return_reason).toBeUndefined()
+  })
+})
+
 describe('buildDispatchActionUpdate', () => {
   it('delivered: sets both delivery_status and status to delivered', () => {
     const update = buildDispatchActionUpdate('delivered')

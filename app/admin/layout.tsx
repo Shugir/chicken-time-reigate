@@ -6,7 +6,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   const perms = await getUserPermissions()
   return (
     <PermissionsProvider email={perms?.email ?? ''} permissions={perms?.permissions ?? []} isOwner={perms?.isOwner ?? false}>
-      <div className="pl-60 min-h-screen bg-zinc-950">
+      <div className="pl-0 md:pl-60 min-h-screen bg-zinc-950">
         {children}
       </div>
     </PermissionsProvider>

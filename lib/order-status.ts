@@ -3,11 +3,13 @@
 export type DriverAction = 'delivered' | 'return_to_kitchen'
 export type DeliveryOutcome = 'delivered' | 'failed'
 
-export function buildDriverOrderUpdate(action: DriverAction): Record<string, unknown> {
+export function buildDriverOrderUpdate(action: DriverAction, return_reason?: string): Record<string, unknown> {
   if (action === 'delivered') {
     return { delivery_status: 'delivered', status: 'delivered' }
   }
-  return { status: 'ready', delivery_status: null, driver_id: null }
+  const update: Record<string, unknown> = { status: 'ready', delivery_status: null, driver_id: null }
+  if (return_reason) update.return_reason = return_reason
+  return update
 }
 
 export function buildKitchenDeliveryUpdate(

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import {
   MapPin, Phone, MessageSquare, Truck, CheckCircle,
-  RotateCcw, Loader2, RefreshCw, LogOut, User, StickyNote,
+  RotateCcw, Loader2, RefreshCw, LogOut, User, StickyNote, AlertCircle,
 } from 'lucide-react'
 
 const supabase = createClient(
@@ -50,6 +50,8 @@ export default function DriverDashboard() {
   const [updating, setUpdating] = useState<string | null>(null)
   const [flash, setFlash] = useState<{ id: string; msg: string } | null>(null)
   const [driverId, setDriverId] = useState<string | null>(null)
+  const [returnModal, setReturnModal] = useState<string | null>(null) // orderId
+  const [returnReason, setReturnReason] = useState('')
 
   const fetchOrders = useCallback(async () => {
     const res = await fetch('/api/driver/orders')
@@ -83,12 +85,12 @@ export default function DriverDashboard() {
     return () => { supabase.removeChannel(channel) }
   }, [driverId, fetchOrders])
 
-  async function handleAction(orderId: string, action: 'delivered' | 'return_to_kitchen') {
+  async function handleAction(orderId: string, action: 'delivered' | 'return_to_kitchen', return_reason?: string) {
     setUpdating(orderId)
     const res = await fetch(`/api/driver/orders/${orderId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action }),
+      body: JSON.stringify({ action, ...(return_reason ? { return_reason } : {}) }),
     })
     if (res.ok) {
       const msg = action === 'delivered' ? '✅ Marked as delivered!' : '↩️ Returned to kitchen'
@@ -97,6 +99,14 @@ export default function DriverDashboard() {
       await fetchOrders()
     }
     setUpdating(null)
+  }
+
+  async function handleReturnConfirm() {
+    if (!returnModal || !returnReason.trim()) return
+    const orderId = returnModal
+    setReturnModal(null)
+    await handleAction(orderId, 'return_to_kitchen', returnReason.trim())
+    setReturnReason('')
   }
 
   async function handleSignOut() {
@@ -336,7 +346,7 @@ export default function DriverDashboard() {
                         </button>
 
                         <button
-                          onClick={() => handleAction(order.id, 'return_to_kitchen')}
+                          onClick={() => { setReturnModal(order.id); setReturnReason('') }}
                           disabled={updating === order.id}
                           className="flex-1 flex items-center justify-center gap-2 py-6 rounded-2xl bg-red-500/20 border-2 border-red-500/40 active:bg-red-500/30 text-red-400 font-black text-xl disabled:opacity-50 disabled:cursor-not-allowed"
                         >
@@ -360,6 +370,66 @@ export default function DriverDashboard() {
         </div>
 
       </div>
+
+      {/* Return reason modal */}
+      {returnModal && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 backdrop-blur-sm">
+          <div className="bg-zinc-900 border border-zinc-700 rounded-t-3xl p-6 w-full max-w-md shadow-2xl">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <p className="font-black text-white text-lg">Why returning?</p>
+                <p className="text-sm text-zinc-500 mt-0.5">Select a reason before sending back</p>
+              </div>
+              <button
+                onClick={() => setReturnModal(null)}
+                className="p-2 rounded-xl text-zinc-500 active:bg-zinc-800 text-xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              {['Damaged', 'No Answer', 'Customer Return', 'Wrong Address'].map((r) => (
+                <button
+                  key={r}
+                  onClick={() => setReturnReason(r)}
+                  className={`py-4 rounded-2xl text-sm font-black transition-colors border ${returnReason === r
+                    ? 'bg-red-500/30 border-red-500/50 text-red-300'
+                    : 'bg-zinc-800 border-zinc-700 text-zinc-300 active:bg-zinc-700'
+                    }`}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
+
+            <input
+              type="text"
+              value={returnReason}
+              onChange={(e) => setReturnReason(e.target.value)}
+              placeholder="Or type your own reason…"
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-4 text-white text-base placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-red-500 mb-4"
+            />
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setReturnModal(null)}
+                className="flex-1 py-5 rounded-2xl border border-zinc-700 text-zinc-400 font-black text-lg active:bg-zinc-800"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleReturnConfirm}
+                disabled={!returnReason.trim()}
+                className="flex-1 py-5 rounded-2xl bg-red-500 active:bg-red-400 text-white font-black text-lg disabled:opacity-40 flex items-center justify-center gap-2"
+              >
+                <AlertCircle className="w-5 h-5" />
+                Confirm Return
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

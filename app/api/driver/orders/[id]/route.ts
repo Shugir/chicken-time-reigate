@@ -43,7 +43,7 @@ export async function PATCH(
 
   if (!driver) return NextResponse.json({ error: 'Not a driver' }, { status: 403 })
 
-  const { action } = await request.json()
+  const { action, return_reason } = await request.json()
 
   if (!['delivered', 'return_to_kitchen'].includes(action)) {
     return NextResponse.json({ error: 'action must be delivered or return_to_kitchen' }, { status: 400 })
@@ -62,7 +62,7 @@ export async function PATCH(
 
   await supabaseAdmin
     .from('orders')
-    .update(buildDriverOrderUpdate(action))
+    .update(buildDriverOrderUpdate(action, return_reason ?? undefined))
     .eq('id', id)
 
   // Free the driver either way

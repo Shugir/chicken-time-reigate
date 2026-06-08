@@ -13,6 +13,7 @@ import {
 import {
   formatTimeFull, formatDateClockLabel,
 } from '@/lib/utils/format-date'
+import { orderUrgency } from '@/lib/utils/order-urgency'
 import { CustomerReceipt } from '@/components/CustomerReceipt'
 
 const ALERT_URL = '/KitchenAlert.mp3'
@@ -46,6 +47,7 @@ interface DispatchOrder {
   stop_sequence?: number
   delivery_status?: string | null
   driver_notes?: string | null
+  return_reason?: string | null
   order_items?: OrderItem[]
 }
 
@@ -96,6 +98,14 @@ function OrderCard({
 }) {
   const assigned = !!order.driver_id
   const currentSeq = order.stop_sequence ?? 1
+  const urgency = orderUrgency(order.created_at)
+
+  const urgencyBorder = urgency === 'critical' ? 'border-red-500/60' :
+    urgency === 'warning' ? 'border-amber-500/50' :
+    assigned ? 'border-zinc-700' : 'border-zinc-700/60'
+
+  const timeColor = urgency === 'critical' ? 'text-red-400' :
+    urgency === 'warning' ? 'text-amber-400' : 'text-zinc-500'
 
   async function handlePriorityChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const seq = Number(e.target.value)
@@ -104,11 +114,10 @@ function OrderCard({
   }
 
   return (
-    <div className={`rounded-2xl border bg-zinc-900 overflow-hidden shadow-md transition-all ${updating ? 'opacity-60 pointer-events-none' : ''
-      } ${assigned ? 'border-zinc-700' : 'border-amber-500/40'}`}>
+    <div className={`rounded-2xl border bg-zinc-900 overflow-hidden shadow-md transition-all ${updating ? 'opacity-60 pointer-events-none' : ''} ${urgencyBorder}`}>
 
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-800/40">
+      <div className={`flex items-center justify-between px-4 py-3 border-b border-zinc-800 ${urgency === 'critical' ? 'bg-red-950/30' : urgency === 'warning' ? 'bg-amber-950/20' : 'bg-zinc-800/40'}`}>
         <div className="flex items-center gap-2">
           {assigned && (
             <span className="w-6 h-6 rounded-full bg-violet-600 flex items-center justify-center text-white font-black text-[11px]">
@@ -120,13 +129,13 @@ function OrderCard({
           </span>
           <button
             onClick={() => onThermalPrint(order.id)}
-            title="Thermal Print (Troubleshoot)"
+            title="Thermal Print"
             className="p-1.5 rounded-lg bg-zinc-700/50 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors"
           >
             <Printer size={13} />
           </button>
         </div>
-        <div className="flex items-center gap-1.5 text-zinc-500 text-[11px]">
+        <div className={`flex items-center gap-1.5 text-[11px] font-semibold ${timeColor}`}>
           <Clock size={11} />
           {timeAgo(order.created_at)}
         </div>
@@ -158,6 +167,12 @@ function OrderCard({
           <div className="flex items-start gap-1.5 bg-yellow-400/10 border border-yellow-400/20 rounded-lg px-2 py-1.5">
             <MessageSquare size={11} className="text-yellow-400 shrink-0 mt-0.5" />
             <span className="text-yellow-300 text-[11px] font-semibold leading-snug">{order.customer_notes}</span>
+          </div>
+        )}
+        {order.return_reason && (
+          <div className="flex items-start gap-1.5 bg-red-500/10 border border-red-500/20 rounded-lg px-2 py-1.5">
+            <AlertTriangle size={11} className="text-red-400 shrink-0 mt-0.5" />
+            <span className="text-red-300 text-[11px] font-bold leading-snug">Returned: {order.return_reason}</span>
           </div>
         )}
       </div>
@@ -470,21 +485,22 @@ export default function DispatchPage() {
 
   return (
     <>
-      <div className="print:hidden p-6 lg:p-8 min-h-screen bg-zinc-950">
+      <div className="print:hidden fixed inset-0 z-10 bg-zinc-950 overflow-auto">
+      <div className="p-4 sm:p-6 lg:p-8 min-h-full">
 
         {/* Premium KDS-style header */}
-        <header className="flex items-center justify-between px-6 py-4 mb-8 border border-white/10 bg-[#111] rounded-2xl">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-brand-red rounded-xl flex items-center justify-center">
-              <Radio size={20} className="text-white" />
+        <header className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 mb-6 sm:mb-8 border border-white/10 bg-[#111] rounded-2xl gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-brand-red rounded-xl flex items-center justify-center shrink-0">
+              <Radio size={18} className="text-white" />
             </div>
             <div>
-              <p className="font-black text-white text-base leading-none">Dispatch Controller</p>
-              <p className="text-xs text-white/40 mt-0.5">Chicken Time Reigate · Auto-synced via Realtime</p>
+              <p className="font-black text-white text-sm sm:text-base leading-none whitespace-nowrap">Dispatch Controller</p>
+              <p className="text-[10px] sm:text-xs text-white/40 mt-0.5 hidden sm:block whitespace-nowrap">Chicken Time Reigate · Auto-synced via Realtime</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {email && (
               <div className="text-right hidden lg:block">
                 <p className="text-[10px] text-white/30 leading-none">Signed in</p>
@@ -494,15 +510,15 @@ export default function DispatchPage() {
 
             <Link
               href="/admin"
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
             >
               <ArrowLeft size={13} />
-              Back to Admin
+              <span className="hidden sm:inline">Back to Admin</span>
             </Link>
 
             <Link
               href="/kitchen"
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
+              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
             >
               <ChefHat size={13} />
               Back to Kitchen
@@ -510,14 +526,22 @@ export default function DispatchPage() {
 
             <button
               onClick={fetchBoard}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
+              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white text-xs font-bold transition-colors"
             >
               <RefreshCw size={13} />
               Refresh
             </button>
 
-            <div className="text-right">
-              <p className="font-mono font-bold text-white text-xl tabular-nums">
+            <button
+              onClick={fetchBoard}
+              className="sm:hidden p-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-colors"
+              aria-label="Refresh"
+            >
+              <RefreshCw size={14} />
+            </button>
+
+            <div className="text-right hidden sm:block">
+              <p className="font-mono font-bold text-white text-lg sm:text-xl tabular-nums">
                 {mounted ? formatTimeFull(now) : ''}
               </p>
               <p className="text-xs text-white/40 font-mono">
@@ -555,7 +579,7 @@ export default function DispatchPage() {
             )}
           </div>
 
-          <div className="flex items-center gap-1 bg-[#111] border border-white/10 rounded-xl p-1">
+          <div className="flex items-center gap-1 bg-[#111] border border-white/10 rounded-xl p-1 overflow-x-auto shrink-0">
             {filterChips.map((f) => {
               const active = driverFilter === f.key
               return (
@@ -578,11 +602,27 @@ export default function DispatchPage() {
           </div>
         </div>
 
+        {/* Stats bar */}
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className={`rounded-xl border px-4 py-3 ${board.unassigned.length > 0 ? 'bg-amber-500/10 border-amber-500/20' : 'bg-zinc-900 border-zinc-800'}`}>
+            <p className={`text-2xl font-black tabular-nums ${board.unassigned.length > 0 ? 'text-amber-400' : 'text-zinc-500'}`}>{board.unassigned.length}</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mt-0.5">Unassigned</p>
+          </div>
+          <div className={`rounded-xl border px-4 py-3 ${onDeliveryCount > 0 ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-zinc-900 border-zinc-800'}`}>
+            <p className={`text-2xl font-black tabular-nums ${onDeliveryCount > 0 ? 'text-emerald-400' : 'text-zinc-500'}`}>{onDeliveryCount}</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mt-0.5">On Delivery</p>
+          </div>
+          <div className={`rounded-xl border px-4 py-3 ${availableCount > 0 ? 'bg-sky-500/10 border-sky-500/20' : 'bg-zinc-900 border-zinc-800'}`}>
+            <p className={`text-2xl font-black tabular-nums ${availableCount > 0 ? 'text-sky-400' : 'text-zinc-500'}`}>{availableCount}</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mt-0.5">Available</p>
+          </div>
+        </div>
+
         {/* Kanban board */}
-        <div className="flex gap-5 overflow-x-auto pb-6">
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory flex-nowrap pb-4 scrollbar-hide">
 
           {/* Unassigned column */}
-          <div className="w-72 shrink-0">
+          <div className="min-w-[320px] w-[320px] shrink-0 snap-start">
             <div className="flex items-center gap-2.5 mb-4 px-3 py-2.5 rounded-xl bg-[#111] border border-white/10">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
               <h2 className="text-xs font-bold text-zinc-300 uppercase tracking-widest">Unassigned</h2>
@@ -590,7 +630,7 @@ export default function DispatchPage() {
                 {board.unassigned.length}
               </span>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-3 max-h-[calc(100vh-320px)] overflow-y-auto pr-0.5">
               {board.unassigned.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-zinc-700 text-sm text-center rounded-2xl border border-dashed border-zinc-800">
                   <Truck size={28} className="mb-2 opacity-30" />
@@ -635,22 +675,27 @@ export default function DispatchPage() {
             </div>
           ) : (
             visibleDrivers.map((driver) => (
-              <div key={driver.id} className="w-72 shrink-0">
+              <div key={driver.id} className="min-w-[320px] w-[320px] shrink-0 snap-start">
                 <div className="flex items-center gap-2.5 mb-4 px-3 py-2.5 rounded-xl bg-[#111] border border-white/10">
                   <span className={`w-2 h-2 rounded-full shrink-0 ${driver.status === 'on_delivery' ? 'bg-emerald-400 animate-pulse' :
                     driver.status === 'available' ? 'bg-sky-400' : 'bg-zinc-600'
                     }`} />
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <h2 className="text-sm font-bold text-white truncate">{driver.name}</h2>
                     <p className={`text-[10px] font-semibold uppercase tracking-widest ${driver.status === 'on_delivery' ? 'text-emerald-500' :
                       driver.status === 'available' ? 'text-sky-500' : 'text-zinc-600'
                       }`}>{driver.status.replace('_', ' ')}</p>
                   </div>
-                  <span className="ml-auto px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-xs font-bold shrink-0 tabular-nums">
+                  {driver.phone && (
+                    <a href={`tel:${driver.phone}`} className="text-[10px] text-zinc-600 hover:text-emerald-400 font-mono tabular-nums transition-colors shrink-0" title="Call driver">
+                      {driver.phone}
+                    </a>
+                  )}
+                  <span className="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-xs font-bold shrink-0 tabular-nums">
                     {driver.orders.length} stop{driver.orders.length !== 1 ? 's' : ''}
                   </span>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3 max-h-[calc(100vh-320px)] overflow-y-auto pr-0.5">
                   {driver.orders.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-12 text-zinc-700 text-sm text-center rounded-2xl border border-dashed border-zinc-800">
                       <Truck size={28} className="mb-2 opacity-30" />
@@ -740,6 +785,7 @@ export default function DispatchPage() {
           </div>
         )}
 
+      </div>
       </div>
 
       {/* Customer receipt — printed on driver assign (shared kitchen utility) */}
