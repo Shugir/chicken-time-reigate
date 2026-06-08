@@ -53,526 +53,1192 @@
   },
   "nodes": [
     {
+      "label": "2026-06-08-receipts-management.md",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1",
+      "id": "plans_2026_06_08_receipts_management_md",
+      "community": 95,
+      "norm_label": "2026-06-08-receipts-management.md"
+    },
+    {
+      "label": "Receipts Management Implementation Plan",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1",
+      "id": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "community": 95,
+      "norm_label": "receipts management implementation plan"
+    },
+    {
+      "label": "File Map",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L13",
+      "id": "plans_2026_06_08_receipts_management_file_map",
+      "community": 95,
+      "norm_label": "file map"
+    },
+    {
+      "label": "Task 1: Add Receipts permission + sidebar entry",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L28",
+      "id": "plans_2026_06_08_receipts_management_task_1_add_receipts_permission_sidebar_entry",
+      "community": 95,
+      "norm_label": "task 1: add receipts permission + sidebar entry"
+    },
+    {
+      "label": "code:typescript ({ key: 'Receipts', label: 'Receipts', desc: 'View full order)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L38",
+      "id": "plans_2026_06_08_receipts_management_codeblock_1",
+      "community": 95,
+      "norm_label": "code:typescript ({ key: 'receipts', label: 'receipts', desc: 'view full order)"
+    },
+    {
+      "label": "code:typescript (import {)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L45",
+      "id": "plans_2026_06_08_receipts_management_codeblock_2",
+      "community": 95,
+      "norm_label": "code:typescript (import {)"
+    },
+    {
+      "label": "code:typescript ({ id: 'receipts', label: 'Receipts', icon: ReceiptText, href)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L53",
+      "id": "plans_2026_06_08_receipts_management_codeblock_3",
+      "community": 95,
+      "norm_label": "code:typescript ({ id: 'receipts', label: 'receipts', icon: receipttext, href)"
+    },
+    {
+      "label": "code:bash (cd E:/ChickenTime/chicken-time-reigate && npm run dev)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L59",
+      "id": "plans_2026_06_08_receipts_management_codeblock_4",
+      "community": 95,
+      "norm_label": "code:bash (cd e:/chickentime/chicken-time-reigate && npm run dev)"
+    },
+    {
+      "label": "code:bash (git add components/admin/admin-sidebar.tsx app/admin/staff/p)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L66",
+      "id": "plans_2026_06_08_receipts_management_codeblock_5",
+      "community": 95,
+      "norm_label": "code:bash (git add components/admin/admin-sidebar.tsx app/admin/staff/p)"
+    },
+    {
+      "label": "Task 2: Shared types",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L73",
+      "id": "plans_2026_06_08_receipts_management_task_2_shared_types",
+      "community": 95,
+      "norm_label": "task 2: shared types"
+    },
+    {
+      "label": "code:typescript (// components/admin/receipts/types.ts)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L80",
+      "id": "plans_2026_06_08_receipts_management_codeblock_6",
+      "community": 95,
+      "norm_label": "code:typescript (// components/admin/receipts/types.ts)"
+    },
+    {
+      "label": "code:bash (git add components/admin/receipts/types.ts)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L136",
+      "id": "plans_2026_06_08_receipts_management_codeblock_7",
+      "community": 95,
+      "norm_label": "code:bash (git add components/admin/receipts/types.ts)"
+    },
+    {
+      "label": "Task 3: API route \u2014 JSON + CSV",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L143",
+      "id": "plans_2026_06_08_receipts_management_task_3_api_route_json_csv",
+      "community": 95,
+      "norm_label": "task 3: api route \u2014 json + csv"
+    },
+    {
+      "label": "code:typescript (// app/api/admin/receipts/route.ts)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L150",
+      "id": "plans_2026_06_08_receipts_management_codeblock_8",
+      "community": 95,
+      "norm_label": "code:typescript (// app/api/admin/receipts/route.ts)"
+    },
+    {
+      "label": "code:bash (curl \"http://localhost:3000/api/admin/receipts\" -H \"Cookie: )",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L320",
+      "id": "plans_2026_06_08_receipts_management_codeblock_9",
+      "community": 95,
+      "norm_label": "code:bash (curl \"http://localhost:3000/api/admin/receipts\" -h \"cookie: )"
+    },
+    {
+      "label": "code:bash (git add app/api/admin/receipts/route.ts)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L329",
+      "id": "plans_2026_06_08_receipts_management_codeblock_10",
+      "community": 95,
+      "norm_label": "code:bash (git add app/api/admin/receipts/route.ts)"
+    },
+    {
+      "label": "Task 4: ReceiptDrawer component",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L336",
+      "id": "plans_2026_06_08_receipts_management_task_4_receiptdrawer_component",
+      "community": 95,
+      "norm_label": "task 4: receiptdrawer component"
+    },
+    {
+      "label": "code:typescript (// components/admin/receipts/ReceiptDrawer.tsx)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L343",
+      "id": "plans_2026_06_08_receipts_management_codeblock_11",
+      "community": 95,
+      "norm_label": "code:typescript (// components/admin/receipts/receiptdrawer.tsx)"
+    },
+    {
+      "label": "code:bash (git add components/admin/receipts/ReceiptDrawer.tsx)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L554",
+      "id": "plans_2026_06_08_receipts_management_codeblock_12",
+      "community": 95,
+      "norm_label": "code:bash (git add components/admin/receipts/receiptdrawer.tsx)"
+    },
+    {
+      "label": "Task 5: ReceiptsTable component",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L561",
+      "id": "plans_2026_06_08_receipts_management_task_5_receiptstable_component",
+      "community": 95,
+      "norm_label": "task 5: receiptstable component"
+    },
+    {
+      "label": "code:typescript (// components/admin/receipts/ReceiptsTable.tsx)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L568",
+      "id": "plans_2026_06_08_receipts_management_codeblock_13",
+      "community": 95,
+      "norm_label": "code:typescript (// components/admin/receipts/receiptstable.tsx)"
+    },
+    {
+      "label": "code:bash (git add components/admin/receipts/ReceiptsTable.tsx)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L728",
+      "id": "plans_2026_06_08_receipts_management_codeblock_14",
+      "community": 95,
+      "norm_label": "code:bash (git add components/admin/receipts/receiptstable.tsx)"
+    },
+    {
+      "label": "Task 6: ReceiptsCards component",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L735",
+      "id": "plans_2026_06_08_receipts_management_task_6_receiptscards_component",
+      "community": 95,
+      "norm_label": "task 6: receiptscards component"
+    },
+    {
+      "label": "code:typescript (// components/admin/receipts/ReceiptsCards.tsx)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L742",
+      "id": "plans_2026_06_08_receipts_management_codeblock_15",
+      "community": 95,
+      "norm_label": "code:typescript (// components/admin/receipts/receiptscards.tsx)"
+    },
+    {
+      "label": "code:bash (git add components/admin/receipts/ReceiptsCards.tsx)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L860",
+      "id": "plans_2026_06_08_receipts_management_codeblock_16",
+      "community": 95,
+      "norm_label": "code:bash (git add components/admin/receipts/receiptscards.tsx)"
+    },
+    {
+      "label": "Task 7: Main page",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L867",
+      "id": "plans_2026_06_08_receipts_management_task_7_main_page",
+      "community": 95,
+      "norm_label": "task 7: main page"
+    },
+    {
+      "label": "code:typescript (// app/admin/receipts/page.tsx)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L874",
+      "id": "plans_2026_06_08_receipts_management_codeblock_17",
+      "community": 95,
+      "norm_label": "code:typescript (// app/admin/receipts/page.tsx)"
+    },
+    {
+      "label": "code:bash (git add app/admin/receipts/page.tsx)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1273",
+      "id": "plans_2026_06_08_receipts_management_codeblock_18",
+      "community": 95,
+      "norm_label": "code:bash (git add app/admin/receipts/page.tsx)"
+    },
+    {
+      "label": "Task 8: End-to-end smoke test + CSV verify",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1280",
+      "id": "plans_2026_06_08_receipts_management_task_8_end_to_end_smoke_test_csv_verify",
+      "community": 95,
+      "norm_label": "task 8: end-to-end smoke test + csv verify"
+    },
+    {
+      "label": "code:bash (git add .)",
+      "file_type": "document",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1318",
+      "id": "plans_2026_06_08_receipts_management_codeblock_19",
+      "community": 95,
+      "norm_label": "code:bash (git add .)"
+    },
+    {
+      "label": "2026-06-08-receipts-management-design.md",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L1",
+      "id": "specs_2026_06_08_receipts_management_design_md",
+      "community": 90,
+      "norm_label": "2026-06-08-receipts-management-design.md"
+    },
+    {
+      "label": "Receipts Management \u2014 Design Spec",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L1",
+      "id": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "community": 90,
+      "norm_label": "receipts management \u2014 design spec"
+    },
+    {
+      "label": "Goal",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L7",
+      "id": "specs_2026_06_08_receipts_management_design_goal",
+      "community": 90,
+      "norm_label": "goal"
+    },
+    {
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L13",
+      "id": "specs_2026_06_08_receipts_management_design_architecture",
+      "community": 90,
+      "norm_label": "architecture"
+    },
+    {
+      "label": "New files",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L15",
+      "id": "specs_2026_06_08_receipts_management_design_new_files",
+      "community": 90,
+      "norm_label": "new files"
+    },
+    {
+      "label": "code:block1 (app/admin/receipts/page.tsx)",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L16",
+      "id": "specs_2026_06_08_receipts_management_design_codeblock_1",
+      "community": 90,
+      "norm_label": "code:block1 (app/admin/receipts/page.tsx)"
+    },
+    {
+      "label": "Modified files",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L24",
+      "id": "specs_2026_06_08_receipts_management_design_modified_files",
+      "community": 90,
+      "norm_label": "modified files"
+    },
+    {
+      "label": "code:block2 (components/admin/admin-sidebar.tsx   \u2014 add Receipts nav entr)",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L25",
+      "id": "specs_2026_06_08_receipts_management_design_codeblock_2",
+      "community": 90,
+      "norm_label": "code:block2 (components/admin/admin-sidebar.tsx   \u2014 add receipts nav entr)"
+    },
+    {
+      "label": "Unchanged",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L29",
+      "id": "specs_2026_06_08_receipts_management_design_unchanged",
+      "community": 90,
+      "norm_label": "unchanged"
+    },
+    {
+      "label": "API: `GET /api/admin/receipts`",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L37",
+      "id": "specs_2026_06_08_receipts_management_design_api_get_api_admin_receipts",
+      "community": 90,
+      "norm_label": "api: `get /api/admin/receipts`"
+    },
+    {
+      "label": "Auth",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L39",
+      "id": "specs_2026_06_08_receipts_management_design_auth",
+      "community": 90,
+      "norm_label": "auth"
+    },
+    {
+      "label": "Query params",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L43",
+      "id": "specs_2026_06_08_receipts_management_design_query_params",
+      "community": 90,
+      "norm_label": "query params"
+    },
+    {
+      "label": "JSON response",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L57",
+      "id": "specs_2026_06_08_receipts_management_design_json_response",
+      "community": 90,
+      "norm_label": "json response"
+    },
+    {
+      "label": "code:typescript ({)",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L58",
+      "id": "specs_2026_06_08_receipts_management_design_codeblock_3",
+      "community": 90,
+      "norm_label": "code:typescript ({)"
+    },
+    {
+      "label": "CSV response",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L70",
+      "id": "specs_2026_06_08_receipts_management_design_csv_response",
+      "community": 90,
+      "norm_label": "csv response"
+    },
+    {
+      "label": "Data shape",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L77",
+      "id": "specs_2026_06_08_receipts_management_design_data_shape",
+      "community": 90,
+      "norm_label": "data shape"
+    },
+    {
+      "label": "code:typescript (interface ReceiptOrder {)",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L78",
+      "id": "specs_2026_06_08_receipts_management_design_codeblock_4",
+      "community": 90,
+      "norm_label": "code:typescript (interface receiptorder {)"
+    },
+    {
+      "label": "DB query",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L109",
+      "id": "specs_2026_06_08_receipts_management_design_db_query",
+      "community": 90,
+      "norm_label": "db query"
+    },
+    {
+      "label": "code:sql (SELECT)",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L110",
+      "id": "specs_2026_06_08_receipts_management_design_codeblock_5",
+      "community": 90,
+      "norm_label": "code:sql (select)"
+    },
+    {
+      "label": "Page: `app/admin/receipts/page.tsx`",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L136",
+      "id": "specs_2026_06_08_receipts_management_design_page_app_admin_receipts_page_tsx",
+      "community": 90,
+      "norm_label": "page: `app/admin/receipts/page.tsx`"
+    },
+    {
+      "label": "URL params used",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L140",
+      "id": "specs_2026_06_08_receipts_management_design_url_params_used",
+      "community": 90,
+      "norm_label": "url params used"
+    },
+    {
+      "label": "Layout structure",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L143",
+      "id": "specs_2026_06_08_receipts_management_design_layout_structure",
+      "community": 90,
+      "norm_label": "layout structure"
+    },
+    {
+      "label": "code:block6 (<AdminSidebar />)",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L144",
+      "id": "specs_2026_06_08_receipts_management_design_codeblock_6",
+      "community": 90,
+      "norm_label": "code:block6 (<adminsidebar />)"
+    },
+    {
+      "label": "Component: ReceiptsTable",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L158",
+      "id": "specs_2026_06_08_receipts_management_design_component_receiptstable",
+      "community": 90,
+      "norm_label": "component: receiptstable"
+    },
+    {
+      "label": "Day group header",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L162",
+      "id": "specs_2026_06_08_receipts_management_design_day_group_header",
+      "community": 90,
+      "norm_label": "day group header"
+    },
+    {
+      "label": "code:block7 (Today \u2014 8 Jun 2026          12 orders \u00b7 \u00a3284.50)",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L163",
+      "id": "specs_2026_06_08_receipts_management_design_codeblock_7",
+      "community": 90,
+      "norm_label": "code:block7 (today \u2014 8 jun 2026          12 orders \u00b7 \u00a3284.50)"
+    },
+    {
+      "label": "Table columns",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L168",
+      "id": "specs_2026_06_08_receipts_management_design_table_columns",
+      "community": 90,
+      "norm_label": "table columns"
+    },
+    {
+      "label": "Component: ReceiptsCards",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L185",
+      "id": "specs_2026_06_08_receipts_management_design_component_receiptscards",
+      "community": 90,
+      "norm_label": "component: receiptscards"
+    },
+    {
+      "label": "Component: ReceiptDrawer",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L196",
+      "id": "specs_2026_06_08_receipts_management_design_component_receiptdrawer",
+      "community": 90,
+      "norm_label": "component: receiptdrawer"
+    },
+    {
+      "label": "Width",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L200",
+      "id": "specs_2026_06_08_receipts_management_design_width",
+      "community": 90,
+      "norm_label": "width"
+    },
+    {
+      "label": "Sections",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L203",
+      "id": "specs_2026_06_08_receipts_management_design_sections",
+      "community": 90,
+      "norm_label": "sections"
+    },
+    {
+      "label": "Footer actions",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L211",
+      "id": "specs_2026_06_08_receipts_management_design_footer_actions",
+      "community": 90,
+      "norm_label": "footer actions"
+    },
+    {
+      "label": "Close",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L215",
+      "id": "specs_2026_06_08_receipts_management_design_close",
+      "community": 90,
+      "norm_label": "close"
+    },
+    {
+      "label": "Filter Chips",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L220",
+      "id": "specs_2026_06_08_receipts_management_design_filter_chips",
+      "community": 90,
+      "norm_label": "filter chips"
+    },
+    {
+      "label": "Date chip",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L224",
+      "id": "specs_2026_06_08_receipts_management_design_date_chip",
+      "community": 90,
+      "norm_label": "date chip"
+    },
+    {
+      "label": "Driver chip",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L230",
+      "id": "specs_2026_06_08_receipts_management_design_driver_chip",
+      "community": 90,
+      "norm_label": "driver chip"
+    },
+    {
+      "label": "Status chip",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L235",
+      "id": "specs_2026_06_08_receipts_management_design_status_chip",
+      "community": 90,
+      "norm_label": "status chip"
+    },
+    {
+      "label": "Amount chip",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L239",
+      "id": "specs_2026_06_08_receipts_management_design_amount_chip",
+      "community": 90,
+      "norm_label": "amount chip"
+    },
+    {
+      "label": "Sidebar Update",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L249",
+      "id": "specs_2026_06_08_receipts_management_design_sidebar_update",
+      "community": 90,
+      "norm_label": "sidebar update"
+    },
+    {
+      "label": "code:typescript ({ id: 'receipts', label: 'Receipts', icon: ReceiptText, href)",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L253",
+      "id": "specs_2026_06_08_receipts_management_design_codeblock_8",
+      "community": 90,
+      "norm_label": "code:typescript ({ id: 'receipts', label: 'receipts', icon: receipttext, href)"
+    },
+    {
+      "label": "Permission",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L262",
+      "id": "specs_2026_06_08_receipts_management_design_permission",
+      "community": 90,
+      "norm_label": "permission"
+    },
+    {
+      "label": "Theme / Styling",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L271",
+      "id": "specs_2026_06_08_receipts_management_design_theme_styling",
+      "community": 90,
+      "norm_label": "theme / styling"
+    },
+    {
+      "label": "Error States",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L282",
+      "id": "specs_2026_06_08_receipts_management_design_error_states",
+      "community": 90,
+      "norm_label": "error states"
+    },
+    {
+      "label": "Out of Scope",
+      "file_type": "document",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L291",
+      "id": "specs_2026_06_08_receipts_management_design_out_of_scope",
+      "community": 90,
+      "norm_label": "out of scope"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L1",
-      "id": "app_admin_page_tsx",
       "community": 11,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "app_admin_page_tsx"
     },
     {
       "label": "Extra",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L25",
-      "id": "admin_page_extra",
       "community": 11,
-      "norm_label": "extra"
+      "norm_label": "extra",
+      "id": "admin_page_extra"
     },
     {
       "label": "MenuItem",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L30",
-      "id": "admin_page_menuitem",
       "community": 11,
-      "norm_label": "menuitem"
+      "norm_label": "menuitem",
+      "id": "admin_page_menuitem"
     },
     {
       "label": "SaveState",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L49",
-      "id": "admin_page_savestate",
       "community": 11,
-      "norm_label": "savestate"
+      "norm_label": "savestate",
+      "id": "admin_page_savestate"
     },
     {
       "label": "DbCategory",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L51",
-      "id": "admin_page_dbcategory",
       "community": 11,
-      "norm_label": "dbcategory"
+      "norm_label": "dbcategory",
+      "id": "admin_page_dbcategory"
     },
     {
       "label": "DIETARY_FLAGS",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L53",
-      "id": "admin_page_dietary_flags",
       "community": 11,
-      "norm_label": "dietary_flags"
+      "norm_label": "dietary_flags",
+      "id": "admin_page_dietary_flags"
     },
     {
       "label": "COMMON_ALLERGENS",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L54",
-      "id": "admin_page_common_allergens",
       "community": 11,
-      "norm_label": "common_allergens"
+      "norm_label": "common_allergens",
+      "id": "admin_page_common_allergens"
     },
     {
       "label": "COLOUR_PALETTE",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L56",
-      "id": "admin_page_colour_palette",
       "community": 11,
-      "norm_label": "colour_palette"
+      "norm_label": "colour_palette",
+      "id": "admin_page_colour_palette"
     },
     {
       "label": "PriceCell()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L68",
-      "id": "admin_page_pricecell",
       "community": 11,
-      "norm_label": "pricecell()"
+      "norm_label": "pricecell()",
+      "id": "admin_page_pricecell"
     },
     {
       "label": "AvailabilityToggle()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L117",
-      "id": "admin_page_availabilitytoggle",
       "community": 11,
-      "norm_label": "availabilitytoggle()"
+      "norm_label": "availabilitytoggle()",
+      "id": "admin_page_availabilitytoggle"
     },
     {
       "label": "ExtraNameInput()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L166",
-      "id": "admin_page_extranameinput",
       "community": 11,
-      "norm_label": "extranameinput()"
+      "norm_label": "extranameinput()",
+      "id": "admin_page_extranameinput"
     },
     {
       "label": "ItemModalProps",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L249",
-      "id": "admin_page_itemmodalprops",
       "community": 11,
-      "norm_label": "itemmodalprops"
+      "norm_label": "itemmodalprops",
+      "id": "admin_page_itemmodalprops"
     },
     {
       "label": "EMPTY_FORM",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L256",
-      "id": "admin_page_empty_form",
       "community": 11,
-      "norm_label": "empty_form"
+      "norm_label": "empty_form",
+      "id": "admin_page_empty_form"
     },
     {
       "label": "ItemModal()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L258",
-      "id": "admin_page_itemmodal",
       "community": 11,
-      "norm_label": "itemmodal()"
+      "norm_label": "itemmodal()",
+      "id": "admin_page_itemmodal"
     },
     {
       "label": "DeleteConfirmModal()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L805",
-      "id": "admin_page_deleteconfirmmodal",
       "community": 11,
-      "norm_label": "deleteconfirmmodal()"
+      "norm_label": "deleteconfirmmodal()",
+      "id": "admin_page_deleteconfirmmodal"
     },
     {
       "label": "QuickStats",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L842",
-      "id": "admin_page_quickstats",
       "community": 11,
-      "norm_label": "quickstats"
+      "norm_label": "quickstats",
+      "id": "admin_page_quickstats"
     },
     {
       "label": "AdminPage()",
       "file_type": "code",
       "source_file": "app/admin/page.tsx",
       "source_location": "L844",
-      "id": "admin_page_adminpage",
       "community": 11,
-      "norm_label": "adminpage()"
+      "norm_label": "adminpage()",
+      "id": "admin_page_adminpage"
     },
     {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "app/api/admin/menu-items/route.ts",
       "source_location": "L1",
-      "id": "app_api_admin_menu_items_route_ts",
       "community": 70,
-      "norm_label": "route.ts"
+      "norm_label": "route.ts",
+      "id": "app_api_admin_menu_items_route_ts"
     },
     {
       "label": "GET()",
       "file_type": "code",
       "source_file": "app/api/menu-items/route.ts",
       "source_location": "L6",
-      "id": "menu_items_route_get",
       "community": 70,
-      "norm_label": "get()"
+      "norm_label": "get()",
+      "id": "menu_items_route_get"
     },
     {
       "label": "POST()",
       "file_type": "code",
       "source_file": "app/api/admin/menu-items/route.ts",
       "source_location": "L15",
-      "id": "menu_items_route_post",
       "community": 70,
-      "norm_label": "post()"
+      "norm_label": "post()",
+      "id": "menu_items_route_post"
     },
     {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
-      "id": "app_api_admin_menu_suggestions_route_ts",
-      "community": 104,
-      "norm_label": "route.ts"
+      "community": 3,
+      "norm_label": "route.ts",
+      "id": "app_api_admin_menu_suggestions_route_ts"
     },
     {
       "label": "GET()",
       "file_type": "code",
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L6",
-      "id": "suggestions_route_get",
-      "community": 104,
-      "norm_label": "get()"
+      "community": 3,
+      "norm_label": "get()",
+      "id": "suggestions_route_get"
     },
     {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "app/api/menu-items/route.ts",
       "source_location": "L1",
-      "id": "app_api_menu_items_route_ts",
       "community": 70,
-      "norm_label": "route.ts"
+      "norm_label": "route.ts",
+      "id": "app_api_menu_items_route_ts"
     },
     {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L1",
-      "id": "app_order_page_tsx",
       "community": 4,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "app_order_page_tsx"
     },
     {
       "label": "MenuItem",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L23",
-      "id": "order_page_menuitem",
       "community": 4,
-      "norm_label": "menuitem"
+      "norm_label": "menuitem",
+      "id": "order_page_menuitem"
     },
     {
       "label": "CartEntry",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L29",
-      "id": "order_page_cartentry",
       "community": 4,
-      "norm_label": "cartentry"
+      "norm_label": "cartentry",
+      "id": "order_page_cartentry"
     },
     {
       "label": "Cart",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L30",
-      "id": "order_page_cart",
       "community": 4,
-      "norm_label": "cart"
+      "norm_label": "cart",
+      "id": "order_page_cart"
     },
     {
       "label": "DbCategory",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L32",
-      "id": "order_page_dbcategory",
       "community": 4,
-      "norm_label": "dbcategory"
+      "norm_label": "dbcategory",
+      "id": "order_page_dbcategory"
     },
     {
       "label": "MENU_ITEMS",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L39",
-      "id": "order_page_menu_items",
       "community": 4,
-      "norm_label": "menu_items"
+      "norm_label": "menu_items",
+      "id": "order_page_menu_items"
     },
     {
       "label": "getUniqueTags()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L219",
-      "id": "order_page_getuniquetags",
       "community": 1,
-      "norm_label": "getuniquetags()"
+      "norm_label": "getuniquetags()",
+      "id": "order_page_getuniquetags"
     },
     {
       "label": "DbMenuItem",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L234",
-      "id": "order_page_dbmenuitem",
       "community": 4,
-      "norm_label": "dbmenuitem"
+      "norm_label": "dbmenuitem",
+      "id": "order_page_dbmenuitem"
     },
     {
       "label": "dbToMenuItem()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L259",
-      "id": "order_page_dbtomenuitem",
       "community": 4,
-      "norm_label": "dbtomenuitem()"
+      "norm_label": "dbtomenuitem()",
+      "id": "order_page_dbtomenuitem"
     },
     {
       "label": "cartTotal()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L283",
-      "id": "order_page_carttotal",
       "community": 4,
-      "norm_label": "carttotal()"
+      "norm_label": "carttotal()",
+      "id": "order_page_carttotal"
     },
     {
       "label": "cartCount()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L292",
-      "id": "order_page_cartcount",
       "community": 4,
-      "norm_label": "cartcount()"
+      "norm_label": "cartcount()",
+      "id": "order_page_cartcount"
     },
     {
       "label": "MenuCard()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L298",
-      "id": "order_page_menucard",
       "community": 4,
-      "norm_label": "menucard()"
+      "norm_label": "menucard()",
+      "id": "order_page_menucard"
     },
     {
       "label": "FiltersPopover()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L410",
-      "id": "order_page_filterspopover",
       "community": 4,
-      "norm_label": "filterspopover()"
+      "norm_label": "filterspopover()",
+      "id": "order_page_filterspopover"
     },
     {
       "label": "CartDrawer()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L538",
-      "id": "order_page_cartdrawer",
       "community": 4,
-      "norm_label": "cartdrawer()"
+      "norm_label": "cartdrawer()",
+      "id": "order_page_cartdrawer"
     },
     {
       "label": "OrderPage()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L668",
-      "id": "order_page_orderpage",
       "community": 4,
-      "norm_label": "orderpage()"
+      "norm_label": "orderpage()",
+      "id": "order_page_orderpage"
     },
     {
       "label": "ItemCustomizerDrawer.tsx",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L1",
-      "id": "components_menu_itemcustomizerdrawer_tsx",
       "community": 77,
-      "norm_label": "itemcustomizerdrawer.tsx"
+      "norm_label": "itemcustomizerdrawer.tsx",
+      "id": "components_menu_itemcustomizerdrawer_tsx"
     },
     {
       "label": "ComboItem",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L8",
-      "id": "menu_itemcustomizerdrawer_comboitem",
       "community": 77,
-      "norm_label": "comboitem"
+      "norm_label": "comboitem",
+      "id": "menu_itemcustomizerdrawer_comboitem"
     },
     {
       "label": "DrawerItem",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L16",
-      "id": "menu_itemcustomizerdrawer_draweritem",
       "community": 77,
-      "norm_label": "draweritem"
+      "norm_label": "draweritem",
+      "id": "menu_itemcustomizerdrawer_draweritem"
     },
     {
       "label": "Props",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L22",
-      "id": "menu_itemcustomizerdrawer_props",
       "community": 77,
-      "norm_label": "props"
+      "norm_label": "props",
+      "id": "menu_itemcustomizerdrawer_props"
     },
     {
       "label": "AccordionSection()",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L28",
-      "id": "menu_itemcustomizerdrawer_accordionsection",
       "community": 77,
-      "norm_label": "accordionsection()"
+      "norm_label": "accordionsection()",
+      "id": "menu_itemcustomizerdrawer_accordionsection"
     },
     {
       "label": "ComboItemCard()",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L66",
-      "id": "menu_itemcustomizerdrawer_comboitemcard",
       "community": 77,
-      "norm_label": "comboitemcard()"
+      "norm_label": "comboitemcard()",
+      "id": "menu_itemcustomizerdrawer_comboitemcard"
     },
     {
       "label": "ItemCustomizerDrawer()",
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L92",
-      "id": "menu_itemcustomizerdrawer_itemcustomizerdrawer",
       "community": 77,
-      "norm_label": "itemcustomizerdrawer()"
+      "norm_label": "itemcustomizerdrawer()",
+      "id": "menu_itemcustomizerdrawer_itemcustomizerdrawer"
     },
     {
       "label": "ProductModal.tsx",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L1",
-      "id": "components_productmodal_tsx",
       "community": 77,
-      "norm_label": "productmodal.tsx"
+      "norm_label": "productmodal.tsx",
+      "id": "components_productmodal_tsx"
     },
     {
       "label": "ItemCategory",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L9",
-      "id": "components_productmodal_itemcategory",
       "community": 77,
-      "norm_label": "itemcategory"
+      "norm_label": "itemcategory",
+      "id": "components_productmodal_itemcategory"
     },
     {
       "label": "AddOn",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L11",
-      "id": "components_productmodal_addon",
       "community": 77,
-      "norm_label": "addon"
+      "norm_label": "addon",
+      "id": "components_productmodal_addon"
     },
     {
       "label": "ProductItem",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L16",
-      "id": "components_productmodal_productitem",
       "community": 77,
-      "norm_label": "productitem"
+      "norm_label": "productitem",
+      "id": "components_productmodal_productitem"
     },
     {
       "label": "OrderSelection",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L31",
-      "id": "components_productmodal_orderselection",
       "community": 77,
-      "norm_label": "orderselection"
+      "norm_label": "orderselection",
+      "id": "components_productmodal_orderselection"
     },
     {
       "label": "ALLERGEN_DETAILS",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L43",
-      "id": "components_productmodal_allergen_details",
       "community": 77,
-      "norm_label": "allergen_details"
+      "norm_label": "allergen_details",
+      "id": "components_productmodal_allergen_details"
     },
     {
       "label": "CATEGORY_GRADIENT",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L54",
-      "id": "components_productmodal_category_gradient",
       "community": 77,
-      "norm_label": "category_gradient"
+      "norm_label": "category_gradient",
+      "id": "components_productmodal_category_gradient"
     },
     {
       "label": "Toggle()",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L64",
-      "id": "components_productmodal_toggle",
       "community": 77,
-      "norm_label": "toggle()"
+      "norm_label": "toggle()",
+      "id": "components_productmodal_toggle"
     },
     {
       "label": "AllergyAccordion()",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L80",
-      "id": "components_productmodal_allergyaccordion",
       "community": 77,
-      "norm_label": "allergyaccordion()"
+      "norm_label": "allergyaccordion()",
+      "id": "components_productmodal_allergyaccordion"
     },
     {
       "label": "ProductModalProps",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L128",
-      "id": "components_productmodal_productmodalprops",
       "community": 77,
-      "norm_label": "productmodalprops"
+      "norm_label": "productmodalprops",
+      "id": "components_productmodal_productmodalprops"
     },
     {
       "label": "ProductModal()",
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L134",
-      "id": "components_productmodal_productmodal",
       "community": 77,
-      "norm_label": "productmodal()"
+      "norm_label": "productmodal()",
+      "id": "components_productmodal_productmodal"
     },
     {
       "label": "20260631_menu_additions.sql",
       "file_type": "code",
       "source_file": "supabase/migrations/20260631_menu_additions.sql",
       "source_location": null,
-      "id": "supabase_migrations_20260631_menu_additions_sql",
       "community": 108,
-      "norm_label": "20260631_menu_additions.sql"
+      "norm_label": "20260631_menu_additions.sql",
+      "id": "supabase_migrations_20260631_menu_additions_sql"
     },
     {
       "label": "menu_items",
       "file_type": "code",
       "source_file": "supabase/migrations/20260631_menu_additions.sql",
       "source_location": "L4",
-      "id": "20260631_menu_additions_menu_items",
       "community": 108,
-      "norm_label": "menu_items"
+      "norm_label": "menu_items",
+      "id": "20260631_menu_additions_menu_items"
     },
     {
       "label": "page.tsx",
@@ -1623,7 +2289,7 @@
       "file_type": "code",
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L1",
-      "community": 72,
+      "community": 75,
       "norm_label": "page.tsx",
       "id": "app_admin_categories_page_tsx"
     },
@@ -1632,7 +2298,7 @@
       "file_type": "code",
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L10",
-      "community": 72,
+      "community": 75,
       "norm_label": "category",
       "id": "categories_page_category"
     },
@@ -1641,7 +2307,7 @@
       "file_type": "code",
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L21",
-      "community": 72,
+      "community": 75,
       "norm_label": "categoryform",
       "id": "categories_page_categoryform"
     },
@@ -1650,7 +2316,7 @@
       "file_type": "code",
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L28",
-      "community": 72,
+      "community": 75,
       "norm_label": "empty_form",
       "id": "categories_page_empty_form"
     },
@@ -1659,7 +2325,7 @@
       "file_type": "code",
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L30",
-      "community": 72,
+      "community": 75,
       "norm_label": "slugify()",
       "id": "categories_page_slugify"
     },
@@ -1668,7 +2334,7 @@
       "file_type": "code",
       "source_file": "app/admin/categories/page.tsx",
       "source_location": "L34",
-      "community": 72,
+      "community": 75,
       "norm_label": "categoriespage()",
       "id": "categories_page_categoriespage"
     },
@@ -1695,7 +2361,7 @@
       "file_type": "code",
       "source_file": "app/admin/combos/page.tsx",
       "source_location": "L1",
-      "community": 72,
+      "community": 75,
       "norm_label": "page.tsx",
       "id": "app_admin_combos_page_tsx"
     },
@@ -1704,7 +2370,7 @@
       "file_type": "code",
       "source_file": "app/admin/combos/page.tsx",
       "source_location": "L7",
-      "community": 72,
+      "community": 75,
       "norm_label": "combodiscount",
       "id": "combos_page_combodiscount"
     },
@@ -1713,7 +2379,7 @@
       "file_type": "code",
       "source_file": "app/admin/combos/page.tsx",
       "source_location": "L15",
-      "community": 72,
+      "community": 75,
       "norm_label": "combosadminpage()",
       "id": "combos_page_combosadminpage"
     },
@@ -2343,7 +3009,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L1",
-      "community": 0,
+      "community": 97,
       "norm_label": "page.tsx",
       "id": "app_admin_settings_page_tsx"
     },
@@ -2352,7 +3018,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L14",
-      "community": 0,
+      "community": 97,
       "norm_label": "supabase",
       "id": "settings_page_supabase"
     },
@@ -2361,7 +3027,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L19",
-      "community": 0,
+      "community": 97,
       "norm_label": "day_labels",
       "id": "settings_page_day_labels"
     },
@@ -2370,7 +3036,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L24",
-      "community": 0,
+      "community": 97,
       "norm_label": "dayhours",
       "id": "settings_page_dayhours"
     },
@@ -2379,7 +3045,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L25",
-      "community": 0,
+      "community": 97,
       "norm_label": "businesshours",
       "id": "settings_page_businesshours"
     },
@@ -2388,7 +3054,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L26",
-      "community": 0,
+      "community": 97,
       "norm_label": "holiday",
       "id": "settings_page_holiday"
     },
@@ -2397,7 +3063,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L28",
-      "community": 0,
+      "community": 97,
       "norm_label": "storesettings",
       "id": "settings_page_storesettings"
     },
@@ -2406,7 +3072,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L41",
-      "community": 0,
+      "community": 97,
       "norm_label": "default_hours",
       "id": "settings_page_default_hours"
     },
@@ -2415,7 +3081,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L51",
-      "community": 0,
+      "community": 97,
       "norm_label": "savestate",
       "id": "settings_page_savestate"
     },
@@ -2424,7 +3090,7 @@
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
       "source_location": "L53",
-      "community": 0,
+      "community": 97,
       "norm_label": "settingspage()",
       "id": "settings_page_settingspage"
     },
@@ -2667,7 +3333,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/categories/route.ts",
       "source_location": "L1",
-      "community": 90,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_admin_categories_route_ts"
     },
@@ -2676,7 +3342,7 @@
       "file_type": "code",
       "source_file": "app/api/categories/route.ts",
       "source_location": "L6",
-      "community": 90,
+      "community": 80,
       "norm_label": "get()",
       "id": "categories_route_get"
     },
@@ -2685,7 +3351,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/categories/route.ts",
       "source_location": "L16",
-      "community": 90,
+      "community": 80,
       "norm_label": "post()",
       "id": "categories_route_post"
     },
@@ -2694,7 +3360,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/categories/[id]/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_categories_id_route_ts"
     },
@@ -2712,7 +3378,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/staff/[id]/route.ts",
       "source_location": "L41",
-      "community": 80,
+      "community": 3,
       "norm_label": "delete()",
       "id": "id_route_delete"
     },
@@ -2739,7 +3405,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/combo-discounts/route.ts",
       "source_location": "L14",
-      "community": 0,
+      "community": 68,
       "norm_label": "post()",
       "id": "combo_discounts_route_post"
     },
@@ -2757,7 +3423,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L1",
-      "community": 97,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_dashboard_route_ts"
     },
@@ -2766,7 +3432,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L6",
-      "community": 97,
+      "community": 3,
       "norm_label": "get()",
       "id": "dashboard_route_get"
     },
@@ -2802,7 +3468,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/delivery-zones/[id]/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_delivery_zones_id_route_ts"
     },
@@ -2883,7 +3549,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/drivers/[id]/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_drivers_id_route_ts"
     },
@@ -2955,7 +3621,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/menu-items/[id]/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_menu_items_id_route_ts"
     },
@@ -3009,7 +3675,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/promotions/[id]/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_promotions_id_route_ts"
     },
@@ -3045,7 +3711,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/staff/[id]/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_staff_id_route_ts"
     },
@@ -3099,7 +3765,7 @@
       "file_type": "code",
       "source_file": "app/api/auth/role/route.ts",
       "source_location": "L1",
-      "community": 3,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_auth_role_route_ts"
     },
@@ -3108,7 +3774,7 @@
       "file_type": "code",
       "source_file": "app/api/auth/role/route.ts",
       "source_location": "L8",
-      "community": 3,
+      "community": 80,
       "norm_label": "get()",
       "id": "role_route_get"
     },
@@ -3117,7 +3783,7 @@
       "file_type": "code",
       "source_file": "app/api/categories/route.ts",
       "source_location": "L1",
-      "community": 90,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_categories_route_ts"
     },
@@ -3189,7 +3855,7 @@
       "file_type": "code",
       "source_file": "app/api/driver/orders/route.ts",
       "source_location": "L1",
-      "community": 95,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_driver_orders_route_ts"
     },
@@ -3198,7 +3864,7 @@
       "file_type": "code",
       "source_file": "app/api/kitchen/orders/route.ts",
       "source_location": "L6",
-      "community": 95,
+      "community": 80,
       "norm_label": "get()",
       "id": "orders_route_get"
     },
@@ -3252,7 +3918,7 @@
       "file_type": "code",
       "source_file": "app/api/kitchen/orders/route.ts",
       "source_location": "L1",
-      "community": 95,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_kitchen_orders_route_ts"
     },
@@ -3261,7 +3927,7 @@
       "file_type": "code",
       "source_file": "app/api/kitchen/orders/[id]/route.ts",
       "source_location": "L1",
-      "community": 3,
+      "community": 104,
       "norm_label": "route.ts",
       "id": "app_api_kitchen_orders_id_route_ts"
     },
@@ -3270,7 +3936,7 @@
       "file_type": "code",
       "source_file": "app/api/loyalty/balance/route.ts",
       "source_location": "L1",
-      "community": 110,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_loyalty_balance_route_ts"
     },
@@ -3279,7 +3945,7 @@
       "file_type": "code",
       "source_file": "app/api/loyalty/balance/route.ts",
       "source_location": "L7",
-      "community": 110,
+      "community": 80,
       "norm_label": "get()",
       "id": "balance_route_get"
     },
@@ -3297,7 +3963,7 @@
       "file_type": "code",
       "source_file": "app/api/menu/combo-items/route.ts",
       "source_location": "L1",
-      "community": 109,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_menu_combo_items_route_ts"
     },
@@ -3306,7 +3972,7 @@
       "file_type": "code",
       "source_file": "app/api/menu/combo-items/route.ts",
       "source_location": "L4",
-      "community": 109,
+      "community": 3,
       "norm_label": "get()",
       "id": "combo_items_route_get"
     },
@@ -3351,7 +4017,7 @@
       "file_type": "code",
       "source_file": "app/api/track/route.ts",
       "source_location": "L1",
-      "community": 111,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "app_api_track_route_ts"
     },
@@ -3360,7 +4026,7 @@
       "file_type": "code",
       "source_file": "app/api/track/route.ts",
       "source_location": "L4",
-      "community": 111,
+      "community": 80,
       "norm_label": "get()",
       "id": "track_route_get"
     },
@@ -4179,7 +4845,7 @@
       "file_type": "code",
       "source_file": "components/admin/admin-sidebar.tsx",
       "source_location": "L1",
-      "community": 72,
+      "community": 75,
       "norm_label": "admin-sidebar.tsx",
       "id": "components_admin_admin_sidebar_tsx"
     },
@@ -4188,7 +4854,7 @@
       "file_type": "code",
       "source_file": "components/admin/admin-sidebar.tsx",
       "source_location": "L13",
-      "community": 72,
+      "community": 75,
       "norm_label": "nav_groups",
       "id": "admin_admin_sidebar_nav_groups"
     },
@@ -4197,7 +4863,7 @@
       "file_type": "code",
       "source_file": "components/admin/admin-sidebar.tsx",
       "source_location": "L49",
-      "community": 72,
+      "community": 75,
       "norm_label": "adminsidebar()",
       "id": "admin_admin_sidebar_adminsidebar"
     },
@@ -4287,7 +4953,7 @@
       "file_type": "code",
       "source_file": "lib/email.ts",
       "source_location": "L1",
-      "community": 0,
+      "community": 104,
       "norm_label": "email.ts",
       "id": "lib_email_ts"
     },
@@ -4296,7 +4962,7 @@
       "file_type": "code",
       "source_file": "lib/email.ts",
       "source_location": "L3",
-      "community": 0,
+      "community": 104,
       "norm_label": "emailorderdata",
       "id": "lib_email_emailorderdata"
     },
@@ -4305,7 +4971,7 @@
       "file_type": "code",
       "source_file": "lib/email.ts",
       "source_location": "L11",
-      "community": 0,
+      "community": 104,
       "norm_label": "orderemailstatus",
       "id": "lib_email_orderemailstatus"
     },
@@ -4314,7 +4980,7 @@
       "file_type": "code",
       "source_file": "lib/email.ts",
       "source_location": "L13",
-      "community": 0,
+      "community": 104,
       "norm_label": "status_config",
       "id": "lib_email_status_config"
     },
@@ -4323,7 +4989,7 @@
       "file_type": "code",
       "source_file": "lib/email.ts",
       "source_location": "L47",
-      "community": 0,
+      "community": 104,
       "norm_label": "buildhtml()",
       "id": "lib_email_buildhtml"
     },
@@ -4332,7 +4998,7 @@
       "file_type": "code",
       "source_file": "lib/email.ts",
       "source_location": "L127",
-      "community": 0,
+      "community": 104,
       "norm_label": "sendorderstatusemail()",
       "id": "lib_email_sendorderstatusemail"
     },
@@ -6717,7 +7383,7 @@
       "file_type": "code",
       "source_file": "components/admin/admin-sidebar.tsx",
       "source_location": "L13",
-      "community": 72,
+      "community": 75,
       "norm_label": "all_nav",
       "id": "admin_admin_sidebar_all_nav"
     },
@@ -6753,7 +7419,7 @@
       "file_type": "code",
       "source_file": "combo-items/route.ts",
       "source_location": "L1",
-      "community": 109,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "combo_items_route_ts"
     },
@@ -6852,7 +7518,7 @@
       "file_type": "code",
       "source_file": "api/auth/role/route.ts",
       "source_location": "L1",
-      "community": 3,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "api_auth_role_route_ts"
     },
@@ -6888,7 +7554,7 @@
       "file_type": "code",
       "source_file": "api/driver/orders/route.ts",
       "source_location": "L1",
-      "community": 95,
+      "community": 80,
       "norm_label": "route.ts",
       "id": "api_driver_orders_route_ts"
     },
@@ -6933,7 +7599,7 @@
       "file_type": "code",
       "source_file": "admin-sidebar.tsx",
       "source_location": "L1",
-      "community": 72,
+      "community": 75,
       "norm_label": "admin-sidebar.tsx",
       "id": "admin_sidebar_tsx"
     },
@@ -7068,7 +7734,7 @@
       "file_type": "code",
       "source_file": "api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
-      "community": 104,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "api_admin_menu_suggestions_route_ts"
     },
@@ -7266,7 +7932,7 @@
       "file_type": "code",
       "source_file": "admin/settings/page.tsx",
       "source_location": "L1",
-      "community": 0,
+      "community": 97,
       "norm_label": "page.tsx",
       "id": "admin_settings_page_tsx"
     },
@@ -7356,7 +8022,7 @@
       "file_type": "code",
       "source_file": "api/admin/dashboard/route.ts",
       "source_location": "L1",
-      "community": 97,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "api_admin_dashboard_route_ts"
     },
@@ -8280,7 +8946,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 67,
+      "community": 79,
       "norm_label": "community: product modal & types",
       "id": "CLAUDE_community_product_modal_types"
     },
@@ -8306,7 +8972,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 79,
       "norm_label": "community: supabase database schema",
       "id": "CLAUDE_community_supabase_db_schema"
     },
@@ -9364,7 +10030,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 112,
+      "community": 76,
       "norm_label": "sign in page",
       "id": "signin_signinpage"
     },
@@ -9377,7 +10043,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 112,
+      "community": 76,
       "norm_label": "sign up page",
       "id": "signup_signuppage"
     },
@@ -9786,6 +10452,726 @@
     }
   ],
   "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_md",
+      "target": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_file_map",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_task_1_add_receipts_permission_sidebar_entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_task_2_shared_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L143",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_task_3_api_route_json_csv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L336",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_task_4_receiptdrawer_component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L561",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_task_5_receiptstable_component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L735",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_task_6_receiptscards_component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L867",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_task_7_main_page",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1280",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_receipts_management_implementation_plan",
+      "target": "plans_2026_06_08_receipts_management_task_8_end_to_end_smoke_test_csv_verify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_1_add_receipts_permission_sidebar_entry",
+      "target": "plans_2026_06_08_receipts_management_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_1_add_receipts_permission_sidebar_entry",
+      "target": "plans_2026_06_08_receipts_management_codeblock_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_1_add_receipts_permission_sidebar_entry",
+      "target": "plans_2026_06_08_receipts_management_codeblock_3",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_1_add_receipts_permission_sidebar_entry",
+      "target": "plans_2026_06_08_receipts_management_codeblock_4",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_1_add_receipts_permission_sidebar_entry",
+      "target": "plans_2026_06_08_receipts_management_codeblock_5",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_2_shared_types",
+      "target": "plans_2026_06_08_receipts_management_codeblock_6",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_2_shared_types",
+      "target": "plans_2026_06_08_receipts_management_codeblock_7",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L150",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_3_api_route_json_csv",
+      "target": "plans_2026_06_08_receipts_management_codeblock_8",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L320",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_3_api_route_json_csv",
+      "target": "plans_2026_06_08_receipts_management_codeblock_9",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L329",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_3_api_route_json_csv",
+      "target": "plans_2026_06_08_receipts_management_codeblock_10",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L343",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_4_receiptdrawer_component",
+      "target": "plans_2026_06_08_receipts_management_codeblock_11",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L554",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_4_receiptdrawer_component",
+      "target": "plans_2026_06_08_receipts_management_codeblock_12",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L568",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_5_receiptstable_component",
+      "target": "plans_2026_06_08_receipts_management_codeblock_13",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L728",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_5_receiptstable_component",
+      "target": "plans_2026_06_08_receipts_management_codeblock_14",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L742",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_6_receiptscards_component",
+      "target": "plans_2026_06_08_receipts_management_codeblock_15",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L860",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_6_receiptscards_component",
+      "target": "plans_2026_06_08_receipts_management_codeblock_16",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L874",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_7_main_page",
+      "target": "plans_2026_06_08_receipts_management_codeblock_17",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1273",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_7_main_page",
+      "target": "plans_2026_06_08_receipts_management_codeblock_18",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "plans/2026-06-08-receipts-management.md",
+      "source_location": "L1318",
+      "weight": 1.0,
+      "source": "plans_2026_06_08_receipts_management_task_8_end_to_end_smoke_test_csv_verify",
+      "target": "plans_2026_06_08_receipts_management_codeblock_19",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_md",
+      "target": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_goal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_api_get_api_admin_receipts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_page_app_admin_receipts_page_tsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L158",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_component_receiptstable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L185",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_component_receiptscards",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L196",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_component_receiptdrawer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L220",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_filter_chips",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L249",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_sidebar_update",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L262",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_permission",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L271",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_theme_styling",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L282",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_error_states",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L291",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_receipts_management_design_spec",
+      "target": "specs_2026_06_08_receipts_management_design_out_of_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_architecture",
+      "target": "specs_2026_06_08_receipts_management_design_new_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_architecture",
+      "target": "specs_2026_06_08_receipts_management_design_modified_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_architecture",
+      "target": "specs_2026_06_08_receipts_management_design_unchanged",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_new_files",
+      "target": "specs_2026_06_08_receipts_management_design_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_modified_files",
+      "target": "specs_2026_06_08_receipts_management_design_codeblock_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_api_get_api_admin_receipts",
+      "target": "specs_2026_06_08_receipts_management_design_auth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_api_get_api_admin_receipts",
+      "target": "specs_2026_06_08_receipts_management_design_query_params",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_api_get_api_admin_receipts",
+      "target": "specs_2026_06_08_receipts_management_design_json_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_api_get_api_admin_receipts",
+      "target": "specs_2026_06_08_receipts_management_design_csv_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_api_get_api_admin_receipts",
+      "target": "specs_2026_06_08_receipts_management_design_data_shape",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_api_get_api_admin_receipts",
+      "target": "specs_2026_06_08_receipts_management_design_db_query",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_json_response",
+      "target": "specs_2026_06_08_receipts_management_design_codeblock_3",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_data_shape",
+      "target": "specs_2026_06_08_receipts_management_design_codeblock_4",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_db_query",
+      "target": "specs_2026_06_08_receipts_management_design_codeblock_5",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L140",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_page_app_admin_receipts_page_tsx",
+      "target": "specs_2026_06_08_receipts_management_design_url_params_used",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L143",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_page_app_admin_receipts_page_tsx",
+      "target": "specs_2026_06_08_receipts_management_design_layout_structure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L144",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_layout_structure",
+      "target": "specs_2026_06_08_receipts_management_design_codeblock_6",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L162",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_component_receiptstable",
+      "target": "specs_2026_06_08_receipts_management_design_day_group_header",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L168",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_component_receiptstable",
+      "target": "specs_2026_06_08_receipts_management_design_table_columns",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L163",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_day_group_header",
+      "target": "specs_2026_06_08_receipts_management_design_codeblock_7",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L200",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_component_receiptdrawer",
+      "target": "specs_2026_06_08_receipts_management_design_width",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L203",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_component_receiptdrawer",
+      "target": "specs_2026_06_08_receipts_management_design_sections",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L211",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_component_receiptdrawer",
+      "target": "specs_2026_06_08_receipts_management_design_footer_actions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L215",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_component_receiptdrawer",
+      "target": "specs_2026_06_08_receipts_management_design_close",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L224",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_filter_chips",
+      "target": "specs_2026_06_08_receipts_management_design_date_chip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L230",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_filter_chips",
+      "target": "specs_2026_06_08_receipts_management_design_driver_chip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L235",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_filter_chips",
+      "target": "specs_2026_06_08_receipts_management_design_status_chip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L239",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_filter_chips",
+      "target": "specs_2026_06_08_receipts_management_design_amount_chip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "specs/2026-06-08-receipts-management-design.md",
+      "source_location": "L253",
+      "weight": 1.0,
+      "source": "specs_2026_06_08_receipts_management_design_sidebar_update",
+      "target": "specs_2026_06_08_receipts_management_design_codeblock_8",
+      "confidence_score": 1.0
+    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -11635,9 +13021,9 @@
       "source_file": "supabase/migrations/20260631_menu_additions.sql",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_migrations_20260631_menu_additions_sql",
-      "target": "20260631_menu_additions_menu_items",
-      "confidence_score": 1.0
+      "target": "20260631_menu_additions_menu_items"
     },
     {
       "relation": "contains",
@@ -26377,5 +27763,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "86c0a25c0d497b70081edab63744f45fb0dfeea2"
+  "built_at_commit": "fe27a61aaa9eb540808915dc7fa7ebba991d7c6f"
 }
