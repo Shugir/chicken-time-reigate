@@ -17,5 +17,6 @@ tags:
 - [[lint]] - `contains` [EXTRACTED]
 - [[package.json]] - `contains` [EXTRACTED]
 - [[start]] - `contains` [EXTRACTED]
+- [[test]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

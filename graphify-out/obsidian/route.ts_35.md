@@ -13,6 +13,8 @@ tags:
 
 ## Connections
 - [[PATCH()]] - `contains` [EXTRACTED]
+- [[buildKitchenDeliveryUpdate()]] - `imports` [EXTRACTED]
+- [[order-status.ts]] - `imports_from` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

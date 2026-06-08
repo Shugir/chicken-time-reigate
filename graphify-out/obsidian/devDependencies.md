@@ -2,7 +2,7 @@
 source_file: "package.json"
 type: "code"
 community: "Community None"
-location: "L23"
+location: "L24"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -22,5 +22,6 @@ tags:
 - [[package.json]] - `contains` [EXTRACTED]
 - [[tailwindcss]] - `contains` [EXTRACTED]
 - [[typescript]] - `contains` [EXTRACTED]
+- [[vitest]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

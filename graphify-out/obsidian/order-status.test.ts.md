@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/driver/orders/[id]/route.ts"
+source_file: "lib/order-status.test.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -9,13 +9,13 @@ tags:
   - community/Community_None
 ---
 
-# route.ts
+# order-status.test.ts
 
 ## Connections
-- [[PATCH()]] - `contains` [EXTRACTED]
+- [[buildDispatchActionUpdate()]] - `imports` [EXTRACTED]
 - [[buildDriverOrderUpdate()]] - `imports` [EXTRACTED]
+- [[buildKitchenDeliveryUpdate()]] - `imports` [EXTRACTED]
 - [[order-status.ts]] - `imports_from` [EXTRACTED]
-- [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
-- [[supabaseAdmin]] - `imports` [EXTRACTED]
+- [[update]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

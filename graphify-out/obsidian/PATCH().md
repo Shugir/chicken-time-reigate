@@ -12,6 +12,8 @@ tags:
 # PATCH()
 
 ## Connections
+- [[buildDriverOrderUpdate()]] - `calls` [EXTRACTED]
+- [[buildKitchenDeliveryUpdate()]] - `calls` [EXTRACTED]
 - [[route.ts_4]] - `contains` [EXTRACTED]
 - [[route.ts_6]] - `contains` [EXTRACTED]
 - [[route.ts_9]] - `contains` [EXTRACTED]

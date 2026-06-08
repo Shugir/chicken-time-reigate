@@ -1,17 +1,17 @@
 ---
-source_file: "package.json"
+source_file: "lib/order-status.ts"
 type: "code"
 community: "Community None"
-location: "L13"
+location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# @supabase/ssr
+# DeliveryOutcome
 
 ## Connections
-- [[dependencies]] - `contains` [EXTRACTED]
+- [[order-status.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

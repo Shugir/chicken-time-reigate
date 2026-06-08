@@ -1,19 +1,20 @@
 ---
-source_file: "app/api/admin/dispatch/route.ts"
+source_file: "lib/order-status.ts"
 type: "code"
 community: "Community None"
-location: "L9"
+location: "L24"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# getAdminUser()
+# buildDispatchActionUpdate()
 
 ## Connections
-- [[GET()_6]] - `calls` [EXTRACTED]
 - [[PATCH()_1]] - `calls` [EXTRACTED]
-- [[route.ts_10]] - `contains` [EXTRACTED]
+- [[order-status.test.ts]] - `imports` [EXTRACTED]
+- [[order-status.ts]] - `contains` [EXTRACTED]
+- [[route.ts_10]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
