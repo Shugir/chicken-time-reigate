@@ -18,13 +18,7 @@ import {
   List,
   UploadCloud,
 } from 'lucide-react'
-import { createBrowserClient } from '@supabase/ssr'
 import AdminSidebar from '@/components/admin/admin-sidebar'
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -352,13 +346,13 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     let resolvedImageUrl = form.image_url.trim() || null
     if (imageFile) {
       setImageUploading(true)
-      const ext = imageFile.name.split('.').pop()
-      const path = `menu-items/${Date.now()}.${ext}`
-      const { error: uploadErr } = await supabase.storage.from('menu-images').upload(path, imageFile, { upsert: true, contentType: imageFile.type })
+      const fd = new FormData()
+      fd.append('file', imageFile)
+      const uploadRes = await fetch('/api/admin/menu/upload', { method: 'POST', body: fd })
+      const uploadData = await uploadRes.json()
       setImageUploading(false)
-      if (uploadErr) return setError(`Image upload failed: ${uploadErr.message}`)
-      const { data: { publicUrl } } = supabase.storage.from('menu-images').getPublicUrl(path)
-      resolvedImageUrl = publicUrl
+      if (!uploadRes.ok) return setError(`Image upload failed: ${uploadData.error ?? 'Unknown error'}`)
+      resolvedImageUrl = uploadData.url
     }
 
     const payload = {
