@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { buildDriverOrderUpdate } from '@/lib/order-status'
 
 export async function PATCH(
   request: NextRequest,
@@ -59,18 +60,10 @@ export async function PATCH(
 
   if (!order) return NextResponse.json({ error: 'Order not found or already completed' }, { status: 404 })
 
-  if (action === 'delivered') {
-    await supabaseAdmin
-      .from('orders')
-      .update({ delivery_status: 'delivered' })
-      .eq('id', id)
-  } else {
-    // Return to kitchen: reset order to ready queue, clear driver assignment
-    await supabaseAdmin
-      .from('orders')
-      .update({ status: 'ready', delivery_status: null, driver_id: null })
-      .eq('id', id)
-  }
+  await supabaseAdmin
+    .from('orders')
+    .update(buildDriverOrderUpdate(action))
+    .eq('id', id)
 
   // Free the driver either way
   await supabaseAdmin

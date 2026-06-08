@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { buildKitchenDeliveryUpdate } from '@/lib/order-status'
 
 export async function PATCH(
   request: NextRequest,
@@ -12,14 +13,9 @@ export async function PATCH(
     return NextResponse.json({ error: 'delivery_status must be delivered or failed' }, { status: 400 })
   }
 
-  const orderUpdates: Record<string, unknown> = { delivery_status }
-  if (delivery_status === 'failed' && failure_reason) {
-    orderUpdates.failure_reason = failure_reason
-  }
-
   const { data: order, error: orderError } = await supabaseAdmin
     .from('orders')
-    .update(orderUpdates)
+    .update(buildKitchenDeliveryUpdate(delivery_status, failure_reason))
     .eq('id', id)
     .select('driver_id')
     .single()

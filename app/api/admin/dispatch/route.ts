@@ -113,6 +113,7 @@ export async function PATCH(req: NextRequest) {
     update.status = 'delivered'
   } else if (action === 'failed') {
     update.delivery_status = 'failed'
+    update.status = 'failed'
     update.failure_reason = failure_reason ?? 'Unknown'
   } else if (action === 'send_back') {
     // Tri-app sync: status → 'preparing' broadcasts to kitchen realtime listener
