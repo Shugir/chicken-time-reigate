@@ -1037,12 +1037,12 @@ export default function OrderPage() {
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <button
           onClick={() => setCartOpen(true)}
-          className="flex items-center gap-3 bg-zinc-900 text-white font-semibold px-6 py-3.5 rounded-full shadow-xl hover:bg-zinc-700 transition-colors text-sm"
+          className="flex items-center gap-3 bg-brand-red text-white font-semibold px-6 py-3.5 rounded-full shadow-xl hover:bg-red-700 transition-colors text-sm border-[3px] border-black"
         >
           <div className="relative">
-            <ShoppingCart size={17} />
+            <ShoppingCart size={19} />
             {count > 0 && (
-              <span className="absolute -top-2 -right-2 bg-brand-red text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {count}
               </span>
             )}
