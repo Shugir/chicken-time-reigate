@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[NAV_LINKS]] - `contains` [EXTRACTED]
+- [[SiteChrome.tsx]] - `imports_from` [EXTRACTED]
 - [[SiteHeader()]] - `contains` [EXTRACTED]
 - [[layout.tsx]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_14]] - `imports` [EXTRACTED]

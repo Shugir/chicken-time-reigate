@@ -1,8 +1,8 @@
 ---
-source_file: "app/admin/dispatch/page.tsx"
+source_file: "components/CustomerReceipt.tsx"
 type: "code"
 community: "Community None"
-location: "L72"
+location: "L27"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,9 @@ tags:
 # CustomerReceipt()
 
 ## Connections
+- [[CustomerReceipt.tsx]] - `contains` [EXTRACTED]
 - [[formatDateMedium()]] - `calls` [EXTRACTED]
-- [[formatTimeFull()]] - `calls` [EXTRACTED]
-- [[page.tsx_9]] - `contains` [EXTRACTED]
+- [[page.tsx_9]] - `imports` [EXTRACTED]
+- [[page.tsx_22]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

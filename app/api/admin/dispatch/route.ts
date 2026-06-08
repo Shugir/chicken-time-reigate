@@ -10,7 +10,7 @@ async function getAdminUser() {
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => { } } },
   )
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return null
@@ -66,6 +66,21 @@ export async function GET() {
   return NextResponse.json({ unassigned: unassigned ?? [], drivers: driverMap })
 }
 
+// Recompute a driver's status from their live workload: any order still
+// out_for_delivery → on_delivery, otherwise free them (available).
+async function syncDriverStatus(driverId: string | null) {
+  if (!driverId) return
+  const { count } = await supabaseAdmin
+    .from('orders')
+    .select('id', { count: 'exact', head: true })
+    .eq('driver_id', driverId)
+    .eq('delivery_status', 'out_for_delivery')
+  await supabaseAdmin
+    .from('drivers')
+    .update({ status: (count ?? 0) > 0 ? 'on_delivery' : 'available' })
+    .eq('id', driverId)
+}
+
 export async function PATCH(req: NextRequest) {
   const user = await getAdminUser()
   if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
@@ -81,6 +96,14 @@ export async function PATCH(req: NextRequest) {
   }
 
   if (!order_id) return NextResponse.json({ error: 'order_id required' }, { status: 400 })
+
+  // Driver currently on this order — needed to free them on unassign/complete
+  const { data: prevOrder } = await supabaseAdmin
+    .from('orders')
+    .select('driver_id')
+    .eq('id', order_id)
+    .maybeSingle()
+  const prevDriverId: string | null = prevOrder?.driver_id ?? null
 
   const update: Record<string, unknown> = {}
 
@@ -175,5 +198,12 @@ export async function PATCH(req: NextRequest) {
     .eq('id', order_id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // Keep drivers.status in sync so freed drivers no longer show "on delivery"
+  const affected = new Set<string>()
+  if (prevDriverId) affected.add(prevDriverId)
+  if (typeof driver_id === 'string' && driver_id) affected.add(driver_id)
+  await Promise.all([...affected].map(syncDriverStatus))
+
   return NextResponse.json({ success: true })
 }

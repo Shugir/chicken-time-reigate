@@ -12,6 +12,7 @@ tags:
 # SiteHeader()
 
 ## Connections
+- [[SiteChrome.tsx]] - `imports` [EXTRACTED]
 - [[SiteHeader.tsx]] - `contains` [EXTRACTED]
 - [[SiteHeader.tsx_1]] - `contains` [EXTRACTED]
 - [[layout.tsx]] - `imports` [EXTRACTED]

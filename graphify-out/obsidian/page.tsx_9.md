@@ -13,7 +13,9 @@ tags:
 
 ## Connections
 - [[BoardData]] - `contains` [EXTRACTED]
-- [[CustomerReceipt()]] - `contains` [EXTRACTED]
+- [[CustomerReceipt()]] - `imports` [EXTRACTED]
+- [[CustomerReceipt()_1]] - `contains` [EXTRACTED]
+- [[CustomerReceipt.tsx]] - `imports_from` [EXTRACTED]
 - [[DispatchDriver]] - `contains` [EXTRACTED]
 - [[DispatchOrder]] - `contains` [EXTRACTED]
 - [[DispatchPage()]] - `contains` [EXTRACTED]

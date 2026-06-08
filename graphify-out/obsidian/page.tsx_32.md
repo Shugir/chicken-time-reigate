@@ -36,7 +36,7 @@ tags:
 - [[ComboItem_1]] - `contains` [EXTRACTED]
 - [[CompactListItem()]] - `contains` [EXTRACTED]
 - [[Contact Page]] - `contains` [EXTRACTED]
-- [[CustomerReceipt()_1]] - `contains` [EXTRACTED]
+- [[CustomerReceipt()_2]] - `contains` [EXTRACTED]
 - [[DIETARY_FLAGS]] - `contains` [EXTRACTED]
 - [[DIETARY_FLAGS_1]] - `contains` [EXTRACTED]
 - [[DbCategory]] - `contains` [EXTRACTED]

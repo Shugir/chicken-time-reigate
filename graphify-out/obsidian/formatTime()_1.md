@@ -12,6 +12,7 @@ tags:
 # formatTime()
 
 ## Connections
+- [[CustomerReceipt.tsx]] - `imports` [EXTRACTED]
 - [[d()]] - `calls` [EXTRACTED]
 - [[format-date.ts]] - `contains` [EXTRACTED]
 - [[formatDateTime()]] - `calls` [EXTRACTED]

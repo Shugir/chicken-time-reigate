@@ -13,7 +13,7 @@ export async function GET() {
     {
       cookies: {
         getAll() { return cookieStore.getAll() },
-        setAll() {},
+        setAll() { },
       },
     },
   )
@@ -42,7 +42,7 @@ export async function GET() {
 
   const { data, error } = await supabaseAdmin
     .from('orders')
-    .select('id, customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes, total_amount, created_at, stop_sequence')
+    .select('id, customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes, driver_notes, total_amount, created_at, stop_sequence')
     .eq('delivery_status', 'out_for_delivery')
     .eq('driver_id', driver.id)
     .order('stop_sequence', { ascending: true })

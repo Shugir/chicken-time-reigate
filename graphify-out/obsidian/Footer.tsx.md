@@ -20,6 +20,7 @@ tags:
 - [[NewsletterForm()]] - `imports` [EXTRACTED]
 - [[NewsletterForm.tsx]] - `imports_from` [EXTRACTED]
 - [[QUICK_LINKS]] - `contains` [EXTRACTED]
+- [[SiteChrome.tsx]] - `imports_from` [EXTRACTED]
 - [[StoreSettings_1]] - `contains` [EXTRACTED]
 - [[buildHoursRows()]] - `contains` [EXTRACTED]
 - [[capitalize()]] - `contains` [EXTRACTED]

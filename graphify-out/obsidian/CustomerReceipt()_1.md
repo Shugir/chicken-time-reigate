@@ -1,8 +1,8 @@
 ---
-source_file: "app/kitchen/page.tsx"
+source_file: "app/admin/dispatch/page.tsx"
 type: "code"
 community: "Community None"
-location: "L329"
+location: "L72"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,8 +13,7 @@ tags:
 
 ## Connections
 - [[formatDateMedium()]] - `calls` [EXTRACTED]
-- [[page.tsx_22]] - `contains` [EXTRACTED]
-- [[page.tsx_32]] - `contains` [EXTRACTED]
-- [[page.tsx_34]] - `contains` [EXTRACTED]
+- [[formatTimeFull()]] - `calls` [EXTRACTED]
+- [[page.tsx_9]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

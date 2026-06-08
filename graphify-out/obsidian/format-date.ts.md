@@ -12,6 +12,7 @@ tags:
 # format-date.ts
 
 ## Connections
+- [[CustomerReceipt.tsx]] - `imports_from` [EXTRACTED]
 - [[DateInput]] - `contains` [EXTRACTED]
 - [[d()]] - `contains` [EXTRACTED]
 - [[formatDate()]] - `contains` [EXTRACTED]

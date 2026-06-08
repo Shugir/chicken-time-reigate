@@ -12,6 +12,7 @@ tags:
 # StoreStatusBanner.tsx
 
 ## Connections
+- [[SiteChrome.tsx]] - `imports_from` [EXTRACTED]
 - [[StoreData]] - `contains` [EXTRACTED]
 - [[StoreStatusBanner()]] - `contains` [EXTRACTED]
 - [[layout.tsx]] - `imports_from` [EXTRACTED]

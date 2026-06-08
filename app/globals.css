@@ -114,3 +114,58 @@ h6 {
   font-family: var(--font-inter), var(--font-geist-sans), Arial, Helvetica, sans-serif;
   font-weight: 700;
 }
+
+/* ── Thermal receipt printing (80mm rolls) ─────────────────────────────────── */
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+
+  /* Reset dark-mode CSS variables so no dark backgrounds bleed through */
+  :root {
+    --background: #ffffff;
+    --foreground: #000000;
+  }
+
+  html,
+  body {
+    width: 80mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: white !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  /*
+   * Strip every element's background to transparent so dark-themed pages
+   * (dispatch board, kitchen) don't bleed a dark canvas behind the receipt.
+   * box-shadow / text-shadow also suppressed to keep the roll clean.
+   */
+  * {
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /*
+   * Re-apply exact colour printing ONLY to the receipt block and its
+   * descendants, so text greys, dashed rule borders, bold weights, etc.
+   * all render faithfully on the thermal roll.
+   */
+  .receipt-print,
+  .receipt-print * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Receipt container: white background, full 80mm roll width */
+  .receipt-print {
+    display: block !important;
+    background-color: white !important;
+    width: 80mm !important;
+    max-width: 80mm !important;
+  }
+}

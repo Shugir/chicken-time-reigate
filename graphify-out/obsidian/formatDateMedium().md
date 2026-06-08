@@ -14,6 +14,8 @@ tags:
 ## Connections
 - [[CustomerReceipt()]] - `calls` [EXTRACTED]
 - [[CustomerReceipt()_1]] - `calls` [EXTRACTED]
+- [[CustomerReceipt()_2]] - `calls` [EXTRACTED]
+- [[CustomerReceipt.tsx]] - `imports` [EXTRACTED]
 - [[d()]] - `calls` [EXTRACTED]
 - [[format-date.ts]] - `contains` [EXTRACTED]
 - [[page.tsx_9]] - `imports` [EXTRACTED]

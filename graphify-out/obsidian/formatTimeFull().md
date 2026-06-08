@@ -12,7 +12,7 @@ tags:
 # formatTimeFull()
 
 ## Connections
-- [[CustomerReceipt()]] - `calls` [EXTRACTED]
+- [[CustomerReceipt()_1]] - `calls` [EXTRACTED]
 - [[DispatchPage()]] - `calls` [EXTRACTED]
 - [[KitchenDashboard()]] - `calls` [EXTRACTED]
 - [[KitchenTicket()]] - `calls` [EXTRACTED]

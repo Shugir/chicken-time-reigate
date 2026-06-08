@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import {
   MapPin, Phone, MessageSquare, Truck, CheckCircle,
-  RotateCcw, Loader2, RefreshCw, LogOut, User,
+  RotateCcw, Loader2, RefreshCw, LogOut, User, StickyNote,
 } from 'lucide-react'
 
 const supabase = createClient(
@@ -20,6 +20,7 @@ interface Order {
   delivery_address: string | null
   delivery_postcode: string | null
   customer_notes: string | null
+  driver_notes: string | null
   total_amount: number
   created_at: string
   stop_sequence: number
@@ -43,11 +44,11 @@ function multiStopMapsUrl(orders: Order[]) {
 
 export default function DriverDashboard() {
   const router = useRouter()
-  const [orders, setOrders]     = useState<Order[]>([])
-  const [loading, setLoading]   = useState(true)
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
   const [accessDenied, setAccessDenied] = useState(false)
   const [updating, setUpdating] = useState<string | null>(null)
-  const [flash, setFlash]       = useState<{ id: string; msg: string } | null>(null)
+  const [flash, setFlash] = useState<{ id: string; msg: string } | null>(null)
   const [driverId, setDriverId] = useState<string | null>(null)
 
   const fetchOrders = useCallback(async () => {
@@ -210,142 +211,150 @@ export default function DriverDashboard() {
                 ) : null
               })()}
 
-            <div className="space-y-5">
-              {orders.map((order, idx) => (
-                <div key={order.id} className={`bg-zinc-900 rounded-3xl overflow-hidden shadow-xl ${
-                  idx === 0
+              <div className="space-y-5">
+                {orders.map((order, idx) => (
+                  <div key={order.id} className={`bg-zinc-900 rounded-3xl overflow-hidden shadow-xl ${idx === 0
                     ? 'border-2 border-emerald-500 shadow-emerald-900/30'
                     : 'border border-zinc-700'
-                }`}>
+                    }`}>
 
-                  {/* NEXT STOP banner */}
-                  {idx === 0 && (
-                    <div className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 text-black font-black text-sm tracking-widest uppercase">
-                      ⚡ NEXT STOP — Priority 1
-                    </div>
-                  )}
-
-                  {/* Order header */}
-                  <div className="flex items-center justify-between px-5 py-4 bg-zinc-800/50 border-b border-zinc-700">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-white font-black text-xs ${
-                          idx === 0 ? 'bg-emerald-500' : 'bg-violet-600'
-                        }`}>
-                          {order.stop_sequence ?? idx + 1}
-                        </span>
-                        <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Order Ref</p>
-                      </div>
-                      <p className="font-mono font-black text-white text-2xl tracking-wider">
-                        #{order.id.slice(-6).toUpperCase()}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Total</p>
-                      <p className="font-black text-white text-2xl">£{Number(order.total_amount).toFixed(2)}</p>
-                    </div>
-                  </div>
-
-                  {/* Customer info */}
-                  <div className="px-5 py-5 space-y-4">
-
-                    {order.customer_name && (
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-sky-500/15 rounded-2xl flex items-center justify-center shrink-0">
-                          <User className="w-6 h-6 text-sky-400" />
-                        </div>
-                        <p className="text-white font-black text-2xl leading-tight">{order.customer_name}</p>
+                    {/* NEXT STOP banner */}
+                    {idx === 0 && (
+                      <div className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 text-black font-black text-sm tracking-widest uppercase">
+                        ⚡ NEXT STOP — Priority 1
                       </div>
                     )}
 
-                    {order.customer_phone && (
-                      <a
-                        href={`tel:${order.customer_phone}`}
-                        className="flex items-center gap-4 active:opacity-60"
-                      >
-                        <div className="w-12 h-12 bg-emerald-500/15 rounded-2xl flex items-center justify-center shrink-0">
-                          <Phone className="w-6 h-6 text-emerald-400" />
+                    {/* Order header */}
+                    <div className="flex items-center justify-between px-5 py-4 bg-zinc-800/50 border-b border-zinc-700">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`w-6 h-6 rounded-full flex items-center justify-center text-white font-black text-xs ${idx === 0 ? 'bg-emerald-500' : 'bg-violet-600'
+                            }`}>
+                            {order.stop_sequence ?? idx + 1}
+                          </span>
+                          <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Order Ref</p>
                         </div>
-                        <p className="text-emerald-400 font-black text-2xl tracking-wide">
-                          {order.customer_phone}
+                        <p className="font-mono font-black text-white text-2xl tracking-wider">
+                          #{order.id.slice(-6).toUpperCase()}
                         </p>
-                      </a>
-                    )}
-
-                    {order.delivery_address && (
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-amber-500/15 rounded-2xl flex items-center justify-center shrink-0 mt-1">
-                          <MapPin className="w-6 h-6 text-amber-400" />
-                        </div>
-                        <div>
-                          <p className="text-white font-bold text-lg leading-snug">{order.delivery_address}</p>
-                          {order.delivery_postcode && (
-                            <p className="text-amber-300 font-black text-2xl tracking-widest uppercase mt-1">
-                              {order.delivery_postcode}
-                            </p>
-                          )}
-                        </div>
                       </div>
-                    )}
-
-                    {order.customer_notes && (
-                      <div className="flex items-start gap-4 bg-yellow-400/10 border border-yellow-400/25 rounded-2xl px-4 py-4">
-                        <MessageSquare className="w-6 h-6 text-yellow-400 shrink-0 mt-0.5" />
-                        <p className="text-yellow-300 font-bold text-lg leading-snug">{order.customer_notes}</p>
+                      <div className="text-right">
+                        <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Total</p>
+                        <p className="font-black text-white text-2xl">£{Number(order.total_amount).toFixed(2)}</p>
                       </div>
-                    )}
-                  </div>
-
-                  {/* Action buttons */}
-                  <div className="px-5 pb-5 space-y-3">
-
-                    {/* Navigate */}
-                    <a
-                      href={mapsUrl(order.delivery_address, order.delivery_postcode)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-3 w-full py-6 rounded-2xl bg-sky-500 active:bg-sky-400 text-white font-black text-2xl tracking-wide shadow-lg shadow-sky-900/40"
-                    >
-                      🗺️ Navigate
-                    </a>
-
-                    {/* Delivered + Return row */}
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => handleAction(order.id, 'delivered')}
-                        disabled={updating === order.id}
-                        className="flex-1 flex items-center justify-center gap-2 py-6 rounded-2xl bg-emerald-500 active:bg-emerald-400 text-white font-black text-xl shadow-lg shadow-emerald-900/40 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {updating === order.id ? (
-                          <Loader2 className="w-7 h-7 animate-spin" />
-                        ) : (
-                          <>
-                            <CheckCircle className="w-7 h-7" />
-                            <span>Delivered</span>
-                          </>
-                        )}
-                      </button>
-
-                      <button
-                        onClick={() => handleAction(order.id, 'return_to_kitchen')}
-                        disabled={updating === order.id}
-                        className="flex-1 flex items-center justify-center gap-2 py-6 rounded-2xl bg-red-500/20 border-2 border-red-500/40 active:bg-red-500/30 text-red-400 font-black text-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {updating === order.id ? (
-                          <Loader2 className="w-6 h-6 animate-spin" />
-                        ) : (
-                          <>
-                            <RotateCcw className="w-6 h-6" />
-                            <span>Return</span>
-                          </>
-                        )}
-                      </button>
                     </div>
 
+                    {/* Customer info */}
+                    <div className="px-5 py-5 space-y-4">
+
+                      {order.customer_name && (
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-sky-500/15 rounded-2xl flex items-center justify-center shrink-0">
+                            <User className="w-6 h-6 text-sky-400" />
+                          </div>
+                          <p className="text-white font-black text-2xl leading-tight">{order.customer_name}</p>
+                        </div>
+                      )}
+
+                      {order.customer_phone && (
+                        <a
+                          href={`tel:${order.customer_phone}`}
+                          className="flex items-center gap-4 active:opacity-60"
+                        >
+                          <div className="w-12 h-12 bg-emerald-500/15 rounded-2xl flex items-center justify-center shrink-0">
+                            <Phone className="w-6 h-6 text-emerald-400" />
+                          </div>
+                          <p className="text-emerald-400 font-black text-2xl tracking-wide">
+                            {order.customer_phone}
+                          </p>
+                        </a>
+                      )}
+
+                      {order.delivery_address && (
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 bg-amber-500/15 rounded-2xl flex items-center justify-center shrink-0 mt-1">
+                            <MapPin className="w-6 h-6 text-amber-400" />
+                          </div>
+                          <div>
+                            <p className="text-white font-bold text-lg leading-snug">{order.delivery_address}</p>
+                            {order.delivery_postcode && (
+                              <p className="text-amber-300 font-black text-2xl tracking-widest uppercase mt-1">
+                                {order.delivery_postcode}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {order.customer_notes && (
+                        <div className="flex items-start gap-4 bg-yellow-400/10 border border-yellow-400/25 rounded-2xl px-4 py-4">
+                          <MessageSquare className="w-6 h-6 text-yellow-400 shrink-0 mt-0.5" />
+                          <p className="text-yellow-300 font-bold text-lg leading-snug">{order.customer_notes}</p>
+                        </div>
+                      )}
+
+                      {order.driver_notes && (
+                        <div className="flex items-start gap-4 bg-yellow-400/15 border-2 border-yellow-400 rounded-2xl px-4 py-4">
+                          <StickyNote className="w-6 h-6 text-yellow-400 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-yellow-400 font-black text-xs uppercase tracking-widest mb-1">Note</p>
+                            <p className="text-yellow-200 font-bold text-lg leading-snug">{order.driver_notes}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="px-5 pb-5 space-y-3">
+
+                      {/* Navigate */}
+                      <a
+                        href={mapsUrl(order.delivery_address, order.delivery_postcode)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-3 w-full py-6 rounded-2xl bg-sky-500 active:bg-sky-400 text-white font-black text-2xl tracking-wide shadow-lg shadow-sky-900/40"
+                      >
+                        🗺️ Navigate
+                      </a>
+
+                      {/* Delivered + Return row */}
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => handleAction(order.id, 'delivered')}
+                          disabled={updating === order.id}
+                          className="flex-1 flex items-center justify-center gap-2 py-6 rounded-2xl bg-emerald-500 active:bg-emerald-400 text-white font-black text-xl shadow-lg shadow-emerald-900/40 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {updating === order.id ? (
+                            <Loader2 className="w-7 h-7 animate-spin" />
+                          ) : (
+                            <>
+                              <CheckCircle className="w-7 h-7" />
+                              <span>Delivered</span>
+                            </>
+                          )}
+                        </button>
+
+                        <button
+                          onClick={() => handleAction(order.id, 'return_to_kitchen')}
+                          disabled={updating === order.id}
+                          className="flex-1 flex items-center justify-center gap-2 py-6 rounded-2xl bg-red-500/20 border-2 border-red-500/40 active:bg-red-500/30 text-red-400 font-black text-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {updating === order.id ? (
+                            <Loader2 className="w-6 h-6 animate-spin" />
+                          ) : (
+                            <>
+                              <RotateCcw className="w-6 h-6" />
+                              <span>Return</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
             </>
           )}
         </div>

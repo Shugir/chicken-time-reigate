@@ -11,8 +11,9 @@ import {
 } from 'lucide-react'
 
 import {
-  formatTime, formatTimeFull, formatDateMedium, formatDateClockLabel,
+  formatTime, formatTimeFull, formatDateClockLabel,
 } from '@/lib/utils/format-date'
+import { CustomerReceipt } from '@/components/CustomerReceipt'
 
 const ALERT_URL = '/KitchenAlert.mp3'
 const MAX_DISPATCHED = 8
@@ -29,7 +30,7 @@ interface OrderItem {
   item_name: string | null
   quantity: number
   unit_price: number
-  extras:   Extra[]
+  extras: Extra[]
   removals: string[]
   notes: string | null
 }
@@ -39,11 +40,11 @@ interface Order {
   status: 'preparing' | 'ready' | 'dispatched'
   total_amount: number
   created_at: string
-  customer_name:      string | null
-  customer_phone:     string | null
-  delivery_address:   string | null
-  delivery_postcode:  string | null
-  customer_notes:     string | null
+  customer_name: string | null
+  customer_phone: string | null
+  delivery_address: string | null
+  delivery_postcode: string | null
+  customer_notes: string | null
   order_items: OrderItem[]
 }
 
@@ -256,7 +257,7 @@ function OrderCard({
 
 function KitchenTicket({ order }: { order: Order }) {
   return (
-    <div className="hidden print:block w-[80mm] text-black bg-white font-mono text-sm p-2">
+    <div className="receipt-print hidden print:block w-[80mm] text-black bg-white font-mono text-sm p-2">
       <div className="text-center font-black text-base tracking-widest uppercase border-b border-black pb-2 mb-2">
         Chicken Time Reigate
       </div>
@@ -326,146 +327,29 @@ function KitchenTicket({ order }: { order: Order }) {
   )
 }
 
-function CustomerReceipt({ order }: { order: Order }) {
-  const date = new Date(order.created_at)
-  const subtotal = order.order_items.reduce((s, i) => s + i.unit_price * i.quantity, 0)
-
-  return (
-    <div className="hidden print:block w-[80mm] text-black bg-white font-mono text-xs p-3">
-      <div className="text-center mb-3">
-        <p className="font-black text-sm tracking-widest uppercase">Chicken Time</p>
-        <p className="font-black text-sm tracking-widest uppercase">Reigate</p>
-        <p className="text-xs mt-1">01737 000 000</p>
-        <p className="text-xs">chickentimesurrey.co.uk</p>
-      </div>
-      <div className="border-t border-dashed border-black my-2" />
-      <div className="flex justify-between mb-0.5">
-        <span>Order</span>
-        <span className="font-black">#{order.id.slice(-6).toUpperCase()}</span>
-      </div>
-      <div className="flex justify-between mb-0.5">
-        <span>Date</span>
-        <span>{formatDateMedium(date)}</span>
-      </div>
-      <div className="flex justify-between mb-0.5">
-        <span>Time</span>
-        <span>{formatTime(date)}</span>
-      </div>
-      {order.customer_name && (
-        <div className="flex justify-between mb-0.5">
-          <span>Customer</span>
-          <span className="font-bold">{order.customer_name}</span>
-        </div>
-      )}
-      {order.customer_phone && (
-        <div className="flex justify-between mb-0.5">
-          <span>Phone</span>
-          <span>{order.customer_phone}</span>
-        </div>
-      )}
-      <div className="border-t border-dashed border-black my-2" />
-      <div className="mb-2">
-        {order.order_items.map((item) => (
-          <div key={item.id} className="mb-2">
-            <div className="flex justify-between">
-              <span className="font-bold">{item.quantity}x {item.item_name ?? 'Item'}</span>
-              <span className="font-bold">£{(item.unit_price * item.quantity).toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-gray-500 pl-2">
-              <span>@ £{item.unit_price.toFixed(2)} each</span>
-            </div>
-            {(item.extras ?? []).length > 0 && (item.extras ?? []).map((e) => (
-              <div key={e.name} className="flex justify-between pl-2 text-gray-600" style={{ fontSize: '10px' }}>
-                <span>+ {e.name}</span>
-                <span>£{e.price.toFixed(2)}</span>
-              </div>
-            ))}
-            {(item.removals ?? []).length > 0 && (item.removals ?? []).map((r) => (
-              <div key={r} className="pl-2 text-gray-500" style={{ fontSize: '10px' }}>
-                - No {r}
-              </div>
-            ))}
-            {item.notes && (
-              <div className="pl-2 text-gray-600 italic" style={{ fontSize: '10px' }}>{item.notes}</div>
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="border-t border-dashed border-black my-2" />
-      <div className="flex justify-between mb-0.5">
-        <span>Subtotal</span>
-        <span>£{subtotal.toFixed(2)}</span>
-      </div>
-      <div className="flex justify-between mb-1">
-        <span>Delivery</span>
-        <span>£{(order.total_amount - subtotal).toFixed(2)}</span>
-      </div>
-      <div className="flex justify-between font-black text-sm border-t border-black pt-1 mt-1">
-        <span>TOTAL</span>
-        <span>£{order.total_amount.toFixed(2)}</span>
-      </div>
-
-      {order.delivery_address && (
-        <>
-          <div className="border-t border-black mt-3 pt-2">
-            <p className="text-center font-black text-xs tracking-widest uppercase mb-2">
-              --- DELIVERY DETAILS ---
-            </p>
-            {order.customer_name && (
-              <p className="font-black text-sm leading-snug">{order.customer_name}</p>
-            )}
-            {order.customer_phone && (
-              <p className="font-black text-sm leading-snug">{order.customer_phone}</p>
-            )}
-            <p className="font-black text-sm leading-snug mt-1">{order.delivery_address}</p>
-            {order.delivery_postcode && (
-              <p className="font-black text-base tracking-widest uppercase mt-1">
-                {order.delivery_postcode}
-              </p>
-            )}
-            {order.customer_notes && (
-              <p className="font-bold text-xs mt-1 border border-black px-1 py-0.5 uppercase tracking-wide">
-                NOTE: {order.customer_notes}
-              </p>
-            )}
-          </div>
-          <div className="border-t border-dashed border-black mt-3 mb-2" />
-        </>
-      )}
-
-      {!order.delivery_address && <div className="border-t border-dashed border-black my-3" />}
-      <div className="text-center">
-        <p className="font-bold">Thank you for your order!</p>
-        <p className="mt-1 text-gray-500">We hope to see you again soon.</p>
-        <p className="mt-2 text-gray-400">VAT Reg: GB 000 0000 00</p>
-      </div>
-    </div>
-  )
-}
-
 // ── Dashboard ─────────────────────────────────────────────────────────────────
 
 export default function KitchenDashboard() {
   const router = useRouter()
   const { can, email } = usePermissions()
 
-  const [orders, setOrders]           = useState<Order[]>([])
-  const [loading, setLoading]         = useState(true)
-  const [updating, setUpdating]       = useState<string | null>(null)
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
+  const [updating, setUpdating] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
 
   // Driver dispatch modal
   const [driverModalOrder, setDriverModalOrder] = useState<Order | null>(null)
   const [availableDrivers, setAvailableDrivers] = useState<Driver[]>([])
-  const [driversLoading, setDriversLoading]     = useState(false)
+  const [driversLoading, setDriversLoading] = useState(false)
 
   // Print
-  const [now, setNow]                     = useState(new Date())
-  const [mounted, setMounted]             = useState(false)
+  const [now, setNow] = useState(new Date())
+  const [mounted, setMounted] = useState(false)
   const [audioUnlocked, setAudioUnlocked] = useState(false)
-  const [printOrder, setPrintOrder]       = useState<Order | null>(null)
-  const [printMode, setPrintMode]         = useState<'kitchen' | 'customer' | null>(null)
-  const audioUnlockedRef                  = useRef(false)
+  const [printOrder, setPrintOrder] = useState<Order | null>(null)
+  const [printMode, setPrintMode] = useState<'kitchen' | 'customer' | null>(null)
+  const audioUnlockedRef = useRef(false)
 
   async function handleSignOut() {
     await supabase.auth.signOut()
@@ -579,8 +463,8 @@ export default function KitchenDashboard() {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        status:          'dispatched',
-        driver_id:       driver.id,
+        status: 'dispatched',
+        driver_id: driver.id,
         delivery_status: 'out_for_delivery',
       }),
     })
@@ -595,8 +479,8 @@ export default function KitchenDashboard() {
   }
 
   const sq = searchQuery.trim().toLowerCase()
-  const preparing  = orders.filter((o) => o.status === 'preparing' && (!sq || o.id.toLowerCase().includes(sq)))
-  const ready      = orders.filter((o) => o.status === 'ready'     && (!sq || o.id.toLowerCase().includes(sq)))
+  const preparing = orders.filter((o) => o.status === 'preparing' && (!sq || o.id.toLowerCase().includes(sq)))
+  const ready = orders.filter((o) => o.status === 'ready' && (!sq || o.id.toLowerCase().includes(sq)))
   const dispatched = orders
     .filter((o) => o.status === 'dispatched' && (!sq || o.id.toLowerCase().includes(sq)))
     .slice(-MAX_DISPATCHED)
@@ -628,11 +512,10 @@ export default function KitchenDashboard() {
             )}
             <button
               onClick={toggleAudio}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
-                audioUnlocked
-                  ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
-                  : 'bg-white/10 text-white/40 hover:bg-white/20 hover:text-white/70'
-              }`}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-colors ${audioUnlocked
+                ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
+                : 'bg-white/10 text-white/40 hover:bg-white/20 hover:text-white/70'
+                }`}
               title={audioUnlocked ? 'Mute alerts' : 'Unmute alerts'}
             >
               {audioUnlocked ? <Bell size={14} /> : <BellOff size={14} />}
@@ -792,7 +675,7 @@ export default function KitchenDashboard() {
       </div>
 
       {/* Receipts — only visible during print */}
-      {printOrder && printMode === 'kitchen'  && <KitchenTicket order={printOrder} />}
+      {printOrder && printMode === 'kitchen' && <KitchenTicket order={printOrder} />}
       {printOrder && printMode === 'customer' && <CustomerReceipt order={printOrder} />}
 
       {/* Driver Select Modal */}

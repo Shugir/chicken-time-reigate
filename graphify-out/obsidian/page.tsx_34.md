@@ -12,7 +12,7 @@ tags:
 # page.tsx
 
 ## Connections
-- [[CustomerReceipt()_1]] - `contains` [EXTRACTED]
+- [[CustomerReceipt()_2]] - `contains` [EXTRACTED]
 - [[DispatchOrder_1]] - `contains` [EXTRACTED]
 - [[Driver_3]] - `contains` [EXTRACTED]
 - [[Extra_2]] - `contains` [EXTRACTED]

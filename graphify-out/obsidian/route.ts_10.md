@@ -17,5 +17,6 @@ tags:
 - [[getAdminUser()]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
+- [[syncDriverStatus()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

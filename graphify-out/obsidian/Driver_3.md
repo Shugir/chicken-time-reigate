@@ -2,7 +2,7 @@
 source_file: "app/kitchen/page.tsx"
 type: "code"
 community: "Community None"
-location: "L50"
+location: "L51"
 tags:
   - graphify/code
   - graphify/EXTRACTED

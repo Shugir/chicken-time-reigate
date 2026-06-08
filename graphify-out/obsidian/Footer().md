@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[Footer.tsx]] - `contains` [EXTRACTED]
+- [[SiteChrome.tsx]] - `imports` [EXTRACTED]
 - [[buildHoursRows()]] - `calls` [EXTRACTED]
 - [[layout.tsx]] - `imports` [EXTRACTED]
 

@@ -12,7 +12,9 @@ tags:
 # page.tsx
 
 ## Connections
-- [[CustomerReceipt()_1]] - `contains` [EXTRACTED]
+- [[CustomerReceipt()]] - `imports` [EXTRACTED]
+- [[CustomerReceipt()_2]] - `contains` [EXTRACTED]
+- [[CustomerReceipt.tsx]] - `imports_from` [EXTRACTED]
 - [[DispatchOrder_1]] - `contains` [EXTRACTED]
 - [[Driver_3]] - `contains` [EXTRACTED]
 - [[Extra_2]] - `contains` [EXTRACTED]
