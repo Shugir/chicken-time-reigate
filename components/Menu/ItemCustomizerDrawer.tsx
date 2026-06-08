@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { X, Plus, Minus, ChevronDown, ShoppingBag, Check } from 'lucide-react'
+import { X, Plus, Minus, ChevronDown, ShoppingBag, Check, TriangleAlert } from 'lucide-react'
 import type { ProductItem, AddOn, OrderSelection } from '@/components/ProductModal'
 
 interface ComboItem {
@@ -235,6 +235,12 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
           <div className="absolute bottom-4 left-5 right-14">
             <h2 className="font-heading font-black text-xl text-white leading-tight">{item.name}</h2>
             <p className="text-white/70 text-sm mt-1 line-clamp-2">{item.description}</p>
+            {item.allergens && item.allergens.length > 0 && (
+              <div className="flex items-center gap-1 mt-2 px-2 py-1 rounded-md bg-amber-500/20 text-amber-300 text-xs font-medium w-fit">
+                <TriangleAlert size={11} className="shrink-0" />
+                Contains: {item.allergens.join(', ')}
+              </div>
+            )}
           </div>
         </div>
 
