@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `46671597`
+- Built from commit: `a1bceccd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -332,7 +332,7 @@ Nodes (4): Contact Page, FormState Type, Opening Hours Data (HOURS), InputField 
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **357 isolated node(s):** `supabase`, `OrderItem`, `DispatchOrder`, `DispatchDriver`, `BoardData` (+352 more)
+- **357 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+352 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **58 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -344,12 +344,12 @@ _Questions this graph is uniquely positioned to answer:_
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **Why does `AdminReceiptOrder` connect `Community 75` to `Community 0`, `Community 1`, `Community 12`?**
-  _High betweenness centrality (0.103) - this node is a cross-community bridge._
+  _High betweenness centrality (0.105) - this node is a cross-community bridge._
 - **Why does `supabaseAdmin` connect `Community 80` to `Community 0`, `Community 3`, `Community 12`, `Community 68`, `Community 70`, `Community 73`, `Community 77`, `Community 84`, `Community 89`, `Community 93`, `Community 94`, `Community 97`, `Community 100`, `Community 104`, `Community 107`, `Community 109`, `Community 110`, `Community 111`, `Community 112`, `Community 113`?**
-  _High betweenness centrality (0.087) - this node is a cross-community bridge._
+  _High betweenness centrality (0.088) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 76` to `Community 0`, `Community 5`, `Community 82`, `Community 114`, `Community 61`?**
-  _High betweenness centrality (0.070) - this node is a cross-community bridge._
-- **What connects `supabase`, `OrderItem`, `DispatchOrder` to the rest of the system?**
+  _High betweenness centrality (0.068) - this node is a cross-community bridge._
+- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
   _361 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.07 - nodes in this community are weakly interconnected._

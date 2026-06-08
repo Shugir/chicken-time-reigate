@@ -2,7 +2,7 @@
 source_file: "lib/order-status.ts"
 type: "code"
 community: "Community None"
-location: "L24"
+location: "L26"
 tags:
   - graphify/code
   - graphify/EXTRACTED

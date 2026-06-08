@@ -1,18 +1,20 @@
 ---
-source_file: "app/admin/dispatch/page.tsx"
+source_file: "lib/utils/order-urgency.ts"
 type: "code"
 community: "Community None"
-location: "L67"
+location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# timeAgo()
+# OrderUrgency
 
 ## Connections
 - [[OrderCard()_1]] - `calls` [EXTRACTED]
-- [[page.tsx_9]] - `contains` [EXTRACTED]
+- [[order-urgency.test.ts]] - `imports` [EXTRACTED]
+- [[order-urgency.ts]] - `contains` [EXTRACTED]
+- [[page.tsx_9]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

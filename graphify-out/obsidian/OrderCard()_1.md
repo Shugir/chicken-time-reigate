@@ -2,7 +2,7 @@
 source_file: "app/admin/dispatch/page.tsx"
 type: "code"
 community: "Community None"
-location: "L74"
+location: "L76"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,7 @@ tags:
 # OrderCard()
 
 ## Connections
+- [[OrderUrgency]] - `calls` [EXTRACTED]
 - [[page.tsx_9]] - `contains` [EXTRACTED]
 - [[timeAgo()]] - `calls` [EXTRACTED]
 

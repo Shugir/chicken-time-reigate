@@ -1,17 +1,16 @@
 ---
-source_file: "app/admin/dispatch/page.tsx"
+source_file: "supabase/migrations/20260632_return_reason.sql"
 type: "code"
 community: "Community None"
-location: "L36"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# DispatchOrder
+# 20260632_return_reason.sql
 
 ## Connections
-- [[page.tsx_9]] - `contains` [EXTRACTED]
+- [[orders_11]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
