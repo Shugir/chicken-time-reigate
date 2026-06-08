@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-06-08)
 
 ## Corpus Check
-- 161 files · ~1,802,757 words
+- 162 files · ~1,802,890 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 995 nodes · 1605 edges · 106 communities (57 shown, 49 thin omitted)
+- 998 nodes · 1611 edges · 110 communities (55 shown, 55 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `85e99dfc`
+- Built from commit: `3b257988`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -106,11 +106,15 @@
 - [[_COMMUNITY_Community 99|Community 99]]
 - [[_COMMUNITY_Community 101|Community 101]]
 - [[_COMMUNITY_Community 102|Community 102]]
+- [[_COMMUNITY_Community 104|Community 104]]
 - [[_COMMUNITY_Community 105|Community 105]]
 - [[_COMMUNITY_Community 106|Community 106]]
+- [[_COMMUNITY_Community 107|Community 107]]
+- [[_COMMUNITY_Community 108|Community 108]]
+- [[_COMMUNITY_Community 109|Community 109]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `supabaseAdmin` - 66 edges
+1. `supabaseAdmin` - 67 edges
 2. `getUserPermissions` - 37 edges
 3. `hasPermission()` - 32 edges
 4. `compilerOptions` - 16 edges
@@ -138,11 +142,11 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (106 total, 49 thin omitted)
+## Communities (110 total, 55 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.13
-Nodes (14): CartItem, ComboComponent, Extra, POST(), stripe, buildHtml(), EmailOrderData, OrderEmailStatus (+6 more)
+Cohesion: 0.08
+Nodes (32): CartItem, ComboComponent, Extra, POST(), stripe, buildHtml(), EmailOrderData, OrderEmailStatus (+24 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.12
@@ -153,8 +157,8 @@ Cohesion: 0.06
 Nodes (33): eslintConfig, dependencies, lucide-react, next, react, react-dom, react-hot-toast, recharts (+25 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.09
-Nodes (7): GET(), GET(), GET(), DELETE(), PATCH(), supabaseAdmin, GET()
+Cohesion: 0.25
+Nodes (3): DELETE(), PATCH(), supabaseAdmin
 
 ### Community 4 - "Community 4"
 Cohesion: 0.15
@@ -296,17 +300,9 @@ Nodes (3): combo_discounts, menu_items, order_items
 Cohesion: 0.6
 Nodes (3): GET(), getAdminUser(), PATCH()
 
-### Community 95 - "Community 95"
-Cohesion: 0.18
-Nodes (11): DayKey, DAYS, BusinessHours, DAY_LABELS, DayHours, DEFAULT_HOURS, Holiday, SaveState (+3 more)
-
 ### Community 96 - "Community 96"
 Cohesion: 0.05
 Nodes (38): code:sql (-- supabase/migrations/20260629_menu_offers.sql), code:typescript (interface MenuItem {), code:typescript (const EMPTY_FORM = { name: '', description: '', price: '', i), code:typescript (const EMPTY_FORM = { name: '', description: '', price: '', c), code:typescript ({), code:typescript ({), code:typescript (: { ...EMPTY_FORM, category: categories[0]?.slug ?? '', comb), code:typescript (compare_at_price: form.compare_at_price ? parseFloat(form.co) (+30 more)
-
-### Community 97 - "Community 97"
-Cohesion: 0.26
-Nodes (8): BusinessHours, checkStoreStatus(), DayHours, getNextOpenDay(), getUKNow(), Holiday, StoreStatusResult, GET()
 
 ### Community 98 - "Community 98"
 Cohesion: 0.06
@@ -323,9 +319,9 @@ Nodes (4): Contact Page, FormState Type, Opening Hours Data (HOURS), InputField 
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **301 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+296 more)
+- **300 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+295 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **49 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **55 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -334,13 +330,13 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
-- **Why does `supabaseAdmin` connect `Community 3` to `Community 0`, `Community 97`, `Community 68`, `Community 100`, `Community 70`, `Community 101`, `Community 73`, `Community 12`, `Community 80`, `Community 18`, `Community 84`, `Community 89`, `Community 90`, `Community 92`, `Community 93`, `Community 94`?**
-  _High betweenness centrality (0.117) - this node is a cross-community bridge._
+- **Why does `supabaseAdmin` connect `Community 3` to `Community 0`, `Community 12`, `Community 18`, `Community 68`, `Community 70`, `Community 73`, `Community 80`, `Community 84`, `Community 89`, `Community 90`, `Community 92`, `Community 93`, `Community 94`, `Community 95`, `Community 97`, `Community 100`, `Community 101`, `Community 104`, `Community 107`, `Community 108`, `Community 109`?**
+  _High betweenness centrality (0.120) - this node is a cross-community bridge._
 - **Why does `Extra` connect `Community 11` to `Community 0`, `Community 1`?**
-  _High betweenness centrality (0.099) - this node is a cross-community bridge._
+  _High betweenness centrality (0.100) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 76` to `Community 0`, `Community 82`, `Community 61`, `Community 5`?**
   _High betweenness centrality (0.092) - this node is a cross-community bridge._
 - **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
-  _305 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _304 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.13 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
