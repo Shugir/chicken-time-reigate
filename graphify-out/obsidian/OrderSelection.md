@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[ItemCustomizerDrawer.tsx]] - `imports` [EXTRACTED]
+- [[ItemCustomizerDrawer.tsx_1]] - `imports` [EXTRACTED]
 - [[ProductModal.tsx]] - `contains` [EXTRACTED]
 - [[ProductModal.tsx_1]] - `contains` [EXTRACTED]
 - [[page.tsx_24]] - `imports` [EXTRACTED]
