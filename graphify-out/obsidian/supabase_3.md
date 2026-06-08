@@ -1,8 +1,8 @@
 ---
-source_file: "app/driver/dashboard/page.tsx"
+source_file: "app/checkout/page.tsx"
 type: "code"
 community: "Community None"
-location: "L11"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,7 @@ tags:
 # supabase
 
 ## Connections
-- [[page.tsx_20]] - `contains` [EXTRACTED]
-- [[page.tsx_31]] - `contains` [EXTRACTED]
-- [[page.tsx_34]] - `contains` [EXTRACTED]
+- [[page.tsx_19]] - `contains` [EXTRACTED]
+- [[page.tsx_32]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

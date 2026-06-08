@@ -1,5 +1,5 @@
 ---
-source_file: "checkout/page.tsx"
+source_file: "admin/settings/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,8 @@ tags:
 # page.tsx
 
 ## Connections
-- [[CartItem_1]] - `contains` [EXTRACTED]
-- [[CheckoutPage()]] - `contains` [EXTRACTED]
-- [[DeliveryZone_1]] - `contains` [EXTRACTED]
+- [[SaveState_3]] - `contains` [EXTRACTED]
+- [[SettingsPage()]] - `contains` [EXTRACTED]
+- [[StoreSettings]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

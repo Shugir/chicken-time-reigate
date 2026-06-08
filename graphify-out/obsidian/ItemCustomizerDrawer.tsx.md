@@ -22,6 +22,6 @@ tags:
 - [[ProductItem]] - `imports` [EXTRACTED]
 - [[ProductModal.tsx]] - `imports_from` [EXTRACTED]
 - [[Props_1]] - `contains` [EXTRACTED]
-- [[page.tsx_24]] - `imports_from` [EXTRACTED]
+- [[page.tsx_25]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

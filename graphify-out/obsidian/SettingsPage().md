@@ -12,7 +12,7 @@ tags:
 # SettingsPage()
 
 ## Connections
-- [[page.tsx_14]] - `contains` [EXTRACTED]
-- [[page.tsx_46]] - `contains` [EXTRACTED]
+- [[page.tsx_15]] - `contains` [EXTRACTED]
+- [[page.tsx_47]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

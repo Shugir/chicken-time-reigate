@@ -13,12 +13,14 @@ tags:
 
 ## Connections
 - [[AdminSidebar()]] - `calls` [EXTRACTED]
+- [[DispatchPage()]] - `calls` [EXTRACTED]
 - [[KitchenDashboard()]] - `calls` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports` [EXTRACTED]
 - [[admin-sidebar.tsx_1]] - `imports` [EXTRACTED]
-- [[page.tsx_21]] - `imports` [EXTRACTED]
-- [[page.tsx_31]] - `imports` [EXTRACTED]
-- [[page.tsx_33]] - `imports` [EXTRACTED]
+- [[page.tsx_9]] - `imports` [EXTRACTED]
+- [[page.tsx_22]] - `imports` [EXTRACTED]
+- [[page.tsx_32]] - `imports` [EXTRACTED]
+- [[page.tsx_34]] - `imports` [EXTRACTED]
 - [[permissions-provider.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

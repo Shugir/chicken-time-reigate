@@ -755,6 +755,13 @@
         "a": 1,
         "rgb": 16752039
       }
+    },
+    {
+      "query": "tag:#community/Community_108",
+      "color": {
+        "a": 1,
+        "rgb": 10253663
+      }
     }
   ]
 }

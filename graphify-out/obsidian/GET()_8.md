@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/admin/loyalty/route.ts"
+source_file: "app/api/admin/drivers/[id]/ledger/route.ts"
 type: "code"
 community: "Community None"
-location: "L6"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
