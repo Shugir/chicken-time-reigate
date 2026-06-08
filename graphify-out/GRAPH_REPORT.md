@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 986 nodes · 1590 edges · 109 communities (61 shown, 48 thin omitted)
+- 986 nodes · 1590 edges · 109 communities (60 shown, 49 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a8eb0142`
+- Built from commit: `b7e8d74b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -112,6 +112,7 @@
 - [[_COMMUNITY_Community 105|Community 105]]
 - [[_COMMUNITY_Community 106|Community 106]]
 - [[_COMMUNITY_Community 107|Community 107]]
+- [[_COMMUNITY_Community 108|Community 108]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `supabaseAdmin` - 65 edges
@@ -142,7 +143,7 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (109 total, 48 thin omitted)
+## Communities (109 total, 49 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.16
@@ -157,8 +158,8 @@ Cohesion: 0.06
 Nodes (33): eslintConfig, dependencies, lucide-react, next, react, react-dom, react-hot-toast, recharts (+25 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.15
-Nodes (6): GET(), GET(), DELETE(), PATCH(), supabaseAdmin, GET()
+Cohesion: 0.17
+Nodes (5): GET(), GET(), DELETE(), PATCH(), supabaseAdmin
 
 ### Community 4 - "Community 4"
 Cohesion: 0.15
@@ -347,9 +348,9 @@ Nodes (3): Category, CategoryForm, EMPTY_FORM
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **300 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+295 more)
+- **300 isolated node(s):** `supabase`, `OrderItem`, `DispatchOrder`, `DispatchDriver`, `BoardData` (+295 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **48 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **49 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -364,7 +365,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.097) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 76` to `Community 0`, `Community 82`, `Community 61`, `Community 5`?**
   _High betweenness centrality (0.091) - this node is a cross-community bridge._
-- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
+- **What connects `supabase`, `OrderItem`, `DispatchOrder` to the rest of the system?**
   _304 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.12 - nodes in this community are weakly interconnected._
