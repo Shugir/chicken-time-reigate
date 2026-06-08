@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic'
 
 const ORDER_FIELDS = `
   id, customer_name, customer_phone, customer_notes,
-  delivery_address, delivery_postcode, total_amount, created_at,
+  delivery_address, delivery_postcode, total_amount, created_at, driver_id,
   order_items(id, item_name, quantity, unit_price, extras, removals, notes)
 `
 
