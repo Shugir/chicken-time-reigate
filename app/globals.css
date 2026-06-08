@@ -168,4 +168,20 @@ h6 {
     width: 80mm !important;
     max-width: 80mm !important;
   }
+
+  /* Hide all page content when printing — show only the receipt */
+  body * {
+    visibility: hidden !important;
+  }
+
+  .receipt-print,
+  .receipt-print * {
+    visibility: visible !important;
+  }
+
+  .receipt-print {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+  }
 }

@@ -39,10 +39,10 @@ function thisMonthRange() {
 }
 
 const DATE_PRESETS = [
-  { label: 'Today',      fn: todayRange },
-  { label: 'Yesterday',  fn: yesterdayRange },
-  { label: 'This week',  fn: thisWeekRange },
-  { label: 'This month', fn: thisMonthRange },
+  { key: 'today',     label: 'Today',      fn: todayRange },
+  { key: 'yesterday', label: 'Yesterday',  fn: yesterdayRange },
+  { key: 'week',      label: 'This week',  fn: thisWeekRange },
+  { key: 'month',     label: 'This month', fn: thisMonthRange },
 ]
 
 const AMOUNT_PRESETS = [
@@ -69,6 +69,7 @@ export default function ReceiptsPage() {
   const date_to    = sp.get('date_to')   ?? todayRange().date_to
   const amount_min = sp.get('amount_min') ?? ''
   const amount_max = sp.get('amount_max') ?? ''
+  const presetKey  = sp.get('preset') ?? ''
   const page       = Math.max(1, parseInt(sp.get('page') ?? '1', 10))
   const view       = (sp.get('view') ?? 'table') as 'table' | 'cards'
 
@@ -163,11 +164,14 @@ export default function ReceiptsPage() {
     setParam({ status: next.join(',') })
   }
 
-  // Current date chip label
-  const dateLabel = DATE_PRESETS.find((p) => {
-    const r = p.fn()
-    return r.date_from === date_from && r.date_to === date_to
-  })?.label ?? 'Custom range'
+  // Current date chip label — prefer the URL `preset` key to avoid ambiguity
+  // when two presets return the same date range (e.g. Today == This week on Monday)
+  const dateLabel = DATE_PRESETS.find((p) => p.key === presetKey)?.label
+    ?? DATE_PRESETS.find((p) => {
+        const r = p.fn()
+        return r.date_from === date_from && r.date_to === date_to
+      })?.label
+    ?? 'Custom range'
 
   // Current amount chip label
   const amountLabel = AMOUNT_PRESETS.find((p) => p.min === amount_min && p.max === amount_max)?.label ?? 'Any amount'
@@ -175,7 +179,7 @@ export default function ReceiptsPage() {
   const orders = data?.orders ?? []
   const total  = data?.total ?? 0
   const pages  = data?.pages ?? 1
-  const revenue = data?.summary.revenue ?? 0
+  const revenue = data?.summary?.revenue ?? 0
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex">
@@ -243,7 +247,7 @@ export default function ReceiptsPage() {
                   {DATE_PRESETS.map((p) => (
                     <button
                       key={p.label}
-                      onClick={() => { setParam(p.fn()); setOpenChip(null) }}
+                      onClick={() => { setParam({ ...p.fn(), preset: p.key }); setOpenChip(null) }}
                       className="block w-full text-left text-xs text-zinc-300 hover:text-white hover:bg-zinc-800 px-3 py-2 rounded-lg transition-colors"
                     >
                       {p.label}
@@ -252,9 +256,9 @@ export default function ReceiptsPage() {
                   <div className="border-t border-zinc-800 mt-1 pt-2 px-1">
                     <p className="text-[10px] text-zinc-600 mb-1.5 uppercase tracking-wider">Custom range</p>
                     <div className="flex gap-1.5">
-                      <input type="date" value={date_from} onChange={(e) => setParam({ date_from: e.target.value })}
+                      <input type="date" value={date_from} onChange={(e) => setParam({ date_from: e.target.value, preset: '' })}
                         className="flex-1 bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-xs text-white" />
-                      <input type="date" value={date_to} onChange={(e) => setParam({ date_to: e.target.value })}
+                      <input type="date" value={date_to} onChange={(e) => setParam({ date_to: e.target.value, preset: '' })}
                         className="flex-1 bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-xs text-white" />
                     </div>
                   </div>
