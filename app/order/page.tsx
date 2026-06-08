@@ -833,13 +833,13 @@ export default function OrderPage() {
           <div
             ref={navScrollRef}
             onScroll={checkNavScroll}
-            className="flex items-center gap-1 overflow-x-auto py-2.5 px-4 sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden scroll-smooth"
+            className="flex flex-nowrap items-center gap-1 overflow-x-auto py-2.5 px-4 sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory"
           >
             {categories.map(({ slug, name, image_url }) => (
               <button
                 key={slug}
                 onClick={() => scrollTo(slug)}
-                className={`flex-none flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${
+                className={`flex-none shrink-0 snap-start flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${
                   activeCategory === slug
                     ? 'bg-zinc-900 text-white shadow-sm'
                     : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
