@@ -1,29 +1,10 @@
 // app/api/admin/receipts/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 import type { AdminReceiptOrder } from '@/components/admin/receipts/types'
 
 export const dynamic = 'force-dynamic'
-
-async function getAuthedUser() {
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
-  )
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-  const { data: perms } = await supabaseAdmin
-    .from('staff_permissions')
-    .select('role, permissions')
-    .eq('email', user.email!)
-    .maybeSingle()
-  const ok = perms?.role === 'owner' || (perms?.permissions ?? []).includes('Receipts')
-  return ok ? user : null
-}
 
 function buildQuery(sp: URLSearchParams) {
   const q          = sp.get('q')?.trim() ?? ''
@@ -121,8 +102,10 @@ function toCsv(orders: AdminReceiptOrder[]): string {
 }
 
 export async function GET(req: NextRequest) {
-  const user = await getAuthedUser()
-  if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  const userPerms = await getUserPermissions()
+  if (!userPerms || !hasPermission(userPerms, 'Receipts')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
 
   const sp     = req.nextUrl.searchParams
   const format = sp.get('format') ?? 'json'

@@ -71,6 +71,7 @@ export default function ReceiptsPage() {
   const [drawer, setDrawer]       = useState<AdminReceiptOrder | null>(null)
   const [openChip, setOpenChip]   = useState<string | null>(null)
   const [searchInput, setSearchInput] = useState(q)
+  const [pendingPrint, setPendingPrint] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Build API URL from current SP
@@ -94,6 +95,15 @@ export default function ReceiptsPage() {
       .then((d) => { setData(d); setLoading(false) })
       .catch(() => { toast.error('Failed to load receipts'); setLoading(false) })
   }, [apiUrl])
+
+  useEffect(() => { setSearchInput(q) }, [q])
+
+  useEffect(() => {
+    if (pendingPrint && drawer) {
+      window.print()
+      setPendingPrint(false)
+    }
+  }, [pendingPrint, drawer])
 
   // Load drivers for filter chip
   useEffect(() => {
@@ -127,7 +137,7 @@ export default function ReceiptsPage() {
 
   function handlePrintQuick(order: AdminReceiptOrder) {
     setDrawer(order)
-    setTimeout(() => window.print(), 100)
+    setPendingPrint(true)
   }
 
   function handleCopyLink(order: AdminReceiptOrder) {
