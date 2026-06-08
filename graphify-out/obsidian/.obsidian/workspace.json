@@ -180,6 +180,7 @@
   },
   "active": "796242612f467268",
   "lastOpenFiles": [
+    "wrapLine().md",
     "route.ts_64.md",
     "POST()_14.md",
     "supabase_8.md",
@@ -205,7 +206,6 @@
     "codebash (git add appapiadmincombo-discountsroute.ts appapiadmi).md",
     "codeblock10 (GET httplocalhost3000apiadmincombo-discounts).md",
     "codetypescript (import { NextRequest, NextResponse } from 'nextserver')_3.md",
-    "codetypescript (import { NextRequest, NextResponse } from 'nextserver')_2.md",
     "graph.canvas",
     "Untitled 1.canvas",
     "Untitled.canvas"
