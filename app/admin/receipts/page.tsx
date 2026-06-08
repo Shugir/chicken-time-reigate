@@ -11,24 +11,31 @@ import { ReceiptsCards } from '@/components/admin/receipts/ReceiptsCards'
 import { ReceiptDrawer } from '@/components/admin/receipts/ReceiptDrawer'
 import type { AdminReceiptOrder, ReceiptsApiResponse } from '@/components/admin/receipts/types'
 
-// ── Date chip helpers ──────────────────────────────────────────────────────────
+// ── Date chip helpers — use local date components to avoid UTC/BST shift ──────
+function localDate(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
 function todayRange() {
-  const d = new Date().toISOString().slice(0, 10)
+  const d = localDate(new Date())
   return { date_from: d, date_to: d }
 }
 function yesterdayRange() {
-  const d = new Date(Date.now() - 864e5).toISOString().slice(0, 10)
+  const y = new Date(); y.setDate(y.getDate() - 1)
+  const d = localDate(y)
   return { date_from: d, date_to: d }
 }
 function thisWeekRange() {
-  const now  = new Date()
-  const mon  = new Date(now); mon.setDate(now.getDate() - now.getDay() + 1)
-  return { date_from: mon.toISOString().slice(0, 10), date_to: now.toISOString().slice(0, 10) }
+  const now = new Date()
+  // ISO weekday: Mon=1 … Sat=6, Sun=7 (getDay returns 0 for Sunday)
+  const isoDay = now.getDay() || 7
+  const mon = new Date(now); mon.setDate(now.getDate() - isoDay + 1)
+  return { date_from: localDate(mon), date_to: localDate(now) }
 }
 function thisMonthRange() {
-  const now   = new Date()
-  const start = new Date(now.getFullYear(), now.getMonth(), 1)
-  return { date_from: start.toISOString().slice(0, 10), date_to: now.toISOString().slice(0, 10) }
+  const now = new Date()
+  const year  = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  return { date_from: `${year}-${month}-01`, date_to: localDate(now) }
 }
 
 const DATE_PRESETS = [
