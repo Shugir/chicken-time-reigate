@@ -1,0 +1,162 @@
+// app/api/admin/receipts/route.ts
+import { NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { supabaseAdmin } from '@/lib/supabase-admin'
+import type { AdminReceiptOrder } from '@/components/admin/receipts/types'
+
+export const dynamic = 'force-dynamic'
+
+async function getAuthedUser() {
+  const cookieStore = await cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
+  )
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+  const { data: perms } = await supabaseAdmin
+    .from('staff_permissions')
+    .select('role, permissions')
+    .eq('email', user.email!)
+    .maybeSingle()
+  const ok = perms?.role === 'owner' || (perms?.permissions ?? []).includes('Receipts')
+  return ok ? user : null
+}
+
+function buildQuery(sp: URLSearchParams) {
+  const q          = sp.get('q')?.trim() ?? ''
+  const driverId   = sp.get('driver_id')?.trim() ?? ''
+  const statuses   = sp.get('status')?.trim() ?? ''
+  const dateFrom   = sp.get('date_from')?.trim() ?? ''
+  const dateTo     = sp.get('date_to')?.trim() ?? ''
+  const amountMin  = sp.get('amount_min')?.trim() ?? ''
+  const amountMax  = sp.get('amount_max')?.trim() ?? ''
+
+  let query = supabaseAdmin
+    .from('orders')
+    .select(`
+      id, created_at, customer_name, customer_email, customer_phone, customer_notes,
+      delivery_address, delivery_postcode, total_amount, status, delivery_status,
+      promo_code_used, discount_applied, driver_id, stripe_session_id,
+      drivers ( name ),
+      order_items ( id, item_name, quantity, unit_price, extras, removals, notes )
+    `)
+    .order('created_at', { ascending: false })
+
+  if (q) {
+    query = query.or(
+      `customer_name.ilike.%${q}%,customer_phone.ilike.%${q}%,` +
+      `customer_email.ilike.%${q}%,delivery_postcode.ilike.%${q}%,` +
+      `id.ilike.%${q}%`
+    )
+  }
+  if (driverId) query = query.eq('driver_id', driverId)
+  if (statuses) query = query.in('status', statuses.split(','))
+  if (dateFrom) query = query.gte('created_at', `${dateFrom}T00:00:00`)
+  if (dateTo)   query = query.lte('created_at', `${dateTo}T23:59:59`)
+  if (amountMin) query = query.gte('total_amount', Number(amountMin))
+  if (amountMax) query = query.lte('total_amount', Number(amountMax))
+
+  return query
+}
+
+function normalise(raw: Record<string, unknown>[]): AdminReceiptOrder[] {
+  return raw.map((o) => ({
+    id:                o.id as string,
+    created_at:        o.created_at as string,
+    customer_name:     (o.customer_name as string | null) ?? null,
+    customer_email:    (o.customer_email as string | null) ?? null,
+    customer_phone:    (o.customer_phone as string | null) ?? null,
+    customer_notes:    (o.customer_notes as string | null) ?? null,
+    delivery_address:  (o.delivery_address as string | null) ?? null,
+    delivery_postcode: (o.delivery_postcode as string | null) ?? null,
+    total_amount:      Number(o.total_amount),
+    status:            o.status as string,
+    delivery_status:   (o.delivery_status as string | null) ?? null,
+    promo_code_used:   (o.promo_code_used as string | null) ?? null,
+    discount_applied:  Number(o.discount_applied ?? 0),
+    driver_id:         (o.driver_id as string | null) ?? null,
+    driver_name:       (o.drivers as { name: string } | null)?.name ?? null,
+    stripe_session_id: (o.stripe_session_id as string | null) ?? null,
+    order_items:       ((o.order_items as unknown[]) ?? []) as AdminReceiptOrder['order_items'],
+  }))
+}
+
+function toCsv(orders: AdminReceiptOrder[]): string {
+  const headers = [
+    'Order ID', 'Date', 'Time', 'Customer Name', 'Customer Phone', 'Customer Email',
+    'Delivery Address', 'Postcode', 'Driver', 'Status',
+    'Items', 'Subtotal', 'Discount', 'Total', 'Promo Code', 'Stripe Session',
+  ]
+  const esc = (v: string) => `"${v.replace(/"/g, '""')}"`
+  const rows = orders.map((o) => {
+    const date   = new Date(o.created_at)
+    const items  = o.order_items.map((i) => `${i.item_name ?? 'Item'} ×${i.quantity}`).join(', ')
+    const subtotal = o.order_items.reduce((s, i) => s + i.unit_price * i.quantity, 0)
+    return [
+      esc(`#${o.id.slice(-6).toUpperCase()}`),
+      esc(date.toLocaleDateString('en-GB')),
+      esc(date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })),
+      esc(o.customer_name ?? ''),
+      esc(o.customer_phone ?? ''),
+      esc(o.customer_email ?? ''),
+      esc(o.delivery_address ?? ''),
+      esc(o.delivery_postcode ?? ''),
+      esc(o.driver_name ?? ''),
+      esc(o.status),
+      esc(items),
+      esc(subtotal.toFixed(2)),
+      esc(o.discount_applied.toFixed(2)),
+      esc(o.total_amount.toFixed(2)),
+      esc(o.promo_code_used ?? ''),
+      esc(o.stripe_session_id ?? ''),
+    ].join(',')
+  })
+  return [headers.map(esc).join(','), ...rows].join('\n')
+}
+
+export async function GET(req: NextRequest) {
+  const user = await getAuthedUser()
+  if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
+  const sp     = req.nextUrl.searchParams
+  const format = sp.get('format') ?? 'json'
+  const page   = Math.max(1, parseInt(sp.get('page') ?? '1', 10))
+  const perPage = 50
+
+  // For CSV: fetch all matching rows (no pagination)
+  if (format === 'csv') {
+    const { data, error } = await buildQuery(sp)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    const csv      = toCsv(normalise((data ?? []) as Record<string, unknown>[]))
+    const today    = new Date().toISOString().slice(0, 10)
+    return new NextResponse(csv, {
+      headers: {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': `attachment; filename="receipts-${today}.csv"`,
+      },
+    })
+  }
+
+  // JSON: paginated + summary
+  const [{ data, error, count }, { data: summaryData }] = await Promise.all([
+    buildQuery(sp).range((page - 1) * perPage, page * perPage - 1),
+    buildQuery(sp).select('total_amount'),
+  ])
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  const total   = count ?? summaryData?.length ?? 0
+  const revenue = (summaryData ?? []).reduce((s: number, o: { total_amount: number }) => s + Number(o.total_amount), 0)
+  const orders  = normalise((data ?? []) as Record<string, unknown>[])
+
+  return NextResponse.json({
+    orders,
+    total,
+    page,
+    pages: Math.ceil(total / perPage),
+    summary: { revenue },
+  })
+}
