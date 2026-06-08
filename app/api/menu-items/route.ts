@@ -6,10 +6,10 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   const { data, error } = await supabaseAdmin
     .from('menu_items')
-    .select('id, name, description, price, compare_at_price, image_url, category, is_available, custom_options, extras, removals, dietary_flags, allergens, combo_category, size_tier')
+    .select('id, name, description, price, compare_at_price, image_url, category, is_available, custom_options, extras, removals, additions, dietary_flags, allergens, combo_category, size_tier')
     .eq('is_available', true)
     .order('category', { ascending: true })
-    .order('name',     { ascending: true })
+    .order('name', { ascending: true })
 
   if (error) {
     console.error('Menu items fetch error:', error.message)

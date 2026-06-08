@@ -38,6 +38,7 @@ interface MenuItem {
   is_available: boolean
   extras: Extra[]
   removals: string[]
+  additions: string[]
   dietary_flags: string[]
   allergens: string[]
   created_at: string
@@ -270,15 +271,17 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       : { ...EMPTY_FORM, category: categories[0]?.slug ?? '', combo_category: null as 'main' | 'side' | 'drink' | null, size_tier: null as 'regular' | 'large' | null }
   )
   const [removals, setRemovals] = useState<string[]>(() => editingItem?.removals ?? [])
+  const [additions, setAdditions] = useState<string[]>(() => editingItem?.additions ?? [])
   const [extras, setExtras] = useState<Extra[]>(() => editingItem?.extras ?? [])
   const [dietaryFlags, setDietaryFlags] = useState<string[]>(() => editingItem?.dietary_flags ?? [])
   const [allergens, setAllergens] = useState<string[]>(() => editingItem?.allergens ?? [])
   const [removalInput, setRemovalInput] = useState('')
+  const [additionInput, setAdditionInput] = useState('')
   const [allergenInput, setAllergenInput] = useState('')
   const [extraInput, setExtraInput] = useState({ name: '', price: '' })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [suggestions, setSuggestions] = useState<{ removals: string[]; extras: string[]; allergens: string[] }>({ removals: [], extras: [], allergens: [] })
+  const [suggestions, setSuggestions] = useState<{ removals: string[]; additions: string[]; extras: string[]; allergens: string[] }>({ removals: [], additions: [], extras: [], allergens: [] })
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [imageUploading, setImageUploading] = useState(false)
@@ -287,7 +290,12 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
   useEffect(() => {
     fetch('/api/admin/menu/suggestions')
       .then((r) => r.json())
-      .then((d) => setSuggestions(d))
+      .then((d) => setSuggestions({
+        removals: Array.isArray(d?.removals) ? d.removals : [],
+        additions: Array.isArray(d?.additions) ? d.additions : [],
+        extras: Array.isArray(d?.extras) ? d.extras : [],
+        allergens: Array.isArray(d?.allergens) ? d.allergens : [],
+      }))
       .catch(() => { })
   }, [])
 
@@ -302,6 +310,13 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     if (!val || removals.includes(val)) return
     setRemovals((prev) => [...prev, val])
     setRemovalInput('')
+  }
+
+  function addAddition() {
+    const val = additionInput.trim()
+    if (!val || additions.includes(val)) return
+    setAdditions((prev) => [...prev, val])
+    setAdditionInput('')
   }
 
   function addAllergen() {
@@ -364,6 +379,7 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       category: form.category,
       is_available: editingItem ? editingItem.is_available : true,
       removals,
+      additions,
       extras,
       dietary_flags: dietaryFlags,
       allergens,
@@ -553,6 +569,42 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                   <span key={r} className="flex items-center gap-1 bg-zinc-800 text-zinc-300 text-xs px-2.5 py-1 rounded-full">
                     {r}
                     <button type="button" onClick={() => setRemovals((prev) => prev.filter((x) => x !== r))} className="text-zinc-500 hover:text-white ml-0.5">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ── Addable Ingredients ── */}
+          <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
+            <div>
+              <p className="text-xs font-semibold text-zinc-300">Add Ingredients</p>
+              <p className="text-[11px] text-zinc-600 mt-0.5">Customers can request these be added to their order</p>
+            </div>
+            <div className="flex gap-2">
+              <ExtraNameInput
+                value={additionInput}
+                onChange={setAdditionInput}
+                onEnter={addAddition}
+                suggestions={suggestions.additions}
+                placeholder="e.g. Extra Sauce"
+              />
+              <button
+                type="button"
+                onClick={addAddition}
+                className="px-3 py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+            {additions.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {additions.map((a) => (
+                  <span key={a} className="flex items-center gap-1 bg-zinc-800 text-zinc-300 text-xs px-2.5 py-1 rounded-full">
+                    {a}
+                    <button type="button" onClick={() => setAdditions((prev) => prev.filter((x) => x !== a))} className="text-zinc-500 hover:text-white ml-0.5">
                       <X className="w-3 h-3" />
                     </button>
                   </span>

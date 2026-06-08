@@ -26,7 +26,7 @@ type MenuItem = ProductItem & {
   combo_category?: 'main' | 'side' | 'drink' | null
   size_tier?: 'regular' | 'large' | null
 }
-interface CartEntry { qty: number; removals: string[]; extras: AddOn[]; notes?: string }
+interface CartEntry { qty: number; removals: string[]; additions: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
 
 interface DbCategory {
@@ -242,6 +242,7 @@ interface DbMenuItem {
   is_available: boolean
   extras: Array<{ name: string; price: number }> | null
   removals: string[] | null
+  additions: string[] | null
   dietary_flags: string[] | null
   allergens: string[] | null
   combo_category: 'main' | 'side' | 'drink' | null
@@ -269,6 +270,7 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     image: item.image_url || FALLBACK_IMG,
     allergens: item.allergens?.length ? item.allergens : (opts.allergens ?? []),
     removables: item.removals?.length ? item.removals : (opts.removables ?? []),
+    additions: item.additions ?? [],
     add_ons: item.extras?.length ? item.extras : (opts.add_ons ?? []),
     dietaryFlags: item.dietary_flags ?? [],
     combo_category: item.combo_category ?? null,
@@ -558,6 +560,7 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
         totalPrice: unitPrice * entry.qty,
         extras: entry.extras,
         removals: entry.removals,
+        additions: entry.additions ?? [],
         notes: entry.notes?.trim() || undefined,
       }
     })
@@ -756,7 +759,7 @@ export default function OrderPage() {
   function addToCart(id: string) {
     setCart((p) => ({
       ...p,
-      [id]: { qty: (p[id]?.qty ?? 0) + 1, removals: p[id]?.removals ?? [], extras: p[id]?.extras ?? [] },
+      [id]: { qty: (p[id]?.qty ?? 0) + 1, removals: p[id]?.removals ?? [], additions: p[id]?.additions ?? [], extras: p[id]?.extras ?? [] },
     }))
   }
   function removeFromCart(id: string) {
@@ -772,6 +775,7 @@ export default function OrderPage() {
       [selection.item.id]: {
         qty: (p[selection.item.id]?.qty ?? 0) + selection.quantity,
         removals: selection.removals,
+        additions: selection.additions ?? [],
         extras: selection.extras,
         notes: selection.notes || undefined,
       },
@@ -840,8 +844,8 @@ export default function OrderPage() {
                 key={slug}
                 onClick={() => scrollTo(slug)}
                 className={`flex-none shrink-0 snap-start flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${activeCategory === slug
-                    ? 'bg-zinc-900 text-white shadow-sm'
-                    : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
+                  ? 'bg-zinc-900 text-white shadow-sm'
+                  : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
                   }`}
               >
                 {image_url && (
@@ -892,8 +896,8 @@ export default function OrderPage() {
             <button
               onClick={() => setFiltersOpen((v) => !v)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${activeFilterCount > 0
-                  ? 'bg-zinc-900 text-white border-zinc-900'
-                  : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900'
+                ? 'bg-zinc-900 text-white border-zinc-900'
+                : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900'
                 }`}
             >
               <SlidersHorizontal size={14} />

@@ -67,9 +67,8 @@ function ComboItemCard({ item, selected, onSelect }: { item: ComboItem; selected
   return (
     <button
       onClick={onSelect}
-      className={`rounded-xl border-2 overflow-hidden text-left transition-all ${
-        selected ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'
-      }`}
+      className={`rounded-xl border-2 overflow-hidden text-left transition-all ${selected ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'
+        }`}
     >
       {item.image_url ? (
         <div className="relative w-full h-20">
@@ -91,24 +90,28 @@ function ComboItemCard({ item, selected, onSelect }: { item: ComboItem; selected
 }
 
 export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Props) {
-  const [visible, setVisible]         = useState(false)
-  const [qty, setQty]                 = useState(1)
-  const [removals, setRemovals]       = useState<string[]>([])
-  const [extras, setExtras]           = useState<AddOn[]>([])
-  const [notes, setNotes]             = useState('')
+  const [visible, setVisible] = useState(false)
+  const [qty, setQty] = useState(1)
+  const [removals, setRemovals] = useState<string[]>([])
+  const [additions, setAdditions] = useState<string[]>([])
+  const [extras, setExtras] = useState<AddOn[]>([])
+  const [notes, setNotes] = useState('')
   const [openSection, setOpenSection] = useState<string | null>(
-    (item.add_ons?.length ?? 0) > 0 ? 'extras' : (item.removables?.length ?? 0) > 0 ? 'removals' : null,
+    (item.removables?.length ?? 0) > 0 ? 'removals'
+      : (item.additions?.length ?? 0) > 0 ? 'additions'
+        : (item.add_ons?.length ?? 0) > 0 ? 'extras'
+          : null,
   )
 
   // Meal mode state
-  const [mealMode, setMealMode]           = useState(false)
-  const [comboLoading, setComboLoading]   = useState(false)
-  const [comboItems, setComboItems]       = useState<{ sides: ComboItem[]; drinks: ComboItem[] }>({ sides: [], drinks: [] })
-  const [selectedSize, setSelectedSize]   = useState<'medium' | 'large' | null>(null)
-  const [selectedSide, setSelectedSide]   = useState<ComboItem | null>(null)
+  const [mealMode, setMealMode] = useState(false)
+  const [comboLoading, setComboLoading] = useState(false)
+  const [comboItems, setComboItems] = useState<{ sides: ComboItem[]; drinks: ComboItem[] }>({ sides: [], drinks: [] })
+  const [selectedSize, setSelectedSize] = useState<'medium' | 'large' | null>(null)
+  const [selectedSide, setSelectedSide] = useState<ComboItem | null>(null)
   const [selectedDrink, setSelectedDrink] = useState<ComboItem | null>(null)
-  const [discounts, setDiscounts]         = useState<{ medium: number; large: number }>({ medium: 0, large: 0 })
-  const [comboStep, setComboStep]         = useState<'size' | 'side' | 'drink' | null>(null)
+  const [discounts, setDiscounts] = useState<{ medium: number; large: number }>({ medium: 0, large: 0 })
+  const [comboStep, setComboStep] = useState<'size' | 'side' | 'drink' | null>(null)
 
   const isMain = item.combo_category === 'main'
 
@@ -133,15 +136,15 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
         const ld = Array.isArray(lrgDisc) ? lrgDisc[0] : lrgDisc
         setDiscounts({
           medium: Number(md?.discount_amount ?? 0),
-          large:  Number(ld?.discount_amount ?? 0),
+          large: Number(ld?.discount_amount ?? 0),
         })
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setComboLoading(false))
   }, [mealMode])
 
   // Items filtered by chosen size
-  const filteredSides  = selectedSize === 'large'
+  const filteredSides = selectedSize === 'large'
     ? comboItems.sides.filter(i => i.size_tier !== 'regular')
     : comboItems.sides.filter(i => i.size_tier !== 'large')
   const filteredDrinks = selectedSize === 'large'
@@ -149,34 +152,37 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
     : comboItems.drinks.filter(i => i.size_tier !== 'large')
 
   const activeDiscount = selectedSize === 'large' ? discounts.large : discounts.medium
-  const extrasTotal    = extras.reduce((s, e) => s + e.price, 0)
-  const mealComplete   = mealMode && selectedSize !== null && selectedSide !== null && selectedDrink !== null
-  const comboAddPrice  = mealComplete
+  const extrasTotal = extras.reduce((s, e) => s + e.price, 0)
+  const mealComplete = mealMode && selectedSize !== null && selectedSide !== null && selectedDrink !== null
+  const comboAddPrice = mealComplete
     ? Math.max(0, (selectedSide!.price) + (selectedDrink!.price) - activeDiscount)
     : 0
-  const total  = (item.price + extrasTotal + comboAddPrice) * qty
+  const total = (item.price + extrasTotal + comboAddPrice) * qty
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
 
-  const hasExtras   = (item.add_ons ?? []).length > 0
+  const hasExtras = (item.add_ons ?? []).length > 0
   const hasRemovals = (item.removables ?? []).length > 0
+  const hasAdditions = (item.additions ?? []).length > 0
 
   // Button validation
   const missingStep = mealMode
-    ? !selectedSize  ? 'Select a Meal Size'
-    : !selectedSide  ? 'Select a Side'
-    : !selectedDrink ? 'Select a Drink'
-    : null
+    ? !selectedSize ? 'Select a Meal Size'
+      : !selectedSide ? 'Select a Side'
+        : !selectedDrink ? 'Select a Drink'
+          : null
     : null
   const buttonDisabled = missingStep !== null
   const buttonLabel = missingStep ?? `Add${qty > 1 ? ` ${qty}×` : ''} to Order`
 
-  const toggleExtra   = (addon: AddOn) => setExtras(prev =>
+  const toggleExtra = (addon: AddOn) => setExtras(prev =>
     prev.some(e => e.name === addon.name) ? prev.filter(e => e.name !== addon.name) : [...prev, addon])
   const toggleRemoval = (r: string) => setRemovals(prev =>
     prev.includes(r) ? prev.filter(x => x !== r) : [...prev, r])
+  const toggleAddition = (a: string) => setAdditions(prev =>
+    prev.includes(a) ? prev.filter(x => x !== a) : [...prev, a])
 
   const handleAdd = () => {
-    onAddToOrder({ item, quantity: qty, removals, extras, notes: notes.trim(), totalPrice: total })
+    onAddToOrder({ item, quantity: qty, removals, additions, extras, notes: notes.trim(), totalPrice: total })
     onClose()
   }
 
@@ -314,11 +320,10 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
                       <button
                         key={sz}
                         onClick={() => handleSizeSelect(sz)}
-                        className={`rounded-xl border-2 p-4 flex flex-col items-center gap-1.5 transition-all ${
-                          selectedSize === sz
-                            ? 'border-brand-red bg-brand-red/5'
-                            : 'border-zinc-100 hover:border-zinc-200'
-                        }`}
+                        className={`rounded-xl border-2 p-4 flex flex-col items-center gap-1.5 transition-all ${selectedSize === sz
+                          ? 'border-brand-red bg-brand-red/5'
+                          : 'border-zinc-100 hover:border-zinc-200'
+                          }`}
                       >
                         <span className="text-2xl">{sz === 'medium' ? '🥤' : '🧃'}</span>
                         <p className={`text-sm font-bold capitalize ${selectedSize === sz ? 'text-brand-red' : 'text-zinc-800'}`}>
@@ -387,39 +392,6 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
             )
           )}
 
-          {/* Extras accordion */}
-          {hasExtras && (
-            <AccordionSection
-              title="Add Extras"
-              subtitle="Customize with add-ons"
-              open={openSection === 'extras'}
-              onToggle={() => setOpenSection(s => s === 'extras' ? null : 'extras')}
-            >
-              <div className="space-y-2">
-                {(item.add_ons ?? []).map(addon => {
-                  const sel = extras.some(e => e.name === addon.name)
-                  return (
-                    <button
-                      key={addon.name}
-                      onClick={() => toggleExtra(addon)}
-                      className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all ${
-                        sel ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'
-                      }`}
-                    >
-                      <span className={`font-medium text-sm ${sel ? 'text-brand-red' : 'text-zinc-700'}`}>{addon.name}</span>
-                      <div className="flex items-center gap-2.5">
-                        <span className={`text-sm font-bold ${sel ? 'text-brand-red' : 'text-zinc-400'}`}>+£{addon.price.toFixed(2)}</span>
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${sel ? 'border-brand-red bg-brand-red' : 'border-zinc-300'}`}>
-                          {sel && <Check size={10} className="text-white" />}
-                        </div>
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </AccordionSection>
-          )}
-
           {/* Removals accordion */}
           {hasRemovals && (
             <AccordionSection
@@ -435,12 +407,70 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
                     <button
                       key={r}
                       onClick={() => toggleRemoval(r)}
-                      className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all ${
-                        sel ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 text-zinc-600 hover:border-zinc-400'
-                      }`}
+                      className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all ${sel ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 text-zinc-600 hover:border-zinc-400'
+                        }`}
                     >
                       {sel && <X size={12} />}
                       {r}
+                    </button>
+                  )
+                })}
+              </div>
+            </AccordionSection>
+          )}
+
+          {/* Add Ingredients accordion */}
+          {hasAdditions && (
+            <AccordionSection
+              title="Add Ingredients"
+              subtitle="Request extra toppings"
+              open={openSection === 'additions'}
+              onToggle={() => setOpenSection(s => s === 'additions' ? null : 'additions')}
+            >
+              <div className="flex flex-wrap gap-2">
+                {(item.additions ?? []).map(a => {
+                  const sel = additions.includes(a)
+                  return (
+                    <button
+                      key={a}
+                      onClick={() => toggleAddition(a)}
+                      className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all ${sel ? 'border-brand-red bg-brand-red text-white' : 'border-zinc-200 text-zinc-600 hover:border-zinc-400'
+                        }`}
+                    >
+                      {sel && <Plus size={12} />}
+                      {a}
+                    </button>
+                  )
+                })}
+              </div>
+            </AccordionSection>
+          )}
+
+          {/* Extras accordion */}
+          {hasExtras && (
+            <AccordionSection
+              title="Add Extras"
+              subtitle="Customize with add-ons"
+              open={openSection === 'extras'}
+              onToggle={() => setOpenSection(s => s === 'extras' ? null : 'extras')}
+            >
+              <div className="space-y-2">
+                {(item.add_ons ?? []).map(addon => {
+                  const sel = extras.some(e => e.name === addon.name)
+                  return (
+                    <button
+                      key={addon.name}
+                      onClick={() => toggleExtra(addon)}
+                      className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all ${sel ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'
+                        }`}
+                    >
+                      <span className={`font-medium text-sm ${sel ? 'text-brand-red' : 'text-zinc-700'}`}>{addon.name}</span>
+                      <div className="flex items-center gap-2.5">
+                        <span className={`text-sm font-bold ${sel ? 'text-brand-red' : 'text-zinc-400'}`}>+£{addon.price.toFixed(2)}</span>
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${sel ? 'border-brand-red bg-brand-red' : 'border-zinc-300'}`}>
+                          {sel && <Check size={10} className="text-white" />}
+                        </div>
+                      </div>
                     </button>
                   )
                 })}
@@ -480,11 +510,10 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
           <button
             onClick={handleAdd}
             disabled={buttonDisabled}
-            className={`w-full font-bold py-4 rounded-2xl flex items-center justify-between px-5 transition-all ${
-              buttonDisabled
-                ? 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
-                : 'bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20'
-            }`}
+            className={`w-full font-bold py-4 rounded-2xl flex items-center justify-between px-5 transition-all ${buttonDisabled
+              ? 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
+              : 'bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20'
+              }`}
           >
             <span className="flex items-center gap-2 text-base">
               <ShoppingBag size={18} />

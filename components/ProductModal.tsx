@@ -24,6 +24,7 @@ export interface ProductItem {
   image: string
   allergens: string[]
   removables: string[]
+  additions?: string[]
   add_ons: AddOn[]
 }
 
@@ -31,6 +32,7 @@ export interface OrderSelection {
   item: ProductItem
   quantity: number
   removals: string[]
+  additions?: string[]
   extras: AddOn[]
   notes: string
   totalPrice: number
@@ -39,22 +41,22 @@ export interface OrderSelection {
 // ─── Static lookups ───────────────────────────────────────────────────────────
 
 const ALLERGEN_DETAILS: Record<string, string> = {
-  Gluten:  'Contains wheat flour in the crispy coating.',
-  Dairy:   'Present in sauces, dips, and brioche bun.',
-  Eggs:    'Used in marinades and coatings.',
-  Soya:    'May contain soya-based oils.',
-  Sesame:  'Sesame seeds used as garnish on selected items.',
-  Nuts:    'Manufactured in a facility that handles tree nuts.',
-  Celery:  'May be present in spice blends.',
+  Gluten: 'Contains wheat flour in the crispy coating.',
+  Dairy: 'Present in sauces, dips, and brioche bun.',
+  Eggs: 'Used in marinades and coatings.',
+  Soya: 'May contain soya-based oils.',
+  Sesame: 'Sesame seeds used as garnish on selected items.',
+  Nuts: 'Manufactured in a facility that handles tree nuts.',
+  Celery: 'May be present in spice blends.',
   Mustard: 'Used in some dressings and marinades.',
 }
 
 const CATEGORY_GRADIENT: Record<ItemCategory, string> = {
-  deals:   'from-red-100 via-orange-50 to-amber-50',
+  deals: 'from-red-100 via-orange-50 to-amber-50',
   burgers: 'from-orange-100 via-amber-50 to-yellow-50',
   chicken: 'from-red-100 via-orange-50 to-amber-50',
-  sides:   'from-yellow-100 via-lime-50 to-green-50',
-  drinks:  'from-sky-100 via-blue-50 to-indigo-50',
+  sides: 'from-yellow-100 via-lime-50 to-green-50',
+  drinks: 'from-sky-100 via-blue-50 to-indigo-50',
 }
 
 // ─── Toggle switch ────────────────────────────────────────────────────────────
@@ -65,9 +67,8 @@ function Toggle({ active, onChange }: { active: boolean; onChange: (v: boolean) 
       role="switch"
       aria-checked={active}
       onClick={() => onChange(!active)}
-      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-1 ${
-        active ? 'bg-brand-red' : 'bg-gray-200'
-      }`}
+      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-1 ${active ? 'bg-brand-red' : 'bg-gray-200'
+        }`}
     >
       <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-200 ${active ? 'translate-x-6' : 'translate-x-1'}`} />
     </button>
@@ -133,8 +134,8 @@ interface ProductModalProps {
 export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps) {
   const [quantity, setQuantity] = useState(1)
   const [removals, setRemovals] = useState<Set<string>>(new Set())
-  const [extras,   setExtras]   = useState<Set<string>>(new Set())
-  const [notes,    setNotes]    = useState('')
+  const [extras, setExtras] = useState<Set<string>>(new Set())
+  const [notes, setNotes] = useState('')
 
   function toggleRemoval(label: string) {
     setRemovals((prev) => {
@@ -153,17 +154,18 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
   }
 
   const selectedAddOns = (item.add_ons ?? []).filter((a) => extras.has(a.name))
-  const extrasTotal    = selectedAddOns.reduce((sum, a) => sum + a.price, 0)
-  const unitPrice      = item.price + extrasTotal
-  const totalPrice     = unitPrice * quantity
+  const extrasTotal = selectedAddOns.reduce((sum, a) => sum + a.price, 0)
+  const unitPrice = item.price + extrasTotal
+  const totalPrice = unitPrice * quantity
 
   function handleAdd() {
     onAddToOrder({
       item,
       quantity,
       removals: [...removals],
-      extras:   selectedAddOns,
-      notes:    notes.trim(),
+      additions: [],
+      extras: selectedAddOns,
+      notes: notes.trim(),
       totalPrice,
     })
     onClose()
@@ -257,17 +259,15 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
                       <button
                         key={addon.name}
                         onClick={() => toggleExtra(addon.name)}
-                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border-2 transition-all duration-150 text-left ${
-                          selected ? 'border-brand-red bg-red-50' : 'border-gray-100 bg-gray-50 hover:border-gray-200'
-                        }`}
+                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border-2 transition-all duration-150 text-left ${selected ? 'border-brand-red bg-red-50' : 'border-gray-100 bg-gray-50 hover:border-gray-200'
+                          }`}
                       >
                         <div className="flex items-center gap-3">
-                          <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                            selected ? 'border-brand-red bg-brand-red' : 'border-gray-300'
-                          }`}>
+                          <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${selected ? 'border-brand-red bg-brand-red' : 'border-gray-300'
+                            }`}>
                             {selected && (
                               <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                                <path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
                             )}
                           </span>
