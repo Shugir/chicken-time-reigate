@@ -33,7 +33,7 @@ export async function GET() {
 
   const { data: driver } = await supabaseAdmin
     .from('drivers')
-    .select('id')
+    .select('id, name')
     .eq('user_id', user.id)
     .eq('is_active', true)
     .maybeSingle()
@@ -48,5 +48,5 @@ export async function GET() {
     .order('stop_sequence', { ascending: true })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ orders: data ?? [], driver_id: driver.id })
+  return NextResponse.json({ orders: data ?? [], driver_id: driver.id, driver_name: driver.name })
 }

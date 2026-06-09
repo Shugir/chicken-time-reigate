@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import {
   MapPin, Phone, MessageSquare, Truck, CheckCircle,
-  RotateCcw, Loader2, RefreshCw, LogOut, User, StickyNote, AlertCircle,
+  Loader2, RefreshCw, LogOut, User, StickyNote, AlertCircle,
 } from 'lucide-react'
 
 const supabase = createClient(
@@ -50,6 +50,7 @@ export default function DriverDashboard() {
   const [updating, setUpdating] = useState<string | null>(null)
   const [flash, setFlash] = useState<{ id: string; msg: string } | null>(null)
   const [driverId, setDriverId] = useState<string | null>(null)
+  const [driverName, setDriverName] = useState<string | null>(null)
   const [returnModal, setReturnModal] = useState<string | null>(null) // orderId
   const [returnReason, setReturnReason] = useState('')
 
@@ -65,6 +66,7 @@ export default function DriverDashboard() {
         ),
       )
       setDriverId((prev) => prev ?? (data.driver_id as string | null) ?? null)
+      setDriverName((prev) => prev ?? (data.driver_name as string | null) ?? null)
     }
     setLoading(false)
   }, [router])
@@ -78,9 +80,10 @@ export default function DriverDashboard() {
     if (!driverId) return
     const channel = supabase
       .channel(`driver-orders-${driverId}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
-        fetchOrders()
-      })
+      .on('postgres_changes', {
+        event: '*', schema: 'public', table: 'orders',
+        filter: `driver_id=eq.${driverId}`,
+      }, () => { fetchOrders() })
       .subscribe()
     return () => { supabase.removeChannel(channel) }
   }, [driverId, fetchOrders])
@@ -154,7 +157,9 @@ export default function DriverDashboard() {
               <Truck className="w-6 h-6 text-white" />
             </div>
             <div>
-              <p className="font-black text-white text-lg leading-none">Driver Dashboard</p>
+              <p className="font-black text-white text-lg leading-none">
+                {driverName ?? 'Driver'}
+              </p>
               <p className="text-sm text-zinc-500 mt-0.5">Chicken Time Reigate</p>
             </div>
           </div>
@@ -228,10 +233,10 @@ export default function DriverDashboard() {
                     : 'border border-zinc-700'
                     }`}>
 
-                    {/* NEXT STOP banner */}
+                    {/* NEXT DROP banner */}
                     {idx === 0 && (
                       <div className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 text-black font-black text-sm tracking-widest uppercase">
-                        ⚡ NEXT STOP — Priority 1
+                        ⚡ NEXT DROP — Priority 1
                       </div>
                     )}
 
@@ -328,38 +333,37 @@ export default function DriverDashboard() {
                         🗺️ Navigate
                       </a>
 
-                      {/* Delivered + Return row */}
-                      <div className="flex gap-3">
-                        <button
-                          onClick={() => handleAction(order.id, 'delivered')}
-                          disabled={updating === order.id}
-                          className="flex-1 flex items-center justify-center gap-2 py-6 rounded-2xl bg-emerald-500 active:bg-emerald-400 text-white font-black text-xl shadow-lg shadow-emerald-900/40 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {updating === order.id ? (
-                            <Loader2 className="w-7 h-7 animate-spin" />
-                          ) : (
-                            <>
-                              <CheckCircle className="w-7 h-7" />
-                              <span>Delivered</span>
-                            </>
-                          )}
-                        </button>
+                      {/* Mark Delivered — full-width primary CTA */}
+                      <button
+                        onClick={() => handleAction(order.id, 'delivered')}
+                        disabled={updating === order.id}
+                        className="w-full flex items-center justify-center gap-3 py-6 rounded-2xl bg-emerald-500 active:bg-emerald-400 text-white font-black text-2xl tracking-wide shadow-lg shadow-emerald-900/40 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {updating === order.id ? (
+                          <Loader2 className="w-7 h-7 animate-spin" />
+                        ) : (
+                          <>
+                            <CheckCircle className="w-7 h-7" />
+                            <span>Mark Delivered</span>
+                          </>
+                        )}
+                      </button>
 
-                        <button
-                          onClick={() => { setReturnModal(order.id); setReturnReason('') }}
-                          disabled={updating === order.id}
-                          className="flex-1 flex items-center justify-center gap-2 py-6 rounded-2xl bg-red-500/20 border-2 border-red-500/40 active:bg-red-500/30 text-red-400 font-black text-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {updating === order.id ? (
-                            <Loader2 className="w-6 h-6 animate-spin" />
-                          ) : (
-                            <>
-                              <RotateCcw className="w-6 h-6" />
-                              <span>Return</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
+                      {/* Report Issue — smaller secondary */}
+                      <button
+                        onClick={() => { setReturnModal(order.id); setReturnReason('') }}
+                        disabled={updating === order.id}
+                        className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-red-500/20 border-2 border-red-500/40 active:bg-red-500/30 text-red-400 font-black text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {updating === order.id ? (
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                        ) : (
+                          <>
+                            <AlertCircle className="w-5 h-5" />
+                            <span>⚠️ Report Issue / Failed</span>
+                          </>
+                        )}
+                      </button>
 
                     </div>
                   </div>
