@@ -11,6 +11,7 @@ interface DeliveryZone {
   postcode_prefix: string
   delivery_fee: number
   min_order_amount: number
+  free_delivery_threshold: number | null
   is_active: boolean
 }
 
@@ -23,11 +24,14 @@ function ZoneModal({ editingZone, onClose, onSave }: {
   onClose: () => void
   onSave: (zone: DeliveryZone) => void
 }) {
-  const [prefix, setPrefix]     = useState(editingZone?.postcode_prefix ?? '')
-  const [fee, setFee]           = useState(editingZone ? String(editingZone.delivery_fee) : '1.99')
-  const [minOrder, setMinOrder] = useState(editingZone ? String(editingZone.min_order_amount) : '0')
-  const [saving, setSaving]     = useState(false)
-  const [error, setError]       = useState<string | null>(null)
+  const [prefix, setPrefix]           = useState(editingZone?.postcode_prefix ?? '')
+  const [fee, setFee]                 = useState(editingZone ? String(editingZone.delivery_fee) : '1.99')
+  const [minOrder, setMinOrder]       = useState(editingZone ? String(editingZone.min_order_amount) : '0')
+  const [freeThreshold, setFreeThreshold] = useState(
+    editingZone?.free_delivery_threshold != null ? String(editingZone.free_delivery_threshold) : '',
+  )
+  const [saving, setSaving]           = useState(false)
+  const [error, setError]             = useState<string | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -45,7 +49,12 @@ function ZoneModal({ editingZone, onClose, onSave }: {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postcode_prefix: prefix.trim().toUpperCase(), delivery_fee: feeNum, min_order_amount: minNum }),
+        body: JSON.stringify({
+          postcode_prefix: prefix.trim().toUpperCase(),
+          delivery_fee: feeNum,
+          min_order_amount: minNum,
+          free_delivery_threshold: freeThreshold.trim() !== '' ? parseFloat(freeThreshold) : null,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Save failed')
@@ -89,6 +98,12 @@ function ZoneModal({ editingZone, onClose, onSave }: {
               <input type="number" step="0.01" min="0" value={minOrder} onChange={(e) => setMinOrder(e.target.value)}
                 placeholder="0.00" className={`w-full [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`} />
             </div>
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Free Delivery Threshold (£)</label>
+            <input type="number" step="0.01" min="0" value={freeThreshold} onChange={(e) => setFreeThreshold(e.target.value)}
+              placeholder="e.g. 25.00" className={`w-full [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`} />
+            <p className="text-[11px] text-zinc-600 mt-1">Optional. If cart subtotal meets this amount, delivery becomes £0.00. Leave blank for no free delivery threshold.</p>
           </div>
           {error && <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>}
           <div className="flex gap-3 pt-1">
@@ -209,6 +224,13 @@ export default function DeliveryPage() {
       label: 'Min Order',
       render: (z) => Number(z.min_order_amount) > 0
         ? <span className="text-zinc-400">£{Number(z.min_order_amount).toFixed(2)}</span>
+        : <span className="text-zinc-600">None</span>,
+    },
+    {
+      key: 'free_threshold',
+      label: 'Free Delivery Over',
+      render: (z) => z.free_delivery_threshold && Number(z.free_delivery_threshold) > 0
+        ? <span className="text-emerald-400 font-medium">£{Number(z.free_delivery_threshold).toFixed(2)}</span>
         : <span className="text-zinc-600">None</span>,
     },
     {

@@ -25,6 +25,7 @@ interface DeliveryZone {
   postcode_prefix: string
   delivery_fee: number
   min_order_amount: number
+  free_delivery_threshold: number | null
   is_active: boolean
 }
 
@@ -41,6 +42,7 @@ export default function CheckoutPage() {
   const [promoApplied, setPromoApplied] = useState<{ code: string; discount_type: 'flat' | 'percentage'; discount_value: number; discount_amount: number } | null>(null)
   const [promoError, setPromoError]     = useState<string | null>(null)
   const [promoLoading, setPromoLoading] = useState(false)
+  const [autoPromo, setAutoPromo]       = useState<{ code: string | null; discount_type: string; discount_value: number; discount_amount: number } | null>(null)
 
   const [customerName, setCustomerName]                 = useState('')
   const [customerEmail, setCustomerEmail]               = useState('')
@@ -93,11 +95,40 @@ export default function CheckoutPage() {
   }, [])
 
   const subtotal = cartItems.reduce((s, i) => s + i.totalPrice, 0)
+
+  useEffect(() => {
+    if (subtotal <= 0) return
+    fetch('/api/auto-apply')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.promo) {
+          const p = data.promo
+          let discount_amount: number
+          if (p.discount_type === 'percentage') {
+            discount_amount = Math.round(subtotal * (p.discount_value / 100) * 100) / 100
+          } else {
+            discount_amount = Math.min(p.discount_value, subtotal)
+          }
+          if (subtotal >= (p.min_order_amount ?? 0)) {
+            setAutoPromo({ ...p, discount_amount })
+          }
+        }
+      })
+      .catch(() => {})
+  }, [subtotal])
+
   const discount = promoApplied ? promoApplied.discount_amount : 0
-  const deliveryFee = zone ? Number(zone.delivery_fee) : 0
+  const baseDeliveryFee = zone ? Number(zone.delivery_fee) : 0
+  const freeDeliveryApplied = !!(
+    zone?.free_delivery_threshold &&
+    Number(zone.free_delivery_threshold) > 0 &&
+    subtotal >= Number(zone.free_delivery_threshold)
+  )
+  const deliveryFee = freeDeliveryApplied ? 0 : baseDeliveryFee
   const maxRedeemPoints = Math.floor(Math.min(loyaltyBalance, Math.floor(subtotal * 100)) / 100) * 100
   const loyaltyDiscount = pointsToSpend / 100
-  const total = subtotal - discount - loyaltyDiscount + deliveryFee
+  const autoDiscount = autoPromo ? autoPromo.discount_amount : 0
+  const total = subtotal - discount - loyaltyDiscount - autoDiscount + deliveryFee
 
   async function handleFindAddress() {
     const pc = postcode.trim().replace(/\s/g, '').toUpperCase()
@@ -199,6 +230,7 @@ export default function CheckoutPage() {
           delivery_fee:        deliveryFee,
           postcode:            postcode.trim().toUpperCase(),
           promo_code:          promoApplied?.code ?? null,
+          auto_promo_code:     autoPromo?.code ?? null,
           customer_name:       customerName.trim(),
           customer_phone:      customerPhone.trim(),
           customer_email:      customerEmail.trim() || null,
@@ -303,8 +335,13 @@ export default function CheckoutPage() {
           {zone && (
             <div className="flex items-center justify-between text-sm text-green-700 bg-green-50 rounded-xl px-3 py-2.5">
               <span className="font-semibold">✓ We deliver to {postcode.trim().toUpperCase()}</span>
-              <span className="font-bold">
-                {deliveryFee === 0 ? 'Free delivery' : `£${deliveryFee.toFixed(2)} delivery`}
+              <span className="font-bold flex items-center gap-1.5">
+                {freeDeliveryApplied ? (
+                  <>
+                    <span className="line-through text-gray-400 font-normal">£{baseDeliveryFee.toFixed(2)}</span>
+                    <span className="text-green-700">Free delivery</span>
+                  </>
+                ) : deliveryFee === 0 ? 'Free delivery' : `£${deliveryFee.toFixed(2)} delivery`}
               </span>
             </div>
           )}
@@ -515,6 +552,12 @@ export default function CheckoutPage() {
               <span>-£{discount.toFixed(2)}</span>
             </div>
           )}
+          {autoPromo && (
+            <div className="flex justify-between text-sm text-sky-600">
+              <span>⚡ Flash Deal {autoPromo.code ? `(${autoPromo.code})` : ''}</span>
+              <span>-£{autoPromo.discount_amount.toFixed(2)}</span>
+            </div>
+          )}
           {loyaltyDiscount > 0 && (
             <div className="flex justify-between text-sm text-amber-600">
               <span>Loyalty Points ({pointsToSpend.toLocaleString()} pts)</span>
@@ -523,7 +566,16 @@ export default function CheckoutPage() {
           )}
           <div className="flex justify-between text-sm text-gray-600">
             <span>Delivery</span>
-            <span>{zone ? (deliveryFee === 0 ? 'Free' : `£${deliveryFee.toFixed(2)}`) : '—'}</span>
+            <span className="flex items-center gap-1.5">
+              {zone ? (
+                freeDeliveryApplied ? (
+                  <>
+                    <span className="line-through text-gray-400">£{baseDeliveryFee.toFixed(2)}</span>
+                    <span className="font-bold text-green-600">FREE</span>
+                  </>
+                ) : deliveryFee === 0 ? 'Free' : `£${deliveryFee.toFixed(2)}`
+              ) : '—'}
+            </span>
           </div>
           <div className="flex justify-between font-bold text-gray-900 text-base pt-2 border-t border-gray-100">
             <span>Total</span>

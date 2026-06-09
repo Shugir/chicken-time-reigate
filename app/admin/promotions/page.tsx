@@ -8,10 +8,14 @@ import { AdminDataTable, type Column } from '@/components/AdminDataTable'
 
 interface Promotion {
   id: string
-  code: string
+  code: string | null
+  promo_type: 'VOUCHER' | 'REWARD' | 'AUTO_APPLY'
   discount_type: 'flat' | 'percentage'
   discount_value: number
   min_order_amount: number
+  points_cost: number | null
+  start_date: string | null
+  end_date: string | null
   is_active: boolean
   created_at: string
 }
@@ -26,21 +30,40 @@ function PromoModal({ editing, onClose, onSave }: {
   onSave: (p: Promotion) => void
 }) {
   const [code,     setCode]     = useState(editing?.code ?? '')
+  const [promoType, setPromoType] = useState<'VOUCHER' | 'REWARD' | 'AUTO_APPLY'>(
+    editing?.promo_type ?? 'VOUCHER'
+  )
+  const [pointsCost, setPointsCost] = useState(
+    editing?.points_cost != null ? String(editing.points_cost) : ''
+  )
   const [type,     setType]     = useState<'flat' | 'percentage'>(editing?.discount_type ?? 'flat')
   const [value,    setValue]    = useState(editing ? String(editing.discount_value) : '')
   const [minOrder, setMinOrder] = useState(editing ? String(editing.min_order_amount) : '0')
+  const [startDate, setStartDate] = useState(
+    editing?.start_date ? editing.start_date.slice(0, 16) : ''
+  )
+  const [endDate, setEndDate] = useState(
+    editing?.end_date ? editing.end_date.slice(0, 16) : ''
+  )
   const [saving,   setSaving]   = useState(false)
   const [error,    setError]    = useState<string | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
-    if (!code.trim()) return setError('Code is required.')
     const val = parseFloat(value)
     if (isNaN(val) || val <= 0) return setError('Discount value must be positive.')
     if (type === 'percentage' && val > 100) return setError('Percentage cannot exceed 100.')
     const minNum = parseFloat(minOrder)
     if (isNaN(minNum) || minNum < 0) return setError('Invalid minimum order amount.')
+    if (promoType === 'REWARD') {
+      const pts = parseInt(pointsCost)
+      if (isNaN(pts) || pts <= 0) return setError('Points cost must be a positive integer for REWARD type.')
+    }
+    if (promoType === 'VOUCHER' && !code.trim()) return setError('Code is required for VOUCHER type.')
+    if (startDate && endDate && new Date(endDate) <= new Date(startDate)) {
+      return setError('End date must be after start date.')
+    }
 
     setSaving(true)
     try {
@@ -49,7 +72,16 @@ function PromoModal({ editing, onClose, onSave }: {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: code.trim().toUpperCase(), discount_type: type, discount_value: val, min_order_amount: minNum }),
+        body: JSON.stringify({
+          code: promoType === 'VOUCHER' ? code.trim().toUpperCase() : null,
+          promo_type: promoType,
+          discount_type: type,
+          discount_value: val,
+          min_order_amount: minNum,
+          points_cost: promoType === 'REWARD' ? parseInt(pointsCost) : null,
+          start_date: startDate || null,
+          end_date:   endDate   || null,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Save failed')
@@ -71,10 +103,63 @@ function PromoModal({ editing, onClose, onSave }: {
         </div>
         <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Promo Code <span className="text-red-400">*</span></label>
-            <input value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="e.g. GRANDOPENING"
-              className={`w-full uppercase tracking-wider font-mono ${inputCls}`} />
+            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Type</label>
+            <div className="grid grid-cols-3 gap-2">
+              {(['VOUCHER', 'REWARD', 'AUTO_APPLY'] as const).map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setPromoType(t)}
+                  className={`py-2 rounded-lg text-xs font-bold transition-colors border ${
+                    promoType === t
+                      ? t === 'VOUCHER' ? 'bg-violet-500/20 border-violet-500/50 text-violet-300'
+                        : t === 'REWARD' ? 'bg-amber-500/20 border-amber-500/50 text-amber-300'
+                        : 'bg-sky-500/20 border-sky-500/50 text-sky-300'
+                      : 'bg-zinc-800 border-zinc-700 text-zinc-500 hover:text-white'
+                  }`}
+                >
+                  {t === 'VOUCHER' ? '🏷 Voucher' : t === 'REWARD' ? '🎁 Reward' : '⚡ Flash'}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {promoType === 'VOUCHER' && (
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Promo Code <span className="text-red-400">*</span></label>
+              <input value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="e.g. GRANDOPENING"
+                className={`w-full uppercase tracking-wider font-mono ${inputCls}`} />
+            </div>
+          )}
+
+          {promoType === 'REWARD' && (
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Reward Name (internal ID)</label>
+              <input value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="e.g. FREE_DELIVERY"
+                className={`w-full uppercase tracking-wider font-mono ${inputCls}`} />
+              <p className="text-[11px] text-zinc-600 mt-1">Used as identifier — not shown to customers</p>
+            </div>
+          )}
+
+          {promoType === 'AUTO_APPLY' && (
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Flash Sale Name (optional)</label>
+              <input value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="e.g. SUMMER_FLASH"
+                className={`w-full uppercase tracking-wider font-mono ${inputCls}`} />
+              <p className="text-[11px] text-zinc-600 mt-1">Auto-applied at checkout, no code needed</p>
+            </div>
+          )}
+
+          {promoType === 'REWARD' && (
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Points Cost <span className="text-red-400">*</span></label>
+              <input type="number" step="100" min="100" value={pointsCost} onChange={(e) => setPointsCost(e.target.value)}
+                placeholder="e.g. 500"
+                className={`w-full [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`} />
+              <p className="text-[11px] text-zinc-600 mt-1">Points customers spend to unlock this reward</p>
+            </div>
+          )}
+
           <div>
             <label className="block text-xs font-medium text-zinc-400 mb-1.5">Discount Type</label>
             <select value={type} onChange={(e) => setType(e.target.value as 'flat' | 'percentage')} className={`w-full ${inputCls}`}>
@@ -93,6 +178,26 @@ function PromoModal({ editing, onClose, onSave }: {
               <label className="block text-xs font-medium text-zinc-400 mb-1.5">Min Order (£)</label>
               <input type="number" step="0.01" min="0" value={minOrder} onChange={(e) => setMinOrder(e.target.value)}
                 placeholder="0.00" className={`w-full [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`} />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Valid From</label>
+              <input
+                type="datetime-local"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className={`w-full ${inputCls}`}
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Valid Until</label>
+              <input
+                type="datetime-local"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className={`w-full ${inputCls}`}
+              />
             </div>
           </div>
           {error && <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>}
@@ -197,7 +302,25 @@ export default function PromotionsPage() {
     {
       key: 'code',
       label: 'Code',
-      render: (p) => <span className="font-mono font-bold text-white text-base tracking-wider">{p.code}</span>,
+      render: (p) => p.code
+        ? <span className="font-mono font-bold text-white text-base tracking-wider">{p.code}</span>
+        : <span className="text-zinc-600 text-xs italic">auto</span>,
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      render: (p) => {
+        const cfg = {
+          VOUCHER:    { label: '🏷 Voucher',  cls: 'bg-violet-500/15 text-violet-400' },
+          REWARD:     { label: '🎁 Reward',   cls: 'bg-amber-500/15 text-amber-400' },
+          AUTO_APPLY: { label: '⚡ Flash',    cls: 'bg-sky-500/15 text-sky-400' },
+        }[p.promo_type] ?? { label: p.promo_type, cls: 'bg-zinc-700 text-zinc-400' }
+        return (
+          <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${cfg.cls}`}>
+            {cfg.label}
+          </span>
+        )
+      },
     },
     {
       key: 'discount',
@@ -221,6 +344,32 @@ export default function PromotionsPage() {
       render: (p) => Number(p.min_order_amount) > 0
         ? <span className="text-zinc-400">£{Number(p.min_order_amount).toFixed(2)}</span>
         : <span className="text-zinc-600">None</span>,
+    },
+    {
+      key: 'validity',
+      label: 'Validity',
+      render: (p) => {
+        const now = new Date()
+        const start = p.start_date ? new Date(p.start_date) : null
+        const end   = p.end_date   ? new Date(p.end_date)   : null
+        const expired = end && now > end
+        const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+
+        if (!start && !end) return <span className="text-zinc-600">Always</span>
+
+        return (
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-zinc-400 text-xs">
+              {start ? fmt(start) : '∞'} — {end ? fmt(end) : '∞'}
+            </span>
+            {expired && (
+              <span className="px-1.5 py-0.5 rounded-full bg-red-500/15 text-red-400 text-[10px] font-bold uppercase tracking-wide">
+                Expired
+              </span>
+            )}
+          </div>
+        )
+      },
     },
     {
       key: 'active',

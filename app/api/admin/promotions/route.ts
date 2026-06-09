@@ -18,9 +18,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { code, discount_type, discount_value, min_order_amount, is_active } = await request.json()
+  const { code, promo_type, discount_type, discount_value, min_order_amount, points_cost, start_date, end_date, is_active } = await request.json()
 
-  if (!code?.trim()) return NextResponse.json({ error: 'Code is required' }, { status: 400 })
+  if (promo_type === 'VOUCHER' && !code?.trim()) {
+    return NextResponse.json({ error: 'Code is required for VOUCHER type' }, { status: 400 })
+  }
   if (!['flat', 'percentage'].includes(discount_type))
     return NextResponse.json({ error: 'discount_type must be flat or percentage' }, { status: 400 })
   const val = parseFloat(discount_value)
@@ -32,11 +34,15 @@ export async function POST(request: NextRequest) {
   const { data, error } = await supabaseAdmin
     .from('promotions')
     .insert({
-      code:             code.trim().toUpperCase(),
+      code:             code?.trim().toUpperCase() ?? null,
+      promo_type:       promo_type       ?? 'VOUCHER',
+      points_cost:      points_cost      ?? null,
       discount_type,
       discount_value:   val,
       min_order_amount: parseFloat(min_order_amount ?? '0') || 0,
       is_active:        is_active ?? true,
+      start_date:       start_date ?? null,
+      end_date:         end_date   ?? null,
     })
     .select()
     .single()

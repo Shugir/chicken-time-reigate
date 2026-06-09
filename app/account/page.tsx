@@ -8,7 +8,7 @@ import {
   ShoppingBag, Clock, User as UserIcon, Shield, LogOut,
   CheckCircle2, Truck, Package, RefreshCw,
   Loader2, Save, Trash2, AlertTriangle, ChevronRight,
-  Tag, Printer, Copy, Check,
+  Tag, Printer, Copy, Check, Star,
 } from 'lucide-react'
 import Link from 'next/link'
 import { formatDateTime } from '@/lib/utils/format-date'
@@ -62,7 +62,7 @@ interface Profile {
   address:   string | null
 }
 
-type Tab = 'active' | 'history' | 'profile' | 'security' | 'offers'
+type Tab = 'active' | 'history' | 'profile' | 'security' | 'offers' | 'rewards'
 
 // ─── Order tracking helpers ───────────────────────────────────────────────────
 
@@ -477,6 +477,7 @@ export default function AccountPage() {
     { id: 'active',   label: 'Active',   icon: Clock },
     { id: 'history',  label: 'History',  icon: ShoppingBag },
     { id: 'offers',   label: 'Offers',   icon: Tag },
+    { id: 'rewards',  label: 'Rewards',  icon: Star },
     { id: 'profile',  label: 'Profile',  icon: UserIcon },
     { id: 'security', label: 'Account',  icon: Shield },
   ]
@@ -690,6 +691,21 @@ export default function AccountPage() {
                 <OfferCard key={promo.code} promo={promo} />
               ))
             )}
+          </div>
+        )}
+
+        {/* ── Rewards ───────────────────────────────────────────────────────── */}
+        {tab === 'rewards' && (
+          <div className="flex flex-col items-center justify-center py-8 gap-3">
+            <Star size={36} className="text-amber-400" />
+            <p className="text-white font-semibold">My Rewards</p>
+            <p className="text-sm text-zinc-500 text-center">View your points balance, unlock rewards, and track your history.</p>
+            <a
+              href="/account/rewards"
+              className="mt-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-sm font-bold transition-colors"
+            >
+              Open Rewards →
+            </a>
           </div>
         )}
 
