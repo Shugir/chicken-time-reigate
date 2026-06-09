@@ -12,7 +12,7 @@ tags:
 # ReturnedCard()
 
 ## Connections
-- [[page.tsx_10]] - `contains` [EXTRACTED]
+- [[page.tsx_11]] - `contains` [EXTRACTED]
 - [[timeAgo()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

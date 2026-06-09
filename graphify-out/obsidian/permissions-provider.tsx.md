@@ -18,7 +18,7 @@ tags:
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_1]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_13]] - `imports_from` [EXTRACTED]
-- [[page.tsx_10]] - `imports_from` [EXTRACTED]
+- [[page.tsx_11]] - `imports_from` [EXTRACTED]
 - [[page.tsx_24]] - `imports_from` [EXTRACTED]
 - [[usePermissions()]] - `contains` [EXTRACTED]
 

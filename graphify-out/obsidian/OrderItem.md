@@ -12,7 +12,7 @@ tags:
 # OrderItem
 
 ## Connections
-- [[page.tsx_2]] - `contains` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
 - [[page.tsx_45]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

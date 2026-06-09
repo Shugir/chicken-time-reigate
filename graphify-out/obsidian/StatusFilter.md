@@ -1,19 +1,17 @@
 ---
-source_file: "app/admin/page.tsx"
+source_file: "app/admin/promotions/page.tsx"
 type: "code"
 community: "Community None"
-location: "L464"
+location: "L24"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# NAV
+# StatusFilter
 
 ## Connections
-- [[page.tsx_5]] - `contains` [EXTRACTED]
-- [[page.tsx_36]] - `contains` [EXTRACTED]
-- [[page.tsx_37]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

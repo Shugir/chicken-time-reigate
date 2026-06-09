@@ -12,11 +12,11 @@ tags:
 # page.tsx
 
 ## Connections
-- [[DeleteConfirm()]] - `contains` [EXTRACTED]
+- [[DeleteConfirm()_1]] - `contains` [EXTRACTED]
 - [[DeliveryPage()]] - `contains` [EXTRACTED]
 - [[DeliveryZone]] - `contains` [EXTRACTED]
 - [[NAV_1]] - `contains` [EXTRACTED]
-- [[SaveState_1]] - `contains` [EXTRACTED]
+- [[SaveState_2]] - `contains` [EXTRACTED]
 - [[ZoneModal()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

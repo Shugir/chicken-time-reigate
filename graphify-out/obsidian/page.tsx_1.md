@@ -1,5 +1,5 @@
 ---
-source_file: "app/about/page.tsx"
+source_file: "app/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,9 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AboutPage()]] - `contains` [EXTRACTED]
-- [[STATS]] - `contains` [EXTRACTED]
-- [[VALUES]] - `contains` [EXTRACTED]
-- [[oswald_1]] - `contains` [EXTRACTED]
+- [[LandingPage()]] - `contains` [EXTRACTED]
+- [[POPULAR]] - `contains` [EXTRACTED]
+- [[REASONS]] - `contains` [EXTRACTED]
+- [[oswald]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

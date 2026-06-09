@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-06-09)
 
 ## Corpus Check
-- 185 files · ~1,823,232 words
+- 185 files · ~1,823,689 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1173 nodes · 1938 edges · 115 communities (56 shown, 59 thin omitted)
+- 1176 nodes · 1941 edges · 116 communities (57 shown, 59 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cde1abe3`
+- Built from commit: `85785de1`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -118,6 +118,7 @@
 - [[_COMMUNITY_Community 112|Community 112]]
 - [[_COMMUNITY_Community 113|Community 113]]
 - [[_COMMUNITY_Community 114|Community 114]]
+- [[_COMMUNITY_Community 115|Community 115]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `supabaseAdmin` - 75 edges
@@ -148,7 +149,7 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (115 total, 59 thin omitted)
+## Communities (116 total, 59 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.07
@@ -247,16 +248,16 @@ Cohesion: 0.24
 Nodes (7): discountLabel(), formatDate(), prettifyCode(), Reward, RewardCard(), supabase, Transaction
 
 ### Community 72 - "Community 72"
-Cohesion: 0.07
-Nodes (37): AdminDataTable(), Column, FilterConfig, Props, DeleteConfirm(), DeliveryPage(), DeliveryZone, NAV (+29 more)
+Cohesion: 0.06
+Nodes (39): AdminDataTable(), Column, FilterConfig, Props, DeleteConfirm(), DeliveryPage(), DeliveryZone, NAV (+31 more)
 
 ### Community 74 - "Community 74"
-Cohesion: 0.06
-Nodes (52): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+44 more)
+Cohesion: 0.1
+Nodes (27): AnalyticsData, AnalyticsPage(), CHART_THEME, DailyPoint, DowPoint, fmtGbp(), HourlyPoint, PERIODS (+19 more)
 
 ### Community 75 - "Community 75"
-Cohesion: 0.11
-Nodes (37): CustomerReceipt(), ReceiptItem, ReceiptOrder, ALL_STATUSES, AMOUNT_PRESETS, DATE_PRESETS, Driver, localDate() (+29 more)
+Cohesion: 0.08
+Nodes (48): CustomerReceipt(), ReceiptItem, ReceiptOrder, Delivery, Driver, DriverLedgerPage(), fmtGbp(), LedgerData (+40 more)
 
 ### Community 76 - "Community 76"
 Cohesion: 0.22
@@ -326,6 +327,10 @@ Nodes (4): Contact Page, FormState Type, Opening Hours Data (HOURS), InputField 
 Cohesion: 0.07
 Nodes (34): AdminSidebar(), ALL_NAV, NAV_GROUPS, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm (+26 more)
 
+### Community 115 - "Community 115"
+Cohesion: 0.26
+Nodes (14): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+6 more)
+
 ## Ambiguous Edges - Review These
 - `Supabase Admin Client` → `Sign In Page`  [AMBIGUOUS]
   app/sign-in/page.tsx · relation: shares_data_with
@@ -333,7 +338,7 @@ Nodes (34): AdminSidebar(), ALL_NAV, NAV_GROUPS, PermissionsContext, Permissions
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **362 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+357 more)
+- **364 isolated node(s):** `TypeFilter`, `StatusFilter`, `Props`, `eslintConfig`, `config` (+359 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **59 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -345,12 +350,12 @@ _Questions this graph is uniquely positioned to answer:_
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **Why does `AdminReceiptOrder` connect `Community 75` to `Community 0`, `Community 1`, `Community 12`?**
-  _High betweenness centrality (0.091) - this node is a cross-community bridge._
+  _High betweenness centrality (0.096) - this node is a cross-community bridge._
 - **Why does `supabaseAdmin` connect `Community 84` to `Community 0`, `Community 97`, `Community 3`, `Community 100`, `Community 101`, `Community 68`, `Community 70`, `Community 73`, `Community 107`, `Community 12`, `Community 77`, `Community 80`, `Community 112`, `Community 113`, `Community 89`, `Community 93`, `Community 94`?**
-  _High betweenness centrality (0.087) - this node is a cross-community bridge._
+  _High betweenness centrality (0.085) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 76` to `Community 0`, `Community 5`, `Community 82`, `Community 114`, `Community 61`?**
-  _High betweenness centrality (0.071) - this node is a cross-community bridge._
-- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
-  _366 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+- **What connects `TypeFilter`, `StatusFilter`, `Props` to the rest of the system?**
+  _368 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.07 - nodes in this community are weakly interconnected._

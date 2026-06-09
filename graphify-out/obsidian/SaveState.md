@@ -1,8 +1,8 @@
 ---
-source_file: "app/admin/page.tsx"
+source_file: "app/admin/promotions/page.tsx"
 type: "code"
 community: "Community None"
-location: "L49"
+location: "L22"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,7 @@ tags:
 # SaveState
 
 ## Connections
-- [[page.tsx_4]] - `contains` [EXTRACTED]
-- [[page.tsx_36]] - `contains` [EXTRACTED]
-- [[page.tsx_37]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_50]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
