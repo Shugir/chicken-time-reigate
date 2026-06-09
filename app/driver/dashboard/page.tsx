@@ -389,7 +389,7 @@ export default function DriverDashboard() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-4">
-              {['Damaged', 'No Answer', 'Customer Return', 'Wrong Address'].map((r) => (
+              {['Damaged', 'No Customer Answer', 'Customer Return', 'Refused Delivery'].map((r) => (
                 <button
                   key={r}
                   onClick={() => setReturnReason(r)}

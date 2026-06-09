@@ -35,7 +35,7 @@ export async function GET() {
   const user = await getAdminUser()
   if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-  const [{ data: unassigned }, { data: drivers }, { data: assigned }] = await Promise.all([
+  const [{ data: unassigned }, { data: drivers }, { data: assigned }, { data: returned }] = await Promise.all([
     supabaseAdmin
       .from('orders')
       .select(ORDER_FIELDS)
@@ -55,6 +55,12 @@ export async function GET() {
       .not('driver_id', 'is', null)
       .eq('delivery_status', 'out_for_delivery')
       .order('stop_sequence', { ascending: true }),
+
+    supabaseAdmin
+      .from('orders')
+      .select(ORDER_FIELDS)
+      .eq('status', 'returned')
+      .order('created_at', { ascending: true }),
   ])
 
   const driverMap = (drivers ?? []).map((d) => ({
@@ -64,7 +70,7 @@ export async function GET() {
       .sort((a, b) => (a.stop_sequence ?? 1) - (b.stop_sequence ?? 1)),
   }))
 
-  return NextResponse.json({ unassigned: unassigned ?? [], drivers: driverMap })
+  return NextResponse.json({ unassigned: unassigned ?? [], drivers: driverMap, returned: returned ?? [] })
 }
 
 // Recompute a driver's status from their live workload: any order still
@@ -91,7 +97,7 @@ export async function PATCH(req: NextRequest) {
     order_id: string
     driver_id?: string | null
     stop_sequence?: number
-    action?: 'delivered' | 'failed' | 'send_back'
+    action?: 'delivered' | 'failed' | 'send_back' | 'remake' | 'cancel' | 'hold'
     failure_reason?: string
     driver_notes?: string
   }

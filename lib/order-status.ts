@@ -7,7 +7,13 @@ export function buildDriverOrderUpdate(action: DriverAction, return_reason?: str
   if (action === 'delivered') {
     return { delivery_status: 'delivered', status: 'delivered' }
   }
-  const update: Record<string, unknown> = { status: 'ready', delivery_status: null, driver_id: null }
+  // return_to_kitchen: food physically back at restaurant — needs manager decision
+  const update: Record<string, unknown> = {
+    status: 'returned',
+    delivery_status: 'returned',
+    driver_id: null,
+    stop_sequence: 1,
+  }
   if (return_reason) update.return_reason = return_reason
   return update
 }
@@ -24,14 +30,23 @@ export function buildKitchenDeliveryUpdate(
 }
 
 export function buildDispatchActionUpdate(
-  action: 'delivered' | 'failed' | 'send_back',
-  failure_reason?: string,
+  action: 'delivered' | 'failed' | 'send_back' | 'remake' | 'cancel' | 'hold',
+  reason?: string,
 ): Record<string, unknown> {
-  if (action === 'delivered') {
-    return { delivery_status: 'delivered', status: 'delivered' }
+  switch (action) {
+    case 'delivered':
+      return { delivery_status: 'delivered', status: 'delivered' }
+    case 'failed':
+      return { delivery_status: 'failed', status: 'failed', failure_reason: reason ?? 'Unknown' }
+    case 'send_back':
+      return { status: 'preparing', delivery_status: null, driver_id: null, stop_sequence: 1 }
+    case 'remake':
+      // Food was damaged/cold — send back to kitchen prep queue for fresh make
+      return { status: 'preparing', delivery_status: null, driver_id: null, stop_sequence: 1, return_reason: null }
+    case 'cancel':
+      return { status: 'cancelled', delivery_status: 'cancelled' }
+    case 'hold':
+      // Manager actively contacting customer — stays in returned section
+      return { delivery_status: 'on_hold' }
   }
-  if (action === 'failed') {
-    return { delivery_status: 'failed', status: 'failed', failure_reason: failure_reason ?? 'Unknown' }
-  }
-  return { status: 'preparing', delivery_status: null, driver_id: null, stop_sequence: 1 }
 }
