@@ -12,9 +12,9 @@ tags:
 # buildDispatchActionUpdate()
 
 ## Connections
-- [[PATCH()_1]] - `calls` [EXTRACTED]
+- [[PATCH()]] - `calls` [EXTRACTED]
 - [[order-status.test.ts]] - `imports` [EXTRACTED]
 - [[order-status.ts]] - `contains` [EXTRACTED]
-- [[route.ts_11]] - `imports` [EXTRACTED]
+- [[route.ts]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

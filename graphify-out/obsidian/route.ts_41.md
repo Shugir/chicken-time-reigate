@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_4]] - `contains` [EXTRACTED]
+- [[GET()_6]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

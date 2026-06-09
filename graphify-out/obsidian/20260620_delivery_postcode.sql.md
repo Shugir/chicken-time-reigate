@@ -11,6 +11,6 @@ tags:
 # 20260620_delivery_postcode.sql
 
 ## Connections
-- [[orders_6]] - `contains` [EXTRACTED]
+- [[orders_7]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

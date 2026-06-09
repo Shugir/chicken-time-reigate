@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[DeleteConfirm()_1]] - `contains` [EXTRACTED]
 - [[DeliveryPage()]] - `contains` [EXTRACTED]
-- [[DeliveryZone]] - `contains` [EXTRACTED]
+- [[DeliveryZone_1]] - `contains` [EXTRACTED]
 - [[NAV_1]] - `contains` [EXTRACTED]
 - [[SaveState_2]] - `contains` [EXTRACTED]
 - [[ZoneModal()]] - `contains` [EXTRACTED]

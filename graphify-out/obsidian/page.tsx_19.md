@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/users/page.tsx"
+source_file: "app/admin/redirect/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,14 +12,9 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AdjustForm_1]] - `contains` [EXTRACTED]
-- [[AdminDataTable()]] - `imports` [EXTRACTED]
-- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
-- [[AuthUser_1]] - `contains` [EXTRACTED]
-- [[Column]] - `imports` [EXTRACTED]
-- [[Driver_3]] - `contains` [EXTRACTED]
-- [[LoyaltyEntry]] - `contains` [EXTRACTED]
-- [[UsersPage()]] - `contains` [EXTRACTED]
-- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[AdminRedirectPage()]] - `contains` [EXTRACTED]
+- [[PAGES]] - `contains` [EXTRACTED]
+- [[get-user-permissions.ts]] - `imports_from` [EXTRACTED]
+- [[getUserPermissions]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

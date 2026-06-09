@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/delivery/page.tsx"
+source_file: "app/admin/analytics/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,16 +12,24 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AdminDataTable()]] - `imports` [EXTRACTED]
-- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
-- [[Column]] - `imports` [EXTRACTED]
-- [[DeleteConfirm()_1]] - `contains` [EXTRACTED]
-- [[DeliveryPage()]] - `contains` [EXTRACTED]
-- [[DeliveryZone]] - `contains` [EXTRACTED]
-- [[NAV_1]] - `contains` [EXTRACTED]
-- [[SaveState_2]] - `contains` [EXTRACTED]
-- [[ZoneModal()]] - `contains` [EXTRACTED]
+- [[AnalyticsData]] - `contains` [EXTRACTED]
+- [[AnalyticsPage()]] - `contains` [EXTRACTED]
+- [[CHART_THEME]] - `contains` [EXTRACTED]
+- [[ChartTooltip()]] - `contains` [EXTRACTED]
+- [[DailyPoint]] - `contains` [EXTRACTED]
+- [[DowPoint]] - `contains` [EXTRACTED]
+- [[HourlyPoint]] - `contains` [EXTRACTED]
+- [[PERIODS]] - `contains` [EXTRACTED]
+- [[STATUS_COLOURS]] - `contains` [EXTRACTED]
+- [[StatCard()]] - `contains` [EXTRACTED]
+- [[StatusRow]] - `contains` [EXTRACTED]
+- [[Summary]] - `contains` [EXTRACTED]
+- [[TopItem]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
-- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[fmtGbp()]] - `contains` [EXTRACTED]
+- [[format-date.ts]] - `imports_from` [EXTRACTED]
+- [[formatDateHeader()]] - `imports` [EXTRACTED]
+- [[formatDateShort()]] - `imports` [EXTRACTED]
+- [[shortDate()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

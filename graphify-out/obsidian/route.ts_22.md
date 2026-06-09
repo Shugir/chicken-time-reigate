@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/promotions/[id]/route.ts"
+source_file: "app/api/admin/print/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,10 @@ tags:
 # route.ts
 
 ## Connections
-- [[DELETE()]] - `contains` [EXTRACTED]
-- [[PATCH()]] - `contains` [EXTRACTED]
+- [[POST()_10]] - `contains` [EXTRACTED]
+- [[generateReceiptBuffer()]] - `imports` [EXTRACTED]
+- [[printer.ts]] - `imports_from` [EXTRACTED]
+- [[sendToPrinter()]] - `imports` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

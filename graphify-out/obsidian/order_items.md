@@ -14,6 +14,6 @@ tags:
 ## Connections
 - [[20260603_initial_schema.sql]] - `contains` [EXTRACTED]
 - [[menu_items]] - `references` [EXTRACTED]
-- [[orders]] - `references` [EXTRACTED]
+- [[orders_1]] - `references` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

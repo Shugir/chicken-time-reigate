@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/driver/orders/[id]/route.ts"
+source_file: "app/api/driver/orders/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[PATCH()]] - `contains` [EXTRACTED]
-- [[buildDriverOrderUpdate()]] - `imports` [EXTRACTED]
-- [[order-status.ts]] - `imports_from` [EXTRACTED]
+- [[GET()_1]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

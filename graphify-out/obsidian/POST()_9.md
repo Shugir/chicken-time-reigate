@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/print/route.ts"
+source_file: "app/api/admin/menu-items/route.ts"
 type: "code"
 community: "Community None"
 location: "L15"
@@ -12,9 +12,7 @@ tags:
 # POST()
 
 ## Connections
-- [[generateReceiptBuffer()]] - `calls` [EXTRACTED]
 - [[route.ts_20]] - `contains` [EXTRACTED]
-- [[route.ts_53]] - `contains` [EXTRACTED]
-- [[sendToPrinter()]] - `calls` [EXTRACTED]
+- [[route.ts_68]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

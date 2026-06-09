@@ -13,7 +13,7 @@ tags:
 
 ## Connections
 - [[AdminReceiptOrder]] - `imports` [EXTRACTED]
-- [[GET()_14]] - `contains` [EXTRACTED]
+- [[GET()_15]] - `contains` [EXTRACTED]
 - [[buildQuery()]] - `contains` [EXTRACTED]
 - [[getUserPermissions]] - `imports` [EXTRACTED]
 - [[hasPermission()]] - `imports` [EXTRACTED]

@@ -1,8 +1,8 @@
 ---
-source_file: "supabase/migrations/20260632_return_reason.sql"
+source_file: "supabase/migrations/20260630_dispatch_routing.sql"
 type: "code"
 community: "Community None"
-location: "L1"
+location: "L2"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,6 @@ tags:
 # orders
 
 ## Connections
-- [[20260632_return_reason.sql]] - `contains` [EXTRACTED]
+- [[20260630_dispatch_routing.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

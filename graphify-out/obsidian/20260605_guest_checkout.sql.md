@@ -12,6 +12,6 @@ tags:
 
 ## Connections
 - [[order_items_1]] - `contains` [EXTRACTED]
-- [[orders_2]] - `contains` [EXTRACTED]
+- [[orders_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

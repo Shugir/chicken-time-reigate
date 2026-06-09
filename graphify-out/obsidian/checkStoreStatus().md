@@ -12,11 +12,11 @@ tags:
 # checkStoreStatus()
 
 ## Connections
-- [[GET()_16]] - `calls` [EXTRACTED]
-- [[POST()_13]] - `calls` [EXTRACTED]
+- [[GET()_17]] - `calls` [EXTRACTED]
+- [[POST()]] - `calls` [EXTRACTED]
 - [[getNextOpenDay()]] - `calls` [EXTRACTED]
 - [[getUKNow()]] - `calls` [EXTRACTED]
-- [[route.ts_31]] - `imports` [EXTRACTED]
+- [[route.ts_1]] - `imports` [EXTRACTED]
 - [[route.ts_48]] - `imports` [EXTRACTED]
 - [[route.ts_53]] - `imports` [EXTRACTED]
 - [[store-status.ts]] - `contains` [EXTRACTED]

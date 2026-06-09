@@ -16,7 +16,7 @@ tags:
 - [[ItemCustomizerDrawer.tsx_1]] - `imports` [EXTRACTED]
 - [[ProductModal.tsx]] - `contains` [EXTRACTED]
 - [[ProductModal.tsx_1]] - `contains` [EXTRACTED]
-- [[page.tsx_27]] - `imports` [EXTRACTED]
+- [[page.tsx_3]] - `imports` [EXTRACTED]
 - [[page.tsx_36]] - `imports` [EXTRACTED]
 - [[page.tsx_47]] - `imports` [EXTRACTED]
 

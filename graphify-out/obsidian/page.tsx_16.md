@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/redirect/page.tsx"
+source_file: "app/admin/drivers/[id]/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,16 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AdminRedirectPage()]] - `contains` [EXTRACTED]
-- [[PAGES]] - `contains` [EXTRACTED]
-- [[get-user-permissions.ts]] - `imports_from` [EXTRACTED]
-- [[getUserPermissions]] - `imports` [EXTRACTED]
+- [[Delivery]] - `contains` [EXTRACTED]
+- [[Driver_2]] - `contains` [EXTRACTED]
+- [[DriverLedgerPage()]] - `contains` [EXTRACTED]
+- [[LedgerData]] - `contains` [EXTRACTED]
+- [[Payout]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[fmtDate()]] - `contains` [EXTRACTED]
+- [[fmtGbp()_2]] - `contains` [EXTRACTED]
+- [[format-date.ts]] - `imports_from` [EXTRACTED]
+- [[formatDate()_1]] - `imports` [EXTRACTED]
+- [[toDateStr()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

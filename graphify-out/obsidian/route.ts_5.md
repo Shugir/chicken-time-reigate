@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/categories/[id]/route.ts"
+source_file: "app/api/admin/analytics/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,8 @@ tags:
 # route.ts
 
 ## Connections
-- [[DELETE()]] - `contains` [EXTRACTED]
-- [[PATCH()]] - `contains` [EXTRACTED]
+- [[DOW_LABELS]] - `contains` [EXTRACTED]
+- [[GET()_3]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

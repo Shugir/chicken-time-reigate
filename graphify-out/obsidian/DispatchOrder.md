@@ -12,6 +12,6 @@ tags:
 # DispatchOrder
 
 ## Connections
-- [[page.tsx_11]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

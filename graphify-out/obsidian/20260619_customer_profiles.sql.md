@@ -11,6 +11,6 @@ tags:
 # 20260619_customer_profiles.sql
 
 ## Connections
-- [[orders_4]] - `contains` [EXTRACTED]
+- [[orders_5]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

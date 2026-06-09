@@ -12,7 +12,7 @@ tags:
 # fmtDate()
 
 ## Connections
-- [[OrderCard()]] - `calls` [EXTRACTED]
-- [[page.tsx_3]] - `contains` [EXTRACTED]
+- [[OrderCard()_2]] - `calls` [EXTRACTED]
+- [[page.tsx_7]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

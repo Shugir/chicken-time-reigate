@@ -12,7 +12,7 @@ tags:
 # PromoModal()
 
 ## Connections
-- [[page.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_4]] - `contains` [EXTRACTED]
 - [[page.tsx_50]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

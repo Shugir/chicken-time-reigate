@@ -11,6 +11,6 @@ tags:
 # 20260619_promo_codes.sql
 
 ## Connections
-- [[orders_5]] - `contains` [EXTRACTED]
+- [[orders_6]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

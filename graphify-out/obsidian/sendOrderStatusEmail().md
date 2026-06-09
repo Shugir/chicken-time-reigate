@@ -12,10 +12,10 @@ tags:
 # sendOrderStatusEmail()
 
 ## Connections
-- [[POST()_13]] - `calls` [EXTRACTED]
+- [[POST()]] - `calls` [EXTRACTED]
 - [[buildHtml()]] - `calls` [EXTRACTED]
 - [[email.ts]] - `contains` [EXTRACTED]
-- [[route.ts_31]] - `imports` [EXTRACTED]
+- [[route.ts_1]] - `imports` [EXTRACTED]
 - [[route.ts_39]] - `imports` [EXTRACTED]
 - [[route.ts_53]] - `imports` [EXTRACTED]
 - [[route.ts_60]] - `imports` [EXTRACTED]

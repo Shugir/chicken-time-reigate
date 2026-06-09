@@ -12,9 +12,9 @@ tags:
 # buildKitchenDeliveryUpdate()
 
 ## Connections
-- [[PATCH()]] - `calls` [EXTRACTED]
+- [[PATCH()_1]] - `calls` [EXTRACTED]
 - [[order-status.test.ts]] - `imports` [EXTRACTED]
 - [[order-status.ts]] - `contains` [EXTRACTED]
-- [[route.ts_37]] - `imports` [EXTRACTED]
+- [[route.ts_38]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

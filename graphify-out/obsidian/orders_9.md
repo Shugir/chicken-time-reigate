@@ -1,5 +1,5 @@
 ---
-source_file: "supabase/migrations/20260626_loyalty_schema_update.sql"
+source_file: "supabase/migrations/20260623_guest_tracking.sql"
 type: "code"
 community: "Community None"
 location: "L4"
@@ -12,7 +12,6 @@ tags:
 # orders
 
 ## Connections
-- [[20260626_loyalty_schema_update.sql]] - `contains` [EXTRACTED]
-- [[20260626_loyalty_schema_update.sql_1]] - `contains` [EXTRACTED]
+- [[20260623_guest_tracking.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

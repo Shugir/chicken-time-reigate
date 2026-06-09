@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[formatRow()]] - `contains` [EXTRACTED]
 - [[generateReceiptBuffer()]] - `contains` [EXTRACTED]
-- [[route.ts_20]] - `imports_from` [EXTRACTED]
+- [[route.ts_22]] - `imports_from` [EXTRACTED]
 - [[sendToPrinter()]] - `contains` [EXTRACTED]
 - [[wrapLine()]] - `contains` [EXTRACTED]
 

@@ -14,9 +14,9 @@ tags:
 ## Connections
 - [[AccountPage()]] - `contains` [EXTRACTED]
 - [[OfferCard()]] - `contains` [EXTRACTED]
-- [[Order]] - `contains` [EXTRACTED]
-- [[OrderCard()]] - `contains` [EXTRACTED]
-- [[OrderItem]] - `contains` [EXTRACTED]
+- [[Order_1]] - `contains` [EXTRACTED]
+- [[OrderCard()_2]] - `contains` [EXTRACTED]
+- [[OrderItem_2]] - `contains` [EXTRACTED]
 - [[Profile]] - `contains` [EXTRACTED]
 - [[PromoCode]] - `contains` [EXTRACTED]
 - [[TIMELINE]] - `contains` [EXTRACTED]
@@ -24,7 +24,7 @@ tags:
 - [[formatDateTime()]] - `imports` [EXTRACTED]
 - [[statusColor()]] - `contains` [EXTRACTED]
 - [[statusLabel()]] - `contains` [EXTRACTED]
-- [[supabase]] - `contains` [EXTRACTED]
+- [[supabase_3]] - `contains` [EXTRACTED]
 - [[trackingStep()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

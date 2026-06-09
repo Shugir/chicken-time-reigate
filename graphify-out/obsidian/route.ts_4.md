@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/categories/route.ts"
+source_file: "app/api/account/unlocked-rewards/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_3]] - `contains` [EXTRACTED]
-- [[POST()_1]] - `contains` [EXTRACTED]
+- [[GET()_2]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

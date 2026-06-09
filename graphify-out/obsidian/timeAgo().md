@@ -2,7 +2,7 @@
 source_file: "app/admin/dispatch/page.tsx"
 type: "code"
 community: "Community None"
-location: "L69"
+location: "L71"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,8 @@ tags:
 # timeAgo()
 
 ## Connections
-- [[OrderCard()_1]] - `calls` [EXTRACTED]
+- [[OrderCard()]] - `calls` [EXTRACTED]
 - [[ReturnedCard()]] - `calls` [EXTRACTED]
-- [[page.tsx_11]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -12,7 +12,7 @@ tags:
 # DeliveryPage()
 
 ## Connections
-- [[page.tsx_10]] - `contains` [EXTRACTED]
+- [[page.tsx_14]] - `contains` [EXTRACTED]
 - [[page.tsx_49]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/combos/page.tsx"
+source_file: "app/account/rewards/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,15 @@ tags:
 # page.tsx
 
 ## Connections
-- [[ComboDiscount]] - `contains` [EXTRACTED]
-- [[CombosAdminPage()]] - `contains` [EXTRACTED]
-- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[Reward]] - `contains` [EXTRACTED]
+- [[RewardCard()]] - `contains` [EXTRACTED]
+- [[RewardsPage()]] - `contains` [EXTRACTED]
+- [[Skeleton()]] - `contains` [EXTRACTED]
+- [[Transaction]] - `contains` [EXTRACTED]
+- [[discountLabel()]] - `contains` [EXTRACTED]
+- [[formatDate()]] - `contains` [EXTRACTED]
+- [[prettifyCode()]] - `contains` [EXTRACTED]
+- [[supabase_4]] - `contains` [EXTRACTED]
+- [[txIcon()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

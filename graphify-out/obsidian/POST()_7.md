@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/admin/menu/upload/route.ts"
+source_file: "app/api/admin/loyalty/route.ts"
 type: "code"
 community: "Community None"
-location: "L17"
+location: "L33"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,6 @@ tags:
 # POST()
 
 ## Connections
-- [[ensureBucket()]] - `calls` [EXTRACTED]
 - [[route.ts_17]] - `contains` [EXTRACTED]
-- [[route.ts_55]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

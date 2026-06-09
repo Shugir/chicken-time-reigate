@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/promotions/page.tsx"
+source_file: "app/admin/dispatch/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,19 +12,26 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AdminDataTable()]] - `imports` [EXTRACTED]
-- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
-- [[Column]] - `imports` [EXTRACTED]
-- [[DeleteConfirm()]] - `contains` [EXTRACTED]
-- [[NAV_4]] - `contains` [EXTRACTED]
-- [[PromoModal()]] - `contains` [EXTRACTED]
-- [[Promotion]] - `contains` [EXTRACTED]
-- [[PromotionsPage()]] - `contains` [EXTRACTED]
-- [[SaveState]] - `contains` [EXTRACTED]
-- [[StatusFilter]] - `contains` [EXTRACTED]
-- [[TypeFilter]] - `contains` [EXTRACTED]
-- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
-- [[getPromoStatus()]] - `contains` [EXTRACTED]
-- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[BoardData]] - `contains` [EXTRACTED]
+- [[CustomerReceipt()]] - `imports` [EXTRACTED]
+- [[CustomerReceipt()_1]] - `contains` [EXTRACTED]
+- [[CustomerReceipt.tsx]] - `imports_from` [EXTRACTED]
+- [[DispatchDriver]] - `contains` [EXTRACTED]
+- [[DispatchOrder]] - `contains` [EXTRACTED]
+- [[DispatchPage()]] - `contains` [EXTRACTED]
+- [[OrderCard()]] - `contains` [EXTRACTED]
+- [[OrderItem]] - `contains` [EXTRACTED]
+- [[OrderUrgency]] - `imports` [EXTRACTED]
+- [[ReturnedCard()]] - `contains` [EXTRACTED]
+- [[format-date.ts]] - `imports_from` [EXTRACTED]
+- [[formatDateClockLabel()]] - `imports` [EXTRACTED]
+- [[formatDateMedium()]] - `imports` [EXTRACTED]
+- [[formatTime()_1]] - `imports` [EXTRACTED]
+- [[formatTimeFull()]] - `imports` [EXTRACTED]
+- [[order-urgency.ts]] - `imports_from` [EXTRACTED]
+- [[permissions-provider.tsx]] - `imports_from` [EXTRACTED]
+- [[supabase]] - `contains` [EXTRACTED]
+- [[timeAgo()]] - `contains` [EXTRACTED]
+- [[usePermissions()]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

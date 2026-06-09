@@ -12,11 +12,11 @@ tags:
 # formatDateTime()
 
 ## Connections
-- [[OrderCard()]] - `calls` [EXTRACTED]
+- [[OrderCard()_2]] - `calls` [EXTRACTED]
 - [[format-date.ts]] - `contains` [EXTRACTED]
 - [[formatDate()_1]] - `calls` [EXTRACTED]
 - [[formatTime()_1]] - `calls` [EXTRACTED]
-- [[page.tsx_3]] - `imports` [EXTRACTED]
+- [[page.tsx_7]] - `imports` [EXTRACTED]
 - [[page.tsx_45]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

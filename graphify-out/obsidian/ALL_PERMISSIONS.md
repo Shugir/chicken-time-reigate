@@ -12,7 +12,7 @@ tags:
 # ALL_PERMISSIONS
 
 ## Connections
-- [[page.tsx_18]] - `contains` [EXTRACTED]
+- [[page.tsx_21]] - `contains` [EXTRACTED]
 - [[page.tsx_38]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

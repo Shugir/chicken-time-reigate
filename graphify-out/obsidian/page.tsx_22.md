@@ -1,5 +1,5 @@
 ---
-source_file: "app/contact/page.tsx"
+source_file: "app/admin/users/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,12 +12,14 @@ tags:
 # page.tsx
 
 ## Connections
-- [[ContactPage()]] - `contains` [EXTRACTED]
-- [[EMPTY]] - `contains` [EXTRACTED]
-- [[FormState]] - `contains` [EXTRACTED]
-- [[HOURS]] - `contains` [EXTRACTED]
-- [[InputField()]] - `contains` [EXTRACTED]
-- [[SUBJECTS]] - `contains` [EXTRACTED]
-- [[oswald_2]] - `contains` [EXTRACTED]
+- [[AdjustForm_1]] - `contains` [EXTRACTED]
+- [[AdminDataTable()]] - `imports` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
+- [[AuthUser_1]] - `contains` [EXTRACTED]
+- [[Column]] - `imports` [EXTRACTED]
+- [[Driver_4]] - `contains` [EXTRACTED]
+- [[LoyaltyEntry]] - `contains` [EXTRACTED]
+- [[UsersPage()]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

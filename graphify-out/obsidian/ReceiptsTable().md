@@ -16,7 +16,7 @@ tags:
 - [[ReceiptsTable.tsx_1]] - `contains` [EXTRACTED]
 - [[groupByDay()]] - `calls` [EXTRACTED]
 - [[groupByDay()_2]] - `calls` [EXTRACTED]
-- [[page.tsx_15]] - `imports` [EXTRACTED]
+- [[page.tsx_18]] - `imports` [EXTRACTED]
 - [[page.tsx_34]] - `imports` [EXTRACTED]
 - [[page.tsx_36]] - `imports` [EXTRACTED]
 

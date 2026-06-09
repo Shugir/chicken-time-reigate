@@ -12,7 +12,7 @@ tags:
 # CartItem
 
 ## Connections
-- [[page.tsx_21]] - `contains` [EXTRACTED]
+- [[page.tsx_1]] - `contains` [EXTRACTED]
 - [[page.tsx_36]] - `contains` [EXTRACTED]
 - [[page.tsx_52]] - `contains` [EXTRACTED]
 

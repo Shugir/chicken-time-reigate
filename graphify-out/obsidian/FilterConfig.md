@@ -13,8 +13,8 @@ tags:
 
 ## Connections
 - [[AdminDataTable.tsx]] - `contains` [EXTRACTED]
-- [[page.tsx_12]] - `imports` [EXTRACTED]
-- [[page.tsx_18]] - `imports` [EXTRACTED]
+- [[page.tsx_15]] - `imports` [EXTRACTED]
+- [[page.tsx_21]] - `imports` [EXTRACTED]
 - [[page.tsx_38]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

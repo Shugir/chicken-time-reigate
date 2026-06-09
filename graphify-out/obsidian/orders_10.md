@@ -1,8 +1,8 @@
 ---
-source_file: "supabase/migrations/20260630_dispatch_routing.sql"
+source_file: "supabase/migrations/20260626_loyalty_schema_update.sql"
 type: "code"
 community: "Community None"
-location: "L2"
+location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,7 @@ tags:
 # orders
 
 ## Connections
-- [[20260630_dispatch_routing.sql]] - `contains` [EXTRACTED]
+- [[20260626_loyalty_schema_update.sql]] - `contains` [EXTRACTED]
+- [[20260626_loyalty_schema_update.sql_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
