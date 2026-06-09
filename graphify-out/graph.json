@@ -55,497 +55,884 @@
     {
       "label": "page.tsx",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
+      "source_file": "app/admin/dashboard/page.tsx",
       "source_location": "L1",
-      "id": "app_admin_dispatch_page_tsx",
-      "community": 75,
+      "id": "app_admin_dashboard_page_tsx",
+      "community": 74,
       "norm_label": "page.tsx"
-    },
-    {
-      "label": "supabase",
-      "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L22",
-      "id": "dispatch_page_supabase",
-      "community": 75,
-      "norm_label": "supabase"
     },
     {
       "label": "OrderItem",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L27",
-      "id": "dispatch_page_orderitem",
-      "community": 75,
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L10",
+      "id": "dashboard_page_orderitem",
+      "community": 74,
       "norm_label": "orderitem"
     },
     {
-      "label": "DispatchOrder",
+      "label": "RecentOrder",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L37",
-      "id": "dispatch_page_dispatchorder",
-      "community": 75,
-      "norm_label": "dispatchorder"
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L11",
+      "id": "dashboard_page_recentorder",
+      "community": 74,
+      "norm_label": "recentorder"
     },
     {
-      "label": "DispatchDriver",
+      "label": "DashboardData",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L56",
-      "id": "dispatch_page_dispatchdriver",
-      "community": 75,
-      "norm_label": "dispatchdriver"
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L14",
+      "id": "dashboard_page_dashboarddata",
+      "community": 74,
+      "norm_label": "dashboarddata"
     },
     {
-      "label": "BoardData",
+      "label": "STATUS_STYLES",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L64",
-      "id": "dispatch_page_boarddata",
-      "community": 75,
-      "norm_label": "boarddata"
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L20",
+      "id": "dashboard_page_status_styles",
+      "community": 74,
+      "norm_label": "status_styles"
     },
     {
-      "label": "timeAgo()",
+      "label": "STATUS_DOTS",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L71",
-      "id": "dispatch_page_timeago",
-      "community": 75,
-      "norm_label": "timeago()"
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L27",
+      "id": "dashboard_page_status_dots",
+      "community": 74,
+      "norm_label": "status_dots"
     },
     {
-      "label": "OrderCard()",
+      "label": "shortId()",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L80",
-      "id": "dispatch_page_ordercard",
-      "community": 75,
-      "norm_label": "ordercard()"
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L32",
+      "id": "dashboard_page_shortid",
+      "community": 74,
+      "norm_label": "shortid()"
     },
     {
-      "label": "ReturnedCard()",
+      "label": "formatItems()",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L324",
-      "id": "dispatch_page_returnedcard",
-      "community": 75,
-      "norm_label": "returnedcard()"
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L33",
+      "id": "dashboard_page_formatitems",
+      "community": 74,
+      "norm_label": "formatitems()"
     },
     {
-      "label": "DispatchPage()",
+      "label": "formatTime()",
       "file_type": "code",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L439",
-      "id": "dispatch_page_dispatchpage",
-      "community": 75,
-      "norm_label": "dispatchpage()"
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L38",
+      "id": "dashboard_page_formattime",
+      "community": 74,
+      "norm_label": "formattime()"
+    },
+    {
+      "label": "BentoCard()",
+      "file_type": "code",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L48",
+      "id": "dashboard_page_bentocard",
+      "community": 74,
+      "norm_label": "bentocard()"
+    },
+    {
+      "label": "DashboardPage()",
+      "file_type": "code",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L87",
+      "id": "dashboard_page_dashboardpage",
+      "community": 74,
+      "norm_label": "dashboardpage()"
     },
     {
       "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L1",
-      "id": "app_api_admin_dispatch_route_ts",
-      "community": 94,
+      "id": "app_api_admin_dashboard_route_ts",
+      "community": 84,
       "norm_label": "route.ts"
-    },
-    {
-      "label": "getAdminUser()",
-      "file_type": "code",
-      "source_file": "app/api/admin/dispatch/route.ts",
-      "source_location": "L9",
-      "id": "dispatch_route_getadminuser",
-      "community": 94,
-      "norm_label": "getadminuser()"
     },
     {
       "label": "GET()",
       "file_type": "code",
-      "source_file": "app/api/admin/dispatch/route.ts",
-      "source_location": "L34",
-      "id": "dispatch_route_get",
-      "community": 94,
+      "source_file": "app/api/admin/dashboard/route.ts",
+      "source_location": "L6",
+      "id": "dashboard_route_get",
+      "community": 84,
       "norm_label": "get()"
-    },
-    {
-      "label": "syncDriverStatus()",
-      "file_type": "code",
-      "source_file": "app/api/admin/dispatch/route.ts",
-      "source_location": "L86",
-      "id": "dispatch_route_syncdriverstatus",
-      "community": 94,
-      "norm_label": "syncdriverstatus()"
-    },
-    {
-      "label": "PATCH()",
-      "file_type": "code",
-      "source_file": "app/api/admin/dispatch/route.ts",
-      "source_location": "L99",
-      "id": "dispatch_route_patch",
-      "community": 94,
-      "norm_label": "patch()"
     },
     {
       "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
+      "source_file": "app/api/admin/print/route.ts",
       "source_location": "L1",
-      "id": "app_api_checkout_route_ts",
+      "id": "app_api_admin_print_route_ts",
       "community": 0,
       "norm_label": "route.ts"
     },
     {
-      "label": "stripe",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L8",
-      "id": "checkout_route_stripe",
-      "community": 0,
-      "norm_label": "stripe"
-    },
-    {
-      "label": "Extra",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L12",
-      "id": "checkout_route_extra",
-      "community": 0,
-      "norm_label": "extra"
-    },
-    {
-      "label": "ComboComponent",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L14",
-      "id": "checkout_route_combocomponent",
-      "community": 0,
-      "norm_label": "combocomponent"
-    },
-    {
-      "label": "CartItem",
-      "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L21",
-      "id": "checkout_route_cartitem",
-      "community": 0,
-      "norm_label": "cartitem"
-    },
-    {
       "label": "POST()",
       "file_type": "code",
-      "source_file": "app/api/checkout/route.ts",
-      "source_location": "L32",
-      "id": "checkout_route_post",
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L15",
+      "id": "print_route_post",
       "community": 0,
       "norm_label": "post()"
     },
     {
       "label": "route.ts",
       "file_type": "code",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L1",
+      "id": "app_api_admin_receipts_route_ts",
+      "community": 12,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "buildQuery()",
+      "file_type": "code",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L9",
+      "id": "receipts_route_buildquery",
+      "community": 12,
+      "norm_label": "buildquery()"
+    },
+    {
+      "label": "normalise()",
+      "file_type": "code",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L49",
+      "id": "receipts_route_normalise",
+      "community": 12,
+      "norm_label": "normalise()"
+    },
+    {
+      "label": "toCsv()",
+      "file_type": "code",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L72",
+      "id": "receipts_route_tocsv",
+      "community": 12,
+      "norm_label": "tocsv()"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L106",
+      "id": "receipts_route_get",
+      "community": 12,
+      "norm_label": "get()"
+    },
+    {
+      "label": "CustomerReceipt.tsx",
+      "file_type": "code",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L1",
+      "id": "components_customerreceipt_tsx",
+      "community": 75,
+      "norm_label": "customerreceipt.tsx"
+    },
+    {
+      "label": "ReceiptItem",
+      "file_type": "code",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L5",
+      "id": "components_customerreceipt_receiptitem",
+      "community": 75,
+      "norm_label": "receiptitem"
+    },
+    {
+      "label": "ReceiptOrder",
+      "file_type": "code",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L15",
+      "id": "components_customerreceipt_receiptorder",
+      "community": 75,
+      "norm_label": "receiptorder"
+    },
+    {
+      "label": "CustomerReceipt()",
+      "file_type": "code",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L28",
+      "id": "components_customerreceipt_customerreceipt",
+      "community": 75,
+      "norm_label": "customerreceipt()"
+    },
+    {
+      "label": "ReceiptDrawer.tsx",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L1",
+      "id": "components_admin_receipts_receiptdrawer_tsx",
+      "community": 75,
+      "norm_label": "receiptdrawer.tsx"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L12",
+      "id": "receipts_receiptdrawer_props",
+      "community": 75,
+      "norm_label": "props"
+    },
+    {
+      "label": "ReceiptDrawer()",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L17",
+      "id": "receipts_receiptdrawer_receiptdrawer",
+      "community": 75,
+      "norm_label": "receiptdrawer()"
+    },
+    {
+      "label": "Section()",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L194",
+      "id": "receipts_receiptdrawer_section",
+      "community": 75,
+      "norm_label": "section()"
+    },
+    {
+      "label": "Row()",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L203",
+      "id": "receipts_receiptdrawer_row",
+      "community": 75,
+      "norm_label": "row()"
+    },
+    {
+      "label": "TotalRow()",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L215",
+      "id": "receipts_receiptdrawer_totalrow",
+      "community": 75,
+      "norm_label": "totalrow()"
+    },
+    {
+      "label": "ReceiptsTable.tsx",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L1",
+      "id": "components_admin_receipts_receiptstable_tsx",
+      "community": 75,
+      "norm_label": "receiptstable.tsx"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L9",
+      "id": "receipts_receiptstable_props",
+      "community": 75,
+      "norm_label": "props"
+    },
+    {
+      "label": "ReceiptsTable()",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L16",
+      "id": "receipts_receiptstable_receiptstable",
+      "community": 75,
+      "norm_label": "receiptstable()"
+    },
+    {
+      "label": "types.ts",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L1",
+      "id": "components_admin_receipts_types_ts",
+      "community": 75,
+      "norm_label": "types.ts"
+    },
+    {
+      "label": "OrderItem",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L3",
+      "id": "receipts_types_orderitem",
+      "community": 75,
+      "norm_label": "orderitem"
+    },
+    {
+      "label": "AdminReceiptOrder",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L13",
+      "id": "receipts_types_adminreceiptorder",
+      "community": 75,
+      "norm_label": "adminreceiptorder"
+    },
+    {
+      "label": "ReceiptsApiResponse",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L34",
+      "id": "receipts_types_receiptsapiresponse",
+      "community": 75,
+      "norm_label": "receiptsapiresponse"
+    },
+    {
+      "label": "FilterParams",
+      "file_type": "code",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L42",
+      "id": "receipts_types_filterparams",
+      "community": 75,
+      "norm_label": "filterparams"
+    },
+    {
+      "label": "printer.ts",
+      "file_type": "code",
+      "source_file": "lib/printer.ts",
+      "source_location": "L1",
+      "id": "lib_printer_ts",
+      "community": 0,
+      "norm_label": "printer.ts"
+    },
+    {
+      "label": "wrapLine()",
+      "file_type": "code",
+      "source_file": "lib/printer.ts",
+      "source_location": "L10",
+      "id": "lib_printer_wrapline",
+      "community": 0,
+      "norm_label": "wrapline()"
+    },
+    {
+      "label": "formatRow()",
+      "file_type": "code",
+      "source_file": "lib/printer.ts",
+      "source_location": "L31",
+      "id": "lib_printer_formatrow",
+      "community": 0,
+      "norm_label": "formatrow()"
+    },
+    {
+      "label": "generateReceiptBuffer()",
+      "file_type": "code",
+      "source_file": "lib/printer.ts",
+      "source_location": "L41",
+      "id": "lib_printer_generatereceiptbuffer",
+      "community": 0,
+      "norm_label": "generatereceiptbuffer()"
+    },
+    {
+      "label": "sendToPrinter()",
+      "file_type": "code",
+      "source_file": "lib/printer.ts",
+      "source_location": "L148",
+      "id": "lib_printer_sendtoprinter",
+      "community": 0,
+      "norm_label": "sendtoprinter()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L1",
+      "community": 75,
+      "norm_label": "page.tsx",
+      "id": "app_admin_dispatch_page_tsx"
+    },
+    {
+      "label": "supabase",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L22",
+      "community": 75,
+      "norm_label": "supabase",
+      "id": "dispatch_page_supabase"
+    },
+    {
+      "label": "OrderItem",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L27",
+      "community": 75,
+      "norm_label": "orderitem",
+      "id": "dispatch_page_orderitem"
+    },
+    {
+      "label": "DispatchOrder",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L37",
+      "community": 75,
+      "norm_label": "dispatchorder",
+      "id": "dispatch_page_dispatchorder"
+    },
+    {
+      "label": "DispatchDriver",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L56",
+      "community": 75,
+      "norm_label": "dispatchdriver",
+      "id": "dispatch_page_dispatchdriver"
+    },
+    {
+      "label": "BoardData",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L64",
+      "community": 75,
+      "norm_label": "boarddata",
+      "id": "dispatch_page_boarddata"
+    },
+    {
+      "label": "timeAgo()",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L71",
+      "community": 75,
+      "norm_label": "timeago()",
+      "id": "dispatch_page_timeago"
+    },
+    {
+      "label": "OrderCard()",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L80",
+      "community": 75,
+      "norm_label": "ordercard()",
+      "id": "dispatch_page_ordercard"
+    },
+    {
+      "label": "ReturnedCard()",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L324",
+      "community": 75,
+      "norm_label": "returnedcard()",
+      "id": "dispatch_page_returnedcard"
+    },
+    {
+      "label": "DispatchPage()",
+      "file_type": "code",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L439",
+      "community": 75,
+      "norm_label": "dispatchpage()",
+      "id": "dispatch_page_dispatchpage"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L1",
+      "community": 94,
+      "norm_label": "route.ts",
+      "id": "app_api_admin_dispatch_route_ts"
+    },
+    {
+      "label": "getAdminUser()",
+      "file_type": "code",
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L9",
+      "community": 94,
+      "norm_label": "getadminuser()",
+      "id": "dispatch_route_getadminuser"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L34",
+      "community": 94,
+      "norm_label": "get()",
+      "id": "dispatch_route_get"
+    },
+    {
+      "label": "syncDriverStatus()",
+      "file_type": "code",
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L86",
+      "community": 94,
+      "norm_label": "syncdriverstatus()",
+      "id": "dispatch_route_syncdriverstatus"
+    },
+    {
+      "label": "PATCH()",
+      "file_type": "code",
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L99",
+      "community": 94,
+      "norm_label": "patch()",
+      "id": "dispatch_route_patch"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "route.ts",
+      "id": "app_api_checkout_route_ts"
+    },
+    {
+      "label": "stripe",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L8",
+      "community": 0,
+      "norm_label": "stripe",
+      "id": "checkout_route_stripe"
+    },
+    {
+      "label": "Extra",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L12",
+      "community": 0,
+      "norm_label": "extra",
+      "id": "checkout_route_extra"
+    },
+    {
+      "label": "ComboComponent",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L14",
+      "community": 0,
+      "norm_label": "combocomponent",
+      "id": "checkout_route_combocomponent"
+    },
+    {
+      "label": "CartItem",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L21",
+      "community": 0,
+      "norm_label": "cartitem",
+      "id": "checkout_route_cartitem"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/checkout/route.ts",
+      "source_location": "L32",
+      "community": 0,
+      "norm_label": "post()",
+      "id": "checkout_route_post"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
       "source_file": "app/api/kitchen/orders/route.ts",
       "source_location": "L1",
-      "id": "app_api_kitchen_orders_route_ts",
-      "community": 84,
-      "norm_label": "route.ts"
+      "community": 101,
+      "norm_label": "route.ts",
+      "id": "app_api_kitchen_orders_route_ts"
     },
     {
       "label": "GET()",
       "file_type": "code",
       "source_file": "app/api/kitchen/orders/route.ts",
       "source_location": "L6",
-      "id": "orders_route_get",
-      "community": 84,
-      "norm_label": "get()"
+      "community": 101,
+      "norm_label": "get()",
+      "id": "orders_route_get"
     },
     {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/checkout/page.tsx",
       "source_location": "L1",
-      "id": "app_checkout_page_tsx",
       "community": 83,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "app_checkout_page_tsx"
     },
     {
       "label": "supabase",
       "file_type": "code",
       "source_file": "app/checkout/page.tsx",
       "source_location": "L8",
-      "id": "checkout_page_supabase",
       "community": 83,
-      "norm_label": "supabase"
+      "norm_label": "supabase",
+      "id": "checkout_page_supabase"
     },
     {
       "label": "CartItem",
       "file_type": "code",
       "source_file": "app/checkout/page.tsx",
       "source_location": "L13",
-      "id": "checkout_page_cartitem",
       "community": 83,
-      "norm_label": "cartitem"
+      "norm_label": "cartitem",
+      "id": "checkout_page_cartitem"
     },
     {
       "label": "DeliveryZone",
       "file_type": "code",
       "source_file": "app/checkout/page.tsx",
       "source_location": "L23",
-      "id": "checkout_page_deliveryzone",
       "community": 83,
-      "norm_label": "deliveryzone"
+      "norm_label": "deliveryzone",
+      "id": "checkout_page_deliveryzone"
     },
     {
       "label": "CheckoutPage()",
       "file_type": "code",
       "source_file": "app/checkout/page.tsx",
       "source_location": "L32",
-      "id": "checkout_page_checkoutpage",
       "community": 83,
-      "norm_label": "checkoutpage()"
+      "norm_label": "checkoutpage()",
+      "id": "checkout_page_checkoutpage"
     },
     {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L1",
-      "id": "app_kitchen_page_tsx",
       "community": 75,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "app_kitchen_page_tsx"
     },
     {
       "label": "supabase",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L21",
-      "id": "kitchen_page_supabase",
       "community": 75,
-      "norm_label": "supabase"
+      "norm_label": "supabase",
+      "id": "kitchen_page_supabase"
     },
     {
       "label": "Extra",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L26",
-      "id": "kitchen_page_extra",
       "community": 75,
-      "norm_label": "extra"
+      "norm_label": "extra",
+      "id": "kitchen_page_extra"
     },
     {
       "label": "OrderItem",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L28",
-      "id": "kitchen_page_orderitem",
       "community": 75,
-      "norm_label": "orderitem"
+      "norm_label": "orderitem",
+      "id": "kitchen_page_orderitem"
     },
     {
       "label": "Order",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L38",
-      "id": "kitchen_page_order",
       "community": 75,
-      "norm_label": "order"
+      "norm_label": "order",
+      "id": "kitchen_page_order"
     },
     {
       "label": "Driver",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L52",
-      "id": "kitchen_page_driver",
       "community": 75,
-      "norm_label": "driver"
+      "norm_label": "driver",
+      "id": "kitchen_page_driver"
     },
     {
       "label": "elapsed()",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L60",
-      "id": "kitchen_page_elapsed",
       "community": 75,
-      "norm_label": "elapsed()"
+      "norm_label": "elapsed()",
+      "id": "kitchen_page_elapsed"
     },
     {
       "label": "OrderCard()",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L68",
-      "id": "kitchen_page_ordercard",
       "community": 75,
-      "norm_label": "ordercard()"
+      "norm_label": "ordercard()",
+      "id": "kitchen_page_ordercard"
     },
     {
       "label": "KitchenTicket()",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L264",
-      "id": "kitchen_page_kitchenticket",
       "community": 75,
-      "norm_label": "kitchenticket()"
+      "norm_label": "kitchenticket()",
+      "id": "kitchen_page_kitchenticket"
     },
     {
       "label": "KitchenDashboard()",
       "file_type": "code",
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L338",
-      "id": "kitchen_page_kitchendashboard",
       "community": 75,
-      "norm_label": "kitchendashboard()"
+      "norm_label": "kitchendashboard()",
+      "id": "kitchen_page_kitchendashboard"
     },
     {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L1",
-      "id": "app_order_page_tsx",
       "community": 4,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "app_order_page_tsx"
     },
     {
       "label": "MenuItem",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L23",
-      "id": "order_page_menuitem",
       "community": 4,
-      "norm_label": "menuitem"
+      "norm_label": "menuitem",
+      "id": "order_page_menuitem"
     },
     {
       "label": "CartEntry",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L29",
-      "id": "order_page_cartentry",
       "community": 4,
-      "norm_label": "cartentry"
+      "norm_label": "cartentry",
+      "id": "order_page_cartentry"
     },
     {
       "label": "Cart",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L30",
-      "id": "order_page_cart",
       "community": 4,
-      "norm_label": "cart"
+      "norm_label": "cart",
+      "id": "order_page_cart"
     },
     {
       "label": "DbCategory",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L32",
-      "id": "order_page_dbcategory",
       "community": 4,
-      "norm_label": "dbcategory"
+      "norm_label": "dbcategory",
+      "id": "order_page_dbcategory"
     },
     {
       "label": "MENU_ITEMS",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L39",
-      "id": "order_page_menu_items",
       "community": 4,
-      "norm_label": "menu_items"
+      "norm_label": "menu_items",
+      "id": "order_page_menu_items"
     },
     {
       "label": "getUniqueTags()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L219",
-      "id": "order_page_getuniquetags",
-      "community": 1,
-      "norm_label": "getuniquetags()"
+      "community": 4,
+      "norm_label": "getuniquetags()",
+      "id": "order_page_getuniquetags"
     },
     {
       "label": "DbMenuItem",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L234",
-      "id": "order_page_dbmenuitem",
       "community": 4,
-      "norm_label": "dbmenuitem"
+      "norm_label": "dbmenuitem",
+      "id": "order_page_dbmenuitem"
     },
     {
       "label": "dbToMenuItem()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L259",
-      "id": "order_page_dbtomenuitem",
       "community": 4,
-      "norm_label": "dbtomenuitem()"
+      "norm_label": "dbtomenuitem()",
+      "id": "order_page_dbtomenuitem"
     },
     {
       "label": "cartTotal()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L283",
-      "id": "order_page_carttotal",
       "community": 4,
-      "norm_label": "carttotal()"
+      "norm_label": "carttotal()",
+      "id": "order_page_carttotal"
     },
     {
       "label": "cartCount()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L292",
-      "id": "order_page_cartcount",
       "community": 4,
-      "norm_label": "cartcount()"
+      "norm_label": "cartcount()",
+      "id": "order_page_cartcount"
     },
     {
       "label": "MenuCard()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L298",
-      "id": "order_page_menucard",
       "community": 4,
-      "norm_label": "menucard()"
+      "norm_label": "menucard()",
+      "id": "order_page_menucard"
     },
     {
       "label": "FiltersPopover()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L410",
-      "id": "order_page_filterspopover",
       "community": 4,
-      "norm_label": "filterspopover()"
+      "norm_label": "filterspopover()",
+      "id": "order_page_filterspopover"
     },
     {
       "label": "CartDrawer()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L538",
-      "id": "order_page_cartdrawer",
       "community": 4,
-      "norm_label": "cartdrawer()"
+      "norm_label": "cartdrawer()",
+      "id": "order_page_cartdrawer"
     },
     {
       "label": "OrderPage()",
       "file_type": "code",
       "source_file": "app/order/page.tsx",
       "source_location": "L671",
-      "id": "order_page_orderpage",
       "community": 4,
-      "norm_label": "orderpage()"
+      "norm_label": "orderpage()",
+      "id": "order_page_orderpage"
     },
     {
       "label": "20260635_order_type.sql",
       "file_type": "code",
       "source_file": "supabase/migrations/20260635_order_type.sql",
       "source_location": null,
-      "id": "supabase_migrations_20260635_order_type_sql",
       "community": 114,
-      "norm_label": "20260635_order_type.sql"
+      "norm_label": "20260635_order_type.sql",
+      "id": "supabase_migrations_20260635_order_type_sql"
     },
     {
       "label": "orders",
       "file_type": "code",
       "source_file": "supabase/migrations/20260635_order_type.sql",
       "source_location": "L1",
-      "id": "20260635_order_type_orders",
       "community": 114,
-      "norm_label": "orders"
+      "norm_label": "orders",
+      "id": "20260635_order_type_orders"
     },
     {
       "label": "page.tsx",
@@ -1281,7 +1668,7 @@
       "file_type": "code",
       "source_file": "app/page.tsx",
       "source_location": "L1",
-      "community": 1,
+      "community": 18,
       "norm_label": "page.tsx",
       "id": "app_page_tsx"
     },
@@ -1290,7 +1677,7 @@
       "file_type": "code",
       "source_file": "app/page.tsx",
       "source_location": "L6",
-      "community": 1,
+      "community": 18,
       "norm_label": "oswald",
       "id": "app_page_oswald"
     },
@@ -1299,7 +1686,7 @@
       "file_type": "code",
       "source_file": "app/page.tsx",
       "source_location": "L14",
-      "community": 1,
+      "community": 18,
       "norm_label": "popular",
       "id": "app_page_popular"
     },
@@ -1308,7 +1695,7 @@
       "file_type": "code",
       "source_file": "app/page.tsx",
       "source_location": "L57",
-      "community": 1,
+      "community": 18,
       "norm_label": "reasons",
       "id": "app_page_reasons"
     },
@@ -1317,7 +1704,7 @@
       "file_type": "code",
       "source_file": "app/page.tsx",
       "source_location": "L80",
-      "community": 1,
+      "community": 18,
       "norm_label": "landingpage()",
       "id": "app_page_landingpage"
     },
@@ -1326,7 +1713,7 @@
       "file_type": "code",
       "source_file": "app/about/page.tsx",
       "source_location": "L1",
-      "community": 1,
+      "community": 8,
       "norm_label": "page.tsx",
       "id": "app_about_page_tsx"
     },
@@ -1335,7 +1722,7 @@
       "file_type": "code",
       "source_file": "app/about/page.tsx",
       "source_location": "L4",
-      "community": 1,
+      "community": 8,
       "norm_label": "oswald",
       "id": "about_page_oswald"
     },
@@ -1344,7 +1731,7 @@
       "file_type": "code",
       "source_file": "app/about/page.tsx",
       "source_location": "L10",
-      "community": 1,
+      "community": 8,
       "norm_label": "stats",
       "id": "about_page_stats"
     },
@@ -1353,7 +1740,7 @@
       "file_type": "code",
       "source_file": "app/about/page.tsx",
       "source_location": "L17",
-      "community": 1,
+      "community": 8,
       "norm_label": "values",
       "id": "about_page_values"
     },
@@ -1362,7 +1749,7 @@
       "file_type": "code",
       "source_file": "app/about/page.tsx",
       "source_location": "L32",
-      "community": 1,
+      "community": 8,
       "norm_label": "aboutpage()",
       "id": "about_page_aboutpage"
     },
@@ -2058,105 +2445,6 @@
       "community": 12,
       "norm_label": "dashboardlayout()",
       "id": "dashboard_layout_dashboardlayout"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L1",
-      "community": 74,
-      "norm_label": "page.tsx",
-      "id": "app_admin_dashboard_page_tsx"
-    },
-    {
-      "label": "OrderItem",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L10",
-      "community": 74,
-      "norm_label": "orderitem",
-      "id": "dashboard_page_orderitem"
-    },
-    {
-      "label": "RecentOrder",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L11",
-      "community": 74,
-      "norm_label": "recentorder",
-      "id": "dashboard_page_recentorder"
-    },
-    {
-      "label": "DashboardData",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L14",
-      "community": 74,
-      "norm_label": "dashboarddata",
-      "id": "dashboard_page_dashboarddata"
-    },
-    {
-      "label": "STATUS_STYLES",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L20",
-      "community": 74,
-      "norm_label": "status_styles",
-      "id": "dashboard_page_status_styles"
-    },
-    {
-      "label": "STATUS_DOTS",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L27",
-      "community": 74,
-      "norm_label": "status_dots",
-      "id": "dashboard_page_status_dots"
-    },
-    {
-      "label": "shortId()",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L32",
-      "community": 74,
-      "norm_label": "shortid()",
-      "id": "dashboard_page_shortid"
-    },
-    {
-      "label": "formatItems()",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L33",
-      "community": 74,
-      "norm_label": "formatitems()",
-      "id": "dashboard_page_formatitems"
-    },
-    {
-      "label": "formatTime()",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L38",
-      "community": 74,
-      "norm_label": "formattime()",
-      "id": "dashboard_page_formattime"
-    },
-    {
-      "label": "BentoCard()",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L48",
-      "community": 74,
-      "norm_label": "bentocard()",
-      "id": "dashboard_page_bentocard"
-    },
-    {
-      "label": "DashboardPage()",
-      "file_type": "code",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L87",
-      "community": 74,
-      "norm_label": "dashboardpage()",
-      "id": "dashboard_page_dashboardpage"
     },
     {
       "label": "layout.tsx",
@@ -2973,7 +3261,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/categories/route.ts",
       "source_location": "L1",
-      "community": 101,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_admin_categories_route_ts"
     },
@@ -2982,7 +3270,7 @@
       "file_type": "code",
       "source_file": "app/api/categories/route.ts",
       "source_location": "L6",
-      "community": 101,
+      "community": 3,
       "norm_label": "get()",
       "id": "categories_route_get"
     },
@@ -2991,7 +3279,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/categories/route.ts",
       "source_location": "L16",
-      "community": 101,
+      "community": 3,
       "norm_label": "post()",
       "id": "categories_route_post"
     },
@@ -3057,24 +3345,6 @@
       "community": 84,
       "norm_label": "route.ts",
       "id": "app_api_admin_combo_discounts_id_route_ts"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "app/api/admin/dashboard/route.ts",
-      "source_location": "L1",
-      "community": 84,
-      "norm_label": "route.ts",
-      "id": "app_api_admin_dashboard_route_ts"
-    },
-    {
-      "label": "GET()",
-      "file_type": "code",
-      "source_file": "app/api/admin/dashboard/route.ts",
-      "source_location": "L6",
-      "community": 84,
-      "norm_label": "get()",
-      "id": "dashboard_route_get"
     },
     {
       "label": "route.ts",
@@ -3189,7 +3459,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L1",
-      "community": 3,
+      "community": 112,
       "norm_label": "route.ts",
       "id": "app_api_admin_loyalty_route_ts"
     },
@@ -3198,7 +3468,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L6",
-      "community": 3,
+      "community": 112,
       "norm_label": "get()",
       "id": "loyalty_route_get"
     },
@@ -3207,7 +3477,7 @@
       "file_type": "code",
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L33",
-      "community": 3,
+      "community": 112,
       "norm_label": "post()",
       "id": "loyalty_route_post"
     },
@@ -3295,24 +3565,6 @@
     {
       "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L1",
-      "community": 0,
-      "norm_label": "route.ts",
-      "id": "app_api_admin_print_route_ts"
-    },
-    {
-      "label": "POST()",
-      "file_type": "code",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L15",
-      "community": 0,
-      "norm_label": "post()",
-      "id": "print_route_post"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
       "source_file": "app/api/admin/promotions/route.ts",
       "source_location": "L1",
       "community": 97,
@@ -3345,51 +3597,6 @@
       "community": 84,
       "norm_label": "route.ts",
       "id": "app_api_admin_promotions_id_route_ts"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L1",
-      "community": 12,
-      "norm_label": "route.ts",
-      "id": "app_api_admin_receipts_route_ts"
-    },
-    {
-      "label": "buildQuery()",
-      "file_type": "code",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L9",
-      "community": 12,
-      "norm_label": "buildquery()",
-      "id": "receipts_route_buildquery"
-    },
-    {
-      "label": "normalise()",
-      "file_type": "code",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L49",
-      "community": 12,
-      "norm_label": "normalise()",
-      "id": "receipts_route_normalise"
-    },
-    {
-      "label": "toCsv()",
-      "file_type": "code",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L71",
-      "community": 12,
-      "norm_label": "tocsv()",
-      "id": "receipts_route_tocsv"
-    },
-    {
-      "label": "GET()",
-      "file_type": "code",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L104",
-      "community": 12,
-      "norm_label": "get()",
-      "id": "receipts_route_get"
     },
     {
       "label": "route.ts",
@@ -3477,7 +3684,7 @@
       "file_type": "code",
       "source_file": "app/api/auth/role/route.ts",
       "source_location": "L1",
-      "community": 112,
+      "community": 84,
       "norm_label": "route.ts",
       "id": "app_api_auth_role_route_ts"
     },
@@ -3486,7 +3693,7 @@
       "file_type": "code",
       "source_file": "app/api/auth/role/route.ts",
       "source_location": "L8",
-      "community": 112,
+      "community": 84,
       "norm_label": "get()",
       "id": "role_route_get"
     },
@@ -3513,7 +3720,7 @@
       "file_type": "code",
       "source_file": "app/api/categories/route.ts",
       "source_location": "L1",
-      "community": 101,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "app_api_categories_route_ts"
     },
@@ -3531,7 +3738,7 @@
       "file_type": "code",
       "source_file": "app/api/driver/orders/route.ts",
       "source_location": "L1",
-      "community": 84,
+      "community": 101,
       "norm_label": "route.ts",
       "id": "app_api_driver_orders_route_ts"
     },
@@ -3621,7 +3828,7 @@
       "file_type": "code",
       "source_file": "app/api/menu/combo-items/route.ts",
       "source_location": "L1",
-      "community": 84,
+      "community": 116,
       "norm_label": "route.ts",
       "id": "app_api_menu_combo_items_route_ts"
     },
@@ -3630,7 +3837,7 @@
       "file_type": "code",
       "source_file": "app/api/menu/combo-items/route.ts",
       "source_location": "L4",
-      "community": 84,
+      "community": 116,
       "norm_label": "get()",
       "id": "combo_items_route_get"
     },
@@ -4112,42 +4319,6 @@
       "id": "track_page_trackpage"
     },
     {
-      "label": "CustomerReceipt.tsx",
-      "file_type": "code",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L1",
-      "community": 75,
-      "norm_label": "customerreceipt.tsx",
-      "id": "components_customerreceipt_tsx"
-    },
-    {
-      "label": "ReceiptItem",
-      "file_type": "code",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L5",
-      "community": 75,
-      "norm_label": "receiptitem",
-      "id": "components_customerreceipt_receiptitem"
-    },
-    {
-      "label": "ReceiptOrder",
-      "file_type": "code",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L15",
-      "community": 75,
-      "norm_label": "receiptorder",
-      "id": "components_customerreceipt_receiptorder"
-    },
-    {
-      "label": "CustomerReceipt()",
-      "file_type": "code",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L27",
-      "community": 75,
-      "norm_label": "customerreceipt()",
-      "id": "components_customerreceipt_customerreceipt"
-    },
-    {
       "label": "Footer.tsx",
       "file_type": "code",
       "source_file": "components/Footer.tsx",
@@ -4260,7 +4431,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L1",
-      "community": 18,
+      "community": 4,
       "norm_label": "productmodal.tsx",
       "id": "components_productmodal_tsx"
     },
@@ -4269,7 +4440,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L9",
-      "community": 18,
+      "community": 4,
       "norm_label": "itemcategory",
       "id": "components_productmodal_itemcategory"
     },
@@ -4278,7 +4449,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L11",
-      "community": 18,
+      "community": 4,
       "norm_label": "addon",
       "id": "components_productmodal_addon"
     },
@@ -4287,7 +4458,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L16",
-      "community": 18,
+      "community": 4,
       "norm_label": "productitem",
       "id": "components_productmodal_productitem"
     },
@@ -4296,7 +4467,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L31",
-      "community": 18,
+      "community": 4,
       "norm_label": "orderselection",
       "id": "components_productmodal_orderselection"
     },
@@ -4305,7 +4476,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L43",
-      "community": 18,
+      "community": 4,
       "norm_label": "allergen_details",
       "id": "components_productmodal_allergen_details"
     },
@@ -4314,7 +4485,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L54",
-      "community": 18,
+      "community": 4,
       "norm_label": "category_gradient",
       "id": "components_productmodal_category_gradient"
     },
@@ -4323,7 +4494,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L64",
-      "community": 18,
+      "community": 4,
       "norm_label": "toggle()",
       "id": "components_productmodal_toggle"
     },
@@ -4332,7 +4503,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L80",
-      "community": 18,
+      "community": 4,
       "norm_label": "allergyaccordion()",
       "id": "components_productmodal_allergyaccordion"
     },
@@ -4341,7 +4512,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L128",
-      "community": 18,
+      "community": 4,
       "norm_label": "productmodalprops",
       "id": "components_productmodal_productmodalprops"
     },
@@ -4350,7 +4521,7 @@
       "file_type": "code",
       "source_file": "components/ProductModal.tsx",
       "source_location": "L134",
-      "community": 18,
+      "community": 4,
       "norm_label": "productmodal()",
       "id": "components_productmodal_productmodal"
     },
@@ -4553,60 +4724,6 @@
       "id": "admin_sign_out_button_signoutbutton"
     },
     {
-      "label": "ReceiptDrawer.tsx",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L1",
-      "community": 75,
-      "norm_label": "receiptdrawer.tsx",
-      "id": "components_admin_receipts_receiptdrawer_tsx"
-    },
-    {
-      "label": "Props",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L12",
-      "community": 75,
-      "norm_label": "props",
-      "id": "receipts_receiptdrawer_props"
-    },
-    {
-      "label": "ReceiptDrawer()",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L17",
-      "community": 75,
-      "norm_label": "receiptdrawer()",
-      "id": "receipts_receiptdrawer_receiptdrawer"
-    },
-    {
-      "label": "Section()",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L170",
-      "community": 75,
-      "norm_label": "section()",
-      "id": "receipts_receiptdrawer_section"
-    },
-    {
-      "label": "Row()",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L179",
-      "community": 75,
-      "norm_label": "row()",
-      "id": "receipts_receiptdrawer_row"
-    },
-    {
-      "label": "TotalRow()",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L191",
-      "community": 75,
-      "norm_label": "totalrow()",
-      "id": "receipts_receiptdrawer_totalrow"
-    },
-    {
       "label": "ReceiptsCards.tsx",
       "file_type": "code",
       "source_file": "components/admin/receipts/ReceiptsCards.tsx",
@@ -4632,78 +4749,6 @@
       "community": 75,
       "norm_label": "receiptscards()",
       "id": "receipts_receiptscards_receiptscards"
-    },
-    {
-      "label": "ReceiptsTable.tsx",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L1",
-      "community": 75,
-      "norm_label": "receiptstable.tsx",
-      "id": "components_admin_receipts_receiptstable_tsx"
-    },
-    {
-      "label": "Props",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L9",
-      "community": 75,
-      "norm_label": "props",
-      "id": "receipts_receiptstable_props"
-    },
-    {
-      "label": "ReceiptsTable()",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L16",
-      "community": 75,
-      "norm_label": "receiptstable()",
-      "id": "receipts_receiptstable_receiptstable"
-    },
-    {
-      "label": "types.ts",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L1",
-      "community": 75,
-      "norm_label": "types.ts",
-      "id": "components_admin_receipts_types_ts"
-    },
-    {
-      "label": "OrderItem",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L3",
-      "community": 75,
-      "norm_label": "orderitem",
-      "id": "receipts_types_orderitem"
-    },
-    {
-      "label": "AdminReceiptOrder",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L13",
-      "community": 75,
-      "norm_label": "adminreceiptorder",
-      "id": "receipts_types_adminreceiptorder"
-    },
-    {
-      "label": "ReceiptsApiResponse",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L33",
-      "community": 75,
-      "norm_label": "receiptsapiresponse",
-      "id": "receipts_types_receiptsapiresponse"
-    },
-    {
-      "label": "FilterParams",
-      "file_type": "code",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L41",
-      "community": 75,
-      "norm_label": "filterparams",
-      "id": "receipts_types_filterparams"
     },
     {
       "label": "utils.ts",
@@ -4746,7 +4791,7 @@
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L1",
-      "community": 18,
+      "community": 4,
       "norm_label": "itemcustomizerdrawer.tsx",
       "id": "components_menu_itemcustomizerdrawer_tsx"
     },
@@ -4755,7 +4800,7 @@
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L8",
-      "community": 18,
+      "community": 4,
       "norm_label": "comboitem",
       "id": "menu_itemcustomizerdrawer_comboitem"
     },
@@ -4764,7 +4809,7 @@
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L16",
-      "community": 18,
+      "community": 4,
       "norm_label": "draweritem",
       "id": "menu_itemcustomizerdrawer_draweritem"
     },
@@ -4773,7 +4818,7 @@
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L22",
-      "community": 18,
+      "community": 4,
       "norm_label": "props",
       "id": "menu_itemcustomizerdrawer_props"
     },
@@ -4782,7 +4827,7 @@
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L28",
-      "community": 18,
+      "community": 4,
       "norm_label": "accordionsection()",
       "id": "menu_itemcustomizerdrawer_accordionsection"
     },
@@ -4791,7 +4836,7 @@
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L66",
-      "community": 18,
+      "community": 4,
       "norm_label": "comboitemcard()",
       "id": "menu_itemcustomizerdrawer_comboitemcard"
     },
@@ -4800,7 +4845,7 @@
       "file_type": "code",
       "source_file": "components/Menu/ItemCustomizerDrawer.tsx",
       "source_location": "L92",
-      "community": 18,
+      "community": 4,
       "norm_label": "itemcustomizerdrawer()",
       "id": "menu_itemcustomizerdrawer_itemcustomizerdrawer"
     },
@@ -4983,51 +5028,6 @@
       "community": 94,
       "norm_label": "builddispatchactionupdate()",
       "id": "lib_order_status_builddispatchactionupdate"
-    },
-    {
-      "label": "printer.ts",
-      "file_type": "code",
-      "source_file": "lib/printer.ts",
-      "source_location": "L1",
-      "community": 0,
-      "norm_label": "printer.ts",
-      "id": "lib_printer_ts"
-    },
-    {
-      "label": "wrapLine()",
-      "file_type": "code",
-      "source_file": "lib/printer.ts",
-      "source_location": "L10",
-      "community": 0,
-      "norm_label": "wrapline()",
-      "id": "lib_printer_wrapline"
-    },
-    {
-      "label": "formatRow()",
-      "file_type": "code",
-      "source_file": "lib/printer.ts",
-      "source_location": "L31",
-      "community": 0,
-      "norm_label": "formatrow()",
-      "id": "lib_printer_formatrow"
-    },
-    {
-      "label": "generateReceiptBuffer()",
-      "file_type": "code",
-      "source_file": "lib/printer.ts",
-      "source_location": "L41",
-      "community": 0,
-      "norm_label": "generatereceiptbuffer()",
-      "id": "lib_printer_generatereceiptbuffer"
-    },
-    {
-      "label": "sendToPrinter()",
-      "file_type": "code",
-      "source_file": "lib/printer.ts",
-      "source_location": "L129",
-      "community": 0,
-      "norm_label": "sendtoprinter()",
-      "id": "lib_printer_sendtoprinter"
     },
     {
       "label": "store-status.ts",
@@ -5322,7 +5322,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": null,
-      "community": 8,
+      "community": 4,
       "norm_label": "20260603_initial_schema.sql",
       "id": "supabase_migrations_20260603_initial_schema_sql"
     },
@@ -5331,7 +5331,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L18",
-      "community": 8,
+      "community": 4,
       "norm_label": "profiles",
       "id": "20260603_initial_schema_profiles"
     },
@@ -5340,7 +5340,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L29",
-      "community": 8,
+      "community": 4,
       "norm_label": "menu_items",
       "id": "20260603_initial_schema_menu_items"
     },
@@ -5349,7 +5349,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L43",
-      "community": 8,
+      "community": 4,
       "norm_label": "orders",
       "id": "20260603_initial_schema_orders"
     },
@@ -5358,7 +5358,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L57",
-      "community": 8,
+      "community": 4,
       "norm_label": "order_items",
       "id": "20260603_initial_schema_order_items"
     },
@@ -5367,7 +5367,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L80",
-      "community": 8,
+      "community": 4,
       "norm_label": "set_updated_at()",
       "id": "20260603_initial_schema_set_updated_at"
     },
@@ -5376,7 +5376,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L88",
-      "community": 8,
+      "community": 4,
       "norm_label": "trg_profiles_updated_at",
       "id": "20260603_initial_schema_trg_profiles_updated_at"
     },
@@ -5385,7 +5385,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L92",
-      "community": 8,
+      "community": 4,
       "norm_label": "trg_menu_items_updated_at",
       "id": "20260603_initial_schema_trg_menu_items_updated_at"
     },
@@ -5394,7 +5394,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260603_initial_schema.sql",
       "source_location": "L96",
-      "community": 8,
+      "community": 4,
       "norm_label": "trg_orders_updated_at",
       "id": "20260603_initial_schema_trg_orders_updated_at"
     },
@@ -5421,7 +5421,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260605_guest_checkout.sql",
       "source_location": null,
-      "community": 8,
+      "community": 4,
       "norm_label": "20260605_guest_checkout.sql",
       "id": "supabase_migrations_20260605_guest_checkout_sql"
     },
@@ -5430,7 +5430,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260605_guest_checkout.sql",
       "source_location": "L2",
-      "community": 8,
+      "community": 4,
       "norm_label": "orders",
       "id": "20260605_guest_checkout_orders"
     },
@@ -5439,7 +5439,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260605_guest_checkout.sql",
       "source_location": "L8",
-      "community": 8,
+      "community": 4,
       "norm_label": "order_items",
       "id": "20260605_guest_checkout_order_items"
     },
@@ -5529,7 +5529,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260609_order_items_notes.sql",
       "source_location": null,
-      "community": 8,
+      "community": 4,
       "norm_label": "20260609_order_items_notes.sql",
       "id": "supabase_migrations_20260609_order_items_notes_sql"
     },
@@ -5538,7 +5538,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260609_order_items_notes.sql",
       "source_location": "L1",
-      "community": 8,
+      "community": 4,
       "norm_label": "order_items",
       "id": "20260609_order_items_notes_order_items"
     },
@@ -5565,7 +5565,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260613_order_items_customizations.sql",
       "source_location": null,
-      "community": 8,
+      "community": 4,
       "norm_label": "20260613_order_items_customizations.sql",
       "id": "supabase_migrations_20260613_order_items_customizations_sql"
     },
@@ -5574,7 +5574,7 @@
       "file_type": "code",
       "source_file": "supabase/migrations/20260613_order_items_customizations.sql",
       "source_location": "L1",
-      "community": 8,
+      "community": 4,
       "norm_label": "order_items",
       "id": "20260613_order_items_customizations_order_items"
     },
@@ -8202,7 +8202,7 @@
       "file_type": "code",
       "source_file": "ItemCustomizerDrawer.tsx",
       "source_location": "L1",
-      "community": 18,
+      "community": 4,
       "norm_label": "itemcustomizerdrawer.tsx",
       "id": "itemcustomizerdrawer_tsx"
     },
@@ -8355,7 +8355,7 @@
       "file_type": "code",
       "source_file": "combo-items/route.ts",
       "source_location": "L1",
-      "community": 84,
+      "community": 116,
       "norm_label": "route.ts",
       "id": "combo_items_route_ts"
     },
@@ -8454,7 +8454,7 @@
       "file_type": "code",
       "source_file": "api/auth/role/route.ts",
       "source_location": "L1",
-      "community": 112,
+      "community": 84,
       "norm_label": "route.ts",
       "id": "api_auth_role_route_ts"
     },
@@ -8490,7 +8490,7 @@
       "file_type": "code",
       "source_file": "api/driver/orders/route.ts",
       "source_location": "L1",
-      "community": 84,
+      "community": 101,
       "norm_label": "route.ts",
       "id": "api_driver_orders_route_ts"
     },
@@ -8994,7 +8994,7 @@
       "file_type": "code",
       "source_file": "ProductModal.tsx",
       "source_location": "L1",
-      "community": 18,
+      "community": 4,
       "norm_label": "productmodal.tsx",
       "id": "productmodal_tsx"
     },
@@ -9030,7 +9030,7 @@
       "file_type": "code",
       "source_file": "20260604_allow_guest_orders.sql",
       "source_location": null,
-      "community": 8,
+      "community": 4,
       "norm_label": "20260604_allow_guest_orders.sql",
       "id": "20260604_allow_guest_orders_sql"
     },
@@ -9039,7 +9039,7 @@
       "file_type": "code",
       "source_file": "20260605_guest_checkout.sql",
       "source_location": null,
-      "community": 8,
+      "community": 4,
       "norm_label": "20260605_guest_checkout.sql",
       "id": "20260605_guest_checkout_sql"
     },
@@ -9882,7 +9882,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 67,
       "norm_label": "community: product modal & types",
       "id": "CLAUDE_community_product_modal_types"
     },
@@ -9908,7 +9908,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 79,
+      "community": 5,
       "norm_label": "community: supabase database schema",
       "id": "CLAUDE_community_supabase_db_schema"
     },
@@ -10966,7 +10966,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 117,
       "norm_label": "sign in page",
       "id": "signin_signinpage"
     },
@@ -10979,7 +10979,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 76,
+      "community": 117,
       "norm_label": "sign up page",
       "id": "signup_signuppage"
     },
@@ -11392,6 +11392,1666 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "utils_format_date_formatdateshort"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "utils_format_date_formatdateheader"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_orderitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_recentorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_dashboarddata"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_status_styles"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_status_dots"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L55",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_shortid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_formatitems"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_formattime"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_bentocard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L115",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_dashboardpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "components_admin_admin_sidebar_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "lib_utils_format_date_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L75",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_todaylabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L81",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_statcard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "dashboard_page_nav"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dashboard_page_tsx",
+      "target": "components_admin_sign_out_button_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_orderitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_recentorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_dashboarddata"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_status_styles"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_status_dots"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L55",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_shortid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_formatitems"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "components_customerreceipt_customerreceipt",
+      "target": "dashboard_page_formattime"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "receipts_receiptdrawer_receiptdrawer",
+      "target": "dashboard_page_formattime"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "dashboard_page_formattime",
+      "target": "utils_format_date_formatdateshort"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_formattime"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/admin/dashboard/page.tsx",
+      "source_location": "L116",
+      "weight": 1.0,
+      "source": "dashboard_page_dashboardpage",
+      "target": "utils_format_date_formatdateheader"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L194",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "dashboard_page_dashboardpage",
+      "target": "dashboard_page_todaylabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/dashboard/page.tsx",
+      "source_location": "L115",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_dashboard_page_tsx",
+      "target": "dashboard_page_dashboardpage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/dashboard/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_dashboard_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/dashboard/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_dashboard_route_ts",
+      "target": "dashboard_route_get"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/dashboard/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_dashboard_route_ts",
+      "target": "lib_supabase_admin_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/dashboard/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_dashboard_route_ts",
+      "target": "dashboard_route_get"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_print_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_print_route_ts",
+      "target": "lib_printer_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_print_route_ts",
+      "target": "lib_printer_generatereceiptbuffer"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_print_route_ts",
+      "target": "lib_printer_sendtoprinter"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_print_route_ts",
+      "target": "print_route_post"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_print_route_ts",
+      "target": "lib_supabase_admin_ts"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "print_route_post",
+      "target": "lib_printer_generatereceiptbuffer"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/admin/print/route.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "print_route_post",
+      "target": "lib_printer_sendtoprinter"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "print_route_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "lib_get_user_permissions_getuserpermissions"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "lib_get_user_permissions_haspermission"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "components_admin_receipts_types_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "receipts_route_buildquery"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L49",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "receipts_route_normalise"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "receipts_route_tocsv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "receipts_route_get"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "lib_supabase_admin_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_api_admin_receipts_route_ts",
+      "target": "lib_get_user_permissions_ts"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L131",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receipts_route_get",
+      "target": "receipts_route_buildquery"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_buildquery"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/receipts/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_receipts_route_ts",
+      "target": "receipts_route_buildquery"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L133",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receipts_route_get",
+      "target": "receipts_route_normalise"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_normalise"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/receipts/route.ts",
+      "source_location": "L49",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_receipts_route_ts",
+      "target": "receipts_route_normalise"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L133",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receipts_route_get",
+      "target": "receipts_route_tocsv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L87",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_tocsv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/receipts/route.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_receipts_route_ts",
+      "target": "receipts_route_tocsv"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "receipts_route_get",
+      "target": "lib_get_user_permissions_getuserpermissions"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/admin/receipts/route.ts",
+      "source_location": "L106",
+      "weight": 1.0,
+      "source": "receipts_route_get",
+      "target": "lib_get_user_permissions_haspermission"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L120",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_route_get"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/receipts/route.ts",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_receipts_route_ts",
+      "target": "receipts_route_get"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L121",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receipts_route_get",
+      "target": "receipts_route_getautheduser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_customerreceipt_tsx",
+      "target": "utils_format_date_formattime"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_customerreceipt_tsx",
+      "target": "utils_format_date_formatdatemedium"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_customerreceipt_tsx",
+      "target": "components_customerreceipt_receiptitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_customerreceipt_tsx",
+      "target": "components_customerreceipt_receiptorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_customerreceipt_tsx",
+      "target": "components_customerreceipt_customerreceipt"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "components_customerreceipt_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dispatch_page_tsx",
+      "target": "components_customerreceipt_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_kitchen_page_tsx",
+      "target": "components_customerreceipt_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_customerreceipt_tsx",
+      "target": "lib_utils_format_date_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "components_customerreceipt_customerreceipt"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/dispatch/page.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_dispatch_page_tsx",
+      "target": "components_customerreceipt_customerreceipt"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/kitchen/page.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_kitchen_page_tsx",
+      "target": "components_customerreceipt_customerreceipt"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/CustomerReceipt.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "components_customerreceipt_customerreceipt",
+      "target": "utils_format_date_formatdatemedium"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptDrawer.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptdrawer_tsx",
+      "target": "components_customerreceipt_customerreceipt"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "utils_format_date_formatdatemedium"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "utils_format_date_formattime"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "receipts_utils_status_badge"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "components_admin_receipts_types_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_props"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_receiptdrawer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L170",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_section"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L179",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_row"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L191",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_totalrow"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/receipts/page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_receipts_page_tsx",
+      "target": "components_admin_receipts_receiptdrawer_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "lib_utils_format_date_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptdrawer_tsx",
+      "target": "components_admin_receipts_utils_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptDrawer.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_props"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/receipts/page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_receipts_page_tsx",
+      "target": "receipts_receiptdrawer_receiptdrawer"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "receipts_receiptdrawer_receiptdrawer",
+      "target": "utils_format_date_formatdatemedium"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/receipts/page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_receipts_page_tsx",
+      "target": "receipts_receiptdrawer_receiptdrawer"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "receipts_receiptdrawer_receiptdrawer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptDrawer.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_receiptdrawer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptDrawer.tsx",
+      "source_location": "L178",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_section"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptDrawer.tsx",
+      "source_location": "L187",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_row"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptDrawer.tsx",
+      "source_location": "L199",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptdrawer_tsx",
+      "target": "receipts_receiptdrawer_totalrow"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "utils_format_date_formattime"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "receipts_utils_groupbyday"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "receipts_utils_status_badge"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "receipts_utils_daygroup"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "components_admin_receipts_types_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "receipts_receiptstable_props"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "receipts_receiptstable_receiptstable"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/receipts/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_receipts_page_tsx",
+      "target": "components_admin_receipts_receiptstable_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "lib_utils_format_date_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptstable_tsx",
+      "target": "components_admin_receipts_utils_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptsTable.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptstable_tsx",
+      "target": "receipts_receiptstable_props"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/receipts/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_receipts_page_tsx",
+      "target": "receipts_receiptstable_receiptstable"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ReceiptsTable.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "receipts_receiptstable_receiptstable",
+      "target": "receipts_utils_groupbyday"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/receipts/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_receipts_page_tsx",
+      "target": "receipts_receiptstable_receiptstable"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "receipts_receiptstable_receiptstable"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptsTable.tsx",
+      "source_location": "L50",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptstable_tsx",
+      "target": "receipts_receiptstable_receiptstable"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptsTable.tsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receipts_receiptstable_receiptstable",
+      "target": "receipts_receiptstable_groupbyday"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_types_ts",
+      "target": "receipts_types_orderitem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_types_ts",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_types_ts",
+      "target": "receipts_types_receiptsapiresponse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/types.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_types_ts",
+      "target": "receipts_types_filterparams"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/receipts/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_receipts_page_tsx",
+      "target": "components_admin_receipts_types_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsCards.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptscards_tsx",
+      "target": "components_admin_receipts_types_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/utils.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_utils_ts",
+      "target": "components_admin_receipts_types_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "types_ts",
+      "target": "receipts_types_orderitem"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/receipts/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_receipts_page_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/ReceiptsCards.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_receiptscards_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/admin/receipts/utils.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_admin_receipts_utils_ts",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/receipts/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_receipts_page_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptDrawer.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptdrawer_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptsCards.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptscards_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ReceiptsTable.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "receiptstable_tsx",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "utils.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_ts",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "api/admin/receipts/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_admin_receipts_route_ts",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "types_ts",
+      "target": "receipts_types_adminreceiptorder"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/receipts/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_admin_receipts_page_tsx",
+      "target": "receipts_types_receiptsapiresponse"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "admin/receipts/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_receipts_page_tsx",
+      "target": "receipts_types_receiptsapiresponse"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "page_tsx",
+      "target": "receipts_types_receiptsapiresponse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "types_ts",
+      "target": "receipts_types_receiptsapiresponse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "types_ts",
+      "target": "receipts_types_filterparams"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/printer.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_printer_ts",
+      "target": "lib_printer_wrapline"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/printer.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_printer_ts",
+      "target": "lib_printer_formatrow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/printer.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_printer_ts",
+      "target": "lib_printer_generatereceiptbuffer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/printer.ts",
+      "source_location": "L129",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_printer_ts",
+      "target": "lib_printer_sendtoprinter"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/printer.ts",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_printer_generatereceiptbuffer",
+      "target": "lib_printer_wrapline"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/printer.ts",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_printer_generatereceiptbuffer",
+      "target": "lib_printer_formatrow"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "lib_printer_generatereceiptbuffer"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "route_ts",
+      "target": "lib_printer_sendtoprinter"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "app/admin/dispatch/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
@@ -11431,17 +13091,6 @@
       "confidence_score": 1.0,
       "source": "app_admin_dispatch_page_tsx",
       "target": "utils_order_urgency_orderurgency"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dispatch_page_tsx",
-      "target": "components_customerreceipt_customerreceipt"
     },
     {
       "relation": "contains",
@@ -11565,17 +13214,6 @@
       "confidence_score": 1.0,
       "source": "app_admin_dispatch_page_tsx",
       "target": "lib_utils_order_urgency_ts"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dispatch/page.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dispatch_page_tsx",
-      "target": "components_customerreceipt_tsx"
     },
     {
       "relation": "imports",
@@ -12259,17 +13897,6 @@
       "target": "utils_format_date_formatdateclocklabel"
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_kitchen_page_tsx",
-      "target": "components_customerreceipt_customerreceipt"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/kitchen/page.tsx",
@@ -12380,17 +14007,6 @@
       "confidence_score": 1.0,
       "source": "app_kitchen_page_tsx",
       "target": "lib_utils_format_date_ts"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/kitchen/page.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_kitchen_page_tsx",
-      "target": "components_customerreceipt_tsx"
     },
     {
       "relation": "imports",
@@ -13284,9 +14900,9 @@
       "source_file": "supabase/migrations/20260635_order_type.sql",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_migrations_20260635_order_type_sql",
-      "target": "20260635_order_type_orders",
-      "confidence_score": 1.0
+      "target": "20260635_order_type_orders"
     },
     {
       "relation": "imports_from",
@@ -16446,314 +18062,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "components_admin_admin_sidebar_tsx"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "lib_utils_format_date_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "utils_format_date_formatdateshort"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "utils_format_date_formatdateheader"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_orderitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_recentorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_dashboarddata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L39",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_status_styles"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_status_dots"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L55",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_shortid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L59",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_formatitems"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L66",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_formattime"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_bentocard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L115",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_dashboardpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L75",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_todaylabel"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L81",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_statcard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "dashboard_page_nav"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_dashboard_page_tsx",
-      "target": "components_admin_sign_out_button_tsx"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_orderitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_recentorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_dashboarddata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L39",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_status_styles"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_status_dots"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L55",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_shortid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L59",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_formatitems"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L66",
-      "weight": 1.0,
-      "source": "dashboard_page_formattime",
-      "target": "utils_format_date_formatdateshort"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L66",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_formattime"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/admin/dashboard/page.tsx",
-      "source_location": "L116",
-      "weight": 1.0,
-      "source": "dashboard_page_dashboardpage",
-      "target": "utils_format_date_formatdateheader"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L194",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "dashboard_page_dashboardpage",
-      "target": "dashboard_page_todaylabel"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/dashboard/page.tsx",
-      "source_location": "L115",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_dashboard_page_tsx",
-      "target": "dashboard_page_dashboardpage"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "app/admin/delivery/layout.tsx",
       "source_location": "L2",
       "weight": 1.0,
@@ -17631,28 +18939,6 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/receipts/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_receipts_page_tsx",
-      "target": "components_admin_receipts_receiptstable_tsx"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/receipts/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_receipts_page_tsx",
-      "target": "receipts_receiptstable_receiptstable"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/receipts/page.tsx",
       "source_location": "L10",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -17669,61 +18955,6 @@
       "confidence_score": 1.0,
       "source": "app_admin_receipts_page_tsx",
       "target": "receipts_receiptscards_receiptscards"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/receipts/page.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_receipts_page_tsx",
-      "target": "components_admin_receipts_receiptdrawer_tsx"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/receipts/page.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_receipts_page_tsx",
-      "target": "receipts_receiptdrawer_receiptdrawer"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/receipts/page.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_receipts_page_tsx",
-      "target": "components_admin_receipts_types_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/receipts/page.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_receipts_page_tsx",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/admin/receipts/page.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_admin_receipts_page_tsx",
-      "target": "receipts_types_receiptsapiresponse"
     },
     {
       "relation": "contains",
@@ -19350,48 +20581,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/dashboard/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_dashboard_route_ts",
-      "target": "lib_supabase_admin_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/dashboard/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_dashboard_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/dashboard/route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_dashboard_route_ts",
-      "target": "dashboard_route_get"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/dashboard/route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_admin_dashboard_route_ts",
-      "target": "dashboard_route_get"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "app/api/admin/delivery-zones/route.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -19893,103 +21082,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_print_route_ts",
-      "target": "lib_supabase_admin_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_print_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_print_route_ts",
-      "target": "lib_printer_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_print_route_ts",
-      "target": "lib_printer_generatereceiptbuffer"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_print_route_ts",
-      "target": "lib_printer_sendtoprinter"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_print_route_ts",
-      "target": "print_route_post"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L53",
-      "weight": 1.0,
-      "source": "print_route_post",
-      "target": "lib_printer_generatereceiptbuffer"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/api/admin/print/route.ts",
-      "source_location": "L56",
-      "weight": 1.0,
-      "source": "print_route_post",
-      "target": "lib_printer_sendtoprinter"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "print_route_post"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "app/api/admin/promotions/route.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -20059,269 +21151,6 @@
       "confidence_score": 1.0,
       "source": "app_api_admin_promotions_id_route_ts",
       "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "lib_supabase_admin_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "lib_supabase_admin_supabaseadmin"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "lib_get_user_permissions_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "lib_get_user_permissions_getuserpermissions"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "lib_get_user_permissions_haspermission"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "components_admin_receipts_types_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "receipts_route_buildquery"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L49",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "receipts_route_normalise"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L71",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "receipts_route_tocsv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L104",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_api_admin_receipts_route_ts",
-      "target": "receipts_route_get"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L131",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receipts_route_get",
-      "target": "receipts_route_buildquery"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L28",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_route_buildquery"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/receipts/route.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_admin_receipts_route_ts",
-      "target": "receipts_route_buildquery"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L133",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receipts_route_get",
-      "target": "receipts_route_normalise"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L65",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_route_normalise"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/receipts/route.ts",
-      "source_location": "L49",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_admin_receipts_route_ts",
-      "target": "receipts_route_normalise"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L133",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receipts_route_get",
-      "target": "receipts_route_tocsv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L87",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_route_tocsv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/receipts/route.ts",
-      "source_location": "L71",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_admin_receipts_route_ts",
-      "target": "receipts_route_tocsv"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L105",
-      "weight": 1.0,
-      "source": "receipts_route_get",
-      "target": "lib_get_user_permissions_getuserpermissions"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/api/admin/receipts/route.ts",
-      "source_location": "L106",
-      "weight": 1.0,
-      "source": "receipts_route_get",
-      "target": "lib_get_user_permissions_haspermission"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L120",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_route_get"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/receipts/route.ts",
-      "source_location": "L104",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_admin_receipts_route_ts",
-      "target": "receipts_route_get"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L121",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receipts_route_get",
-      "target": "receipts_route_getautheduser"
     },
     {
       "relation": "imports_from",
@@ -21978,113 +22807,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_customerreceipt_tsx",
-      "target": "lib_utils_format_date_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_customerreceipt_tsx",
-      "target": "utils_format_date_formattime"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_customerreceipt_tsx",
-      "target": "utils_format_date_formatdatemedium"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_customerreceipt_tsx",
-      "target": "components_customerreceipt_receiptitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_customerreceipt_tsx",
-      "target": "components_customerreceipt_receiptorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_customerreceipt_tsx",
-      "target": "components_customerreceipt_customerreceipt"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "components_customerreceipt_tsx"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "components_customerreceipt_customerreceipt"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "components/CustomerReceipt.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "source": "components_customerreceipt_customerreceipt",
-      "target": "utils_format_date_formatdatemedium"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptDrawer.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptdrawer_tsx",
-      "target": "components_customerreceipt_customerreceipt"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "components/Footer.tsx",
       "source_location": "L6",
       "weight": 1.0,
@@ -22971,216 +23693,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "lib_utils_format_date_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "utils_format_date_formatdatemedium"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "utils_format_date_formattime"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "components_admin_receipts_utils_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "receipts_utils_status_badge"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "components_admin_receipts_types_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_props"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_receiptdrawer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L170",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_section"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L179",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_row"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L191",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_totalrow"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptDrawer.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_props"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "components/admin/receipts/ReceiptDrawer.tsx",
-      "source_location": "L62",
-      "weight": 1.0,
-      "source": "receipts_receiptdrawer_receiptdrawer",
-      "target": "utils_format_date_formatdatemedium"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/receipts/page.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_receipts_page_tsx",
-      "target": "receipts_receiptdrawer_receiptdrawer"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "receipts_receiptdrawer_receiptdrawer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptDrawer.tsx",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_receiptdrawer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptDrawer.tsx",
-      "source_location": "L178",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_section"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptDrawer.tsx",
-      "source_location": "L187",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_row"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptDrawer.tsx",
-      "source_location": "L199",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptdrawer_tsx",
-      "target": "receipts_receiptdrawer_totalrow"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "components/admin/receipts/ReceiptsCards.tsx",
       "source_location": "L4",
       "weight": 1.0,
@@ -23231,28 +23743,6 @@
       "confidence_score": 1.0,
       "source": "components_admin_receipts_receiptscards_tsx",
       "target": "receipts_utils_status_badge"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsCards.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptscards_tsx",
-      "target": "components_admin_receipts_types_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsCards.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptscards_tsx",
-      "target": "receipts_types_adminreceiptorder"
     },
     {
       "relation": "contains",
@@ -23337,390 +23827,6 @@
       "confidence_score": 1.0,
       "source": "receipts_receiptscards_receiptscards",
       "target": "receipts_receiptscards_groupbyday"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "lib_utils_format_date_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "utils_format_date_formattime"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "components_admin_receipts_utils_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "receipts_utils_groupbyday"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "receipts_utils_status_badge"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "receipts_utils_daygroup"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "components_admin_receipts_types_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "receipts_receiptstable_props"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/ReceiptsTable.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_receiptstable_tsx",
-      "target": "receipts_receiptstable_receiptstable"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptsTable.tsx",
-      "source_location": "L43",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptstable_tsx",
-      "target": "receipts_receiptstable_props"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "ReceiptsTable.tsx",
-      "source_location": "L17",
-      "weight": 1.0,
-      "source": "receipts_receiptstable_receiptstable",
-      "target": "receipts_utils_groupbyday"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/receipts/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_receipts_page_tsx",
-      "target": "receipts_receiptstable_receiptstable"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "receipts_receiptstable_receiptstable"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptsTable.tsx",
-      "source_location": "L50",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptstable_tsx",
-      "target": "receipts_receiptstable_receiptstable"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptsTable.tsx",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receipts_receiptstable_receiptstable",
-      "target": "receipts_receiptstable_groupbyday"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_types_ts",
-      "target": "receipts_types_orderitem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_types_ts",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L33",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_types_ts",
-      "target": "receipts_types_receiptsapiresponse"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/types.ts",
-      "source_location": "L41",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_types_ts",
-      "target": "receipts_types_filterparams"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/utils.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_utils_ts",
-      "target": "components_admin_receipts_types_ts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "types_ts",
-      "target": "receipts_types_orderitem"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/admin/receipts/utils.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_admin_receipts_utils_ts",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/receipts/page.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_receipts_page_tsx",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptDrawer.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptdrawer_tsx",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptsCards.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptscards_tsx",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "ReceiptsTable.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "receiptstable_tsx",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "utils.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "utils_ts",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "api/admin/receipts/route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "api_admin_receipts_route_ts",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types.ts",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "types_ts",
-      "target": "receipts_types_adminreceiptorder"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "admin/receipts/page.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_receipts_page_tsx",
-      "target": "receipts_types_receiptsapiresponse"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "page.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "page_tsx",
-      "target": "receipts_types_receiptsapiresponse"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types.ts",
-      "source_location": "L33",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "types_ts",
-      "target": "receipts_types_receiptsapiresponse"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types.ts",
-      "source_location": "L41",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "types_ts",
-      "target": "receipts_types_filterparams"
     },
     {
       "relation": "imports_from",
@@ -24425,90 +24531,6 @@
       "confidence_score": 1.0,
       "source": "lib_order_status_ts",
       "target": "lib_order_status_builddispatchactionupdate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/printer.ts",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_printer_ts",
-      "target": "lib_printer_wrapline"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/printer.ts",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_printer_ts",
-      "target": "lib_printer_formatrow"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/printer.ts",
-      "source_location": "L41",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_printer_ts",
-      "target": "lib_printer_generatereceiptbuffer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/printer.ts",
-      "source_location": "L129",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_printer_ts",
-      "target": "lib_printer_sendtoprinter"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/printer.ts",
-      "source_location": "L83",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_printer_generatereceiptbuffer",
-      "target": "lib_printer_wrapline"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/printer.ts",
-      "source_location": "L62",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_printer_generatereceiptbuffer",
-      "target": "lib_printer_formatrow"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "lib_printer_generatereceiptbuffer"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "route.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "route_ts",
-      "target": "lib_printer_sendtoprinter"
     },
     {
       "relation": "contains",
@@ -31411,5 +31433,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "b3a535f7a47cf1e00f43c5f72324e3e8b80080b9"
+  "built_at_commit": "da11e3122d68e40c4ff7d44e71232f9ca2beacd5"
 }
