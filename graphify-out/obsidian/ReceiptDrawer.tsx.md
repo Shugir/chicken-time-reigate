@@ -15,7 +15,7 @@ tags:
 - [[AdminReceiptOrder]] - `imports` [EXTRACTED]
 - [[CustomerReceipt()]] - `imports` [EXTRACTED]
 - [[CustomerReceipt.tsx]] - `imports_from` [EXTRACTED]
-- [[Props]] - `contains` [EXTRACTED]
+- [[Props_1]] - `contains` [EXTRACTED]
 - [[ReceiptDrawer()]] - `contains` [EXTRACTED]
 - [[Row()]] - `contains` [EXTRACTED]
 - [[STATUS_BADGE]] - `imports` [EXTRACTED]
@@ -24,7 +24,7 @@ tags:
 - [[format-date.ts]] - `imports_from` [EXTRACTED]
 - [[formatDateMedium()]] - `imports` [EXTRACTED]
 - [[formatTime()_1]] - `imports` [EXTRACTED]
-- [[page.tsx_18]] - `imports_from` [EXTRACTED]
+- [[page.tsx_15]] - `imports_from` [EXTRACTED]
 - [[types.ts]] - `imports_from` [EXTRACTED]
 - [[utils.ts]] - `imports_from` [EXTRACTED]
 

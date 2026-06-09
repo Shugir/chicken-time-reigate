@@ -14,13 +14,13 @@ tags:
 ## Connections
 - [[AdminReceiptOrder]] - `imports` [EXTRACTED]
 - [[DayGroup]] - `imports` [EXTRACTED]
-- [[Props_1]] - `contains` [EXTRACTED]
+- [[Props_3]] - `contains` [EXTRACTED]
 - [[ReceiptsTable()]] - `contains` [EXTRACTED]
 - [[STATUS_BADGE]] - `imports` [EXTRACTED]
 - [[format-date.ts]] - `imports_from` [EXTRACTED]
 - [[formatTime()_1]] - `imports` [EXTRACTED]
 - [[groupByDay()]] - `imports` [EXTRACTED]
-- [[page.tsx_18]] - `imports_from` [EXTRACTED]
+- [[page.tsx_15]] - `imports_from` [EXTRACTED]
 - [[types.ts]] - `imports_from` [EXTRACTED]
 - [[utils.ts]] - `imports_from` [EXTRACTED]
 

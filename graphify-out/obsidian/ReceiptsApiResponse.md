@@ -12,9 +12,9 @@ tags:
 # ReceiptsApiResponse
 
 ## Connections
-- [[page.tsx_18]] - `imports` [EXTRACTED]
-- [[page.tsx_34]] - `imports` [EXTRACTED]
-- [[page.tsx_36]] - `imports` [EXTRACTED]
+- [[page.tsx_15]] - `imports` [EXTRACTED]
+- [[page.tsx_35]] - `imports` [EXTRACTED]
+- [[page.tsx_37]] - `imports` [EXTRACTED]
 - [[types.ts]] - `contains` [EXTRACTED]
 - [[types.ts_1]] - `contains` [EXTRACTED]
 

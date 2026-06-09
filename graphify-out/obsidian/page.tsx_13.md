@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/combos/page.tsx"
+source_file: "app/admin/loyalty/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,12 @@ tags:
 # page.tsx
 
 ## Connections
-- [[ComboDiscount]] - `contains` [EXTRACTED]
-- [[CombosAdminPage()]] - `contains` [EXTRACTED]
+- [[AdjustForm]] - `contains` [EXTRACTED]
+- [[AdminDataTable()]] - `imports` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
+- [[Column]] - `imports` [EXTRACTED]
+- [[LoyaltyPage()]] - `contains` [EXTRACTED]
+- [[UserBalance]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

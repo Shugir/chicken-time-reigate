@@ -12,7 +12,7 @@ tags:
 
 ## Connections
 - [[adjust_loyalty()]] - `contains` [EXTRACTED]
-- [[orders_10]] - `contains` [EXTRACTED]
+- [[orders_9]] - `contains` [EXTRACTED]
 - [[profiles_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

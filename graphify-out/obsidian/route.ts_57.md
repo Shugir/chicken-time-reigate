@@ -1,5 +1,5 @@
 ---
-source_file: "combo-discounts/route.ts"
+source_file: "[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_8]] - `contains` [EXTRACTED]
+- [[PATCH()]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

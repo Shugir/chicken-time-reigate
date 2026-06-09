@@ -11,7 +11,7 @@ tags:
 # 20260626_loyalty_schema_update.sql
 
 ## Connections
-- [[orders_10]] - `contains` [EXTRACTED]
+- [[orders_9]] - `contains` [EXTRACTED]
 - [[profiles_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,8 +1,8 @@
 ---
-source_file: "app/admin/delivery/page.tsx"
+source_file: "app/checkout/page.tsx"
 type: "code"
 community: "Community None"
-location: "L9"
+location: "L23"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,8 @@ tags:
 # DeliveryZone
 
 ## Connections
-- [[page.tsx_14]] - `contains` [EXTRACTED]
-- [[page.tsx_49]] - `contains` [EXTRACTED]
+- [[page.tsx_21]] - `contains` [EXTRACTED]
+- [[page.tsx_37]] - `contains` [EXTRACTED]
+- [[page.tsx_52]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

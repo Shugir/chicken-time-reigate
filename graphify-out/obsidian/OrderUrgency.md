@@ -12,9 +12,9 @@ tags:
 # OrderUrgency
 
 ## Connections
-- [[OrderCard()]] - `calls` [EXTRACTED]
+- [[OrderCard()_1]] - `calls` [EXTRACTED]
 - [[order-urgency.test.ts]] - `imports` [EXTRACTED]
 - [[order-urgency.ts]] - `contains` [EXTRACTED]
-- [[page.tsx_1]] - `imports` [EXTRACTED]
+- [[page.tsx_10]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

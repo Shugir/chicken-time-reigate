@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/promotions/route.ts"
+source_file: "app/api/admin/staff/route.ts"
 type: "code"
 community: "Community None"
-location: "L4"
+location: "L6"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,6 +13,6 @@ tags:
 
 ## Connections
 - [[route.ts_24]] - `contains` [EXTRACTED]
-- [[route.ts_45]] - `contains` [EXTRACTED]
+- [[route.ts_60]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

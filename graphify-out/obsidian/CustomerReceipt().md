@@ -17,7 +17,7 @@ tags:
 - [[ReceiptDrawer.tsx_1]] - `imports` [EXTRACTED]
 - [[formatDateMedium()]] - `calls` [EXTRACTED]
 - [[formatTime()]] - `calls` [INFERRED]
-- [[page.tsx_1]] - `imports` [EXTRACTED]
-- [[page.tsx_3]] - `imports` [EXTRACTED]
+- [[page.tsx_10]] - `imports` [EXTRACTED]
+- [[page.tsx_24]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

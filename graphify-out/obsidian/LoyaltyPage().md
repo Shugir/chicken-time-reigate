@@ -12,6 +12,6 @@ tags:
 # LoyaltyPage()
 
 ## Connections
-- [[page.tsx_17]] - `contains` [EXTRACTED]
+- [[page.tsx_13]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

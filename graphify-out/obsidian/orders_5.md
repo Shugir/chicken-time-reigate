@@ -1,8 +1,8 @@
 ---
-source_file: "supabase/migrations/20260619_customer_profiles.sql"
+source_file: "supabase/migrations/20260619_promo_codes.sql"
 type: "code"
 community: "Community None"
-location: "L4"
+location: "L2"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,6 @@ tags:
 # orders
 
 ## Connections
-- [[20260619_customer_profiles.sql]] - `contains` [EXTRACTED]
+- [[20260619_promo_codes.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

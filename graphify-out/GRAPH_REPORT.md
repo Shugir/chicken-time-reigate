@@ -1,7 +1,7 @@
 # Graph Report - chicken-time-reigate  (2026-06-09)
 
 ## Corpus Check
-- 186 files · ~1,824,688 words
+- 186 files · ~1,824,691 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `18491902`
+- Built from commit: `126699a3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -127,8 +127,8 @@
 3. `hasPermission()` - 35 edges
 4. `PATCH()` - 18 edges
 5. `formatDateMedium()` - 17 edges
-6. `AdminReceiptOrder` - 16 edges
-7. `compilerOptions` - 16 edges
+6. `compilerOptions` - 16 edges
+7. `AdminReceiptOrder` - 16 edges
 8. `graph.json (177 nodes, 173 edges, 30 communities)` - 16 edges
 9. `Receipts Management — Design Spec` - 15 edges
 10. `DB Table: menu_items` - 15 edges
@@ -339,7 +339,7 @@ Nodes (15): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **365 isolated node(s):** `ReceiptItem`, `ReceiptOrder`, `supabase`, `OrderItem`, `DispatchOrder` (+360 more)
+- **365 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+360 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **60 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -350,13 +350,13 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
+- **Why does `supabaseAdmin` connect `Community 84` to `Community 0`, `Community 97`, `Community 3`, `Community 100`, `Community 101`, `Community 68`, `Community 70`, `Community 73`, `Community 107`, `Community 12`, `Community 77`, `Community 80`, `Community 112`, `Community 113`, `Community 89`, `Community 93`, `Community 94`?**
+  _High betweenness centrality (0.101) - this node is a cross-community bridge._
 - **Why does `AdminReceiptOrder` connect `Community 75` to `Community 0`, `Community 1`, `Community 12`?**
   _High betweenness centrality (0.086) - this node is a cross-community bridge._
-- **Why does `supabaseAdmin` connect `Community 84` to `Community 0`, `Community 97`, `Community 3`, `Community 100`, `Community 68`, `Community 101`, `Community 70`, `Community 73`, `Community 107`, `Community 12`, `Community 77`, `Community 80`, `Community 112`, `Community 113`, `Community 89`, `Community 93`, `Community 94`?**
-  _High betweenness centrality (0.085) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 76` to `Community 0`, `Community 5`, `Community 82`, `Community 117`, `Community 61`?**
-  _High betweenness centrality (0.062) - this node is a cross-community bridge._
-- **What connects `ReceiptItem`, `ReceiptOrder`, `supabase` to the rest of the system?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
   _369 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.07 - nodes in this community are weakly interconnected._

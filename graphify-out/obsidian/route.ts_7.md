@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/account/unlocked-rewards/route.ts"
+source_file: "app/api/admin/combo-discounts/[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_4]] - `contains` [EXTRACTED]
+- [[PATCH()]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

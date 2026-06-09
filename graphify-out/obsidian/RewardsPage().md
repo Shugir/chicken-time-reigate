@@ -12,6 +12,6 @@ tags:
 # RewardsPage()
 
 ## Connections
-- [[page.tsx_9]] - `contains` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

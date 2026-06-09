@@ -1,8 +1,8 @@
 ---
-source_file: "supabase/migrations/20260622_driver_payouts.sql"
+source_file: "supabase/migrations/20260623_guest_tracking.sql"
 type: "code"
 community: "Community None"
-location: "L16"
+location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,6 @@ tags:
 # orders
 
 ## Connections
-- [[20260622_driver_payouts.sql]] - `contains` [EXTRACTED]
+- [[20260623_guest_tracking.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -11,6 +11,6 @@ tags:
 # 20260632_return_reason.sql
 
 ## Connections
-- [[orders_12]] - `contains` [EXTRACTED]
+- [[orders_11]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

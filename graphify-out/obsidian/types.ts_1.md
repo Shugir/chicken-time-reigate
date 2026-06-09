@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[AdminReceiptOrder]] - `contains` [EXTRACTED]
 - [[FilterParams]] - `contains` [EXTRACTED]
-- [[OrderItem_1]] - `contains` [EXTRACTED]
+- [[OrderItem_4]] - `contains` [EXTRACTED]
 - [[ReceiptsApiResponse]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -12,7 +12,7 @@ tags:
 # NAV
 
 ## Connections
-- [[page.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_8]] - `contains` [EXTRACTED]
 - [[page.tsx_48]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/account/unlocked-rewards/route.ts"
+source_file: "app/api/menu/combo-discounts/route.ts"
 type: "code"
 community: "Community None"
-location: "L7"
+location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,9 @@ tags:
 # GET()
 
 ## Connections
-- [[route.ts_7]] - `contains` [EXTRACTED]
+- [[route.ts_6]] - `contains` [EXTRACTED]
+- [[route.ts_41]] - `contains` [EXTRACTED]
+- [[route.ts_54]] - `contains` [EXTRACTED]
+- [[route.ts_58]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

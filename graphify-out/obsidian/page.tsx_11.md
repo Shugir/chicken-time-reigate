@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/analytics/page.tsx"
+source_file: "app/admin/drivers/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,24 +12,21 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AnalyticsData]] - `contains` [EXTRACTED]
-- [[AnalyticsPage()]] - `contains` [EXTRACTED]
-- [[CHART_THEME]] - `contains` [EXTRACTED]
-- [[ChartTooltip()]] - `contains` [EXTRACTED]
-- [[DailyPoint]] - `contains` [EXTRACTED]
-- [[DowPoint]] - `contains` [EXTRACTED]
-- [[HourlyPoint]] - `contains` [EXTRACTED]
-- [[PERIODS]] - `contains` [EXTRACTED]
-- [[STATUS_COLOURS]] - `contains` [EXTRACTED]
-- [[StatCard()]] - `contains` [EXTRACTED]
-- [[StatusRow]] - `contains` [EXTRACTED]
-- [[Summary]] - `contains` [EXTRACTED]
-- [[TopItem]] - `contains` [EXTRACTED]
+- [[AdminDataTable()]] - `imports` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
+- [[Aggregates]] - `contains` [EXTRACTED]
+- [[AuthUser]] - `contains` [EXTRACTED]
+- [[Column]] - `imports` [EXTRACTED]
+- [[Driver]] - `contains` [EXTRACTED]
+- [[DriverForm]] - `contains` [EXTRACTED]
+- [[DriversPage()]] - `contains` [EXTRACTED]
+- [[EMPTY_FORM_2]] - `contains` [EXTRACTED]
+- [[FilterConfig]] - `imports` [EXTRACTED]
+- [[NAV_2]] - `contains` [EXTRACTED]
+- [[STATUS_LABELS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES_1]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
-- [[fmtGbp()]] - `contains` [EXTRACTED]
-- [[format-date.ts]] - `imports_from` [EXTRACTED]
-- [[formatDateHeader()]] - `imports` [EXTRACTED]
-- [[formatDateShort()]] - `imports` [EXTRACTED]
-- [[shortDate()]] - `contains` [EXTRACTED]
+- [[fmtGbp()_1]] - `contains` [EXTRACTED]
+- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

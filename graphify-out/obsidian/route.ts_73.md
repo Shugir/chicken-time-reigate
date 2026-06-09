@@ -13,8 +13,8 @@ tags:
 
 ## Connections
 - [[CartItem]] - `contains` [EXTRACTED]
-- [[Extra]] - `contains` [EXTRACTED]
-- [[POST()_1]] - `contains` [EXTRACTED]
-- [[stripe]] - `contains` [EXTRACTED]
+- [[Extra_1]] - `contains` [EXTRACTED]
+- [[POST()_13]] - `contains` [EXTRACTED]
+- [[stripe_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,8 +1,8 @@
 ---
-source_file: "components/admin/receipts/ReceiptsTable.tsx"
+source_file: "components/admin/receipts/ReceiptDrawer.tsx"
 type: "code"
 community: "Community None"
-location: "L9"
+location: "L12"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,7 @@ tags:
 # Props
 
 ## Connections
-- [[ReceiptsTable.tsx]] - `contains` [EXTRACTED]
-- [[ReceiptsTable.tsx_1]] - `contains` [EXTRACTED]
+- [[ReceiptDrawer.tsx]] - `contains` [EXTRACTED]
+- [[ReceiptDrawer.tsx_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

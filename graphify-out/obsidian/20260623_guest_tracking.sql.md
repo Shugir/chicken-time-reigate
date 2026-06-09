@@ -11,6 +11,6 @@ tags:
 # 20260623_guest_tracking.sql
 
 ## Connections
-- [[orders_9]] - `contains` [EXTRACTED]
+- [[orders_8]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

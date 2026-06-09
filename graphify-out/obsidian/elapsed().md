@@ -12,9 +12,9 @@ tags:
 # elapsed()
 
 ## Connections
-- [[OrderCard()_1]] - `calls` [EXTRACTED]
-- [[page.tsx_3]] - `contains` [EXTRACTED]
-- [[page.tsx_36]] - `contains` [EXTRACTED]
-- [[page.tsx_39]] - `contains` [EXTRACTED]
+- [[OrderCard()_2]] - `calls` [EXTRACTED]
+- [[page.tsx_24]] - `contains` [EXTRACTED]
+- [[page.tsx_37]] - `contains` [EXTRACTED]
+- [[page.tsx_40]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

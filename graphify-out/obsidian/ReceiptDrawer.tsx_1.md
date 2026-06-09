@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[AdminReceiptOrder]] - `imports` [EXTRACTED]
 - [[CustomerReceipt()]] - `imports` [EXTRACTED]
-- [[Props]] - `contains` [EXTRACTED]
+- [[Props_1]] - `contains` [EXTRACTED]
 - [[ReceiptDrawer()]] - `contains` [EXTRACTED]
 - [[Row()]] - `contains` [EXTRACTED]
 - [[STATUS_BADGE]] - `imports` [EXTRACTED]

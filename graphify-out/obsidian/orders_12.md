@@ -1,5 +1,5 @@
 ---
-source_file: "supabase/migrations/20260632_return_reason.sql"
+source_file: "supabase/migrations/20260635_order_type.sql"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,6 +12,6 @@ tags:
 # orders
 
 ## Connections
-- [[20260632_return_reason.sql]] - `contains` [EXTRACTED]
+- [[20260635_order_type.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

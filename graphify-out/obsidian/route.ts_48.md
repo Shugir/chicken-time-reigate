@@ -13,7 +13,7 @@ tags:
 
 ## Connections
 - [[BusinessHours_2]] - `imports` [EXTRACTED]
-- [[GET()_17]] - `contains` [EXTRACTED]
+- [[GET()_16]] - `contains` [EXTRACTED]
 - [[Holiday_1]] - `imports` [EXTRACTED]
 - [[checkStoreStatus()]] - `imports` [EXTRACTED]
 - [[store-status.ts]] - `imports_from` [EXTRACTED]

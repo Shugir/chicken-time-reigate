@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/drivers/route.ts"
+source_file: "app/api/admin/menu/suggestions/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,8 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_10]] - `contains` [EXTRACTED]
-- [[POST()_6]] - `contains` [EXTRACTED]
+- [[GET()_11]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

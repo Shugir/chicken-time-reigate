@@ -8,11 +8,12 @@ describe('buildDriverOrderUpdate', () => {
     expect(update.delivery_status).toBe('delivered')
   })
 
-  it('return_to_kitchen: resets status to ready and clears driver/delivery fields', () => {
+  it('return_to_kitchen: sets returned status, clears driver_id and resets stop_sequence', () => {
     const update = buildDriverOrderUpdate('return_to_kitchen')
-    expect(update.status).toBe('ready')
-    expect(update.delivery_status).toBeNull()
+    expect(update.status).toBe('returned')
+    expect(update.delivery_status).toBe('returned')
     expect(update.driver_id).toBeNull()
+    expect(update.stop_sequence).toBe(1)
   })
 })
 
@@ -51,11 +52,12 @@ describe('buildDriverOrderUpdate - return_to_kitchen with reason', () => {
     expect(update.return_reason).toBeUndefined()
   })
 
-  it('return_to_kitchen with reason: still resets status and clears driver fields', () => {
+  it('return_to_kitchen with reason: still sets returned status and clears driver fields', () => {
     const update = buildDriverOrderUpdate('return_to_kitchen', 'No Answer')
-    expect(update.status).toBe('ready')
-    expect(update.delivery_status).toBeNull()
+    expect(update.status).toBe('returned')
+    expect(update.delivery_status).toBe('returned')
     expect(update.driver_id).toBeNull()
+    expect(update.stop_sequence).toBe(1)
   })
 
   it('delivered: does not include return_reason even when reason passed', () => {

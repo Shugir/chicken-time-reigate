@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/delivery-zones/route.ts"
+source_file: "app/api/admin/drivers/[id]/ledger/route.ts"
 type: "code"
 community: "Community None"
-location: "L6"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,6 +13,5 @@ tags:
 
 ## Connections
 - [[route.ts_14]] - `contains` [EXTRACTED]
-- [[route.ts_33]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

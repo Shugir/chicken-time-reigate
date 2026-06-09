@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/store-settings/route.ts"
+source_file: "app/api/auth/role/route.ts"
 type: "code"
 community: "Community None"
-location: "L7"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,8 @@ tags:
 # GET()
 
 ## Connections
-- [[checkStoreStatus()]] - `calls` [EXTRACTED]
 - [[route.ts_28]] - `contains` [EXTRACTED]
-- [[route.ts_48]] - `contains` [EXTRACTED]
+- [[route.ts_54]] - `contains` [EXTRACTED]
+- [[route.ts_63]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

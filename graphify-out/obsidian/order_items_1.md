@@ -18,6 +18,6 @@ tags:
 - [[20260609_order_items_notes.sql]] - `contains` [EXTRACTED]
 - [[20260613_order_items_customizations.sql]] - `contains` [EXTRACTED]
 - [[MENU_ITEMS]] - `references` [EXTRACTED]
-- [[orders_3]] - `references` [EXTRACTED]
+- [[orders_2]] - `references` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

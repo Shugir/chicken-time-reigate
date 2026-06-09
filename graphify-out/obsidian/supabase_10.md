@@ -12,6 +12,6 @@ tags:
 # supabase
 
 ## Connections
-- [[page.tsx_10]] - `contains` [EXTRACTED]
+- [[page.tsx_4]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

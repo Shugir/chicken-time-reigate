@@ -12,7 +12,7 @@ tags:
 # POPULAR
 
 ## Connections
-- [[page.tsx_6]] - `contains` [EXTRACTED]
-- [[page.tsx_36]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_37]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

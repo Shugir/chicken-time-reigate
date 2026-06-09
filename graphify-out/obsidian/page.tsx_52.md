@@ -14,6 +14,6 @@ tags:
 ## Connections
 - [[CartItem_1]] - `contains` [EXTRACTED]
 - [[CheckoutPage()]] - `contains` [EXTRACTED]
-- [[DeliveryZone]] - `contains` [EXTRACTED]
+- [[DeliveryZone_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

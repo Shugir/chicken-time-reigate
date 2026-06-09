@@ -12,8 +12,8 @@ tags:
 # CartItem
 
 ## Connections
-- [[route.ts_4]] - `contains` [EXTRACTED]
-- [[route.ts_53]] - `contains` [EXTRACTED]
+- [[route.ts_31]] - `contains` [EXTRACTED]
+- [[route.ts_54]] - `contains` [EXTRACTED]
 - [[route.ts_73]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

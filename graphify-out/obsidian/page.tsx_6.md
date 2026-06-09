@@ -1,5 +1,5 @@
 ---
-source_file: "app/page.tsx"
+source_file: "app/admin/categories/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,11 @@ tags:
 # page.tsx
 
 ## Connections
-- [[LandingPage()]] - `contains` [EXTRACTED]
-- [[POPULAR]] - `contains` [EXTRACTED]
-- [[REASONS]] - `contains` [EXTRACTED]
-- [[oswald]] - `contains` [EXTRACTED]
+- [[CategoriesPage()]] - `contains` [EXTRACTED]
+- [[Category]] - `contains` [EXTRACTED]
+- [[CategoryForm]] - `contains` [EXTRACTED]
+- [[EMPTY_FORM_1]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[slugify()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

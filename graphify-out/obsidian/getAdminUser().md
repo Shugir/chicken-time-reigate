@@ -12,8 +12,8 @@ tags:
 # getAdminUser()
 
 ## Connections
-- [[GET()_2]] - `calls` [EXTRACTED]
-- [[PATCH()]] - `calls` [EXTRACTED]
-- [[route.ts_3]] - `contains` [EXTRACTED]
+- [[GET()_7]] - `calls` [EXTRACTED]
+- [[PATCH()_1]] - `calls` [EXTRACTED]
+- [[route.ts_11]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,5 +1,5 @@
 ---
-source_file: "app/account/page.tsx"
+source_file: "app/admin/dashboard/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,21 +12,23 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AccountPage()]] - `contains` [EXTRACTED]
-- [[OfferCard()]] - `contains` [EXTRACTED]
-- [[Order_1]] - `contains` [EXTRACTED]
-- [[OrderCard()_2]] - `contains` [EXTRACTED]
-- [[OrderItem_4]] - `contains` [EXTRACTED]
-- [[Profile]] - `contains` [EXTRACTED]
-- [[PromoCode]] - `contains` [EXTRACTED]
-- [[TIMELINE]] - `contains` [EXTRACTED]
-- [[Tab]] - `contains` [EXTRACTED]
-- [[fmtDate()_1]] - `contains` [EXTRACTED]
+- [[BentoCard()]] - `contains` [EXTRACTED]
+- [[DashboardData]] - `contains` [EXTRACTED]
+- [[DashboardPage()]] - `contains` [EXTRACTED]
+- [[NAV]] - `contains` [EXTRACTED]
+- [[OrderItem_1]] - `contains` [EXTRACTED]
+- [[RecentOrder]] - `contains` [EXTRACTED]
+- [[STATUS_DOTS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES]] - `contains` [EXTRACTED]
+- [[StatCard()_1]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[format-date.ts]] - `imports_from` [EXTRACTED]
-- [[formatDateTime()]] - `imports` [EXTRACTED]
-- [[statusColor()]] - `contains` [EXTRACTED]
-- [[statusLabel()]] - `contains` [EXTRACTED]
-- [[supabase_3]] - `contains` [EXTRACTED]
-- [[trackingStep()]] - `contains` [EXTRACTED]
+- [[formatDateHeader()]] - `imports` [EXTRACTED]
+- [[formatDateShort()]] - `imports` [EXTRACTED]
+- [[formatItems()]] - `contains` [EXTRACTED]
+- [[formatTime()]] - `contains` [EXTRACTED]
+- [[shortId()]] - `contains` [EXTRACTED]
+- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[todayLabel()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -12,9 +12,9 @@ tags:
 # localDate()
 
 ## Connections
-- [[page.tsx_18]] - `contains` [EXTRACTED]
-- [[page.tsx_34]] - `contains` [EXTRACTED]
-- [[page.tsx_36]] - `contains` [EXTRACTED]
+- [[page.tsx_15]] - `contains` [EXTRACTED]
+- [[page.tsx_35]] - `contains` [EXTRACTED]
+- [[page.tsx_37]] - `contains` [EXTRACTED]
 - [[thisMonthRange()]] - `calls` [EXTRACTED]
 - [[thisWeekRange()]] - `calls` [EXTRACTED]
 - [[todayRange()]] - `calls` [EXTRACTED]

@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[PATCH()_1]] - `contains` [EXTRACTED]
+- [[PATCH()]] - `contains` [EXTRACTED]
 - [[email.ts]] - `imports_from` [EXTRACTED]
 - [[sendOrderStatusEmail()]] - `imports` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]

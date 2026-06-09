@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/delivery-zones/route.ts"
+source_file: "app/api/admin/drivers/[id]/ledger/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -14,6 +14,7 @@ tags:
 ## Connections
 - [[GET()_9]] - `contains` [EXTRACTED]
 - [[POST()_5]] - `contains` [EXTRACTED]
+- [[Params]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

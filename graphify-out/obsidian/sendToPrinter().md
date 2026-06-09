@@ -12,9 +12,9 @@ tags:
 # sendToPrinter()
 
 ## Connections
-- [[POST()]] - `calls` [EXTRACTED]
+- [[POST()_9]] - `calls` [EXTRACTED]
 - [[printer.ts]] - `contains` [EXTRACTED]
-- [[route.ts_1]] - `imports` [EXTRACTED]
-- [[route.ts_53]] - `imports` [EXTRACTED]
+- [[route.ts_20]] - `imports` [EXTRACTED]
+- [[route.ts_54]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -15,12 +15,12 @@ tags:
 - [[AdminDataTable()]] - `contains` [EXTRACTED]
 - [[Column]] - `contains` [EXTRACTED]
 - [[FilterConfig]] - `contains` [EXTRACTED]
-- [[Props_2]] - `contains` [EXTRACTED]
-- [[page.tsx_5]] - `imports_from` [EXTRACTED]
+- [[Props]] - `contains` [EXTRACTED]
+- [[page.tsx_9]] - `imports_from` [EXTRACTED]
+- [[page.tsx_11]] - `imports_from` [EXTRACTED]
+- [[page.tsx_13]] - `imports_from` [EXTRACTED]
 - [[page.tsx_14]] - `imports_from` [EXTRACTED]
-- [[page.tsx_15]] - `imports_from` [EXTRACTED]
-- [[page.tsx_17]] - `imports_from` [EXTRACTED]
-- [[page.tsx_21]] - `imports_from` [EXTRACTED]
-- [[page.tsx_22]] - `imports_from` [EXTRACTED]
+- [[page.tsx_18]] - `imports_from` [EXTRACTED]
+- [[page.tsx_19]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

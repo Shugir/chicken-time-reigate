@@ -12,11 +12,11 @@ tags:
 # generateReceiptBuffer()
 
 ## Connections
-- [[POST()]] - `calls` [EXTRACTED]
+- [[POST()_9]] - `calls` [EXTRACTED]
 - [[formatRow()]] - `calls` [EXTRACTED]
 - [[printer.ts]] - `contains` [EXTRACTED]
-- [[route.ts_1]] - `imports` [EXTRACTED]
-- [[route.ts_53]] - `imports` [EXTRACTED]
+- [[route.ts_20]] - `imports` [EXTRACTED]
+- [[route.ts_54]] - `imports` [EXTRACTED]
 - [[wrapLine()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

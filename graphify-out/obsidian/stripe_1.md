@@ -1,8 +1,8 @@
 ---
-source_file: "package.json"
+source_file: "app/api/checkout/route.ts"
 type: "code"
 community: "Community None"
-location: "L22"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,8 @@ tags:
 # stripe
 
 ## Connections
-- [[dependencies]] - `contains` [EXTRACTED]
+- [[route.ts_31]] - `contains` [EXTRACTED]
+- [[route.ts_54]] - `contains` [EXTRACTED]
+- [[route.ts_73]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

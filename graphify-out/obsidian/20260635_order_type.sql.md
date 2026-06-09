@@ -11,6 +11,6 @@ tags:
 # 20260635_order_type.sql
 
 ## Connections
-- [[orders]] - `contains` [EXTRACTED]
+- [[orders_12]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

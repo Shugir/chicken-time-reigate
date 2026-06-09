@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/admin/menu/upload/route.ts"
+source_file: "app/api/admin/print/route.ts"
 type: "code"
 community: "Community None"
-location: "L17"
+location: "L15"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,9 @@ tags:
 # POST()
 
 ## Connections
-- [[ensureBucket()]] - `calls` [EXTRACTED]
-- [[route.ts_21]] - `contains` [EXTRACTED]
-- [[route.ts_55]] - `contains` [EXTRACTED]
+- [[generateReceiptBuffer()]] - `calls` [EXTRACTED]
+- [[route.ts_20]] - `contains` [EXTRACTED]
+- [[route.ts_54]] - `contains` [EXTRACTED]
+- [[sendToPrinter()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

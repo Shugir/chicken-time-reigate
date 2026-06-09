@@ -11,6 +11,6 @@ tags:
 # 20260604_allow_guest_orders.sql
 
 ## Connections
-- [[orders_3]] - `contains` [EXTRACTED]
+- [[orders_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

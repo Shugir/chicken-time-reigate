@@ -1,5 +1,5 @@
 ---
-source_file: "app/account/rewards/page.tsx"
+source_file: "app/admin/delivery/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,15 +12,16 @@ tags:
 # page.tsx
 
 ## Connections
-- [[Reward]] - `contains` [EXTRACTED]
-- [[RewardCard()]] - `contains` [EXTRACTED]
-- [[RewardsPage()]] - `contains` [EXTRACTED]
-- [[Skeleton()]] - `contains` [EXTRACTED]
-- [[Transaction]] - `contains` [EXTRACTED]
-- [[discountLabel()]] - `contains` [EXTRACTED]
-- [[formatDate()]] - `contains` [EXTRACTED]
-- [[prettifyCode()]] - `contains` [EXTRACTED]
-- [[supabase_4]] - `contains` [EXTRACTED]
-- [[txIcon()]] - `contains` [EXTRACTED]
+- [[AdminDataTable()]] - `imports` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `imports_from` [EXTRACTED]
+- [[Column]] - `imports` [EXTRACTED]
+- [[DeleteConfirm()]] - `contains` [EXTRACTED]
+- [[DeliveryPage()]] - `contains` [EXTRACTED]
+- [[DeliveryZone]] - `contains` [EXTRACTED]
+- [[NAV_1]] - `contains` [EXTRACTED]
+- [[SaveState_1]] - `contains` [EXTRACTED]
+- [[ZoneModal()]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

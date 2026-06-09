@@ -1,5 +1,5 @@
 ---
-source_file: "route.ts"
+source_file: "api/track/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,38 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[AdminReceiptOrder]] - `imports` [EXTRACTED]
-- [[BusinessHours_2]] - `imports` [EXTRACTED]
-- [[CartItem]] - `contains` [EXTRACTED]
-- [[ComboComponent]] - `contains` [EXTRACTED]
-- [[DELETE()]] - `contains` [EXTRACTED]
-- [[Extra]] - `contains` [EXTRACTED]
-- [[Extra_2]] - `contains` [EXTRACTED]
-- [[GET()_1]] - `contains` [EXTRACTED]
-- [[GET()_3]] - `contains` [EXTRACTED]
-- [[GET()_8]] - `contains` [EXTRACTED]
-- [[GET()_14]] - `contains` [EXTRACTED]
-- [[GET()_18]] - `contains` [EXTRACTED]
-- [[Holiday_1]] - `imports` [EXTRACTED]
-- [[IMG()]] - `contains` [EXTRACTED]
-- [[PATCH()_1]] - `contains` [EXTRACTED]
-- [[POST()]] - `contains` [EXTRACTED]
-- [[POST()_1]] - `contains` [EXTRACTED]
-- [[POST()_4]] - `contains` [EXTRACTED]
-- [[POST()_15]] - `contains` [EXTRACTED]
-- [[POST()_16]] - `contains` [EXTRACTED]
-- [[SEED]] - `contains` [EXTRACTED]
-- [[Supabase Admin Client]] - `imports` [EXTRACTED]
-- [[buildQuery()]] - `contains` [EXTRACTED]
-- [[checkStoreStatus()]] - `imports` [EXTRACTED]
-- [[generateReceiptBuffer()]] - `imports` [EXTRACTED]
-- [[getAuthedUser()]] - `contains` [EXTRACTED]
-- [[normalise()]] - `contains` [EXTRACTED]
-- [[sendOrderStatusEmail()]] - `imports` [EXTRACTED]
-- [[sendToPrinter()]] - `imports` [EXTRACTED]
-- [[stripe]] - `contains` [EXTRACTED]
-- [[stripe_2]] - `contains` [EXTRACTED]
+- [[GET()_25]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
-- [[toCsv()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

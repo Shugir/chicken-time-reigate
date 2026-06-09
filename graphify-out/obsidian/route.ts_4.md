@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/checkout/route.ts"
+source_file: "app/api/admin/categories/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,17 +12,8 @@ tags:
 # route.ts
 
 ## Connections
-- [[BusinessHours_2]] - `imports` [EXTRACTED]
-- [[CartItem]] - `contains` [EXTRACTED]
-- [[ComboComponent]] - `contains` [EXTRACTED]
-- [[Extra]] - `contains` [EXTRACTED]
-- [[Holiday_1]] - `imports` [EXTRACTED]
+- [[GET()_3]] - `contains` [EXTRACTED]
 - [[POST()_1]] - `contains` [EXTRACTED]
-- [[checkStoreStatus()]] - `imports` [EXTRACTED]
-- [[email.ts]] - `imports_from` [EXTRACTED]
-- [[sendOrderStatusEmail()]] - `imports` [EXTRACTED]
-- [[store-status.ts]] - `imports_from` [EXTRACTED]
-- [[stripe]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
