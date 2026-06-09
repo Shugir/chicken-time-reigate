@@ -15,6 +15,7 @@ interface ReceiptItem {
 export interface ReceiptOrder {
   id: string
   created_at: string
+  order_type?: string | null
   customer_name: string | null
   customer_phone: string | null
   delivery_address: string | null
@@ -28,9 +29,15 @@ export function CustomerReceipt({ order }: { order: ReceiptOrder }) {
   const date = new Date(order.created_at)
   const items = order.order_items ?? []
   const subtotal = items.reduce((s, i) => s + i.unit_price * i.quantity, 0)
+  const isPickup = (order.order_type ?? 'delivery') === 'pickup'
 
   return (
     <div className="receipt-print hidden print:block w-[80mm] text-black bg-white font-mono text-xs p-3">
+      {isPickup && (
+        <div className="text-center mb-2 border-b-2 border-black pb-2">
+          <p className="font-black text-base tracking-widest uppercase">*** COLLECTION ***</p>
+        </div>
+      )}
       <div className="text-center mb-3">
         <p className="font-black text-sm tracking-widest uppercase">Chicken Time</p>
         <p className="font-black text-sm tracking-widest uppercase">Reigate</p>
@@ -96,15 +103,33 @@ export function CustomerReceipt({ order }: { order: ReceiptOrder }) {
         <span>£{subtotal.toFixed(2)}</span>
       </div>
       <div className="flex justify-between mb-1">
-        <span>Delivery</span>
-        <span>£{(order.total_amount - subtotal).toFixed(2)}</span>
+        <span>{isPickup ? 'Collection' : 'Delivery'}</span>
+        <span>{isPickup ? 'FREE' : `£${(order.total_amount - subtotal).toFixed(2)}`}</span>
       </div>
       <div className="flex justify-between font-black text-sm border-t border-black pt-1 mt-1">
         <span>TOTAL</span>
         <span>£{order.total_amount.toFixed(2)}</span>
       </div>
 
-      {order.delivery_address && (
+      {isPickup ? (
+        <>
+          <div className="border-t-2 border-black mt-3 pt-2 text-center">
+            <p className="font-black text-base tracking-widest uppercase mb-2">*** COLLECTION ***</p>
+            {order.customer_name && (
+              <p className="font-black text-sm leading-snug">{order.customer_name}</p>
+            )}
+            {order.customer_phone && (
+              <p className="font-black text-sm leading-snug">{order.customer_phone}</p>
+            )}
+            {order.customer_notes && (
+              <p className="font-bold text-xs mt-1 border border-black px-1 py-0.5 uppercase tracking-wide">
+                NOTE: {order.customer_notes}
+              </p>
+            )}
+          </div>
+          <div className="border-t border-dashed border-black mt-3 mb-2" />
+        </>
+      ) : order.delivery_address ? (
         <>
           <div className="border-t border-black mt-3 pt-2">
             <p className="text-center font-black text-xs tracking-widest uppercase mb-2">
@@ -130,9 +155,9 @@ export function CustomerReceipt({ order }: { order: ReceiptOrder }) {
           </div>
           <div className="border-t border-dashed border-black mt-3 mb-2" />
         </>
+      ) : (
+        <div className="border-t border-dashed border-black my-3" />
       )}
-
-      {!order.delivery_address && <div className="border-t border-dashed border-black my-3" />}
       <div className="text-center">
         <p className="font-bold">Thank you for your order!</p>
         <p className="mt-1 text-gray-500">We hope to see you again soon.</p>

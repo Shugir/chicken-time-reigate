@@ -13,6 +13,7 @@ export interface OrderItem {
 export interface AdminReceiptOrder {
   id: string
   created_at: string
+  order_type: string
   customer_name: string | null
   customer_email: string | null
   customer_phone: string | null

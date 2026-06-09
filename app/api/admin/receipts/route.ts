@@ -19,7 +19,7 @@ function buildQuery(sp: URLSearchParams) {
   let query = supabaseAdmin
     .from('orders')
     .select(`
-      id, created_at, customer_name, customer_email, customer_phone, customer_notes,
+      id, created_at, order_type, customer_name, customer_email, customer_phone, customer_notes,
       delivery_address, delivery_postcode, total_amount, status, delivery_status,
       promo_code_used, discount_applied, driver_id, stripe_session_id,
       drivers ( name ),
@@ -50,6 +50,7 @@ function normalise(raw: Record<string, unknown>[]): AdminReceiptOrder[] {
   return raw.map((o) => ({
     id:                o.id as string,
     created_at:        o.created_at as string,
+    order_type:        (o.order_type as string | null) ?? 'delivery',
     customer_name:     (o.customer_name as string | null) ?? null,
     customer_email:    (o.customer_email as string | null) ?? null,
     customer_phone:    (o.customer_phone as string | null) ?? null,
@@ -70,7 +71,7 @@ function normalise(raw: Record<string, unknown>[]): AdminReceiptOrder[] {
 
 function toCsv(orders: AdminReceiptOrder[]): string {
   const headers = [
-    'Order ID', 'Date', 'Time', 'Customer Name', 'Customer Phone', 'Customer Email',
+    'Order ID', 'Type', 'Date', 'Time', 'Customer Name', 'Customer Phone', 'Customer Email',
     'Delivery Address', 'Postcode', 'Driver', 'Status',
     'Items', 'Subtotal', 'Discount', 'Total', 'Promo Code', 'Stripe Session',
   ]
@@ -81,6 +82,7 @@ function toCsv(orders: AdminReceiptOrder[]): string {
     const subtotal = o.order_items.reduce((s, i) => s + i.unit_price * i.quantity, 0)
     return [
       esc(`#${o.id.slice(-6).toUpperCase()}`),
+      esc(o.order_type === 'pickup' ? 'Collection' : 'Delivery'),
       esc(date.toLocaleDateString('en-GB')),
       esc(date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })),
       esc(o.customer_name ?? ''),

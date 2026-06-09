@@ -9,7 +9,7 @@ import { formatDateShort, formatDateHeader } from '@/lib/utils/format-date'
 
 interface OrderItem { item_name: string | null; quantity: number }
 interface RecentOrder {
-  id: string; status: string; total_amount: number; created_at: string; order_items: OrderItem[]
+  id: string; status: string; order_type: string; total_amount: number; created_at: string; order_items: OrderItem[]
 }
 interface DashboardData {
   revenue_today: number; orders_today: number; avg_order_value: number; active_promotions: number
@@ -167,6 +167,7 @@ export default function DashboardPage() {
                   <tr className="border-b border-zinc-800/60 bg-zinc-900/50">
                     <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Order</th>
                     <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Items</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Type</th>
                     <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide">Status</th>
                     <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Total</th>
                     <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-600 uppercase tracking-wide">Time</th>
@@ -183,6 +184,17 @@ export default function DashboardPage() {
                         </td>
                         <td className="px-6 py-3.5">
                           <span className="text-zinc-400 text-xs">{formatItems(order.order_items)}</span>
+                        </td>
+                        <td className="px-6 py-3.5">
+                          {order.order_type === 'pickup' ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400">
+                              🛍️ Collection
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400">
+                              🚗 Delivery
+                            </span>
+                          )}
                         </td>
                         <td className="px-6 py-3.5">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${ss}`}>

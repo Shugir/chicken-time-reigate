@@ -64,6 +64,15 @@ export function ReceiptDrawer({ order, onClose }: Props) {
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md capitalize ${STATUS_STYLES[order.status] ?? 'bg-zinc-800 text-zinc-400'}`}>
                 {order.status}
               </span>
+              {order.order_type === 'pickup' ? (
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400">
+                  🛍️ Collection
+                </span>
+              ) : (
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-400">
+                  🚗 Delivery
+                </span>
+              )}
             </div>
           </div>
           <button
@@ -84,15 +93,26 @@ export function ReceiptDrawer({ order, onClose }: Props) {
             <Row k="Email" v={order.customer_email} />
           </Section>
 
-          {/* Delivery */}
-          <Section label="Delivery">
-            <Row k="Address"  v={order.delivery_address} />
-            <Row k="Postcode" v={order.delivery_postcode} bold />
-            <Row k="Driver"   v={order.driver_name} bold />
-            {order.customer_notes && (
-              <Row k="Notes" v={order.customer_notes} muted />
-            )}
-          </Section>
+          {/* Delivery / Collection */}
+          {order.order_type === 'pickup' ? (
+            <Section label="Fulfilment">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-400 text-xs font-semibold mb-2">
+                🛍️ Customer Collection
+              </div>
+              {order.customer_notes && (
+                <Row k="Notes" v={order.customer_notes} muted />
+              )}
+            </Section>
+          ) : (
+            <Section label="Delivery">
+              <Row k="Address"  v={order.delivery_address} />
+              <Row k="Postcode" v={order.delivery_postcode} bold />
+              <Row k="Driver"   v={order.driver_name} bold />
+              {order.customer_notes && (
+                <Row k="Notes" v={order.customer_notes} muted />
+              )}
+            </Section>
+          )}
 
           {/* Items */}
           <Section label="Items">
@@ -130,7 +150,11 @@ export function ReceiptDrawer({ order, onClose }: Props) {
                 green
               />
             )}
-            <TotalRow k="Delivery fee" v={`£${(order.total_amount - subtotal + order.discount_applied).toFixed(2)}`} />
+            {order.order_type === 'pickup' ? (
+              <TotalRow k="Collection" v="FREE" />
+            ) : (
+              <TotalRow k="Delivery fee" v={`£${Math.max(0, order.total_amount - subtotal + order.discount_applied).toFixed(2)}`} />
+            )}
             <TotalRow k="Total" v={`£${order.total_amount.toFixed(2)}`} grand />
           </Section>
 

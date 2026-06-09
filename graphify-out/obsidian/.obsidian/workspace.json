@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "2cf0e3cde612b0e9",
+        "id": "be700807f3e31c7b",
         "type": "tabs",
         "children": [
           {
-            "id": "796242612f467268",
+            "id": "0cd3e89758ae97cd",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -178,8 +178,10 @@
       "bases:Create new base": false
     }
   },
-  "active": "796242612f467268",
+  "active": "0cd3e89758ae97cd",
   "lastOpenFiles": [
+    "Untitled 2.canvas",
+    "route.ts_42.md",
     "unlocked_rewards.md",
     "promotions_2.md",
     "orders_12.md",
@@ -204,8 +206,6 @@
     "route.ts_70.md",
     "supabase_10.md",
     "20260634_loyalty_rewards_engine.sql.md",
-    "promotions_1.md",
-    "20260633_promo_validity_dates.sql.md",
     "graph.canvas",
     "Untitled 1.canvas",
     "Untitled.canvas"

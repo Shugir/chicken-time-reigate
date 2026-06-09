@@ -45,7 +45,7 @@ export function ReceiptsTable({ orders, onRowClick, onPrint, onCopyLink }: Props
             <table className="w-full">
               <thead>
                 <tr className="border-b border-zinc-800">
-                  {['#', 'Time', 'Customer', 'Collected by', 'Address', 'Post', 'Amount', 'Status', ''].map((h) => (
+                  {['#', 'Time', 'Customer', 'Collected by', 'Type', 'Address', 'Post', 'Amount', 'Status', ''].map((h) => (
                     <th key={h} className="px-4 py-2.5 text-left text-[10px] font-semibold uppercase tracking-wider text-zinc-600 first:pl-6 last:pr-6">
                       {h}
                     </th>
@@ -75,6 +75,17 @@ export function ReceiptsTable({ orders, onRowClick, onPrint, onCopyLink }: Props
                       <p className="text-xs text-zinc-300">{order.driver_name ?? '—'}</p>
                       {order.driver_name && (
                         <p className="text-[10px] text-zinc-600 mt-0.5">Driver</p>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      {order.order_type === 'pickup' ? (
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400">
+                          🛍️ Collection
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-400">
+                          🚗 Delivery
+                        </span>
                       )}
                     </td>
                     <td className="px-4 py-3 max-w-[130px]">

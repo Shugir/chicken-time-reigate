@@ -19,7 +19,7 @@ export async function GET() {
       .eq('is_active', true),
     supabaseAdmin
       .from('orders')
-      .select('id, status, total_amount, created_at, order_items(item_name, quantity)')
+      .select('id, status, order_type, total_amount, created_at, order_items(item_name, quantity)')
       .order('created_at', { ascending: false })
       .limit(10),
   ])
@@ -34,6 +34,6 @@ export async function GET() {
     orders_today:      allToday.length,
     avg_order_value:   avgOrderValue,
     active_promotions: activePromos.count ?? 0,
-    recent_orders:     recentOrders.data ?? [],
+    recent_orders:     (recentOrders.data ?? []).map((o) => ({ ...o, order_type: o.order_type ?? 'delivery' })),
   })
 }

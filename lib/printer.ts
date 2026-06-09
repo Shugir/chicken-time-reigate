@@ -85,16 +85,35 @@ export function generateReceiptBuffer(order: any, driverName?: string): Buffer {
   }
 
   // 5. Totals
+  const isPickup = order.order_type === 'pickup'
   chunks.push(rule)
-  const delivery = Math.max(0, Number(order.total_amount) - subtotal)
   chunks.push(formatRow('Subtotal', GBP(subtotal)))
-  chunks.push(formatRow('Delivery', GBP(delivery)))
+  if (isPickup) {
+    chunks.push(formatRow('Collection', 'FREE'))
+  } else {
+    const delivery = Math.max(0, Number(order.total_amount) - subtotal)
+    chunks.push(formatRow('Delivery', GBP(delivery)))
+  }
   chunks.push(ESC + 'E\x01') // Bold On
   chunks.push(formatRow('TOTAL', GBP(order.total_amount)))
   chunks.push(ESC + 'E\x00') // Bold Off
 
-  // 6. Delivery Details
-  if (order.delivery_address) {
+  // 6. Delivery Details / Collection Banner
+  if (isPickup) {
+    chunks.push(rule)
+    chunks.push(ESC + 'a\x01') // Center
+    chunks.push(ESC + 'E\x01') // Bold On
+    chunks.push(GS + '!\x11')  // Double size
+    chunks.push('*** COLLECTION ***\n')
+    chunks.push(GS + '!\x00')  // Normal size
+    chunks.push(ESC + 'E\x00') // Bold Off
+    chunks.push(ESC + 'a\x00') // Left
+    if (order.customer_name) chunks.push(order.customer_name + '\n')
+    if (order.customer_phone) chunks.push(order.customer_phone + '\n')
+    if (order.customer_notes) {
+      wrapLine('NOTE: ' + order.customer_notes).forEach(l => chunks.push(l + '\n'))
+    }
+  } else if (order.delivery_address) {
     chunks.push(rule)
     chunks.push(ESC + 'a\x01') // Center
     chunks.push(ESC + 'E\x01') // Bold On
