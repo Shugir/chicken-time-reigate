@@ -18,8 +18,8 @@ tags:
 - [[KitchenTicket()]] - `calls` [EXTRACTED]
 - [[d()]] - `calls` [EXTRACTED]
 - [[format-date.ts]] - `contains` [EXTRACTED]
-- [[page.tsx]] - `imports` [EXTRACTED]
-- [[page.tsx_2]] - `imports` [EXTRACTED]
+- [[page.tsx_1]] - `imports` [EXTRACTED]
+- [[page.tsx_3]] - `imports` [EXTRACTED]
 - [[page.tsx_36]] - `imports` [EXTRACTED]
 - [[page.tsx_39]] - `imports` [EXTRACTED]
 

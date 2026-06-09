@@ -2,7 +2,7 @@
 source_file: "components/admin/receipts/types.ts"
 type: "code"
 community: "Community None"
-location: "L41"
+location: "L42"
 tags:
   - graphify/code
   - graphify/EXTRACTED

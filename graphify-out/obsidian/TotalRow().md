@@ -2,7 +2,7 @@
 source_file: "components/admin/receipts/ReceiptDrawer.tsx"
 type: "code"
 community: "Community None"
-location: "L191"
+location: "L215"
 tags:
   - graphify/code
   - graphify/EXTRACTED

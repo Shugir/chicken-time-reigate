@@ -13,7 +13,7 @@ tags:
 
 ## Connections
 - [[formatDateHeader()]] - `calls` [EXTRACTED]
-- [[page.tsx_13]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
 - [[page.tsx_48]] - `contains` [EXTRACTED]
 - [[todayLabel()]] - `calls` [EXTRACTED]
 

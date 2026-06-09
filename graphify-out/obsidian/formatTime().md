@@ -12,8 +12,10 @@ tags:
 # formatTime()
 
 ## Connections
+- [[CustomerReceipt()]] - `calls` [INFERRED]
+- [[ReceiptDrawer()]] - `calls` [INFERRED]
 - [[formatDateShort()]] - `calls` [EXTRACTED]
-- [[page.tsx_13]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
 - [[page.tsx_48]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

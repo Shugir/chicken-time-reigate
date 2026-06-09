@@ -1,8 +1,8 @@
 ---
-source_file: "components/admin/receipts/types.ts"
+source_file: "app/account/page.tsx"
 type: "code"
 community: "Community None"
-location: "L3"
+location: "L26"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,7 @@ tags:
 # OrderItem
 
 ## Connections
-- [[types.ts]] - `contains` [EXTRACTED]
-- [[types.ts_1]] - `contains` [EXTRACTED]
+- [[page.tsx_8]] - `contains` [EXTRACTED]
+- [[page.tsx_45]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

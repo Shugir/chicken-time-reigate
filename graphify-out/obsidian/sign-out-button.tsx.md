@@ -14,9 +14,9 @@ tags:
 ## Connections
 - [[SignOutButton()]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
-- [[page.tsx_4]] - `imports_from` [EXTRACTED]
-- [[page.tsx_9]] - `imports_from` [EXTRACTED]
-- [[page.tsx_13]] - `imports_from` [EXTRACTED]
+- [[page.tsx]] - `imports_from` [EXTRACTED]
+- [[page.tsx_5]] - `imports_from` [EXTRACTED]
+- [[page.tsx_10]] - `imports_from` [EXTRACTED]
 - [[page.tsx_14]] - `imports_from` [EXTRACTED]
 - [[page.tsx_15]] - `imports_from` [EXTRACTED]
 - [[page.tsx_20]] - `imports_from` [EXTRACTED]

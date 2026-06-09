@@ -1,5 +1,5 @@
 ---
-source_file: "app/admin/dispatch/page.tsx"
+source_file: "app/admin/dashboard/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,26 +12,23 @@ tags:
 # page.tsx
 
 ## Connections
-- [[BoardData]] - `contains` [EXTRACTED]
-- [[CustomerReceipt()]] - `imports` [EXTRACTED]
-- [[CustomerReceipt()_1]] - `contains` [EXTRACTED]
-- [[CustomerReceipt.tsx]] - `imports_from` [EXTRACTED]
-- [[DispatchDriver]] - `contains` [EXTRACTED]
-- [[DispatchOrder]] - `contains` [EXTRACTED]
-- [[DispatchPage()]] - `contains` [EXTRACTED]
-- [[OrderCard()]] - `contains` [EXTRACTED]
+- [[BentoCard()]] - `contains` [EXTRACTED]
+- [[DashboardData]] - `contains` [EXTRACTED]
+- [[DashboardPage()]] - `contains` [EXTRACTED]
+- [[NAV]] - `contains` [EXTRACTED]
 - [[OrderItem]] - `contains` [EXTRACTED]
-- [[OrderUrgency]] - `imports` [EXTRACTED]
-- [[ReturnedCard()]] - `contains` [EXTRACTED]
+- [[RecentOrder]] - `contains` [EXTRACTED]
+- [[STATUS_DOTS]] - `contains` [EXTRACTED]
+- [[STATUS_STYLES]] - `contains` [EXTRACTED]
+- [[StatCard()_1]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[format-date.ts]] - `imports_from` [EXTRACTED]
-- [[formatDateClockLabel()]] - `imports` [EXTRACTED]
-- [[formatDateMedium()]] - `imports` [EXTRACTED]
-- [[formatTime()_1]] - `imports` [EXTRACTED]
-- [[formatTimeFull()]] - `imports` [EXTRACTED]
-- [[order-urgency.ts]] - `imports_from` [EXTRACTED]
-- [[permissions-provider.tsx]] - `imports_from` [EXTRACTED]
-- [[supabase]] - `contains` [EXTRACTED]
-- [[timeAgo()]] - `contains` [EXTRACTED]
-- [[usePermissions()]] - `imports` [EXTRACTED]
+- [[formatDateHeader()]] - `imports` [EXTRACTED]
+- [[formatDateShort()]] - `imports` [EXTRACTED]
+- [[formatItems()]] - `contains` [EXTRACTED]
+- [[formatTime()]] - `contains` [EXTRACTED]
+- [[shortId()]] - `contains` [EXTRACTED]
+- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[todayLabel()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

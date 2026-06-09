@@ -12,10 +12,10 @@ tags:
 # generateReceiptBuffer()
 
 ## Connections
-- [[POST()_10]] - `calls` [EXTRACTED]
+- [[POST()]] - `calls` [EXTRACTED]
 - [[formatRow()]] - `calls` [EXTRACTED]
 - [[printer.ts]] - `contains` [EXTRACTED]
-- [[route.ts_22]] - `imports` [EXTRACTED]
+- [[route.ts_1]] - `imports` [EXTRACTED]
 - [[route.ts_53]] - `imports` [EXTRACTED]
 - [[wrapLine()]] - `calls` [EXTRACTED]
 

@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/account/unlocked-rewards/route.ts"
+source_file: "app/api/admin/dispatch/route.ts"
 type: "code"
 community: "Community None"
-location: "L7"
+location: "L34"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,7 @@ tags:
 # GET()
 
 ## Connections
-- [[route.ts_4]] - `contains` [EXTRACTED]
+- [[getAdminUser()]] - `calls` [EXTRACTED]
+- [[route.ts_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

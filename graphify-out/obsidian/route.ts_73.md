@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[CartItem]] - `contains` [EXTRACTED]
 - [[Extra]] - `contains` [EXTRACTED]
-- [[POST()]] - `contains` [EXTRACTED]
+- [[POST()_1]] - `contains` [EXTRACTED]
 - [[stripe]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/admin/receipts/route.ts"
+source_file: "app/api/promotions/route.ts"
 type: "code"
 community: "Community None"
-location: "L104"
+location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,14 +12,7 @@ tags:
 # GET()
 
 ## Connections
-- [[buildQuery()]] - `calls` [EXTRACTED]
-- [[getAuthedUser()]] - `calls` [EXTRACTED]
-- [[getUserPermissions]] - `calls` [EXTRACTED]
-- [[hasPermission()]] - `calls` [EXTRACTED]
-- [[normalise()]] - `calls` [EXTRACTED]
-- [[route.ts_25]] - `contains` [EXTRACTED]
-- [[route.ts_53]] - `contains` [EXTRACTED]
-- [[route.ts_54]] - `contains` [EXTRACTED]
-- [[toCsv()]] - `calls` [EXTRACTED]
+- [[route.ts_24]] - `contains` [EXTRACTED]
+- [[route.ts_45]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

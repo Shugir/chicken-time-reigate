@@ -13,7 +13,7 @@ tags:
 
 ## Connections
 - [[AdminReceiptOrder]] - `imports` [EXTRACTED]
-- [[Props_2]] - `contains` [EXTRACTED]
+- [[Props_3]] - `contains` [EXTRACTED]
 - [[ReceiptsCards()]] - `contains` [EXTRACTED]
 - [[STATUS_BADGE]] - `imports` [EXTRACTED]
 - [[format-date.ts]] - `imports_from` [EXTRACTED]

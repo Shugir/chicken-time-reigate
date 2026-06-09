@@ -1,8 +1,8 @@
 ---
-source_file: "components/admin/receipts/ReceiptsCards.tsx"
+source_file: "components/AdminDataTable.tsx"
 type: "code"
 community: "Community None"
-location: "L8"
+location: "L21"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,6 @@ tags:
 # Props
 
 ## Connections
-- [[ReceiptsCards.tsx]] - `contains` [EXTRACTED]
-- [[ReceiptsCards.tsx_1]] - `contains` [EXTRACTED]
+- [[AdminDataTable.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
