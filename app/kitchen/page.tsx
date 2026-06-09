@@ -45,6 +45,7 @@ interface Order {
   delivery_address: string | null
   delivery_postcode: string | null
   customer_notes: string | null
+  order_type?: 'delivery' | 'pickup'
   order_items: OrderItem[]
 }
 
@@ -98,6 +99,11 @@ function OrderCard({
           <p className="font-mono font-bold text-white text-lg tracking-wider">
             #{order.id.slice(-6).toUpperCase()}
           </p>
+          {order.order_type === 'pickup' ? (
+            <span className="inline-block mt-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-wide">🛍️ Collection</span>
+          ) : (
+            <span className="inline-block mt-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 uppercase tracking-wide">🚗 Delivery</span>
+          )}
         </div>
         <div className="flex items-center gap-1.5 bg-white/5 rounded-lg px-3 py-1.5 text-xs text-white/50">
           <Clock size={12} />
@@ -425,7 +431,7 @@ export default function KitchenDashboard() {
     return () => { supabase.removeChannel(channel) }
   }, [fetchOrders])
 
-  async function updateStatus(id: string, status: 'ready' | 'dispatched') {
+  async function updateStatus(id: string, status: 'ready' | 'dispatched' | 'delivered') {
     setUpdating(id)
     await fetch(`/api/kitchen/orders/${id}`, {
       method: 'PATCH',
@@ -629,9 +635,15 @@ export default function KitchenDashboard() {
                   <OrderCard
                     key={order.id}
                     order={order}
-                    onAction={() => openDriverModal(order)}
-                    actionLabel="Dispatch & Print"
-                    actionStyle="bg-sky-500 hover:bg-sky-400 text-white shadow-lg shadow-sky-900/40"
+                    onAction={order.order_type === 'pickup'
+                      ? () => updateStatus(order.id, 'delivered')
+                      : () => openDriverModal(order)
+                    }
+                    actionLabel={order.order_type === 'pickup' ? '✓ Mark Collected' : 'Dispatch & Print'}
+                    actionStyle={order.order_type === 'pickup'
+                      ? 'bg-amber-500 hover:bg-amber-400 text-white shadow-lg shadow-amber-900/40'
+                      : 'bg-sky-500 hover:bg-sky-400 text-white shadow-lg shadow-sky-900/40'
+                    }
                     updating={updating === order.id}
                     onReprintKitchen={() => triggerReprint(order, 'kitchen')}
                     onReprintCustomer={() => triggerReprint(order, 'customer')}

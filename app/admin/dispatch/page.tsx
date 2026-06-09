@@ -49,6 +49,7 @@ interface DispatchOrder {
   delivery_status?: string | null
   driver_notes?: string | null
   return_reason?: string | null
+  order_type?: string | null
   order_items?: OrderItem[]
 }
 
@@ -63,7 +64,8 @@ interface DispatchDriver {
 interface BoardData {
   unassigned: DispatchOrder[]
   drivers: DispatchDriver[]
-  returned: DispatchOrder[]  // ADD THIS
+  returned: DispatchOrder[]
+  pickup_ready: DispatchOrder[]
 }
 
 function timeAgo(iso: string) {
@@ -437,7 +439,7 @@ function ReturnedCard({
 export default function DispatchPage() {
   const { email } = usePermissions()
 
-  const [board, setBoard] = useState<BoardData>({ unassigned: [], drivers: [], returned: [] })
+  const [board, setBoard] = useState<BoardData>({ unassigned: [], drivers: [], returned: [], pickup_ready: [] })
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -822,6 +824,47 @@ export default function DispatchPage() {
                       isInbox
                     />
                   ))
+                )}
+
+                {/* Pickup — Ready for Collection */}
+                {board.pickup_ready.length > 0 && (
+                  <div className="mt-4">
+                    <div className="flex items-center gap-2 px-1 py-2 mb-2">
+                      <span className="text-base leading-none">🛍️</span>
+                      <h3 className="text-[10px] font-bold text-amber-300 uppercase tracking-widest">Ready for Collection</h3>
+                      <span className="ml-auto px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold">{board.pickup_ready.length}</span>
+                    </div>
+                    <div className="space-y-2">
+                      {board.pickup_ready.map((order) => (
+                        <div key={order.id} className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-mono font-black text-white text-sm tracking-wider">#{order.id.slice(-6).toUpperCase()}</span>
+                            <span className="text-xs text-amber-300 font-semibold">£{Number(order.total_amount).toFixed(2)}</span>
+                          </div>
+                          {order.customer_name && (
+                            <p className="text-xs text-zinc-300 font-semibold">{order.customer_name}</p>
+                          )}
+                          {order.customer_phone && (
+                            <p className="text-xs text-zinc-500">{order.customer_phone}</p>
+                          )}
+                          {order.order_items && order.order_items.length > 0 && (
+                            <div className="text-[11px] text-zinc-500 space-y-0.5">
+                              {order.order_items.map((item) => (
+                                <div key={item.id}><span className="text-brand-red font-black">{item.quantity}×</span> {item.item_name}</div>
+                              ))}
+                            </div>
+                          )}
+                          <button
+                            onClick={() => handleDelivered(order.id)}
+                            disabled={updating === order.id}
+                            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-white text-xs font-black transition-colors"
+                          >
+                            {updating === order.id ? <Loader2 size={13} className="animate-spin" /> : '✓'} Mark Collected
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
 
                 {/* Returned orders */}

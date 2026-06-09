@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const { items, delivery_fee = 0, postcode, promo_code, redeem_points, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes }: {
+    const { items, delivery_fee = 0, postcode, promo_code, redeem_points, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type }: {
       items: CartItem[]
       delivery_fee?: number
       postcode?: string
@@ -75,6 +75,7 @@ export async function POST(request: NextRequest) {
       delivery_address?: string
       delivery_postcode?: string
       customer_notes?: string | null
+      order_type?: string
     } = await request.json()
     const origin = request.headers.get('origin') || 'http://localhost:3000'
 
@@ -133,6 +134,7 @@ export async function POST(request: NextRequest) {
       .from('orders')
       .insert({
         status:              'pending',
+        order_type:          order_type ?? 'delivery',
         total_amount:        total,
         user_id:             userId,
         customer_name:       customer_name       ?? null,

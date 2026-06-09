@@ -535,13 +535,14 @@ function FiltersPopover({
 
 // ─── Cart Drawer ──────────────────────────────────────────────────────────────
 
-function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
+function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulfillmentMode }: {
   cart: Cart
   menuItems: MenuItem[]
   storeOpen: boolean
   onClose: () => void
   onAdd: (id: string) => void
   onRemove: (id: string) => void
+  fulfillmentMode: 'delivery' | 'pickup'
 }) {
   const lineItems = Object.entries(cart)
     .filter(([, entry]) => entry.qty > 0)
@@ -565,6 +566,7 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
       }
     })
     sessionStorage.setItem('pendingCart', JSON.stringify(cartPayload))
+    sessionStorage.setItem('fulfillment_mode', fulfillmentMode)
     window.location.href = '/checkout'
   }
 
@@ -647,7 +649,8 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove }: {
               <span>Subtotal</span><span className="text-zinc-900 font-semibold">£{subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-xs text-zinc-400">
-              <span>Delivery</span><span>calculated at checkout</span>
+              <span>{fulfillmentMode === 'pickup' ? 'Collection' : 'Delivery'}</span>
+              <span>{fulfillmentMode === 'pickup' ? 'Free' : 'calculated at checkout'}</span>
             </div>
             <button
               onClick={handleCheckout}
@@ -674,6 +677,8 @@ export default function OrderPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen] = useState(true)
   const [prepTime, setPrepTime] = useState(25)
+  const [storeAddress, setStoreAddress] = useState('')
+  const [fulfillmentMode, setFulfillmentMode] = useState<'delivery' | 'pickup'>('delivery')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedFlags, setSelectedFlags] = useState<string[]>([])
   const [excludedAllergens, setExcludedAllergens] = useState<string[]>([])
@@ -709,7 +714,11 @@ export default function OrderPage() {
     fetch('/api/store-settings')
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
-        if (data) { setStoreOpen(data.is_open); setPrepTime(data.prep_time_minutes) }
+        if (data) {
+          setStoreOpen(data.is_open)
+          setPrepTime(data.prep_time_minutes)
+          if (data.store_address) setStoreAddress(data.store_address)
+        }
       })
       .catch(() => { })
   }, [])
@@ -814,9 +823,44 @@ export default function OrderPage() {
       )}
 
       {/* Delivery banner */}
-      <div className="bg-brand-red text-white text-center py-2.5 text-xs font-medium tracking-wide">
-        Free delivery on orders over £20 &nbsp;·&nbsp; Est. {prepTime}–{prepTime + 10} min
+      {fulfillmentMode === 'delivery' && (
+        <div className="bg-brand-red text-white text-center py-2.5 text-xs font-medium tracking-wide">
+          Free delivery on orders over £20 &nbsp;·&nbsp; Est. {prepTime}–{prepTime + 10} min
+        </div>
+      )}
+
+      {/* Fulfillment mode toggle */}
+      <div className="flex justify-center py-3 px-4 bg-white border-b border-zinc-100">
+        <div className="flex items-center bg-zinc-100 rounded-full p-1 gap-1">
+          <button
+            onClick={() => setFulfillmentMode('delivery')}
+            className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${fulfillmentMode === 'delivery'
+              ? 'bg-white text-zinc-900 shadow-sm'
+              : 'text-zinc-500 hover:text-zinc-700'
+            }`}
+          >
+            🛵 Delivery
+          </button>
+          <button
+            onClick={() => setFulfillmentMode('pickup')}
+            className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${fulfillmentMode === 'pickup'
+              ? 'bg-white text-zinc-900 shadow-sm'
+              : 'text-zinc-500 hover:text-zinc-700'
+            }`}
+          >
+            🏃 Pickup
+          </button>
+        </div>
       </div>
+
+      {/* Pickup info banner */}
+      {fulfillmentMode === 'pickup' && (
+        <div className="bg-amber-50 border-b border-amber-200 text-center py-2.5 px-4 text-xs font-medium text-amber-800">
+          🛍️ Collect in store &nbsp;·&nbsp;
+          {storeAddress ? <>{storeAddress} &nbsp;·&nbsp;</> : null}
+          Ready in {prepTime}–{prepTime + 10} min · No delivery fee
+        </div>
+      )}
 
       {/* ── STICKY SCROLL-SPY CATEGORY NAV ── */}
       <nav className="sticky top-16 z-40 backdrop-blur-md bg-white/95 border-b border-zinc-100/80 shadow-sm">
@@ -1062,6 +1106,7 @@ export default function OrderPage() {
           cart={cart} menuItems={menuItems} storeOpen={storeOpen}
           onClose={() => setCartOpen(false)}
           onAdd={addToCart} onRemove={removeFromCart}
+          fulfillmentMode={fulfillmentMode}
         />
       )}
 

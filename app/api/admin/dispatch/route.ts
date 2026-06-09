@@ -27,7 +27,7 @@ async function getAdminUser() {
 const ORDER_FIELDS = `
   id, customer_name, customer_phone, customer_notes,
   delivery_address, delivery_postcode, total_amount, created_at,
-  status, driver_id, stop_sequence, delivery_status, driver_notes, return_reason,
+  status, driver_id, stop_sequence, delivery_status, driver_notes, return_reason, order_type,
   order_items(id, item_name, quantity, unit_price, extras, removals, notes)
 `
 
@@ -35,12 +35,13 @@ export async function GET() {
   const user = await getAdminUser()
   if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-  const [{ data: unassigned }, { data: drivers }, { data: assigned }, { data: returned }] = await Promise.all([
+  const [{ data: unassigned }, { data: drivers }, { data: assigned }, { data: returned }, { data: pickup_ready }] = await Promise.all([
     supabaseAdmin
       .from('orders')
       .select(ORDER_FIELDS)
       .is('driver_id', null)
       .eq('status', 'ready')
+      .eq('order_type', 'delivery')
       .order('created_at', { ascending: true }),
 
     supabaseAdmin
@@ -61,6 +62,13 @@ export async function GET() {
       .select(ORDER_FIELDS)
       .eq('status', 'returned')
       .order('created_at', { ascending: true }),
+
+    supabaseAdmin
+      .from('orders')
+      .select(ORDER_FIELDS)
+      .eq('status', 'ready')
+      .eq('order_type', 'pickup')
+      .order('created_at', { ascending: true }),
   ])
 
   const driverMap = (drivers ?? []).map((d) => ({
@@ -70,7 +78,7 @@ export async function GET() {
       .sort((a, b) => (a.stop_sequence ?? 1) - (b.stop_sequence ?? 1)),
   }))
 
-  return NextResponse.json({ unassigned: unassigned ?? [], drivers: driverMap, returned: returned ?? [] })
+  return NextResponse.json({ unassigned: unassigned ?? [], drivers: driverMap, returned: returned ?? [], pickup_ready: pickup_ready ?? [] })
 }
 
 // Recompute a driver's status from their live workload: any order still

@@ -59,6 +59,7 @@ export default function CheckoutPage() {
   const [confirmDetailsError, setConfirmDetailsError]   = useState(false)
   const [loyaltyBalance, setLoyaltyBalance]             = useState(0)
   const [pointsToSpend, setPointsToSpend]               = useState(0)
+  const [fulfillmentMode, setFulfillmentMode]           = useState<'delivery' | 'pickup'>('delivery')
 
   const UK_PHONE_RE = /^(\+44|0044|0)(7\d{9}|[1-9]\d{8,9})$/
   function isValidUKPhone(val: string) {
@@ -69,6 +70,8 @@ export default function CheckoutPage() {
     try {
       const raw = sessionStorage.getItem('pendingCart')
       if (raw) setCartItems(JSON.parse(raw))
+      const mode = sessionStorage.getItem('fulfillment_mode')
+      if (mode === 'pickup') setFulfillmentMode('pickup')
     } catch {
       // ignore corrupt storage
     }
@@ -117,14 +120,15 @@ export default function CheckoutPage() {
       .catch(() => {})
   }, [subtotal])
 
+  const isPickup = fulfillmentMode === 'pickup'
   const discount = promoApplied ? promoApplied.discount_amount : 0
   const baseDeliveryFee = zone ? Number(zone.delivery_fee) : 0
-  const freeDeliveryApplied = !!(
+  const freeDeliveryApplied = !isPickup && !!(
     zone?.free_delivery_threshold &&
     Number(zone.free_delivery_threshold) > 0 &&
     subtotal >= Number(zone.free_delivery_threshold)
   )
-  const deliveryFee = freeDeliveryApplied ? 0 : baseDeliveryFee
+  const deliveryFee = isPickup ? 0 : (freeDeliveryApplied ? 0 : baseDeliveryFee)
   const maxRedeemPoints = Math.floor(Math.min(loyaltyBalance, Math.floor(subtotal * 100)) / 100) * 100
   const loyaltyDiscount = pointsToSpend / 100
   const autoDiscount = autoPromo ? autoPromo.discount_amount : 0
@@ -212,13 +216,13 @@ export default function CheckoutPage() {
   }
 
   async function handlePay() {
-    if (!zone || cartItems.length === 0) return
+    if (!isPickup && !zone || cartItems.length === 0) return
     if (!customerName.trim())              { setSubmitError('Please enter your full name');                  return }
     if (!customerPhone.trim())             { setSubmitError('Please enter your phone number');               return }
     if (!isValidUKPhone(customerPhone))    { setSubmitError('Please enter a valid UK phone number');         return }
-    if (!addressLine1.trim())              { setSubmitError('Please enter your delivery address');           return }
+    if (!isPickup && !addressLine1.trim()) { setSubmitError('Please enter your delivery address');           return }
     if (!confirmDetails)                   { setConfirmDetailsError(true); setSubmitError('Please confirm your details before placing your order'); return }
-    const fullAddress = [addressLine1, city, county, postcode.trim().toUpperCase()].filter(Boolean).join(', ')
+    const fullAddress = isPickup ? null : [addressLine1, city, county, postcode.trim().toUpperCase()].filter(Boolean).join(', ')
     setSubmitting(true)
     setSubmitError(null)
     try {
@@ -228,7 +232,7 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           items:               cartItems,
           delivery_fee:        deliveryFee,
-          postcode:            postcode.trim().toUpperCase(),
+          postcode:            isPickup ? undefined : postcode.trim().toUpperCase(),
           promo_code:          promoApplied?.code ?? null,
           auto_promo_code:     autoPromo?.code ?? null,
           customer_name:       customerName.trim(),
@@ -236,8 +240,9 @@ export default function CheckoutPage() {
           customer_email:      customerEmail.trim() || null,
           redeem_points:       pointsToSpend >= 100 ? pointsToSpend : null,
           delivery_address:    fullAddress,
-          delivery_postcode:   postcode.trim().toUpperCase(),
+          delivery_postcode:   isPickup ? null : postcode.trim().toUpperCase(),
           customer_notes:      customerNotes.trim() || null,
+          order_type:          fulfillmentMode,
         }),
       })
       const data = await res.json()
@@ -293,60 +298,71 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        {/* Delivery address */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
-          <h2 className="font-heading font-bold text-base text-brand-dark flex items-center gap-2">
-            <MapPin size={16} className="text-brand-red" />
-            Delivery Postcode
-          </h2>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={postcode}
-              onChange={(e) => handlePostcodeChange(e.target.value)}
-              placeholder="e.g. RH2 8AB"
-              maxLength={8}
-              className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red uppercase"
-            />
-            <button
-              onClick={handleFindAddress}
-              disabled={!postcode.trim() || addressLookupLoading}
-              className="px-4 py-3 bg-brand-dark hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition-colors flex items-center gap-2 shrink-0"
-            >
-              {addressLookupLoading ? <Loader2 size={14} className="animate-spin" /> : <MapPin size={14} />}
-              {addressLookupLoading ? '' : 'Find Address'}
-            </button>
+        {/* Delivery address / Pickup banner */}
+        {isPickup ? (
+          <div className="bg-amber-50 rounded-2xl shadow-sm border border-amber-200 p-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl shrink-0">🛍️</div>
+              <div>
+                <p className="font-heading font-bold text-base text-amber-900">Collection Order</p>
+                <p className="text-sm text-amber-700 mt-0.5">No delivery fee · Collect in store when your order is ready</p>
+              </div>
+            </div>
           </div>
-
-          {zoneLoading && (
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <Loader2 size={14} className="animate-spin" />
-              Checking postcode…
+        ) : (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
+            <h2 className="font-heading font-bold text-base text-brand-dark flex items-center gap-2">
+              <MapPin size={16} className="text-brand-red" />
+              Delivery Postcode
+            </h2>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={postcode}
+                onChange={(e) => handlePostcodeChange(e.target.value)}
+                placeholder="e.g. RH2 8AB"
+                maxLength={8}
+                className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red uppercase"
+              />
+              <button
+                onClick={handleFindAddress}
+                disabled={!postcode.trim() || addressLookupLoading}
+                className="px-4 py-3 bg-brand-dark hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition-colors flex items-center gap-2 shrink-0"
+              >
+                {addressLookupLoading ? <Loader2 size={14} className="animate-spin" /> : <MapPin size={14} />}
+                {addressLookupLoading ? '' : 'Find Address'}
+              </button>
             </div>
-          )}
 
-          {zoneError && (
-            <div className="flex items-start gap-2 text-sm text-red-600 bg-red-50 rounded-xl px-3 py-2.5">
-              <AlertCircle size={14} className="mt-0.5 shrink-0" />
-              {zoneError}
-            </div>
-          )}
+            {zoneLoading && (
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <Loader2 size={14} className="animate-spin" />
+                Checking postcode…
+              </div>
+            )}
 
-          {zone && (
-            <div className="flex items-center justify-between text-sm text-green-700 bg-green-50 rounded-xl px-3 py-2.5">
-              <span className="font-semibold">✓ We deliver to {postcode.trim().toUpperCase()}</span>
-              <span className="font-bold flex items-center gap-1.5">
-                {freeDeliveryApplied ? (
-                  <>
-                    <span className="line-through text-gray-400 font-normal">£{baseDeliveryFee.toFixed(2)}</span>
-                    <span className="text-green-700">Free delivery</span>
-                  </>
-                ) : deliveryFee === 0 ? 'Free delivery' : `£${deliveryFee.toFixed(2)} delivery`}
-              </span>
-            </div>
-          )}
+            {zoneError && (
+              <div className="flex items-start gap-2 text-sm text-red-600 bg-red-50 rounded-xl px-3 py-2.5">
+                <AlertCircle size={14} className="mt-0.5 shrink-0" />
+                {zoneError}
+              </div>
+            )}
 
-        </div>
+            {zone && (
+              <div className="flex items-center justify-between text-sm text-green-700 bg-green-50 rounded-xl px-3 py-2.5">
+                <span className="font-semibold">✓ We deliver to {postcode.trim().toUpperCase()}</span>
+                <span className="font-bold flex items-center gap-1.5">
+                  {freeDeliveryApplied ? (
+                    <>
+                      <span className="line-through text-gray-400 font-normal">£{baseDeliveryFee.toFixed(2)}</span>
+                      <span className="text-green-700">Free delivery</span>
+                    </>
+                  ) : deliveryFee === 0 ? 'Free delivery' : `£${deliveryFee.toFixed(2)} delivery`}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Your Details */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
@@ -398,54 +414,58 @@ export default function CheckoutPage() {
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red"
               />
             </div>
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1">Address Line 1 *</label>
-              <input
-                type="text"
-                value={addressLine1}
-                onChange={(e) => { setAddressLine1(e.target.value); if (addressLine1Error) setAddressLine1Error(null) }}
-                onBlur={() => {
-                  if (!addressLine1.trim()) setAddressLine1Error('Address is required')
-                  else setAddressLine1Error(null)
-                }}
-                placeholder="e.g. 12 High Street"
-                className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressLine1Error ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-              />
-              {addressLine1Error && (
-                <p className="flex items-center gap-1.5 text-xs text-red-600 mt-1.5">
-                  <AlertCircle size={12} />
-                  {addressLine1Error}
-                </p>
-              )}
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 mb-1">
-                  City / Town
-                  {addressAutoFilled && city && <span className="ml-1.5 text-emerald-600 font-semibold">✓ auto-filled</span>}
-                </label>
-                <input
-                  type="text"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  placeholder="e.g. Reigate"
-                  className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressAutoFilled && city ? 'border-emerald-300 bg-emerald-50/50' : 'border-gray-200'}`}
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 mb-1">
-                  County
-                  {addressAutoFilled && county && <span className="ml-1.5 text-emerald-600 font-semibold">✓ auto-filled</span>}
-                </label>
-                <input
-                  type="text"
-                  value={county}
-                  onChange={(e) => setCounty(e.target.value)}
-                  placeholder="e.g. Surrey"
-                  className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressAutoFilled && county ? 'border-emerald-300 bg-emerald-50/50' : 'border-gray-200'}`}
-                />
-              </div>
-            </div>
+            {!isPickup && (
+              <>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Address Line 1 *</label>
+                  <input
+                    type="text"
+                    value={addressLine1}
+                    onChange={(e) => { setAddressLine1(e.target.value); if (addressLine1Error) setAddressLine1Error(null) }}
+                    onBlur={() => {
+                      if (!addressLine1.trim()) setAddressLine1Error('Address is required')
+                      else setAddressLine1Error(null)
+                    }}
+                    placeholder="e.g. 12 High Street"
+                    className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressLine1Error ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  />
+                  {addressLine1Error && (
+                    <p className="flex items-center gap-1.5 text-xs text-red-600 mt-1.5">
+                      <AlertCircle size={12} />
+                      {addressLine1Error}
+                    </p>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1">
+                      City / Town
+                      {addressAutoFilled && city && <span className="ml-1.5 text-emerald-600 font-semibold">✓ auto-filled</span>}
+                    </label>
+                    <input
+                      type="text"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder="e.g. Reigate"
+                      className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressAutoFilled && city ? 'border-emerald-300 bg-emerald-50/50' : 'border-gray-200'}`}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1">
+                      County
+                      {addressAutoFilled && county && <span className="ml-1.5 text-emerald-600 font-semibold">✓ auto-filled</span>}
+                    </label>
+                    <input
+                      type="text"
+                      value={county}
+                      onChange={(e) => setCounty(e.target.value)}
+                      placeholder="e.g. Surrey"
+                      className={`w-full border rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red ${addressAutoFilled && county ? 'border-emerald-300 bg-emerald-50/50' : 'border-gray-200'}`}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
             <div>
               <label className="block text-xs font-semibold text-gray-500 mb-1">Order Notes</label>
               <textarea
@@ -565,9 +585,11 @@ export default function CheckoutPage() {
             </div>
           )}
           <div className="flex justify-between text-sm text-gray-600">
-            <span>Delivery</span>
+            <span>{isPickup ? 'Collection' : 'Delivery'}</span>
             <span className="flex items-center gap-1.5">
-              {zone ? (
+              {isPickup ? (
+                <span className="font-bold text-green-600">FREE</span>
+              ) : zone ? (
                 freeDeliveryApplied ? (
                   <>
                     <span className="line-through text-gray-400">£{baseDeliveryFee.toFixed(2)}</span>
@@ -579,7 +601,7 @@ export default function CheckoutPage() {
           </div>
           <div className="flex justify-between font-bold text-gray-900 text-base pt-2 border-t border-gray-100">
             <span>Total</span>
-            <span>{zone ? `£${total.toFixed(2)}` : '—'}</span>
+            <span>{(isPickup || zone) ? `£${total.toFixed(2)}` : '—'}</span>
           </div>
         </div>
 
@@ -617,7 +639,10 @@ export default function CheckoutPage() {
           </div>
           <div>
             <p className={`text-sm font-medium leading-snug ${confirmDetailsError ? 'text-red-700' : 'text-gray-800'}`}>
-              I confirm my delivery address and phone number are 100% correct. I understand the restaurant is not liable for delayed or failed deliveries due to incorrect details.
+              {isPickup
+                ? 'I confirm my name and phone number are correct so we can notify you when your order is ready.'
+                : 'I confirm my delivery address and phone number are 100% correct. I understand the restaurant is not liable for delayed or failed deliveries due to incorrect details.'
+              }
             </p>
             {confirmDetailsError && (
               <p className="flex items-center gap-1.5 text-xs text-red-600 mt-1.5">
@@ -638,12 +663,12 @@ export default function CheckoutPage() {
 
         <button
           onClick={handlePay}
-          disabled={!zone || submitting || cartItems.length === 0}
+          disabled={(!isPickup && !zone) || submitting || cartItems.length === 0}
           className="w-full bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-lg shadow-red-500/20"
         >
           {submitting
             ? <><Loader2 size={16} className="animate-spin" /> Processing…</>
-            : <><span>Pay {zone ? `£${total.toFixed(2)}` : ''}</span><ChevronRight size={16} /></>
+            : <><span>Pay £{total.toFixed(2)}</span><ChevronRight size={16} /></>
           }
         </button>
       </div>
