@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { Tag, Plus, X, Loader2, Check, Pencil, Trash2 } from 'lucide-react'
+import { Tag, Plus, X, Loader2, Check, Pencil, Trash2, Search, SlidersHorizontal } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 import { AdminDataTable, type Column } from '@/components/AdminDataTable'
 
@@ -21,8 +20,19 @@ interface Promotion {
 }
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
+type TypeFilter = 'ALL' | 'VOUCHER' | 'REWARD' | 'AUTO_APPLY'
+type StatusFilter = 'ALL' | 'ACTIVE' | 'SCHEDULED' | 'EXPIRED'
 
 const inputCls = 'bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red'
+
+function getPromoStatus(p: Promotion): 'ACTIVE' | 'SCHEDULED' | 'EXPIRED' {
+  const now = new Date()
+  const end = p.end_date ? new Date(p.end_date) : null
+  const start = p.start_date ? new Date(p.start_date) : null
+  if (end && now > end) return 'EXPIRED'
+  if (start && now < start) return 'SCHEDULED'
+  return 'ACTIVE'
+}
 
 function PromoModal({ editing, onClose, onSave }: {
   editing: Promotion | null
@@ -239,9 +249,6 @@ function DeleteConfirm({ promo, onClose, onConfirm }: { promo: Promotion; onClos
 }
 
 export default function PromotionsPage() {
-  const searchParams = useSearchParams()
-  const q = searchParams.get('q') ?? ''
-
   const [promos, setPromos]             = useState<Promotion[]>([])
   const [loading, setLoading]           = useState(true)
   const [showModal, setShowModal]       = useState(false)
@@ -249,16 +256,43 @@ export default function PromotionsPage() {
   const [deleteTarget, setDeleteTarget] = useState<Promotion | null>(null)
   const [toggleStates, setToggleStates] = useState<Record<string, SaveState>>({})
 
-  async function fetchPromos(query: string) {
+  // Filter state
+  const [searchText, setSearchText]     = useState('')
+  const [typeFilter, setTypeFilter]     = useState<TypeFilter>('ALL')
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL')
+
+  async function fetchPromos() {
     setLoading(true)
-    const sp = new URLSearchParams()
-    if (query) sp.set('q', query)
-    const r = await fetch(`/api/admin/promotions?${sp}`)
+    const r = await fetch('/api/admin/promotions')
     if (r.ok) setPromos(await r.json())
     setLoading(false)
   }
 
-  useEffect(() => { fetchPromos(q) }, [q])
+  useEffect(() => { fetchPromos() }, [])
+
+  // Client-side filtering
+  const filteredPromos = promos.filter((p) => {
+    if (searchText) {
+      const q = searchText.toLowerCase()
+      if (!(p.code ?? '').toLowerCase().includes(q)) return false
+    }
+    if (typeFilter !== 'ALL' && p.promo_type !== typeFilter) return false
+    if (statusFilter !== 'ALL') {
+      const dateStatus = getPromoStatus(p)
+      if (statusFilter === 'ACTIVE' && !(dateStatus === 'ACTIVE' && p.is_active)) return false
+      if (statusFilter === 'SCHEDULED' && dateStatus !== 'SCHEDULED') return false
+      if (statusFilter === 'EXPIRED' && dateStatus !== 'EXPIRED') return false
+    }
+    return true
+  })
+
+  const hasActiveFilters = searchText !== '' || typeFilter !== 'ALL' || statusFilter !== 'ALL'
+
+  function clearFilters() {
+    setSearchText('')
+    setTypeFilter('ALL')
+    setStatusFilter('ALL')
+  }
 
   function openAdd()              { setEditing(null); setShowModal(true) }
   function openEdit(p: Promotion) { setEditing(p); setShowModal(true) }
@@ -377,7 +411,8 @@ export default function PromotionsPage() {
       render: (p) => (
         <div className="flex items-center gap-2">
           <button onClick={() => handleToggle(p)} role="switch" aria-checked={p.is_active}
-            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors focus:outline-none ${p.is_active ? 'bg-emerald-500' : 'bg-zinc-700'}`}>
+            disabled={toggleStates[p.id] === 'saving'}
+            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors focus:outline-none disabled:opacity-60 disabled:cursor-not-allowed ${p.is_active ? 'bg-emerald-500' : 'bg-zinc-700'}`}>
             <span className={`inline-block h-4 w-4 translate-y-0.5 rounded-full bg-white shadow transition-transform ${p.is_active ? 'translate-x-4' : 'translate-x-0.5'}`} />
           </button>
           {toggleStates[p.id] === 'saving' && <Loader2 className="w-3 h-3 text-zinc-500 animate-spin" />}
@@ -408,6 +443,37 @@ export default function PromotionsPage() {
     },
   ]
 
+  const headerSubtitle = loading
+    ? 'Loading…'
+    : hasActiveFilters
+      ? `${filteredPromos.length} of ${promos.length} promotion${promos.length !== 1 ? 's' : ''} · ${promos.filter((p) => p.is_active).length} active`
+      : `${promos.length} promotion${promos.length !== 1 ? 's' : ''} · ${promos.filter((p) => p.is_active).length} active`
+
+  const emptyNode = (
+    <div className="flex flex-col items-center justify-center gap-4">
+      <div className="opacity-30">
+        <Tag className="w-12 h-12 text-zinc-500" />
+      </div>
+      <div className="text-center space-y-1">
+        <p className="text-sm text-zinc-400">
+          {hasActiveFilters ? 'No promotions found matching your current filters' : 'No promotions yet'}
+        </p>
+        {hasActiveFilters && (
+          <p className="text-xs text-zinc-600">Try adjusting or clearing your search criteria</p>
+        )}
+      </div>
+      {hasActiveFilters && (
+        <button
+          onClick={clearFilters}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-zinc-700 text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+        >
+          <X className="w-3.5 h-3.5" />
+          Reset Search Criteria
+        </button>
+      )}
+    </div>
+  )
+
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex">
       <AdminSidebar />
@@ -416,9 +482,7 @@ export default function PromotionsPage() {
         <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <div>
             <h1 className="text-xl font-bold text-white">Promotions</h1>
-            <p className="text-sm text-zinc-500 mt-0.5">
-              {loading ? 'Loading…' : `${promos.length} code${promos.length !== 1 ? 's' : ''} · ${promos.filter((p) => p.is_active).length} active`}
-            </p>
+            <p className="text-sm text-zinc-500 mt-0.5">{headerSubtitle}</p>
           </div>
           <button onClick={openAdd}
             className="flex items-center gap-2 px-4 py-2 bg-brand-red rounded-lg text-sm font-semibold text-white hover:bg-red-600 transition-colors shadow-lg shadow-red-900/30">
@@ -426,14 +490,75 @@ export default function PromotionsPage() {
           </button>
         </header>
 
-        <div className="flex-1 px-8 py-6 overflow-auto">
+        <div className="flex-1 px-8 py-6 overflow-auto space-y-4">
+          {/* Filter Bar */}
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 text-zinc-500">
+              <SlidersHorizontal className="w-4 h-4 shrink-0" />
+            </div>
+
+            {/* Text Search */}
+            <div className="relative min-w-[220px] flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
+              <input
+                type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder="Search by code or name…"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-9 pr-8 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red"
+              />
+              {searchText && (
+                <button
+                  onClick={() => setSearchText('')}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            {/* Type Filter */}
+            <select
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value as TypeFilter)}
+              className={`min-w-[150px] ${inputCls}`}
+            >
+              <option value="ALL">All Types</option>
+              <option value="VOUCHER">🏷 Vouchers</option>
+              <option value="REWARD">🎁 Points Rewards</option>
+              <option value="AUTO_APPLY">⚡ Flash Sales</option>
+            </select>
+
+            {/* Status Filter */}
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+              className={`min-w-[150px] ${inputCls}`}
+            >
+              <option value="ALL">All Statuses</option>
+              <option value="ACTIVE">Active Now</option>
+              <option value="SCHEDULED">Scheduled</option>
+              <option value="EXPIRED">Expired</option>
+            </select>
+
+            {/* Clear Filters — visible only when any filter active */}
+            {hasActiveFilters && (
+              <button
+                onClick={clearFilters}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-zinc-700 text-xs font-medium text-zinc-400 hover:text-white hover:border-zinc-600 hover:bg-zinc-800 transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+                Clear Filters
+              </button>
+            )}
+          </div>
+
           <AdminDataTable
             columns={columns}
-            data={promos}
+            data={filteredPromos}
             loading={loading}
-            searchPlaceholder="Search by promo code…"
-            emptyIcon={<Tag className="w-12 h-12" />}
-            emptyText={q ? 'No promotions match your search' : 'No promotions yet'}
+            hideSearch
+            emptyNode={emptyNode}
             keyExtractor={(p) => p.id}
           />
         </div>

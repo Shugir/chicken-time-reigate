@@ -28,6 +28,8 @@ interface Props<T> {
   pageSize?: number
   emptyText?: string
   emptyIcon?: React.ReactNode
+  emptyNode?: React.ReactNode
+  hideSearch?: boolean
   keyExtractor: (row: T) => string
 }
 
@@ -43,6 +45,8 @@ export function AdminDataTable<T>({
   pageSize = DEFAULT_PAGE_SIZE,
   emptyText = 'No results',
   emptyIcon,
+  emptyNode,
+  hideSearch = false,
   keyExtractor,
 }: Props<T>) {
   const searchParams = useSearchParams()
@@ -80,49 +84,51 @@ export function AdminDataTable<T>({
   return (
     <div className="space-y-4">
       {/* Search + filter bar */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder={searchPlaceholder}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red"
-          />
-        </div>
+      {!hideSearch && (
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative flex-1 min-w-[200px] max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              placeholder={searchPlaceholder}
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red"
+            />
+          </div>
 
-        {filters.map((filter) => {
-          const active = searchParams.get(filter.paramKey) ?? ''
-          return (
-            <div key={filter.paramKey} className="flex items-center gap-1.5 flex-wrap">
-              <button
-                onClick={() => updateParam(filter.paramKey, '')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                  !active
-                    ? 'bg-brand-red text-white'
-                    : 'bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700'
-                }`}
-              >
-                {filter.allLabel ?? 'All'}
-              </button>
-              {filter.options.map((opt) => (
+          {filters.map((filter) => {
+            const active = searchParams.get(filter.paramKey) ?? ''
+            return (
+              <div key={filter.paramKey} className="flex items-center gap-1.5 flex-wrap">
                 <button
-                  key={opt.value}
-                  onClick={() => updateParam(filter.paramKey, opt.value)}
+                  onClick={() => updateParam(filter.paramKey, '')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                    active === opt.value
+                    !active
                       ? 'bg-brand-red text-white'
                       : 'bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700'
                   }`}
                 >
-                  {opt.label}
+                  {filter.allLabel ?? 'All'}
                 </button>
-              ))}
-            </div>
-          )
-        })}
-      </div>
+                {filter.options.map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => updateParam(filter.paramKey, opt.value)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                      active === opt.value
+                        ? 'bg-brand-red text-white'
+                        : 'bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700'
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )
+          })}
+        </div>
+      )}
 
       {/* Table */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
@@ -138,8 +144,12 @@ export function AdminDataTable<T>({
           </div>
         ) : pageData.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-zinc-600 gap-3">
-            {emptyIcon && <div className="opacity-40">{emptyIcon}</div>}
-            <p className="text-sm">{emptyText}</p>
+            {emptyNode ?? (
+              <>
+                {emptyIcon && <div className="opacity-40">{emptyIcon}</div>}
+                <p className="text-sm">{emptyText}</p>
+              </>
+            )}
           </div>
         ) : (
           <div className="overflow-x-auto">
