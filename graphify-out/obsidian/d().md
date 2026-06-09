@@ -13,7 +13,7 @@ tags:
 
 ## Connections
 - [[format-date.ts]] - `contains` [EXTRACTED]
-- [[formatDate()]] - `calls` [EXTRACTED]
+- [[formatDate()_1]] - `calls` [EXTRACTED]
 - [[formatDateClockLabel()]] - `calls` [EXTRACTED]
 - [[formatDateHeader()]] - `calls` [EXTRACTED]
 - [[formatDateMedium()]] - `calls` [EXTRACTED]

@@ -12,8 +12,8 @@ tags:
 # timeAgo()
 
 ## Connections
-- [[OrderCard()]] - `calls` [EXTRACTED]
+- [[OrderCard()_1]] - `calls` [EXTRACTED]
 - [[ReturnedCard()]] - `calls` [EXTRACTED]
-- [[page.tsx]] - `contains` [EXTRACTED]
+- [[page.tsx_10]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

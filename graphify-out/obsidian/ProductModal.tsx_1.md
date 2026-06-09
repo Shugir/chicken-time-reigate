@@ -22,6 +22,6 @@ tags:
 - [[ProductModal()]] - `contains` [EXTRACTED]
 - [[ProductModalProps]] - `contains` [EXTRACTED]
 - [[Toggle()]] - `contains` [EXTRACTED]
-- [[page.tsx_35]] - `imports_from` [EXTRACTED]
+- [[page.tsx_36]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

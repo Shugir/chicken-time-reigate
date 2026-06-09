@@ -12,7 +12,7 @@ tags:
 # Step
 
 ## Connections
-- [[page.tsx_25]] - `contains` [EXTRACTED]
-- [[page.tsx_35]] - `contains` [EXTRACTED]
+- [[page.tsx_26]] - `contains` [EXTRACTED]
+- [[page.tsx_36]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

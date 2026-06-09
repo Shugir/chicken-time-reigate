@@ -2,7 +2,7 @@
 source_file: "app/admin/promotions/page.tsx"
 type: "code"
 community: "Community None"
-location: "L136"
+location: "L241"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -13,6 +13,6 @@ tags:
 
 ## Connections
 - [[page.tsx_14]] - `contains` [EXTRACTED]
-- [[page.tsx_49]] - `contains` [EXTRACTED]
+- [[page.tsx_50]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

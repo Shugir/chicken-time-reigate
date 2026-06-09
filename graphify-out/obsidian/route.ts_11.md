@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/drivers/route.ts"
+source_file: "app/api/admin/dispatch/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -13,8 +13,12 @@ tags:
 
 ## Connections
 - [[GET()_7]] - `contains` [EXTRACTED]
-- [[POST()_4]] - `contains` [EXTRACTED]
+- [[PATCH()_1]] - `contains` [EXTRACTED]
+- [[buildDispatchActionUpdate()]] - `imports` [EXTRACTED]
+- [[getAdminUser()]] - `contains` [EXTRACTED]
+- [[order-status.ts]] - `imports_from` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
+- [[syncDriverStatus()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

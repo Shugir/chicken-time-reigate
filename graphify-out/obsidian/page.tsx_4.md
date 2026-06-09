@@ -1,5 +1,5 @@
 ---
-source_file: "app/account/page.tsx"
+source_file: "app/admin/page.tsx"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,21 +12,31 @@ tags:
 # page.tsx
 
 ## Connections
-- [[AccountPage()]] - `contains` [EXTRACTED]
-- [[OfferCard()]] - `contains` [EXTRACTED]
-- [[Order_1]] - `contains` [EXTRACTED]
-- [[OrderCard()_1]] - `contains` [EXTRACTED]
-- [[OrderItem_1]] - `contains` [EXTRACTED]
-- [[Profile]] - `contains` [EXTRACTED]
-- [[PromoCode]] - `contains` [EXTRACTED]
-- [[TIMELINE]] - `contains` [EXTRACTED]
-- [[Tab]] - `contains` [EXTRACTED]
-- [[fmtDate()_1]] - `contains` [EXTRACTED]
-- [[format-date.ts]] - `imports_from` [EXTRACTED]
-- [[formatDateTime()]] - `imports` [EXTRACTED]
-- [[statusColor()]] - `contains` [EXTRACTED]
-- [[statusLabel()]] - `contains` [EXTRACTED]
-- [[supabase_2]] - `contains` [EXTRACTED]
-- [[trackingStep()]] - `contains` [EXTRACTED]
+- [[AdminPage()]] - `contains` [EXTRACTED]
+- [[AvailabilityToggle()]] - `contains` [EXTRACTED]
+- [[CATEGORIES]] - `contains` [EXTRACTED]
+- [[CATEGORY_COLOURS]] - `contains` [EXTRACTED]
+- [[CATEGORY_LABELS]] - `contains` [EXTRACTED]
+- [[COLOUR_PALETTE]] - `contains` [EXTRACTED]
+- [[COMMON_ALLERGENS]] - `contains` [EXTRACTED]
+- [[Category_1]] - `contains` [EXTRACTED]
+- [[DIETARY_FLAGS]] - `contains` [EXTRACTED]
+- [[DbCategory]] - `contains` [EXTRACTED]
+- [[DeleteConfirmModal()]] - `contains` [EXTRACTED]
+- [[EMPTY_FORM]] - `contains` [EXTRACTED]
+- [[Extra]] - `contains` [EXTRACTED]
+- [[ExtraNameInput()]] - `contains` [EXTRACTED]
+- [[ItemModal()]] - `contains` [EXTRACTED]
+- [[ItemModalProps]] - `contains` [EXTRACTED]
+- [[MenuItem]] - `contains` [EXTRACTED]
+- [[NAV_3]] - `contains` [EXTRACTED]
+- [[NavItem]] - `contains` [EXTRACTED]
+- [[PriceCell()]] - `contains` [EXTRACTED]
+- [[QuickStats]] - `contains` [EXTRACTED]
+- [[SaveState]] - `contains` [EXTRACTED]
+- [[TagAutocomplete()]] - `contains` [EXTRACTED]
+- [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
+- [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
+- [[supabase_10]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

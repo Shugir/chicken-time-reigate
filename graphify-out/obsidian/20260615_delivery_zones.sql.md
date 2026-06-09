@@ -11,6 +11,6 @@ tags:
 # 20260615_delivery_zones.sql
 
 ## Connections
-- [[delivery_zones]] - `contains` [EXTRACTED]
+- [[delivery_zones_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

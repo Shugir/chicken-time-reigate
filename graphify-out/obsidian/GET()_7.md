@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/drivers/route.ts"
+source_file: "app/api/admin/dispatch/route.ts"
 type: "code"
 community: "Community None"
-location: "L6"
+location: "L34"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,9 +12,7 @@ tags:
 # GET()
 
 ## Connections
+- [[getAdminUser()]] - `calls` [EXTRACTED]
 - [[route.ts_11]] - `contains` [EXTRACTED]
-- [[route.ts_33]] - `contains` [EXTRACTED]
-- [[route.ts_57]] - `contains` [EXTRACTED]
-- [[route.ts_63]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

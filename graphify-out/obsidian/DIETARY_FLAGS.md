@@ -12,8 +12,8 @@ tags:
 # DIETARY_FLAGS
 
 ## Connections
-- [[page.tsx_5]] - `contains` [EXTRACTED]
-- [[page.tsx_35]] - `contains` [EXTRACTED]
+- [[page.tsx_4]] - `contains` [EXTRACTED]
 - [[page.tsx_36]] - `contains` [EXTRACTED]
+- [[page.tsx_37]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

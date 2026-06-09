@@ -804,20 +804,6 @@
         "a": 1,
         "rgb": 5873999
       }
-    },
-    {
-      "query": "tag:#community/Community_115",
-      "color": {
-        "a": 1,
-        "rgb": 15583560
-      }
-    },
-    {
-      "query": "tag:#community/Community_116",
-      "color": {
-        "a": 1,
-        "rgb": 11565729
-      }
     }
   ]
 }

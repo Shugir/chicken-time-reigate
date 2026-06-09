@@ -20,7 +20,7 @@ tags:
 - [[ReceiptsCards.tsx]] - `imports_from` [EXTRACTED]
 - [[ReceiptsTable.tsx]] - `imports_from` [EXTRACTED]
 - [[page.tsx_15]] - `imports_from` [EXTRACTED]
-- [[route.ts_22]] - `imports_from` [EXTRACTED]
+- [[route.ts_23]] - `imports_from` [EXTRACTED]
 - [[utils.ts]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

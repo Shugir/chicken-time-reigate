@@ -1,8 +1,8 @@
 ---
-source_file: "lib/utils/format-date.ts"
+source_file: "app/account/rewards/page.tsx"
 type: "code"
 community: "Community None"
-location: "L8"
+location: "L55"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,9 +12,7 @@ tags:
 # formatDate()
 
 ## Connections
-- [[d()]] - `calls` [EXTRACTED]
-- [[format-date.ts]] - `contains` [EXTRACTED]
-- [[formatDateTime()]] - `calls` [EXTRACTED]
-- [[page.tsx_12]] - `imports` [EXTRACTED]
+- [[RewardCard()]] - `calls` [EXTRACTED]
+- [[page.tsx_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -21,7 +21,7 @@ tags:
 - [[fmtDate()]] - `contains` [EXTRACTED]
 - [[fmtGbp()_2]] - `contains` [EXTRACTED]
 - [[format-date.ts]] - `imports_from` [EXTRACTED]
-- [[formatDate()]] - `imports` [EXTRACTED]
+- [[formatDate()_1]] - `imports` [EXTRACTED]
 - [[toDateStr()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

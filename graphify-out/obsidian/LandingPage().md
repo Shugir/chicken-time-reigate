@@ -12,6 +12,6 @@ tags:
 # LandingPage()
 
 ## Connections
-- [[page.tsx_2]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

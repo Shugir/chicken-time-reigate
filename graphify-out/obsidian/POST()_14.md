@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/webhook/route.ts"
+source_file: "app/api/rewards/unlock/route.ts"
 type: "code"
 community: "Community None"
-location: "L12"
+location: "L5"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,6 @@ tags:
 # POST()
 
 ## Connections
-- [[route.ts_46]] - `contains` [EXTRACTED]
-- [[route.ts_49]] - `contains` [EXTRACTED]
+- [[route.ts_47]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

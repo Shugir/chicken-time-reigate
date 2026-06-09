@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/admin/menu/suggestions/route.ts"
+source_file: "app/api/admin/loyalty/route.ts"
 type: "code"
 community: "Community None"
 location: "L6"
@@ -13,6 +13,5 @@ tags:
 
 ## Connections
 - [[route.ts_15]] - `contains` [EXTRACTED]
-- [[route.ts_66]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

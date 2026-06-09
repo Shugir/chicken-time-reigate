@@ -1,5 +1,5 @@
 ---
-source_file: "app/auth/callback/route.ts"
+source_file: "app/api/rewards/unlock/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,7 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_23]] - `contains` [EXTRACTED]
+- [[POST()_14]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

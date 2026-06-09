@@ -14,8 +14,8 @@ tags:
 ## Connections
 - [[ProductModal.tsx]] - `contains` [EXTRACTED]
 - [[ProductModal.tsx_1]] - `contains` [EXTRACTED]
-- [[page.tsx_26]] - `imports` [EXTRACTED]
-- [[page.tsx_35]] - `imports` [EXTRACTED]
-- [[page.tsx_46]] - `imports` [EXTRACTED]
+- [[page.tsx_27]] - `imports` [EXTRACTED]
+- [[page.tsx_36]] - `imports` [EXTRACTED]
+- [[page.tsx_47]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

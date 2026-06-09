@@ -13,8 +13,8 @@ tags:
 
 ## Connections
 - [[generateReceiptBuffer()]] - `calls` [EXTRACTED]
-- [[route.ts_19]] - `contains` [EXTRACTED]
-- [[route.ts_49]] - `contains` [EXTRACTED]
+- [[route.ts_20]] - `contains` [EXTRACTED]
+- [[route.ts_53]] - `contains` [EXTRACTED]
 - [[sendToPrinter()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

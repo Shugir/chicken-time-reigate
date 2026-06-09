@@ -1,5 +1,5 @@
 ---
-source_file: "app/api/kitchen/orders/[id]/route.ts"
+source_file: "app/api/kitchen/delivery/[id]/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,9 +12,9 @@ tags:
 # route.ts
 
 ## Connections
-- [[PATCH()_1]] - `contains` [EXTRACTED]
-- [[email.ts]] - `imports_from` [EXTRACTED]
-- [[sendOrderStatusEmail()]] - `imports` [EXTRACTED]
+- [[PATCH()]] - `contains` [EXTRACTED]
+- [[buildKitchenDeliveryUpdate()]] - `imports` [EXTRACTED]
+- [[order-status.ts]] - `imports_from` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

@@ -12,7 +12,7 @@ tags:
 # getAuthedUser()
 
 ## Connections
-- [[GET()_13]] - `calls` [EXTRACTED]
-- [[route.ts_49]] - `contains` [EXTRACTED]
+- [[GET()_14]] - `calls` [EXTRACTED]
+- [[route.ts_53]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

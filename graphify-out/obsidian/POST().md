@@ -12,6 +12,6 @@ tags:
 # POST()
 
 ## Connections
-- [[route.ts_1]] - `contains` [EXTRACTED]
+- [[route.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

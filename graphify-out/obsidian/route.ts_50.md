@@ -1,5 +1,5 @@
 ---
-source_file: "api/admin/receipts/route.ts"
+source_file: "app/api/webhook/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,13 +12,9 @@ tags:
 # route.ts
 
 ## Connections
-- [[AdminReceiptOrder]] - `imports` [EXTRACTED]
-- [[GET()_13]] - `contains` [EXTRACTED]
-- [[buildQuery()]] - `contains` [EXTRACTED]
-- [[getUserPermissions]] - `imports` [EXTRACTED]
-- [[hasPermission()]] - `imports` [EXTRACTED]
-- [[normalise()]] - `contains` [EXTRACTED]
+- [[POST()_15]] - `contains` [EXTRACTED]
+- [[stripe_2]] - `contains` [EXTRACTED]
+- [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
-- [[toCsv()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

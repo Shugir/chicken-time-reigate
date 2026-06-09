@@ -15,7 +15,7 @@ tags:
 - [[ReceiptsPage()]] - `calls` [EXTRACTED]
 - [[localDate()]] - `calls` [EXTRACTED]
 - [[page.tsx_15]] - `contains` [EXTRACTED]
-- [[page.tsx_33]] - `contains` [EXTRACTED]
-- [[page.tsx_35]] - `contains` [EXTRACTED]
+- [[page.tsx_34]] - `contains` [EXTRACTED]
+- [[page.tsx_36]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
