@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/admin/dashboard/route.ts"
+source_file: "app/api/menu/combo-discounts/route.ts"
 type: "code"
 community: "Community None"
-location: "L6"
+location: "L4"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,9 @@ tags:
 # GET()
 
 ## Connections
-- [[route.ts_7]] - `contains` [EXTRACTED]
-- [[route.ts_68]] - `contains` [EXTRACTED]
+- [[route.ts_6]] - `contains` [EXTRACTED]
+- [[route.ts_39]] - `contains` [EXTRACTED]
+- [[route.ts_49]] - `contains` [EXTRACTED]
+- [[route.ts_53]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

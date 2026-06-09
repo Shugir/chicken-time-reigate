@@ -12,8 +12,8 @@ tags:
 # DELETE()
 
 ## Connections
-- [[route.ts_4]] - `contains` [EXTRACTED]
-- [[route.ts_9]] - `contains` [EXTRACTED]
+- [[route.ts_5]] - `contains` [EXTRACTED]
+- [[route.ts_10]] - `contains` [EXTRACTED]
 - [[route.ts_12]] - `contains` [EXTRACTED]
 - [[route.ts_18]] - `contains` [EXTRACTED]
 - [[route.ts_21]] - `contains` [EXTRACTED]

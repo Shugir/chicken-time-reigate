@@ -1,8 +1,8 @@
 ---
-source_file: "app/admin/dispatch/page.tsx"
+source_file: "app/account/page.tsx"
 type: "code"
 community: "Community None"
-location: "L76"
+location: "L153"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,8 +12,12 @@ tags:
 # OrderCard()
 
 ## Connections
-- [[OrderUrgency]] - `calls` [EXTRACTED]
-- [[page.tsx_9]] - `contains` [EXTRACTED]
-- [[timeAgo()]] - `calls` [EXTRACTED]
+- [[fmtDate()_1]] - `calls` [EXTRACTED]
+- [[formatDateTime()]] - `calls` [EXTRACTED]
+- [[page.tsx_4]] - `contains` [EXTRACTED]
+- [[page.tsx_44]] - `contains` [EXTRACTED]
+- [[statusColor()]] - `calls` [EXTRACTED]
+- [[statusLabel()]] - `calls` [EXTRACTED]
+- [[trackingStep()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

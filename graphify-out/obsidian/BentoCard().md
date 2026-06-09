@@ -12,6 +12,6 @@ tags:
 # BentoCard()
 
 ## Connections
-- [[page.tsx_7]] - `contains` [EXTRACTED]
+- [[page.tsx_9]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

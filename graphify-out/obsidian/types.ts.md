@@ -19,7 +19,7 @@ tags:
 - [[ReceiptsApiResponse]] - `contains` [EXTRACTED]
 - [[ReceiptsCards.tsx]] - `imports_from` [EXTRACTED]
 - [[ReceiptsTable.tsx]] - `imports_from` [EXTRACTED]
-- [[page.tsx_14]] - `imports_from` [EXTRACTED]
+- [[page.tsx_15]] - `imports_from` [EXTRACTED]
 - [[route.ts_22]] - `imports_from` [EXTRACTED]
 - [[utils.ts]] - `imports_from` [EXTRACTED]
 

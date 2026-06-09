@@ -15,7 +15,7 @@ tags:
 - [[ReceiptDrawer.tsx]] - `contains` [EXTRACTED]
 - [[ReceiptDrawer.tsx_1]] - `contains` [EXTRACTED]
 - [[formatDateMedium()]] - `calls` [EXTRACTED]
-- [[page.tsx_14]] - `imports` [EXTRACTED]
+- [[page.tsx_15]] - `imports` [EXTRACTED]
 - [[page.tsx_33]] - `imports` [EXTRACTED]
 - [[page.tsx_35]] - `imports` [EXTRACTED]
 

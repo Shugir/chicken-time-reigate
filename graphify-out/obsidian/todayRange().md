@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[ReceiptsPage()]] - `calls` [EXTRACTED]
 - [[localDate()]] - `calls` [EXTRACTED]
-- [[page.tsx_14]] - `contains` [EXTRACTED]
+- [[page.tsx_15]] - `contains` [EXTRACTED]
 - [[page.tsx_33]] - `contains` [EXTRACTED]
 - [[page.tsx_35]] - `contains` [EXTRACTED]
 

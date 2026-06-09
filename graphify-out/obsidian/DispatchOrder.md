@@ -2,7 +2,7 @@
 source_file: "app/admin/dispatch/page.tsx"
 type: "code"
 community: "Community None"
-location: "L36"
+location: "L37"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,6 @@ tags:
 # DispatchOrder
 
 ## Connections
-- [[page.tsx_9]] - `contains` [EXTRACTED]
+- [[page.tsx]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

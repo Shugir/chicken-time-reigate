@@ -1,8 +1,8 @@
 ---
-source_file: "app/api/admin/dispatch/route.ts"
+source_file: "app/api/delivery-zones/route.ts"
 type: "code"
 community: "Community None"
-location: "L34"
+location: "L6"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,7 @@ tags:
 # GET()
 
 ## Connections
-- [[getAdminUser()]] - `calls` [EXTRACTED]
-- [[route.ts_10]] - `contains` [EXTRACTED]
+- [[route.ts_9]] - `contains` [EXTRACTED]
+- [[route.ts_30]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
