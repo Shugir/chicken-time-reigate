@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-06-09)
 
 ## Corpus Check
-- 186 files · ~1,824,652 words
+- 186 files · ~1,824,688 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1178 nodes · 1944 edges · 118 communities (58 shown, 60 thin omitted)
+- 1178 nodes · 1944 edges · 117 communities (57 shown, 60 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 54 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `da11e312`
+- Built from commit: `18491902`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -115,10 +115,10 @@
 - [[_COMMUNITY_Community 109|Community 109]]
 - [[_COMMUNITY_Community 110|Community 110]]
 - [[_COMMUNITY_Community 111|Community 111]]
+- [[_COMMUNITY_Community 112|Community 112]]
 - [[_COMMUNITY_Community 113|Community 113]]
 - [[_COMMUNITY_Community 114|Community 114]]
 - [[_COMMUNITY_Community 115|Community 115]]
-- [[_COMMUNITY_Community 116|Community 116]]
 - [[_COMMUNITY_Community 117|Community 117]]
 
 ## God Nodes (most connected - your core abstractions)
@@ -150,7 +150,7 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (118 total, 60 thin omitted)
+## Communities (117 total, 60 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.07
@@ -285,8 +285,8 @@ Cohesion: 0.47
 Nodes (4): CartItem, CheckoutPage(), DeliveryZone, supabase
 
 ### Community 84 - "Community 84"
-Cohesion: 0.18
-Nodes (5): GET(), DELETE(), PATCH(), supabaseAdmin, GET()
+Cohesion: 0.15
+Nodes (6): GET(), GET(), DELETE(), PATCH(), supabaseAdmin, GET()
 
 ### Community 85 - "Community 85"
 Cohesion: 0.6
@@ -350,12 +350,12 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
-- **Why does `supabaseAdmin` connect `Community 84` to `Community 0`, `Community 97`, `Community 3`, `Community 100`, `Community 101`, `Community 68`, `Community 70`, `Community 73`, `Community 107`, `Community 12`, `Community 77`, `Community 112`, `Community 80`, `Community 113`, `Community 116`, `Community 89`, `Community 93`, `Community 94`?**
-  _High betweenness centrality (0.091) - this node is a cross-community bridge._
 - **Why does `AdminReceiptOrder` connect `Community 75` to `Community 0`, `Community 1`, `Community 12`?**
-  _High betweenness centrality (0.083) - this node is a cross-community bridge._
+  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+- **Why does `supabaseAdmin` connect `Community 84` to `Community 0`, `Community 97`, `Community 3`, `Community 100`, `Community 68`, `Community 101`, `Community 70`, `Community 73`, `Community 107`, `Community 12`, `Community 77`, `Community 80`, `Community 112`, `Community 113`, `Community 89`, `Community 93`, `Community 94`?**
+  _High betweenness centrality (0.085) - this node is a cross-community bridge._
 - **Why does `Supabase Admin Client` connect `Community 76` to `Community 0`, `Community 5`, `Community 82`, `Community 117`, `Community 61`?**
-  _High betweenness centrality (0.063) - this node is a cross-community bridge._
+  _High betweenness centrality (0.062) - this node is a cross-community bridge._
 - **What connects `ReceiptItem`, `ReceiptOrder`, `supabase` to the rest of the system?**
   _369 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
