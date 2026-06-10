@@ -13,7 +13,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const { name, description, price, image_url, category, is_available, extras, removals, additions, dietary_flags, allergens } = await request.json()
+  const { name, description, price, image_url, category, is_available, sold_out_extras, extras, removals, additions, dietary_flags, allergens } = await request.json()
 
   if (!name || !price || !category) {
     return NextResponse.json({ error: 'name, price, and category are required' }, { status: 400 })
@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
     image_url: image_url ?? null,
     category,
     is_available: is_available ?? true,
+    sold_out_extras: sold_out_extras ?? [],
     extras: extras ?? [],
     removals: removals ?? [],
     additions: additions ?? [],

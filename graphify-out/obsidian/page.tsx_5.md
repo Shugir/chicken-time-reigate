@@ -20,7 +20,9 @@ tags:
 - [[DowPoint]] - `contains` [EXTRACTED]
 - [[HourlyPoint]] - `contains` [EXTRACTED]
 - [[PERIODS]] - `contains` [EXTRACTED]
+- [[PIE_COLORS]] - `contains` [EXTRACTED]
 - [[STATUS_COLOURS]] - `contains` [EXTRACTED]
+- [[SplitPoint]] - `contains` [EXTRACTED]
 - [[StatCard()]] - `contains` [EXTRACTED]
 - [[StatusRow]] - `contains` [EXTRACTED]
 - [[Summary]] - `contains` [EXTRACTED]
@@ -30,6 +32,7 @@ tags:
 - [[format-date.ts]] - `imports_from` [EXTRACTED]
 - [[formatDateHeader()]] - `imports` [EXTRACTED]
 - [[formatDateShort()]] - `imports` [EXTRACTED]
+- [[renderPieLabel()]] - `contains` [EXTRACTED]
 - [[shortDate()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

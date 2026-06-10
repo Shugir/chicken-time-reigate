@@ -14,6 +14,7 @@ tags:
 ## Connections
 - [[DOW_LABELS]] - `contains` [EXTRACTED]
 - [[GET()_1]] - `contains` [EXTRACTED]
+- [[getAnalyticsUser()]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

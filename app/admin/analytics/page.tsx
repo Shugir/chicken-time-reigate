@@ -2,32 +2,36 @@
 
 import { useState, useEffect } from 'react'
 import {
-  TrendingUp, ShoppingBag, BarChart3, Loader2, RefreshCw, Target,
+  TrendingUp, ShoppingBag, BarChart3, Loader2, RefreshCw, Truck,
 } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 import { formatDateShort, formatDateHeader } from '@/lib/utils/format-date'
 import {
   ResponsiveContainer, ComposedChart, Area,
   Bar, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Cell,
+  PieChart, Pie, Legend,
 } from 'recharts'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface Summary {
-  total_revenue:    number
-  total_orders:     number
-  avg_order_value:  number
-  completion_rate:  number
+  total_revenue:   number
+  total_orders:    number
+  avg_order_value: number
+  completion_rate: number
 }
-interface DailyPoint  { date: string; revenue: number; orders: number }
-interface TopItem      { name: string; revenue: number; quantity: number }
-interface StatusRow    { status: string; count: number; pct: number }
-interface DowPoint     { dow: number; label: string; revenue: number; orders: number }
-interface HourlyPoint  { hour: number; orders: number }
+interface DailyPoint    { date: string; revenue: number; orders: number }
+interface TopItem        { name: string; revenue: number; quantity: number }
+interface StatusRow      { status: string; count: number; pct: number }
+interface DowPoint       { dow: number; label: string; revenue: number; orders: number }
+interface HourlyPoint    { hour: number; orders: number }
+interface SplitPoint     { name: string; value: number; pct: number }
 
 interface AnalyticsData {
   period_days:      number
   summary:          Summary
+  order_type_split: SplitPoint[]
+  delivery_pct:     number
   daily:            DailyPoint[]
   top_items:        TopItem[]
   status_breakdown: StatusRow[]
@@ -38,10 +42,7 @@ interface AnalyticsData {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function fmtGbp(n: number) { return `£${n.toFixed(2)}` }
-
-function shortDate(iso: string) {
-  return formatDateShort(iso)
-}
+function shortDate(iso: string) { return formatDateShort(iso) }
 
 const CHART_THEME = {
   gridStroke:    '#27272a',
@@ -52,22 +53,18 @@ const CHART_THEME = {
   red:           '#ef4444',
   blue:          '#3b82f6',
   amber:         '#f59e0b',
+  emerald:       '#10b981',
+  violet:        '#8b5cf6',
 }
 
-const STATUS_COLOURS: Record<string, string> = {
-  pending:    'bg-zinc-600',
-  preparing:  'bg-amber-500',
-  ready:      'bg-blue-500',
-  dispatched: 'bg-violet-500',
-  delivered:  'bg-emerald-500',
-}
+const PIE_COLORS = [CHART_THEME.red, CHART_THEME.blue]
 
 // ─── Custom tooltip ───────────────────────────────────────────────────────────
 
 function ChartTooltip({ active, payload, label, fmtValue }: {
-  active?: boolean
-  payload?: { name: string; value: number; color: string }[]
-  label?: string
+  active?:   boolean
+  payload?:  { name: string; value: number; color: string }[]
+  label?:    string
   fmtValue?: (v: number, name: string) => string
 }) {
   if (!active || !payload?.length) return null
@@ -93,7 +90,7 @@ function StatCard({ label, value, sub, icon: Icon, color, loading }: {
   value:   string
   sub?:    string
   icon:    React.ElementType
-  color:   'emerald' | 'blue' | 'amber' | 'violet'
+  color:   'emerald' | 'blue' | 'amber' | 'violet' | 'red'
   loading: boolean
 }) {
   const p = {
@@ -101,6 +98,7 @@ function StatCard({ label, value, sub, icon: Icon, color, loading }: {
     blue:    { bg: 'bg-blue-500/10',    icon: 'text-blue-400',    border: 'border-blue-500/20'    },
     amber:   { bg: 'bg-amber-500/10',   icon: 'text-amber-400',   border: 'border-amber-500/20'   },
     violet:  { bg: 'bg-violet-500/10',  icon: 'text-violet-400',  border: 'border-violet-500/20'  },
+    red:     { bg: 'bg-red-500/10',     icon: 'text-red-400',     border: 'border-red-500/20'     },
   }[color]
 
   return (
@@ -121,41 +119,58 @@ function StatCard({ label, value, sub, icon: Icon, color, loading }: {
   )
 }
 
+// ─── Pie label ────────────────────────────────────────────────────────────────
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderPieLabel(props: any) {
+  const { cx, cy, midAngle, innerRadius, outerRadius, percent } = props
+  if (!percent || percent < 0.05) return null
+  const RADIAN = Math.PI / 180
+  const r = innerRadius + (outerRadius - innerRadius) * 0.55
+  const x = cx + r * Math.cos(-midAngle * RADIAN)
+  const y = cy + r * Math.sin(-midAngle * RADIAN)
+  return (
+    <text x={x} y={y} fill="#fff" textAnchor="middle" dominantBaseline="central" fontSize={12} fontWeight={700}>
+      {`${Math.round(percent * 100)}%`}
+    </text>
+  )
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 const PERIODS = [
-  { label: '7d',  days: 7  },
-  { label: '30d', days: 30 },
-  { label: '90d', days: 90 },
+  { label: 'Today', days: 'today' },
+  { label: '7d',    days: '7'     },
+  { label: '30d',   days: '30'    },
+  { label: '90d',   days: '90'    },
 ]
 
 export default function AnalyticsPage() {
-  const [data, setData]       = useState<AnalyticsData | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [data, setData]             = useState<AnalyticsData | null>(null)
+  const [loading, setLoading]       = useState(true)
   const [refreshing, setRefreshing] = useState(false)
-  const [days, setDays]       = useState(30)
-  const [mounted, setMounted] = useState(false)
+  const [period, setPeriod]         = useState('30')
+  const [mounted, setMounted]       = useState(false)
 
   useEffect(() => { setMounted(true) }, [])
 
-  async function fetchData(d = days, showRefresh = false) {
+  async function fetchData(p = period, showRefresh = false) {
     if (showRefresh) setRefreshing(true)
     else setLoading(true)
     try {
-      const res = await fetch(`/api/admin/analytics?days=${d}`)
+      const res = await fetch(`/api/admin/analytics?days=${p}`)
       if (res.ok) setData(await res.json())
     } finally {
-      setLoading(false)
-      setRefreshing(false)
+      if (showRefresh) setRefreshing(false)
+      else setLoading(false)
     }
   }
 
-  useEffect(() => { fetchData(days) }, [days]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { fetchData(period) }, [period]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const today = formatDateHeader(new Date())
-
-  const maxTopRevenue = data?.top_items[0]?.revenue ?? 1
-  const maxHourly     = Math.max(...(data?.hourly_orders.map(h => h.orders) ?? [1]))
+  const today        = formatDateHeader(new Date())
+  const maxHourly    = Math.max(...(data?.hourly_orders.map(h => h.orders) ?? [1]))
+  const displayDays  = period === 'today' ? 1 : parseInt(period)
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex">
@@ -169,16 +184,13 @@ export default function AnalyticsPage() {
             <p className="text-sm text-zinc-500 mt-0.5">{today}</p>
           </div>
           <div className="flex items-center gap-3">
-            {/* Period selector */}
             <div className="flex bg-zinc-800 rounded-lg p-1 gap-1">
               {PERIODS.map(p => (
                 <button
                   key={p.days}
-                  onClick={() => setDays(p.days)}
+                  onClick={() => setPeriod(p.days)}
                   className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
-                    days === p.days
-                      ? 'bg-zinc-600 text-white'
-                      : 'text-zinc-400 hover:text-white'
+                    period === p.days ? 'bg-zinc-600 text-white' : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   {p.label}
@@ -186,7 +198,7 @@ export default function AnalyticsPage() {
               ))}
             </div>
             <button
-              onClick={() => fetchData(days, true)}
+              onClick={() => fetchData(period, true)}
               disabled={refreshing}
               className="flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-700 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors disabled:opacity-50"
             >
@@ -198,12 +210,12 @@ export default function AnalyticsPage() {
 
         <div className="flex-1 px-8 py-6 space-y-6">
 
-          {/* Stat cards */}
+          {/* ── KPI strip ── */}
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
             <StatCard
               label="Total Revenue"
               value={data ? fmtGbp(data.summary.total_revenue) : '—'}
-              sub={`${days}-day period`}
+              sub={period === 'today' ? 'Today' : `${displayDays}-day period`}
               icon={TrendingUp}
               color="emerald"
               loading={loading}
@@ -211,7 +223,7 @@ export default function AnalyticsPage() {
             <StatCard
               label="Total Orders"
               value={data ? String(data.summary.total_orders) : '—'}
-              sub={data ? `Avg ${(data.summary.total_orders / days).toFixed(1)}/day` : undefined}
+              sub={data && period !== 'today' ? `Avg ${(data.summary.total_orders / displayDays).toFixed(1)}/day` : undefined}
               icon={ShoppingBag}
               color="blue"
               loading={loading}
@@ -224,20 +236,22 @@ export default function AnalyticsPage() {
               loading={loading}
             />
             <StatCard
-              label="Completion Rate"
-              value={data ? `${data.summary.completion_rate}%` : '—'}
-              sub="delivered / all orders"
-              icon={Target}
-              color="violet"
+              label="Delivery vs Collection"
+              value={data ? `${data.delivery_pct}% / ${100 - data.delivery_pct}%` : '—'}
+              sub={data ? `${data.order_type_split[0]?.value ?? 0} delivery · ${data.order_type_split[1]?.value ?? 0} collection` : undefined}
+              icon={Truck}
+              color="red"
               loading={loading}
             />
           </div>
 
-          {/* Revenue + Orders combined chart */}
+          {/* ── Chart 1: Daily Revenue + Orders (full width) ── */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
             <div className="px-6 py-4 border-b border-zinc-800">
-              <h2 className="text-base font-semibold text-white">Revenue & Orders</h2>
-              <p className="text-xs text-zinc-500 mt-0.5">Daily totals over the last {days} days</p>
+              <h2 className="text-base font-semibold text-white">Daily Revenue</h2>
+              <p className="text-xs text-zinc-500 mt-0.5">
+                {period === 'today' ? 'Today' : `Last ${displayDays} days`}
+              </p>
             </div>
             <div className="px-4 pt-4 pb-2">
               {loading ? (
@@ -260,7 +274,7 @@ export default function AnalyticsPage() {
                       tick={{ fill: CHART_THEME.tickFill, fontSize: 10 }}
                       axisLine={{ stroke: CHART_THEME.gridStroke }}
                       tickLine={false}
-                      interval={days <= 7 ? 0 : days <= 30 ? 4 : 12}
+                      interval={displayDays <= 7 ? 0 : displayDays <= 30 ? 4 : 12}
                     />
                     <YAxis
                       yAxisId="rev"
@@ -324,85 +338,131 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Middle row: Top items + Status breakdown */}
+          {/* ── Charts 2 + 3: PieChart + Horizontal BarChart ── */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
 
-            {/* Top items */}
+            {/* Chart 2: Delivery vs Collection PieChart */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
               <div className="px-6 py-4 border-b border-zinc-800">
-                <h2 className="text-base font-semibold text-white">Top Items by Revenue</h2>
-                <p className="text-xs text-zinc-500 mt-0.5">{days}-day period</p>
+                <h2 className="text-base font-semibold text-white">Delivery vs Collection</h2>
+                <p className="text-xs text-zinc-500 mt-0.5">Order type split</p>
               </div>
-              <div className="px-6 py-4 space-y-3">
+              <div className="px-4 pt-2 pb-4 flex items-center justify-center">
                 {loading ? (
-                  Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className="h-8 bg-zinc-800 rounded-lg animate-pulse" />
-                  ))
-                ) : !data?.top_items.length ? (
-                  <p className="text-sm text-zinc-600 py-4 text-center">No data</p>
+                  <div className="h-52 flex items-center justify-center w-full">
+                    <Loader2 className="w-6 h-6 text-zinc-600 animate-spin" />
+                  </div>
+                ) : mounted && data?.order_type_split && data.order_type_split.some(s => s.value > 0) ? (
+                  <ResponsiveContainer width="100%" height={220}>
+                    <PieChart>
+                      <Pie
+                        data={data.order_type_split}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={82}
+                        strokeWidth={2}
+                        stroke="#09090b"
+                        labelLine={false}
+                        label={renderPieLabel}
+                      >
+                        {data.order_type_split.map((_, i) => (
+                          <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        content={({ active, payload }) => {
+                          if (!active || !payload?.length) return null
+                          const d = payload[0].payload as SplitPoint
+                          return (
+                            <div className="bg-zinc-900 border border-zinc-700 rounded-xl px-3.5 py-2.5 shadow-xl text-xs">
+                              <p className="font-semibold text-white">{d.name}</p>
+                              <p className="text-zinc-400 mt-0.5">{d.value} orders · {d.pct}%</p>
+                            </div>
+                          )
+                        }}
+                      />
+                      <Legend
+                        iconType="circle"
+                        iconSize={8}
+                        formatter={(value) => (
+                          <span className="text-xs text-zinc-400">{value}</span>
+                        )}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
                 ) : (
-                  data.top_items.map((item, i) => (
-                    <div key={item.name}>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-zinc-300 truncate max-w-[200px]">
-                          <span className="text-zinc-600 mr-1.5 font-mono text-[10px]">
-                            {String(i + 1).padStart(2, '0')}
-                          </span>
-                          {item.name}
-                        </span>
-                        <div className="flex items-center gap-3 shrink-0 ml-2">
-                          <span className="text-xs text-zinc-500">{item.quantity}×</span>
-                          <span className="text-xs font-semibold text-white w-16 text-right">
-                            {fmtGbp(item.revenue)}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-brand-red rounded-full transition-all"
-                          style={{ width: `${Math.round((item.revenue / maxTopRevenue) * 100)}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))
+                  <div className="h-52 flex items-center justify-center text-sm text-zinc-600 w-full">No data</div>
                 )}
               </div>
             </div>
 
-            {/* Order status breakdown */}
+            {/* Chart 3: Top 5 Best-Selling Items (horizontal BarChart) */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
               <div className="px-6 py-4 border-b border-zinc-800">
-                <h2 className="text-base font-semibold text-white">Order Status Breakdown</h2>
-                <p className="text-xs text-zinc-500 mt-0.5">{days}-day period</p>
+                <h2 className="text-base font-semibold text-white">Top 5 Best-Selling Items</h2>
+                <p className="text-xs text-zinc-500 mt-0.5">By units sold</p>
               </div>
-              <div className="px-6 py-4 space-y-4">
+              <div className="px-4 pt-4 pb-3">
                 {loading ? (
-                  Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i} className="h-8 bg-zinc-800 rounded-lg animate-pulse" />
-                  ))
-                ) : !data?.status_breakdown.length ? (
-                  <p className="text-sm text-zinc-600 py-4 text-center">No data</p>
+                  <div className="h-52 flex items-center justify-center">
+                    <Loader2 className="w-6 h-6 text-zinc-600 animate-spin" />
+                  </div>
+                ) : mounted && data?.top_items.length ? (
+                  <ResponsiveContainer width="100%" height={220}>
+                    <BarChart
+                      layout="vertical"
+                      data={data.top_items}
+                      margin={{ top: 4, right: 40, left: 8, bottom: 0 }}
+                    >
+                      <CartesianGrid stroke={CHART_THEME.gridStroke} strokeDasharray="4 4" horizontal={false} />
+                      <XAxis
+                        type="number"
+                        allowDecimals={false}
+                        tick={{ fill: CHART_THEME.tickFill, fontSize: 10 }}
+                        axisLine={false}
+                        tickLine={false}
+                      />
+                      <YAxis
+                        type="category"
+                        dataKey="name"
+                        width={110}
+                        tick={{ fill: '#d4d4d8', fontSize: 11 }}
+                        axisLine={false}
+                        tickLine={false}
+                        tickFormatter={v => v.length > 14 ? `${v.slice(0, 13)}…` : v}
+                      />
+                      <Tooltip
+                        content={({ active, payload }) => {
+                          if (!active || !payload?.length) return null
+                          const d = payload[0].payload as TopItem
+                          return (
+                            <div className="bg-zinc-900 border border-zinc-700 rounded-xl px-3.5 py-2.5 shadow-xl text-xs">
+                              <p className="font-semibold text-white mb-1">{d.name}</p>
+                              <p className="text-zinc-400">{d.quantity} sold · {fmtGbp(d.revenue)} revenue</p>
+                            </div>
+                          )
+                        }}
+                      />
+                      <Bar dataKey="quantity" radius={[0, 4, 4, 0]} maxBarSize={28}>
+                        {data.top_items.map((_, i) => (
+                          <Cell
+                            key={i}
+                            fill={i === 0 ? CHART_THEME.red : i === 1 ? '#f97316' : CHART_THEME.amber}
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
                 ) : (
-                  data.status_breakdown.map(row => (
-                    <div key={row.status}>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-xs text-zinc-300 capitalize">{row.status}</span>
-                        <span className="text-xs text-zinc-500">{row.count} ({row.pct}%)</span>
-                      </div>
-                      <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full transition-all ${STATUS_COLOURS[row.status] ?? 'bg-zinc-500'}`}
-                          style={{ width: `${row.pct}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))
+                  <div className="h-52 flex items-center justify-center text-sm text-zinc-600">No data</div>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Bottom row: Day-of-week + Hourly */}
+          {/* ── Bottom row: Day-of-week + Hourly ── */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
 
             {/* Revenue by day of week */}
@@ -452,7 +512,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            {/* Hourly distribution */}
+            {/* Peak order hours */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
               <div className="px-6 py-4 border-b border-zinc-800">
                 <h2 className="text-base font-semibold text-white">Peak Order Hours</h2>
@@ -466,7 +526,7 @@ export default function AnalyticsPage() {
                 ) : mounted && data?.hourly_orders.length ? (
                   <ResponsiveContainer width="100%" height={176}>
                     <BarChart
-                      data={data.hourly_orders.filter(h => h.orders > 0 || [11,12,13,17,18,19,20,21].includes(h.hour))}
+                      data={data.hourly_orders.filter(h => h.orders > 0 || [11, 12, 13, 17, 18, 19, 20, 21].includes(h.hour))}
                       margin={{ top: 4, right: 0, left: -20, bottom: 0 }}
                     >
                       <CartesianGrid stroke={CHART_THEME.gridStroke} strokeDasharray="4 4" vertical={false} />
@@ -495,13 +555,10 @@ export default function AnalyticsPage() {
                         )}
                       />
                       <Bar dataKey="orders" radius={[3, 3, 0, 0]} maxBarSize={24}>
-                        {data?.hourly_orders
-                          .filter(h => h.orders > 0 || [11,12,13,17,18,19,20,21].includes(h.hour))
+                        {data.hourly_orders
+                          .filter(h => h.orders > 0 || [11, 12, 13, 17, 18, 19, 20, 21].includes(h.hour))
                           .map((h, i) => (
-                            <Cell
-                              key={i}
-                              fill={h.orders > maxHourly * 0.5 ? CHART_THEME.red : '#7f1d1d'}
-                            />
+                            <Cell key={i} fill={h.orders > maxHourly * 0.5 ? CHART_THEME.red : '#7f1d1d'} />
                           ))}
                       </Bar>
                     </BarChart>

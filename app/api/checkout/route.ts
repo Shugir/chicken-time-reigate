@@ -20,6 +20,7 @@ interface ComboComponent {
 }
 
 interface CartItem {
+  menu_item_id?:     string
   name:              string
   price:             number      // unit price already including extras
   quantity:          number
@@ -128,6 +129,40 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: scheduleValidation.error }, { status: 400 })
       }
     }
+    // Availability guard: check items are still in stock.
+    // Note: combo_components embedded in a line item are not individually checked here.
+    const itemIdsToCheck = items.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
+    if (itemIdsToCheck.length > 0) {
+      const { data: dbItems } = await supabaseAdmin
+        .from('menu_items')
+        .select('id, name, is_available, sold_out_extras')
+        .in('id', itemIdsToCheck)
+      if (dbItems) {
+        const dbMap = new Map(dbItems.map(r => [r.id, r]))
+        for (const item of items) {
+          if (!item.menu_item_id) continue
+          const db = dbMap.get(item.menu_item_id)
+          if (!db) continue
+          if (!db.is_available) {
+            return NextResponse.json(
+              { error: `Sorry, ${db.name} just sold out. Please remove it from your cart to continue.` },
+              { status: 400 },
+            )
+          }
+          const soldOutExtras: string[] = db.sold_out_extras ?? []
+          if (soldOutExtras.length > 0) {
+            const blockedExtra = item.extras.find(e => soldOutExtras.includes(e.name))
+            if (blockedExtra) {
+              return NextResponse.json(
+                { error: `Sorry, ${blockedExtra.name} is no longer available as an extra on ${db.name}. Please update your order.` },
+                { status: 400 },
+              )
+            }
+          }
+        }
+      }
+    }
+
     const origin = request.headers.get('origin') || 'http://localhost:3000'
 
     const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)

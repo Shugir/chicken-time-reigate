@@ -8,9 +8,16 @@ export async function PATCH(
   const { id } = await params
   const body = await request.json()
 
+  const PATCHABLE = new Set([
+    'name', 'description', 'price', 'compare_at_price', 'image_url',
+    'category', 'is_available', 'sold_out_extras', 'extras', 'removals',
+    'additions', 'dietary_flags', 'allergens', 'combo_category', 'size_tier',
+  ])
+  const patch = Object.fromEntries(Object.entries(body).filter(([k]) => PATCHABLE.has(k)))
+
   const { data, error } = await supabaseAdmin
     .from('menu_items')
-    .update(body)
+    .update(patch)
     .eq('id', id)
     .select()
     .single()

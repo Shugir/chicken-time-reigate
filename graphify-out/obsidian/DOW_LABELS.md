@@ -2,7 +2,7 @@
 source_file: "app/api/admin/analytics/route.ts"
 type: "code"
 community: "Community None"
-location: "L6"
+location: "L8"
 tags:
   - graphify/code
   - graphify/EXTRACTED

@@ -17,6 +17,7 @@ type DrawerItem = ProductItem & {
   compare_at_price?: number | null
   dietaryFlags?: string[]
   combo_category?: 'main' | 'side' | 'drink' | null
+  sold_out_extras?: string[]
 }
 
 interface Props {
@@ -456,20 +457,27 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
             >
               <div className="space-y-2">
                 {(item.add_ons ?? []).map(addon => {
-                  const sel = extras.some(e => e.name === addon.name)
+                  const addonSoldOut = item.sold_out_extras?.includes(addon.name) ?? false
+                  const sel = !addonSoldOut && extras.some(e => e.name === addon.name)
                   return (
                     <button
                       key={addon.name}
-                      onClick={() => toggleExtra(addon)}
-                      className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all ${sel ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'
-                        }`}
+                      onClick={() => !addonSoldOut && toggleExtra(addon)}
+                      disabled={addonSoldOut}
+                      className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all ${addonSoldOut ? 'border-zinc-100 opacity-50 cursor-not-allowed' : sel ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'}`}
                     >
-                      <span className={`font-medium text-sm ${sel ? 'text-brand-red' : 'text-zinc-700'}`}>{addon.name}</span>
+                      <span className={`font-medium text-sm ${addonSoldOut ? 'text-zinc-400' : sel ? 'text-brand-red' : 'text-zinc-700'}`}>{addon.name}</span>
                       <div className="flex items-center gap-2.5">
-                        <span className={`text-sm font-bold ${sel ? 'text-brand-red' : 'text-zinc-400'}`}>+£{addon.price.toFixed(2)}</span>
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${sel ? 'border-brand-red bg-brand-red' : 'border-zinc-300'}`}>
-                          {sel && <Check size={10} className="text-white" />}
-                        </div>
+                        {addonSoldOut ? (
+                          <span className="text-xs font-bold text-zinc-400">Sold Out</span>
+                        ) : (
+                          <>
+                            <span className={`text-sm font-bold ${sel ? 'text-brand-red' : 'text-zinc-400'}`}>+£{addon.price.toFixed(2)}</span>
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${sel ? 'border-brand-red bg-brand-red' : 'border-zinc-300'}`}>
+                              {sel && <Check size={10} className="text-white" />}
+                            </div>
+                          </>
+                        )}
                       </div>
                     </button>
                   )

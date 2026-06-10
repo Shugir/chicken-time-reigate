@@ -25,6 +25,8 @@ type MenuItem = ProductItem & {
   compare_at_price?: number | null
   combo_category?: 'main' | 'side' | 'drink' | null
   size_tier?: 'regular' | 'large' | null
+  is_available?: boolean
+  sold_out_extras?: string[]
 }
 interface CartEntry { qty: number; removals: string[]; additions: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
@@ -240,6 +242,7 @@ interface DbMenuItem {
   image_url: string | null
   category: string
   is_available: boolean
+  sold_out_extras: string[]
   extras: Array<{ name: string; price: number }> | null
   removals: string[] | null
   additions: string[] | null
@@ -275,6 +278,8 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     dietaryFlags: item.dietary_flags ?? [],
     combo_category: item.combo_category ?? null,
     size_tier: item.size_tier ?? null,
+    is_available: item.is_available,
+    sold_out_extras: item.sold_out_extras ?? [],
   }
 }
 
@@ -303,11 +308,12 @@ function MenuCard({ item, qty, onOpenDrawer, onAdd, onRemove }: {
   onRemove: () => void
 }) {
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
+  const isSoldOut = item.is_available === false
 
   return (
     <div
-      className="group bg-white border border-zinc-100 rounded-2xl overflow-hidden hover:shadow-[0_8px_40px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col cursor-pointer"
-      onClick={onOpenDrawer}
+      className={`group bg-white border border-zinc-100 rounded-2xl overflow-hidden hover:shadow-[0_8px_40px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col ${isSoldOut ? 'opacity-50 grayscale pointer-events-none cursor-default' : 'cursor-pointer'}`}
+      onClick={isSoldOut ? undefined : onOpenDrawer}
     >
       {/* Image — edge-to-edge with hover zoom */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100 shrink-0">
@@ -354,7 +360,9 @@ function MenuCard({ item, qty, onOpenDrawer, onAdd, onRemove }: {
 
         {/* Price + controls */}
         <div className="flex items-center justify-between pt-0.5">
-          {isOffer ? (
+          {isSoldOut ? (
+            <span className="font-heading font-black text-sm text-zinc-400">Sold Out</span>
+          ) : isOffer ? (
             <div className="flex flex-col gap-0.5">
               <span className="text-xs text-zinc-400 line-through leading-none">
                 £{item.compare_at_price!.toFixed(2)}
@@ -370,35 +378,37 @@ function MenuCard({ item, qty, onOpenDrawer, onAdd, onRemove }: {
           )}
 
           {/* Qty controls — stop propagation so they don't open drawer */}
-          <div onClick={e => e.stopPropagation()}>
-            {qty > 0 ? (
-              <div className="flex items-center gap-2">
+          {!isSoldOut && (
+            <div onClick={e => e.stopPropagation()}>
+              {qty > 0 ? (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={onRemove}
+                    className="w-7 h-7 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
+                    aria-label="Remove one"
+                  >
+                    <Minus size={12} />
+                  </button>
+                  <span className="w-5 text-center text-sm font-bold text-zinc-900">{qty}</span>
+                  <button
+                    onClick={onAdd}
+                    className="w-7 h-7 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
+                    aria-label="Add one more"
+                  >
+                    <Plus size={12} />
+                  </button>
+                </div>
+              ) : (
                 <button
-                  onClick={onRemove}
-                  className="w-7 h-7 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
-                  aria-label="Remove one"
+                  onClick={(e) => { e.stopPropagation(); onOpenDrawer() }}
+                  className="w-8 h-8 rounded-full bg-brand-red text-white hover:bg-red-700 flex items-center justify-center transition-all shadow-sm"
+                  aria-label={`Add ${item.name}`}
                 >
-                  <Minus size={12} />
+                  <Plus size={14} />
                 </button>
-                <span className="w-5 text-center text-sm font-bold text-zinc-900">{qty}</span>
-                <button
-                  onClick={onAdd}
-                  className="w-7 h-7 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
-                  aria-label="Add one more"
-                >
-                  <Plus size={12} />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={(e) => { e.stopPropagation(); onOpenDrawer() }}
-                className="w-8 h-8 rounded-full bg-brand-red text-white hover:bg-red-700 flex items-center justify-center transition-all shadow-sm"
-                aria-label={`Add ${item.name}`}
-              >
-                <Plus size={14} />
-              </button>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -555,6 +565,7 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
     const cartPayload = lineItems.map(({ item, entry }) => {
       const unitPrice = item.price + entry.extras.reduce((s, e) => s + e.price, 0)
       return {
+        menu_item_id: item.id,
         name: item.name,
         price: unitPrice,
         quantity: entry.qty,

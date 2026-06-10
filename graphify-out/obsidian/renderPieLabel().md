@@ -1,19 +1,17 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "app/admin/analytics/page.tsx"
 type: "code"
 community: "Community None"
-location: "L32"
+location: "L125"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# Cart
+# renderPieLabel()
 
 ## Connections
-- [[page.tsx_27]] - `contains` [EXTRACTED]
-- [[page.tsx_38]] - `contains` [EXTRACTED]
-- [[page.tsx_48]] - `contains` [EXTRACTED]
+- [[page.tsx_5]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

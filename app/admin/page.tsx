@@ -36,6 +36,7 @@ interface MenuItem {
   image_url: string | null
   category: string
   is_available: boolean
+  sold_out_extras: string[]
   extras: Extra[]
   removals: string[]
   additions: string[]
@@ -273,6 +274,7 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
   const [removals, setRemovals] = useState<string[]>(() => editingItem?.removals ?? [])
   const [additions, setAdditions] = useState<string[]>(() => editingItem?.additions ?? [])
   const [extras, setExtras] = useState<Extra[]>(() => editingItem?.extras ?? [])
+  const [soldOutExtras, setSoldOutExtras] = useState<string[]>(() => editingItem?.sold_out_extras ?? [])
   const [dietaryFlags, setDietaryFlags] = useState<string[]>(() => editingItem?.dietary_flags ?? [])
   const [allergens, setAllergens] = useState<string[]>(() => editingItem?.allergens ?? [])
   const [removalInput, setRemovalInput] = useState('')
@@ -378,6 +380,7 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       image_url: resolvedImageUrl,
       category: form.category,
       is_available: editingItem ? editingItem.is_available : true,
+      sold_out_extras: soldOutExtras.filter(n => extras.some(e => e.name === n)),
       removals,
       additions,
       extras,
@@ -650,15 +653,26 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
             </div>
             {extras.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
-                {extras.map((ex) => (
-                  <span key={ex.name} className="flex items-center gap-1 bg-zinc-800 text-zinc-300 text-xs px-2.5 py-1 rounded-full">
-                    {ex.name}
-                    <span className="text-brand-red font-semibold ml-0.5">+£{ex.price.toFixed(2)}</span>
-                    <button type="button" onClick={() => setExtras((prev) => prev.filter((x) => x.name !== ex.name))} className="text-zinc-500 hover:text-white ml-0.5">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
+                {extras.map((ex) => {
+                  const is86 = soldOutExtras.includes(ex.name)
+                  return (
+                    <span key={ex.name} className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full ${is86 ? 'bg-amber-900/40 text-amber-300 line-through' : 'bg-zinc-800 text-zinc-300'}`}>
+                      {ex.name}
+                      <span className={`font-semibold ml-0.5 ${is86 ? 'text-amber-500' : 'text-brand-red'}`}>+£{ex.price.toFixed(2)}</span>
+                      <button
+                        type="button"
+                        title={is86 ? 'Unmark sold out' : '86 this extra (sold out)'}
+                        onClick={() => setSoldOutExtras((prev) => is86 ? prev.filter((n) => n !== ex.name) : [...prev, ex.name])}
+                        className={`ml-0.5 font-bold text-[10px] px-1 rounded transition-colors ${is86 ? 'text-amber-400 hover:text-white' : 'text-zinc-500 hover:text-amber-400'}`}
+                      >
+                        86
+                      </button>
+                      <button type="button" onClick={() => { setExtras((prev) => prev.filter((x) => x.name !== ex.name)); setSoldOutExtras((prev) => prev.filter((n) => n !== ex.name)) }} className="text-zinc-500 hover:text-white ml-0.5">
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  )
+                })}
               </div>
             )}
           </div>

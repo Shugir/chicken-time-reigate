@@ -1,19 +1,18 @@
 ---
-source_file: "app/order/page.tsx"
+source_file: "app/api/admin/analytics/route.ts"
 type: "code"
 community: "Community None"
-location: "L32"
+location: "L10"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# Cart
+# getAnalyticsUser()
 
 ## Connections
-- [[page.tsx_27]] - `contains` [EXTRACTED]
-- [[page.tsx_38]] - `contains` [EXTRACTED]
-- [[page.tsx_48]] - `contains` [EXTRACTED]
+- [[GET()_1]] - `calls` [EXTRACTED]
+- [[route.ts_2]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
