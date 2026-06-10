@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `fba1e282`
+- Built from commit: `79717300`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -377,7 +377,7 @@ Nodes (5): formatRow(), generateReceiptBuffer(), sendToPrinter(), wrapLine(), PO
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **399 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+394 more)
+- **399 isolated node(s):** `supabase`, `DAY_LABELS`, `DayHours`, `BusinessHours`, `Holiday` (+394 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **58 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -389,12 +389,12 @@ _Questions this graph is uniquely positioned to answer:_
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **Why does `AdminReceiptOrder` connect `Community 75` to `Community 8`, `Community 1`?**
-  _High betweenness centrality (0.081) - this node is a cross-community bridge._
-- **Why does `Supabase Admin Client` connect `Community 76` to `Community 5`, `Community 8`, `Community 82`, `Community 61`, `Community 125`?**
-  _High betweenness centrality (0.074) - this node is a cross-community bridge._
+  _High betweenness centrality (0.089) - this node is a cross-community bridge._
 - **Why does `supabaseAdmin` connect `Community 84` to `Community 0`, `Community 97`, `Community 3`, `Community 68`, `Community 101`, `Community 70`, `Community 104`, `Community 8`, `Community 73`, `Community 107`, `Community 12`, `Community 77`, `Community 113`, `Community 115`, `Community 89`, `Community 122`, `Community 93`, `Community 94`?**
-  _High betweenness centrality (0.071) - this node is a cross-community bridge._
-- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
+  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+- **Why does `Supabase Admin Client` connect `Community 76` to `Community 5`, `Community 8`, `Community 82`, `Community 61`, `Community 125`?**
+  _High betweenness centrality (0.073) - this node is a cross-community bridge._
+- **What connects `supabase`, `DAY_LABELS`, `DayHours` to the rest of the system?**
   _403 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.12 - nodes in this community are weakly interconnected._
