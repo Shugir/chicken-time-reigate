@@ -1,5 +1,5 @@
 ---
-source_file: "api/admin/auth-users/route.ts"
+source_file: "api/admin/receipts/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,7 +12,13 @@ tags:
 # route.ts
 
 ## Connections
-- [[GET()_2]] - `contains` [EXTRACTED]
+- [[AdminReceiptOrder]] - `imports` [EXTRACTED]
+- [[GET()_14]] - `contains` [EXTRACTED]
+- [[buildQuery()]] - `contains` [EXTRACTED]
+- [[getUserPermissions]] - `imports` [EXTRACTED]
+- [[hasPermission()]] - `imports` [EXTRACTED]
+- [[normalise()]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
+- [[toCsv()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

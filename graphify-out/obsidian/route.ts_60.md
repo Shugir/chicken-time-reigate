@@ -14,6 +14,7 @@ tags:
 ## Connections
 - [[GET()_15]] - `contains` [EXTRACTED]
 - [[POST()_11]] - `contains` [EXTRACTED]
+- [[getStaffAdminUser()]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

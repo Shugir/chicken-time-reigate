@@ -2,7 +2,7 @@
 source_file: "app/api/admin/staff/route.ts"
 type: "code"
 community: "Community None"
-location: "L6"
+location: "L25"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,7 @@ tags:
 # GET()
 
 ## Connections
+- [[getStaffAdminUser()]] - `calls` [EXTRACTED]
 - [[route.ts_24]] - `contains` [EXTRACTED]
 - [[route.ts_60]] - `contains` [EXTRACTED]
 

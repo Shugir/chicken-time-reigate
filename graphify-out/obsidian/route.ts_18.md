@@ -14,6 +14,7 @@ tags:
 ## Connections
 - [[GET()_12]] - `contains` [EXTRACTED]
 - [[POST()_8]] - `contains` [EXTRACTED]
+- [[getMenuAdminUser()_4]] - `contains` [EXTRACTED]
 - [[supabase-admin.ts]] - `imports_from` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
 

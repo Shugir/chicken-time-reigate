@@ -17,7 +17,7 @@ tags:
 - [[groupByDay()]] - `calls` [EXTRACTED]
 - [[groupByDay()_2]] - `calls` [EXTRACTED]
 - [[page.tsx_15]] - `imports` [EXTRACTED]
-- [[page.tsx_36]] - `imports` [EXTRACTED]
-- [[page.tsx_38]] - `imports` [EXTRACTED]
+- [[page.tsx_37]] - `imports` [EXTRACTED]
+- [[page.tsx_39]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

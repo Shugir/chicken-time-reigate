@@ -14,8 +14,8 @@ tags:
 ## Connections
 - [[checkStoreStatus()]] - `calls` [EXTRACTED]
 - [[route.ts_31]] - `contains` [EXTRACTED]
-- [[route.ts_54]] - `contains` [EXTRACTED]
-- [[route.ts_73]] - `contains` [EXTRACTED]
+- [[route.ts_61]] - `contains` [EXTRACTED]
+- [[route.ts_64]] - `contains` [EXTRACTED]
 - [[sendOrderStatusEmail()]] - `calls` [EXTRACTED]
 - [[validateScheduledFor()]] - `calls` [EXTRACTED]
 

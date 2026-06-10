@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[generateReceiptBuffer()]] - `calls` [EXTRACTED]
 - [[route.ts_20]] - `contains` [EXTRACTED]
-- [[route.ts_54]] - `contains` [EXTRACTED]
+- [[route.ts_64]] - `contains` [EXTRACTED]
 - [[sendToPrinter()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

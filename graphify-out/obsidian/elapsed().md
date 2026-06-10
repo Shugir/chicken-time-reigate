@@ -14,7 +14,7 @@ tags:
 ## Connections
 - [[OrderCard()_2]] - `calls` [EXTRACTED]
 - [[page.tsx_24]] - `contains` [EXTRACTED]
-- [[page.tsx_38]] - `contains` [EXTRACTED]
+- [[page.tsx_39]] - `contains` [EXTRACTED]
 - [[page.tsx_41]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

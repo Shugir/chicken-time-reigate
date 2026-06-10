@@ -1,5 +1,5 @@
 ---
-source_file: "api/admin/receipts/route.ts"
+source_file: "api/admin/combo-discounts/route.ts"
 type: "code"
 community: "Community None"
 location: "L1"
@@ -12,13 +12,9 @@ tags:
 # route.ts
 
 ## Connections
-- [[AdminReceiptOrder]] - `imports` [EXTRACTED]
-- [[GET()_14]] - `contains` [EXTRACTED]
-- [[buildQuery()]] - `contains` [EXTRACTED]
-- [[getUserPermissions]] - `imports` [EXTRACTED]
-- [[hasPermission()]] - `imports` [EXTRACTED]
-- [[normalise()]] - `contains` [EXTRACTED]
+- [[GET()_4]] - `contains` [EXTRACTED]
+- [[POST()_2]] - `contains` [EXTRACTED]
+- [[getMenuAdminUser()_2]] - `contains` [EXTRACTED]
 - [[supabaseAdmin]] - `imports` [EXTRACTED]
-- [[toCsv()]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -19,7 +19,7 @@ tags:
 - [[admin-sidebar.tsx_1]] - `imports` [EXTRACTED]
 - [[page.tsx_10]] - `imports` [EXTRACTED]
 - [[page.tsx_24]] - `imports` [EXTRACTED]
-- [[page.tsx_38]] - `imports` [EXTRACTED]
+- [[page.tsx_39]] - `imports` [EXTRACTED]
 - [[page.tsx_41]] - `imports` [EXTRACTED]
 - [[permissions-provider.tsx]] - `contains` [EXTRACTED]
 

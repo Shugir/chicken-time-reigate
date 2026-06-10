@@ -14,6 +14,8 @@ tags:
 ## Connections
 - [[buildDriverOrderUpdate()]] - `calls` [EXTRACTED]
 - [[buildKitchenDeliveryUpdate()]] - `calls` [EXTRACTED]
+- [[getMenuAdminUser()_1]] - `calls` [EXTRACTED]
+- [[getStaffAdminUser()_1]] - `calls` [EXTRACTED]
 - [[route.ts_5]] - `contains` [EXTRACTED]
 - [[route.ts_7]] - `contains` [EXTRACTED]
 - [[route.ts_10]] - `contains` [EXTRACTED]
@@ -24,12 +26,15 @@ tags:
 - [[route.ts_34]] - `contains` [EXTRACTED]
 - [[route.ts_37]] - `contains` [EXTRACTED]
 - [[route.ts_39]] - `contains` [EXTRACTED]
+- [[route.ts_52]] - `contains` [EXTRACTED]
 - [[route.ts_54]] - `contains` [EXTRACTED]
-- [[route.ts_57]] - `contains` [EXTRACTED]
-- [[route.ts_61]] - `contains` [EXTRACTED]
+- [[route.ts_56]] - `contains` [EXTRACTED]
+- [[route.ts_59]] - `contains` [EXTRACTED]
 - [[route.ts_64]] - `contains` [EXTRACTED]
 - [[route.ts_66]] - `contains` [EXTRACTED]
-- [[route.ts_71]] - `contains` [EXTRACTED]
+- [[route.ts_69]] - `contains` [EXTRACTED]
+- [[route.ts_72]] - `contains` [EXTRACTED]
+- [[route.ts_74]] - `contains` [EXTRACTED]
 - [[sendDeliveredEmail()]] - `calls` [INFERRED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None
