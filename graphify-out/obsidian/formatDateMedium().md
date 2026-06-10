@@ -25,8 +25,8 @@ tags:
 - [[format-date.ts]] - `contains` [EXTRACTED]
 - [[page.tsx_10]] - `imports` [EXTRACTED]
 - [[page.tsx_24]] - `imports` [EXTRACTED]
-- [[page.tsx_37]] - `imports` [EXTRACTED]
-- [[page.tsx_40]] - `imports` [EXTRACTED]
+- [[page.tsx_38]] - `imports` [EXTRACTED]
+- [[page.tsx_41]] - `imports` [EXTRACTED]
 - [[utils.ts]] - `imports` [EXTRACTED]
 - [[utils.ts_1]] - `imports` [EXTRACTED]
 

@@ -32,6 +32,7 @@ tags:
 - [[page.tsx_10]] - `imports_from` [EXTRACTED]
 - [[page.tsx_12]] - `imports_from` [EXTRACTED]
 - [[page.tsx_24]] - `imports_from` [EXTRACTED]
+- [[page.tsx_34]] - `imports_from` [EXTRACTED]
 - [[utils.ts]] - `imports_from` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

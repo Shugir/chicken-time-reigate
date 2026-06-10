@@ -2,7 +2,7 @@
 source_file: "app/kitchen/page.tsx"
 type: "code"
 community: "Community None"
-location: "L338"
+location: "L345"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -15,8 +15,8 @@ tags:
 - [[formatDateClockLabel()]] - `calls` [EXTRACTED]
 - [[formatTimeFull()]] - `calls` [EXTRACTED]
 - [[page.tsx_24]] - `contains` [EXTRACTED]
-- [[page.tsx_37]] - `contains` [EXTRACTED]
-- [[page.tsx_40]] - `contains` [EXTRACTED]
+- [[page.tsx_38]] - `contains` [EXTRACTED]
+- [[page.tsx_41]] - `contains` [EXTRACTED]
 - [[usePermissions()]] - `calls` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

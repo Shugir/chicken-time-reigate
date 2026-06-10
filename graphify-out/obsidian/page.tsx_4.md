@@ -37,6 +37,6 @@ tags:
 - [[TagAutocomplete()]] - `contains` [EXTRACTED]
 - [[admin-sidebar.tsx]] - `imports_from` [EXTRACTED]
 - [[sign-out-button.tsx]] - `imports_from` [EXTRACTED]
-- [[supabase_10]] - `contains` [EXTRACTED]
+- [[supabase_11]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

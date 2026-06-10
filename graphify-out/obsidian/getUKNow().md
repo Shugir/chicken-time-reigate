@@ -13,6 +13,7 @@ tags:
 
 ## Connections
 - [[checkStoreStatus()]] - `calls` [EXTRACTED]
+- [[page.tsx_21]] - `imports` [EXTRACTED]
 - [[store-status.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

@@ -1,7 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { ChevronRight, MapPin, AlertCircle, Loader2, ShoppingCart, Tag, User } from 'lucide-react'
+import { ChevronRight, MapPin, AlertCircle, Loader2, ShoppingCart, Tag, User, Clock } from 'lucide-react'
+import { generateScheduleSlots, type ScheduleSlot } from '@/lib/utils/schedule-utils'
+import type { BusinessHours, DayKey } from '@/lib/store-status'
+import { getUKNow } from '@/lib/store-status'
 import toast from 'react-hot-toast'
 import { createClient } from '@supabase/supabase-js'
 
@@ -60,6 +63,11 @@ export default function CheckoutPage() {
   const [loyaltyBalance, setLoyaltyBalance]             = useState(0)
   const [pointsToSpend, setPointsToSpend]               = useState(0)
   const [fulfillmentMode, setFulfillmentMode]           = useState<'delivery' | 'pickup'>('delivery')
+  const [scheduleMode, setScheduleMode]                 = useState<'asap' | 'scheduled'>('asap')
+  const [scheduledFor, setScheduledFor]                 = useState<string>('')
+  const [scheduleSlots, setScheduleSlots]               = useState<ScheduleSlot[]>([])
+  const [businessHours, setBusinessHours]               = useState<BusinessHours | null>(null)
+  const [storeClosedBanner, setStoreClosedBanner]       = useState<string | null>(null)
 
   const UK_PHONE_RE = /^(\+44|0044|0)(7\d{9}|[1-9]\d{8,9})$/
   function isValidUKPhone(val: string) {
@@ -96,6 +104,44 @@ export default function CheckoutPage() {
       })
     })
   }, [])
+
+  useEffect(() => {
+    fetch('/api/store-settings')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.business_hours) setBusinessHours(d.business_hours as BusinessHours)
+        if (!d.isCurrentlyOpen) {
+          const msg = d.closedReason || 'Store is currently closed'
+          setStoreClosedBanner(d.closedUntil ? `${msg}. ${d.closedUntil}.` : msg)
+        } else {
+          setStoreClosedBanner(null)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (scheduleMode === 'scheduled') {
+      const { weekday: todayKey } = getUKNow()
+      const todayHours = businessHours?.[todayKey]
+      if (businessHours && todayHours && !todayHours.enabled) {
+        setScheduleSlots([])
+        setScheduledFor('')
+        return
+      }
+      const slots = generateScheduleSlots(
+        new Date(),
+        todayHours?.open ?? '11:00',
+        todayHours?.close ?? '22:00',
+      )
+      setScheduleSlots(slots)
+      // Only reset selection if empty (prevents race-condition overwrite when businessHours resolves)
+      if (slots.length > 0) setScheduledFor((prev) => prev || slots[0].value)
+      else setScheduledFor('')
+    } else {
+      setScheduledFor('')
+    }
+  }, [scheduleMode, businessHours])
 
   const subtotal = cartItems.reduce((s, i) => s + i.totalPrice, 0)
 
@@ -216,11 +262,13 @@ export default function CheckoutPage() {
   }
 
   async function handlePay() {
+    if (storeClosedBanner) { setSubmitError('Store is currently closed — orders are not being accepted'); return }
     if (!isPickup && !zone || cartItems.length === 0) return
     if (!customerName.trim())              { setSubmitError('Please enter your full name');                  return }
     if (!customerPhone.trim())             { setSubmitError('Please enter your phone number');               return }
     if (!isValidUKPhone(customerPhone))    { setSubmitError('Please enter a valid UK phone number');         return }
     if (!isPickup && !addressLine1.trim()) { setSubmitError('Please enter your delivery address');           return }
+    if (scheduleMode === 'scheduled' && !scheduledFor) { setSubmitError('Please select a time for your scheduled order'); return }
     if (!confirmDetails)                   { setConfirmDetailsError(true); setSubmitError('Please confirm your details before placing your order'); return }
     const fullAddress = isPickup ? null : [addressLine1, city, county, postcode.trim().toUpperCase()].filter(Boolean).join(', ')
     setSubmitting(true)
@@ -243,6 +291,7 @@ export default function CheckoutPage() {
           delivery_postcode:   isPickup ? null : postcode.trim().toUpperCase(),
           customer_notes:      customerNotes.trim() || null,
           order_type:          fulfillmentMode,
+          scheduled_for:       scheduleMode === 'scheduled' ? scheduledFor : null,
         }),
       })
       const data = await res.json()
@@ -277,6 +326,17 @@ export default function CheckoutPage() {
           <h1 className="font-heading font-black text-3xl text-brand-dark mt-2">Checkout</h1>
         </div>
 
+        {/* Store closed banner */}
+        {storeClosedBanner && (
+          <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-2xl p-4 text-red-800">
+            <AlertCircle size={18} className="shrink-0 mt-0.5 text-red-500" />
+            <div>
+              <p className="font-bold text-sm">We&apos;re not accepting orders right now</p>
+              <p className="text-sm mt-0.5">{storeClosedBanner}</p>
+            </div>
+          </div>
+        )}
+
         {/* Order summary */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
           <h2 className="font-heading font-bold text-base text-brand-dark">Order Summary</h2>
@@ -296,6 +356,64 @@ export default function CheckoutPage() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* When would you like this? */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
+          <h2 className="font-heading font-bold text-base text-brand-dark flex items-center gap-2">
+            <Clock size={16} className="text-brand-red" />
+            When would you like this?
+          </h2>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setScheduleMode('asap')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm border-2 transition-colors ${
+                scheduleMode === 'asap'
+                  ? 'bg-brand-red border-brand-red text-white shadow-sm'
+                  : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              🚀 ASAP
+            </button>
+            <button
+              type="button"
+              onClick={() => setScheduleMode('scheduled')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm border-2 transition-colors ${
+                scheduleMode === 'scheduled'
+                  ? 'bg-brand-red border-brand-red text-white shadow-sm'
+                  : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              🕒 Schedule for Later
+            </button>
+          </div>
+
+          {scheduleMode === 'scheduled' && (
+            scheduleSlots.length === 0 ? (
+              <div className="flex items-start gap-2 text-sm text-amber-700 bg-amber-50 rounded-xl px-3 py-2.5">
+                <AlertCircle size={14} className="mt-0.5 shrink-0 text-amber-500" />
+                {(() => {
+                  const { weekday: todayKey } = getUKNow()
+                  const todayHours = businessHours?.[todayKey]
+                  if (businessHours && todayHours && !todayHours.enabled) return 'Scheduling not available — store is closed today.'
+                  return `No available time slots right now. Orders close at ${businessHours?.[todayKey]?.close ?? '22:00'}.`
+                })()}
+              </div>
+            ) : (
+              <select
+                value={scheduledFor}
+                onChange={(e) => setScheduledFor(e.target.value)}
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red bg-white"
+              >
+                {scheduleSlots.map((slot) => (
+                  <option key={slot.value} value={slot.value}>
+                    {slot.label}
+                  </option>
+                ))}
+              </select>
+            )
+          )}
         </div>
 
         {/* Delivery address / Pickup banner */}
@@ -663,7 +781,7 @@ export default function CheckoutPage() {
 
         <button
           onClick={handlePay}
-          disabled={(!isPickup && !zone) || submitting || cartItems.length === 0}
+          disabled={(!isPickup && !zone) || submitting || cartItems.length === 0 || !!storeClosedBanner}
           className="w-full bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-lg shadow-red-500/20"
         >
           {submitting

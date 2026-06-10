@@ -17,7 +17,7 @@ tags:
 - [[formatDateMedium()]] - `calls` [EXTRACTED]
 - [[formatTime()]] - `calls` [INFERRED]
 - [[page.tsx_15]] - `imports` [EXTRACTED]
-- [[page.tsx_35]] - `imports` [EXTRACTED]
-- [[page.tsx_37]] - `imports` [EXTRACTED]
+- [[page.tsx_36]] - `imports` [EXTRACTED]
+- [[page.tsx_38]] - `imports` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

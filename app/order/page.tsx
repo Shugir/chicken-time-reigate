@@ -676,6 +676,8 @@ export default function OrderPage() {
   const [drawerItem, setDrawerItem] = useState<MenuItem | null>(null)
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen] = useState(true)
+  const [closedReason, setClosedReason] = useState<string>('')
+  const [closedUntil, setClosedUntil] = useState<string | null>(null)
   const [prepTime, setPrepTime] = useState(25)
   const [storeAddress, setStoreAddress] = useState('')
   const [fulfillmentMode, setFulfillmentMode] = useState<'delivery' | 'pickup'>('delivery')
@@ -715,9 +717,13 @@ export default function OrderPage() {
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (data) {
-          setStoreOpen(data.is_open)
-          setPrepTime(data.prep_time_minutes)
+          setStoreOpen(data.isCurrentlyOpen ?? data.is_open ?? true)
+          if (data.prep_time_minutes != null) setPrepTime(data.prep_time_minutes)
           if (data.store_address) setStoreAddress(data.store_address)
+          if (!data.isCurrentlyOpen) {
+            setClosedReason(data.closedReason || 'We are currently closed')
+            setClosedUntil(data.closedUntil ?? null)
+          }
         }
       })
       .catch(() => { })
@@ -817,8 +823,9 @@ export default function OrderPage() {
 
       {/* Closed banner */}
       {!storeOpen && (
-        <div className="bg-zinc-900 text-white text-center py-3.5 text-xs font-medium tracking-wide">
-          We are currently closed and not accepting orders.
+        <div className="bg-zinc-900 text-white text-center py-3.5 text-xs font-medium tracking-wide space-y-0.5">
+          <p>⚠️ {closedReason || 'We are currently not accepting orders.'}</p>
+          {closedUntil && <p className="opacity-75">{closedUntil}</p>}
         </div>
       )}
 

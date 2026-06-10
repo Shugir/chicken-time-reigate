@@ -17,6 +17,6 @@ tags:
 - [[SiteHeader()]] - `contains` [EXTRACTED]
 - [[layout.tsx]] - `imports_from` [EXTRACTED]
 - [[layout.tsx_14]] - `imports` [EXTRACTED]
-- [[supabase_9]] - `contains` [EXTRACTED]
+- [[supabase_10]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

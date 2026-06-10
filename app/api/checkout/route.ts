@@ -3,7 +3,8 @@ import Stripe from 'stripe'
 import { createServerClient } from '@supabase/ssr'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendOrderStatusEmail } from '@/lib/email'
-import { checkStoreStatus, BusinessHours, Holiday } from '@/lib/store-status'
+import { checkStoreStatus, BusinessHours, Holiday, DayKey } from '@/lib/store-status'
+import { validateScheduledFor } from '@/lib/utils/schedule-utils'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
@@ -45,38 +46,88 @@ export async function POST(request: NextRequest) {
     const { data: { user: authUser } } = await supabaseClient.auth.getUser()
     const userId = authUser?.id ?? null
 
+    // Parse body and fetch store settings concurrently
+    const [bodyRaw, { data: storeSettings }] = await Promise.all([
+      request.json() as Promise<{
+        items: CartItem[]
+        delivery_fee?: number
+        postcode?: string
+        promo_code?: string | null
+        redeem_points?: number | null
+        customer_name?: string
+        customer_phone?: string
+        customer_email?: string
+        delivery_address?: string
+        delivery_postcode?: string
+        customer_notes?: string | null
+        order_type?: string
+        scheduled_for?: string | null
+      }>,
+      supabaseAdmin
+        .from('store_settings')
+        .select('is_accepting_orders, business_hours, holidays')
+        .eq('id', 1)
+        .single(),
+    ])
+
+    const { items, delivery_fee = 0, postcode, promo_code, redeem_points, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type, scheduled_for } = bodyRaw
+
     // Store status guard
-    const { data: storeSettings } = await supabaseAdmin
-      .from('store_settings')
-      .select('is_accepting_orders, business_hours, holidays')
-      .eq('id', 1)
-      .single()
     if (storeSettings) {
-      const status = checkStoreStatus(
-        storeSettings.is_accepting_orders ?? true,
-        storeSettings.business_hours as BusinessHours | null,
-        storeSettings.holidays as Holiday[] | null,
-      )
-      if (!status.isOpen) {
-        const msg = ['Store is currently closed.', status.closedUntil].filter(Boolean).join(' ')
-        return NextResponse.json({ error: msg }, { status: 400 })
+      // Kill-switch always applies (scheduled orders included)
+      if (!storeSettings.is_accepting_orders) {
+        return NextResponse.json({ error: 'Store is not accepting orders' }, { status: 400 })
+      }
+      // ASAP orders: also check current hours + holidays
+      // Scheduled orders: validated against their target day below
+      if (!scheduled_for) {
+        const status = checkStoreStatus(
+          true,
+          storeSettings.business_hours as BusinessHours | null,
+          storeSettings.holidays as Holiday[] | null,
+        )
+        if (!status.isOpen) {
+          const msg = ['Store is currently closed.', status.closedUntil].filter(Boolean).join(' ')
+          return NextResponse.json({ error: msg }, { status: 400 })
+        }
       }
     }
 
-    const { items, delivery_fee = 0, postcode, promo_code, redeem_points, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type }: {
-      items: CartItem[]
-      delivery_fee?: number
-      postcode?: string
-      promo_code?: string | null
-      redeem_points?: number | null
-      customer_name?: string
-      customer_phone?: string
-      customer_email?: string
-      delivery_address?: string
-      delivery_postcode?: string
-      customer_notes?: string | null
-      order_type?: string
-    } = await request.json()
+    // Validate scheduled time against actual DB hours for the target day
+    if (scheduled_for) {
+      const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/
+      if (!ISO_RE.test(scheduled_for)) {
+        return NextResponse.json({ error: 'Invalid scheduled time format' }, { status: 400 })
+      }
+      const scheduledDate = new Date(scheduled_for)
+      if (scheduledDate.getTime() > Date.now() + 7 * 24 * 60 * 60 * 1000) {
+        return NextResponse.json({ error: 'Cannot schedule more than 7 days in advance' }, { status: 400 })
+      }
+      // Holiday check for target date
+      const scheduledDateStr = scheduledDate.toLocaleDateString('en-CA', { timeZone: 'Europe/London' })
+      const holidays = storeSettings?.holidays as Holiday[] | null
+      if (holidays?.some((h) => h.date === scheduledDateStr)) {
+        return NextResponse.json({ error: 'Store is closed on that date (holiday)' }, { status: 400 })
+      }
+      const scheduledDay = scheduledDate.toLocaleDateString('en-US', {
+        timeZone: 'Europe/London', weekday: 'long',
+      }).toLowerCase() as DayKey
+      const bh = storeSettings?.business_hours as BusinessHours | null
+      const dayHours = bh?.[scheduledDay]
+      // When business_hours configured, unconfigured/disabled days are closed
+      if (bh && !dayHours?.enabled) {
+        return NextResponse.json({ error: 'Store is closed on that day' }, { status: 400 })
+      }
+      const scheduleValidation = validateScheduledFor(
+        scheduled_for,
+        new Date(),
+        dayHours?.open ?? '11:00',
+        dayHours?.close ?? '22:00',
+      )
+      if (!scheduleValidation.valid) {
+        return NextResponse.json({ error: scheduleValidation.error }, { status: 400 })
+      }
+    }
     const origin = request.headers.get('origin') || 'http://localhost:3000'
 
     const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)
@@ -145,6 +196,7 @@ export async function POST(request: NextRequest) {
         customer_email:      customer_email      ?? authUser?.email ?? null,
         promo_code_used:     discountAmount > 0 ? (promo_code?.trim().toUpperCase() ?? null) : null,
         discount_applied:    discountAmount,
+        scheduled_for:       scheduled_for ?? null,
       })
       .select('id')
       .single()
@@ -229,7 +281,7 @@ export async function POST(request: NextRequest) {
       line_items: lineItems,
       ...(stripeCouponId && { discounts: [{ coupon: stripeCouponId }] }),
       metadata: { orderId: order.id, ...(postcode && { postcode }), ...(promo_code && { promo_code }) },
-      success_url: `${origin}/order?success=true`,
+      success_url: `${origin}/track/${order.id}`,
       cancel_url:  `${origin}/order?canceled=true`,
     })
 

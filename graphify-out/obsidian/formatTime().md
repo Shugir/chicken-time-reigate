@@ -16,6 +16,6 @@ tags:
 - [[ReceiptDrawer()]] - `calls` [INFERRED]
 - [[formatDateShort()]] - `calls` [EXTRACTED]
 - [[page.tsx_8]] - `contains` [EXTRACTED]
-- [[page.tsx_48]] - `contains` [EXTRACTED]
+- [[page.tsx_49]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

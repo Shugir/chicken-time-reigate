@@ -16,6 +16,7 @@ tags:
 - [[@supabasesupabase-js]] - `contains` [EXTRACTED]
 - [[lucide-react]] - `contains` [EXTRACTED]
 - [[next]] - `contains` [EXTRACTED]
+- [[nodemailer]] - `contains` [EXTRACTED]
 - [[package.json]] - `contains` [EXTRACTED]
 - [[react]] - `contains` [EXTRACTED]
 - [[react-dom]] - `contains` [EXTRACTED]

@@ -1,8 +1,8 @@
 ---
-source_file: "app/menu/combo/page.tsx"
+source_file: "app/track/[id]/page.tsx"
 type: "code"
 community: "Community None"
-location: "L43"
+location: "L34"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,7 +12,6 @@ tags:
 # Step
 
 ## Connections
-- [[page.tsx_26]] - `contains` [EXTRACTED]
-- [[page.tsx_37]] - `contains` [EXTRACTED]
+- [[page.tsx_34]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

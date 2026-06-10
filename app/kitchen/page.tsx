@@ -13,6 +13,7 @@ import {
 import {
   formatTime, formatTimeFull, formatDateClockLabel,
 } from '@/lib/utils/format-date'
+import { isInFutureQueue } from '@/lib/utils/schedule-utils'
 import { CustomerReceipt } from '@/components/CustomerReceipt'
 
 const ALERT_URL = '/KitchenAlert.mp3'
@@ -46,6 +47,7 @@ interface Order {
   delivery_postcode: string | null
   customer_notes: string | null
   order_type?: 'delivery' | 'pickup'
+  scheduled_for: string | null
   order_items: OrderItem[]
 }
 
@@ -103,6 +105,11 @@ function OrderCard({
             <span className="inline-block mt-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-wide">🛍️ Collection</span>
           ) : (
             <span className="inline-block mt-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 uppercase tracking-wide">🚗 Delivery</span>
+          )}
+          {order.scheduled_for && (
+            <span className="inline-block mt-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30 uppercase tracking-wide">
+              ⏰ Due {formatTime(order.scheduled_for!)}
+            </span>
           )}
         </div>
         <div className="flex items-center gap-1.5 bg-white/5 rounded-lg px-3 py-1.5 text-xs text-white/50">
@@ -409,9 +416,12 @@ export default function KitchenDashboard() {
         'postgres_changes',
         { event: 'UPDATE', schema: 'public', table: 'orders' },
         (payload) => {
-          const updated = payload.new as { id: string; status: string }
+          const updated = payload.new as { id: string; status: string; scheduled_for?: string | null }
           if (updated.status === 'preparing') {
-            playAlert()
+            // Only alert for ASAP orders or orders dropping into active window
+            if (!isInFutureQueue(updated.scheduled_for ?? null, new Date())) {
+              playAlert()
+            }
             fetchOrders()
           } else if (updated.status === 'ready') {
             setOrders((prev) =>
@@ -485,7 +495,12 @@ export default function KitchenDashboard() {
   }
 
   const sq = searchQuery.trim().toLowerCase()
-  const preparing = orders.filter((o) => o.status === 'preparing' && (!sq || o.id.toLowerCase().includes(sq)))
+  const futureOrders = orders.filter(
+    (o) => o.status === 'preparing' && isInFutureQueue(o.scheduled_for, now) && (!sq || o.id.toLowerCase().includes(sq)),
+  )
+  const preparing = orders.filter(
+    (o) => o.status === 'preparing' && !isInFutureQueue(o.scheduled_for, now) && (!sq || o.id.toLowerCase().includes(sq)),
+  )
   const ready = orders.filter((o) => o.status === 'ready' && (!sq || o.id.toLowerCase().includes(sq)))
   const dispatched = orders
     .filter((o) => o.status === 'dispatched' && (!sq || o.id.toLowerCase().includes(sq)))
@@ -581,6 +596,62 @@ export default function KitchenDashboard() {
             </button>
           )}
         </div>
+
+        {/* Future Orders holding queue */}
+        {futureOrders.length > 0 && (
+          <div className="shrink-0 border-b border-orange-500/30 bg-orange-500/5">
+            <div className="flex items-center gap-3 px-6 py-3">
+              <span className="text-orange-400 text-sm">⏰</span>
+              <h2 className="font-black text-orange-300 text-sm uppercase tracking-widest">
+                Future Orders (Scheduled)
+              </h2>
+              <span className="bg-orange-500/20 text-orange-300 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center border border-orange-500/30">
+                {futureOrders.length}
+              </span>
+              <span className="ml-2 text-xs text-orange-400/60 font-medium">
+                Drops to Preparing 30 min before due time
+              </span>
+            </div>
+            <div className="flex gap-3 px-6 pb-3 overflow-x-auto">
+              {futureOrders.map((order) => (
+                <div
+                  key={order.id}
+                  className="shrink-0 w-56 bg-[#1a1a1a] rounded-xl border border-orange-500/20 p-4 flex flex-col gap-2"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="text-xs text-white/40 font-mono uppercase tracking-widest">Order</p>
+                      <p className="font-mono font-bold text-white text-sm tracking-wider">
+                        #{order.id.slice(-6).toUpperCase()}
+                      </p>
+                    </div>
+                    <span className="shrink-0 text-[11px] font-black px-2 py-1 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/30 whitespace-nowrap">
+                      ⏰ {order.scheduled_for ? formatTime(order.scheduled_for!) : ''}
+                    </span>
+                  </div>
+                  {order.customer_name && (
+                    <p className="text-xs text-white/60 truncate">{order.customer_name}</p>
+                  )}
+                  <ul className="space-y-1">
+                    {order.order_items.slice(0, 3).map((item) => (
+                      <li key={item.id} className="text-xs text-white/50">
+                        <span className="text-brand-red font-bold">{item.quantity}×</span>{' '}
+                        {item.item_name ?? 'Item'}
+                      </li>
+                    ))}
+                    {order.order_items.length > 3 && (
+                      <li className="text-xs text-white/30">+{order.order_items.length - 3} more</li>
+                    )}
+                  </ul>
+                  <div className="flex items-center justify-between text-xs text-white/30 border-t border-white/10 pt-2 mt-1">
+                    <span>{order.order_type === 'pickup' ? '🛍️ Collection' : '🚗 Delivery'}</span>
+                    <span className="font-semibold">£{order.total_amount.toFixed(2)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Three-column KDS */}
         <div className="flex-1 grid grid-cols-3 gap-0 overflow-hidden">
