@@ -1,9 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
 
+async function getStaffAdminUser() {
+  const cookieStore = await cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
+  )
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+  const { data: perms } = await supabaseAdmin
+    .from('staff_permissions')
+    .select('role')
+    .eq('email', user.email!)
+    .maybeSingle()
+  return (perms?.role === 'owner' || perms?.role === 'admin') ? user : null
+}
+
 export async function GET(request: NextRequest) {
+  const user = await getStaffAdminUser()
+  if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
   const q    = request.nextUrl.searchParams.get('q')?.trim() ?? ''
   const role = request.nextUrl.searchParams.get('role')?.trim() ?? ''
 
@@ -22,19 +44,16 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { email, password, role, permissions } = await request.json()
+  const user = await getStaffAdminUser()
+  if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-  if (!email)    return NextResponse.json({ error: 'email is required' },    { status: 400 })
-  if (!password) return NextResponse.json({ error: 'password is required' }, { status: 400 })
+  const { email, role, permissions } = await request.json()
+
+  if (!email) return NextResponse.json({ error: 'email is required' }, { status: 400 })
 
   const normalEmail = email.trim().toLowerCase()
 
-  // Create the Supabase Auth user
-  const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
-    email:         normalEmail,
-    password,
-    email_confirm: true,
-  })
+  const { data: authData, error: authError } = await supabaseAdmin.auth.admin.inviteUserByEmail(normalEmail)
 
   if (authError) {
     return NextResponse.json({ error: authError.message }, { status: 400 })
@@ -47,6 +66,7 @@ export async function POST(request: NextRequest) {
       email:       normalEmail,
       role:        role        ?? 'staff',
       permissions: permissions ?? [],
+      user_id:     authData.user.id,
     })
     .select()
     .single()

@@ -1,14 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
+
+async function getStaffAdminUser() {
+  const cookieStore = await cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } },
+  )
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+  const { data: perms } = await supabaseAdmin
+    .from('staff_permissions')
+    .select('role')
+    .eq('email', user.email!)
+    .maybeSingle()
+  return (perms?.role === 'owner' || perms?.role === 'admin') ? user : null
+}
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const user = await getStaffAdminUser()
+  if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
   const { id } = await params
-  const { role, permissions, password } = await request.json()
+  const { role, permissions } = await request.json()
 
   const update: Record<string, unknown> = {}
   if (role        !== undefined) update.role        = role
@@ -23,18 +45,6 @@ export async function PATCH(
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Update password if provided
-  if (password) {
-    const { data: { users }, error: listErr } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })
-    if (listErr) return NextResponse.json({ error: listErr.message }, { status: 500 })
-
-    const authUser = users.find((u) => u.email === data.email)
-    if (authUser) {
-      const { error: pwErr } = await supabaseAdmin.auth.admin.updateUserById(authUser.id, { password })
-      if (pwErr) return NextResponse.json({ error: pwErr.message }, { status: 500 })
-    }
-  }
-
   return NextResponse.json(data)
 }
 
@@ -42,6 +52,9 @@ export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const user = await getStaffAdminUser()
+  if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
   const { id } = await params
 
   // Get email before deleting record

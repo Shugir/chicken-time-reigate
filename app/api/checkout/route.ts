@@ -130,7 +130,6 @@ export async function POST(request: NextRequest) {
       }
     }
     // Availability guard: check items are still in stock.
-    // Note: combo_components embedded in a line item are not individually checked here.
     const itemIdsToCheck = items.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
     if (itemIdsToCheck.length > 0) {
       const { data: dbItems } = await supabaseAdmin
@@ -158,6 +157,28 @@ export async function POST(request: NextRequest) {
                 { status: 400 },
               )
             }
+          }
+        }
+      }
+    }
+
+    const allComponents = items.flatMap(i => i.combo_components ?? [])
+    const componentIds = [...new Set(allComponents.map(c => c.id))]
+    if (componentIds.length > 0) {
+      const { data: dbComponents } = await supabaseAdmin
+        .from('menu_items')
+        .select('id, name, is_available')
+        .in('id', componentIds)
+      if (dbComponents) {
+        const compMap = new Map(dbComponents.map(r => [r.id, r]))
+        for (const comp of allComponents) {
+          const db = compMap.get(comp.id)
+          if (!db) continue
+          if (!db.is_available) {
+            return NextResponse.json(
+              { error: `Sorry, ${db.name} just sold out. Please update your cart to continue.` },
+              { status: 400 },
+            )
           }
         }
       }

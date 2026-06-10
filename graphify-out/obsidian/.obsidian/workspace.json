@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "be700807f3e31c7b",
+        "id": "f27d48aba03af2bd",
         "type": "tabs",
         "children": [
           {
-            "id": "0cd3e89758ae97cd",
+            "id": "2d3710d96c4f0ba5",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -75,8 +75,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "f3a5e9c752a83dfb",
@@ -178,8 +177,9 @@
       "bases:Create new base": false
     }
   },
-  "active": "0cd3e89758ae97cd",
+  "active": "2d3710d96c4f0ba5",
   "lastOpenFiles": [
+    "Untitled.base",
     "renderPieLabel().md",
     "PIE_COLORS.md",
     "SplitPoint.md",
@@ -205,7 +205,6 @@
     "Stepper().md",
     "OrderNotFound().md",
     "getStep()_1.md",
-    "COLLECTION_STEPS.md",
     "Untitled 2.canvas",
     "graph.canvas",
     "Untitled 1.canvas",

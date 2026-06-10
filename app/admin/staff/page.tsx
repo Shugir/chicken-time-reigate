@@ -11,9 +11,10 @@ import { AdminDataTable, type Column, type FilterConfig } from '@/components/Adm
 interface StaffMember {
   id: string
   email: string
-  role: 'owner' | 'staff'
+  role: 'owner' | 'admin' | 'manager' | 'kitchen' | 'driver' | 'staff'
   permissions: string[]
   created_at: string
+  user_id?: string | null
 }
 
 const ALL_PERMISSIONS = [
@@ -34,12 +35,11 @@ const ALL_PERMISSIONS = [
 
 interface StaffForm {
   email:       string
-  password:    string
-  role:        'owner' | 'staff'
+  role:        'owner' | 'admin' | 'manager' | 'kitchen' | 'driver' | 'staff'
   permissions: string[]
 }
 
-const EMPTY_FORM: StaffForm = { email: '', password: '', role: 'staff', permissions: [] }
+const EMPTY_FORM: StaffForm = { email: '', role: 'staff', permissions: [] }
 
 export default function StaffPage() {
   const searchParams = useSearchParams()
@@ -73,7 +73,7 @@ export default function StaffPage() {
 
   function openEdit(member: StaffMember) {
     setEditing(member)
-    setForm({ email: member.email, password: '', role: member.role, permissions: [...member.permissions] })
+    setForm({ email: member.email, role: member.role, permissions: [...member.permissions] })
     setSaveError(''); setShowForm(true)
   }
 
@@ -88,12 +88,11 @@ export default function StaffPage() {
 
   async function handleSave() {
     if (!form.email.trim()) { setSaveError('Email is required'); return }
-    if (!editing && !form.password.trim()) { setSaveError('Password is required'); return }
     setSaving(true); setSaveError('')
     try {
       const body = editing
-        ? { role: form.role, permissions: form.permissions, ...(form.password ? { password: form.password } : {}) }
-        : { email: form.email.trim(), password: form.password, role: form.role, permissions: form.permissions }
+        ? { role: form.role, permissions: form.permissions }
+        : { email: form.email.trim(), role: form.role, permissions: form.permissions }
       const res = editing
         ? await fetch(`/api/admin/staff/${editing.id}`, {
             method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
@@ -133,13 +132,21 @@ export default function StaffPage() {
     {
       key: 'role',
       label: 'Role',
-      render: (member) => (
-        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
-          member.role === 'owner' ? 'bg-amber-500/20 text-amber-400' : 'bg-zinc-700/60 text-zinc-300'
-        }`}>
-          {member.role === 'owner' ? 'Owner' : 'Staff'}
-        </span>
-      ),
+      render: (member) => {
+        const roleColors: Record<string, string> = {
+          owner:   'bg-amber-500/20 text-amber-400',
+          admin:   'bg-purple-500/20 text-purple-400',
+          manager: 'bg-blue-500/20 text-blue-400',
+          kitchen: 'bg-orange-500/20 text-orange-400',
+          driver:  'bg-green-500/20 text-green-400',
+          staff:   'bg-zinc-700/60 text-zinc-300',
+        }
+        return (
+          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${roleColors[member.role] ?? 'bg-zinc-700/60 text-zinc-300'}`}>
+            {member.role}
+          </span>
+        )
+      },
     },
     {
       key: 'permissions',
@@ -185,8 +192,12 @@ export default function StaffPage() {
     paramKey: 'role',
     allLabel: 'All Roles',
     options: [
-      { label: 'Owner', value: 'owner' },
-      { label: 'Staff', value: 'staff' },
+      { label: 'Owner',   value: 'owner' },
+      { label: 'Admin',   value: 'admin' },
+      { label: 'Manager', value: 'manager' },
+      { label: 'Kitchen', value: 'kitchen' },
+      { label: 'Driver',  value: 'driver' },
+      { label: 'Staff',   value: 'staff' },
     ],
   }
 
@@ -205,7 +216,7 @@ export default function StaffPage() {
             className="flex items-center gap-2 px-4 py-2 bg-brand-red hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors"
           >
             <Plus className="w-4 h-4" />
-            Add Staff
+            Invite Staff
           </button>
         </header>
 
@@ -247,40 +258,22 @@ export default function StaffPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-zinc-400 mb-1.5">
-                  {editing ? 'New Password' : 'Password *'}
-                </label>
-                <input
-                  type="password"
-                  value={form.password}
-                  onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-                  placeholder={editing ? 'Leave blank to keep current' : 'Min. 6 characters'}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red"
-                />
-              </div>
-
-              <div>
                 <label className="block text-sm font-medium text-zinc-400 mb-1.5">Role</label>
-                <div className="flex gap-3">
-                  {(['staff', 'owner'] as const).map((r) => (
-                    <button
-                      key={r}
-                      onClick={() => setForm((f) => ({ ...f, role: r }))}
-                      className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border transition-colors capitalize ${
-                        form.role === r
-                          ? r === 'owner'
-                            ? 'bg-amber-500/20 border-amber-500/40 text-amber-300'
-                            : 'bg-brand-red/20 border-brand-red/40 text-red-300'
-                          : 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:bg-zinc-700'
-                      }`}
-                    >
-                      {r === 'owner' ? 'Owner (full access)' : 'Staff (custom)'}
-                    </button>
-                  ))}
-                </div>
+                <select
+                  value={form.role}
+                  onChange={(e) => setForm((f) => ({ ...f, role: e.target.value as StaffForm['role'] }))}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-red appearance-none"
+                >
+                  <option value="staff">Staff (custom permissions)</option>
+                  <option value="kitchen">Kitchen</option>
+                  <option value="driver">Driver</option>
+                  <option value="manager">Manager</option>
+                  <option value="admin">Admin</option>
+                  <option value="owner">Owner (full access)</option>
+                </select>
               </div>
 
-              {form.role === 'staff' && (
+              {form.role !== 'owner' && (
                 <div>
                   <label className="block text-sm font-medium text-zinc-400 mb-3">Page Access</label>
                   <div className="space-y-2">
@@ -322,7 +315,7 @@ export default function StaffPage() {
                 </button>
                 <button onClick={handleSave} disabled={saving} className="flex-1 px-4 py-2.5 rounded-lg bg-brand-red hover:bg-red-600 text-white text-sm font-semibold transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
                   {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-                  {editing ? 'Save Changes' : 'Add Staff Member'}
+                  {editing ? 'Save Changes' : 'Send Invite'}
                 </button>
               </div>
             </div>
