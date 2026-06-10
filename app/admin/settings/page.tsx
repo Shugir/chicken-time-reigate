@@ -36,6 +36,8 @@ interface StoreSettings {
   store_address:        string | null
   business_hours:       BusinessHours
   holidays:             Holiday[]
+  email_sender_name:    string
+  email_sender_address: string | null
 }
 
 const DEFAULT_HOURS: BusinessHours = {
@@ -62,6 +64,11 @@ export default function SettingsPage() {
   const [contactPhone, setContactPhone] = useState('')
   const [storeAddress, setStoreAddress] = useState('')
   const contactTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Email sender
+  const [senderName, setSenderName]       = useState('')
+  const [senderAddress, setSenderAddress] = useState('')
+  const senderTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Hours
   const [hours, setHours]             = useState<BusinessHours>(DEFAULT_HOURS)
@@ -90,6 +97,8 @@ export default function SettingsPage() {
         setContactEmail(data.contact_email ?? '')
         setContactPhone(data.contact_phone ?? '')
         setStoreAddress(data.store_address ?? '')
+        setSenderName(data.email_sender_name ?? 'Restaurant Orders')
+        setSenderAddress(data.email_sender_address ?? '')
         setHours(data.business_hours ?? DEFAULT_HOURS)
         setHolidays(data.holidays ?? [])
         setLoading(false)
@@ -129,6 +138,16 @@ export default function SettingsPage() {
     if (field === 'store_address') setStoreAddress(value)
     if (contactTimer.current) clearTimeout(contactTimer.current)
     contactTimer.current = setTimeout(() => {
+      patch({ [field]: value.trim() || null }).catch(() => {})
+    }, 800)
+  }
+
+  // ── Email sender auto-save ─────────────────────────────────────
+  function handleSenderChange(field: 'email_sender_name' | 'email_sender_address', value: string) {
+    if (field === 'email_sender_name') setSenderName(value)
+    else setSenderAddress(value)
+    if (senderTimer.current) clearTimeout(senderTimer.current)
+    senderTimer.current = setTimeout(() => {
       patch({ [field]: value.trim() || null }).catch(() => {})
     }, 800)
   }
@@ -290,6 +309,42 @@ export default function SettingsPage() {
                     placeholder="Store address (e.g. 12 High Street, Reigate, Surrey RH2 9AZ)"
                     rows={2}
                     className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red resize-none" />
+                </div>
+              </div>
+            </div>
+
+            {/* ── Email Notifications ── */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+              <div className="flex items-center gap-4 mb-5">
+                <div className="w-12 h-12 rounded-xl bg-rose-500/15 flex items-center justify-center shrink-0">
+                  <Mail className="w-6 h-6 text-rose-400" />
+                </div>
+                <div>
+                  <p className="text-base font-semibold text-white">Email Notifications</p>
+                  <p className="text-sm text-zinc-500 mt-0.5">Sender shown on dispatched &amp; delivered emails · auto-saves</p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wide">Sender name</label>
+                  <input
+                    type="text"
+                    value={senderName}
+                    onChange={e => handleSenderChange('email_sender_name', e.target.value)}
+                    placeholder="e.g. Chicken Time Reigate"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wide">Sender email address</label>
+                  <input
+                    type="email"
+                    value={senderAddress}
+                    onChange={e => handleSenderChange('email_sender_address', e.target.value)}
+                    placeholder="e.g. orders@chickentimesurrey.co.uk"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-red"
+                  />
+                  <p className="text-xs text-zinc-600 mt-1.5">Must match your SMTP_USER or be an alias on the same account.</p>
                 </div>
               </div>
             </div>

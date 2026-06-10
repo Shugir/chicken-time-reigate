@@ -175,8 +175,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\settings\\page.tsx": {
-    "mtime": 1780799602.9628985,
-    "ast_hash": "4b876c326659df53bce55ef8188a2b5b",
+    "mtime": 1781051371.8197954,
+    "ast_hash": "ec3c1712697f7e99f5c14a36f8210283",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\admin\\staff\\layout.tsx": {
@@ -260,8 +260,8 @@
     "semantic_hash": "add8e7f8921f6229c91e85f5dae23a5e"
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\admin\\dispatch\\route.ts": {
-    "mtime": 1781008287.5196326,
-    "ast_hash": "819ff14252dc7437eb41a6058acf59ca",
+    "mtime": 1781051171.465474,
+    "ast_hash": "5f50c439e6ef149bca74d636ad0d5fd6",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\admin\\drivers\\route.ts": {
@@ -375,8 +375,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\driver\\orders\\[id]\\route.ts": {
-    "mtime": 1780930338.9176679,
-    "ast_hash": "9255ffc32d30896e85a9df7d11a8949a",
+    "mtime": 1781051189.1411479,
+    "ast_hash": "7a5a7da45409e8a5a0871e52956420b7",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\api\\drivers\\route.ts": {
@@ -669,6 +669,21 @@
     "ast_hash": "c03d05dbe6fa9c504d95a8aecc09e4b9",
     "semantic_hash": "c03d05dbe6fa9c504d95a8aecc09e4b9"
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\lib\\email\\send.ts": {
+    "mtime": 1781050922.7795494,
+    "ast_hash": "180b829a8ec6c0553dec5174b7ea2d4d",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\lib\\email\\templates.ts": {
+    "mtime": 1781050904.5384917,
+    "ast_hash": "f9c05dbf04e0092ddf21086508e4c18f",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\lib\\email\\transporter.ts": {
+    "mtime": 1781050874.3760128,
+    "ast_hash": "47cb08cbf17624928f4dd5d0d3392c0c",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\lib\\utils\\format-date.ts": {
     "mtime": 1780698568.9124248,
     "ast_hash": "aa4e9157763ebc3f23e085898c59158a",
@@ -748,6 +763,11 @@
     "mtime": 1780560433.1438968,
     "ast_hash": "c7e733101d43c55006320e2de2a000d6",
     "semantic_hash": "c7e733101d43c55006320e2de2a000d6"
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\supabase\\migrations\\20260610_email_settings.sql": {
+    "mtime": 1781050865.365158,
+    "ast_hash": "70f99ddc181ef88a71ea9dfbc318be95",
+    "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\supabase\\migrations\\20260610_public_menu.sql": {
     "mtime": 1780570547.612314,

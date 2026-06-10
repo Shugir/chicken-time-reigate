@@ -3,6 +3,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { buildDispatchActionUpdate } from '@/lib/order-status'
+import { sendDispatchedEmail, sendDeliveredEmail } from '@/lib/email/send'
 
 export const dynamic = 'force-dynamic'
 
@@ -209,6 +210,37 @@ export async function PATCH(req: NextRequest) {
   if (prevDriverId) affected.add(prevDriverId)
   if (typeof driver_id === 'string' && driver_id) affected.add(driver_id)
   await Promise.all([...affected].map(syncDriverStatus))
+
+  // ── Email triggers ────────────────────────────────────────────────────────
+  const origin = new URL(req.url).origin
+
+  if (typeof driver_id !== 'undefined' && driver_id && !action) {
+    const [{ data: fullOrder }, { data: driverRow }] = await Promise.all([
+      supabaseAdmin.from('orders').select('customer_email, customer_name').eq('id', order_id).maybeSingle(),
+      supabaseAdmin.from('drivers').select('name').eq('id', driver_id).maybeSingle(),
+    ])
+    sendDispatchedEmail({
+      orderId:      order_id,
+      to:           (fullOrder as { customer_email: string | null } | null)?.customer_email ?? null,
+      customerName: fullOrder?.customer_name ?? null,
+      driverName:   driverRow?.name ?? null,
+      origin,
+    })
+  }
+
+  if (action === 'delivered') {
+    const { data: fullOrder } = await supabaseAdmin
+      .from('orders')
+      .select('customer_email, customer_name, order_type')
+      .eq('id', order_id)
+      .maybeSingle()
+    sendDeliveredEmail({
+      orderId:      order_id,
+      to:           (fullOrder as { customer_email: string | null } | null)?.customer_email ?? null,
+      customerName: fullOrder?.customer_name ?? null,
+      isPickup:     (fullOrder as { order_type: string | null } | null)?.order_type === 'pickup',
+    })
+  }
 
   return NextResponse.json({ success: true })
 }

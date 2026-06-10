@@ -769,7 +769,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L1",
       "id": "app_account_page_tsx",
-      "community": 75,
+      "community": 80,
       "norm_label": "page.tsx"
     },
     {
@@ -778,7 +778,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L19",
       "id": "account_page_supabase",
-      "community": 75,
+      "community": 80,
       "norm_label": "supabase"
     },
     {
@@ -787,7 +787,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L26",
       "id": "account_page_orderitem",
-      "community": 75,
+      "community": 80,
       "norm_label": "orderitem"
     },
     {
@@ -796,7 +796,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L36",
       "id": "account_page_order",
-      "community": 75,
+      "community": 80,
       "norm_label": "order"
     },
     {
@@ -805,7 +805,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L52",
       "id": "account_page_promocode",
-      "community": 75,
+      "community": 80,
       "norm_label": "promocode"
     },
     {
@@ -814,7 +814,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L59",
       "id": "account_page_profile",
-      "community": 75,
+      "community": 80,
       "norm_label": "profile"
     },
     {
@@ -823,7 +823,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L65",
       "id": "account_page_tab",
-      "community": 75,
+      "community": 80,
       "norm_label": "tab"
     },
     {
@@ -832,7 +832,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L69",
       "id": "account_page_timeline",
-      "community": 75,
+      "community": 80,
       "norm_label": "timeline"
     },
     {
@@ -841,7 +841,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L76",
       "id": "account_page_trackingstep",
-      "community": 75,
+      "community": 80,
       "norm_label": "trackingstep()"
     },
     {
@@ -850,7 +850,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L83",
       "id": "account_page_statuslabel",
-      "community": 75,
+      "community": 80,
       "norm_label": "statuslabel()"
     },
     {
@@ -859,7 +859,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L93",
       "id": "account_page_statuscolor",
-      "community": 75,
+      "community": 80,
       "norm_label": "statuscolor()"
     },
     {
@@ -868,7 +868,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L102",
       "id": "account_page_offercard",
-      "community": 75,
+      "community": 80,
       "norm_label": "offercard()"
     },
     {
@@ -877,7 +877,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L153",
       "id": "account_page_ordercard",
-      "community": 75,
+      "community": 80,
       "norm_label": "ordercard()"
     },
     {
@@ -886,7 +886,7 @@
       "source_file": "app/account/page.tsx",
       "source_location": "L262",
       "id": "account_page_accountpage",
-      "community": 75,
+      "community": 80,
       "norm_label": "accountpage()"
     },
     {
@@ -1534,7 +1534,7 @@
       "source_file": "app/admin/dashboard/page.tsx",
       "source_location": "L38",
       "id": "dashboard_page_formattime",
-      "community": 74,
+      "community": 75,
       "norm_label": "formattime()"
     },
     {
@@ -2261,7 +2261,7 @@
       "label": "DEFAULT_HOURS",
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
-      "source_location": "L41",
+      "source_location": "L43",
       "id": "settings_page_default_hours",
       "community": 115,
       "norm_label": "default_hours"
@@ -2270,7 +2270,7 @@
       "label": "SaveState",
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
-      "source_location": "L51",
+      "source_location": "L53",
       "id": "settings_page_savestate",
       "community": 115,
       "norm_label": "savestate"
@@ -2279,7 +2279,7 @@
       "label": "SettingsPage()",
       "file_type": "code",
       "source_file": "app/admin/settings/page.tsx",
-      "source_location": "L53",
+      "source_location": "L55",
       "id": "settings_page_settingspage",
       "community": 115,
       "norm_label": "settingspage()"
@@ -2497,7 +2497,7 @@
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_analytics_route_ts",
-      "community": 123,
+      "community": 3,
       "norm_label": "route.ts"
     },
     {
@@ -2506,7 +2506,7 @@
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L6",
       "id": "analytics_route_dow_labels",
-      "community": 123,
+      "community": 3,
       "norm_label": "dow_labels"
     },
     {
@@ -2515,7 +2515,7 @@
       "source_file": "app/api/admin/analytics/route.ts",
       "source_location": "L8",
       "id": "analytics_route_get",
-      "community": 123,
+      "community": 3,
       "norm_label": "get()"
     },
     {
@@ -2632,7 +2632,7 @@
       "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_dashboard_route_ts",
-      "community": 116,
+      "community": 84,
       "norm_label": "route.ts"
     },
     {
@@ -2641,7 +2641,7 @@
       "source_file": "app/api/admin/dashboard/route.ts",
       "source_location": "L6",
       "id": "dashboard_route_get",
-      "community": 116,
+      "community": 84,
       "norm_label": "get()"
     },
     {
@@ -2686,43 +2686,43 @@
       "source_file": "app/api/admin/dispatch/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_dispatch_route_ts",
-      "community": 94,
+      "community": 104,
       "norm_label": "route.ts"
     },
     {
       "label": "getAdminUser()",
       "file_type": "code",
       "source_file": "app/api/admin/dispatch/route.ts",
-      "source_location": "L9",
+      "source_location": "L10",
       "id": "dispatch_route_getadminuser",
-      "community": 94,
+      "community": 104,
       "norm_label": "getadminuser()"
     },
     {
       "label": "GET()",
       "file_type": "code",
       "source_file": "app/api/admin/dispatch/route.ts",
-      "source_location": "L34",
+      "source_location": "L35",
       "id": "dispatch_route_get",
-      "community": 94,
+      "community": 104,
       "norm_label": "get()"
     },
     {
       "label": "syncDriverStatus()",
       "file_type": "code",
       "source_file": "app/api/admin/dispatch/route.ts",
-      "source_location": "L86",
+      "source_location": "L87",
       "id": "dispatch_route_syncdriverstatus",
-      "community": 94,
+      "community": 104,
       "norm_label": "syncdriverstatus()"
     },
     {
       "label": "PATCH()",
       "file_type": "code",
       "source_file": "app/api/admin/dispatch/route.ts",
-      "source_location": "L99",
+      "source_location": "L100",
       "id": "dispatch_route_patch",
-      "community": 94,
+      "community": 104,
       "norm_label": "patch()"
     },
     {
@@ -2803,7 +2803,7 @@
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_loyalty_route_ts",
-      "community": 117,
+      "community": 3,
       "norm_label": "route.ts"
     },
     {
@@ -2812,7 +2812,7 @@
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L6",
       "id": "loyalty_route_get",
-      "community": 117,
+      "community": 3,
       "norm_label": "get()"
     },
     {
@@ -2821,7 +2821,7 @@
       "source_file": "app/api/admin/loyalty/route.ts",
       "source_location": "L33",
       "id": "loyalty_route_post",
-      "community": 117,
+      "community": 3,
       "norm_label": "post()"
     },
     {
@@ -2830,7 +2830,7 @@
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_menu_suggestions_route_ts",
-      "community": 80,
+      "community": 84,
       "norm_label": "route.ts"
     },
     {
@@ -2839,7 +2839,7 @@
       "source_file": "app/api/admin/menu/suggestions/route.ts",
       "source_location": "L6",
       "id": "suggestions_route_get",
-      "community": 80,
+      "community": 84,
       "norm_label": "get()"
     },
     {
@@ -3046,7 +3046,7 @@
       "source_file": "app/api/admin/store-settings/route.ts",
       "source_location": "L1",
       "id": "app_api_admin_store_settings_route_ts",
-      "community": 119,
+      "community": 115,
       "norm_label": "route.ts"
     },
     {
@@ -3055,7 +3055,7 @@
       "source_file": "app/api/store-settings/route.ts",
       "source_location": "L7",
       "id": "store_settings_route_get",
-      "community": 119,
+      "community": 115,
       "norm_label": "get()"
     },
     {
@@ -3064,7 +3064,7 @@
       "source_file": "app/api/admin/store-settings/route.ts",
       "source_location": "L15",
       "id": "store_settings_route_patch",
-      "community": 119,
+      "community": 115,
       "norm_label": "patch()"
     },
     {
@@ -3163,7 +3163,7 @@
       "source_file": "app/api/checkout/route.ts",
       "source_location": "L15",
       "id": "checkout_route_combocomponent",
-      "community": 0,
+      "community": 8,
       "norm_label": "combocomponent"
     },
     {
@@ -3199,7 +3199,7 @@
       "source_file": "app/api/driver/orders/route.ts",
       "source_location": "L1",
       "id": "app_api_driver_orders_route_ts",
-      "community": 104,
+      "community": 3,
       "norm_label": "route.ts"
     },
     {
@@ -3208,7 +3208,7 @@
       "source_file": "app/api/kitchen/orders/route.ts",
       "source_location": "L6",
       "id": "orders_route_get",
-      "community": 104,
+      "community": 3,
       "norm_label": "get()"
     },
     {
@@ -3262,7 +3262,7 @@
       "source_file": "app/api/kitchen/orders/route.ts",
       "source_location": "L1",
       "id": "app_api_kitchen_orders_route_ts",
-      "community": 104,
+      "community": 3,
       "norm_label": "route.ts"
     },
     {
@@ -3307,7 +3307,7 @@
       "source_file": "app/api/menu/combo-items/route.ts",
       "source_location": "L1",
       "id": "app_api_menu_combo_items_route_ts",
-      "community": 118,
+      "community": 84,
       "norm_label": "route.ts"
     },
     {
@@ -3316,7 +3316,7 @@
       "source_file": "app/api/menu/combo-items/route.ts",
       "source_location": "L4",
       "id": "combo_items_route_get",
-      "community": 118,
+      "community": 84,
       "norm_label": "get()"
     },
     {
@@ -3397,7 +3397,7 @@
       "source_file": "app/api/store-settings/route.ts",
       "source_location": "L1",
       "id": "app_api_store_settings_route_ts",
-      "community": 119,
+      "community": 115,
       "norm_label": "route.ts"
     },
     {
@@ -3424,7 +3424,7 @@
       "source_file": "app/api/webhook/route.ts",
       "source_location": "L1",
       "id": "app_api_webhook_route_ts",
-      "community": 3,
+      "community": 8,
       "norm_label": "route.ts"
     },
     {
@@ -3433,7 +3433,7 @@
       "source_file": "app/api/webhook/route.ts",
       "source_location": "L8",
       "id": "webhook_route_stripe",
-      "community": 2,
+      "community": 8,
       "norm_label": "stripe"
     },
     {
@@ -4774,7 +4774,7 @@
       "source_file": "components/admin/receipts/types.ts",
       "source_location": "L13",
       "id": "receipts_types_adminreceiptorder",
-      "community": 8,
+      "community": 75,
       "norm_label": "adminreceiptorder"
     },
     {
@@ -5125,7 +5125,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L1",
       "id": "lib_store_status_ts",
-      "community": 119,
+      "community": 115,
       "norm_label": "store-status.ts"
     },
     {
@@ -5152,7 +5152,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L6",
       "id": "lib_store_status_dayhours",
-      "community": 119,
+      "community": 115,
       "norm_label": "dayhours"
     },
     {
@@ -5161,7 +5161,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L12",
       "id": "lib_store_status_businesshours",
-      "community": 119,
+      "community": 115,
       "norm_label": "businesshours"
     },
     {
@@ -5170,7 +5170,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L14",
       "id": "lib_store_status_holiday",
-      "community": 119,
+      "community": 115,
       "norm_label": "holiday"
     },
     {
@@ -5179,7 +5179,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L19",
       "id": "lib_store_status_storestatusresult",
-      "community": 119,
+      "community": 115,
       "norm_label": "storestatusresult"
     },
     {
@@ -5188,7 +5188,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L25",
       "id": "lib_store_status_getuknow",
-      "community": 119,
+      "community": 83,
       "norm_label": "getuknow()"
     },
     {
@@ -5197,7 +5197,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L41",
       "id": "lib_store_status_checkstorestatus",
-      "community": 119,
+      "community": 115,
       "norm_label": "checkstorestatus()"
     },
     {
@@ -5206,7 +5206,7 @@
       "source_file": "lib/store-status.ts",
       "source_location": "L87",
       "id": "lib_store_status_getnextopenday",
-      "community": 119,
+      "community": 115,
       "norm_label": "getnextopenday()"
     },
     {
@@ -5226,6 +5226,141 @@
       "id": "lib_supabase_admin_supabaseadmin",
       "community": 84,
       "norm_label": "supabaseadmin"
+    },
+    {
+      "label": "send.ts",
+      "file_type": "code",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L1",
+      "id": "lib_email_send_ts",
+      "community": 104,
+      "norm_label": "send.ts"
+    },
+    {
+      "label": "SenderConfig",
+      "file_type": "code",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L5",
+      "id": "email_send_senderconfig",
+      "community": 104,
+      "norm_label": "senderconfig"
+    },
+    {
+      "label": "getSender()",
+      "file_type": "code",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L10",
+      "id": "email_send_getsender",
+      "community": 104,
+      "norm_label": "getsender()"
+    },
+    {
+      "label": "safeSend()",
+      "file_type": "code",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L23",
+      "id": "email_send_safesend",
+      "community": 104,
+      "norm_label": "safesend()"
+    },
+    {
+      "label": "sendDispatchedEmail()",
+      "file_type": "code",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L41",
+      "id": "email_send_senddispatchedemail",
+      "community": 104,
+      "norm_label": "senddispatchedemail()"
+    },
+    {
+      "label": "sendDeliveredEmail()",
+      "file_type": "code",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L63",
+      "id": "email_send_senddeliveredemail",
+      "community": 104,
+      "norm_label": "senddeliveredemail()"
+    },
+    {
+      "label": "templates.ts",
+      "file_type": "code",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L1",
+      "id": "lib_email_templates_ts",
+      "community": 116,
+      "norm_label": "templates.ts"
+    },
+    {
+      "label": "BRAND",
+      "file_type": "code",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L1",
+      "id": "email_templates_brand",
+      "community": 116,
+      "norm_label": "brand"
+    },
+    {
+      "label": "shell()",
+      "file_type": "code",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L7",
+      "id": "email_templates_shell",
+      "community": 116,
+      "norm_label": "shell()"
+    },
+    {
+      "label": "DispatchedTemplateData",
+      "file_type": "code",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L31",
+      "id": "email_templates_dispatchedtemplatedata",
+      "community": 116,
+      "norm_label": "dispatchedtemplatedata"
+    },
+    {
+      "label": "dispatched()",
+      "file_type": "code",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L38",
+      "id": "email_templates_dispatched",
+      "community": 116,
+      "norm_label": "dispatched()"
+    },
+    {
+      "label": "DeliveredTemplateData",
+      "file_type": "code",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L70",
+      "id": "email_templates_deliveredtemplatedata",
+      "community": 116,
+      "norm_label": "deliveredtemplatedata"
+    },
+    {
+      "label": "delivered()",
+      "file_type": "code",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L76",
+      "id": "email_templates_delivered",
+      "community": 116,
+      "norm_label": "delivered()"
+    },
+    {
+      "label": "transporter.ts",
+      "file_type": "code",
+      "source_file": "lib/email/transporter.ts",
+      "source_location": "L1",
+      "id": "lib_email_transporter_ts",
+      "community": 104,
+      "norm_label": "transporter.ts"
+    },
+    {
+      "label": "getTransporter()",
+      "file_type": "code",
+      "source_file": "lib/email/transporter.ts",
+      "source_location": "L7",
+      "id": "email_transporter_gettransporter",
+      "community": 104,
+      "norm_label": "gettransporter()"
     },
     {
       "label": "format-date.ts",
@@ -5287,7 +5422,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L29",
       "id": "utils_format_date_formatdatetime",
-      "community": 75,
+      "community": 80,
       "norm_label": "formatdatetime()"
     },
     {
@@ -5296,7 +5431,7 @@
       "source_file": "lib/utils/format-date.ts",
       "source_location": "L34",
       "id": "utils_format_date_formatdateshort",
-      "community": 74,
+      "community": 75,
       "norm_label": "formatdateshort()"
     },
     {
@@ -5575,7 +5710,7 @@
       "source_file": "lib/utils/schedule-utils.ts",
       "source_location": "L1",
       "id": "lib_utils_schedule_utils_ts",
-      "community": 112,
+      "community": 83,
       "norm_label": "schedule-utils.ts"
     },
     {
@@ -5593,7 +5728,7 @@
       "source_file": "lib/utils/schedule-utils.ts",
       "source_location": "L10",
       "id": "utils_schedule_utils_generatescheduleslots",
-      "community": 112,
+      "community": 83,
       "norm_label": "generatescheduleslots()"
     },
     {
@@ -5602,7 +5737,7 @@
       "source_file": "lib/utils/schedule-utils.ts",
       "source_location": "L51",
       "id": "utils_schedule_utils_isinfuturequeue",
-      "community": 112,
+      "community": 83,
       "norm_label": "isinfuturequeue()"
     },
     {
@@ -5883,6 +6018,24 @@
       "id": "20260609_order_items_notes_order_items",
       "community": 100,
       "norm_label": "order_items"
+    },
+    {
+      "label": "20260610_email_settings.sql",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260610_email_settings.sql",
+      "source_location": null,
+      "id": "supabase_migrations_20260610_email_settings_sql",
+      "community": 117,
+      "norm_label": "20260610_email_settings.sql"
+    },
+    {
+      "label": "store_settings",
+      "file_type": "code",
+      "source_file": "supabase/migrations/20260610_email_settings.sql",
+      "source_location": "L1",
+      "id": "20260610_email_settings_store_settings",
+      "community": 117,
+      "norm_label": "store_settings"
     },
     {
       "label": "20260610_public_menu.sql",
@@ -8355,7 +8508,7 @@
       "file_type": "code",
       "source_file": "api/driver/orders/route.ts",
       "source_location": "L1",
-      "community": 104,
+      "community": 3,
       "norm_label": "route.ts",
       "id": "api_driver_orders_route_ts"
     },
@@ -8760,7 +8913,7 @@
       "file_type": "code",
       "source_file": "combo-items/route.ts",
       "source_location": "L1",
-      "community": 118,
+      "community": 84,
       "norm_label": "route.ts",
       "id": "combo_items_route_ts"
     },
@@ -8967,7 +9120,7 @@
       "file_type": "code",
       "source_file": "account/page.tsx",
       "source_location": "L1",
-      "community": 75,
+      "community": 80,
       "norm_label": "page.tsx",
       "id": "account_page_tsx"
     },
@@ -9057,7 +9210,7 @@
       "file_type": "code",
       "source_file": "api/admin/menu/suggestions/route.ts",
       "source_location": "L1",
-      "community": 80,
+      "community": 84,
       "norm_label": "route.ts",
       "id": "api_admin_menu_suggestions_route_ts"
     },
@@ -9102,7 +9255,7 @@
       "file_type": "code",
       "source_file": "app/account/page.tsx",
       "source_location": "L87",
-      "community": 75,
+      "community": 80,
       "norm_label": "fmtdate()",
       "id": "account_page_fmtdate"
     },
@@ -9345,7 +9498,7 @@
       "file_type": "code",
       "source_file": "api/admin/dashboard/route.ts",
       "source_location": "L1",
-      "community": 116,
+      "community": 84,
       "norm_label": "route.ts",
       "id": "api_admin_dashboard_route_ts"
     },
@@ -11991,9 +12144,9 @@
       "source_file": "package.json",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "chicken_time_reigate_package_dependencies",
-      "target": "chicken_time_reigate_package_dependencies_nodemailer",
-      "confidence_score": 1.0
+      "target": "chicken_time_reigate_package_dependencies_nodemailer"
     },
     {
       "relation": "contains",
@@ -12091,9 +12244,9 @@
       "source_file": "package.json",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "chicken_time_reigate_package_devdependencies",
-      "target": "chicken_time_reigate_package_devdependencies_types_nodemailer",
-      "confidence_score": 1.0
+      "target": "chicken_time_reigate_package_devdependencies_types_nodemailer"
     },
     {
       "relation": "contains",
@@ -17837,6 +17990,17 @@
     {
       "relation": "calls",
       "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/api/driver/orders/[id]/route.ts",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "id_route_patch",
+      "target": "email_send_senddeliveredemail"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/kitchen/delivery/[id]/route.ts",
@@ -18250,6 +18414,39 @@
       "target": "lib_order_status_builddispatchactionupdate"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_api_admin_dispatch_route_ts",
+      "target": "lib_email_send_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_api_admin_dispatch_route_ts",
+      "target": "email_send_senddispatchedemail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_api_admin_dispatch_route_ts",
+      "target": "email_send_senddeliveredemail",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/admin/dispatch/route.ts",
@@ -18321,6 +18518,28 @@
       "weight": 1.0,
       "source": "dispatch_route_patch",
       "target": "lib_order_status_builddispatchactionupdate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L222",
+      "weight": 1.0,
+      "source": "dispatch_route_patch",
+      "target": "email_send_senddispatchedemail"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/admin/dispatch/route.ts",
+      "source_location": "L237",
+      "weight": 1.0,
+      "source": "dispatch_route_patch",
+      "target": "email_send_senddeliveredemail"
     },
     {
       "relation": "imports_from",
@@ -19563,9 +19782,9 @@
       "source_file": "app/api/checkout/route.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_api_checkout_route_ts",
-      "target": "lib_store_status_daykey",
-      "confidence_score": 1.0
+      "target": "lib_store_status_daykey"
     },
     {
       "relation": "imports_from",
@@ -19574,9 +19793,9 @@
       "source_file": "app/api/checkout/route.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_api_checkout_route_ts",
-      "target": "lib_utils_schedule_utils_ts",
-      "confidence_score": 1.0
+      "target": "lib_utils_schedule_utils_ts"
     },
     {
       "relation": "imports",
@@ -19585,9 +19804,9 @@
       "source_file": "app/api/checkout/route.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_api_checkout_route_ts",
-      "target": "utils_schedule_utils_validatescheduledfor",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_validatescheduledfor"
     },
     {
       "relation": "contains",
@@ -19889,6 +20108,28 @@
       "confidence_score": 1.0,
       "source": "app_api_driver_orders_id_route_ts",
       "target": "lib_order_status_builddriverorderupdate"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/driver/orders/[id]/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_api_driver_orders_id_route_ts",
+      "target": "lib_email_send_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/driver/orders/[id]/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_api_driver_orders_id_route_ts",
+      "target": "email_send_senddeliveredemail",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -20499,9 +20740,9 @@
       "source_file": "app/checkout/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_checkout_page_tsx",
-      "target": "lib_utils_schedule_utils_ts",
-      "confidence_score": 1.0
+      "target": "lib_utils_schedule_utils_ts"
     },
     {
       "relation": "imports",
@@ -20510,9 +20751,9 @@
       "source_file": "app/checkout/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_checkout_page_tsx",
-      "target": "utils_schedule_utils_generatescheduleslots",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_generatescheduleslots"
     },
     {
       "relation": "imports",
@@ -20521,9 +20762,9 @@
       "source_file": "app/checkout/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_checkout_page_tsx",
-      "target": "utils_schedule_utils_scheduleslot",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_scheduleslot"
     },
     {
       "relation": "imports_from",
@@ -20532,9 +20773,9 @@
       "source_file": "app/checkout/page.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_checkout_page_tsx",
-      "target": "lib_store_status_ts",
-      "confidence_score": 1.0
+      "target": "lib_store_status_ts"
     },
     {
       "relation": "imports",
@@ -20543,9 +20784,9 @@
       "source_file": "app/checkout/page.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_checkout_page_tsx",
-      "target": "lib_store_status_businesshours",
-      "confidence_score": 1.0
+      "target": "lib_store_status_businesshours"
     },
     {
       "relation": "imports",
@@ -20554,9 +20795,9 @@
       "source_file": "app/checkout/page.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_checkout_page_tsx",
-      "target": "lib_store_status_daykey",
-      "confidence_score": 1.0
+      "target": "lib_store_status_daykey"
     },
     {
       "relation": "imports",
@@ -20565,9 +20806,9 @@
       "source_file": "app/checkout/page.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_checkout_page_tsx",
-      "target": "lib_store_status_getuknow",
-      "confidence_score": 1.0
+      "target": "lib_store_status_getuknow"
     },
     {
       "relation": "contains",
@@ -21099,9 +21340,9 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_kitchen_page_tsx",
-      "target": "lib_utils_schedule_utils_ts",
-      "confidence_score": 1.0
+      "target": "lib_utils_schedule_utils_ts"
     },
     {
       "relation": "imports",
@@ -21110,9 +21351,9 @@
       "source_file": "app/kitchen/page.tsx",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_kitchen_page_tsx",
-      "target": "utils_schedule_utils_isinfuturequeue",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_isinfuturequeue"
     },
     {
       "relation": "imports_from",
@@ -22470,9 +22711,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "lib_utils_format_date_ts",
-      "confidence_score": 1.0
+      "target": "lib_utils_format_date_ts"
     },
     {
       "relation": "imports",
@@ -22481,9 +22722,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "utils_format_date_formattime",
-      "confidence_score": 1.0
+      "target": "utils_format_date_formattime"
     },
     {
       "relation": "contains",
@@ -22491,9 +22732,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_supabase",
-      "confidence_score": 1.0
+      "target": "id_page_supabase"
     },
     {
       "relation": "contains",
@@ -22501,9 +22742,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_orderdata",
-      "confidence_score": 1.0
+      "target": "id_page_orderdata"
     },
     {
       "relation": "contains",
@@ -22511,9 +22752,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_step",
-      "confidence_score": 1.0
+      "target": "id_page_step"
     },
     {
       "relation": "contains",
@@ -22521,9 +22762,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_delivery_steps",
-      "confidence_score": 1.0
+      "target": "id_page_delivery_steps"
     },
     {
       "relation": "contains",
@@ -22531,9 +22772,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_collection_steps",
-      "confidence_score": 1.0
+      "target": "id_page_collection_steps"
     },
     {
       "relation": "contains",
@@ -22541,9 +22782,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L50",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_getstep",
-      "confidence_score": 1.0
+      "target": "id_page_getstep"
     },
     {
       "relation": "contains",
@@ -22551,9 +22792,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L67",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_ordernotfound",
-      "confidence_score": 1.0
+      "target": "id_page_ordernotfound"
     },
     {
       "relation": "contains",
@@ -22561,9 +22802,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_stepper",
-      "confidence_score": 1.0
+      "target": "id_page_stepper"
     },
     {
       "relation": "contains",
@@ -22571,9 +22812,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L153",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_track_id_page_tsx",
-      "target": "id_page_trackorderpage",
-      "confidence_score": 1.0
+      "target": "id_page_trackorderpage"
     },
     {
       "relation": "calls",
@@ -22582,9 +22823,9 @@
       "source_file": "app/track/[id]/page.tsx",
       "source_location": "L225",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "id_page_trackorderpage",
-      "target": "id_page_getstep",
-      "confidence_score": 1.0
+      "target": "id_page_getstep"
     },
     {
       "relation": "contains",
@@ -25394,6 +25635,28 @@
       "target": "lib_supabase_admin_supabaseadmin"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "lib_supabase_admin_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "lib_supabase_admin_supabaseadmin",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -25623,6 +25886,214 @@
       "confidence_score": 1.0,
       "source": "api_admin_dashboard_route_ts",
       "target": "lib_supabase_admin_supabaseadmin"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "lib_email_transporter_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "email_transporter_gettransporter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "lib_email_templates_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "email_send_senderconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "email_send_getsender",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "email_send_safesend",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "email_send_senddispatchedemail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "lib_email_send_ts",
+      "target": "email_send_senddeliveredemail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "email_send_senddispatchedemail",
+      "target": "email_send_getsender",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/send.ts",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "email_send_senddeliveredemail",
+      "target": "email_send_getsender",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/email/send.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "email_send_safesend",
+      "target": "email_transporter_gettransporter"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_email_templates_ts",
+      "target": "email_templates_brand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "lib_email_templates_ts",
+      "target": "email_templates_shell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "lib_email_templates_ts",
+      "target": "email_templates_dispatchedtemplatedata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "lib_email_templates_ts",
+      "target": "email_templates_dispatched",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "lib_email_templates_ts",
+      "target": "email_templates_deliveredtemplatedata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "lib_email_templates_ts",
+      "target": "email_templates_delivered",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "email_templates_dispatched",
+      "target": "email_templates_shell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/templates.ts",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "email_templates_delivered",
+      "target": "email_templates_shell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email/transporter.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "lib_email_transporter_ts",
+      "target": "email_transporter_gettransporter",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -26092,9 +26563,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "lib_utils_schedule_utils_ts",
-      "confidence_score": 1.0
+      "target": "lib_utils_schedule_utils_ts"
     },
     {
       "relation": "imports",
@@ -26103,9 +26574,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_generatescheduleslots",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_generatescheduleslots"
     },
     {
       "relation": "imports",
@@ -26114,9 +26585,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_isinfuturequeue",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_isinfuturequeue"
     },
     {
       "relation": "imports",
@@ -26125,9 +26596,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_validatescheduledfor",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_validatescheduledfor"
     },
     {
       "relation": "contains",
@@ -26135,9 +26606,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L133",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_now",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_now"
     },
     {
       "relation": "contains",
@@ -26145,9 +26616,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_slots",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_slots"
     },
     {
       "relation": "contains",
@@ -26155,9 +26626,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_firstslot",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_firstslot"
     },
     {
       "relation": "contains",
@@ -26165,9 +26636,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_slotdate",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_slotdate"
     },
     {
       "relation": "contains",
@@ -26175,9 +26646,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_closetime",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_closetime"
     },
     {
       "relation": "contains",
@@ -26185,9 +26656,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_tomorrow",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_tomorrow"
     },
     {
       "relation": "contains",
@@ -26195,9 +26666,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_closetoday",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_closetoday"
     },
     {
       "relation": "contains",
@@ -26205,9 +26676,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L78",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_last",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_last"
     },
     {
       "relation": "contains",
@@ -26215,9 +26686,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L155",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_future",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_future"
     },
     {
       "relation": "contains",
@@ -26225,9 +26696,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_edge",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_edge"
     },
     {
       "relation": "contains",
@@ -26235,9 +26706,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_soon",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_soon"
     },
     {
       "relation": "contains",
@@ -26245,9 +26716,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L142",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_past",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_past"
     },
     {
       "relation": "contains",
@@ -26255,9 +26726,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L218",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_valid_error",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_valid_error"
     },
     {
       "relation": "contains",
@@ -26265,9 +26736,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_valid",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_valid"
     },
     {
       "relation": "contains",
@@ -26275,9 +26746,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L195",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_earlynow",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_earlynow"
     },
     {
       "relation": "contains",
@@ -26285,9 +26756,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L163",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_tooearly",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_tooearly"
     },
     {
       "relation": "contains",
@@ -26295,9 +26766,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L171",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_atclose",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_atclose"
     },
     {
       "relation": "contains",
@@ -26305,9 +26776,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L179",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_pastclose",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_pastclose"
     },
     {
       "relation": "contains",
@@ -26315,9 +26786,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L188",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_atopen",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_atopen"
     },
     {
       "relation": "contains",
@@ -26325,9 +26796,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L196",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_before1130",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_before1130"
     },
     {
       "relation": "contains",
@@ -26335,9 +26806,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L204",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_toosoon",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_toosoon"
     },
     {
       "relation": "contains",
@@ -26345,9 +26816,9 @@
       "source_file": "lib/utils/schedule-utils.test.ts",
       "source_location": "L211",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_test_ts",
-      "target": "utils_schedule_utils_test_toofar",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_test_toofar"
     },
     {
       "relation": "contains",
@@ -26355,9 +26826,9 @@
       "source_file": "lib/utils/schedule-utils.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_ts",
-      "target": "utils_schedule_utils_scheduleslot",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_scheduleslot"
     },
     {
       "relation": "contains",
@@ -26365,9 +26836,9 @@
       "source_file": "lib/utils/schedule-utils.ts",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_ts",
-      "target": "utils_schedule_utils_generatescheduleslots",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_generatescheduleslots"
     },
     {
       "relation": "contains",
@@ -26375,9 +26846,9 @@
       "source_file": "lib/utils/schedule-utils.ts",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_ts",
-      "target": "utils_schedule_utils_isinfuturequeue",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_isinfuturequeue"
     },
     {
       "relation": "contains",
@@ -26385,9 +26856,9 @@
       "source_file": "lib/utils/schedule-utils.ts",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_utils_schedule_utils_ts",
-      "target": "utils_schedule_utils_validatescheduledfor",
-      "confidence_score": 1.0
+      "target": "utils_schedule_utils_validatescheduledfor"
     },
     {
       "relation": "contains",
@@ -26708,6 +27179,16 @@
       "confidence_score": 1.0,
       "source": "supabase_migrations_20260609_order_items_notes_sql",
       "target": "20260609_order_items_notes_order_items"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/migrations/20260610_email_settings.sql",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "supabase_migrations_20260610_email_settings_sql",
+      "target": "20260610_email_settings_store_settings",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -27155,9 +27636,9 @@
       "source_file": "supabase/migrations/20260636_order_scheduling.sql",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_migrations_20260636_order_scheduling_sql",
-      "target": "20260636_order_scheduling_orders",
-      "confidence_score": 1.0
+      "target": "20260636_order_scheduling_orders"
     },
     {
       "relation": "contains",
@@ -32463,5 +32944,5 @@
       "source_file": "app/api/store-settings/route.ts"
     }
   ],
-  "built_at_commit": "3da17e6597bff2038fbc0bf53e48a538271dd292"
+  "built_at_commit": "fba1e282b69f27863dd557bcd84a15059d749c1c"
 }

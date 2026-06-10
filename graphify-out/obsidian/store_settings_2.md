@@ -1,8 +1,8 @@
 ---
-source_file: "supabase/migrations/20260627_store_operations.sql"
+source_file: "supabase/migrations/20260620_settings_logo.sql"
 type: "code"
 community: "Community None"
-location: "L3"
+location: "L1"
 tags:
   - graphify/code
   - graphify/EXTRACTED
@@ -12,6 +12,6 @@ tags:
 # store_settings
 
 ## Connections
-- [[20260627_store_operations.sql]] - `contains` [EXTRACTED]
+- [[20260620_settings_logo.sql]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

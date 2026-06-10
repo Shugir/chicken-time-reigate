@@ -1,16 +1,18 @@
 ---
-source_file: "supabase/migrations/20260620_settings_logo.sql"
+source_file: "lib/email/templates.ts"
 type: "code"
 community: "Community None"
+location: "L76"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# 20260620_settings_logo.sql
+# delivered()
 
 ## Connections
-- [[store_settings_2]] - `contains` [EXTRACTED]
+- [[shell()]] - `calls` [EXTRACTED]
+- [[templates.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

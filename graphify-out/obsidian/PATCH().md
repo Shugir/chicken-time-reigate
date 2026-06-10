@@ -30,5 +30,6 @@ tags:
 - [[route.ts_64]] - `contains` [EXTRACTED]
 - [[route.ts_66]] - `contains` [EXTRACTED]
 - [[route.ts_71]] - `contains` [EXTRACTED]
+- [[sendDeliveredEmail()]] - `calls` [INFERRED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

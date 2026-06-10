@@ -11,6 +11,6 @@ tags:
 # 20260627_store_operations.sql
 
 ## Connections
-- [[store_settings_2]] - `contains` [EXTRACTED]
+- [[store_settings_3]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

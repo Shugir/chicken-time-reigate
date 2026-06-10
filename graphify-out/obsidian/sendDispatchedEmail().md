@@ -1,19 +1,20 @@
 ---
-source_file: "app/api/admin/dispatch/route.ts"
+source_file: "lib/email/send.ts"
 type: "code"
 community: "Community None"
-location: "L10"
+location: "L41"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# getAdminUser()
+# sendDispatchedEmail()
 
 ## Connections
-- [[GET()_7]] - `calls` [EXTRACTED]
 - [[PATCH()_1]] - `calls` [EXTRACTED]
-- [[route.ts_11]] - `contains` [EXTRACTED]
+- [[getSender()]] - `calls` [EXTRACTED]
+- [[route.ts_11]] - `imports` [EXTRACTED]
+- [[send.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

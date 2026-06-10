@@ -1,16 +1,19 @@
 ---
-source_file: "supabase/migrations/20260620_settings_logo.sql"
+source_file: "lib/email/transporter.ts"
 type: "code"
 community: "Community None"
+location: "L7"
 tags:
   - graphify/code
   - graphify/EXTRACTED
   - community/Community_None
 ---
 
-# 20260620_settings_logo.sql
+# getTransporter()
 
 ## Connections
-- [[store_settings_2]] - `contains` [EXTRACTED]
+- [[safeSend()]] - `calls` [EXTRACTED]
+- [[send.ts]] - `imports` [EXTRACTED]
+- [[transporter.ts]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

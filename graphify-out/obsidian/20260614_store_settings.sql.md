@@ -11,6 +11,6 @@ tags:
 # 20260614_store_settings.sql
 
 ## Connections
-- [[store_settings]] - `contains` [EXTRACTED]
+- [[store_settings_1]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

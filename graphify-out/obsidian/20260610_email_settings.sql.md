@@ -1,5 +1,5 @@
 ---
-source_file: "supabase/migrations/20260620_settings_logo.sql"
+source_file: "supabase/migrations/20260610_email_settings.sql"
 type: "code"
 community: "Community None"
 tags:
@@ -8,9 +8,9 @@ tags:
   - community/Community_None
 ---
 
-# 20260620_settings_logo.sql
+# 20260610_email_settings.sql
 
 ## Connections
-- [[store_settings_2]] - `contains` [EXTRACTED]
+- [[store_settings]] - `contains` [EXTRACTED]
 
 #graphify/code #graphify/EXTRACTED #community/Community_None

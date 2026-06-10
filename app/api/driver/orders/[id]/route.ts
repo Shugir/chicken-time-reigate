@@ -3,6 +3,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { buildDriverOrderUpdate } from '@/lib/order-status'
+import { sendDeliveredEmail } from '@/lib/email/send'
 
 export async function PATCH(
   request: NextRequest,
@@ -52,7 +53,7 @@ export async function PATCH(
   // Verify this order belongs to this driver and is still out for delivery
   const { data: order } = await supabaseAdmin
     .from('orders')
-    .select('id')
+    .select('id, customer_email, customer_name, order_type')
     .eq('id', id)
     .eq('driver_id', driver.id)
     .eq('delivery_status', 'out_for_delivery')
@@ -70,6 +71,15 @@ export async function PATCH(
     .from('drivers')
     .update({ status: 'available' })
     .eq('id', driver.id)
+
+  if (action === 'delivered') {
+    sendDeliveredEmail({
+      orderId:      id,
+      to:           (order as { customer_email: string | null }).customer_email ?? null,
+      customerName: (order as { customer_name: string | null }).customer_name ?? null,
+      isPickup:     (order as { order_type: string | null }).order_type === 'pickup',
+    })
+  }
 
   return NextResponse.json({ success: true })
 }
