@@ -131,7 +131,7 @@ function RewardCard({
 
       {/* Bottom row — action */}
       {readyToUse && (
-        <p className="text-xs text-green-400/80 font-medium">
+        <p className="text-xs text-green-600 dark:text-green-400/80 font-medium">
           Enter code <span className="font-mono tracking-wider text-green-600 dark:text-green-300">{reward.code}</span> at checkout
         </p>
       )}
@@ -372,11 +372,11 @@ export default function RewardsPage() {
               <p className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-2">
                 Your Points Balance
               </p>
-              <p className="text-5xl font-bold text-amber-400 leading-none">
+              <p className="text-5xl font-bold text-amber-600 dark:text-amber-400 leading-none">
                 {balance.toLocaleString()}
               </p>
               <p className="text-sm text-zinc-400 mt-1.5">
-                = <span className="text-amber-300 font-semibold">£{poundValue}</span> value
+                = <span className="text-amber-600 dark:text-amber-300 font-semibold">£{poundValue}</span> value
               </p>
             </div>
             <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0">
@@ -500,7 +500,7 @@ export default function RewardsPage() {
 
                         {/* Points */}
                         <span className={`shrink-0 text-sm font-semibold tabular-nums ${
-                          isEarn ? 'text-amber-400' : 'text-red-400'
+                          isEarn ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
                         }`}>
                           {isEarn ? '+' : ''}{tx.points.toLocaleString()}
                         </span>
