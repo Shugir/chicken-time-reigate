@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ function txIcon(type: string): string {
 
 function Skeleton({ className }: { className?: string }) {
   return (
-    <div className={`bg-zinc-800 animate-pulse rounded-lg ${className ?? ''}`} />
+    <div className={`bg-zinc-200 dark:bg-zinc-800 animate-pulse rounded-lg ${className ?? ''}`} />
   )
 }
 
@@ -85,22 +86,22 @@ function RewardCard({
   const readyToUse   = reward.is_unlocked && !reward.used_at
 
   return (
-    <div className={`bg-zinc-900 border rounded-2xl p-5 flex flex-col gap-3 transition-all ${
+    <div className={`bg-white dark:bg-zinc-900 border rounded-3xl shadow-sm dark:shadow-none p-5 flex flex-col gap-3 transition-all ${
       readyToUse
         ? 'border-green-700/60 shadow-green-900/20 shadow-md'
         : alreadyUsed
-          ? 'border-zinc-800 opacity-60'
+          ? 'border-zinc-200 dark:border-zinc-800 opacity-60'
           : canAfford
             ? 'border-amber-700/50'
-            : 'border-zinc-800'
+            : 'border-zinc-200 dark:border-zinc-800'
     }`}>
       {/* Top row */}
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold text-white leading-tight">
+          <h3 className="text-sm font-semibold text-brand-dark dark:text-white leading-tight">
             {prettifyCode(reward.code)}
           </h3>
-          <p className="text-xs text-zinc-400 mt-0.5">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
             {discountLabel(reward)}
             {Number(reward.min_order_amount) > 0 && (
               <span className="text-zinc-600 ml-1">
@@ -112,7 +113,7 @@ function RewardCard({
 
         {/* Status badge */}
         {readyToUse ? (
-          <span className="shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-400">
+          <span className="shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-600 dark:text-green-400">
             <CheckCircle2 size={10} />
             Unlocked
           </span>
@@ -121,7 +122,7 @@ function RewardCard({
             Used
           </span>
         ) : (
-          <span className="shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400">
+          <span className="shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400">
             <Star size={10} />
             {reward.points_cost.toLocaleString()} pts
           </span>
@@ -130,8 +131,8 @@ function RewardCard({
 
       {/* Bottom row — action */}
       {readyToUse && (
-        <p className="text-xs text-green-400/80 font-medium">
-          Enter code <span className="font-mono tracking-wider text-green-300">{reward.code}</span> at checkout
+        <p className="text-xs text-green-600 dark:text-green-400/80 font-medium">
+          Enter code <span className="font-mono tracking-wider text-green-600 dark:text-green-300">{reward.code}</span> at checkout
         </p>
       )}
 
@@ -146,7 +147,7 @@ function RewardCard({
           onClick={() => onUnlock(reward.id)}
           disabled={isUnlocking}
           className="w-full mt-auto bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-zinc-950 font-semibold
-                     rounded-lg py-2 text-xs transition-colors flex items-center justify-center gap-1.5"
+                     rounded-lg py-2 text-xs transition flex items-center justify-center gap-1.5 active:scale-[0.98]"
         >
           {isUnlocking ? (
             <><Loader2 size={12} className="animate-spin" /> Unlocking…</>
@@ -265,13 +266,16 @@ export default function RewardsPage() {
 
   if (authed === false) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
-        <div className="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur border-b border-zinc-900">
-          <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
-            <Link href="/account" className="text-zinc-500 hover:text-white transition-colors">
-              <ArrowLeft size={18} />
-            </Link>
-            <p className="text-sm font-semibold">My Rewards</p>
+      <div className="min-h-screen bg-white dark:bg-zinc-950 text-brand-dark dark:text-white flex flex-col">
+        <div className="sticky top-0 z-10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur border-b border-zinc-200 dark:border-zinc-900">
+          <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Link href="/account" className="text-zinc-500 hover:text-brand-dark dark:hover:text-white transition-colors">
+                <ArrowLeft size={18} />
+              </Link>
+              <p className="text-sm font-semibold">My Rewards</p>
+            </div>
+            <ThemeToggle />
           </div>
         </div>
         <div className="flex-1 flex items-center justify-center px-4">
@@ -279,14 +283,14 @@ export default function RewardsPage() {
             <div className="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto mb-4">
               <Star className="w-8 h-8 text-amber-400" />
             </div>
-            <h2 className="text-lg font-semibold text-white mb-2">Sign in to view your rewards</h2>
+            <h2 className="text-lg font-semibold text-brand-dark dark:text-white mb-2">Sign in to view your rewards</h2>
             <p className="text-sm text-zinc-500 mb-6">
               Earn points with every order and unlock exclusive discounts.
             </p>
             <Link
-              href="/login"
+              href="/sign-in"
               className="inline-flex items-center gap-2 bg-brand-red hover:bg-brand-red/90 text-white font-semibold
-                         rounded-xl px-6 py-3 text-sm transition-colors"
+                         rounded-xl px-6 py-3 text-sm transition-colors active:scale-[0.98]"
             >
               Sign In
             </Link>
@@ -300,13 +304,16 @@ export default function RewardsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white">
-        <div className="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur border-b border-zinc-900">
-          <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
-            <Link href="/account" className="text-zinc-500 hover:text-white transition-colors">
-              <ArrowLeft size={18} />
-            </Link>
-            <p className="text-sm font-semibold">My Rewards</p>
+      <div className="min-h-screen bg-white dark:bg-zinc-950 text-brand-dark dark:text-white">
+        <div className="sticky top-0 z-10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur border-b border-zinc-200 dark:border-zinc-900">
+          <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Link href="/account" className="text-zinc-500 hover:text-brand-dark dark:hover:text-white transition-colors">
+                <ArrowLeft size={18} />
+              </Link>
+              <p className="text-sm font-semibold">My Rewards</p>
+            </div>
+            <ThemeToggle />
           </div>
         </div>
         <div className="max-w-lg mx-auto px-4 py-6 space-y-6">
@@ -334,39 +341,42 @@ export default function RewardsPage() {
   // ── Full render ────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-brand-dark dark:text-white">
 
       {/* Sticky header */}
-      <div className="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur border-b border-zinc-900">
-        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
-          <Link href="/account" className="text-zinc-500 hover:text-white transition-colors">
-            <ArrowLeft size={18} />
-          </Link>
-          <div className="flex items-center gap-2">
-            <p className="text-sm font-semibold">My Rewards</p>
-            {balance > 0 && (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">
-                {balance.toLocaleString()} pts
-              </span>
-            )}
+      <div className="sticky top-0 z-10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur border-b border-zinc-200 dark:border-zinc-900">
+        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link href="/account" className="text-zinc-500 hover:text-brand-dark dark:hover:text-white transition-colors">
+              <ArrowLeft size={18} />
+            </Link>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold">My Rewards</p>
+              {balance > 0 && (
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                  {balance.toLocaleString()} pts
+                </span>
+              )}
+            </div>
           </div>
+          <ThemeToggle />
         </div>
       </div>
 
       <div className="max-w-lg mx-auto px-4 py-6 space-y-8">
 
         {/* ── Points balance card ────────────────────────────────────────────── */}
-        <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 border border-zinc-800 rounded-2xl p-6">
+        <div className="bg-gradient-to-br from-white via-white to-zinc-50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-3xl shadow-sm dark:shadow-none p-6">
           <div className="flex items-start justify-between mb-4">
             <div>
               <p className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-2">
                 Your Points Balance
               </p>
-              <p className="text-5xl font-bold text-amber-400 leading-none">
+              <p className="text-5xl font-bold text-amber-600 dark:text-amber-400 leading-none">
                 {balance.toLocaleString()}
               </p>
               <p className="text-sm text-zinc-400 mt-1.5">
-                = <span className="text-amber-300 font-semibold">£{poundValue}</span> value
+                = <span className="text-amber-600 dark:text-amber-300 font-semibold">£{poundValue}</span> value
               </p>
             </div>
             <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0">
@@ -398,12 +408,12 @@ export default function RewardsPage() {
 
         {/* ── Available Rewards ──────────────────────────────────────────────── */}
         <section>
-          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">
+          <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-4">
             Available Rewards
           </h2>
 
           {available.length === 0 ? (
-            <div className="text-center py-12 bg-zinc-900 border border-zinc-800 rounded-2xl">
+            <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm dark:shadow-none">
               <Zap size={32} className="text-zinc-700 mx-auto mb-3" />
               <p className="text-sm text-zinc-500">No rewards available right now</p>
               <p className="text-xs text-zinc-600 mt-1">Check back soon for new offers</p>
@@ -426,7 +436,7 @@ export default function RewardsPage() {
         {/* Used rewards (collapsed by default) */}
         {used.length > 0 && (
           <section>
-            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">
+            <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-4">
               Used Rewards
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -447,24 +457,24 @@ export default function RewardsPage() {
         <section>
           <button
             onClick={() => setHistOpen((v) => !v)}
-            className="w-full flex items-center justify-between py-3 group"
+            className="w-full flex items-center justify-between py-3 group active:scale-[0.98] transition-transform"
           >
-            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest group-hover:text-zinc-300 transition-colors">
+            <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest group-hover:text-brand-dark dark:group-hover:text-zinc-300 transition-colors">
               Points History
             </h2>
             {histOpen
-              ? <ChevronUp size={14} className="text-zinc-500 group-hover:text-zinc-300 transition-colors" />
-              : <ChevronDown size={14} className="text-zinc-500 group-hover:text-zinc-300 transition-colors" />}
+              ? <ChevronUp size={14} className="text-zinc-500 group-hover:text-brand-dark dark:group-hover:text-zinc-300 transition-colors" />
+              : <ChevronDown size={14} className="text-zinc-500 group-hover:text-brand-dark dark:group-hover:text-zinc-300 transition-colors" />}
           </button>
 
           {histOpen && (
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
               {txns.length === 0 ? (
                 <div className="text-center py-10">
                   <p className="text-sm text-zinc-500">No transactions yet</p>
                 </div>
               ) : (
-                <ul className="divide-y divide-zinc-800">
+                <ul className="divide-y divide-zinc-200 dark:divide-zinc-800">
                   {txns.map((tx) => {
                     const isEarn = tx.points > 0
                     return (
@@ -472,15 +482,15 @@ export default function RewardsPage() {
                         {/* Icon */}
                         <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${
                           isEarn
-                            ? 'bg-amber-500/15 text-amber-400'
-                            : 'bg-red-500/15 text-red-400'
+                            ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400'
+                            : 'bg-red-500/15 text-red-600 dark:text-red-400'
                         }`}>
                           {txIcon(tx.type)}
                         </div>
 
                         {/* Description */}
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-medium text-zinc-300 truncate">
+                          <p className="text-xs font-medium text-zinc-700 dark:text-zinc-300 truncate">
                             {tx.note ?? (isEarn ? 'Points earned' : 'Points redeemed')}
                           </p>
                           <p className="text-[10px] text-zinc-600 mt-0.5">
@@ -490,7 +500,7 @@ export default function RewardsPage() {
 
                         {/* Points */}
                         <span className={`shrink-0 text-sm font-semibold tabular-nums ${
-                          isEarn ? 'text-amber-400' : 'text-red-400'
+                          isEarn ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
                         }`}>
                           {isEarn ? '+' : ''}{tx.points.toLocaleString()}
                         </span>

@@ -29,13 +29,26 @@ export function SiteHeader() {
   }, [])
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) return
-      setIsLoggedIn(true)
+    function syncFromSession(hasSession: boolean) {
+      setIsLoggedIn(hasSession)
+      if (!hasSession) {
+        setLoyaltyPoints(null)
+        return
+      }
       fetch('/api/loyalty/balance').then(async (r) => {
         if (r.ok) { const d = await r.json(); setLoyaltyPoints(d.balance ?? 0) }
       })
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      syncFromSession(!!session)
     })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      syncFromSession(!!session)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   return (

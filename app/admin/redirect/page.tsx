@@ -15,12 +15,12 @@ const PAGES = [
 export default async function AdminRedirectPage() {
   const perms = await getUserPermissions()
 
-  if (!perms) redirect('/login')
+  if (!perms) redirect('/sign-in')
 
   if (perms.isOwner) redirect('/admin/dashboard')
 
   const first = PAGES.find((p) => perms.permissions.includes(p.permission))
   if (first) redirect(first.href)
 
-  redirect('/login')
+  redirect('/sign-in')
 }

@@ -198,7 +198,17 @@ export default function TrackOrderPage() {
       )
       .subscribe()
 
-    return () => { supabase.removeChannel(channel) }
+    // Polling fallback: RLS on `orders` scopes realtime SELECT to the signed-in
+    // owner or staff accounts, so guest orders (user_id IS NULL) never match a
+    // subscriber policy and silently receive zero postgres_changes events.
+    // Poll as a backstop so guest tracking pages still pick up status changes
+    // without requiring a manual reload. Realtime remains the fast path when it works.
+    const pollInterval = setInterval(fetchOrder, 15000)
+
+    return () => {
+      supabase.removeChannel(channel)
+      clearInterval(pollInterval)
+    }
   }, [orderId, fetchOrder])
 
   // ── Derived state ──────────────────────────────────────────────────────────

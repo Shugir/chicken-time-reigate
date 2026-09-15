@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase-browser'
 import { Mail, Lock, Eye, EyeOff, User, ChevronRight, ArrowLeft, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword]           = useState(false)
@@ -53,16 +54,16 @@ export default function SignUpPage() {
 
   if (success) {
     return (
-      <div className="h-[calc(100dvh-4rem)] flex items-center justify-center bg-white px-4">
+      <div className="h-[calc(100dvh-4rem)] flex items-center justify-center bg-white dark:bg-zinc-950 px-4">
         <div className="w-full max-w-sm text-center">
           <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
-          <h2 className="font-heading font-black text-2xl text-brand-dark mb-2">Check your email</h2>
-          <p className="text-sm text-gray-500 mb-6">
+          <h2 className="font-heading font-black text-2xl text-brand-dark dark:text-white mb-2">Check your email</h2>
+          <p className="text-sm text-gray-500 dark:text-zinc-400 mb-6">
             We sent a confirmation link to{' '}
-            <span className="font-semibold text-brand-dark">{email}</span>.
+            <span className="font-semibold text-brand-dark dark:text-white">{email}</span>.
             Click it to activate your account.
           </p>
-          <Link href="/sign-in" className="text-sm text-brand-red font-bold hover:underline">
+          <Link href="/sign-in" className="text-sm text-brand-red dark:text-red-400 font-bold hover:underline">
             Back to Sign In
           </Link>
         </div>
@@ -131,31 +132,38 @@ export default function SignUpPage() {
       </div>
 
       {/* ── Right panel — form ── */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-6 sm:px-12 overflow-y-auto">
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white dark:bg-zinc-950 px-6 sm:px-12 overflow-y-auto">
         <div className="w-full max-w-sm py-10">
 
-          <Link
-            href="/"
-            className="lg:hidden inline-flex items-center gap-1.5 text-gray-400 hover:text-gray-700 text-xs font-semibold uppercase tracking-wider mb-8 transition-colors"
-          >
-            <ArrowLeft size={13} /> Home
-          </Link>
+          <div className="lg:hidden flex items-center justify-between mb-8">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-gray-400 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-colors"
+            >
+              <ArrowLeft size={13} /> Home
+            </Link>
+            <ThemeToggle />
+          </div>
+          <div className="hidden lg:flex justify-end mb-4">
+            <ThemeToggle />
+          </div>
 
           <div className="mb-8">
-            <h1 className="font-heading font-black text-3xl text-brand-dark">Create account</h1>
-            <p className="text-gray-500 text-sm mt-1.5">Join Chicken Time — it&apos;s free</p>
+            <h1 className="font-heading font-black text-3xl text-brand-dark dark:text-white">Create account</h1>
+            <p className="text-gray-500 dark:text-zinc-400 text-sm mt-1.5">Join Chicken Time — it&apos;s free</p>
           </div>
 
           {/* OAuth — prominent, first */}
-          <p className="text-xs text-gray-400 text-center mb-3 font-medium">Quick sign up</p>
+          <p className="text-xs text-gray-400 dark:text-zinc-500 text-center mb-3 font-medium">Quick sign up</p>
           <div className="space-y-3 mb-6">
             <button
               type="button"
               onClick={() => handleOAuth('google')}
               disabled={!!oauthLoading || loading}
               className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:opacity-50
-                         text-gray-800 font-semibold rounded-xl py-3.5 text-sm transition-colors
-                         border border-gray-200 shadow-sm"
+                         text-gray-800 font-semibold rounded-2xl py-3.5 text-sm transition
+                         border border-gray-200 shadow-sm dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700
+                         active:scale-[0.98]"
             >
               {oauthLoading === 'google' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -175,7 +183,8 @@ export default function SignUpPage() {
               onClick={() => handleOAuth('facebook')}
               disabled={!!oauthLoading || loading}
               className="w-full flex items-center justify-center gap-3 bg-[#1877F2] hover:bg-[#1565D8] disabled:opacity-50
-                         text-white font-semibold rounded-xl py-3.5 text-sm transition-colors shadow-sm"
+                         text-white font-semibold rounded-2xl py-3.5 text-sm transition shadow-sm
+                         active:scale-[0.98]"
             >
               {oauthLoading === 'facebook' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -190,35 +199,35 @@ export default function SignUpPage() {
 
           {/* Divider */}
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex-1 h-px bg-gray-100" />
-            <span className="text-xs text-gray-400 font-medium">or sign up with email</span>
-            <div className="flex-1 h-px bg-gray-100" />
+            <div className="flex-1 h-px bg-gray-100 dark:bg-zinc-800" />
+            <span className="text-xs text-gray-400 dark:text-zinc-500 font-medium">or sign up with email</span>
+            <div className="flex-1 h-px bg-gray-100 dark:bg-zinc-800" />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label htmlFor="name" className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <label htmlFor="name" className="text-xs font-bold text-gray-700 dark:text-zinc-400 uppercase tracking-wider">
                 Full name
               </label>
               <div className="relative">
-                <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 pointer-events-none" />
                 <input
                   id="name"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:placeholder:text-zinc-600"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="email" className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <label htmlFor="email" className="text-xs font-bold text-gray-700 dark:text-zinc-400 uppercase tracking-wider">
                 Email address
               </label>
               <div className="relative">
-                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 pointer-events-none" />
                 <input
                   id="email"
                   type="email"
@@ -226,17 +235,17 @@ export default function SignUpPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:placeholder:text-zinc-600"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="password" className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <label htmlFor="password" className="text-xs font-bold text-gray-700 dark:text-zinc-400 uppercase tracking-wider">
                 Password
               </label>
               <div className="relative">
-                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 pointer-events-none" />
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -245,12 +254,12 @@ export default function SignUpPage() {
                   placeholder="Min. 8 characters"
                   required
                   minLength={8}
-                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition"
+                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:placeholder:text-zinc-600"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -259,11 +268,11 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="confirm-password" className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <label htmlFor="confirm-password" className="text-xs font-bold text-gray-700 dark:text-zinc-400 uppercase tracking-wider">
                 Confirm password
               </label>
               <div className="relative">
-                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 pointer-events-none" />
                 <input
                   id="confirm-password"
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -271,12 +280,12 @@ export default function SignUpPage() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Repeat your password"
                   required
-                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition"
+                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:placeholder:text-zinc-600"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
                   aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                 >
                   {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -285,16 +294,16 @@ export default function SignUpPage() {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2.5 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5">
+              <div className="flex items-center gap-2.5 bg-red-50 border border-red-200 dark:bg-red-950/30 dark:border-red-900/50 rounded-xl px-3.5 py-2.5">
                 <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-                <p className="text-sm text-red-600">{error}</p>
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
               </div>
             )}
 
             <button
               type="submit"
               disabled={loading || !!oauthLoading}
-              className="w-full flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-base py-3.5 rounded-xl transition-colors shadow-lg shadow-red-500/20 mt-2"
+              className="w-full flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-base py-3.5 rounded-2xl transition shadow-lg shadow-red-500/20 mt-2 active:scale-[0.98]"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -303,17 +312,17 @@ export default function SignUpPage() {
               )}
             </button>
 
-            <p className="text-xs text-gray-400 text-center leading-relaxed">
+            <p className="text-xs text-gray-400 dark:text-zinc-500 text-center leading-relaxed">
               By signing up you agree to our{' '}
-              <Link href="/terms" className="text-brand-red hover:underline">Terms</Link>
+              <Link href="/terms" className="text-brand-red dark:text-red-400 hover:underline">Terms</Link>
               {' '}and{' '}
-              <Link href="/privacy" className="text-brand-red hover:underline">Privacy Policy</Link>.
+              <Link href="/privacy" className="text-brand-red dark:text-red-400 hover:underline">Privacy Policy</Link>.
             </p>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-gray-500 dark:text-zinc-500 mt-6">
             Already have an account?{' '}
-            <Link href="/sign-in" className="text-brand-red font-bold hover:underline">
+            <Link href="/sign-in" className="text-brand-red dark:text-red-400 font-bold hover:underline">
               Sign in
             </Link>
           </p>

@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase-browser'
 import { Mail, Lock, Eye, EyeOff, ChevronRight, ArrowLeft, Loader2, AlertCircle } from 'lucide-react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export default function SignInPage() {
   const router = useRouter()
@@ -16,6 +17,14 @@ export default function SignInPage() {
   const [loading, setLoading]           = useState(false)
   const [oauthLoading, setOauthLoading] = useState<string | null>(null)
   const [error, setError]               = useState<string | null>(null)
+  const [logoUrl, setLogoUrl]           = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/admin/store-settings')
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (d?.logo_url) setLogoUrl(d.logo_url) })
+      .catch(() => {})
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -74,7 +83,14 @@ export default function SignInPage() {
           </Link>
         </div>
         <div className="relative z-10 flex flex-col gap-8">
-          <Image src="/LOGOS.png" alt="Chicken Time" width={960} height={200} className="w-full h-auto drop-shadow-2xl" />
+          <Image
+            src={logoUrl ?? '/LOGOS.png'}
+            alt="Chicken Time"
+            width={960}
+            height={200}
+            className="w-full h-auto drop-shadow-2xl"
+            unoptimized={!!logoUrl}
+          />
           <div>
             <h2 className="font-heading font-black text-white text-5xl leading-tight">
               The best<br />
@@ -102,31 +118,38 @@ export default function SignInPage() {
       </div>
 
       {/* ── Right panel — form ── */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-6 sm:px-12 overflow-y-auto">
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white dark:bg-zinc-950 px-6 sm:px-12 overflow-y-auto">
         <div className="w-full max-w-sm py-10">
 
-          <Link
-            href="/"
-            className="lg:hidden inline-flex items-center gap-1.5 text-gray-400 hover:text-gray-700 text-xs font-semibold uppercase tracking-wider mb-8 transition-colors"
-          >
-            <ArrowLeft size={13} /> Home
-          </Link>
+          <div className="lg:hidden flex items-center justify-between mb-8">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-gray-400 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-colors"
+            >
+              <ArrowLeft size={13} /> Home
+            </Link>
+            <ThemeToggle />
+          </div>
+          <div className="hidden lg:flex justify-end mb-4">
+            <ThemeToggle />
+          </div>
 
           <div className="mb-8">
-            <h1 className="font-heading font-black text-3xl text-brand-dark">Welcome back</h1>
-            <p className="text-gray-500 text-sm mt-1.5">Sign in to your Chicken Time account</p>
+            <h1 className="font-heading font-black text-3xl text-brand-dark dark:text-white">Welcome back</h1>
+            <p className="text-gray-500 dark:text-zinc-400 text-sm mt-1.5">Sign in to your Chicken Time account</p>
           </div>
 
           {/* OAuth — prominent, first */}
-          <p className="text-xs text-gray-400 text-center mb-3 font-medium">Quick sign in</p>
+          <p className="text-xs text-gray-400 dark:text-zinc-500 text-center mb-3 font-medium">Quick sign in</p>
           <div className="space-y-3 mb-6">
             <button
               type="button"
               onClick={() => handleOAuth('google')}
               disabled={!!oauthLoading || loading}
               className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:opacity-50
-                         text-gray-800 font-semibold rounded-xl py-3.5 text-sm transition-colors
-                         border border-gray-200 shadow-sm"
+                         text-gray-800 font-semibold rounded-2xl py-3.5 text-sm transition
+                         border border-gray-200 shadow-sm dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700
+                         active:scale-[0.98]"
             >
               {oauthLoading === 'google' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -146,7 +169,8 @@ export default function SignInPage() {
               onClick={() => handleOAuth('facebook')}
               disabled={!!oauthLoading || loading}
               className="w-full flex items-center justify-center gap-3 bg-[#1877F2] hover:bg-[#1565D8] disabled:opacity-50
-                         text-white font-semibold rounded-xl py-3.5 text-sm transition-colors shadow-sm"
+                         text-white font-semibold rounded-2xl py-3.5 text-sm transition shadow-sm
+                         active:scale-[0.98]"
             >
               {oauthLoading === 'facebook' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -161,18 +185,18 @@ export default function SignInPage() {
 
           {/* Divider */}
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex-1 h-px bg-gray-100" />
-            <span className="text-xs text-gray-400 font-medium">or sign in with email</span>
-            <div className="flex-1 h-px bg-gray-100" />
+            <div className="flex-1 h-px bg-gray-100 dark:bg-zinc-800" />
+            <span className="text-xs text-gray-400 dark:text-zinc-500 font-medium">or sign in with email</span>
+            <div className="flex-1 h-px bg-gray-100 dark:bg-zinc-800" />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label htmlFor="email" className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <label htmlFor="email" className="text-xs font-bold text-gray-700 dark:text-zinc-400 uppercase tracking-wider">
                 Email address
               </label>
               <div className="relative">
-                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 pointer-events-none" />
                 <input
                   id="email"
                   type="email"
@@ -180,22 +204,22 @@ export default function SignInPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:placeholder:text-zinc-600"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                <label htmlFor="password" className="text-xs font-bold text-gray-700 dark:text-zinc-400 uppercase tracking-wider">
                   Password
                 </label>
-                <Link href="/forgot-password" className="text-xs text-brand-red hover:underline font-semibold">
+                <Link href="/forgot-password" className="text-xs text-brand-red dark:text-red-400 hover:underline font-semibold">
                   Forgot password?
                 </Link>
               </div>
               <div className="relative">
-                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 pointer-events-none" />
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -203,12 +227,12 @@ export default function SignInPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition"
+                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-gray-200 text-sm text-brand-dark placeholder:text-gray-400 focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:placeholder:text-zinc-600"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -217,16 +241,16 @@ export default function SignInPage() {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2.5 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5">
+              <div className="flex items-center gap-2.5 bg-red-50 border border-red-200 dark:bg-red-950/30 dark:border-red-900/50 rounded-xl px-3.5 py-2.5">
                 <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-                <p className="text-sm text-red-600">{error}</p>
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
               </div>
             )}
 
             <button
               type="submit"
               disabled={loading || !!oauthLoading}
-              className="w-full flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-base py-3.5 rounded-xl transition-colors shadow-lg shadow-red-500/20 mt-2"
+              className="w-full flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-base py-3.5 rounded-2xl transition shadow-lg shadow-red-500/20 mt-2 active:scale-[0.98]"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -236,9 +260,9 @@ export default function SignInPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-gray-500 dark:text-zinc-500 mt-6">
             Don&apos;t have an account?{' '}
-            <Link href="/sign-up" className="text-brand-red font-bold hover:underline">
+            <Link href="/sign-up" className="text-brand-red dark:text-red-400 font-bold hover:underline">
               Sign up free
             </Link>
           </p>

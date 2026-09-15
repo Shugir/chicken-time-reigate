@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { SiteChrome } from "@/components/SiteChrome";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/lib/theme-context";
+import { THEME_STORAGE_KEY } from "@/lib/theme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +27,17 @@ export const metadata: Metadata = {
   description: "Fresh, crispy chicken delivered fast in Reigate. Order burgers, wings, sides and drinks.",
 };
 
+const THEME_INIT_SCRIPT = `
+(function () {
+  try {
+    var stored = localStorage.getItem('${THEME_STORAGE_KEY}');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = (stored === 'light' || stored === 'dark') ? stored : (prefersDark ? 'dark' : 'light');
+    if (theme === 'dark') document.documentElement.classList.add('dark');
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,11 +49,16 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col bg-white text-brand-dark" suppressHydrationWarning>
 
-        <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
+        <ThemeProvider>
+          <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
 
-        <SiteChrome>{children}</SiteChrome>
+          <SiteChrome>{children}</SiteChrome>
+        </ThemeProvider>
       </body>
     </html>
   );
