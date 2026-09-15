@@ -24,6 +24,7 @@ const ALL_PERMISSIONS = [
   { key: 'StoreSettings',      label: 'Store Settings',      desc: 'Toggle store open/closed and prep time' },
   { key: 'DeliveryZones',      label: 'Delivery Zones',      desc: 'Manage delivery areas and fees' },
   { key: 'Promotions',         label: 'Promotions',          desc: 'Create and manage discount codes' },
+  { key: 'Deals',              label: 'Deals',                desc: 'Create and manage BOGO, bundle, meal and order-wide deals' },
   { key: 'Fleet',              label: 'Fleet & Drivers',     desc: 'Manage drivers and wages' },
   { key: 'Kitchen',            label: 'Kitchen Display',     desc: 'Access the kitchen order dashboard' },
   { key: 'DispatchController', label: 'Dispatch Controller', desc: 'Manage out-for-delivery orders' },

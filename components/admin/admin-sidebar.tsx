@@ -25,7 +25,7 @@ const NAV_GROUPS = [
     items: [
       { id: 'menu',       label: 'Menu Manager',   icon: UtensilsCrossed, href: '/admin',            permission: 'MenuManager'   },
       { id: 'categories', label: 'Categories',     icon: Layers,          href: '/admin/categories', permission: 'Categories'    },
-      { id: 'combos',     label: 'Combos',         icon: Layers,          href: '/admin/combos',     permission: 'MenuManager'   },
+      { id: 'deals',      label: 'Deals',          icon: Tag,             href: '/admin/deals',      permission: 'Deals'         },
       { id: 'promotions', label: 'Promotions',     icon: Tag,             href: '/admin/promotions', permission: 'Promotions'    },
     ],
   },
