@@ -188,7 +188,7 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
                   } ${active ? 'ring-2 ring-brand-red/40' : ''}`}>
                     <Icon size={13} className={done ? 'text-white' : 'text-zinc-600'} />
                   </div>
-                  <span className={`text-[9px] leading-tight ${done ? 'text-zinc-300' : 'text-zinc-600'}`}>
+                  <span className={`text-[9px] leading-tight ${done ? 'text-zinc-700 dark:text-zinc-300' : 'text-zinc-600'}`}>
                     {s.label}
                   </span>
                 </div>
@@ -205,7 +205,7 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
       <div className="space-y-1.5 mb-4">
         {order.order_items.map((item) => (
           <div key={item.id} className="flex justify-between text-sm">
-            <span className="text-zinc-300">
+            <span className="text-zinc-700 dark:text-zinc-300">
               {item.quantity}× {item.item_name}
               {item.extras && item.extras.length > 0 && (
                 <span className="text-xs text-zinc-500 ml-1">
@@ -501,7 +501,7 @@ export default function AccountPage() {
             <ThemeToggle />
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-white transition-colors active:scale-[0.98]"
+              className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-brand-dark dark:hover:text-white transition-colors active:scale-[0.98]"
             >
               <LogOut size={13} />
               Sign out
@@ -540,7 +540,7 @@ export default function AccountPage() {
         {tab === 'active' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+              <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
                 Active Orders
               </h2>
               <button
@@ -579,7 +579,7 @@ export default function AccountPage() {
         {/* ── Order History ─────────────────────────────────────────────────── */}
         {tab === 'history' && (
           <div className="space-y-4">
-            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+            <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
               Order History
             </h2>
 
@@ -604,7 +604,7 @@ export default function AccountPage() {
         {/* ── Profile ───────────────────────────────────────────────────────── */}
         {tab === 'profile' && (
           <div className="space-y-5">
-            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+            <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
               Profile
             </h2>
 
@@ -613,7 +613,7 @@ export default function AccountPage() {
             ) : (
               <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl shadow-sm dark:shadow-none p-5 space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1.5">Full name</label>
+                  <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1.5">Full name</label>
                   <input
                     type="text"
                     value={profile.full_name ?? ''}
@@ -625,7 +625,7 @@ export default function AccountPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1.5">Phone</label>
+                  <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1.5">Phone</label>
                   <input
                     type="tel"
                     value={profile.phone ?? ''}
@@ -637,7 +637,7 @@ export default function AccountPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1.5">
+                  <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1.5">
                     Default delivery address
                   </label>
                   <textarea
@@ -653,7 +653,7 @@ export default function AccountPage() {
                 {profileError && (
                   <div className="flex items-center gap-2.5 bg-red-500/10 border border-red-500/20 rounded-lg px-3.5 py-2.5">
                     <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
-                    <p className="text-sm text-red-300">{profileError}</p>
+                    <p className="text-sm text-red-600 dark:text-red-300">{profileError}</p>
                   </div>
                 )}
 
@@ -679,7 +679,7 @@ export default function AccountPage() {
         {/* ── Offers ────────────────────────────────────────────────────────── */}
         {tab === 'offers' && (
           <div className="space-y-4">
-            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+            <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
               Your Offers
             </h2>
 
@@ -719,7 +719,7 @@ export default function AccountPage() {
         {/* ── Security ──────────────────────────────────────────────────────── */}
         {tab === 'security' && (
           <div className="space-y-4">
-            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+            <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
               Security
             </h2>
 
@@ -732,7 +732,7 @@ export default function AccountPage() {
               {resetSent ? (
                 <div className="flex items-center gap-2.5 bg-green-500/10 border border-green-500/20 rounded-lg px-3.5 py-2.5">
                   <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0" />
-                  <p className="text-sm text-green-300">Reset email sent — check your inbox.</p>
+                  <p className="text-sm text-green-600 dark:text-green-300">Reset email sent — check your inbox.</p>
                 </div>
               ) : (
                 <button
@@ -749,7 +749,7 @@ export default function AccountPage() {
 
             {/* Close account */}
             <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 rounded-3xl p-5 shadow-sm dark:shadow-none">
-              <h3 className="text-sm font-semibold text-red-400 mb-1">Close Account</h3>
+              <h3 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-1">Close Account</h3>
               <p className="text-xs text-zinc-500 mb-4">
                 Permanently deletes your account and anonymises your order history.
                 This cannot be undone.
@@ -758,7 +758,7 @@ export default function AccountPage() {
               {closeError && (
                 <div className="flex items-center gap-2.5 bg-red-500/10 border border-red-500/20 rounded-lg px-3.5 py-2.5 mb-3">
                   <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
-                  <p className="text-sm text-red-300">{closeError}</p>
+                  <p className="text-sm text-red-600 dark:text-red-300">{closeError}</p>
                 </div>
               )}
 
@@ -773,7 +773,7 @@ export default function AccountPage() {
                 </button>
               ) : (
                 <div className="space-y-2">
-                  <p className="text-xs font-medium text-red-300 mb-2">Are you absolutely sure?</p>
+                  <p className="text-xs font-medium text-red-700 dark:text-red-300 mb-2">Are you absolutely sure?</p>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setCloseConfirm(false)}
