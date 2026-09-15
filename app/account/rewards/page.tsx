@@ -2,20 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { createBrowserClient } from '@supabase/ssr'
+import { supabase } from '@/lib/supabase-browser'
 import {
   ArrowLeft, Loader2, Star, Lock, CheckCircle2,
   ChevronDown, ChevronUp, Gift, Zap, TrendingUp,
 } from 'lucide-react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
-
-// ─── Supabase (module-level) ──────────────────────────────────────────────────
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

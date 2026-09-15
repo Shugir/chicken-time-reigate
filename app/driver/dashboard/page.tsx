@@ -2,16 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase-browser'
 import {
   MapPin, Phone, MessageSquare, Truck, CheckCircle,
   Loader2, RefreshCw, LogOut, User, StickyNote, AlertCircle,
 } from 'lucide-react'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 interface Order {
   id: string

@@ -6,15 +6,10 @@ import {
   Phone, Mail, MapPin, Calendar, AlertTriangle, Plus, Trash2,
 } from 'lucide-react'
 import Image from 'next/image'
-import { createBrowserClient } from '@supabase/ssr'
+import { supabase } from '@/lib/supabase-browser'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 import { DAYS, DayKey } from '@/lib/store-status'
 import toast from 'react-hot-toast'
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 const DAY_LABELS: Record<DayKey, string> = {
   monday: 'Monday', tuesday: 'Tuesday', wednesday: 'Wednesday',

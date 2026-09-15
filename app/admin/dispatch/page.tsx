@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase-browser'
 import { usePermissions } from '@/components/admin/permissions-provider'
 import toast from 'react-hot-toast'
 import {
@@ -18,11 +18,6 @@ import { orderUrgency } from '@/lib/utils/order-urgency'
 import { CustomerReceipt } from '@/components/CustomerReceipt'
 
 const ALERT_URL = '/KitchenAlert.mp3'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 interface OrderItem {
   id: string

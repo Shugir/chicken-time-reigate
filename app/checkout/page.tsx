@@ -6,12 +6,7 @@ import { generateScheduleSlots, type ScheduleSlot } from '@/lib/utils/schedule-u
 import type { BusinessHours, DayKey } from '@/lib/store-status'
 import { getUKNow } from '@/lib/store-status'
 import toast from 'react-hot-toast'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
+import { supabase } from '@/lib/supabase-browser'
 
 interface CartItem {
   name: string

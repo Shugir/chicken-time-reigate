@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { usePermissions } from '@/components/admin/permissions-provider'
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase-browser'
 import {
   ChefHat, CheckCircle, Clock, RefreshCw, Bell, BellOff, Printer,
   ArrowLeft, LogOut, Truck, AlertTriangle, MapPin, Phone, MessageSquare, User, Search,
@@ -18,11 +18,6 @@ import { CustomerReceipt } from '@/components/CustomerReceipt'
 
 const ALERT_URL = '/KitchenAlert.mp3'
 const MAX_DISPATCHED = 8
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 interface Extra { name: string; price: number }
 

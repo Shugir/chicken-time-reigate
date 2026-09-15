@@ -2,16 +2,11 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase-browser'
 import {
   CheckCircle2, ChefHat, Truck, Package, Clock, Loader2, AlertCircle, Calendar,
 } from 'lucide-react'
 import { formatTime } from '@/lib/utils/format-date'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

@@ -2,15 +2,10 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { createBrowserClient } from '@supabase/ssr'
+import { supabase } from '@/lib/supabase-browser'
 import { Mail, Lock, Eye, EyeOff, User, ChevronRight, ArrowLeft, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword]           = useState(false)

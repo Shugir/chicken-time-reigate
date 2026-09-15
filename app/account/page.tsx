@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createBrowserClient } from '@supabase/ssr'
+import { supabase } from '@/lib/supabase-browser'
 import type { User } from '@supabase/supabase-js'
 import {
   ShoppingBag, Clock, User as UserIcon, Shield, LogOut,
@@ -13,13 +13,6 @@ import {
 import Link from 'next/link'
 import { formatDateTime } from '@/lib/utils/format-date'
 import toast from 'react-hot-toast'
-
-// ─── Supabase (module-level so it's not re-created on every render) ───────────
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

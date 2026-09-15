@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { createBrowserClient } from '@supabase/ssr'
+import { supabase } from '@/lib/supabase-browser'
 import { Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -13,11 +13,6 @@ export default function SignupPage() {
   const [oauthLoading, setOauthLoading] = useState<string | null>(null)
   const [error, setError]     = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
