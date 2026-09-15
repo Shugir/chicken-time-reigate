@@ -118,7 +118,7 @@ export default function SignInPage() {
       </div>
 
       {/* ── Right panel — form ── */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white dark:bg-zinc-950 px-6 sm:px-12 overflow-y-auto">
+      <div className="w-full lg:w-1/2 grid place-items-center bg-white dark:bg-zinc-950 px-6 sm:px-12 overflow-y-auto">
         <div className="w-full max-w-sm py-10">
 
           <div className="lg:hidden flex items-center justify-between mb-8">
