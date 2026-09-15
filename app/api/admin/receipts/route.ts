@@ -21,7 +21,7 @@ function buildQuery(sp: URLSearchParams) {
     .select(`
       id, created_at, order_type, customer_name, customer_email, customer_phone, customer_notes,
       delivery_address, delivery_postcode, total_amount, status, delivery_status,
-      promo_code_used, discount_applied, driver_id, stripe_session_id,
+      promo_code_used, discount_applied, applied_deals, driver_id, stripe_session_id,
       drivers ( name ),
       order_items ( id, item_name, quantity, unit_price, extras, removals, notes )
     `)
@@ -62,6 +62,7 @@ function normalise(raw: Record<string, unknown>[]): AdminReceiptOrder[] {
     delivery_status:   (o.delivery_status as string | null) ?? null,
     promo_code_used:   (o.promo_code_used as string | null) ?? null,
     discount_applied:  Number(o.discount_applied ?? 0),
+    applied_deals:     ((o.applied_deals as { deal_id: string; name: string; type: string; savings: number }[] | null) ?? null),
     driver_id:         (o.driver_id as string | null) ?? null,
     driver_name:       (o.drivers as { name: string } | null)?.name ?? null,
     stripe_session_id: (o.stripe_session_id as string | null) ?? null,

@@ -25,6 +25,7 @@ export interface AdminReceiptOrder {
   delivery_status: string | null
   promo_code_used: string | null
   discount_applied: number
+  applied_deals: { deal_id: string; name: string; type: string; savings: number }[] | null
   driver_id: string | null
   driver_name: string | null
   stripe_session_id: string | null

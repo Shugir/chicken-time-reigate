@@ -40,6 +40,7 @@ interface Order {
   customer_notes:    string | null
   promo_code_used:   string | null
   discount_applied:  number
+  applied_deals:     { deal_id: string; name: string; type: string; savings: number }[] | null
   order_items:       OrderItem[]
 }
 
@@ -144,7 +145,7 @@ function OfferCard({ promo }: { promo: PromoCode }) {
 const ORDER_SELECT = `
   id, status, delivery_status, total_amount, created_at,
   customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes,
-  promo_code_used, discount_applied,
+  promo_code_used, discount_applied, applied_deals,
   order_items(id, item_name, quantity, unit_price, extras, removals, notes)
 `
 
@@ -231,6 +232,11 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
               -{order.promo_code_used} (−£{Number(order.discount_applied).toFixed(2)})
             </span>
           )}
+          {(order.applied_deals ?? []).map((d) => (
+            <span key={d.deal_id} className="ml-2 text-[10px] text-green-600 dark:text-green-400 font-medium">
+              🎉 {d.name} (−£{d.savings.toFixed(2)})
+            </span>
+          ))}
         </div>
         <div className="flex items-center gap-3">
           {onPrintReceipt && (
@@ -387,6 +393,9 @@ export default function AccountPage() {
         <td style="padding:6px 0;border-bottom:1px solid #eee">${i.quantity}× ${i.item_name}${i.extras?.length ? ` <small style="color:#888">+${i.extras.map(e => e.name).join(', ')}</small>` : ''}</td>
         <td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right">£${(i.unit_price * i.quantity).toFixed(2)}</td>
       </tr>`).join('')
+    const dealRows = (order.applied_deals ?? [])
+      .map((d) => `<tr><td style="padding:4px 0;color:#16a34a">🎉 ${d.name}</td><td style="text-align:right;color:#16a34a">−£${d.savings.toFixed(2)}</td></tr>`)
+      .join('')
     win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Receipt #${order.id.slice(-6).toUpperCase()}</title>
       <style>body{font-family:Georgia,serif;max-width:480px;margin:40px auto;color:#1a1a1a;line-height:1.5}
       h1{font-size:22px;margin:0 0 2px}p{margin:2px 0}table{width:100%;border-collapse:collapse;margin:16px 0}
@@ -407,6 +416,7 @@ export default function AccountPage() {
       <table style="margin-top:0"><tbody>
         <tr><td style="padding:4px 0;color:#555">Subtotal</td><td style="text-align:right">£${subtotal.toFixed(2)}</td></tr>
         ${discount > 0 ? `<tr><td style="padding:4px 0;color:#16a34a">Discount (${order.promo_code_used})</td><td style="text-align:right;color:#16a34a">−£${discount.toFixed(2)}</td></tr>` : ''}
+        ${dealRows}
         ${delivery > 0 ? `<tr><td style="padding:4px 0;color:#555">Delivery</td><td style="text-align:right">£${delivery.toFixed(2)}</td></tr>` : ''}
         <tr class="total"><td style="padding:8px 0;border-top:2px solid #1a1a1a">Total</td><td style="text-align:right;border-top:2px solid #1a1a1a">£${Number(order.total_amount).toFixed(2)}</td></tr>
       </tbody></table>
