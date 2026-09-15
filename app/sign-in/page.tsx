@@ -147,9 +147,9 @@ export default function SignInPage() {
               onClick={() => handleOAuth('google')}
               disabled={!!oauthLoading || loading}
               className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:opacity-50
-                         text-gray-800 font-semibold rounded-2xl py-3.5 text-sm transition-colors
+                         text-gray-800 font-semibold rounded-2xl py-3.5 text-sm transition
                          border border-gray-200 shadow-sm dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700
-                         active:scale-[0.98] transition-transform"
+                         active:scale-[0.98]"
             >
               {oauthLoading === 'google' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -169,8 +169,8 @@ export default function SignInPage() {
               onClick={() => handleOAuth('facebook')}
               disabled={!!oauthLoading || loading}
               className="w-full flex items-center justify-center gap-3 bg-[#1877F2] hover:bg-[#1565D8] disabled:opacity-50
-                         text-white font-semibold rounded-2xl py-3.5 text-sm transition-colors shadow-sm
-                         active:scale-[0.98] transition-transform"
+                         text-white font-semibold rounded-2xl py-3.5 text-sm transition shadow-sm
+                         active:scale-[0.98]"
             >
               {oauthLoading === 'facebook' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -250,7 +250,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={loading || !!oauthLoading}
-              className="w-full flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-base py-3.5 rounded-2xl transition-colors shadow-lg shadow-red-500/20 mt-2 active:scale-[0.98] transition-transform"
+              className="w-full flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 active:bg-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-base py-3.5 rounded-2xl transition shadow-lg shadow-red-500/20 mt-2 active:scale-[0.98]"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

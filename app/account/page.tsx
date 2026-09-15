@@ -85,9 +85,9 @@ function statusLabel(order: Order): string {
 }
 
 function statusColor(order: Order): string {
-  if (order.delivery_status === 'failed') return 'bg-red-500/15 text-red-400'
-  if (order.delivery_status === 'delivered' || order.status === 'delivered') return 'bg-green-500/15 text-green-400'
-  return 'bg-amber-500/15 text-amber-400'
+  if (order.delivery_status === 'failed') return 'bg-red-500/15 text-red-600 dark:text-red-400'
+  if (order.delivery_status === 'delivered' || order.status === 'delivered') return 'bg-green-500/15 text-green-600 dark:text-green-400'
+  return 'bg-amber-500/15 text-amber-600 dark:text-amber-400'
 }
 
 
@@ -120,7 +120,7 @@ function OfferCard({ promo }: { promo: PromoCode }) {
           <span className="font-mono text-sm font-bold text-brand-dark dark:text-white tracking-widest">
             {promo.code}
           </span>
-          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-400">
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-600 dark:text-green-400">
             {discountLabel}
           </span>
         </div>
@@ -132,7 +132,7 @@ function OfferCard({ promo }: { promo: PromoCode }) {
       </div>
       <button
         onClick={copyCode}
-        className="shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors text-zinc-300 active:scale-[0.98] transition-transform"
+        className="shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition text-zinc-300 active:scale-[0.98]"
       >
         {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
         {copied ? 'Copied!' : 'Copy'}
@@ -213,7 +213,7 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
                 </span>
               )}
             </span>
-            <span className="text-zinc-400 shrink-0 ml-2">
+            <span className="text-zinc-600 dark:text-zinc-400 shrink-0 ml-2">
               £{(item.unit_price * item.quantity).toFixed(2)}
             </span>
           </div>
@@ -227,7 +227,7 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
             £{Number(order.total_amount).toFixed(2)}
           </span>
           {order.promo_code_used && Number(order.discount_applied) > 0 && (
-            <span className="ml-2 text-[10px] text-green-400 font-medium">
+            <span className="ml-2 text-[10px] text-green-600 dark:text-green-400 font-medium">
               -{order.promo_code_used} (−£{Number(order.discount_applied).toFixed(2)})
             </span>
           )}
@@ -236,7 +236,7 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
           {onPrintReceipt && (
             <button
               onClick={() => onPrintReceipt(order)}
-              className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-300 transition-colors active:scale-[0.98] transition-transform"
+              className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-brand-dark dark:hover:text-zinc-300 transition active:scale-[0.98]"
             >
               <Printer size={12} />
               Receipt
@@ -245,7 +245,7 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
           {onReorder && (
             <button
               onClick={() => onReorder(order)}
-              className="flex items-center gap-1.5 text-xs font-medium text-brand-red hover:text-brand-red/80 dark:text-red-400 dark:hover:text-red-400/80 transition-colors active:scale-[0.98] transition-transform"
+              className="flex items-center gap-1.5 text-xs font-medium text-brand-red hover:text-brand-red/80 dark:text-red-400 dark:hover:text-red-400/80 transition active:scale-[0.98]"
             >
               <RefreshCw size={12} />
               Reorder
@@ -522,7 +522,7 @@ export default function AccountPage() {
                 className={`flex items-center gap-1 px-1.5 py-3.5 text-[10px] font-medium border-b-2 transition-colors flex-1 justify-center ${
                   tab === t.id
                     ? 'border-brand-red text-brand-dark dark:text-white'
-                    : 'border-transparent text-zinc-500 hover:text-zinc-300'
+                    : 'border-transparent text-zinc-500 hover:text-brand-dark dark:hover:text-zinc-300'
                 }`}
               >
                 <Icon size={13} />
@@ -546,7 +546,7 @@ export default function AccountPage() {
               <button
                 onClick={fetchActiveOrders}
                 disabled={activeLoading}
-                className="text-zinc-600 hover:text-zinc-400 transition-colors disabled:opacity-40"
+                className="text-zinc-600 hover:text-zinc-800 dark:hover:text-zinc-400 transition-colors disabled:opacity-40"
               >
                 <RefreshCw size={14} className={activeLoading ? 'animate-spin' : ''} />
               </button>
@@ -661,7 +661,7 @@ export default function AccountPage() {
                   onClick={handleSaveProfile}
                   disabled={profileSaving}
                   className="w-full bg-brand-red hover:bg-brand-red/90 disabled:opacity-60 text-white font-semibold
-                             rounded-lg py-2.5 text-sm transition-colors flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                             rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2 active:scale-[0.98]"
                 >
                   {profileSaving ? (
                     <><Loader2 className="w-4 h-4 animate-spin" />Saving…</>
@@ -739,7 +739,7 @@ export default function AccountPage() {
                   onClick={handlePasswordReset}
                   disabled={resetLoading}
                   className="w-full bg-zinc-800 hover:bg-zinc-700 disabled:opacity-60 text-white font-medium
-                             rounded-lg py-2.5 text-sm transition-colors flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                             rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2 active:scale-[0.98]"
                 >
                   {resetLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                   Send Password Reset Email
@@ -766,7 +766,7 @@ export default function AccountPage() {
                 <button
                   onClick={() => setCloseConfirm(true)}
                   className="w-full bg-red-600/15 hover:bg-red-600/25 border border-red-600/40 text-red-400 font-medium
-                             rounded-lg py-2.5 text-sm transition-colors flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                             rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2 active:scale-[0.98]"
                 >
                   <Trash2 size={13} />
                   Close My Account
@@ -785,7 +785,7 @@ export default function AccountPage() {
                       onClick={handleCloseAccount}
                       disabled={closeLoading}
                       className="flex-1 bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white font-bold
-                                 rounded-lg py-2.5 text-sm transition-colors flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                                 rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2 active:scale-[0.98]"
                     >
                       {closeLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                       Yes, Delete

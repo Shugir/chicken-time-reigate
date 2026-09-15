@@ -101,7 +101,7 @@ function RewardCard({
           <h3 className="text-sm font-semibold text-brand-dark dark:text-white leading-tight">
             {prettifyCode(reward.code)}
           </h3>
-          <p className="text-xs text-zinc-400 mt-0.5">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
             {discountLabel(reward)}
             {Number(reward.min_order_amount) > 0 && (
               <span className="text-zinc-600 ml-1">
@@ -113,7 +113,7 @@ function RewardCard({
 
         {/* Status badge */}
         {readyToUse ? (
-          <span className="shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-400">
+          <span className="shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-600 dark:text-green-400">
             <CheckCircle2 size={10} />
             Unlocked
           </span>
@@ -122,7 +122,7 @@ function RewardCard({
             Used
           </span>
         ) : (
-          <span className="shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400">
+          <span className="shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400">
             <Star size={10} />
             {reward.points_cost.toLocaleString()} pts
           </span>
@@ -147,7 +147,7 @@ function RewardCard({
           onClick={() => onUnlock(reward.id)}
           disabled={isUnlocking}
           className="w-full mt-auto bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-zinc-950 font-semibold
-                     rounded-lg py-2 text-xs transition-colors flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform"
+                     rounded-lg py-2 text-xs transition flex items-center justify-center gap-1.5 active:scale-[0.98]"
         >
           {isUnlocking ? (
             <><Loader2 size={12} className="animate-spin" /> Unlocking…</>
@@ -353,7 +353,7 @@ export default function RewardsPage() {
             <div className="flex items-center gap-2">
               <p className="text-sm font-semibold">My Rewards</p>
               {balance > 0 && (
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
                   {balance.toLocaleString()} pts
                 </span>
               )}
@@ -459,12 +459,12 @@ export default function RewardsPage() {
             onClick={() => setHistOpen((v) => !v)}
             className="w-full flex items-center justify-between py-3 group active:scale-[0.98] transition-transform"
           >
-            <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest group-hover:text-zinc-300 transition-colors">
+            <h2 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest group-hover:text-brand-dark dark:group-hover:text-zinc-300 transition-colors">
               Points History
             </h2>
             {histOpen
-              ? <ChevronUp size={14} className="text-zinc-500 group-hover:text-zinc-300 transition-colors" />
-              : <ChevronDown size={14} className="text-zinc-500 group-hover:text-zinc-300 transition-colors" />}
+              ? <ChevronUp size={14} className="text-zinc-500 group-hover:text-brand-dark dark:group-hover:text-zinc-300 transition-colors" />
+              : <ChevronDown size={14} className="text-zinc-500 group-hover:text-brand-dark dark:group-hover:text-zinc-300 transition-colors" />}
           </button>
 
           {histOpen && (
@@ -482,8 +482,8 @@ export default function RewardsPage() {
                         {/* Icon */}
                         <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${
                           isEarn
-                            ? 'bg-amber-500/15 text-amber-400'
-                            : 'bg-red-500/15 text-red-400'
+                            ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400'
+                            : 'bg-red-500/15 text-red-600 dark:text-red-400'
                         }`}>
                           {txIcon(tx.type)}
                         </div>
