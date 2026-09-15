@@ -706,8 +706,8 @@ export default function CheckoutPage() {
               <span>-£{autoPromo.discount_amount.toFixed(2)}</span>
             </div>
           )}
-          {dealsQuote.applied.map((d) => (
-            <div key={d.deal_id} className="flex justify-between text-sm text-emerald-600">
+          {dealsQuote.applied.map((d, i) => (
+            <div key={`${d.deal_id}-${i}`} className="flex justify-between text-sm text-emerald-600">
               <span>🎉 {d.name}</span>
               <span>-£{d.savings.toFixed(2)}</span>
             </div>
