@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { X, Plus, Minus, ChevronDown, ShoppingBag, Check, TriangleAlert } from 'lucide-react'
 import type { ProductItem, AddOn, OrderSelection } from '@/components/ProductModal'
+import BundleGroupPicker from '@/components/Deals/BundleGroupPicker'
 
 interface ComboItem {
   id: string
@@ -11,6 +12,12 @@ interface ComboItem {
   price: number
   image_url: string | null
   size_tier: 'regular' | 'large' | null
+}
+
+interface BundleDeal {
+  id: string
+  name: string
+  config: { groups: { label: string; category: string; pick_qty: number }[]; price: number }
 }
 
 type DrawerItem = ProductItem & {
@@ -24,6 +31,7 @@ interface Props {
   item: DrawerItem
   onClose: () => void
   onAddToOrder: (selection: OrderSelection) => void
+  onAddBundleItems?: (itemIds: string[]) => void
   initialMealMode?: boolean
 }
 
@@ -91,7 +99,7 @@ function ComboItemCard({ item, selected, onSelect }: { item: ComboItem; selected
   )
 }
 
-export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, initialMealMode = false }: Props) {
+export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, onAddBundleItems, initialMealMode = false }: Props) {
   const [visible, setVisible] = useState(false)
   const [qty, setQty] = useState(1)
   const [removals, setRemovals] = useState<string[]>([])
@@ -99,17 +107,13 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, init
   const [extras, setExtras] = useState<AddOn[]>([])
   const [notes, setNotes] = useState('')
 
-  const isMain = item.combo_category === 'main'
+  // ponytail: every item can offer "Make it a Meal" now — the bundle lookup itself decides whether a matching deal exists; item-type gating was combo_category-specific and no longer applies
+  const isMain = true
 
   // Meal mode state
   const [mealMode, setMealMode] = useState(isMain && initialMealMode)
-  const [comboLoading, setComboLoading] = useState(false)
-  const [comboItems, setComboItems] = useState<{ sides: ComboItem[]; drinks: ComboItem[] }>({ sides: [], drinks: [] })
-  const [selectedSize, setSelectedSize] = useState<'medium' | 'large' | null>(null)
-  const [selectedSide, setSelectedSide] = useState<ComboItem | null>(null)
-  const [selectedDrink, setSelectedDrink] = useState<ComboItem | null>(null)
-  const [discounts, setDiscounts] = useState<{ medium: number; large: number }>({ medium: 0, large: 0 })
-  const [comboStep, setComboStep] = useState<'size' | 'side' | 'drink' | null>(isMain && initialMealMode ? 'size' : null)
+  const [matchingBundle, setMatchingBundle] = useState<BundleDeal | null>(null)
+  const [bundleMenuItems, setBundleMenuItems] = useState<Record<string, { id: string; name: string; price: number; image_url: string | null }[]>>({})
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true))
@@ -127,56 +131,38 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, init
 
   useEffect(() => {
     if (!mealMode) return
-    setComboLoading(true)
-    Promise.all([
-      fetch('/api/menu/combo-items?category=side').then(r => r.json()),
-      fetch('/api/menu/combo-items?category=drink').then(r => r.json()),
-      fetch('/api/menu/combo-discounts?size=medium').then(r => r.json()),
-      fetch('/api/menu/combo-discounts?size=large').then(r => r.json()),
-    ])
-      .then(([sides, drinks, medDisc, lrgDisc]) => {
-        setComboItems({ sides: sides as ComboItem[], drinks: drinks as ComboItem[] })
-        const md = Array.isArray(medDisc) ? medDisc[0] : medDisc
-        const ld = Array.isArray(lrgDisc) ? lrgDisc[0] : lrgDisc
-        setDiscounts({
-          medium: Number(md?.discount_amount ?? 0),
-          large: Number(ld?.discount_amount ?? 0),
-        })
+    fetch('/api/deals/active')
+      .then((r) => r.json())
+      .then((deals: { id: string; type: string; name: string; config: any }[]) => {
+        const bundle = deals.find((d) => d.type === 'bundle' && d.config.groups.some((g: any) => g.category === item.category)) as BundleDeal | undefined
+        if (!bundle) return
+        setMatchingBundle(bundle)
+        const categories = bundle.config.groups.map((g) => g.category)
+        fetch('/api/menu-items')
+          .then((r) => r.json())
+          .then((all: { id: string; name: string; price: number; image_url: string | null; category: string; is_available: boolean }[]) => {
+            const byCategory: Record<string, { id: string; name: string; price: number; image_url: string | null }[]> = {}
+            for (const cat of categories) {
+              byCategory[cat] = all.filter((m) => m.category === cat && m.is_available)
+            }
+            setBundleMenuItems(byCategory)
+          })
       })
-      .catch(() => { })
-      .finally(() => setComboLoading(false))
-  }, [mealMode])
+      .catch(() => {})
+  }, [mealMode, item.category])
 
-  // Items filtered by chosen size
-  const filteredSides = selectedSize === 'large'
-    ? comboItems.sides.filter(i => i.size_tier !== 'regular')
-    : comboItems.sides.filter(i => i.size_tier !== 'large')
-  const filteredDrinks = selectedSize === 'large'
-    ? comboItems.drinks.filter(i => i.size_tier !== 'regular')
-    : comboItems.drinks.filter(i => i.size_tier !== 'large')
-
-  const activeDiscount = selectedSize === 'large' ? discounts.large : discounts.medium
   const extrasTotal = extras.reduce((s, e) => s + e.price, 0)
-  const mealComplete = mealMode && selectedSize !== null && selectedSide !== null && selectedDrink !== null
-  const comboAddPrice = mealComplete
-    ? Math.max(0, (selectedSide!.price) + (selectedDrink!.price) - activeDiscount)
-    : 0
-  const total = (item.price + extrasTotal + comboAddPrice) * qty
+  const total = (item.price + extrasTotal) * qty
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
 
   const hasExtras = (item.add_ons ?? []).length > 0
   const hasRemovals = (item.removables ?? []).length > 0
   const hasAdditions = (item.additions ?? []).length > 0
 
-  // Button validation
-  const missingStep = mealMode
-    ? !selectedSize ? 'Select a Meal Size'
-      : !selectedSide ? 'Select a Side'
-        : !selectedDrink ? 'Select a Drink'
-          : null
-    : null
-  const buttonDisabled = missingStep !== null
-  const buttonLabel = missingStep ?? `Add${qty > 1 ? ` ${qty}×` : ''} to Order`
+  // Button validation — bundle selection is now handled entirely by BundleGroupPicker's own CTA,
+  // so this footer button no longer has a meal-mode-specific "missing step" to gate on.
+  const buttonDisabled = false
+  const buttonLabel = `Add${qty > 1 ? ` ${qty}×` : ''} to Order`
 
   const toggleExtra = (addon: AddOn) => setExtras(prev =>
     prev.some(e => e.name === addon.name) ? prev.filter(e => e.name !== addon.name) : [...prev, addon])
@@ -191,29 +177,7 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, init
   }
 
   const handleToggleMeal = () => {
-    const next = !mealMode
-    setMealMode(next)
-    setSelectedSize(null)
-    setSelectedSide(null)
-    setSelectedDrink(null)
-    setComboStep(next ? 'size' : null)
-  }
-
-  const handleSizeSelect = (sz: 'medium' | 'large') => {
-    setSelectedSize(sz)
-    setSelectedSide(null)
-    setSelectedDrink(null)
-    setComboStep('side')
-  }
-
-  const handleSideSelect = (side: ComboItem) => {
-    const next = selectedSide?.id === side.id ? null : side
-    setSelectedSide(next)
-    if (next !== null) setComboStep('drink')
-  }
-
-  const handleDrinkSelect = (drink: ComboItem) => {
-    setSelectedDrink(d => d?.id === drink.id ? null : drink)
+    setMealMode((m) => !m)
   }
 
   return (
@@ -318,94 +282,23 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, init
             </div>
           )}
 
-          {/* Combo accordion steps */}
+          {/* Bundle group picker — replaces old size/side/drink combo accordion */}
           {mealMode && (
-            comboLoading ? (
-              <div className="px-5 py-6 text-center text-sm text-zinc-400">Loading combo items…</div>
+            matchingBundle ? (
+              <div className="px-5 py-4">
+                <BundleGroupPicker
+                  groups={matchingBundle.config.groups}
+                  price={matchingBundle.config.price}
+                  menuItemsByCategory={bundleMenuItems}
+                  onComplete={(selections) => {
+                    onAddToOrder({ item, quantity: qty, removals, additions, extras, notes: notes.trim(), totalPrice: total })
+                    onAddBundleItems?.(selections.map((s) => s.item_id))
+                    onClose()
+                  }}
+                />
+              </div>
             ) : (
-              <>
-                {/* Step 1 — Size */}
-                <AccordionSection
-                  title="1. Choose Size"
-                  subtitle={selectedSize ? `${selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1)} selected` : 'Pick your meal size'}
-                  open={comboStep === 'size'}
-                  onToggle={() => setComboStep(s => s === 'size' ? null : 'size')}
-                  badge={selectedSize ? selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1) : undefined}
-                >
-                  <div className="grid grid-cols-2 gap-3">
-                    {(['medium', 'large'] as const).map(sz => (
-                      <button
-                        key={sz}
-                        onClick={() => handleSizeSelect(sz)}
-                        className={`rounded-xl border-2 p-4 flex flex-col items-center gap-1.5 transition-all ${selectedSize === sz
-                          ? 'border-brand-red bg-brand-red/5'
-                          : 'border-zinc-100 hover:border-zinc-200'
-                          }`}
-                      >
-                        <span className="text-2xl">{sz === 'medium' ? '🥤' : '🧃'}</span>
-                        <p className={`text-sm font-bold capitalize ${selectedSize === sz ? 'text-brand-red' : 'text-zinc-800'}`}>
-                          {sz}
-                        </p>
-                        <p className={`text-[11px] text-center ${selectedSize === sz ? 'text-brand-red/70' : 'text-zinc-400'}`}>
-                          {sz === 'medium' ? 'Regular sides & drinks' : 'Large sides & drinks'}
-                        </p>
-                      </button>
-                    ))}
-                  </div>
-                </AccordionSection>
-
-                {/* Step 2 — Side */}
-                <AccordionSection
-                  title="2. Choose Side"
-                  subtitle={selectedSide ? selectedSide.name : 'Pick a side dish'}
-                  open={comboStep === 'side'}
-                  onToggle={() => setComboStep(s => s === 'side' ? null : 'side')}
-                  badge={selectedSide ? selectedSide.name : undefined}
-                >
-                  {!selectedSize ? (
-                    <p className="text-xs text-zinc-400">Select a size first to see available sides.</p>
-                  ) : filteredSides.length === 0 ? (
-                    <p className="text-xs text-zinc-400">No sides available for this size.</p>
-                  ) : (
-                    <div className="grid grid-cols-2 gap-2">
-                      {filteredSides.map(side => (
-                        <ComboItemCard
-                          key={side.id}
-                          item={side}
-                          selected={selectedSide?.id === side.id}
-                          onSelect={() => handleSideSelect(side)}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </AccordionSection>
-
-                {/* Step 3 — Drink */}
-                <AccordionSection
-                  title="3. Choose Drink"
-                  subtitle={selectedDrink ? selectedDrink.name : 'Pick a drink'}
-                  open={comboStep === 'drink'}
-                  onToggle={() => setComboStep(s => s === 'drink' ? null : 'drink')}
-                  badge={selectedDrink ? selectedDrink.name : undefined}
-                >
-                  {!selectedSize ? (
-                    <p className="text-xs text-zinc-400">Select a size first to see available drinks.</p>
-                  ) : filteredDrinks.length === 0 ? (
-                    <p className="text-xs text-zinc-400">No drinks available for this size.</p>
-                  ) : (
-                    <div className="grid grid-cols-2 gap-2">
-                      {filteredDrinks.map(drink => (
-                        <ComboItemCard
-                          key={drink.id}
-                          item={drink}
-                          selected={selectedDrink?.id === drink.id}
-                          onSelect={() => handleDrinkSelect(drink)}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </AccordionSection>
-              </>
+              <div className="px-5 py-6 text-center text-sm text-zinc-400">No meal deal currently available for this item.</div>
             )
           )}
 
@@ -490,11 +383,6 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, init
           {extras.length > 0 && (
             <div className="flex justify-between text-xs text-zinc-400 mb-2">
               <span>Extras</span><span>+£{extrasTotal.toFixed(2)}</span>
-            </div>
-          )}
-          {mealComplete && activeDiscount > 0 && (
-            <div className="flex justify-between text-xs text-emerald-600 mb-2">
-              <span>Combo saving</span><span>−£{activeDiscount.toFixed(2)}</span>
             </div>
           )}
           <button

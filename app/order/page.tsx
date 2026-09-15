@@ -36,8 +36,6 @@ interface DbCategory {
   image_url: string | null; description: string | null
 }
 
-interface ComboItemLite { id: string; price: number; size_tier: 'regular' | 'large' | null }
-
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80'
 
 const MENU_ITEMS: MenuItem[] = [
@@ -313,7 +311,7 @@ function MenuCard({ item, qty, onOpenDrawer, onOpenMealDrawer, onAdd, onRemove, 
 }) {
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
   const isSoldOut = item.is_available === false
-  const showMealRows = qty === 0 && !isSoldOut && item.combo_category === 'main' && mealFromPrice != null
+  const showMealRows = qty === 0 && !isSoldOut && mealFromPrice != null
 
   return (
     <div
@@ -745,9 +743,7 @@ export default function OrderPage() {
   const [activeCategory, setActive] = useState<string>('')
   const [drawerItem, setDrawerItem] = useState<MenuItem | null>(null)
   const [drawerInitialMeal, setDrawerInitialMeal] = useState(false)
-  const [comboSides, setComboSides] = useState<ComboItemLite[]>([])
-  const [comboDrinks, setComboDrinks] = useState<ComboItemLite[]>([])
-  const [mediumDiscount, setMediumDiscount] = useState(0)
+  const [activeBundles, setActiveBundles] = useState<{ id: string; config: { groups: { category: string }[]; price: number } }[]>([])
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen] = useState(true)
   const [closedReason, setClosedReason] = useState<string>('')
@@ -816,32 +812,20 @@ export default function OrderPage() {
   }, [])
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/menu/combo-items?category=side').then((r) => r.ok ? r.json() : []),
-      fetch('/api/menu/combo-items?category=drink').then((r) => r.ok ? r.json() : []),
-      fetch('/api/menu/combo-discounts?size=medium').then((r) => r.ok ? r.json() : null),
-    ])
-      .then(([sides, drinks, discount]) => {
-        setComboSides(sides as ComboItemLite[])
-        setComboDrinks(drinks as ComboItemLite[])
-        setMediumDiscount(Number(discount?.discount_amount ?? 0))
+    fetch('/api/deals/active')
+      .then((r) => r.json())
+      .then((deals: { id: string; type: string; config: any }[]) => {
+        setActiveBundles(deals.filter((d) => d.type === 'bundle'))
       })
-      .catch(() => { })
+      .catch(() => {})
   }, [])
 
   const mealFromPriceFor = useMemo(() => {
-    const cheapestRegular = (items: ComboItemLite[]) => {
-      const eligible = items.filter((i) => i.size_tier !== 'large')
-      if (eligible.length === 0) return null
-      return Math.min(...eligible.map((i) => i.price))
-    }
-    const cheapestSide = cheapestRegular(comboSides)
-    const cheapestDrink = cheapestRegular(comboDrinks)
     return (item: MenuItem): number | null => {
-      if (item.combo_category !== 'main' || cheapestSide == null || cheapestDrink == null) return null
-      return Math.max(item.price, item.price + cheapestSide + cheapestDrink - mediumDiscount)
+      const bundle = activeBundles.find((b) => b.config.groups.some((g) => g.category === item.category))
+      return bundle ? bundle.config.price : null
     }
-  }, [comboSides, comboDrinks, mediumDiscount])
+  }, [activeBundles])
 
   const { dietaryFlags: availableDietaryFlags, allergens: availableAllergens } = useMemo(
     () => getUniqueTags(menuItems),
@@ -1233,6 +1217,15 @@ export default function OrderPage() {
           item={drawerItem}
           onClose={() => { setDrawerItem(null); setDrawerInitialMeal(false) }}
           onAddToOrder={handleAddToOrder}
+          onAddBundleItems={(itemIds) => {
+            setCart((p) => {
+              const next = { ...p }
+              for (const id of itemIds) {
+                next[id] = { qty: (next[id]?.qty ?? 0) + 1, removals: [], additions: [], extras: [] }
+              }
+              return next
+            })
+          }}
           initialMealMode={drawerInitialMeal}
         />
       )}
