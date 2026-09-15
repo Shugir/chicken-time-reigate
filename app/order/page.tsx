@@ -718,6 +718,19 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
 
 export default function OrderPage() {
   const [cart, setCart] = useState<Cart>({})
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('pendingCartEntries')
+      if (raw) {
+        setCart((prev) => ({ ...prev, ...JSON.parse(raw) }))
+        sessionStorage.removeItem('pendingCartEntries')
+      }
+    } catch {
+      // ignore corrupt storage
+    }
+  }, [])
+
   const [cartOpen, setCartOpen] = useState(false)
   const [categories, setCategories] = useState<DbCategory[]>([])
   const [activeCategory, setActive] = useState<string>('')
