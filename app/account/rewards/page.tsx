@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase-browser'
 import {
-  ArrowLeft, Loader2, Star, Lock, CheckCircle2,
+  ArrowLeft, Loader2, Star, CheckCircle2,
   ChevronDown, ChevronUp, Gift, Zap, TrendingUp,
 } from 'lucide-react'
 import Link from 'next/link'
@@ -118,7 +118,7 @@ function RewardCard({
             Unlocked
           </span>
         ) : alreadyUsed ? (
-          <span className="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-500">
+          <span className="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-500">
             Used
           </span>
         ) : (
@@ -159,7 +159,7 @@ function RewardCard({
 
       {!reward.is_unlocked && !canAfford && (
         <div className="space-y-1.5">
-          <div className="w-full bg-zinc-800 rounded-full h-1.5 overflow-hidden">
+          <div className="w-full bg-zinc-200 dark:bg-zinc-800 rounded-full h-1.5 overflow-hidden">
             <div
               className="h-full bg-amber-500/50 rounded-full transition-all"
               style={{ width: `${Math.min(100, (balance / reward.points_cost) * 100)}%` }}
@@ -318,13 +318,13 @@ export default function RewardsPage() {
         </div>
         <div className="max-w-lg mx-auto px-4 py-6 space-y-6">
           {/* Balance card skeleton */}
-          <Skeleton className="h-40 w-full rounded-2xl" />
+          <Skeleton className="h-40 w-full rounded-3xl" />
           {/* Grid skeleton */}
           <div>
             <Skeleton className="h-4 w-32 mb-4" />
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {[...Array(4)].map((_, i) => (
-                <Skeleton key={i} className="h-36 w-full rounded-2xl" />
+                <Skeleton key={i} className="h-36 w-full rounded-3xl" />
               ))}
             </div>
           </div>
@@ -392,7 +392,7 @@ export default function RewardsPage() {
                 {balance.toLocaleString()} / {nextThreshold.toLocaleString()} pts
               </p>
             </div>
-            <div className="w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-zinc-200 dark:bg-zinc-800 rounded-full h-2 overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full transition-all duration-500"
                 style={{ width: `${progressPct}%` }}
@@ -413,7 +413,7 @@ export default function RewardsPage() {
           </h2>
 
           {available.length === 0 ? (
-            <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm dark:shadow-none">
+            <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl shadow-sm dark:shadow-none">
               <Zap size={32} className="text-zinc-700 mx-auto mb-3" />
               <p className="text-sm text-zinc-500">No rewards available right now</p>
               <p className="text-xs text-zinc-600 mt-1">Check back soon for new offers</p>
@@ -468,7 +468,7 @@ export default function RewardsPage() {
           </button>
 
           {histOpen && (
-            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-none">
               {txns.length === 0 ? (
                 <div className="text-center py-10">
                   <p className="text-sm text-zinc-500">No transactions yet</p>

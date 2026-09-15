@@ -132,7 +132,7 @@ function OfferCard({ promo }: { promo: PromoCode }) {
       </div>
       <button
         onClick={copyCode}
-        className="shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition text-zinc-300 active:scale-[0.98]"
+        className="shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition text-zinc-600 dark:text-zinc-300 active:scale-[0.98]"
       >
         {copied ? <Check size={12} className="text-green-600 dark:text-green-400" /> : <Copy size={12} />}
         {copied ? 'Copied!' : 'Copy'}
@@ -738,7 +738,7 @@ export default function AccountPage() {
                 <button
                   onClick={handlePasswordReset}
                   disabled={resetLoading}
-                  className="w-full bg-zinc-800 hover:bg-zinc-700 disabled:opacity-60 text-white font-medium
+                  className="w-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 disabled:opacity-60 text-brand-dark dark:text-white font-medium
                              rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2 active:scale-[0.98]"
                 >
                   {resetLoading && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -777,7 +777,7 @@ export default function AccountPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => setCloseConfirm(false)}
-                      className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
+                      className="flex-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-brand-dark dark:text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
                     >
                       Cancel
                     </button>
