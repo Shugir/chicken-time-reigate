@@ -1268,34 +1268,93 @@ git commit -m "feat: add public deals-active and deals-quote endpoints"
 **Interfaces:**
 - Consumes: `matchDeals`, `Deal`, `DealCartItem`, `MenuItemLite` from `@/lib/deal-engine` (Task 2).
 
-- [ ] **Step 1: Extend the availability-check query to also fetch category, and fetch active deals**
+- [ ] **Step 1: Add the import**
 
-In `app/api/checkout/route.ts`, the existing availability block (around line 132-163) already does:
+At the top of `app/api/checkout/route.ts`, alongside the other imports, add:
 
 ```ts
+import { matchDeals, type Deal, type MenuItemLite } from '@/lib/deal-engine'
+```
+
+- [ ] **Step 2: Replace the availability-check block and add deal matching**
+
+Find this exact block (currently lines 132-163):
+
+```ts
+    // Availability guard: check items are still in stock.
     const itemIdsToCheck = items.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
     if (itemIdsToCheck.length > 0) {
       const { data: dbItems } = await supabaseAdmin
         .from('menu_items')
         .select('id, name, is_available, sold_out_extras')
         .in('id', itemIdsToCheck)
+      if (dbItems) {
+        const dbMap = new Map(dbItems.map(r => [r.id, r]))
+        for (const item of items) {
+          if (!item.menu_item_id) continue
+          const db = dbMap.get(item.menu_item_id)
+          if (!db) continue
+          if (!db.is_available) {
+            return NextResponse.json(
+              { error: `Sorry, ${db.name} just sold out. Please remove it from your cart to continue.` },
+              { status: 400 },
+            )
+          }
+          const soldOutExtras: string[] = db.sold_out_extras ?? []
+          if (soldOutExtras.length > 0) {
+            const blockedExtra = item.extras.find(e => soldOutExtras.includes(e.name))
+            if (blockedExtra) {
+              return NextResponse.json(
+                { error: `Sorry, ${blockedExtra.name} is no longer available as an extra on ${db.name}. Please update your order.` },
+                { status: 400 },
+              )
+            }
+          }
+        }
+      }
+    }
 ```
 
-Change the `.select(...)` to also pull `price, category`:
+Replace it in full with:
 
 ```ts
+    // Availability guard: check items are still in stock.
+    const itemIdsToCheck = items.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
+    let dbItems: { id: string; name: string; is_available: boolean; sold_out_extras: string[] | null; price: number; category: string }[] = []
+    if (itemIdsToCheck.length > 0) {
+      const { data } = await supabaseAdmin
+        .from('menu_items')
         .select('id, name, is_available, sold_out_extras, price, category')
+        .in('id', itemIdsToCheck)
+      dbItems = data ?? []
+      const dbMap = new Map(dbItems.map(r => [r.id, r]))
+      for (const item of items) {
+        if (!item.menu_item_id) continue
+        const db = dbMap.get(item.menu_item_id)
+        if (!db) continue
+        if (!db.is_available) {
+          return NextResponse.json(
+            { error: `Sorry, ${db.name} just sold out. Please remove it from your cart to continue.` },
+            { status: 400 },
+          )
+        }
+        const soldOutExtras: string[] = db.sold_out_extras ?? []
+        if (soldOutExtras.length > 0) {
+          const blockedExtra = item.extras.find(e => soldOutExtras.includes(e.name))
+          if (blockedExtra) {
+            return NextResponse.json(
+              { error: `Sorry, ${blockedExtra.name} is no longer available as an extra on ${db.name}. Please update your order.` },
+              { status: 400 },
+            )
+          }
+        }
+      }
+    }
 ```
 
-Immediately after that whole availability-check `if` block (right before `const allComponents = items.flatMap(...)`), add:
+The only changes: `dbItems` is now declared with `let` above the `if` (so it's in scope later in the function) and always assigned an array, the `.select(...)` gains `price, category`, and the inner `if (dbItems) { ... }` guard is removed since `dbItems` is now always an array (the loop body is otherwise byte-for-byte identical, just one indent level shallower).
 
-```ts
-    import { matchDeals, type Deal, type MenuItemLite } from '@/lib/deal-engine'
-```
-
-(add this import at the top of the file alongside the other imports, not inline — Next.js requires top-level imports).
-
-- [ ] **Step 2: Compute the deal discount**
+- [ ] **Step 3: Compute the deal discount**
 
 Right after the `const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)` line, add:
 
@@ -1306,7 +1365,7 @@ Right after the `const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0
       .eq('is_active', true)
 
     const menuItemsById = new Map<string, MenuItemLite>(
-      (dbItems ?? []).map((m) => [m.id, { id: m.id, price: Number(m.price), category: m.category, is_available: m.is_available }]),
+      dbItems.map((m) => [m.id, { id: m.id, price: Number(m.price), category: m.category, is_available: m.is_available }]),
     )
     const { applied: appliedDeals, totalDiscount: dealsDiscountValue } = matchDeals(
       items.map((i) => ({ menu_item_id: i.menu_item_id, quantity: i.quantity })),
@@ -1315,30 +1374,7 @@ Right after the `const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0
     )
 ```
 
-Note: `dbItems` is declared inside the earlier `if (itemIdsToCheck.length > 0)` block's scope — hoist its declaration (`let dbItems: ... [] = []`) to just above that `if` so it's accessible here. Concretely, change:
-
-```ts
-    const itemIdsToCheck = items.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
-    if (itemIdsToCheck.length > 0) {
-      const { data: dbItems } = await supabaseAdmin
-```
-
-to:
-
-```ts
-    const itemIdsToCheck = items.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
-    let dbItems: { id: string; name: string; is_available: boolean; sold_out_extras: string[] | null; price: number; category: string }[] = []
-    if (itemIdsToCheck.length > 0) {
-      const { data } = await supabaseAdmin
-        .from('menu_items')
-        .select('id, name, is_available, sold_out_extras, price, category')
-        .in('id', itemIdsToCheck)
-      dbItems = data ?? []
-```
-
-and update the two references inside that block (`if (dbItems) {` and `const dbMap = new Map(dbItems.map(...))`) to drop the now-redundant `if (dbItems)` guard (it's always an array now), i.e. change `if (dbItems) {` to nothing (just use `dbItems` directly) and remove the matching closing brace — keep the existing `for (const item of items) { ... }` loop body unchanged, just un-nested one level.
-
-- [ ] **Step 3: Fold into the discount pipeline**
+- [ ] **Step 4: Fold into the discount pipeline**
 
 Change:
 
@@ -1364,7 +1400,7 @@ to:
     const total = subtotal - discountAmount - pointsDiscountValue - dealsDiscountValue + delivery_fee
 ```
 
-- [ ] **Step 4: Store applied deals on the order**
+- [ ] **Step 5: Store applied deals on the order**
 
 In the `orders` insert object, add one field:
 
@@ -1372,7 +1408,7 @@ In the `orders` insert object, add one field:
         applied_deals:       appliedDeals.length > 0 ? appliedDeals : null,
 ```
 
-- [ ] **Step 5: Manual verification**
+- [ ] **Step 6: Manual verification**
 
 ```bash
 npm run dev
@@ -1380,7 +1416,7 @@ npm run dev
 
 Add two items to the cart on `/order` that qualify for a seeded bundle deal (from Task 1's migration), or create a test BOGO deal in `/admin/deals` and add qualifying items. Go through checkout with a test Stripe card. Confirm the Stripe total reflects the deal discount and `SELECT applied_deals FROM orders ORDER BY created_at DESC LIMIT 1;` shows the expected entry.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
 git add app/api/checkout/route.ts
