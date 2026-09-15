@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase-browser'
 
 interface CartItem {
+  menu_item_id: string
   name: string
   price: number
   quantity: number
@@ -41,6 +42,7 @@ export default function CheckoutPage() {
   const [promoError, setPromoError]     = useState<string | null>(null)
   const [promoLoading, setPromoLoading] = useState(false)
   const [autoPromo, setAutoPromo]       = useState<{ code: string | null; discount_type: string; discount_value: number; discount_amount: number } | null>(null)
+  const [dealsQuote, setDealsQuote]     = useState<{ applied: { deal_id: string; name: string; savings: number }[]; totalDiscount: number }>({ applied: [], totalDiscount: 0 })
 
   const [customerName, setCustomerName]                 = useState('')
   const [customerEmail, setCustomerEmail]               = useState('')
@@ -161,6 +163,18 @@ export default function CheckoutPage() {
       .catch(() => {})
   }, [subtotal])
 
+  useEffect(() => {
+    if (cartItems.length === 0) return
+    fetch('/api/deals/quote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: cartItems.map((i) => ({ menu_item_id: i.menu_item_id, quantity: i.quantity })) }),
+    })
+      .then((r) => r.json())
+      .then((data) => setDealsQuote(data))
+      .catch(() => {})
+  }, [cartItems])
+
   const isPickup = fulfillmentMode === 'pickup'
   const discount = promoApplied ? promoApplied.discount_amount : 0
   const baseDeliveryFee = zone ? Number(zone.delivery_fee) : 0
@@ -173,7 +187,8 @@ export default function CheckoutPage() {
   const maxRedeemPoints = Math.floor(Math.min(loyaltyBalance, Math.floor(subtotal * 100)) / 100) * 100
   const loyaltyDiscount = pointsToSpend / 100
   const autoDiscount = autoPromo ? autoPromo.discount_amount : 0
-  const total = subtotal - discount - loyaltyDiscount - autoDiscount + deliveryFee
+  const dealsDiscount = dealsQuote.totalDiscount
+  const total = subtotal - discount - loyaltyDiscount - autoDiscount - dealsDiscount + deliveryFee
 
   async function handleFindAddress() {
     const pc = postcode.trim().replace(/\s/g, '').toUpperCase()
@@ -691,6 +706,12 @@ export default function CheckoutPage() {
               <span>-£{autoPromo.discount_amount.toFixed(2)}</span>
             </div>
           )}
+          {dealsQuote.applied.map((d) => (
+            <div key={d.deal_id} className="flex justify-between text-sm text-emerald-600">
+              <span>🎉 {d.name}</span>
+              <span>-£{d.savings.toFixed(2)}</span>
+            </div>
+          ))}
           {loyaltyDiscount > 0 && (
             <div className="flex justify-between text-sm text-amber-600">
               <span>Loyalty Points ({pointsToSpend.toLocaleString()} pts)</span>
