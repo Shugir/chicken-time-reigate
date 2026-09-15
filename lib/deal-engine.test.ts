@@ -185,4 +185,34 @@ describe('matchDeals — combining deals and edge cases', () => {
     const result = matchDeals(cart, deals, menuItems)
     expect(result.applied).toHaveLength(0)
   })
+
+  it('regression: same-item BOGO does not cascade with 4 identical units', () => {
+    // Bug: leftover buy units from same-item BOGO were re-matched in next iteration
+    // Expected: 4 wings with 1-for-1 BOGO = 2 free + 2 paid, discount = 2×5 = 10
+    // Buggy behavior: 3 free + 1 paid, discount = 3×5 = 15
+    const menuItems = menuMap([{ id: 'wing', price: 5, category: 'chicken', is_available: true }])
+    const deals: Deal[] = [{
+      id: 'd1', type: 'bogo', name: 'BOGO Wings', is_active: true,
+      config: { buy: { item_ids: ['wing'], qty: 1 }, get: { item_ids: ['wing'], qty: 1, discount: 'free' } },
+    }]
+    const cart: DealCartItem[] = [{ menu_item_id: 'wing', quantity: 4 }]
+    const result = matchDeals(cart, deals, menuItems)
+    expect(result.applied).toHaveLength(1)
+    expect(result.applied[0].savings).toBe(10)
+    expect(result.totalDiscount).toBe(10)
+  })
+
+  it('regression: same-item BOGO with 3 identical units', () => {
+    // Expected: 3 wings with 1-for-1 BOGO = 1 free + 2 paid (can only apply once), discount = 5
+    const menuItems = menuMap([{ id: 'wing', price: 5, category: 'chicken', is_available: true }])
+    const deals: Deal[] = [{
+      id: 'd1', type: 'bogo', name: 'BOGO Wings', is_active: true,
+      config: { buy: { item_ids: ['wing'], qty: 1 }, get: { item_ids: ['wing'], qty: 1, discount: 'free' } },
+    }]
+    const cart: DealCartItem[] = [{ menu_item_id: 'wing', quantity: 3 }]
+    const result = matchDeals(cart, deals, menuItems)
+    expect(result.applied).toHaveLength(1)
+    expect(result.applied[0].savings).toBe(5)
+    expect(result.totalDiscount).toBe(5)
+  })
 })

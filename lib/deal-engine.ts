@@ -59,6 +59,7 @@ interface Unit {
   category: string
   price: number
   consumed: boolean
+  lockedFromItemDeals: boolean
 }
 
 function round2(n: number): number {
@@ -82,7 +83,7 @@ function priceAfterDiscount(price: number, discount: 'free' | { percent: number 
   return discount === 'free' ? price : price * (discount.percent / 100)
 }
 
-function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; consume: Unit[] } | null {
+function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; consume: Unit[]; lock: Unit[] } | null {
   if (deal.type === 'bogo') {
     const cfg = deal.config as BogoConfig
     const buyPool = available.filter((u) => matchesRef(u, cfg.buy))
@@ -96,7 +97,7 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
       const getUnits = sorted.slice(0, applications * cfg.get.qty)
       const buyUnits = sorted.slice(applications * cfg.get.qty, applications * groupSize)
       const savings = getUnits.reduce((s, u) => s + priceAfterDiscount(u.price, cfg.get.discount), 0)
-      return savings > 0 ? { savings, consume: getUnits } : null
+      return savings > 0 ? { savings, consume: getUnits, lock: buyUnits } : null
     }
 
     const applications = Math.min(
@@ -107,7 +108,7 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
     const getUnits = [...getPool].sort((a, b) => b.price - a.price).slice(0, applications * cfg.get.qty)
     const buyUnits = [...buyPool].sort((a, b) => b.price - a.price).slice(0, applications * cfg.buy.qty)
     const savings = getUnits.reduce((s, u) => s + priceAfterDiscount(u.price, cfg.get.discount), 0)
-    return savings > 0 ? { savings, consume: [...getUnits, ...buyUnits] } : null
+    return savings > 0 ? { savings, consume: [...getUnits, ...buyUnits], lock: [] } : null
   }
 
   if (deal.type === 'bundle') {
@@ -123,7 +124,7 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
       picked.forEach((u) => { consume.push(u); sum += u.price })
     }
     const savings = sum - cfg.price
-    return savings > 0 ? { savings, consume } : null
+    return savings > 0 ? { savings, consume, lock: [] } : null
   }
 
   if (deal.type === 'fixed_meal') {
@@ -137,7 +138,7 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
       picked.forEach((u) => { consume.push(u); sum += u.price })
     }
     const savings = sum - cfg.price
-    return savings > 0 ? { savings, consume } : null
+    return savings > 0 ? { savings, consume, lock: [] } : null
   }
 
   return null
@@ -164,7 +165,7 @@ export function matchDeals(
     const db = menuItemsById.get(item.menu_item_id)
     if (!db || !db.is_available) continue
     for (let i = 0; i < item.quantity; i++) {
-      units.push({ menu_item_id: db.id, category: db.category, price: db.price, consumed: false })
+      units.push({ menu_item_id: db.id, category: db.category, price: db.price, consumed: false, lockedFromItemDeals: false })
     }
   }
 
@@ -176,18 +177,19 @@ export function matchDeals(
   const orderDeals = activeDeals.filter((d) => d.is_active && d.type === 'order_discount')
 
   for (;;) {
-    const available = units.filter((u) => !u.consumed)
-    let best: { deal: Deal; savings: number; consume: Unit[] } | null = null
+    const available = units.filter((u) => !u.consumed && !u.lockedFromItemDeals)
+    let best: { deal: Deal; savings: number; consume: Unit[]; lock: Unit[] } | null = null
 
     for (const deal of itemDeals) {
       const result = evaluateItemDeal(deal, available)
       if (result && result.savings > 0 && (!best || result.savings > best.savings)) {
-        best = { deal, savings: result.savings, consume: result.consume }
+        best = { deal, savings: result.savings, consume: result.consume, lock: result.lock }
       }
     }
 
     if (!best) break
     best.consume.forEach((u) => { u.consumed = true })
+    best.lock.forEach((u) => { u.lockedFromItemDeals = true })
     applied.push({ deal_id: best.deal.id, name: best.deal.name, type: best.deal.type, savings: round2(best.savings) })
     totalDiscount += best.savings
   }
