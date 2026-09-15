@@ -286,8 +286,9 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, onAd
           {mealMode && (
             matchingBundle ? (
               <div className="px-5 py-4">
+                {/* ponytail: assumes at most one group per category — if a bundle ever needs two groups of the same category, this would incorrectly drop both. Not exercised by current live deals (each seeded bundle has exactly one group per category). */}
                 <BundleGroupPicker
-                  groups={matchingBundle.config.groups}
+                  groups={matchingBundle.config.groups.filter((g) => g.category !== item.category)}
                   price={matchingBundle.config.price}
                   menuItemsByCategory={bundleMenuItems}
                   onComplete={(selections) => {
