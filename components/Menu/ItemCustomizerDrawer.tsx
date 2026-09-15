@@ -24,6 +24,7 @@ interface Props {
   item: DrawerItem
   onClose: () => void
   onAddToOrder: (selection: OrderSelection) => void
+  initialMealMode?: boolean
 }
 
 function AccordionSection({
@@ -90,37 +91,39 @@ function ComboItemCard({ item, selected, onSelect }: { item: ComboItem; selected
   )
 }
 
-export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Props) {
+export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, initialMealMode = false }: Props) {
   const [visible, setVisible] = useState(false)
   const [qty, setQty] = useState(1)
   const [removals, setRemovals] = useState<string[]>([])
   const [additions, setAdditions] = useState<string[]>([])
   const [extras, setExtras] = useState<AddOn[]>([])
   const [notes, setNotes] = useState('')
-  const [openSection, setOpenSection] = useState<string | null>(
-    (item.removables?.length ?? 0) > 0 ? 'removals'
-      : (item.additions?.length ?? 0) > 0 ? 'additions'
-        : (item.add_ons?.length ?? 0) > 0 ? 'extras'
-          : null,
-  )
+
+  const isMain = item.combo_category === 'main'
 
   // Meal mode state
-  const [mealMode, setMealMode] = useState(false)
+  const [mealMode, setMealMode] = useState(isMain && initialMealMode)
   const [comboLoading, setComboLoading] = useState(false)
   const [comboItems, setComboItems] = useState<{ sides: ComboItem[]; drinks: ComboItem[] }>({ sides: [], drinks: [] })
   const [selectedSize, setSelectedSize] = useState<'medium' | 'large' | null>(null)
   const [selectedSide, setSelectedSide] = useState<ComboItem | null>(null)
   const [selectedDrink, setSelectedDrink] = useState<ComboItem | null>(null)
   const [discounts, setDiscounts] = useState<{ medium: number; large: number }>({ medium: 0, large: 0 })
-  const [comboStep, setComboStep] = useState<'size' | 'side' | 'drink' | null>(null)
-
-  const isMain = item.combo_category === 'main'
+  const [comboStep, setComboStep] = useState<'size' | 'side' | 'drink' | null>(isMain && initialMealMode ? 'size' : null)
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true))
     document.body.style.overflow = 'hidden'
-    return () => { cancelAnimationFrame(id); document.body.style.overflow = '' }
-  }, [])
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      cancelAnimationFrame(id)
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
 
   useEffect(() => {
     if (!mealMode) return
@@ -217,23 +220,36 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/60 z-40 transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity duration-200 ${visible ? 'opacity-100' : 'opacity-0'}`}
         onClick={onClose}
+        aria-hidden="true"
       />
 
-      {/* Drawer panel */}
-      <div className={`fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}>
-
-        {/* Hero image */}
-        <div className="relative h-56 shrink-0 overflow-hidden bg-zinc-100">
-          <Image src={item.image} alt={item.name} fill sizes="448px" className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/40 text-white backdrop-blur-sm flex items-center justify-center hover:bg-black/60 transition-colors"
-          >
-            <X size={16} />
-          </button>
+      {/* Centered Popup Modal Container */}
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto"
+        onClick={onClose}
+      >
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={item.name}
+          onClick={(e) => e.stopPropagation()}
+          className={`w-full max-w-lg bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] my-auto transition-all duration-200 ${
+            visible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-3'
+          }`}
+        >
+          {/* Hero image */}
+          <div className="relative h-52 sm:h-56 shrink-0 overflow-hidden bg-zinc-100">
+            <Image src={item.image} alt={item.name} fill sizes="(max-width: 640px) 100vw, 512px" className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/40 text-white backdrop-blur-sm flex items-center justify-center hover:bg-black/60 transition-colors z-20"
+            >
+              <X size={16} />
+            </button>
           {isOffer && (
             <div className="absolute top-0 right-14 bg-brand-red text-white text-[11px] font-black px-3 py-1.5 rounded-b-xl flex items-center gap-1 shadow-lg">
               🔥 OFFER
@@ -393,69 +409,48 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
             )
           )}
 
-          {/* Removals accordion */}
-          {hasRemovals && (
-            <AccordionSection
-              title="Remove Ingredients"
-              subtitle="Leave anything out"
-              open={openSection === 'removals'}
-              onToggle={() => setOpenSection(s => s === 'removals' ? null : 'removals')}
-            >
-              <div className="flex flex-wrap gap-2">
+          {/* Customise — removals + additions, flat 2-col grid */}
+          {(hasRemovals || hasAdditions) && (
+            <div className="px-5 py-4">
+              <p className="font-heading font-semibold text-zinc-900 text-sm mb-3">Customise</p>
+              <div className="grid grid-cols-2 gap-2">
                 {(item.removables ?? []).map(r => {
                   const sel = removals.includes(r)
                   return (
                     <button
                       key={r}
                       onClick={() => toggleRemoval(r)}
-                      className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all ${sel ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 text-zinc-600 hover:border-zinc-400'
+                      className={`text-left px-3.5 py-2.5 rounded-xl border-2 transition-all ${sel ? 'border-zinc-900 bg-zinc-900' : 'border-zinc-200 hover:border-zinc-400'
                         }`}
                     >
-                      {sel && <X size={12} />}
-                      {r}
+                      <p className={`font-semibold text-sm ${sel ? 'text-white' : 'text-zinc-800'}`}>{r}</p>
+                      <p className={`text-xs ${sel ? 'text-white/70' : 'text-zinc-400'}`}>Free</p>
                     </button>
                   )
                 })}
-              </div>
-            </AccordionSection>
-          )}
-
-          {/* Add Ingredients accordion */}
-          {hasAdditions && (
-            <AccordionSection
-              title="Add Ingredients"
-              subtitle="Request extra toppings"
-              open={openSection === 'additions'}
-              onToggle={() => setOpenSection(s => s === 'additions' ? null : 'additions')}
-            >
-              <div className="flex flex-wrap gap-2">
                 {(item.additions ?? []).map(a => {
                   const sel = additions.includes(a)
                   return (
                     <button
                       key={a}
                       onClick={() => toggleAddition(a)}
-                      className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all ${sel ? 'border-brand-red bg-brand-red text-white' : 'border-zinc-200 text-zinc-600 hover:border-zinc-400'
+                      className={`text-left px-3.5 py-2.5 rounded-xl border-2 transition-all ${sel ? 'border-brand-red bg-brand-red' : 'border-zinc-200 hover:border-zinc-400'
                         }`}
                     >
-                      {sel && <Plus size={12} />}
-                      {a}
+                      <p className={`font-semibold text-sm ${sel ? 'text-white' : 'text-zinc-800'}`}>{a}</p>
+                      <p className={`text-xs ${sel ? 'text-white/70' : 'text-zinc-400'}`}>Free</p>
                     </button>
                   )
                 })}
               </div>
-            </AccordionSection>
+            </div>
           )}
 
-          {/* Extras accordion */}
+          {/* Add-ons — flat 2-col grid */}
           {hasExtras && (
-            <AccordionSection
-              title="Add Extras"
-              subtitle="Customize with add-ons"
-              open={openSection === 'extras'}
-              onToggle={() => setOpenSection(s => s === 'extras' ? null : 'extras')}
-            >
-              <div className="space-y-2">
+            <div className="px-5 py-4">
+              <p className="font-heading font-semibold text-zinc-900 text-sm mb-3">Add-ons</p>
+              <div className="grid grid-cols-2 gap-2">
                 {(item.add_ons ?? []).map(addon => {
                   const addonSoldOut = item.sold_out_extras?.includes(addon.name) ?? false
                   const sel = !addonSoldOut && extras.some(e => e.name === addon.name)
@@ -464,35 +459,22 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
                       key={addon.name}
                       onClick={() => !addonSoldOut && toggleExtra(addon)}
                       disabled={addonSoldOut}
-                      className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all ${addonSoldOut ? 'border-zinc-100 opacity-50 cursor-not-allowed' : sel ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'}`}
+                      className={`text-left px-3.5 py-2.5 rounded-xl border-2 transition-all ${addonSoldOut ? 'border-zinc-100 opacity-50 cursor-not-allowed' : sel ? 'border-brand-red bg-brand-red/5' : 'border-zinc-200 hover:border-zinc-400'}`}
                     >
-                      <span className={`font-medium text-sm ${addonSoldOut ? 'text-zinc-400' : sel ? 'text-brand-red' : 'text-zinc-700'}`}>{addon.name}</span>
-                      <div className="flex items-center gap-2.5">
-                        {addonSoldOut ? (
-                          <span className="text-xs font-bold text-zinc-400">Sold Out</span>
-                        ) : (
-                          <>
-                            <span className={`text-sm font-bold ${sel ? 'text-brand-red' : 'text-zinc-400'}`}>+£{addon.price.toFixed(2)}</span>
-                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${sel ? 'border-brand-red bg-brand-red' : 'border-zinc-300'}`}>
-                              {sel && <Check size={10} className="text-white" />}
-                            </div>
-                          </>
-                        )}
-                      </div>
+                      <p className={`font-semibold text-sm ${addonSoldOut ? 'text-zinc-400' : sel ? 'text-brand-red' : 'text-zinc-800'}`}>{addon.name}</p>
+                      <p className={`text-xs ${addonSoldOut ? 'text-zinc-400' : sel ? 'text-brand-red/70' : 'text-zinc-400'}`}>
+                        {addonSoldOut ? 'Sold Out' : addon.price > 0 ? `+£${addon.price.toFixed(2)}` : 'Free'}
+                      </p>
                     </button>
                   )
                 })}
               </div>
-            </AccordionSection>
+            </div>
           )}
 
-          {/* Notes accordion */}
-          <AccordionSection
-            title="Special Instructions"
-            subtitle="Any specific requests?"
-            open={openSection === 'notes'}
-            onToggle={() => setOpenSection(s => s === 'notes' ? null : 'notes')}
-          >
+          {/* Special instructions — flat */}
+          <div className="px-5 py-4">
+            <p className="font-heading font-semibold text-zinc-900 text-sm mb-3">Special Instructions</p>
             <textarea
               value={notes}
               onChange={e => setNotes(e.target.value)}
@@ -500,7 +482,7 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
               rows={3}
               className="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-zinc-400 resize-none"
             />
-          </AccordionSection>
+          </div>
         </div>
 
         {/* Pinned CTA footer */}
@@ -529,6 +511,7 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
             </span>
             {!buttonDisabled && <span className="text-base">£{total.toFixed(2)}</span>}
           </button>
+        </div>
         </div>
       </div>
     </>

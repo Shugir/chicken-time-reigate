@@ -36,6 +36,8 @@ interface DbCategory {
   image_url: string | null; description: string | null
 }
 
+interface ComboItemLite { id: string; price: number; size_tier: 'regular' | 'large' | null }
+
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80'
 
 const MENU_ITEMS: MenuItem[] = [
@@ -300,15 +302,18 @@ function cartCount(cart: Cart) {
 
 // ─── Premium Menu Card ────────────────────────────────────────────────────────
 
-function MenuCard({ item, qty, onOpenDrawer, onAdd, onRemove }: {
+function MenuCard({ item, qty, onOpenDrawer, onOpenMealDrawer, onAdd, onRemove, mealFromPrice }: {
   item: MenuItem
   qty: number
   onOpenDrawer: () => void
+  onOpenMealDrawer: () => void
   onAdd: () => void
   onRemove: () => void
+  mealFromPrice: number | null
 }) {
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
   const isSoldOut = item.is_available === false
+  const showMealRows = qty === 0 && !isSoldOut && item.combo_category === 'main' && mealFromPrice != null
 
   return (
     <div
@@ -358,7 +363,38 @@ function MenuCard({ item, qty, onOpenDrawer, onAdd, onRemove }: {
           </p>
         </div>
 
-        {/* Price + controls */}
+        {/* Single / Meal Deal rows */}
+        {showMealRows ? (
+          <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={onOpenDrawer}
+              aria-label={`Add ${item.name} (single)`}
+              className="flex items-center justify-between bg-zinc-50 rounded-xl px-3 py-2.5 hover:bg-zinc-100 transition-colors"
+            >
+              <span className="text-xs font-bold text-zinc-500 tracking-wide">SINGLE</span>
+              <span className="flex items-center gap-2.5">
+                <span className="font-heading font-black text-sm text-zinc-900">£{item.price.toFixed(2)}</span>
+                <span className="w-7 h-7 rounded-full bg-brand-red text-white flex items-center justify-center shrink-0">
+                  <Plus size={13} />
+                </span>
+              </span>
+            </button>
+            <button
+              onClick={onOpenMealDrawer}
+              aria-label={`Add ${item.name} (meal deal)`}
+              className="flex items-center justify-between bg-zinc-50 rounded-xl px-3 py-2.5 hover:bg-zinc-100 transition-colors"
+            >
+              <span className="text-xs font-bold text-zinc-500 tracking-wide">MEAL DEAL</span>
+              <span className="flex items-center gap-2.5">
+                <span className="font-heading font-black text-sm text-brand-red">£{mealFromPrice!.toFixed(2)}</span>
+                <span className="w-7 h-7 rounded-full bg-brand-red text-white flex items-center justify-center shrink-0">
+                  <Plus size={13} />
+                </span>
+              </span>
+            </button>
+          </div>
+        ) : (
+        /* Price + controls */
         <div className="flex items-center justify-between pt-0.5">
           {isSoldOut ? (
             <span className="font-heading font-black text-sm text-zinc-400">Sold Out</span>
@@ -410,6 +446,7 @@ function MenuCard({ item, qty, onOpenDrawer, onAdd, onRemove }: {
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   )
@@ -685,6 +722,10 @@ export default function OrderPage() {
   const [categories, setCategories] = useState<DbCategory[]>([])
   const [activeCategory, setActive] = useState<string>('')
   const [drawerItem, setDrawerItem] = useState<MenuItem | null>(null)
+  const [drawerInitialMeal, setDrawerInitialMeal] = useState(false)
+  const [comboSides, setComboSides] = useState<ComboItemLite[]>([])
+  const [comboDrinks, setComboDrinks] = useState<ComboItemLite[]>([])
+  const [mediumDiscount, setMediumDiscount] = useState(0)
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen] = useState(true)
   const [closedReason, setClosedReason] = useState<string>('')
@@ -752,6 +793,34 @@ export default function OrderPage() {
       .catch((err) => { console.error('Failed to load menu items from database:', err) })
   }, [])
 
+  useEffect(() => {
+    Promise.all([
+      fetch('/api/menu/combo-items?category=side').then((r) => r.ok ? r.json() : []),
+      fetch('/api/menu/combo-items?category=drink').then((r) => r.ok ? r.json() : []),
+      fetch('/api/menu/combo-discounts?size=medium').then((r) => r.ok ? r.json() : null),
+    ])
+      .then(([sides, drinks, discount]) => {
+        setComboSides(sides as ComboItemLite[])
+        setComboDrinks(drinks as ComboItemLite[])
+        setMediumDiscount(Number(discount?.discount_amount ?? 0))
+      })
+      .catch(() => { })
+  }, [])
+
+  const mealFromPriceFor = useMemo(() => {
+    const cheapestRegular = (items: ComboItemLite[]) => {
+      const eligible = items.filter((i) => i.size_tier !== 'large')
+      if (eligible.length === 0) return null
+      return Math.min(...eligible.map((i) => i.price))
+    }
+    const cheapestSide = cheapestRegular(comboSides)
+    const cheapestDrink = cheapestRegular(comboDrinks)
+    return (item: MenuItem): number | null => {
+      if (item.combo_category !== 'main' || cheapestSide == null || cheapestDrink == null) return null
+      return Math.max(item.price, item.price + cheapestSide + cheapestDrink - mediumDiscount)
+    }
+  }, [comboSides, comboDrinks, mediumDiscount])
+
   const { dietaryFlags: availableDietaryFlags, allergens: availableAllergens } = useMemo(
     () => getUniqueTags(menuItems),
     [menuItems],
@@ -781,6 +850,11 @@ export default function OrderPage() {
 
   const count = cartCount(cart)
   const total = cartTotal(cart, menuItems)
+
+  function openMealDrawer(item: MenuItem) {
+    setDrawerInitialMeal(true)
+    setDrawerItem(item)
+  }
 
   function addToCart(id: string) {
     setCart((p) => ({
@@ -906,7 +980,7 @@ export default function OrderPage() {
                 key={slug}
                 onClick={() => scrollTo(slug)}
                 className={`flex-none shrink-0 snap-start flex items-center gap-2 px-4 py-2 text-[13px] font-semibold whitespace-nowrap rounded-full transition-all duration-200 ${activeCategory === slug
-                  ? 'bg-zinc-900 text-white shadow-sm'
+                  ? 'bg-brand-red text-white shadow-sm'
                   : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
                   }`}
               >
@@ -1047,6 +1121,8 @@ export default function OrderPage() {
                   <MenuCard
                     key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
                     onOpenDrawer={() => setDrawerItem(item)}
+                    onOpenMealDrawer={() => openMealDrawer(item)}
+                    mealFromPrice={mealFromPriceFor(item)}
                     onAdd={() => addToCart(item.id)}
                     onRemove={() => removeFromCart(item.id)}
                   />
@@ -1084,6 +1160,8 @@ export default function OrderPage() {
                         <MenuCard
                           key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
                           onOpenDrawer={() => setDrawerItem(item)}
+                          onOpenMealDrawer={() => openMealDrawer(item)}
+                          mealFromPrice={mealFromPriceFor(item)}
                           onAdd={() => addToCart(item.id)}
                           onRemove={() => removeFromCart(item.id)}
                         />
@@ -1131,8 +1209,9 @@ export default function OrderPage() {
       {drawerItem && (
         <ItemCustomizerDrawer
           item={drawerItem}
-          onClose={() => setDrawerItem(null)}
+          onClose={() => { setDrawerItem(null); setDrawerInitialMeal(false) }}
           onAddToOrder={handleAddToOrder}
+          initialMealMode={drawerInitialMeal}
         />
       )}
 

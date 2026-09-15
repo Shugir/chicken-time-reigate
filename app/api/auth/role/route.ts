@@ -27,8 +27,9 @@ export async function GET() {
     .eq('email', user.email)
     .maybeSingle()
 
-  const isStaff  = !!data
-  const isDriver = isStaff && (data.permissions ?? []).includes('Driver')
+  const isOwnerOrAdmin = data?.role === 'owner' || data?.role === 'admin'
+  const isStaff  = isOwnerOrAdmin || !!data
+  const isDriver = !isOwnerOrAdmin && isStaff && (data.role === 'driver' || (data.permissions ?? []).includes('Driver'))
 
   return NextResponse.json({ isStaff, isDriver })
 }
