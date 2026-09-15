@@ -134,7 +134,7 @@ function OfferCard({ promo }: { promo: PromoCode }) {
         onClick={copyCode}
         className="shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition text-zinc-300 active:scale-[0.98]"
       >
-        {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
+        {copied ? <Check size={12} className="text-green-600 dark:text-green-400" /> : <Copy size={12} />}
         {copied ? 'Copied!' : 'Copy'}
       </button>
     </div>
@@ -652,7 +652,7 @@ export default function AccountPage() {
 
                 {profileError && (
                   <div className="flex items-center gap-2.5 bg-red-500/10 border border-red-500/20 rounded-lg px-3.5 py-2.5">
-                    <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+                    <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
                     <p className="text-sm text-red-600 dark:text-red-300">{profileError}</p>
                   </div>
                 )}
@@ -704,7 +704,7 @@ export default function AccountPage() {
         {/* ── Rewards ───────────────────────────────────────────────────────── */}
         {tab === 'rewards' && (
           <div className="flex flex-col items-center justify-center py-8 gap-3">
-            <Star size={36} className="text-amber-400" />
+            <Star size={36} className="text-amber-600 dark:text-amber-400" />
             <p className="text-brand-dark dark:text-white font-semibold">My Rewards</p>
             <p className="text-sm text-zinc-500 text-center">View your points balance, unlock rewards, and track your history.</p>
             <a
@@ -731,7 +731,7 @@ export default function AccountPage() {
               </p>
               {resetSent ? (
                 <div className="flex items-center gap-2.5 bg-green-500/10 border border-green-500/20 rounded-lg px-3.5 py-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400 shrink-0" />
                   <p className="text-sm text-green-600 dark:text-green-300">Reset email sent — check your inbox.</p>
                 </div>
               ) : (
@@ -757,7 +757,7 @@ export default function AccountPage() {
 
               {closeError && (
                 <div className="flex items-center gap-2.5 bg-red-500/10 border border-red-500/20 rounded-lg px-3.5 py-2.5 mb-3">
-                  <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+                  <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
                   <p className="text-sm text-red-600 dark:text-red-300">{closeError}</p>
                 </div>
               )}
@@ -765,7 +765,7 @@ export default function AccountPage() {
               {!closeConfirm ? (
                 <button
                   onClick={() => setCloseConfirm(true)}
-                  className="w-full bg-red-600/15 hover:bg-red-600/25 border border-red-600/40 text-red-400 font-medium
+                  className="w-full bg-red-600/15 hover:bg-red-600/25 border border-red-600/40 text-red-600 dark:text-red-400 font-medium
                              rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2 active:scale-[0.98]"
                 >
                   <Trash2 size={13} />
