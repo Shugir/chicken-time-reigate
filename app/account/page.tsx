@@ -232,8 +232,8 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
               -{order.promo_code_used} (−£{Number(order.discount_applied).toFixed(2)})
             </span>
           )}
-          {(order.applied_deals ?? []).map((d) => (
-            <span key={d.deal_id} className="ml-2 text-[10px] text-green-600 dark:text-green-400 font-medium">
+          {(order.applied_deals ?? []).map((d, i) => (
+            <span key={`${d.deal_id}-${i}`} className="ml-2 text-[10px] text-green-600 dark:text-green-400 font-medium">
               🎉 {d.name} (−£{d.savings.toFixed(2)})
             </span>
           ))}
@@ -387,7 +387,8 @@ export default function AccountPage() {
     if (!win) return
     const subtotal = order.order_items.reduce((s, i) => s + i.unit_price * i.quantity, 0)
     const discount = Number(order.discount_applied) || 0
-    const delivery = Number(order.total_amount) - subtotal + discount
+    const dealsSavings = (order.applied_deals ?? []).reduce((s, d) => s + d.savings, 0)
+    const delivery = Number(order.total_amount) - subtotal + discount + dealsSavings
     const rows = order.order_items.map(i => `
       <tr>
         <td style="padding:6px 0;border-bottom:1px solid #eee">${i.quantity}× ${i.item_name}${i.extras?.length ? ` <small style="color:#888">+${i.extras.map(e => e.name).join(', ')}</small>` : ''}</td>

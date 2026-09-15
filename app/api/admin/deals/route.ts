@@ -16,6 +16,15 @@ export function validateConfig(type: string, config: unknown): string | null {
   if (type === 'bogo') {
     if (!isPlainObject(c.buy)) return 'bogo requires buy to be an object'
     if (!isPlainObject(c.get)) return 'bogo requires get to be an object'
+    const buy = c.buy
+    const get = c.get
+    if (typeof buy.qty !== 'number' || buy.qty < 1) return 'bogo buy.qty must be a number >= 1'
+    if (typeof get.qty !== 'number' || get.qty < 1) return 'bogo get.qty must be a number >= 1'
+    const discount = get.discount
+    const validDiscount =
+      discount === 'free' ||
+      (isPlainObject(discount) && typeof discount.percent === 'number' && discount.percent >= 0 && discount.percent <= 100)
+    if (!validDiscount) return "bogo get.discount must be 'free' or an object with a percent between 0 and 100"
   }
 
   if (type === 'bundle') {
@@ -44,12 +53,21 @@ export function validateConfig(type: string, config: unknown): string | null {
   if (type === 'order_discount') {
     if (c.scope !== 'order' && c.scope !== 'category') return 'order_discount scope must be order or category'
     if (!isPlainObject(c.discount)) return 'order_discount requires discount to be an object'
+    const discount = c.discount
+    if (discount.type !== 'percent' && discount.type !== 'amount') return "order_discount discount.type must be 'percent' or 'amount'"
+    if (typeof discount.value !== 'number' || discount.value < 0) return 'order_discount discount.value must be a non-negative number'
+    if (discount.type === 'percent' && discount.value > 100) return 'order_discount discount.value must be <= 100 when type is percent'
   }
 
   return null
 }
 
 export async function GET() {
+  const userPerms = await getUserPermissions()
+  if (!userPerms || !hasPermission(userPerms, 'Deals')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const { data, error } = await supabaseAdmin
     .from('deals')
     .select('*')

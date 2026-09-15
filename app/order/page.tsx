@@ -1221,7 +1221,9 @@ export default function OrderPage() {
             setCart((p) => {
               const next = { ...p }
               for (const id of itemIds) {
-                next[id] = { qty: (next[id]?.qty ?? 0) + 1, removals: [], additions: [], extras: [] }
+                next[id] = next[id]
+                  ? { ...next[id], qty: next[id].qty + 1 }
+                  : { qty: 1, removals: [], additions: [], extras: [] }
               }
               return next
             })

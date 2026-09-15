@@ -10,6 +10,7 @@ import { supabase } from '@/lib/supabase-browser'
 const NAV_LINKS = [
   { label: 'Home',     href: '/' },
   { label: 'Our Menu', href: '/order' },
+  { label: 'Deals',    href: '/deals' },
   { label: 'About',    href: '/about' },
   { label: 'Contact',  href: '/contact' },
 ]

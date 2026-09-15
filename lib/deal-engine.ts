@@ -66,9 +66,22 @@ function round2(n: number): number {
   return Math.round(n * 100) / 100
 }
 
+/**
+ * Normalizes category strings for comparison. `menu_items.category` values
+ * aren't 100% reliably normalized in live data (see app/order/page.tsx's
+ * defensive `.toLowerCase()` category comparisons), so every category match
+ * in this engine goes through this helper rather than `===` directly.
+ */
+const normCategory = (s: string) => s.trim().toLowerCase()
+
+// Hard cap on units expanded per cart line — a cart item claiming an absurd
+// quantity (e.g. via a tampered client request) must not be able to blow up
+// memory/CPU in this pure, unauthenticated-reachable matching engine.
+const MAX_UNITS_PER_LINE = 99
+
 function matchesRef(unit: Unit, ref: Ref): boolean {
   if (ref.item_ids && ref.item_ids.length > 0) return ref.item_ids.includes(unit.menu_item_id)
-  if (ref.category) return unit.category === ref.category
+  if (ref.category) return normCategory(unit.category) === normCategory(ref.category)
   return false
 }
 
@@ -117,7 +130,7 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
     let sum = 0
     for (const group of cfg.groups) {
       const pool = available
-        .filter((u) => !consume.includes(u) && u.category === group.category)
+        .filter((u) => !consume.includes(u) && normCategory(u.category) === normCategory(group.category))
         .sort((a, b) => b.price - a.price)
       if (pool.length < group.pick_qty) return null
       const picked = pool.slice(0, group.pick_qty)
@@ -164,7 +177,11 @@ export function matchDeals(
     if (!item.menu_item_id) continue
     const db = menuItemsById.get(item.menu_item_id)
     if (!db || !db.is_available) continue
-    for (let i = 0; i < item.quantity; i++) {
+    // Clamp: a single cart line can never expand to more than MAX_UNITS_PER_LINE
+    // units regardless of what quantity the client claims (DoS guard — this
+    // engine is reachable from the public, unauthenticated /api/deals/quote).
+    const qty = Math.min(Math.max(0, Math.floor(item.quantity) || 0), MAX_UNITS_PER_LINE)
+    for (let i = 0; i < qty; i++) {
       units.push({ menu_item_id: db.id, category: db.category, price: db.price, consumed: false, lockedFromItemDeals: false })
     }
   }
@@ -181,7 +198,15 @@ export function matchDeals(
     let best: { deal: Deal; savings: number; consume: Unit[]; lock: Unit[] } | null = null
 
     for (const deal of itemDeals) {
-      const result = evaluateItemDeal(deal, available)
+      let result: { savings: number; consume: Unit[]; lock: Unit[] } | null = null
+      try {
+        result = evaluateItemDeal(deal, available)
+      } catch (err) {
+        // A malformed deal config must not take down matching for every
+        // other (valid) deal in this catalog — skip it and keep going.
+        console.error(`deal-engine: deal ${deal.id} (${deal.name}) threw during evaluation, skipping`, err)
+        continue
+      }
       if (result && result.savings > 0 && (!best || result.savings > best.savings)) {
         best = { deal, savings: result.savings, consume: result.consume, lock: result.lock }
       }
@@ -199,7 +224,9 @@ export function matchDeals(
   for (const deal of orderDeals) {
     const cfg = deal.config as OrderDiscountConfig
     if (cfg.min_subtotal && originalSubtotal < cfg.min_subtotal) continue
-    const pool = cfg.scope === 'category' ? remaining.filter((u) => u.category === cfg.category) : remaining
+    const pool = cfg.scope === 'category'
+      ? remaining.filter((u) => normCategory(u.category) === normCategory(cfg.category ?? ''))
+      : remaining
     if (pool.length === 0) continue
     const poolSum = pool.reduce((s, u) => s + u.price, 0)
     const savings = cfg.discount.type === 'percent'

@@ -197,11 +197,15 @@ export async function POST(request: NextRequest) {
     const menuItemsById = new Map<string, MenuItemLite>(
       dbItems.map((m) => [m.id, { id: m.id, price: Number(m.price), category: m.category, is_available: m.is_available }]),
     )
-    const { applied: appliedDeals, totalDiscount: dealsDiscountValue } = matchDeals(
+    const { applied: appliedDeals, totalDiscount: rawDealsDiscountValue } = matchDeals(
       items.map((i) => ({ menu_item_id: i.menu_item_id, quantity: i.quantity })),
       (activeDeals ?? []) as Deal[],
       menuItemsById,
     )
+    // Cap deals savings at subtotal, same as the promo discount below — deals
+    // and other discounts stack, so each individual source must be bounded
+    // to avoid an unbounded combined discount driving the order total negative.
+    const dealsDiscountValue = Math.min(rawDealsDiscountValue, subtotal)
 
     let discountAmount = 0
     if (promo_code) {
@@ -250,6 +254,10 @@ export async function POST(request: NextRequest) {
     }
 
     const total = subtotal - discountAmount - pointsDiscountValue - dealsDiscountValue + delivery_fee
+
+    if (total < 0) {
+      return NextResponse.json({ error: 'Discount total cannot exceed order subtotal' }, { status: 400 })
+    }
 
     // Insert pending order
     const { data: order, error: orderError } = await supabaseAdmin

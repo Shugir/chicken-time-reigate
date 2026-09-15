@@ -215,4 +215,46 @@ describe('matchDeals — combining deals and edge cases', () => {
     expect(result.applied[0].savings).toBe(5)
     expect(result.totalDiscount).toBe(5)
   })
+
+  it('security: an absurd cart quantity does not hang/crash and produces a bounded result', () => {
+    const menuItems = menuMap([{ id: 'wing', price: 5, category: 'chicken', is_available: true }])
+    const deals: Deal[] = [{
+      id: 'd1', type: 'bogo', name: 'BOGO Wings', is_active: true,
+      config: { buy: { item_ids: ['wing'], qty: 1 }, get: { item_ids: ['wing'], qty: 1, discount: 'free' } },
+    }]
+    const cart: DealCartItem[] = [{ menu_item_id: 'wing', quantity: 1000000 }]
+    const result = matchDeals(cart, deals, menuItems)
+    // Must return promptly (within the test's normal timeout) with sane, bounded numbers —
+    // not attempt to actually allocate/process a million units.
+    expect(result.applied.length).toBeGreaterThanOrEqual(0)
+    expect(Number.isFinite(result.totalDiscount)).toBe(true)
+    expect(result.totalDiscount).toBeLessThan(1000) // bounded, nowhere near 1,000,000 * 5 / 2
+    expect(result.totalDiscount).toBeGreaterThanOrEqual(0)
+  })
+
+  it('isolates a malformed deal so other valid deals in the same call still apply', () => {
+    const menuItems = menuMap([
+      { id: 'wing', price: 5, category: 'chicken', is_available: true },
+      { id: 'fries', price: 3, category: 'sides', is_available: true },
+    ])
+    const deals: Deal[] = [
+      {
+        // Malformed: get.discount is missing entirely, which would throw when
+        // priceAfterDiscount tries to read `.percent` off undefined.
+        id: 'bad', type: 'bogo', name: 'Broken Deal', is_active: true,
+        config: { buy: { item_ids: ['fries'], qty: 1 }, get: { item_ids: ['fries'], qty: 1 } },
+      },
+      {
+        id: 'good', type: 'bogo', name: 'BOGO Wings', is_active: true,
+        config: { buy: { item_ids: ['wing'], qty: 1 }, get: { item_ids: ['wing'], qty: 1, discount: 'free' } },
+      },
+    ]
+    const cart: DealCartItem[] = [
+      { menu_item_id: 'wing', quantity: 2 },
+      { menu_item_id: 'fries', quantity: 2 },
+    ]
+    const result = matchDeals(cart, deals, menuItems)
+    expect(result.applied.map((a) => a.deal_id)).toEqual(['good'])
+    expect(result.totalDiscount).toBe(5)
+  })
 })

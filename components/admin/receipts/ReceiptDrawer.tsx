@@ -150,13 +150,13 @@ export function ReceiptDrawer({ order, onClose }: Props) {
                 green
               />
             )}
-            {(order.applied_deals ?? []).map((d) => (
-              <TotalRow key={d.deal_id} k={`🎉 ${d.name}`} v={`−£${d.savings.toFixed(2)}`} green />
+            {(order.applied_deals ?? []).map((d, i) => (
+              <TotalRow key={`${d.deal_id}-${i}`} k={`🎉 ${d.name}`} v={`−£${d.savings.toFixed(2)}`} green />
             ))}
             {order.order_type === 'pickup' ? (
               <TotalRow k="Collection" v="FREE" />
             ) : (
-              <TotalRow k="Delivery fee" v={`£${Math.max(0, order.total_amount - subtotal + order.discount_applied).toFixed(2)}`} />
+              <TotalRow k="Delivery fee" v={`£${Math.max(0, order.total_amount - subtotal + order.discount_applied + (order.applied_deals ?? []).reduce((s, d) => s + d.savings, 0)).toFixed(2)}`} />
             )}
             <TotalRow k="Total" v={`£${order.total_amount.toFixed(2)}`} grand />
           </Section>
