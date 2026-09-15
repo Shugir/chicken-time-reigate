@@ -51,7 +51,7 @@ export default function DriverDashboard() {
 
   const fetchOrders = useCallback(async () => {
     const res = await fetch('/api/driver/orders')
-    if (res.status === 401) { router.push('/login'); return }
+    if (res.status === 401) { router.push('/sign-in'); return }
     if (res.status === 403) { setAccessDenied(true); setLoading(false); return }
     if (res.ok) {
       const data = await res.json()
@@ -109,7 +109,7 @@ export default function DriverDashboard() {
 
   async function handleSignOut() {
     await supabase.auth.signOut()
-    router.push('/login')
+    router.push('/sign-in')
   }
 
   if (loading) {
