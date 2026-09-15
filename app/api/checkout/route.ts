@@ -5,6 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendOrderStatusEmail } from '@/lib/email'
 import { checkStoreStatus, BusinessHours, Holiday, DayKey } from '@/lib/store-status'
 import { validateScheduledFor } from '@/lib/utils/schedule-utils'
+import { matchDeals, type Deal, type MenuItemLite } from '@/lib/deal-engine'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
@@ -131,32 +132,32 @@ export async function POST(request: NextRequest) {
     }
     // Availability guard: check items are still in stock.
     const itemIdsToCheck = items.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
+    let dbItems: { id: string; name: string; is_available: boolean; sold_out_extras: string[] | null; price: number; category: string }[] = []
     if (itemIdsToCheck.length > 0) {
-      const { data: dbItems } = await supabaseAdmin
+      const { data } = await supabaseAdmin
         .from('menu_items')
-        .select('id, name, is_available, sold_out_extras')
+        .select('id, name, is_available, sold_out_extras, price, category')
         .in('id', itemIdsToCheck)
-      if (dbItems) {
-        const dbMap = new Map(dbItems.map(r => [r.id, r]))
-        for (const item of items) {
-          if (!item.menu_item_id) continue
-          const db = dbMap.get(item.menu_item_id)
-          if (!db) continue
-          if (!db.is_available) {
+      dbItems = data ?? []
+      const dbMap = new Map(dbItems.map(r => [r.id, r]))
+      for (const item of items) {
+        if (!item.menu_item_id) continue
+        const db = dbMap.get(item.menu_item_id)
+        if (!db) continue
+        if (!db.is_available) {
+          return NextResponse.json(
+            { error: `Sorry, ${db.name} just sold out. Please remove it from your cart to continue.` },
+            { status: 400 },
+          )
+        }
+        const soldOutExtras: string[] = db.sold_out_extras ?? []
+        if (soldOutExtras.length > 0) {
+          const blockedExtra = item.extras.find(e => soldOutExtras.includes(e.name))
+          if (blockedExtra) {
             return NextResponse.json(
-              { error: `Sorry, ${db.name} just sold out. Please remove it from your cart to continue.` },
+              { error: `Sorry, ${blockedExtra.name} is no longer available as an extra on ${db.name}. Please update your order.` },
               { status: 400 },
             )
-          }
-          const soldOutExtras: string[] = db.sold_out_extras ?? []
-          if (soldOutExtras.length > 0) {
-            const blockedExtra = item.extras.find(e => soldOutExtras.includes(e.name))
-            if (blockedExtra) {
-              return NextResponse.json(
-                { error: `Sorry, ${blockedExtra.name} is no longer available as an extra on ${db.name}. Please update your order.` },
-                { status: 400 },
-              )
-            }
           }
         }
       }
@@ -187,6 +188,20 @@ export async function POST(request: NextRequest) {
     const origin = request.headers.get('origin') || 'http://localhost:3000'
 
     const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)
+
+    const { data: activeDeals } = await supabaseAdmin
+      .from('deals')
+      .select('id, type, name, config, is_active')
+      .eq('is_active', true)
+
+    const menuItemsById = new Map<string, MenuItemLite>(
+      dbItems.map((m) => [m.id, { id: m.id, price: Number(m.price), category: m.category, is_available: m.is_available }]),
+    )
+    const { applied: appliedDeals, totalDiscount: dealsDiscountValue } = matchDeals(
+      items.map((i) => ({ menu_item_id: i.menu_item_id, quantity: i.quantity })),
+      (activeDeals ?? []) as Deal[],
+      menuItemsById,
+    )
 
     let discountAmount = 0
     if (promo_code) {
@@ -222,7 +237,7 @@ export async function POST(request: NextRequest) {
       pointsDiscountValue = pointsToRedeem / 100
     }
 
-    const totalDiscountForStripe = discountAmount + pointsDiscountValue
+    const totalDiscountForStripe = discountAmount + pointsDiscountValue + dealsDiscountValue
     let stripeCouponId: string | undefined
     if (totalDiscountForStripe > 0) {
       const coupon = await stripe.coupons.create({
@@ -234,7 +249,7 @@ export async function POST(request: NextRequest) {
       stripeCouponId = coupon.id
     }
 
-    const total = subtotal - discountAmount - pointsDiscountValue + delivery_fee
+    const total = subtotal - discountAmount - pointsDiscountValue - dealsDiscountValue + delivery_fee
 
     // Insert pending order
     const { data: order, error: orderError } = await supabaseAdmin
@@ -253,6 +268,7 @@ export async function POST(request: NextRequest) {
         promo_code_used:     discountAmount > 0 ? (promo_code?.trim().toUpperCase() ?? null) : null,
         discount_applied:    discountAmount,
         scheduled_for:       scheduled_for ?? null,
+        applied_deals:       appliedDeals.length > 0 ? appliedDeals : null,
       })
       .select('id')
       .single()
