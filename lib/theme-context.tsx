@@ -15,13 +15,12 @@ function applyThemeClass(theme: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark')
-
-  useEffect(() => {
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'dark'
     const stored = localStorage.getItem(THEME_STORAGE_KEY)
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    setTheme(resolveTheme(stored, prefersDark))
-  }, [])
+    return resolveTheme(stored, prefersDark)
+  })
 
   useEffect(() => {
     applyThemeClass(theme)
