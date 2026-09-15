@@ -1,16 +1,16 @@
-# Graph Report - chicken-time-reigate  (2026-06-10)
+# Graph Report - chicken-time-reigate  (2026-09-15)
 
 ## Corpus Check
-- 194 files · ~1,831,510 words
+- 197 files · ~1,831,863 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1254 nodes · 2092 edges · 126 communities (71 shown, 55 thin omitted)
+- 1261 nodes · 2124 edges · 118 communities (66 shown, 52 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 55 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9bddaf70`
+- Built from commit: `5e96c757`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -63,7 +63,6 @@
 - [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 53|Community 53]]
 - [[_COMMUNITY_Community 54|Community 54]]
-- [[_COMMUNITY_Community 55|Community 55]]
 - [[_COMMUNITY_Community 56|Community 56]]
 - [[_COMMUNITY_Community 57|Community 57]]
 - [[_COMMUNITY_Community 58|Community 58]]
@@ -85,9 +84,7 @@
 - [[_COMMUNITY_Community 78|Community 78]]
 - [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 80|Community 80]]
-- [[_COMMUNITY_Community 81|Community 81]]
 - [[_COMMUNITY_Community 82|Community 82]]
-- [[_COMMUNITY_Community 83|Community 83]]
 - [[_COMMUNITY_Community 84|Community 84]]
 - [[_COMMUNITY_Community 85|Community 85]]
 - [[_COMMUNITY_Community 86|Community 86]]
@@ -97,7 +94,6 @@
 - [[_COMMUNITY_Community 90|Community 90]]
 - [[_COMMUNITY_Community 91|Community 91]]
 - [[_COMMUNITY_Community 92|Community 92]]
-- [[_COMMUNITY_Community 93|Community 93]]
 - [[_COMMUNITY_Community 94|Community 94]]
 - [[_COMMUNITY_Community 95|Community 95]]
 - [[_COMMUNITY_Community 96|Community 96]]
@@ -108,7 +104,6 @@
 - [[_COMMUNITY_Community 101|Community 101]]
 - [[_COMMUNITY_Community 102|Community 102]]
 - [[_COMMUNITY_Community 104|Community 104]]
-- [[_COMMUNITY_Community 105|Community 105]]
 - [[_COMMUNITY_Community 106|Community 106]]
 - [[_COMMUNITY_Community 107|Community 107]]
 - [[_COMMUNITY_Community 108|Community 108]]
@@ -118,14 +113,11 @@
 - [[_COMMUNITY_Community 112|Community 112]]
 - [[_COMMUNITY_Community 113|Community 113]]
 - [[_COMMUNITY_Community 114|Community 114]]
-- [[_COMMUNITY_Community 115|Community 115]]
 - [[_COMMUNITY_Community 116|Community 116]]
 - [[_COMMUNITY_Community 117|Community 117]]
 - [[_COMMUNITY_Community 118|Community 118]]
 - [[_COMMUNITY_Community 119|Community 119]]
-- [[_COMMUNITY_Community 120|Community 120]]
 - [[_COMMUNITY_Community 121|Community 121]]
-- [[_COMMUNITY_Community 122|Community 122]]
 - [[_COMMUNITY_Community 123|Community 123]]
 - [[_COMMUNITY_Community 124|Community 124]]
 - [[_COMMUNITY_Community 125|Community 125]]
@@ -139,8 +131,8 @@
 6. `compilerOptions` - 16 edges
 7. `AdminReceiptOrder` - 16 edges
 8. `graph.json (177 nodes, 173 edges, 30 communities)` - 16 edges
-9. `formatTime()` - 15 edges
-10. `Receipts Management — Design Spec` - 15 edges
+9. `supabase` - 15 edges
+10. `formatTime()` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ProductItem Interface` --semantically_similar_to--> `DB Table: menu_items`  [INFERRED] [semantically similar]
@@ -159,23 +151,23 @@
 - **Delivery Zone Admin CRUD** — admin_delivery_DeliveryPage, admin_delivery_ZoneModal, api_admin_delivery_zones_route, api_admin_delivery_zones_id_route, db_table_delivery_zones [EXTRACTED 1.00]
 - **Store Settings Read Write Split** — admin_settings_SettingsPage, api_admin_store_settings_route, api_store_settings_route, db_table_store_settings, order_page_OrderPage [INFERRED 0.85]
 
-## Communities (126 total, 55 thin omitted)
+## Communities (118 total, 52 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.26
-Nodes (15): usePermissions(), DispatchPage(), CustomerReceipt(), DispatchOrder, Driver, elapsed(), Extra, KitchenDashboard() (+7 more)
+Cohesion: 0.21
+Nodes (16): AddOn, ALLERGEN_DETAILS, AllergyAccordion(), CATEGORY_GRADIENT, ItemCategory, OrderSelection, ProductItem, ProductModal() (+8 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.16
-Nodes (15): AboutPage(), oswald, STATS, VALUES, ComboBuilderPage(), ComboComponent, ComboDiscount, ComboItem (+7 more)
+Cohesion: 0.09
+Nodes (25): AboutPage(), oswald, STATS, VALUES, oswald, POPULAR, REASONS, ComboBuilderPage() (+17 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.05
 Nodes (37): eslintConfig, dependencies, lucide-react, next, nodemailer, react, react-dom, react-hot-toast (+29 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.09
-Nodes (37): AddOn, ALLERGEN_DETAILS, AllergyAccordion(), CATEGORY_GRADIENT, ItemCategory, OrderSelection, ProductItem, ProductModal() (+29 more)
+Cohesion: 0.14
+Nodes (21): BADGE_STYLES, CARD_GRADIENT, Cart, cartCount(), CartDrawer(), CartEntry, cartTotal(), CATEGORIES (+13 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.12
@@ -190,8 +182,8 @@ Cohesion: 0.1
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.22
-Nodes (9): BusinessHours, DAY_LABELS, DayHours, DEFAULT_HOURS, Holiday, SaveState, SettingsPage(), StoreSettings (+1 more)
+Cohesion: 0.2
+Nodes (10): DAYS, BusinessHours, DAY_LABELS, DayHours, DEFAULT_HOURS, Holiday, SaveState, SettingsPage() (+2 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.11
@@ -202,8 +194,8 @@ Cohesion: 0.14
 Nodes (24): AdminPage(), AvailabilityToggle(), CATEGORIES, Category, CATEGORY_COLOURS, CATEGORY_LABELS, COLOUR_PALETTE, COMMON_ALLERGENS (+16 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.1
-Nodes (25): AdminLayout(), PermissionsContext, PermissionsContextType, AnalyticsLayout(), CategoriesLayout(), CombosLayout(), DashboardLayout(), DeliveryLayout() (+17 more)
+Cohesion: 0.11
+Nodes (23): AdminLayout(), AnalyticsLayout(), CategoriesLayout(), CombosLayout(), DashboardLayout(), DeliveryLayout(), DriversLayout(), KitchenLayout() (+15 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.29
@@ -237,6 +229,10 @@ Nodes (4): Globe SVG Icon, Next.js Public Asset, UI Icon, World Globe
 Cohesion: 0.67
 Nodes (3): About Page, About Stats Data (STATS), Brand Values Data (VALUES)
 
+### Community 25 - "Community 25"
+Cohesion: 0.2
+Nodes (5): supabase, LoginPage(), SignInPage(), supabase, SignupPage()
+
 ### Community 50 - "Community 50"
 Cohesion: 0.23
 Nodes (12): menu_items.extras JSONB Column, menu_items.removals JSONB Column, order_items.extras JSONB Column, order_items.notes Column, order_items.removals JSONB Column, Migration: Item Customizations (20260608), Migration: Order Items Customizations (20260613), Migration: Order Items Notes (20260609) (+4 more)
@@ -266,8 +262,8 @@ Cohesion: 0.43
 Nodes (3): GET(), getMenuAdminUser(), POST()
 
 ### Community 72 - "Community 72"
-Cohesion: 0.05
-Nodes (46): AdminSidebar(), ALL_NAV, NAV_GROUPS, Category, CategoryForm, EMPTY_FORM, ComboDiscount, AdminDataTable() (+38 more)
+Cohesion: 0.07
+Nodes (39): AdminDataTable(), Column, FilterConfig, Props, DeleteConfirm(), DeliveryPage(), DeliveryZone, NAV (+31 more)
 
 ### Community 73 - "Community 73"
 Cohesion: 0.8
@@ -278,8 +274,8 @@ Cohesion: 0.09
 Nodes (29): AnalyticsData, AnalyticsPage(), CHART_THEME, DailyPoint, DowPoint, fmtGbp(), HourlyPoint, PERIODS (+21 more)
 
 ### Community 75 - "Community 75"
-Cohesion: 0.07
-Nodes (50): CustomerReceipt(), ReceiptItem, ReceiptOrder, BoardData, CustomerReceipt(), DispatchDriver, DispatchOrder, OrderCard() (+42 more)
+Cohesion: 0.05
+Nodes (74): AdminSidebar(), ALL_NAV, NAV_GROUPS, PermissionsContext, PermissionsContextType, usePermissions(), Category, CategoryForm (+66 more)
 
 ### Community 76 - "Community 76"
 Cohesion: 0.18
@@ -297,21 +293,13 @@ Nodes (17): Community: About Page, Community: App Layout & Fonts, Community: Con
 Cohesion: 0.25
 Nodes (15): AccountPage(), fmtDate(), OfferCard(), Order, OrderCard(), OrderItem, Profile, PromoCode (+7 more)
 
-### Community 81 - "Community 81"
-Cohesion: 0.25
-Nodes (6): EMPTY, FormState, HOURS, InputField(), oswald, SUBJECTS
-
 ### Community 82 - "Community 82"
 Cohesion: 0.47
 Nodes (6): Auth Provider (TODO: Supabase/NextAuth), NewsletterForm Component, Sign In Page, Sign Up Page, SiteHeader Component, NAV_LINKS Static Config
 
-### Community 83 - "Community 83"
-Cohesion: 0.32
-Nodes (6): CartItem, CheckoutPage(), DeliveryZone, supabase, DayKey, ScheduleSlot
-
 ### Community 84 - "Community 84"
 Cohesion: 0.21
-Nodes (6): DELETE(), getMenuAdminUser(), getStaffAdminUser(), PATCH(), supabaseAdmin, GET()
+Nodes (6): GET(), DELETE(), getMenuAdminUser(), getStaffAdminUser(), PATCH(), supabaseAdmin
 
 ### Community 85 - "Community 85"
 Cohesion: 0.6
@@ -329,10 +317,6 @@ Nodes (43): Amount chip, API: `GET /api/admin/receipts`, Architecture, Auth, Clo
 Cohesion: 0.6
 Nodes (3): combo_discounts, menu_items, order_items
 
-### Community 93 - "Community 93"
-Cohesion: 0.33
-Nodes (7): checkStoreStatus(), DayHours, DAYS, getNextOpenDay(), getUKNow(), StoreStatusResult, GET()
-
 ### Community 94 - "Community 94"
 Cohesion: 0.43
 Nodes (3): GET(), getMenuAdminUser(), POST()
@@ -344,10 +328,6 @@ Nodes (29): code:typescript ({ key: 'Receipts', label: 'Receipts', desc: 'View f
 ### Community 96 - "Community 96"
 Cohesion: 0.05
 Nodes (38): code:sql (-- supabase/migrations/20260629_menu_offers.sql), code:typescript (interface MenuItem {), code:typescript (const EMPTY_FORM = { name: '', description: '', price: '', i), code:typescript (const EMPTY_FORM = { name: '', description: '', price: '', c), code:typescript ({), code:typescript ({), code:typescript (: { ...EMPTY_FORM, category: categories[0]?.slug ?? '', comb), code:typescript (compare_at_price: form.compare_at_price ? parseFloat(form.co) (+30 more)
-
-### Community 97 - "Community 97"
-Cohesion: 0.4
-Nodes (4): buildHtml(), EmailOrderData, OrderEmailStatus, STATUS_CONFIG
 
 ### Community 98 - "Community 98"
 Cohesion: 0.06
@@ -374,28 +354,20 @@ Cohesion: 0.8
 Nodes (3): ensureBucket(), getMenuAdminUser(), POST()
 
 ### Community 112 - "Community 112"
-Cohesion: 0.08
-Nodes (24): generateScheduleSlots(), isInFutureQueue(), atClose, atOpen, before1130, closeTime, closeToday, earlyNow (+16 more)
+Cohesion: 0.05
+Nodes (57): CartItem, CheckoutPage(), DeliveryZone, supabase, CartItem, ComboComponent, Extra, POST() (+49 more)
 
-### Community 115 - "Community 115"
-Cohesion: 0.23
-Nodes (12): CartItem, ComboComponent, Extra, POST(), stripe, sendOrderStatusEmail(), BusinessHours, Holiday (+4 more)
+### Community 113 - "Community 113"
+Cohesion: 0.17
+Nodes (3): GET(), GET(), GET()
 
 ### Community 116 - "Community 116"
 Cohesion: 0.38
 Nodes (6): BRAND, delivered(), DeliveredTemplateData, dispatched(), DispatchedTemplateData, shell()
 
-### Community 118 - "Community 118"
-Cohesion: 0.4
-Nodes (3): oswald, POPULAR, REASONS
-
 ### Community 121 - "Community 121"
 Cohesion: 0.28
 Nodes (7): Delivery, Driver, DriverLedgerPage(), fmtGbp(), LedgerData, Payout, toDateStr()
-
-### Community 122 - "Community 122"
-Cohesion: 0.57
-Nodes (5): formatRow(), generateReceiptBuffer(), sendToPrinter(), wrapLine(), POST()
 
 ## Ambiguous Edges - Review These
 - `Supabase Admin Client` → `Sign In Page`  [AMBIGUOUS]
@@ -404,9 +376,9 @@ Nodes (5): formatRow(), generateReceiptBuffer(), sendToPrinter(), wrapLine(), PO
   app/sign-in/page.tsx · relation: shares_data_with
 
 ## Knowledge Gaps
-- **401 isolated node(s):** `eslintConfig`, `config`, `nextConfig`, `name`, `version` (+396 more)
+- **404 isolated node(s):** `Reward`, `Transaction`, `OrderItem`, `DispatchOrder`, `DispatchDriver` (+399 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **55 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **52 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -415,13 +387,13 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
 - **What is the exact relationship between `Supabase Admin Client` and `Sign In Page`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
-- **Why does `Supabase Admin Client` connect `Community 76` to `Community 61`, `Community 82`, `Community 115`, `Community 5`?**
-  _High betweenness centrality (0.079) - this node is a cross-community bridge._
-- **Why does `AdminReceiptOrder` connect `Community 75` to `Community 1`, `Community 115`, `Community 12`?**
-  _High betweenness centrality (0.078) - this node is a cross-community bridge._
-- **Why does `supabaseAdmin` connect `Community 84` to `Community 3`, `Community 12`, `Community 68`, `Community 70`, `Community 73`, `Community 77`, `Community 89`, `Community 93`, `Community 94`, `Community 101`, `Community 104`, `Community 107`, `Community 113`, `Community 115`, `Community 119`, `Community 120`, `Community 122`, `Community 123`, `Community 125`?**
+- **Why does `supabaseAdmin` connect `Community 84` to `Community 97`, `Community 3`, `Community 68`, `Community 101`, `Community 70`, `Community 104`, `Community 73`, `Community 107`, `Community 12`, `Community 77`, `Community 112`, `Community 113`, `Community 89`, `Community 123`, `Community 125`, `Community 94`?**
+  _High betweenness centrality (0.094) - this node is a cross-community bridge._
+- **Why does `AdminReceiptOrder` connect `Community 75` to `Community 112`, `Community 1`, `Community 12`?**
+  _High betweenness centrality (0.080) - this node is a cross-community bridge._
+- **Why does `Supabase Admin Client` connect `Community 76` to `Community 112`, `Community 82`, `Community 61`, `Community 5`?**
   _High betweenness centrality (0.076) - this node is a cross-community bridge._
-- **What connects `eslintConfig`, `config`, `nextConfig` to the rest of the system?**
-  _405 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+- **What connects `Reward`, `Transaction`, `OrderItem` to the rest of the system?**
+  _408 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Community 1` be split into smaller, more focused modules?**
+  _Cohesion score 0.09 - nodes in this community are weakly interconnected._
