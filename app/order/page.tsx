@@ -723,7 +723,16 @@ export default function OrderPage() {
     try {
       const raw = sessionStorage.getItem('pendingCartEntries')
       if (raw) {
-        setCart((prev) => ({ ...prev, ...JSON.parse(raw) }))
+        setCart((prev) => {
+          const pending = JSON.parse(raw) as Cart
+          const merged = { ...prev }
+          for (const [id, entry] of Object.entries(pending)) {
+            merged[id] = merged[id]
+              ? { ...merged[id], qty: merged[id].qty + entry.qty }
+              : entry
+          }
+          return merged
+        })
         sessionStorage.removeItem('pendingCartEntries')
       }
     } catch {
