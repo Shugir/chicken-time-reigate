@@ -47,9 +47,9 @@ BEGIN
           jsonb_build_object('label', 'Side',  'category', 'sides',   'pick_qty', 1),
           jsonb_build_object('label', 'Drink', 'category', 'drinks',  'pick_qty', 1)
         ),
-        'price', GREATEST(0, (
+        'price', ROUND(GREATEST(0, (
           SELECT AVG(price) FROM menu_items WHERE combo_category = 'main'
-        ) - medium_discount)
+        ) - medium_discount), 2)
       ),
       true
     );
@@ -65,9 +65,9 @@ BEGIN
           jsonb_build_object('label', 'Side',  'category', 'sides',   'pick_qty', 1),
           jsonb_build_object('label', 'Drink', 'category', 'drinks',  'pick_qty', 1)
         ),
-        'price', GREATEST(0, (
+        'price', ROUND(GREATEST(0, (
           SELECT AVG(price) FROM menu_items WHERE combo_category = 'main'
-        ) - large_discount)
+        ) - large_discount), 2)
       ),
       true
     );
