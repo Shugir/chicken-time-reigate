@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { matchDeals, type Deal, type MenuItemLite, type DealCartItem } from './deal-engine'
+import { matchDeals, isDealLive, type Deal, type MenuItemLite, type DealCartItem } from './deal-engine'
 
 function menuMap(items: MenuItemLite[]): Map<string, MenuItemLite> {
   return new Map(items.map((i) => [i.id, i]))
@@ -50,7 +50,7 @@ describe('matchDeals — bogo', () => {
 })
 
 describe('matchDeals — bundle', () => {
-  it('consumes the highest-priced qualifying item per group', () => {
+  it('consumes exactly min_qty of the highest-priced qualifying items per group', () => {
     const menuItems = menuMap([
       { id: 'chicken-a', price: 6, category: 'chicken', is_available: true },
       { id: 'chicken-b', price: 8, category: 'chicken', is_available: true },
@@ -61,9 +61,9 @@ describe('matchDeals — bundle', () => {
       id: 'd1', type: 'bundle', name: 'Meal Deal', is_active: true,
       config: {
         groups: [
-          { label: 'Main', category: 'chicken', pick_qty: 1 },
-          { label: 'Side', category: 'sides', pick_qty: 1 },
-          { label: 'Drink', category: 'drinks', pick_qty: 1 },
+          { label: 'Main', min_qty: 1, max_qty: 1, item_ids: ['chicken-a', 'chicken-b'] },
+          { label: 'Side', min_qty: 1, max_qty: 1, item_ids: ['side-a'] },
+          { label: 'Drink', min_qty: 1, max_qty: 1, item_ids: ['drink-a'] },
         ],
         price: 9,
       },
@@ -75,18 +75,18 @@ describe('matchDeals — bundle', () => {
       { menu_item_id: 'drink-a', quantity: 1 },
     ]
     const result = matchDeals(cart, deals, menuItems)
-    // Picks chicken-b (£8, the pricier main) into the bundle: 8+2+1.5=11.5 - 9 = 2.5 savings
+    // Picks chicken-b (£8, pricier main) into the bundle: 8+2+1.5=11.5 - 9 = 2.5 savings
     expect(result.totalDiscount).toBe(2.5)
   })
 
-  it('does not apply when a group has too few qualifying items', () => {
+  it('does not apply when a group has too few qualifying items for min_qty', () => {
     const menuItems = menuMap([{ id: 'chicken-a', price: 6, category: 'chicken', is_available: true }])
     const deals: Deal[] = [{
       id: 'd1', type: 'bundle', name: 'Meal Deal', is_active: true,
       config: {
         groups: [
-          { label: 'Main', category: 'chicken', pick_qty: 1 },
-          { label: 'Side', category: 'sides', pick_qty: 1 },
+          { label: 'Main', min_qty: 1, max_qty: 1, item_ids: ['chicken-a'] },
+          { label: 'Side', min_qty: 1, max_qty: 1, item_ids: ['side-a'] },
         ],
         price: 5,
       },
@@ -95,24 +95,39 @@ describe('matchDeals — bundle', () => {
     const result = matchDeals(cart, deals, menuItems)
     expect(result.applied).toHaveLength(0)
   })
-})
 
-describe('matchDeals — fixed_meal', () => {
-  it('applies when every required item/qty is present', () => {
+  it('regression: never consumes more than min_qty even when max_qty and cart supply allow more', () => {
+    // This is the discount-inflation bug the architect review caught: with a
+    // fixed bundle price, consuming more units always increases savings, so
+    // an up-to-max_qty engine would always grab max_qty when available —
+    // awarding a bigger discount than the customer chose in the picker.
     const menuItems = menuMap([
-      { id: 'whole-chicken', price: 12, category: 'chicken', is_available: true },
-      { id: 'side-a', price: 2, category: 'sides', is_available: true },
+      { id: 'side-a', price: 3, category: 'sides', is_available: true },
+      { id: 'side-b', price: 4, category: 'sides', is_available: true },
+      { id: 'side-c', price: 5, category: 'sides', is_available: true },
+      { id: 'main-a', price: 10, category: 'chicken', is_available: true },
     ])
     const deals: Deal[] = [{
-      id: 'd1', type: 'fixed_meal', name: 'Family Feast', is_active: true,
-      config: { items: [{ item_id: 'whole-chicken', qty: 1 }, { item_id: 'side-a', qty: 2 }], price: 13 },
+      id: 'd1', type: 'bundle', name: 'Meal Deal', is_active: true,
+      config: {
+        groups: [
+          { label: 'Main', min_qty: 1, max_qty: 1, item_ids: ['main-a'] },
+          { label: 'Side', min_qty: 1, max_qty: 3, item_ids: ['side-a', 'side-b', 'side-c'] },
+        ],
+        price: 12,
+      },
     }]
+    // Cart has all 3 sides available — an up-to-max engine would consume all 3.
     const cart: DealCartItem[] = [
-      { menu_item_id: 'whole-chicken', quantity: 1 },
-      { menu_item_id: 'side-a', quantity: 2 },
+      { menu_item_id: 'main-a', quantity: 1 },
+      { menu_item_id: 'side-a', quantity: 1 },
+      { menu_item_id: 'side-b', quantity: 1 },
+      { menu_item_id: 'side-c', quantity: 1 },
     ]
     const result = matchDeals(cart, deals, menuItems)
-    // 12 + 2*2 = 16 - 13 = 3
+    // Correct: consumes only min_qty=1 side, the priciest one (side-c, £5).
+    // 10 + 5 = 15 - 12 = 3 savings. (An up-to-max bug would consume all 3
+    // sides: 10+3+4+5=22-12=10 savings — wrong.)
     expect(result.totalDiscount).toBe(3)
   })
 })
@@ -256,5 +271,42 @@ describe('matchDeals — combining deals and edge cases', () => {
     const result = matchDeals(cart, deals, menuItems)
     expect(result.applied.map((a) => a.deal_id)).toEqual(['good'])
     expect(result.totalDiscount).toBe(5)
+  })
+})
+
+describe('isDealLive', () => {
+  it('is live when is_active and no schedule window is set', () => {
+    expect(isDealLive({ is_active: true, available_from: null, available_until: null })).toBe(true)
+  })
+
+  it('is not live when is_active is false, regardless of schedule', () => {
+    expect(isDealLive({ is_active: false, available_from: null, available_until: null })).toBe(false)
+  })
+
+  it('is live when now is within the schedule window', () => {
+    const now = new Date('2026-06-15T12:00:00Z')
+    expect(isDealLive({
+      is_active: true,
+      available_from: '2026-06-01T00:00:00Z',
+      available_until: '2026-06-30T23:59:59Z',
+    }, now)).toBe(true)
+  })
+
+  it('is not live before available_from', () => {
+    const now = new Date('2026-05-01T00:00:00Z')
+    expect(isDealLive({
+      is_active: true,
+      available_from: '2026-06-01T00:00:00Z',
+      available_until: null,
+    }, now)).toBe(false)
+  })
+
+  it('is not live after available_until', () => {
+    const now = new Date('2026-07-01T00:00:00Z')
+    expect(isDealLive({
+      is_active: true,
+      available_from: null,
+      available_until: '2026-06-30T23:59:59Z',
+    }, now)).toBe(false)
   })
 })

@@ -1,4 +1,4 @@
-export type DealType = 'bogo' | 'bundle' | 'fixed_meal' | 'order_discount'
+export type DealType = 'bogo' | 'bundle' | 'order_discount'
 
 export interface MenuItemLite {
   id: string
@@ -38,12 +38,7 @@ interface BogoConfig {
 }
 
 interface BundleConfig {
-  groups: { label: string; category: string; pick_qty: number }[]
-  price: number
-}
-
-interface FixedMealConfig {
-  items: { item_id: string; qty: number }[]
+  groups: { label: string; min_qty: number; max_qty: number; item_ids: string[] }[]
   price: number
 }
 
@@ -64,6 +59,16 @@ interface Unit {
 
 function round2(n: number): number {
   return Math.round(n * 100) / 100
+}
+
+export function isDealLive(
+  deal: { is_active: boolean; available_from?: string | null; available_until?: string | null },
+  now: Date = new Date(),
+): boolean {
+  if (!deal.is_active) return false
+  if (deal.available_from && now < new Date(deal.available_from)) return false
+  if (deal.available_until && now > new Date(deal.available_until)) return false
+  return true
 }
 
 /**
@@ -130,24 +135,15 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
     let sum = 0
     for (const group of cfg.groups) {
       const pool = available
-        .filter((u) => !consume.includes(u) && normCategory(u.category) === normCategory(group.category))
+        .filter((u) => !consume.includes(u) && group.item_ids.includes(u.menu_item_id))
         .sort((a, b) => b.price - a.price)
-      if (pool.length < group.pick_qty) return null
-      const picked = pool.slice(0, group.pick_qty)
-      picked.forEach((u) => { consume.push(u); sum += u.price })
-    }
-    const savings = sum - cfg.price
-    return savings > 0 ? { savings, consume, lock: [] } : null
-  }
-
-  if (deal.type === 'fixed_meal') {
-    const cfg = deal.config as FixedMealConfig
-    const consume: Unit[] = []
-    let sum = 0
-    for (const req of cfg.items) {
-      const pool = available.filter((u) => !consume.includes(u) && u.menu_item_id === req.item_id)
-      if (pool.length < req.qty) return null
-      const picked = pool.slice(0, req.qty)
+      if (pool.length < group.min_qty) return null
+      // Consume exactly min_qty, never up to max_qty: price is fixed per
+      // bundle regardless of quantity consumed within range, so consuming
+      // more would strictly increase savings with no ceiling — max_qty is
+      // a DealSlotPicker-only UX constraint, not something the automatic
+      // matcher should reward.
+      const picked = pool.slice(0, group.min_qty)
       picked.forEach((u) => { consume.push(u); sum += u.price })
     }
     const savings = sum - cfg.price
@@ -158,8 +154,8 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
 }
 
 /**
- * Pure matching engine. Runs item-consuming deals (bogo/bundle/fixed_meal)
- * greedily by best marginal savings first, then applies the single best
+ * Pure matching engine. Runs item-consuming deals (bogo/bundle) greedily
+ * by best marginal savings first, then applies the single best
  * order_discount deal (if any) against whatever subtotal remains.
  *
  * ponytail: greedy best-marginal-savings, not an exhaustive search over all
