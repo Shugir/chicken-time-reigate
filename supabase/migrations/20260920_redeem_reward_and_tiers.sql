@@ -155,7 +155,10 @@ RETURNS void LANGUAGE sql AS $$
       );
 $$;
 
--- Pin the resolution path so neither function can be steered onto a shadowing
--- table or function planted in a caller-controlled schema.
-ALTER FUNCTION redeem_reward(uuid, uuid, uuid) SET search_path = public, pg_temp;
-ALTER FUNCTION adjust_loyalty(uuid, integer)   SET search_path = public, pg_temp;
+-- Pin the resolution path so none of these can be steered onto a shadowing
+-- table or function planted in a caller-controlled schema. redeem_loyalty_points
+-- is pinned here too: redeem_reward calls it, so leaving it unpinned would reopen
+-- the same hole one call deeper.
+ALTER FUNCTION redeem_reward(uuid, uuid, uuid)   SET search_path = public, pg_temp;
+ALTER FUNCTION adjust_loyalty(uuid, integer)     SET search_path = public, pg_temp;
+ALTER FUNCTION redeem_loyalty_points(uuid, int)  SET search_path = public, pg_temp;
