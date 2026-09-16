@@ -5,6 +5,11 @@
 -- menu_items.category membership at migration time -- a snapshot; future
 -- menu changes no longer auto-affect these deals, which is the point
 -- (assignment is now explicit, done in the admin slot builder).
+--
+-- Idempotent: the loop only picks up rows whose groups still carry the legacy
+-- 'category' key. Without that guard a replay would read NULL for pick_qty and
+-- category on already-migrated rows and silently rewrite every live bundle to
+-- min_qty/max_qty NULL with an empty item_ids -- a deal that matches nothing.
 DO $$
 DECLARE
   deal RECORD;
@@ -12,7 +17,11 @@ DECLARE
   grp JSONB;
   ids JSONB;
 BEGIN
-  FOR deal IN SELECT id, config FROM deals WHERE type = 'bundle' LOOP
+  FOR deal IN
+    SELECT id, config FROM deals
+    WHERE type = 'bundle'
+      AND jsonb_exists(config->'groups'->0, 'category')
+  LOOP
     new_groups := '[]'::jsonb;
     FOR grp IN SELECT * FROM jsonb_array_elements(deal.config->'groups') LOOP
       SELECT COALESCE(jsonb_agg(id), '[]'::jsonb) INTO ids
@@ -28,5 +37,5 @@ BEGIN
   END LOOP;
 END $$;
 
-ALTER TABLE menu_items DROP COLUMN combo_category;
-ALTER TABLE menu_items DROP COLUMN size_tier;
+ALTER TABLE menu_items DROP COLUMN IF EXISTS combo_category;
+ALTER TABLE menu_items DROP COLUMN IF EXISTS size_tier;

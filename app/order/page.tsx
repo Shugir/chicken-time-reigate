@@ -903,7 +903,7 @@ export default function OrderPage() {
   function openDealPicker(item: MenuItem) {
     const bundle = bundleFor(item)
     if (!bundle) return
-    const itemsById = new Map<string, SlotItem>(menuItems.map((m) => [m.id, {
+    const itemsById = new Map<string, SlotItem>(menuItems.filter((m) => m.is_available !== false).map((m) => [m.id, {
       id: m.id, name: m.name, price: m.price, image_url: m.image, category: m.category,
       extras: m.add_ons, removals: m.removables, additions: m.additions ?? null,
     }]))

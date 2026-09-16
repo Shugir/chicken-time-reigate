@@ -75,7 +75,7 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
       const existing = current.find((p) => p.item_id === item_id)
       if (!existing) return prev
       const next = existing.qty > 1
-        ? current.map((p) => (p.item_id === item_id ? { ...p, qty: p.qty - 1 } : p))
+        ? current.map((p) => (p === existing ? { ...p, qty: p.qty - 1 } : p))
         : current.filter((p) => p !== existing)
       return { ...prev, [groupIndex]: next }
     })
