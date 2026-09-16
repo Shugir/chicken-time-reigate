@@ -193,7 +193,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Loyalty points redemption: validate vs profiles.loyalty_points (source of truth)
+    // Loyalty points redemption. This read is a fast-fail only, so an
+    // underfunded request doesn't leave a junk pending order behind — the
+    // authoritative guard is the atomic debit further down, after the order row
+    // exists and there is nothing left that can reject the request.
     let pointsDiscountValue = 0
     const pointsToRedeem = redeem_points && userId && redeem_points >= 100
       ? Math.floor(redeem_points / 100) * 100
@@ -276,11 +279,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to save order items' }, { status: 500 })
     }
 
-    // Loyalty: earn + redeem atomically via RPC (non-blocking)
+    // Loyalty: redeem, then earn
     if (userId) {
       const pointsEarned = Math.floor(subtotal * 10)
       if (pointsToRedeem > 0) {
-        supabaseAdmin.rpc('adjust_loyalty', { uid: userId, delta: -pointsToRedeem })
+        // The balance condition lives inside the UPDATE, so two concurrent
+        // checkouts can't both spend the same points. Null means the balance no
+        // longer covers it — reject rather than let the discount through free.
+        const { data: newBalance, error: redeemError } = await supabaseAdmin
+          .rpc('redeem_loyalty_points', { uid: userId, cost: pointsToRedeem })
+        if (redeemError) {
+          console.error('Loyalty redemption error:', redeemError)
+          return NextResponse.json({ error: 'Failed to redeem loyalty points' }, { status: 500 })
+        }
+        if (newBalance === null) {
+          return NextResponse.json({ error: 'Insufficient loyalty points' }, { status: 400 })
+        }
         supabaseAdmin.from('loyalty_transactions').insert({
           user_id: userId, order_id: order.id, points: -pointsToRedeem, type: 'redeem', note: 'Redeemed at checkout',
         })

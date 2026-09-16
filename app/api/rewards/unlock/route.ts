@@ -38,20 +38,23 @@ export async function POST(request: NextRequest) {
 
   if (existing) return NextResponse.json({ error: 'You have already unlocked this reward' }, { status: 409 })
 
-  // Check balance
-  const { data: profile } = await supabaseAdmin
-    .from('profiles')
-    .select('loyalty_points')
-    .eq('id', user.id)
-    .maybeSingle()
+  // Deduct atomically: the RPC's UPDATE carries the balance condition, so a
+  // concurrent redemption can't slip past a separate check and overdraw.
+  const { data: newBalance, error: redeemError } = await supabaseAdmin
+    .rpc('redeem_loyalty_points', { uid: user.id, cost: promo.points_cost })
 
-  const balance = profile?.loyalty_points ?? 0
-  if (balance < promo.points_cost) {
+  if (redeemError) return NextResponse.json({ error: redeemError.message }, { status: 500 })
+
+  if (newBalance === null) {
+    const { data: profile } = await supabaseAdmin
+      .from('profiles')
+      .select('loyalty_points')
+      .eq('id', user.id)
+      .maybeSingle()
+    const balance = profile?.loyalty_points ?? 0
     return NextResponse.json({ error: `Not enough points. Need ${promo.points_cost}, have ${balance}.` }, { status: 422 })
   }
 
-  // Deduct points + record transaction + insert unlock — all in sequence
-  await supabaseAdmin.rpc('adjust_loyalty', { uid: user.id, delta: -promo.points_cost })
   await supabaseAdmin.from('loyalty_transactions').insert({
     user_id: user.id, points: -promo.points_cost, type: 'redeem',
     note: `Unlocked reward: ${promotion_id}`,
@@ -62,6 +65,5 @@ export async function POST(request: NextRequest) {
 
   if (unlockError) return NextResponse.json({ error: unlockError.message }, { status: 500 })
 
-  const newBalance = balance - promo.points_cost
   return NextResponse.json({ success: true, new_balance: newBalance })
 }
