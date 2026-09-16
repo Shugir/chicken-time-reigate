@@ -24,6 +24,19 @@ interface CartItem {
   notes?:        string      // free-text only
 }
 
+// SQLSTATE codes raised by the redeem_reward RPC. Anything outside this map is
+// an unexpected DB fault, not a rejected redemption, and is surfaced as a 500.
+const REWARD_ERRORS: Record<string, string> = {
+  LY001: 'Reward not found',
+  LY002: 'Reward is no longer available',
+  LY003: 'Reward is not available yet',
+  LY004: 'Reward has expired',
+  LY005: 'Your tier does not unlock this reward',
+  LY006: 'Not enough points for this reward',
+  LY007: 'Reward already redeemed',
+  LY008: 'Reward is misconfigured — please contact us',
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Detect logged-in user to link order to their account
@@ -48,6 +61,7 @@ export async function POST(request: NextRequest) {
         postcode?: string
         promo_code?: string | null
         redeem_points?: number | null
+        reward_promotion_id?: string | null
         customer_name?: string
         customer_phone?: string
         customer_email?: string
@@ -64,7 +78,7 @@ export async function POST(request: NextRequest) {
         .single(),
     ])
 
-    const { items, delivery_fee = 0, postcode, promo_code, redeem_points, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type, scheduled_for } = bodyRaw
+    const { items, delivery_fee = 0, postcode, promo_code, redeem_points, reward_promotion_id, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type, scheduled_for } = bodyRaw
 
     // Store status guard
     if (storeSettings) {
@@ -177,6 +191,71 @@ export async function POST(request: NextRequest) {
     // to avoid an unbounded combined discount driving the order total negative.
     const dealsDiscountValue = Math.min(rawDealsDiscountValue, subtotal)
 
+    // A catalog reward is fully exclusive: it is the only discount source an
+    // order may carry. Enforced here because the client can only hide the other
+    // inputs, and because the deals engine applies itself from cart contents
+    // with no request field to omit — a cart that already earns a bundle deal
+    // is rejected rather than silently overridden, so a customer never spends
+    // points on a reward that replaced a discount they were already getting.
+    let rewardDiscountValue = 0
+    let rewardFreeDelivery = false
+    if (reward_promotion_id) {
+      if (!userId) {
+        return NextResponse.json({ error: 'Sign in to redeem a reward' }, { status: 401 })
+      }
+      if (promo_code) {
+        return NextResponse.json(
+          { error: 'A reward and a promo code cannot be used on the same order' },
+          { status: 400 },
+        )
+      }
+      if (redeem_points) {
+        return NextResponse.json(
+          { error: 'A reward and a points discount cannot be used on the same order' },
+          { status: 400 },
+        )
+      }
+      if (dealsDiscountValue > 0) {
+        return NextResponse.json(
+          { error: 'A bundle deal already applies to this cart — remove the reward or change your items' },
+          { status: 400 },
+        )
+      }
+
+      // Fast-fail read that also prices the benefit, because the total has to be
+      // final before the order row and the Stripe coupon exist. The authoritative
+      // charge is the redeem_reward RPC after the insert, which re-checks every
+      // condition under a row lock. min_order_amount is checked only here — the
+      // RPC reports it but does not enforce it, and points must not be spent on a
+      // reward this cart cannot legally apply.
+      const { data: reward } = await supabaseAdmin
+        .from('promotions')
+        .select('discount_type, discount_value, min_order_amount')
+        .eq('id', reward_promotion_id)
+        .eq('promo_type', 'REWARD')
+        .maybeSingle()
+
+      if (!reward) {
+        return NextResponse.json({ error: REWARD_ERRORS.LY001 }, { status: 400 })
+      }
+      const minOrder = Number(reward.min_order_amount)
+      if (subtotal < minOrder) {
+        return NextResponse.json(
+          { error: `This reward needs a minimum order of £${minOrder.toFixed(2)}` },
+          { status: 400 },
+        )
+      }
+      if (reward.discount_type === 'free_delivery') {
+        rewardFreeDelivery = true
+      } else if (reward.discount_type === 'percentage') {
+        rewardDiscountValue = Math.round(subtotal * (Number(reward.discount_value) / 100) * 100) / 100
+      } else if (reward.discount_type === 'flat') {
+        rewardDiscountValue = Math.min(Number(reward.discount_value), subtotal)
+      }
+      // 'free_item' carries no discount — it adds a £0 line item instead (Task 6).
+    }
+    const effectiveDeliveryFee = rewardFreeDelivery ? 0 : delivery_fee
+
     let discountAmount = 0
     if (promo_code) {
       const { data: promo } = await supabaseAdmin
@@ -214,7 +293,7 @@ export async function POST(request: NextRequest) {
       pointsDiscountValue = pointsToRedeem / 100
     }
 
-    const totalDiscountForStripe = discountAmount + pointsDiscountValue + dealsDiscountValue
+    const totalDiscountForStripe = discountAmount + pointsDiscountValue + dealsDiscountValue + rewardDiscountValue
     let stripeCouponId: string | undefined
     if (totalDiscountForStripe > 0) {
       const coupon = await stripe.coupons.create({
@@ -226,7 +305,7 @@ export async function POST(request: NextRequest) {
       stripeCouponId = coupon.id
     }
 
-    const total = subtotal - discountAmount - pointsDiscountValue - dealsDiscountValue + delivery_fee
+    const total = subtotal - discountAmount - pointsDiscountValue - dealsDiscountValue - rewardDiscountValue + effectiveDeliveryFee
 
     if (total < 0) {
       return NextResponse.json({ error: 'Discount total cannot exceed order subtotal' }, { status: 400 })
@@ -279,6 +358,38 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to save order items' }, { status: 500 })
     }
 
+    // Charge the reward after the order exists so one RPC transaction links the
+    // point debit, the unlocked_rewards row and the order together — there is no
+    // window where points are spent against an order id that never materialises.
+    // A rejection here deletes the order instead (order_items cascade): an
+    // abandoned order row is recoverable, silently spent points are not. Nothing
+    // has been charged to the card at this point — the Stripe session is created
+    // further down.
+    if (reward_promotion_id && userId) {
+      const { data: redeemed, error: rewardError } = await supabaseAdmin
+        .rpc('redeem_reward', {
+          p_uid:          userId,
+          p_promotion_id: reward_promotion_id,
+          p_order_id:     order.id,
+        })
+
+      if (rewardError) {
+        await supabaseAdmin.from('orders').delete().eq('id', order.id)
+        const message = REWARD_ERRORS[rewardError.code]
+        if (!message) {
+          console.error('Reward redemption error:', rewardError)
+          return NextResponse.json({ error: 'Failed to redeem reward' }, { status: 500 })
+        }
+        return NextResponse.json({ error: message }, { status: 400 })
+      }
+
+      const reward = redeemed as { discount_type: string; reward_config: { menu_item_id?: string } }
+      if (reward.discount_type === 'free_item') {
+        // TODO(Task 6): insert the £0 order_items row for
+        // reward.reward_config.menu_item_id against order.id here.
+      }
+    }
+
     // Loyalty: redeem, then earn
     if (userId) {
       const pointsEarned = Math.floor(subtotal * 10)
@@ -328,11 +439,11 @@ export async function POST(request: NextRequest) {
       quantity: item.quantity,
     }))
 
-    if (delivery_fee > 0) {
+    if (effectiveDeliveryFee > 0) {
       lineItems.push({
         price_data: {
           currency: 'gbp',
-          unit_amount: Math.round(delivery_fee * 100),
+          unit_amount: Math.round(effectiveDeliveryFee * 100),
           product_data: { name: 'Delivery' },
         },
         quantity: 1,
