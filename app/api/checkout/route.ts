@@ -37,6 +37,12 @@ const REWARD_ERRORS: Record<string, string> = {
   LY008: 'Reward is misconfigured — please contact us',
 }
 
+// order_items has no discount-source column, so the free line is marked with the
+// per-line note the kitchen screen and the printed ticket already render. That
+// plus unit_price 0 and the unlocked_rewards/loyalty_transactions rows is the
+// full "why is this free" trail — no migration needed.
+const FREE_ITEM_NOTE = 'Free reward item'
+
 export async function POST(request: NextRequest) {
   try {
     // Detect logged-in user to link order to their account
@@ -198,6 +204,7 @@ export async function POST(request: NextRequest) {
     // points on a reward that replaced a discount they were already getting.
     let rewardDiscountValue = 0
     let rewardFreeDelivery = false
+    let rewardFreeItem: { id: string; name: string } | null = null
     if (reward_promotion_id) {
       if (!userId) {
         return NextResponse.json({ error: 'Sign in to redeem a reward' }, { status: 401 })
@@ -223,7 +230,7 @@ export async function POST(request: NextRequest) {
       // reward this cart cannot legally apply.
       const { data: reward } = await supabaseAdmin
         .from('promotions')
-        .select('discount_type, discount_value, min_order_amount')
+        .select('discount_type, discount_value, min_order_amount, reward_config')
         .eq('id', reward_promotion_id)
         .eq('promo_type', 'REWARD')
         .maybeSingle()
@@ -244,8 +251,30 @@ export async function POST(request: NextRequest) {
         rewardDiscountValue = Math.round(subtotal * (Number(reward.discount_value) / 100) * 100) / 100
       } else if (reward.discount_type === 'flat') {
         rewardDiscountValue = Math.min(Number(reward.discount_value), subtotal)
+      } else if (reward.discount_type === 'free_item') {
+        // 'free_item' carries no discount — it adds a £0 line item instead.
+        // The item is resolved and availability-checked here, before the
+        // redeem_reward RPC, because that RPC commits the point spend: a reward
+        // pointing at an item the admin has since withdrawn must be refused
+        // while refusing is still free.
+        const menuItemId = (reward.reward_config as { menu_item_id?: string } | null)?.menu_item_id
+        if (!menuItemId) {
+          return NextResponse.json({ error: REWARD_ERRORS.LY008 }, { status: 400 })
+        }
+        const { data: freeItem } = await supabaseAdmin
+          .from('menu_items')
+          .select('id, name, is_available')
+          .eq('id', menuItemId)
+          .maybeSingle()
+
+        if (!freeItem || !freeItem.is_available) {
+          return NextResponse.json(
+            { error: 'The free item for this reward is currently unavailable' },
+            { status: 400 },
+          )
+        }
+        rewardFreeItem = { id: freeItem.id, name: freeItem.name }
       }
-      // 'free_item' carries no discount — it adds a £0 line item instead (Task 6).
     }
     const effectiveDeliveryFee = rewardFreeDelivery ? 0 : delivery_fee
 
@@ -359,12 +388,27 @@ export async function POST(request: NextRequest) {
       const reward = redeemed as {
         discount_type: string
         points_spent:  number
-        reward_config: { menu_item_id?: string }
       }
       rewardPointsSpent = reward.points_spent
       if (reward.discount_type === 'free_item') {
-        // TODO(Task 6): insert the £0 order_items row for
-        // reward.reward_config.menu_item_id against order.id here.
+        // rewardFreeItem is only null here if an admin retyped the promo between
+        // the pre-flight read and the RPC — as much a failure as a bad insert.
+        const { error: freeItemError } = rewardFreeItem
+          ? await supabaseAdmin.from('order_items').insert({
+              order_id:     order.id,
+              menu_item_id: rewardFreeItem.id,
+              item_name:    rewardFreeItem.name,
+              quantity:     1,
+              unit_price:   0,
+              notes:        FREE_ITEM_NOTE,
+            })
+          : { error: new Error('reward became free_item after the pre-flight read') }
+
+        if (freeItemError) {
+          console.error('Free reward item insert error:', freeItemError)
+          await supabaseAdmin.from('orders').delete().eq('id', order.id)
+          return NextResponse.json({ error: 'Failed to add the free reward item' }, { status: 500 })
+        }
       }
     }
 
@@ -435,7 +479,10 @@ export async function POST(request: NextRequest) {
         customer_name:    customer_name    ?? null,
         total_amount:     total,
         delivery_address: delivery_address ?? null,
-        items:            items.map((i) => ({ name: i.name, quantity: i.quantity })),
+        items: [
+          ...items.map((i) => ({ name: i.name, quantity: i.quantity })),
+          ...(rewardFreeItem ? [{ name: `${rewardFreeItem.name} (${FREE_ITEM_NOTE})`, quantity: 1 }] : []),
+        ],
       },
       'received',
       authUser?.email ?? null,

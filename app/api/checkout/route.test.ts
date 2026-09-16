@@ -20,6 +20,8 @@ let redeemedRewardIds: Set<string>
 let rewardFailureCode: string | null = null
 let orderRows: Set<string>
 let insertedOrder: Record<string, unknown> | null = null
+let insertedOrderItems: Record<string, unknown>[]
+let menuItems: Record<string, { id: string; name: string; is_available: boolean }> = {}
 let orderUpdates: Record<string, unknown>[]
 let loyaltyTxns: Record<string, unknown>[]
 let stripeSessionCreated = false
@@ -65,6 +67,7 @@ vi.mock('@/lib/supabase-admin', () => ({
           return { data: { is_accepting_orders: true, business_hours: null, holidays: null }, error: null }
         }
         if (table === 'profiles') return { data: { loyalty_points: balance }, error: null }
+        if (table === 'menu_items') return { data: menuItems[String(filters.id)] ?? null, error: null }
         if (table === 'promotions') {
           if (filters.promo_type === 'REWARD') {
             return { data: rewards[String(filters.id)] ?? null, error: null }
@@ -93,6 +96,10 @@ vi.mock('@/lib/supabase-admin', () => ({
           if (op === 'delete' && table === 'orders') orderRows.delete(String(filters.id))
           if (op === 'update' && table === 'orders') orderUpdates.push(payload as Record<string, unknown>)
           if (op === 'insert' && table === 'loyalty_transactions') loyaltyTxns.push(payload as Record<string, unknown>)
+          if (op === 'insert' && table === 'order_items') {
+            const rows = (Array.isArray(payload) ? payload : [payload]) as Record<string, unknown>[]
+            insertedOrderItems.push(...rows)
+          }
           return Promise.resolve(resolve({ data: op === 'select' ? rows() : null, error: null }))
         },
       }
@@ -177,6 +184,8 @@ describe('POST /api/checkout — reward redemption', () => {
     rewardFailureCode = null
     orderRows = new Set()
     insertedOrder = null
+    insertedOrderItems = []
+    menuItems = { 'menu-9': { id: 'menu-9', name: 'Free Wings', is_available: true } }
     orderUpdates = []
     loyaltyTxns = []
     stripeSessionCreated = false
@@ -220,6 +229,60 @@ describe('POST /api/checkout — reward redemption', () => {
     expect(res.status).toBe(200)
     expect(insertedOrder!.total_amount).toBe(23)
     expect(redeemedRewardIds.has('reward-1')).toBe(true)
+    expect(insertedOrderItems).toContainEqual(
+      expect.objectContaining({
+        menu_item_id: 'menu-9',
+        item_name:    'Free Wings',
+        quantity:     1,
+        unit_price:   0,
+        notes:        'Free reward item',
+      }),
+    )
+  })
+
+  it('rejects a free_item reward whose menu item is unavailable', async () => {
+    menuItems['menu-9'].is_available = false
+    rewards['reward-1'] = makeReward({
+      discount_type: 'free_item',
+      reward_config: { menu_item_id: 'menu-9' },
+    })
+
+    const res = await POST(checkoutRequest({ reward_promotion_id: 'reward-1' }))
+
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({
+      error: 'The free item for this reward is currently unavailable',
+    })
+    expect(balance).toBe(1000)
+    expect(orderRows.size).toBe(0)
+    expect(stripeSessionCreated).toBe(false)
+  })
+
+  it('rejects a free_item reward whose menu item no longer exists', async () => {
+    rewards['reward-1'] = makeReward({
+      discount_type: 'free_item',
+      reward_config: { menu_item_id: 'deleted-item' },
+    })
+
+    const res = await POST(checkoutRequest({ reward_promotion_id: 'reward-1' }))
+
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({
+      error: 'The free item for this reward is currently unavailable',
+    })
+    expect(balance).toBe(1000)
+    expect(orderRows.size).toBe(0)
+  })
+
+  it('rejects a free_item reward with no menu item configured', async () => {
+    rewards['reward-1'] = makeReward({ discount_type: 'free_item', reward_config: {} })
+
+    const res = await POST(checkoutRequest({ reward_promotion_id: 'reward-1' }))
+
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({ error: 'Reward is misconfigured — please contact us' })
+    expect(balance).toBe(1000)
+    expect(orderRows.size).toBe(0)
   })
 
   it('rejects a reward combined with a promo code', async () => {
@@ -306,6 +369,8 @@ describe('POST /api/checkout — orders without a reward', () => {
     rewardFailureCode = null
     orderRows = new Set()
     insertedOrder = null
+    insertedOrderItems = []
+    menuItems = { 'menu-9': { id: 'menu-9', name: 'Free Wings', is_available: true } }
     orderUpdates = []
     loyaltyTxns = []
     stripeSessionCreated = false
