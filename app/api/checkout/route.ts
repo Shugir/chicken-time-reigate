@@ -6,6 +6,7 @@ import { sendOrderStatusEmail } from '@/lib/email'
 import { checkStoreStatus, BusinessHours, Holiday, DayKey } from '@/lib/store-status'
 import { validateScheduledFor } from '@/lib/utils/schedule-utils'
 import { matchDeals, isDealLive, type Deal, type MenuItemLite } from '@/lib/deal-engine'
+import { REWARD_ERRORS } from '@/lib/reward-checkout'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
@@ -22,19 +23,6 @@ interface CartItem {
   extras:        Extra[]
   removals:      string[]
   notes?:        string      // free-text only
-}
-
-// SQLSTATE codes raised by the redeem_reward RPC. Anything outside this map is
-// an unexpected DB fault, not a rejected redemption, and is surfaced as a 500.
-const REWARD_ERRORS: Record<string, string> = {
-  LY001: 'Reward not found',
-  LY002: 'Reward is no longer available',
-  LY003: 'Reward is not available yet',
-  LY004: 'Reward has expired',
-  LY005: 'Your tier does not unlock this reward',
-  LY006: 'Not enough points for this reward',
-  LY007: 'Reward already redeemed',
-  LY008: 'Reward is misconfigured — please contact us',
 }
 
 // order_items has no discount-source column, so the free line is marked with the

@@ -7,6 +7,8 @@ import type { BusinessHours, DayKey } from '@/lib/store-status'
 import { getUKNow } from '@/lib/store-status'
 import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase-browser'
+import RewardPicker from '@/components/RewardPicker'
+import { isRewardRejection, rewardDiscountAmount, type CheckoutReward } from '@/lib/reward-checkout'
 
 interface CartItem {
   menu_item_id: string
@@ -43,6 +45,7 @@ export default function CheckoutPage() {
   const [promoLoading, setPromoLoading] = useState(false)
   const [autoPromo, setAutoPromo]       = useState<{ code: string | null; discount_type: string; discount_value: number; discount_amount: number } | null>(null)
   const [dealsQuote, setDealsQuote]     = useState<{ applied: { deal_id: string; name: string; savings: number }[]; totalDiscount: number }>({ applied: [], totalDiscount: 0 })
+  const [selectedReward, setSelectedReward] = useState<CheckoutReward | null>(null)
 
   const [customerName, setCustomerName]                 = useState('')
   const [customerEmail, setCustomerEmail]               = useState('')
@@ -171,17 +174,36 @@ export default function CheckoutPage() {
   }, [cartItems])
 
   const isPickup = fulfillmentMode === 'pickup'
+  const dealsDiscount = dealsQuote.totalDiscount
+  // Mirrors the checkout API: a reward is refused outright once the deals engine
+  // has priced this cart, and /api/deals/quote runs the same matchDeals pass.
+  const dealsBlocked = dealsDiscount > 0
+  const activeReward = dealsBlocked ? null : selectedReward
+  const rewardDiscount = rewardDiscountAmount(activeReward, subtotal)
   const discount = promoApplied ? promoApplied.discount_amount : 0
   const baseDeliveryFee = zone ? Number(zone.delivery_fee) : 0
-  const freeDeliveryApplied = !isPickup && !!(
-    zone?.free_delivery_threshold &&
-    Number(zone.free_delivery_threshold) > 0 &&
-    subtotal >= Number(zone.free_delivery_threshold)
+  const freeDeliveryApplied = !isPickup && (
+    activeReward?.discount_type === 'free_delivery' || !!(
+      zone?.free_delivery_threshold &&
+      Number(zone.free_delivery_threshold) > 0 &&
+      subtotal >= Number(zone.free_delivery_threshold)
+    )
   )
   const deliveryFee = isPickup ? 0 : (freeDeliveryApplied ? 0 : baseDeliveryFee)
   const autoDiscount = autoPromo ? autoPromo.discount_amount : 0
-  const dealsDiscount = dealsQuote.totalDiscount
-  const total = subtotal - discount - autoDiscount - dealsDiscount + deliveryFee
+  const total = subtotal - discount - autoDiscount - dealsDiscount - rewardDiscount + deliveryFee
+
+  // One direction only: picking a reward wins and clears the promo code, and the
+  // promo input stays disabled while it is applied. Both can never be set at once,
+  // which is what the checkout API rejects with a 400.
+  function handleSelectReward(reward: CheckoutReward | null) {
+    setSelectedReward(reward)
+    if (reward) {
+      setPromoCode('')
+      setPromoApplied(null)
+      setPromoError(null)
+    }
+  }
 
   async function handleFindAddress() {
     const pc = postcode.trim().replace(/\s/g, '').toUpperCase()
@@ -286,6 +308,7 @@ export default function CheckoutPage() {
           postcode:            isPickup ? undefined : postcode.trim().toUpperCase(),
           promo_code:          promoApplied?.code ?? null,
           auto_promo_code:     autoPromo?.code ?? null,
+          reward_promotion_id: activeReward?.id ?? null,
           customer_name:       customerName.trim(),
           customer_phone:      customerPhone.trim(),
           customer_email:      customerEmail.trim() || null,
@@ -302,6 +325,9 @@ export default function CheckoutPage() {
       window.location.href = data.url
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Something went wrong'
+      // A reward can go stale between page load and submit (expired, tier changed,
+      // already spent). Drop it so the retry isn't guaranteed to fail the same way.
+      if (activeReward && isRewardRejection(msg)) setSelectedReward(null)
       setSubmitError(msg)
       toast.error(msg)
       setSubmitting(false)
@@ -615,18 +641,26 @@ export default function CheckoutPage() {
                 if (promoError) setPromoError(null)
               }}
               onKeyDown={(e) => { if (e.key === 'Enter') handleApplyPromo() }}
+              disabled={!!activeReward}
               placeholder="e.g. GRANDOPENING"
               maxLength={30}
-              className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm font-mono font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red uppercase"
+              className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm font-mono font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red uppercase disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
             />
             <button
               onClick={handleApplyPromo}
-              disabled={!promoCode.trim() || promoLoading}
+              disabled={!promoCode.trim() || promoLoading || !!activeReward}
               className="px-5 py-3 bg-brand-dark hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition-colors"
             >
               {promoLoading ? <Loader2 size={14} className="animate-spin" /> : 'Apply'}
             </button>
           </div>
+
+          {activeReward && (
+            <div className="flex items-start gap-2 text-sm text-gray-500 bg-gray-50 rounded-xl px-3 py-2.5">
+              <AlertCircle size={14} className="mt-0.5 shrink-0 text-gray-400" />
+              Remove your reward to use a promo code instead.
+            </div>
+          )}
 
           {promoError && (
             <div className="flex items-start gap-2 text-sm text-red-600 bg-red-50 rounded-xl px-3 py-2.5">
@@ -647,6 +681,14 @@ export default function CheckoutPage() {
           )}
         </div>
 
+        {/* Rewards */}
+        <RewardPicker
+          subtotal={subtotal}
+          dealsBlocked={dealsBlocked}
+          selectedRewardId={activeReward?.id ?? null}
+          onSelect={handleSelectReward}
+        />
+
         {/* Totals */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-2">
           <div className="flex justify-between text-sm text-gray-600">
@@ -662,6 +704,16 @@ export default function CheckoutPage() {
             <div className="flex justify-between text-sm text-sky-600">
               <span>⚡ Flash Deal {autoPromo.code ? `(${autoPromo.code})` : ''}</span>
               <span>-£{autoPromo.discount_amount.toFixed(2)}</span>
+            </div>
+          )}
+          {activeReward && (
+            <div className="flex justify-between text-sm text-amber-600">
+              <span>🎁 {activeReward.title} ({activeReward.points_cost.toLocaleString()} pts)</span>
+              <span>
+                {rewardDiscount > 0
+                  ? `-£${rewardDiscount.toFixed(2)}`
+                  : activeReward.benefit}
+              </span>
             </div>
           )}
           {dealsQuote.applied.map((d, i) => (
