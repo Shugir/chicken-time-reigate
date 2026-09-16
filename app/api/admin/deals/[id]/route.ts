@@ -33,6 +33,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
     update.config = body.config
   }
+  if (body.custom_label !== undefined) update.custom_label = body.custom_label?.trim() || null
+  if (body.available_from !== undefined) update.available_from = body.available_from || null
+  if (body.available_until !== undefined) update.available_until = body.available_until || null
+  if (body.image_url !== undefined) update.image_url = body.image_url || null
   update.updated_at = new Date().toISOString()
 
   const { data, error } = await supabaseAdmin

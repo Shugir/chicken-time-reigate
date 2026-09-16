@@ -4,7 +4,7 @@ import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export const dynamic = 'force-dynamic'
 
-const VALID_TYPES = ['bogo', 'bundle', 'fixed_meal', 'order_discount']
+const VALID_TYPES = ['bogo', 'bundle', 'order_discount']
 
 const isPlainObject = (v: unknown): v is Record<string, unknown> =>
   typeof v === 'object' && v !== null && !Array.isArray(v)
@@ -34,19 +34,11 @@ export function validateConfig(type: string, config: unknown): string | null {
       const group = c.groups[i]
       if (!isPlainObject(group)) return `bundle group ${i} is not an object`
       if (typeof group.label !== 'string' || !group.label.trim()) return `bundle group ${i} is missing a label`
-      if (typeof group.category !== 'string' || !group.category.trim()) return `bundle group ${i} is missing a category`
-      if (typeof group.pick_qty !== 'number' || group.pick_qty <= 0) return `bundle group ${i} pick_qty must be a positive number`
-    }
-  }
-
-  if (type === 'fixed_meal') {
-    if (!Array.isArray(c.items) || c.items.length === 0) return 'fixed_meal requires a non-empty items array'
-    if (typeof c.price !== 'number' || c.price < 0) return 'fixed_meal requires a non-negative price'
-    for (let i = 0; i < c.items.length; i++) {
-      const item = c.items[i]
-      if (!isPlainObject(item)) return `fixed_meal item ${i} is not an object`
-      if (typeof item.item_id !== 'string' || !item.item_id.trim()) return `fixed_meal item ${i} is missing an item_id`
-      if (typeof item.qty !== 'number' || item.qty <= 0) return `fixed_meal item ${i} qty must be a positive number`
+      if (typeof group.min_qty !== 'number' || group.min_qty < 0) return `bundle group ${i} min_qty must be a non-negative number`
+      if (typeof group.max_qty !== 'number' || group.max_qty < group.min_qty) return `bundle group ${i} max_qty must be a number >= min_qty`
+      if (!Array.isArray(group.item_ids) || group.item_ids.length === 0 || !group.item_ids.every((id: unknown) => typeof id === 'string')) {
+        return `bundle group ${i} requires a non-empty item_ids array of strings`
+      }
     }
   }
 
@@ -83,7 +75,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  const { type, name, config, is_active = true } = await request.json()
+  const { type, name, config, is_active = true, custom_label, available_from, available_until, image_url } = await request.json()
 
   if (!VALID_TYPES.includes(type)) {
     return NextResponse.json({ error: `type must be one of ${VALID_TYPES.join(', ')}` }, { status: 400 })
@@ -98,7 +90,13 @@ export async function POST(request: NextRequest) {
 
   const { data, error } = await supabaseAdmin
     .from('deals')
-    .insert({ type, name: name.trim(), config, is_active })
+    .insert({
+      type, name: name.trim(), config, is_active,
+      custom_label: custom_label?.trim() || null,
+      available_from: available_from || null,
+      available_until: available_until || null,
+      image_url: image_url || null,
+    })
     .select()
     .single()
 
