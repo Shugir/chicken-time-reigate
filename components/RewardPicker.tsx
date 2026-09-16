@@ -94,7 +94,7 @@ export default function RewardPicker({ subtotal, dealsBlocked, selectedRewardId,
 
           {selectedRewardId && (
             <p className="text-xs text-gray-500">
-              Your points are only spent once payment goes through. A reward can&apos;t be combined with a promo code.
+              Your points are spent when you continue to payment. A reward can&apos;t be combined with a promo code.
             </p>
           )}
         </>
