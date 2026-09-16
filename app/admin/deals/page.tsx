@@ -306,8 +306,8 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
   )
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto p-6">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+      <div className="bg-zinc-900 w-full h-full overflow-y-auto p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-white">{TYPE_LABELS[type]}</h2>
           <button onClick={onCancel} className="text-zinc-500 hover:text-white"><X className="w-5 h-5" /></button>
