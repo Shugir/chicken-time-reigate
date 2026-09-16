@@ -347,6 +347,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to save order items' }, { status: 500 })
     }
 
+    // The free line goes in before redeem_reward charges for it. Deleting the
+    // order is only a safe cleanup while nothing has been spent: unlocked_rewards
+    // and loyalty_transactions both hold order_id ON DELETE SET NULL, so a delete
+    // after the charge leaves the points gone and the reward consumed with no
+    // order to show for either.
+    if (rewardFreeItem) {
+      const { error: freeItemError } = await supabaseAdmin.from('order_items').insert({
+        order_id:     order.id,
+        menu_item_id: rewardFreeItem.id,
+        item_name:    rewardFreeItem.name,
+        quantity:     1,
+        unit_price:   0,
+        notes:        FREE_ITEM_NOTE,
+      })
+
+      if (freeItemError) {
+        console.error('Free reward item insert error:', freeItemError)
+        await supabaseAdmin.from('orders').delete().eq('id', order.id)
+        return NextResponse.json({ error: 'Failed to add the free reward item' }, { status: 500 })
+      }
+    }
+
     // Charge the reward after the order exists so one RPC transaction links the
     // point debit, the unlocked_rewards row and the order together — there is no
     // window where points are spent against an order id that never materialises.
@@ -373,31 +395,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: message }, { status: 400 })
       }
 
-      const reward = redeemed as {
-        discount_type: string
-        points_spent:  number
-      }
-      rewardPointsSpent = reward.points_spent
-      if (reward.discount_type === 'free_item') {
-        // rewardFreeItem is only null here if an admin retyped the promo between
-        // the pre-flight read and the RPC — as much a failure as a bad insert.
-        const { error: freeItemError } = rewardFreeItem
-          ? await supabaseAdmin.from('order_items').insert({
-              order_id:     order.id,
-              menu_item_id: rewardFreeItem.id,
-              item_name:    rewardFreeItem.name,
-              quantity:     1,
-              unit_price:   0,
-              notes:        FREE_ITEM_NOTE,
-            })
-          : { error: new Error('reward became free_item after the pre-flight read') }
-
-        if (freeItemError) {
-          console.error('Free reward item insert error:', freeItemError)
-          await supabaseAdmin.from('orders').delete().eq('id', order.id)
-          return NextResponse.json({ error: 'Failed to add the free reward item' }, { status: 500 })
-        }
-      }
+      rewardPointsSpent = (redeemed as { points_spent: number }).points_spent
     }
 
     // Loyalty: earn only. A catalog reward's point debit and its

@@ -22,6 +22,7 @@ let orderRows: Set<string>
 let insertedOrder: Record<string, unknown> | null = null
 let insertedOrderItems: Record<string, unknown>[]
 let menuItems: Record<string, { id: string; name: string; is_available: boolean }> = {}
+let freeItemInsertFails = false
 let menuItemRows: Record<string, unknown>[]
 let dealRows: Record<string, unknown>[]
 let orderUpdates: Record<string, unknown>[]
@@ -95,13 +96,16 @@ vi.mock('@/lib/supabase-admin', () => ({
         delete: () => { op = 'delete'; return builder },
         single: async () => one(),
         maybeSingle: async () => one(),
-        then: (resolve: (r: { data: unknown; error: null }) => unknown) => {
+        then: (resolve: (r: { data: unknown; error: unknown }) => unknown) => {
           if (op === 'delete' && table === 'orders') orderRows.delete(String(filters.id))
           if (op === 'update' && table === 'orders') orderUpdates.push(payload as Record<string, unknown>)
           if (op === 'insert' && table === 'loyalty_transactions') loyaltyTxns.push(payload as Record<string, unknown>)
           if (op === 'insert' && table === 'order_items') {
-            const rows = (Array.isArray(payload) ? payload : [payload]) as Record<string, unknown>[]
-            insertedOrderItems.push(...rows)
+            const inserted = (Array.isArray(payload) ? payload : [payload]) as Record<string, unknown>[]
+            if (freeItemInsertFails && inserted.some((r) => r.notes === 'Free reward item')) {
+              return Promise.resolve(resolve({ data: null, error: { message: 'insert failed' } }))
+            }
+            insertedOrderItems.push(...inserted)
           }
           return Promise.resolve(resolve({ data: op === 'select' ? rows() : null, error: null }))
         },
@@ -188,6 +192,7 @@ function resetFixtures() {
   insertedOrder = null
   insertedOrderItems = []
   menuItems = { 'menu-9': { id: 'menu-9', name: 'Free Wings', is_available: true } }
+  freeItemInsertFails = false
   menuItemRows = []
   dealRows = []
   orderUpdates = []
@@ -245,6 +250,27 @@ describe('POST /api/checkout — reward redemption', () => {
         notes:        'Free reward item',
       }),
     )
+  })
+
+  // Deleting the order is only a safe cleanup while nothing has been charged:
+  // unlocked_rewards.order_id and loyalty_transactions.order_id are ON DELETE SET
+  // NULL, so a delete after redeem_reward leaves the points spent and the reward
+  // consumed with no order to show for it.
+  it('spends no points when the free item line fails to insert', async () => {
+    rewards['reward-1'] = makeReward({
+      discount_type: 'free_item',
+      reward_config: { menu_item_id: 'menu-9' },
+    })
+    freeItemInsertFails = true
+
+    const res = await POST(checkoutRequest({ reward_promotion_id: 'reward-1' }))
+
+    expect(res.status).toBe(500)
+    expect(await res.json()).toEqual({ error: 'Failed to add the free reward item' })
+    expect(balance).toBe(1000)
+    expect(redeemedRewardIds.size).toBe(0)
+    expect(orderRows.size).toBe(0)
+    expect(stripeSessionCreated).toBe(false)
   })
 
   it('rejects a free_item reward whose menu item is unavailable', async () => {
