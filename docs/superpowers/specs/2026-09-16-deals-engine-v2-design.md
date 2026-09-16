@@ -155,13 +155,28 @@ patterns already in `ItemCustomizerDrawer` (radio-style pills for choices,
 slot) rather than the reference's plain checkbox grid — keeps it consistent
 with the rest of the ordering flow.
 
-- Props: `{ deal: Deal, itemsById: Map<string, MenuItemLite & {name, image_url}>, onComplete: (picks: {item_id: string; qty: number}[]) => void }`.
+- Props: `{ deal: Deal, itemsById: Map<string, MenuItemLite & {name, image_url, extras: {name, price}[] | null, removals: string[] | null, additions: string[] | null}>, onComplete: (picks: {item_id: string; qty: number; removals: string[]; additions: string[]; extras: {name, price}[]}[]) => void }`.
+  (`extras`/`removals`/`additions` are the same fields `menu_items` and
+  `ItemCustomizerDrawer` already use — no new modifier concept, just carrying
+  the existing one through the slot picker.)
 - Per slot: shows picked-count vs `min_qty`–`max_qty`, pill grid of that
   slot's `item_ids`, steppers if `max_qty > 1` for a single item allows more
   than 1 of the same pick (matches ChickenTime's existing extras UX).
+- If the picked item has any non-empty `extras`/`removals`/`additions`,
+  picking its pill opens `ItemCustomizerDrawer` for that single item (same
+  component used everywhere else) instead of incrementing the slot count
+  directly — confirming the drawer adds that configured line to the slot.
+  Items with no customization options (e.g. a can of drink) just toggle/step
+  in place, no drawer. Editing an already-picked customized item re-opens
+  the drawer on its current selection.
 - Submit enabled once every slot's picked count is within `[min_qty, max_qty]`.
-- `onComplete` payload is plain `{item_id, qty}[]` — caller pushes each as a
-  normal cart line via the existing add-to-cart path.
+- `onComplete` payload is `{item_id, qty, removals, additions, extras}[]` —
+  caller pushes each straight through the existing `handleAddToOrder` cart
+  path (`app/order/page.tsx`), which already accepts exactly this shape.
+  Deal savings math is untouched: `matchDeals` prices bundles off
+  `menu_items.price` only, so chosen extras still cost extra on top of the
+  bundle price, same as they would on a standalone add-to-cart — no engine
+  change needed here.
 
 ### Product card (order page)
 
@@ -216,12 +231,17 @@ with the rest of the ordering flow.
   before/during/after a scheduling window and the null (always-live) case.
   Delete `fixed_meal` fixtures/cases.
 - New `DealSlotPicker` test: completion gating respects per-slot
-  `[min_qty, max_qty]`, `onComplete` payload shape.
+  `[min_qty, max_qty]`, `onComplete` payload shape, and that picking an item
+  with non-empty `extras`/`removals`/`additions` routes through
+  `ItemCustomizerDrawer` before it counts toward the slot (vs. a plain item
+  incrementing directly).
 - Manual pass (dev server): admin slot builder create/edit/delete a bundle
   with 2+ slots and item search; product card badge + dual buttons on a
-  bundled item vs single button on a BOGO-only item; `/deals` gallery →
-  build → cart shows matched discount at quote; scheduled deal outside its
-  window doesn't show anywhere.
+  bundled item vs single button on a BOGO-only item; picking a customizable
+  item inside a slot (e.g. a chicken piece with sauce/removal options) opens
+  its customizer and the choice survives into the cart line; `/deals`
+  gallery → build → cart shows matched discount at quote; scheduled deal
+  outside its window doesn't show anywhere.
 
 ## Migration risk
 
