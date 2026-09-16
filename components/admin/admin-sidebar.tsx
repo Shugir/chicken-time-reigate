@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, UtensilsCrossed, Settings, MapPin, Tag,
-  Truck, Shield, ExternalLink, Layers, TrendingUp, Users, Star, Radio, ReceiptText,
+  Truck, Shield, ExternalLink, Layers, TrendingUp, Users, Star, Trophy, Radio, ReceiptText,
   Menu, X,
 } from 'lucide-react'
 import SignOutButton from './sign-out-button'
@@ -44,6 +44,7 @@ const NAV_GROUPS = [
       { id: 'staff',      label: 'User Control',    icon: Shield,          href: '/admin/staff',     permission: 'UserControl'   },
       { id: 'users',      label: 'Auth Users',      icon: Users,           href: '/admin/users',     permission: 'UserControl'   },
       { id: 'loyalty',    label: 'Loyalty Points',  icon: Star,            href: '/admin/loyalty',   permission: 'Loyalty'       },
+      { id: 'tiers',      label: 'Loyalty Tiers',   icon: Trophy,          href: '/admin/loyalty/tiers', permission: 'Loyalty'  },
       { id: 'settings',   label: 'Store Settings',  icon: Settings,        href: '/admin/settings',  permission: 'StoreSettings' },
     ],
   },
@@ -55,7 +56,11 @@ export default function AdminSidebar() {
   const [open, setOpen] = useState(false)
 
   function isActive(href: string) {
-    return href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
+    // '/admin' and '/admin/loyalty' are prefixes of other nav entries, so they
+    // only light up on an exact match.
+    return href === '/admin' || href === '/admin/loyalty'
+      ? pathname === href
+      : pathname.startsWith(href)
   }
 
   return (

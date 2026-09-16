@@ -4,19 +4,36 @@ import { useState, useEffect } from 'react'
 import { Tag, Plus, X, Loader2, Check, Pencil, Trash2, Search, SlidersHorizontal } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 import { AdminDataTable, type Column } from '@/components/AdminDataTable'
+import {
+  buildPromoPayload, validatePromoPayload, usesDiscountValue, type DiscountType,
+} from '@/lib/promo-form'
 
 interface Promotion {
   id: string
   code: string | null
   promo_type: 'VOUCHER' | 'REWARD' | 'AUTO_APPLY'
-  discount_type: 'flat' | 'percentage'
+  discount_type: DiscountType
   discount_value: number
   min_order_amount: number
   points_cost: number | null
+  min_tier_id: string | null
+  reward_config: { menu_item_id?: string } | null
   start_date: string | null
   end_date: string | null
   is_active: boolean
   created_at: string
+}
+
+interface Tier {
+  id: string
+  name: string
+  sort_order: number
+}
+
+interface MenuItemOption {
+  id: string
+  name: string
+  category: string
 }
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
@@ -34,8 +51,10 @@ function getPromoStatus(p: Promotion): 'ACTIVE' | 'SCHEDULED' | 'EXPIRED' {
   return 'ACTIVE'
 }
 
-function PromoModal({ editing, onClose, onSave }: {
+function PromoModal({ editing, tiers, menuItems, onClose, onSave }: {
   editing: Promotion | null
+  tiers: Tier[]
+  menuItems: MenuItemOption[]
   onClose: () => void
   onSave: (p: Promotion) => void
 }) {
@@ -46,34 +65,36 @@ function PromoModal({ editing, onClose, onSave }: {
   const [pointsCost, setPointsCost] = useState(
     editing?.points_cost != null ? String(editing.points_cost) : ''
   )
-  const [type,     setType]     = useState<'flat' | 'percentage'>(editing?.discount_type ?? 'flat')
+  const [type,     setType]     = useState<DiscountType>(editing?.discount_type ?? 'flat')
   const [value,    setValue]    = useState(editing ? String(editing.discount_value) : '')
   const [minOrder, setMinOrder] = useState(editing ? String(editing.min_order_amount) : '0')
+  const [minTierId, setMinTierId] = useState(editing?.min_tier_id ?? '')
+  const [menuItemId, setMenuItemId] = useState(editing?.reward_config?.menu_item_id ?? '')
   const [startDate, setStartDate] = useState(
     editing?.start_date ? editing.start_date.slice(0, 16) : ''
   )
   const [endDate, setEndDate] = useState(
     editing?.end_date ? editing.end_date.slice(0, 16) : ''
   )
+  const [itemSearch, setItemSearch] = useState('')
   const [saving,   setSaving]   = useState(false)
   const [error,    setError]    = useState<string | null>(null)
+
+  const filteredItems = itemSearch
+    ? menuItems.filter((m) => m.name.toLowerCase().includes(itemSearch.toLowerCase()))
+    : menuItems
+  const selectedItem = menuItems.find((m) => m.id === menuItemId)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
-    const val = parseFloat(value)
-    if (isNaN(val) || val <= 0) return setError('Discount value must be positive.')
-    if (type === 'percentage' && val > 100) return setError('Percentage cannot exceed 100.')
-    const minNum = parseFloat(minOrder)
-    if (isNaN(minNum) || minNum < 0) return setError('Invalid minimum order amount.')
-    if (promoType === 'REWARD') {
-      const pts = parseInt(pointsCost)
-      if (isNaN(pts) || pts <= 0) return setError('Points cost must be a positive integer for REWARD type.')
-    }
-    if (promoType === 'VOUCHER' && !code.trim()) return setError('Code is required for VOUCHER type.')
-    if (startDate && endDate && new Date(endDate) <= new Date(startDate)) {
-      return setError('End date must be after start date.')
-    }
+
+    const payload = buildPromoPayload({
+      promoType, code, discountType: type, value, minOrder,
+      pointsCost, minTierId, menuItemId, startDate, endDate,
+    })
+    const validationError = validatePromoPayload(payload)
+    if (validationError) return setError(validationError)
 
     setSaving(true)
     try {
@@ -82,16 +103,7 @@ function PromoModal({ editing, onClose, onSave }: {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          code: promoType === 'VOUCHER' ? code.trim().toUpperCase() : null,
-          promo_type: promoType,
-          discount_type: type,
-          discount_value: val,
-          min_order_amount: minNum,
-          points_cost: promoType === 'REWARD' ? parseInt(pointsCost) : null,
-          start_date: startDate || null,
-          end_date:   endDate   || null,
-        }),
+        body: JSON.stringify(payload),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Save failed')
@@ -170,20 +182,59 @@ function PromoModal({ editing, onClose, onSave }: {
             </div>
           )}
 
+          {promoType === 'REWARD' && (
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Minimum Tier</label>
+              <select value={minTierId} onChange={(e) => setMinTierId(e.target.value)} className={`w-full ${inputCls}`}>
+                <option value="">No minimum — all tiers</option>
+                {tiers.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+              </select>
+              <p className="text-[11px] text-zinc-600 mt-1">Only customers at or above this tier can redeem</p>
+            </div>
+          )}
+
           <div>
             <label className="block text-xs font-medium text-zinc-400 mb-1.5">Discount Type</label>
-            <select value={type} onChange={(e) => setType(e.target.value as 'flat' | 'percentage')} className={`w-full ${inputCls}`}>
+            <select value={type} onChange={(e) => setType(e.target.value as DiscountType)} className={`w-full ${inputCls}`}>
               <option value="flat">Flat amount (£ off subtotal)</option>
               <option value="percentage">Percentage (% off subtotal)</option>
+              <option value="free_delivery">Free delivery</option>
+              <option value="free_item">Free item</option>
             </select>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+
+          {type === 'free_item' && (
             <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Value ({type === 'flat' ? '£' : '%'})</label>
-              <input type="number" step={type === 'flat' ? '0.01' : '1'} min="0" max={type === 'percentage' ? '100' : undefined}
-                value={value} onChange={(e) => setValue(e.target.value)} placeholder={type === 'flat' ? '5.00' : '10'}
-                className={`w-full [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`} />
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Free Item <span className="text-red-400">*</span></label>
+              <input value={itemSearch} onChange={(e) => setItemSearch(e.target.value)} placeholder="Find item…"
+                className={`w-full mb-2 ${inputCls}`} />
+              <div className="max-h-40 overflow-y-auto border border-zinc-700 rounded-lg divide-y divide-zinc-800">
+                {filteredItems.map((m) => (
+                  <button key={m.id} type="button" onClick={() => setMenuItemId(m.id)}
+                    className={`w-full flex items-center justify-between gap-2 text-left px-3 py-2 text-sm transition-colors ${
+                      menuItemId === m.id ? 'bg-brand-red/15 text-white' : 'text-zinc-300 hover:bg-zinc-800'
+                    }`}>
+                    <span className="truncate">{m.name}</span>
+                    <span className="text-[10px] uppercase tracking-wide text-zinc-600 shrink-0">{m.category}</span>
+                  </button>
+                ))}
+                {filteredItems.length === 0 && <p className="px-3 py-3 text-xs text-zinc-600">No items match.</p>}
+              </div>
+              <p className="text-[11px] text-zinc-600 mt-1">
+                {selectedItem ? `Selected: ${selectedItem.name}` : 'Pick the item this reward gives away'}
+              </p>
             </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-3">
+            {usesDiscountValue(type) && (
+              <div>
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Value ({type === 'flat' ? '£' : '%'})</label>
+                <input type="number" step={type === 'flat' ? '0.01' : '1'} min="0" max={type === 'percentage' ? '100' : undefined}
+                  value={value} onChange={(e) => setValue(e.target.value)} placeholder={type === 'flat' ? '5.00' : '10'}
+                  className={`w-full [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`} />
+              </div>
+            )}
             <div>
               <label className="block text-xs font-medium text-zinc-400 mb-1.5">Min Order (£)</label>
               <input type="number" step="0.01" min="0" value={minOrder} onChange={(e) => setMinOrder(e.target.value)}
@@ -250,6 +301,8 @@ function DeleteConfirm({ promo, onClose, onConfirm }: { promo: Promotion; onClos
 
 export default function PromotionsPage() {
   const [promos, setPromos]             = useState<Promotion[]>([])
+  const [tiers, setTiers]               = useState<Tier[]>([])
+  const [menuItems, setMenuItems]       = useState<MenuItemOption[]>([])
   const [loading, setLoading]           = useState(true)
   const [showModal, setShowModal]       = useState(false)
   const [editing, setEditing]           = useState<Promotion | null>(null)
@@ -268,7 +321,13 @@ export default function PromotionsPage() {
     setLoading(false)
   }
 
-  useEffect(() => { fetchPromos() }, [])
+  useEffect(() => {
+    fetchPromos()
+    fetch('/api/admin/loyalty/tiers').then((r) => r.ok ? r.json() : []).then(setTiers).catch(() => {})
+    fetch('/api/admin/menu-items').then((r) => r.ok ? r.json() : []).then(setMenuItems).catch(() => {})
+  }, [])
+
+  const itemNames = Object.fromEntries(menuItems.map((m) => [m.id, m.name]))
 
   // Client-side filtering
   const filteredPromos = promos.filter((p) => {
@@ -359,18 +418,25 @@ export default function PromotionsPage() {
     {
       key: 'discount',
       label: 'Discount',
-      render: (p) => (
-        <div className="flex items-center gap-2">
-          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-            p.discount_type === 'flat' ? 'bg-emerald-500/15 text-emerald-400' : 'bg-violet-500/15 text-violet-400'
-          }`}>
-            {p.discount_type === 'flat' ? '£ flat' : '% off'}
-          </span>
-          <span className="text-white font-semibold">
-            {p.discount_type === 'flat' ? `£${Number(p.discount_value).toFixed(2)}` : `${Number(p.discount_value)}%`}
-          </span>
-        </div>
-      ),
+      render: (p) => {
+        const cfg = {
+          flat:          { badge: '£ flat',       cls: 'bg-emerald-500/15 text-emerald-400' },
+          percentage:    { badge: '% off',        cls: 'bg-violet-500/15 text-violet-400'   },
+          free_delivery: { badge: '🚚 delivery',  cls: 'bg-sky-500/15 text-sky-400'         },
+          free_item:     { badge: '🎁 item',      cls: 'bg-amber-500/15 text-amber-400'     },
+        }[p.discount_type]
+        return (
+          <div className="flex items-center gap-2">
+            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${cfg.cls}`}>{cfg.badge}</span>
+            <span className="text-white font-semibold">
+              {p.discount_type === 'flat'          ? `£${Number(p.discount_value).toFixed(2)}`
+                : p.discount_type === 'percentage' ? `${Number(p.discount_value)}%`
+                : p.discount_type === 'free_delivery' ? 'Free delivery'
+                : itemNames[p.reward_config?.menu_item_id ?? ''] ?? 'Free item'}
+            </span>
+          </div>
+        )
+      },
     },
     {
       key: 'min',
@@ -564,7 +630,9 @@ export default function PromotionsPage() {
         </div>
       </main>
 
-      {showModal && <PromoModal editing={editing} onClose={closeModal} onSave={handleSave} />}
+      {showModal && (
+        <PromoModal editing={editing} tiers={tiers} menuItems={menuItems} onClose={closeModal} onSave={handleSave} />
+      )}
       {deleteTarget && (
         <DeleteConfirm promo={deleteTarget} onClose={() => setDeleteTarget(null)} onConfirm={handleDelete} />
       )}

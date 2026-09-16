@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
+import { validatePromoPayload, type PromoPayload } from '@/lib/promo-form'
 
 export async function GET(request: NextRequest) {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'Promotions')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const q = request.nextUrl.searchParams.get('q')?.trim() ?? ''
 
   let dbQuery = supabaseAdmin
@@ -18,32 +25,32 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { code, promo_type, discount_type, discount_value, min_order_amount, points_cost, start_date, end_date, is_active } = await request.json()
-
-  if (promo_type === 'VOUCHER' && !code?.trim()) {
-    return NextResponse.json({ error: 'Code is required for VOUCHER type' }, { status: 400 })
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'Promotions')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
-  if (!['flat', 'percentage'].includes(discount_type))
-    return NextResponse.json({ error: 'discount_type must be flat or percentage' }, { status: 400 })
-  const val = parseFloat(discount_value)
-  if (isNaN(val) || val <= 0)
-    return NextResponse.json({ error: 'discount_value must be a positive number' }, { status: 400 })
-  if (discount_type === 'percentage' && val > 100)
-    return NextResponse.json({ error: 'Percentage discount cannot exceed 100' }, { status: 400 })
+
+  const body = await request.json()
+
+  const payload: PromoPayload = {
+    code:             body.code?.trim().toUpperCase() || null,
+    promo_type:       body.promo_type ?? 'VOUCHER',
+    discount_type:    body.discount_type,
+    discount_value:   Number(body.discount_value),
+    min_order_amount: Number(body.min_order_amount ?? 0),
+    points_cost:      body.points_cost ?? null,
+    min_tier_id:      body.min_tier_id ?? null,
+    reward_config:    body.reward_config ?? {},
+    start_date:       body.start_date ?? null,
+    end_date:         body.end_date ?? null,
+  }
+
+  const validationError = validatePromoPayload(payload)
+  if (validationError) return NextResponse.json({ error: validationError }, { status: 400 })
 
   const { data, error } = await supabaseAdmin
     .from('promotions')
-    .insert({
-      code:             code?.trim().toUpperCase() ?? null,
-      promo_type:       promo_type       ?? 'VOUCHER',
-      points_cost:      points_cost      ?? null,
-      discount_type,
-      discount_value:   val,
-      min_order_amount: parseFloat(min_order_amount ?? '0') || 0,
-      is_active:        is_active ?? true,
-      start_date:       start_date ?? null,
-      end_date:         end_date   ?? null,
-    })
+    .insert({ ...payload, is_active: body.is_active ?? true })
     .select()
     .single()
 
