@@ -57,8 +57,6 @@ export default function CheckoutPage() {
   const [addressAutoFilled, setAddressAutoFilled]       = useState(false)
   const [confirmDetails, setConfirmDetails]             = useState(false)
   const [confirmDetailsError, setConfirmDetailsError]   = useState(false)
-  const [loyaltyBalance, setLoyaltyBalance]             = useState(0)
-  const [pointsToSpend, setPointsToSpend]               = useState(0)
   const [fulfillmentMode, setFulfillmentMode]           = useState<'delivery' | 'pickup'>('delivery')
   const [scheduleMode, setScheduleMode]                 = useState<'asap' | 'scheduled'>('asap')
   const [scheduledFor, setScheduledFor]                 = useState<string>('')
@@ -96,9 +94,6 @@ export default function CheckoutPage() {
         if (data.address)   setAddressLine1(data.address)
       }
       if (session.user.email) setCustomerEmail(session.user.email)
-      fetch('/api/loyalty/balance').then(async (r) => {
-        if (r.ok) { const d = await r.json(); setLoyaltyBalance(d.balance ?? 0) }
-      })
     })
   }, [])
 
@@ -184,11 +179,9 @@ export default function CheckoutPage() {
     subtotal >= Number(zone.free_delivery_threshold)
   )
   const deliveryFee = isPickup ? 0 : (freeDeliveryApplied ? 0 : baseDeliveryFee)
-  const maxRedeemPoints = Math.floor(Math.min(loyaltyBalance, Math.floor(subtotal * 100)) / 100) * 100
-  const loyaltyDiscount = pointsToSpend / 100
   const autoDiscount = autoPromo ? autoPromo.discount_amount : 0
   const dealsDiscount = dealsQuote.totalDiscount
-  const total = subtotal - discount - loyaltyDiscount - autoDiscount - dealsDiscount + deliveryFee
+  const total = subtotal - discount - autoDiscount - dealsDiscount + deliveryFee
 
   async function handleFindAddress() {
     const pc = postcode.trim().replace(/\s/g, '').toUpperCase()
@@ -296,7 +289,6 @@ export default function CheckoutPage() {
           customer_name:       customerName.trim(),
           customer_phone:      customerPhone.trim(),
           customer_email:      customerEmail.trim() || null,
-          redeem_points:       pointsToSpend >= 100 ? pointsToSpend : null,
           delivery_address:    fullAddress,
           delivery_postcode:   isPickup ? null : postcode.trim().toUpperCase(),
           customer_notes:      customerNotes.trim() || null,
@@ -655,40 +647,6 @@ export default function CheckoutPage() {
           )}
         </div>
 
-        {/* Loyalty Points */}
-        {loyaltyBalance >= 100 && maxRedeemPoints >= 100 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-semibold text-gray-900">🍗 Loyalty Points</p>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  Balance: <span className="font-semibold text-amber-600">{loyaltyBalance.toLocaleString()} pts</span>
-                  {' '}· 100 pts = £1
-                </p>
-              </div>
-              {pointsToSpend > 0 && (
-                <span className="text-sm font-bold text-green-600">-£{loyaltyDiscount.toFixed(2)}</span>
-              )}
-            </div>
-            <input
-              type="range"
-              min={0}
-              max={maxRedeemPoints}
-              step={100}
-              value={pointsToSpend}
-              onChange={(e) => setPointsToSpend(Number(e.target.value))}
-              className="w-full accent-brand-red cursor-pointer"
-            />
-            <div className="flex justify-between text-xs text-gray-400">
-              <span>0 pts</span>
-              <span className="font-medium text-gray-500">
-                {pointsToSpend > 0 ? `Using ${pointsToSpend.toLocaleString()} pts` : 'Drag to redeem'}
-              </span>
-              <span>{maxRedeemPoints.toLocaleString()} pts</span>
-            </div>
-          </div>
-        )}
-
         {/* Totals */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-2">
           <div className="flex justify-between text-sm text-gray-600">
@@ -712,12 +670,6 @@ export default function CheckoutPage() {
               <span>-£{d.savings.toFixed(2)}</span>
             </div>
           ))}
-          {loyaltyDiscount > 0 && (
-            <div className="flex justify-between text-sm text-amber-600">
-              <span>Loyalty Points ({pointsToSpend.toLocaleString()} pts)</span>
-              <span>-£{loyaltyDiscount.toFixed(2)}</span>
-            </div>
-          )}
           <div className="flex justify-between text-sm text-gray-600">
             <span>{isPickup ? 'Collection' : 'Delivery'}</span>
             <span className="flex items-center gap-1.5">

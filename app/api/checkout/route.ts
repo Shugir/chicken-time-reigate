@@ -60,7 +60,6 @@ export async function POST(request: NextRequest) {
         delivery_fee?: number
         postcode?: string
         promo_code?: string | null
-        redeem_points?: number | null
         reward_promotion_id?: string | null
         customer_name?: string
         customer_phone?: string
@@ -78,7 +77,7 @@ export async function POST(request: NextRequest) {
         .single(),
     ])
 
-    const { items, delivery_fee = 0, postcode, promo_code, redeem_points, reward_promotion_id, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type, scheduled_for } = bodyRaw
+    const { items, delivery_fee = 0, postcode, promo_code, reward_promotion_id, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type, scheduled_for } = bodyRaw
 
     // Store status guard
     if (storeSettings) {
@@ -209,12 +208,6 @@ export async function POST(request: NextRequest) {
           { status: 400 },
         )
       }
-      if (redeem_points) {
-        return NextResponse.json(
-          { error: 'A reward and a points discount cannot be used on the same order' },
-          { status: 400 },
-        )
-      }
       if (dealsDiscountValue > 0) {
         return NextResponse.json(
           { error: 'A bundle deal already applies to this cart — remove the reward or change your items' },
@@ -272,40 +265,19 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Loyalty points redemption. This read is a fast-fail only, so an
-    // underfunded request doesn't leave a junk pending order behind — the
-    // authoritative guard is the atomic debit further down, after the order row
-    // exists and there is nothing left that can reject the request.
-    let pointsDiscountValue = 0
-    const pointsToRedeem = redeem_points && userId && redeem_points >= 100
-      ? Math.floor(redeem_points / 100) * 100
-      : 0
-    if (pointsToRedeem > 0) {
-      const { data: profile } = await supabaseAdmin
-        .from('profiles')
-        .select('loyalty_points')
-        .eq('id', userId!)
-        .single()
-      const balance = profile?.loyalty_points ?? 0
-      if (balance < pointsToRedeem) {
-        return NextResponse.json({ error: 'Insufficient loyalty points' }, { status: 400 })
-      }
-      pointsDiscountValue = pointsToRedeem / 100
-    }
-
-    const totalDiscountForStripe = discountAmount + pointsDiscountValue + dealsDiscountValue + rewardDiscountValue
+    const totalDiscountForStripe = discountAmount + dealsDiscountValue + rewardDiscountValue
     let stripeCouponId: string | undefined
     if (totalDiscountForStripe > 0) {
       const coupon = await stripe.coupons.create({
         amount_off: Math.round(totalDiscountForStripe * 100),
         currency:   'gbp',
         duration:   'once',
-        name:       [promo_code?.trim().toUpperCase(), pointsToRedeem ? `${pointsToRedeem}pts` : ''].filter(Boolean).join('+') || 'Discount',
+        name:       promo_code?.trim().toUpperCase() || 'Discount',
       })
       stripeCouponId = coupon.id
     }
 
-    const total = subtotal - discountAmount - pointsDiscountValue - dealsDiscountValue - rewardDiscountValue + effectiveDeliveryFee
+    const total = subtotal - discountAmount - dealsDiscountValue - rewardDiscountValue + effectiveDeliveryFee
 
     if (total < 0) {
       return NextResponse.json({ error: 'Discount total cannot exceed order subtotal' }, { status: 400 })
@@ -365,6 +337,7 @@ export async function POST(request: NextRequest) {
     // abandoned order row is recoverable, silently spent points are not. Nothing
     // has been charged to the card at this point — the Stripe session is created
     // further down.
+    let rewardPointsSpent = 0
     if (reward_promotion_id && userId) {
       const { data: redeemed, error: rewardError } = await supabaseAdmin
         .rpc('redeem_reward', {
@@ -383,42 +356,32 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: message }, { status: 400 })
       }
 
-      const reward = redeemed as { discount_type: string; reward_config: { menu_item_id?: string } }
+      const reward = redeemed as {
+        discount_type: string
+        points_spent:  number
+        reward_config: { menu_item_id?: string }
+      }
+      rewardPointsSpent = reward.points_spent
       if (reward.discount_type === 'free_item') {
         // TODO(Task 6): insert the £0 order_items row for
         // reward.reward_config.menu_item_id against order.id here.
       }
     }
 
-    // Loyalty: redeem, then earn
+    // Loyalty: earn only. A catalog reward's point debit and its
+    // loyalty_transactions row are written inside the redeem_reward RPC above,
+    // so the spend is only echoed onto the order row here for receipts.
     if (userId) {
       const pointsEarned = Math.floor(subtotal * 10)
-      if (pointsToRedeem > 0) {
-        // The balance condition lives inside the UPDATE, so two concurrent
-        // checkouts can't both spend the same points. Null means the balance no
-        // longer covers it — reject rather than let the discount through free.
-        const { data: newBalance, error: redeemError } = await supabaseAdmin
-          .rpc('redeem_loyalty_points', { uid: userId, cost: pointsToRedeem })
-        if (redeemError) {
-          console.error('Loyalty redemption error:', redeemError)
-          return NextResponse.json({ error: 'Failed to redeem loyalty points' }, { status: 500 })
-        }
-        if (newBalance === null) {
-          return NextResponse.json({ error: 'Insufficient loyalty points' }, { status: 400 })
-        }
-        supabaseAdmin.from('loyalty_transactions').insert({
-          user_id: userId, order_id: order.id, points: -pointsToRedeem, type: 'redeem', note: 'Redeemed at checkout',
-        })
-      }
       if (pointsEarned > 0) {
         supabaseAdmin.rpc('adjust_loyalty', { uid: userId, delta: pointsEarned })
         supabaseAdmin.from('loyalty_transactions').insert({
           user_id: userId, order_id: order.id, points: pointsEarned, type: 'earn', note: 'Earned from order',
         })
       }
-      if (pointsEarned > 0 || pointsToRedeem > 0) {
-        supabaseAdmin.from('orders').update({
-          points_earned: pointsEarned, points_redeemed: pointsToRedeem,
+      if (pointsEarned > 0 || rewardPointsSpent > 0) {
+        await supabaseAdmin.from('orders').update({
+          points_earned: pointsEarned, points_redeemed: rewardPointsSpent,
         }).eq('id', order.id)
       }
     }

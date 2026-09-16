@@ -20,6 +20,7 @@ let redeemedRewardIds: Set<string>
 let rewardFailureCode: string | null = null
 let orderRows: Set<string>
 let insertedOrder: Record<string, unknown> | null = null
+let orderUpdates: Record<string, unknown>[]
 let stripeSessionCreated = false
 
 let orderSeq = 0
@@ -89,6 +90,7 @@ vi.mock('@/lib/supabase-admin', () => ({
         maybeSingle: async () => one(),
         then: (resolve: (r: { data: unknown; error: null }) => unknown) => {
           if (op === 'delete' && table === 'orders') orderRows.delete(String(filters.id))
+          if (op === 'update' && table === 'orders') orderUpdates.push(payload as Record<string, unknown>)
           return Promise.resolve(resolve({ data: op === 'select' ? rows() : null, error: null }))
         },
       }
@@ -96,12 +98,6 @@ vi.mock('@/lib/supabase-admin', () => ({
     },
 
     async rpc(fn: string, args: Record<string, unknown>) {
-      if (fn === 'redeem_loyalty_points') {
-        const cost = args.cost as number
-        if (balance < cost) return { data: null, error: null }
-        balance -= cost
-        return { data: balance, error: null }
-      }
       if (fn === 'adjust_loyalty') {
         balance = Math.max(0, balance + (args.delta as number))
         return { data: null, error: null }
@@ -172,6 +168,7 @@ describe('POST /api/checkout — reward redemption', () => {
     rewardFailureCode = null
     orderRows = new Set()
     insertedOrder = null
+    orderUpdates = []
     stripeSessionCreated = false
   })
 
@@ -226,14 +223,11 @@ describe('POST /api/checkout — reward redemption', () => {
     expect(orderRows.size).toBe(0)
   })
 
-  it('rejects a reward combined with the legacy points slider', async () => {
-    const res = await POST(checkoutRequest({ reward_promotion_id: 'reward-1', redeem_points: 200 }))
+  it('records the reward point spend on the order row', async () => {
+    const res = await POST(checkoutRequest({ reward_promotion_id: 'reward-1' }))
 
-    expect(res.status).toBe(400)
-    expect(await res.json()).toEqual({
-      error: 'A reward and a points discount cannot be used on the same order',
-    })
-    expect(balance).toBe(1000)
+    expect(res.status).toBe(200)
+    expect(orderUpdates).toContainEqual({ points_earned: 200, points_redeemed: 500 })
   })
 
   it('rejects a reward when the cart is below its minimum order amount', async () => {
@@ -293,7 +287,7 @@ describe('POST /api/checkout — reward redemption', () => {
   })
 })
 
-describe('POST /api/checkout — legacy paths are unchanged without a reward', () => {
+describe('POST /api/checkout — orders without a reward', () => {
   beforeEach(() => {
     balance = 1000
     rewards = { 'reward-1': makeReward() }
@@ -302,24 +296,8 @@ describe('POST /api/checkout — legacy paths are unchanged without a reward', (
     rewardFailureCode = null
     orderRows = new Set()
     insertedOrder = null
+    orderUpdates = []
     stripeSessionCreated = false
-  })
-
-  it('still redeems flat loyalty points via the slider', async () => {
-    const res = await POST(checkoutRequest({ redeem_points: 500 }))
-
-    expect(res.status).toBe(200)
-    expect(insertedOrder!.total_amount).toBe(18)  // 20 - £5 of points + 3 delivery
-    expect(balance).toBe(700)                     // 1000 - 500 spent + 200 earned
-  })
-
-  it('still rejects a slider redemption the balance cannot cover', async () => {
-    balance = 100
-
-    const res = await POST(checkoutRequest({ redeem_points: 500 }))
-
-    expect(res.status).toBe(400)
-    expect(await res.json()).toEqual({ error: 'Insufficient loyalty points' })
   })
 
   it('still applies a promo code and charges the full delivery fee', async () => {
@@ -328,5 +306,12 @@ describe('POST /api/checkout — legacy paths are unchanged without a reward', (
     expect(res.status).toBe(200)
     expect(insertedOrder!.total_amount).toBe(18)  // 20 - 5 + 3
     expect(insertedOrder!.discount_applied).toBe(5)
+  })
+
+  it('records zero points redeemed on the order row', async () => {
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(orderUpdates).toContainEqual({ points_earned: 200, points_redeemed: 0 })
   })
 })

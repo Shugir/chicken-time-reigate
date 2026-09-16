@@ -4,11 +4,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase-browser'
 import {
-  ArrowLeft, Loader2, Star, CheckCircle2,
-  ChevronDown, ChevronUp, Gift, Zap, TrendingUp,
+  ArrowLeft, Star, CheckCircle2,
+  ChevronDown, ChevronUp, Zap, TrendingUp,
 } from 'lucide-react'
 import Link from 'next/link'
-import toast from 'react-hot-toast'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -72,16 +71,11 @@ function Skeleton({ className }: { className?: string }) {
 function RewardCard({
   reward,
   balance,
-  onUnlock,
-  unlocking,
 }: {
-  reward:    Reward
-  balance:   number
-  onUnlock:  (id: string) => void
-  unlocking: string | null
+  reward:  Reward
+  balance: number
 }) {
   const canAfford    = balance >= reward.points_cost
-  const isUnlocking  = unlocking === reward.id
   const alreadyUsed  = reward.is_unlocked && reward.used_at
   const readyToUse   = reward.is_unlocked && !reward.used_at
 
@@ -143,18 +137,9 @@ function RewardCard({
       )}
 
       {!reward.is_unlocked && canAfford && (
-        <button
-          onClick={() => onUnlock(reward.id)}
-          disabled={isUnlocking}
-          className="w-full mt-auto bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-zinc-950 font-semibold
-                     rounded-lg py-2 text-xs transition flex items-center justify-center gap-1.5 active:scale-[0.98]"
-        >
-          {isUnlocking ? (
-            <><Loader2 size={12} className="animate-spin" /> Unlocking…</>
-          ) : (
-            <><Gift size={12} /> Unlock for {reward.points_cost.toLocaleString()} pts</>
-          )}
-        </button>
+        <p className="text-xs text-amber-600 dark:text-amber-400 font-medium mt-auto">
+          You can afford this — redeem it at checkout.
+        </p>
       )}
 
       {!reward.is_unlocked && !canAfford && (
@@ -184,7 +169,6 @@ export default function RewardsPage() {
   const [txns,      setTxns]      = useState<Transaction[]>([])
   const [rewards,   setRewards]   = useState<Reward[]>([])
   const [loading,   setLoading]   = useState(true)
-  const [unlocking, setUnlocking] = useState<string | null>(null)
   const [histOpen,  setHistOpen]  = useState(false)
 
   // ── Fetch helpers ──────────────────────────────────────────────────────────
@@ -220,34 +204,6 @@ export default function RewardsPage() {
       setLoading(false)
     })
   }, [fetchBalance, fetchRewards])
-
-  // ── Unlock handler ─────────────────────────────────────────────────────────
-
-  async function handleUnlock(promotionId: string) {
-    setUnlocking(promotionId)
-    try {
-      const res = await fetch('/api/rewards/unlock', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ promotion_id: promotionId }),
-      })
-      const data = await res.json()
-
-      if (!res.ok) {
-        toast.error(data.error ?? 'Failed to unlock reward')
-        return
-      }
-
-      toast.success('Reward unlocked! Use the code at checkout.')
-      setBalance(data.new_balance)
-      await fetchRewards()
-      await fetchBalance()
-    } catch {
-      toast.error('Something went wrong — please try again')
-    } finally {
-      setUnlocking(null)
-    }
-  }
 
   // ── Progress bar helpers ───────────────────────────────────────────────────
 
@@ -421,13 +377,7 @@ export default function RewardsPage() {
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {available.map((reward) => (
-                <RewardCard
-                  key={reward.id}
-                  reward={reward}
-                  balance={balance}
-                  onUnlock={handleUnlock}
-                  unlocking={unlocking}
-                />
+                <RewardCard key={reward.id} reward={reward} balance={balance} />
               ))}
             </div>
           )}
@@ -441,13 +391,7 @@ export default function RewardsPage() {
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {used.map((reward) => (
-                <RewardCard
-                  key={reward.id}
-                  reward={reward}
-                  balance={balance}
-                  onUnlock={handleUnlock}
-                  unlocking={unlocking}
-                />
+                <RewardCard key={reward.id} reward={reward} balance={balance} />
               ))}
             </div>
           </section>
