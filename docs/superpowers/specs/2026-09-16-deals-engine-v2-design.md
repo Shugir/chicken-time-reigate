@@ -1,0 +1,236 @@
+# Deals Engine v2 — Admin Slot Builder + Customer Deal-to-Cart
+
+## Context
+
+The deals engine shipped 2026-09-15 (`docs/superpowers/specs/2026-09-15-generalized-deals-engine-design.md`)
+supports 4 deal types (`bogo`, `bundle`, `fixed_meal`, `order_discount`) with
+automatic matching against whatever's in the cart. Bundle-product association
+today is *implicit*: a product opts into a bundle by having its
+`combo_category`/`size_tier` set on the product edit form, and the bundle's
+`config.groups[i].category` matches against that tag.
+
+This round moves deal↔product association to be *explicit* and *admin-driven*
+from the Deals panel itself, replacing the product-side tagging, and gives
+customers a dedicated way to build & add a bundle deal from the front end
+(rather than only relying on auto-detection at checkout). Reference pattern:
+a sibling project's `/admin/deals` slot builder and `/deals` "build this deal"
+customer flow (screenshotted into `E:\AIStudio\Document.rtf`, reviewed live at
+`127.0.0.1:3030`).
+
+## Goals
+
+- Admin builds a bundle deal by picking slots (label, min/max qty, explicit
+  item list) — no product-side tagging.
+- Bundle deals get scheduling (`available_from`/`until`), an optional image,
+  and an optional custom badge label.
+- Customer sees an `OFFER` badge on any product that's part of an active
+  deal. If the deal is a bundle, a second "Deal to Cart" button opens a
+  slot-picker matching ChickenTime's existing pill/stepper visual language
+  (not a bare checkbox grid).
+- A `/deals` gallery page lists active bundle deals with a "Build this deal"
+  entry point into the same picker.
+- Remove now-dead product-side deal tagging (`combo_category`, `size_tier`)
+  and the `fixed_meal` deal type (subsumed by bundle; no live rows).
+
+## Non-goals
+
+- No change to BOGO / order_discount matching logic (still fully automatic,
+  no popup — they have nothing to "build").
+- No new cart-item shape. Deal-picked items still land as ordinary cart lines;
+  `matchDeals` (unchanged matching algorithm) recognizes them from the
+  existing cart the same way it does today.
+- No multi-currency/multi-location scheduling — `available_from`/`until` are
+  plain UTC timestamps, store-wide.
+
+## Data model
+
+```sql
+-- supabase/migrations/20260917_deals_v2.sql
+
+ALTER TABLE deals
+  ADD COLUMN available_from  TIMESTAMPTZ,
+  ADD COLUMN available_until TIMESTAMPTZ,
+  ADD COLUMN image_url       TEXT,
+  ADD COLUMN custom_label    TEXT;
+
+-- Migrate the 2 live bundle deals (Medium/Large Meal Deal) from
+-- {label, category, pick_qty} groups to {label, min_qty, max_qty, item_ids}.
+-- item_ids resolved from the current category membership at migration time
+-- (a snapshot — future menu changes no longer auto-affect these deals,
+-- which is the point: assignment is now explicit).
+DO $$
+DECLARE
+  deal RECORD;
+  new_groups JSONB;
+  grp JSONB;
+  ids JSONB;
+BEGIN
+  FOR deal IN SELECT id, config FROM deals WHERE type = 'bundle' LOOP
+    new_groups := '[]'::jsonb;
+    FOR grp IN SELECT * FROM jsonb_array_elements(deal.config->'groups') LOOP
+      SELECT COALESCE(jsonb_agg(id), '[]'::jsonb) INTO ids
+        FROM menu_items WHERE category = (grp->>'category');
+      new_groups := new_groups || jsonb_build_array(jsonb_build_object(
+        'label', grp->>'label',
+        'min_qty', (grp->>'pick_qty')::int,
+        'max_qty', (grp->>'pick_qty')::int,
+        'item_ids', ids
+      ));
+    END LOOP;
+    UPDATE deals SET config = jsonb_set(config, '{groups}', new_groups) WHERE id = deal.id;
+  END LOOP;
+END $$;
+
+ALTER TABLE menu_items DROP COLUMN combo_category;
+ALTER TABLE menu_items DROP COLUMN size_tier;
+```
+
+`fixed_meal` stays a dormant value in the `deal_type` Postgres enum (dropping
+an enum value requires recreating the type; not worth the risk for a value
+the app will simply never write or read again).
+
+## Types & validation (`lib/deal-engine.ts`, `app/api/admin/deals/route.ts`)
+
+```ts
+interface BundleConfig {
+  groups: { label: string; min_qty: number; max_qty: number; item_ids: string[] }[]
+  price: number
+}
+```
+
+- `evaluateItemDeal`'s bundle branch: pool = `available.filter(u => group.item_ids.includes(u.menu_item_id))`.
+  Fails the group (whole deal) if pool size `< min_qty`. Consumes best-price-first
+  up to `max_qty` (mirrors the existing BOGO/bundle greedy pattern — no new
+  algorithm, just a range instead of an exact count).
+- `fixed_meal` branch and `FixedMealConfig` type deleted. `VALID_TYPES` in the
+  admin route drops to `['bogo', 'bundle', 'order_discount']`.
+- `validateConfig`'s bundle case validates `min_qty >= 0`, `max_qty >= min_qty`,
+  `item_ids` non-empty array of strings.
+- New shared helper in `deal-engine.ts`:
+  ```ts
+  export function isDealLive(deal: { is_active: boolean; available_from?: string | null; available_until?: string | null }, now = new Date()): boolean
+  ```
+  used by all three read sites below instead of each re-deriving the window
+  check.
+
+## Read sites needing the schedule check
+
+`app/api/deals/active/route.ts`, `app/api/deals/quote/route.ts`,
+`app/api/checkout/route.ts` all currently filter `.eq('is_active', true)`
+only. Each adds `available_from`/`available_until` to its `.select()` and
+filters the fetched rows through `isDealLive` before use (kept as a JS
+post-filter rather than SQL, since the dataset is small and it avoids
+three copies of null-aware date-range SQL).
+
+## Admin — Deals panel (`app/admin/deals/page.tsx`)
+
+- `TYPE_LABELS`/`EMPTY_CONFIG` drop `fixed_meal`; type dropdown becomes 3 options.
+- New top-level fields on the deal form (outside `config`, own columns):
+  Custom Label (optional, placeholder "Leave blank to use the default label"),
+  Available From / Available Until (datetime-local inputs, optional), Deal
+  Image (file upload → same image upload path already used for menu items —
+  check `app/api/admin/menu-items` for the existing upload helper and reuse
+  it rather than building a second one).
+- Bundle form's slot editor (`config.groups`) replaced:
+  - Per slot: Label, Min Qty, Max Qty, Required (derived display only —
+    `min_qty > 0`; no separate stored flag, avoids a field that can
+    contradict `min_qty`), and an item picker: search box + category filter
+    dropdown + checkbox list (reuse `/api/admin/menu-items` data already
+    fetched elsewhere on this page's sibling menu-manager page — fetch once,
+    filter client-side, matches the reference's "Find item... / All
+    Categories" pattern).
+  - "+ Add slot" / delete slot unchanged in spirit.
+- `app/admin/page.tsx` (product edit modal): delete the "Combo Role" and
+  "Size Tier" form fields, their state, and their submit payload keys.
+
+## Customer front end
+
+### `DealSlotPicker` component (new, `components/Deals/DealSlotPicker.tsx`)
+
+Replaces `BundleGroupPicker` (renamed — same file deleted, this is not an
+incremental edit since the selection model changes from fixed `pick_qty` to
+a `min_qty`–`max_qty` range). Visual language: reuse the pill/stepper
+patterns already in `ItemCustomizerDrawer` (radio-style pills for choices,
+`-`/`+` steppers where multiple of the same item can be picked within a
+slot) rather than the reference's plain checkbox grid — keeps it consistent
+with the rest of the ordering flow.
+
+- Props: `{ deal: Deal, itemsById: Map<string, MenuItemLite & {name, image_url}>, onComplete: (picks: {item_id: string; qty: number}[]) => void }`.
+- Per slot: shows picked-count vs `min_qty`–`max_qty`, pill grid of that
+  slot's `item_ids`, steppers if `max_qty > 1` for a single item allows more
+  than 1 of the same pick (matches ChickenTime's existing extras UX).
+- Submit enabled once every slot's picked count is within `[min_qty, max_qty]`.
+- `onComplete` payload is plain `{item_id, qty}[]` — caller pushes each as a
+  normal cart line via the existing add-to-cart path.
+
+### Product card (order page)
+
+- Fetch `/api/deals/active` once per page load (already done by
+  `ItemCustomizerDrawer` today — moves up to the order page/grid level so
+  every card can check membership, not just the drawer).
+- A product is "in a deal" if its id appears in any active bundle's
+  `item_ids`, matches a BOGO `buy`/`get` ref, or matches an order_discount
+  category scope.
+- `OFFER` badge shows for any match (all deal types).
+- If the item is in **at least one bundle** deal: render "Add to Cart" +
+  "Deal to Cart". "Deal to Cart" opens `DealSlotPicker` for that bundle (if
+  the item matches more than one active bundle, open a small chooser first —
+  edge case, low priority, simplest correct behavior: list matching deal
+  names, pick one, then open the picker).
+- If the item only matches BOGO/order_discount (no bundle): badge shows,
+  single "Add to Cart" button only (nothing to configure — these still
+  auto-apply at checkout exactly as today).
+
+### `ItemCustomizerDrawer`
+
+- Delete the "Make it a Meal" block entirely: the `matchingBundle` state,
+  the `/api/deals/active` fetch inside the drawer, `BundleGroupPicker` import,
+  and the associated JSX section. The badge/button on the card is now the
+  only discovery path for bundles.
+
+### `/deals` page (new, `app/deals/page.tsx`)
+
+- Public page, fetches `/api/deals/active`, filters to `type === 'bundle'`.
+- Cards: deal image (fallback to a generic placeholder if `image_url` is
+  null), name, `custom_label` badge (or auto-label from type if none set),
+  description-equivalent (list of slot labels, e.g. "2× Pizza, 1× Starter"),
+  price, "Build this deal" button opening the same `DealSlotPicker`.
+- Nav: add a "Deals" link (site header, wherever Menu/Order links already
+  live).
+
+## Removed
+
+- `combo_category`, `size_tier` columns on `menu_items`.
+- "Combo Role" / "Size Tier" fields in the product edit modal.
+- `fixed_meal` deal type: `FixedMealConfig`, its `evaluateItemDeal` branch,
+  its admin form section, `VALID_TYPES` entry.
+- `ItemCustomizerDrawer`'s "Make it a Meal" block.
+- `components/Deals/BundleGroupPicker.tsx` (replaced by `DealSlotPicker.tsx`).
+
+## Testing
+
+- `lib/deal-engine.test.ts`: rewrite bundle fixtures to the new
+  `{label, min_qty, max_qty, item_ids}` shape; add a min≠max range case
+  (e.g. pick 1–3 sides, verify it takes the best-price mix up to max, still
+  matches at exactly min); add an `isDealLive` unit test covering
+  before/during/after a scheduling window and the null (always-live) case.
+  Delete `fixed_meal` fixtures/cases.
+- New `DealSlotPicker` test: completion gating respects per-slot
+  `[min_qty, max_qty]`, `onComplete` payload shape.
+- Manual pass (dev server): admin slot builder create/edit/delete a bundle
+  with 2+ slots and item search; product card badge + dual buttons on a
+  bundled item vs single button on a BOGO-only item; `/deals` gallery →
+  build → cart shows matched discount at quote; scheduled deal outside its
+  window doesn't show anywhere.
+
+## Migration risk
+
+Single migration file, runs once against the linked Supabase project
+(`supabase db query --linked --file ...`, same method used for the RLS fix
+this session — `db push` is broken against this project's migration history
+and out of scope to repair here). The bundle-group backfill is
+best-effort/inspectable (a `SELECT` before running lets you sanity-check
+which items each group would resolve to); if it produces an empty
+`item_ids` for a group, that deal simply won't match anything until an
+admin fixes it in the new slot builder — not a data-loss risk, worst case
+is a temporarily-inactive-looking bundle.
