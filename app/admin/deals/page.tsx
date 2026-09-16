@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Plus, Pencil, Trash2, X } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
 
-type DealType = 'bogo' | 'bundle' | 'fixed_meal' | 'order_discount'
+type DealType = 'bogo' | 'bundle' | 'order_discount'
 
 interface Deal {
   id: string
@@ -12,27 +13,51 @@ interface Deal {
   name: string
   config: any
   is_active: boolean
+  custom_label: string | null
+  available_from: string | null
+  available_until: string | null
+  image_url: string | null
 }
 
 interface Category { id: string; name: string; slug: string }
 
+interface MenuItemOption { id: string; name: string; price: number; image_url: string | null; category: string; is_available: boolean }
+
+interface Slot { label: string; min_qty: number; max_qty: number; item_ids: string[] }
+
 const TYPE_LABELS: Record<DealType, string> = {
   bogo: 'BOGO',
   bundle: 'Build-a-Bundle',
-  fixed_meal: 'Fixed-Price Meal',
   order_discount: 'Order/Category Discount',
 }
 
 const EMPTY_CONFIG: Record<DealType, any> = {
   bogo: { buy: { category: '', qty: 1 }, get: { category: '', qty: 1, discount: 'free' } },
-  bundle: { groups: [{ label: '', category: '', pick_qty: 1 }], price: 0 },
-  fixed_meal: { items: [{ item_id: '', qty: 1 }], price: 0 },
+  bundle: { groups: [{ label: '', min_qty: 1, max_qty: 1, item_ids: [] }], price: 0 },
   order_discount: { scope: 'order', discount: { type: 'percent', value: 10 } },
+}
+
+// <input type="datetime-local"> only accepts "YYYY-MM-DDTHH:mm"; the DB column is
+// TIMESTAMPTZ, so an unconverted ISO string with an offset renders as blank and the
+// next save silently wipes the schedule.
+function toDateTimeLocal(iso: string | null | undefined): string {
+  if (!iso) return ''
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return ''
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+function fromDateTimeLocal(value: string): string | null {
+  if (!value) return null
+  const d = new Date(value)
+  return Number.isNaN(d.getTime()) ? null : d.toISOString()
 }
 
 export default function DealsAdminPage() {
   const [deals, setDeals] = useState<Deal[]>([])
   const [categories, setCategories] = useState<Category[]>([])
+  const [menuItems, setMenuItems] = useState<MenuItemOption[]>([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState<Deal | null>(null)
   const [creatingType, setCreatingType] = useState<DealType | null>(null)
@@ -43,8 +68,9 @@ export default function DealsAdminPage() {
     Promise.all([
       fetch('/api/admin/deals').then((r) => r.json()),
       fetch('/api/categories').then((r) => r.json()),
+      fetch('/api/admin/menu-items').then((r) => r.json()),
     ])
-      .then(([d, c]) => { setDeals(d); setCategories(c) })
+      .then(([d, c, m]) => { setDeals(d); setCategories(c); setMenuItems(m) })
       .finally(() => setLoading(false))
   }
 
@@ -65,7 +91,7 @@ export default function DealsAdminPage() {
     if (res.ok) setDeals((prev) => prev.filter((d) => d.id !== id))
   }
 
-  async function handleSave(payload: { type: DealType; name: string; config: any }) {
+  async function handleSave(payload: { type: DealType; name: string; config: any; custom_label: string | null; available_from: string | null; available_until: string | null; image_url: string | null }) {
     setError(null)
     const isEdit = Boolean(editing)
     const url = isEdit ? `/api/admin/deals/${editing!.id}` : '/api/admin/deals'
@@ -92,7 +118,7 @@ export default function DealsAdminPage() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-white mb-1">Deals</h1>
-              <p className="text-zinc-400 text-sm">BOGO, bundles, fixed-price meals and order-wide discounts — auto-applied at checkout.</p>
+              <p className="text-zinc-400 text-sm">BOGO, bundles and order-wide discounts — auto-applied at checkout.</p>
             </div>
             <div className="relative group">
               <button className="flex items-center gap-2 bg-brand-red hover:bg-brand-red/80 text-white text-sm font-semibold px-4 py-2.5 rounded-xl">
@@ -152,7 +178,8 @@ export default function DealsAdminPage() {
         <DealFormModal
           type={formType}
           categories={categories}
-          initial={editing ?? { type: formType, name: '', config: EMPTY_CONFIG[formType], is_active: true } as any}
+          menuItems={menuItems}
+          initial={editing ?? { type: formType, name: '', config: EMPTY_CONFIG[formType], is_active: true, custom_label: null, available_from: null, available_until: null, image_url: null } as any}
           error={error}
           onCancel={() => { setEditing(null); setCreatingType(null); setError(null) }}
           onSave={handleSave}
@@ -162,16 +189,104 @@ export default function DealsAdminPage() {
   )
 }
 
-function DealFormModal({ type, categories, initial, error, onCancel, onSave }: {
+// Legacy bundle groups are `{ label, category, pick_qty }`; reading them through this
+// keeps the editor usable (rather than crashing on a missing item_ids) for any row the
+// backfill migration has not reshaped yet.
+function normalizeSlot(g: Partial<Slot> & { pick_qty?: number }): Slot {
+  return {
+    label: g.label ?? '',
+    min_qty: g.min_qty ?? g.pick_qty ?? 1,
+    max_qty: g.max_qty ?? g.pick_qty ?? 1,
+    item_ids: g.item_ids ?? [],
+  }
+}
+
+function SlotEditor({ group, menuItems, categories, onChange, onRemove }: {
+  group: Slot
+  menuItems: MenuItemOption[]
+  categories: Category[]
+  onChange: (next: Slot) => void
+  onRemove?: () => void
+}) {
+  const [search, setSearch] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('')
+
+  const filtered = menuItems.filter((m) => {
+    if (categoryFilter && m.category.toLowerCase() !== categoryFilter) return false
+    if (search && !m.name.toLowerCase().includes(search.toLowerCase())) return false
+    return true
+  })
+
+  function toggleItem(id: string) {
+    const next = group.item_ids.includes(id)
+      ? group.item_ids.filter((x) => x !== id)
+      : [...group.item_ids, id]
+    onChange({ ...group, item_ids: next })
+  }
+
+  return (
+    <div className="border border-zinc-800 rounded-xl p-3 space-y-2">
+      <div className="grid grid-cols-3 gap-2 items-end">
+        <div>
+          <label className="text-xs text-zinc-400 mb-1 block">Slot Label</label>
+          <input value={group.label} onChange={(e) => onChange({ ...group, label: e.target.value })} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
+        </div>
+        <div>
+          <label className="text-xs text-zinc-400 mb-1 block">Min Qty</label>
+          <input type="number" min={0} value={group.min_qty} onChange={(e) => onChange({ ...group, min_qty: parseInt(e.target.value) || 0 })} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
+        </div>
+        <div>
+          <label className="text-xs text-zinc-400 mb-1 block">Max Qty</label>
+          <input type="number" min={group.min_qty} value={group.max_qty} onChange={(e) => onChange({ ...group, max_qty: parseInt(e.target.value) || group.min_qty })} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <p className="text-xs text-zinc-400">Items in This Slot ({group.item_ids.length} selected)</p>
+        {onRemove && <button onClick={onRemove} className="text-xs text-red-400 hover:underline">Remove slot</button>}
+      </div>
+      <div className="flex gap-2">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Find item..."
+          className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
+        />
+        <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white">
+          <option value="">All Categories</option>
+          {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+        </select>
+      </div>
+      <div className="max-h-40 overflow-y-auto border border-zinc-800 rounded-lg p-2 grid grid-cols-2 gap-1">
+        {filtered.map((m) => (
+          <label key={m.id} className="flex items-center gap-2 text-sm text-zinc-300 px-1 py-0.5 hover:bg-zinc-800 rounded cursor-pointer">
+            <input type="checkbox" checked={group.item_ids.includes(m.id)} onChange={() => toggleItem(m.id)} />
+            {m.name}
+          </label>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function DealFormModal({ type, categories, menuItems, initial, error, onCancel, onSave }: {
   type: DealType
   categories: Category[]
+  menuItems: MenuItemOption[]
   initial: Deal
   error: string | null
   onCancel: () => void
-  onSave: (payload: { type: DealType; name: string; config: any }) => void
+  onSave: (payload: { type: DealType; name: string; config: any; custom_label: string | null; available_from: string | null; available_until: string | null; image_url: string | null }) => void
 }) {
   const [name, setName] = useState(initial.name)
   const [config, setConfig] = useState<any>(initial.config)
+  const [customLabel, setCustomLabel] = useState(initial.custom_label ?? '')
+  const [availableFrom, setAvailableFrom] = useState(toDateTimeLocal(initial.available_from))
+  const [availableUntil, setAvailableUntil] = useState(toDateTimeLocal(initial.available_until))
+  const existingImageUrl = initial.image_url ?? ''
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imageUploading, setImageUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
 
   function set(path: (string | number)[], value: any) {
     setConfig((prev: any) => {
@@ -209,6 +324,52 @@ function DealFormModal({ type, categories, initial, error, onCancel, onSave }: {
               className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
               placeholder="e.g. Buy 1 Get 1 Free Wings"
             />
+          </div>
+
+          <div>
+            <label className="text-xs text-zinc-400 mb-1 block">Custom Label (optional — overrides the auto-generated badge text)</label>
+            <input
+              value={customLabel}
+              onChange={(e) => setCustomLabel(e.target.value)}
+              placeholder="Leave blank to use the default label"
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Available From (optional)</label>
+              <input
+                type="datetime-local"
+                value={availableFrom}
+                onChange={(e) => setAvailableFrom(e.target.value)}
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Available Until (optional)</label>
+              <input
+                type="datetime-local"
+                value={availableUntil}
+                onChange={(e) => setAvailableUntil(e.target.value)}
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="text-xs text-zinc-400 mb-1 block">Deal Image (optional)</label>
+            {existingImageUrl && (
+              <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-zinc-800 border border-zinc-700 mb-2">
+                <Image src={existingImageUrl} alt="" fill className="object-cover" sizes="96px" unoptimized />
+              </div>
+            )}
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              disabled={imageUploading}
+              onChange={(e) => { setImageFile(e.target.files?.[0] ?? null); setUploadError(null) }}
+              className="text-sm text-zinc-400"
+            />
+            {uploadError && <p className="text-xs text-red-400 mt-1">{uploadError}</p>}
           </div>
 
           {type === 'bogo' && (
@@ -262,58 +423,23 @@ function DealFormModal({ type, categories, initial, error, onCancel, onSave }: {
           {type === 'bundle' && (
             <>
               {config.groups.map((g: any, i: number) => (
-                <div key={i} className="grid grid-cols-3 gap-2 items-end">
-                  <div>
-                    <label className="text-xs text-zinc-400 mb-1 block">Label</label>
-                    <input value={g.label} onChange={(e) => set(['groups', i, 'label'], e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
-                  </div>
-                  <div>
-                    <label className="text-xs text-zinc-400 mb-1 block">Category</label>
-                    <select value={g.category} onChange={(e) => set(['groups', i, 'category'], e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white">
-                      {categoryOptions}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-xs text-zinc-400 mb-1 block">Pick qty</label>
-                    <input type="number" min={1} value={g.pick_qty} onChange={(e) => set(['groups', i, 'pick_qty'], parseInt(e.target.value) || 1)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
-                  </div>
-                </div>
+                <SlotEditor
+                  key={i}
+                  group={normalizeSlot(g)}
+                  menuItems={menuItems}
+                  categories={categories}
+                  onChange={(next) => set(['groups', i], next)}
+                  onRemove={config.groups.length > 1 ? () => set(['groups'], config.groups.filter((_: any, gi: number) => gi !== i)) : undefined}
+                />
               ))}
               <button
-                onClick={() => set(['groups'], [...config.groups, { label: '', category: '', pick_qty: 1 }])}
+                onClick={() => set(['groups'], [...config.groups, { label: '', min_qty: 1, max_qty: 1, item_ids: [] }])}
                 className="text-xs text-brand-red hover:underline"
               >
-                + Add group
+                + Add slot
               </button>
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Bundle price (£)</label>
-                <input type="number" min={0} step="0.01" value={config.price} onChange={(e) => set(['price'], parseFloat(e.target.value) || 0)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
-              </div>
-            </>
-          )}
-
-          {type === 'fixed_meal' && (
-            <>
-              {config.items.map((it: any, i: number) => (
-                <div key={i} className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="text-xs text-zinc-400 mb-1 block">Menu item ID</label>
-                    <input value={it.item_id} onChange={(e) => set(['items', i, 'item_id'], e.target.value)} placeholder="paste from Menu Manager" className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
-                  </div>
-                  <div>
-                    <label className="text-xs text-zinc-400 mb-1 block">Qty</label>
-                    <input type="number" min={1} value={it.qty} onChange={(e) => set(['items', i, 'qty'], parseInt(e.target.value) || 1)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
-                  </div>
-                </div>
-              ))}
-              <button
-                onClick={() => set(['items'], [...config.items, { item_id: '', qty: 1 }])}
-                className="text-xs text-brand-red hover:underline"
-              >
-                + Add item
-              </button>
-              <div>
-                <label className="text-xs text-zinc-400 mb-1 block">Fixed price (£)</label>
                 <input type="number" min={0} step="0.01" value={config.price} onChange={(e) => set(['price'], parseFloat(e.target.value) || 0)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
               </div>
             </>
@@ -362,11 +488,31 @@ function DealFormModal({ type, categories, initial, error, onCancel, onSave }: {
             Cancel
           </button>
           <button
-            onClick={() => onSave({ type, name, config })}
-            disabled={!name.trim()}
+            onClick={async () => {
+              let resolvedImageUrl = existingImageUrl.trim() || null
+              if (imageFile) {
+                setImageUploading(true)
+                setUploadError(null)
+                const fd = new FormData()
+                fd.append('file', imageFile)
+                const res = await fetch('/api/admin/menu/upload', { method: 'POST', body: fd })
+                const data = await res.json()
+                setImageUploading(false)
+                if (!res.ok) return setUploadError(`Image upload failed: ${data.error ?? 'Unknown error'}`)
+                resolvedImageUrl = data.url
+              }
+              onSave({
+                type, name, config,
+                custom_label: customLabel.trim() || null,
+                available_from: fromDateTimeLocal(availableFrom),
+                available_until: fromDateTimeLocal(availableUntil),
+                image_url: resolvedImageUrl,
+              })
+            }}
+            disabled={!name.trim() || imageUploading}
             className="flex-1 py-2.5 rounded-lg text-sm font-semibold bg-brand-red hover:bg-brand-red/80 text-white disabled:opacity-50"
           >
-            Save
+            {imageUploading ? 'Uploading...' : 'Save'}
           </button>
         </div>
       </div>
