@@ -100,8 +100,16 @@ interface BundleConfig {
 
 - `evaluateItemDeal`'s bundle branch: pool = `available.filter(u => group.item_ids.includes(u.menu_item_id))`.
   Fails the group (whole deal) if pool size `< min_qty`. Consumes best-price-first
-  up to `max_qty` (mirrors the existing BOGO/bundle greedy pattern — no new
-  algorithm, just a range instead of an exact count).
+  **exactly `min_qty`** units — not up to `max_qty`. (Architect review caught
+  a real pricing bug in the up-to-`max_qty` version: since `price` is fixed
+  per bundle regardless of how many units within range are consumed, savings
+  strictly increases with more units consumed, so the greedy matcher would
+  always grab `max_qty` whenever the cart happened to have enough matching
+  units — silently awarding a bigger discount than the customer ever chose
+  in `DealSlotPicker`. Pegging consumption/savings to `min_qty` closes that;
+  `max_qty` remains purely a `DealSlotPicker` UX constraint — how many items
+  the customer may select from that slot when building the bundle — with no
+  effect on automatic matching.)
 - `fixed_meal` branch and `FixedMealConfig` type deleted. `VALID_TYPES` in the
   admin route drops to `['bogo', 'bundle', 'order_discount']`.
 - `validateConfig`'s bundle case validates `min_qty >= 0`, `max_qty >= min_qty`,
@@ -122,15 +130,45 @@ filters the fetched rows through `isDealLive` before use (kept as a JS
 post-filter rather than SQL, since the dataset is small and it avoids
 three copies of null-aware date-range SQL).
 
+## `combo_category`/`size_tier` read sites (blocker — verified by validation pass)
+
+The column drop in the migration above breaks any query that still selects
+these columns. Beyond the product edit modal, they're read in:
+
+- **`app/api/menu-items/route.ts:9`** — `.select()` explicitly includes
+  `combo_category, size_tier`. This is the public menu API backing
+  `/order`, `/deals`, and `ItemCustomizerDrawer` — **will hard-fail on every
+  request** ("column does not exist") the moment the migration runs unless
+  this query is updated in the same deploy. Highest-priority item in this
+  spec.
+- **`app/api/admin/menu-items/[id]/route.ts:37`** — PUT allowlist still
+  includes `'combo_category'`, `'size_tier'`; remove alongside the
+  `app/admin/page.tsx` form-field removal.
+- **`app/api/checkout/route.ts:20`** — has a `size_tier: 'regular' | 'large'`
+  type field; remove.
+- **`app/order/page.tsx:26-27,251-252,279-280`** — independent
+  `combo_category`/`size_tier` type fields and mapping, separate from the
+  admin form; becomes dead code, remove.
+- **`components/Menu/ItemCustomizerDrawer.tsx:14,26`** — has its own
+  `size_tier`/`combo_category` type fields distinct from the "Make it a
+  Meal" block covered below; remove.
+
+**Deploy ordering:** app code must stop selecting/writing these columns
+*before* the migration drops them (deploy app changes first, confirm clean,
+then run the migration) — not the other way around, or the app breaks in
+the gap between migration and deploy.
+
 ## Admin — Deals panel (`app/admin/deals/page.tsx`)
 
 - `TYPE_LABELS`/`EMPTY_CONFIG` drop `fixed_meal`; type dropdown becomes 3 options.
 - New top-level fields on the deal form (outside `config`, own columns):
   Custom Label (optional, placeholder "Leave blank to use the default label"),
   Available From / Available Until (datetime-local inputs, optional), Deal
-  Image (file upload → same image upload path already used for menu items —
-  check `app/api/admin/menu-items` for the existing upload helper and reuse
-  it rather than building a second one).
+  Image (file upload → reuse the existing `app/api/admin/menu/upload/route.ts`
+  helper — POST, multipart `FormData`, uploads to the Supabase storage
+  bucket `menu-images`, returns `{url}`; already called from
+  `app/admin/page.tsx:368` for menu-item images — same pattern, don't build
+  a second upload route).
 - Bundle form's slot editor (`config.groups`) replaced:
   - Per slot: Label, Min Qty, Max Qty, Required (derived display only —
     `min_qty > 0`; no separate stored flag, avoids a field that can
@@ -203,7 +241,11 @@ with the rest of the ordering flow.
   and the associated JSX section. The badge/button on the card is now the
   only discovery path for bundles.
 
-### `/deals` page (new, `app/deals/page.tsx`)
+### `/deals` page (`app/deals/page.tsx` — already exists, this is a rewrite in place, not a new file)
+
+`app/deals/page.tsx` currently exists, works, and uses `BundleGroupPicker`
++ still references `fixed_meal` — it needs updating alongside the
+component swap, not creating from scratch.
 
 - Public page, fetches `/api/deals/active`, filters to `type === 'bundle'`.
 - Cards: deal image (fallback to a generic placeholder if `image_url` is
@@ -215,8 +257,11 @@ with the rest of the ordering flow.
 
 ## Removed
 
-- `combo_category`, `size_tier` columns on `menu_items`.
-- "Combo Role" / "Size Tier" fields in the product edit modal.
+- `combo_category`, `size_tier` columns on `menu_items`, and every read/write
+  site listed above (`app/api/menu-items/route.ts`,
+  `app/api/admin/menu-items/[id]/route.ts`, `app/api/checkout/route.ts`,
+  `app/order/page.tsx`, `ItemCustomizerDrawer.tsx`'s own type fields), plus
+  the "Combo Role" / "Size Tier" fields in the product edit modal.
 - `fixed_meal` deal type: `FixedMealConfig`, its `evaluateItemDeal` branch,
   its admin form section, `VALID_TYPES` entry.
 - `ItemCustomizerDrawer`'s "Make it a Meal" block.
@@ -226,10 +271,12 @@ with the rest of the ordering flow.
 
 - `lib/deal-engine.test.ts`: rewrite bundle fixtures to the new
   `{label, min_qty, max_qty, item_ids}` shape; add a min≠max range case
-  (e.g. pick 1–3 sides, verify it takes the best-price mix up to max, still
-  matches at exactly min); add an `isDealLive` unit test covering
-  before/during/after a scheduling window and the null (always-live) case.
-  Delete `fixed_meal` fixtures/cases.
+  proving the engine consumes exactly `min_qty` (best-price-first) even when
+  more matching units than `max_qty` are sitting in the cart — this is the
+  regression test for the discount-inflation bug the architect review
+  caught; add an `isDealLive` unit test covering before/during/after a
+  scheduling window and the null (always-live) case. Delete `fixed_meal`
+  fixtures/cases.
 - New `DealSlotPicker` test: completion gating respects per-slot
   `[min_qty, max_qty]`, `onComplete` payload shape, and that picking an item
   with non-empty `extras`/`removals`/`additions` routes through
