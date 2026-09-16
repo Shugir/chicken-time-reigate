@@ -22,6 +22,8 @@ let orderRows: Set<string>
 let insertedOrder: Record<string, unknown> | null = null
 let insertedOrderItems: Record<string, unknown>[]
 let menuItems: Record<string, { id: string; name: string; is_available: boolean }> = {}
+let menuItemRows: Record<string, unknown>[]
+let dealRows: Record<string, unknown>[]
 let orderUpdates: Record<string, unknown>[]
 let loyaltyTxns: Record<string, unknown>[]
 let stripeSessionCreated = false
@@ -58,7 +60,8 @@ vi.mock('@/lib/supabase-admin', () => ({
       let payload: unknown
 
       const rows = (): unknown[] => {
-        if (table === 'deals' || table === 'menu_items') return []
+        if (table === 'deals') return dealRows
+        if (table === 'menu_items') return menuItemRows
         return []
       }
 
@@ -175,21 +178,25 @@ const makeReward = (over: Partial<RewardRow> = {}): RewardRow => ({
   ...over,
 })
 
+function resetFixtures() {
+  balance = 1000
+  rewards = { 'reward-1': makeReward() }
+  promoCodes = { SAVE5: { discount_type: 'flat', discount_value: 5, min_order_amount: 0 } }
+  redeemedRewardIds = new Set()
+  rewardFailureCode = null
+  orderRows = new Set()
+  insertedOrder = null
+  insertedOrderItems = []
+  menuItems = { 'menu-9': { id: 'menu-9', name: 'Free Wings', is_available: true } }
+  menuItemRows = []
+  dealRows = []
+  orderUpdates = []
+  loyaltyTxns = []
+  stripeSessionCreated = false
+}
+
 describe('POST /api/checkout — reward redemption', () => {
-  beforeEach(() => {
-    balance = 1000
-    rewards = { 'reward-1': makeReward() }
-    promoCodes = { SAVE5: { discount_type: 'flat', discount_value: 5, min_order_amount: 0 } }
-    redeemedRewardIds = new Set()
-    rewardFailureCode = null
-    orderRows = new Set()
-    insertedOrder = null
-    insertedOrderItems = []
-    menuItems = { 'menu-9': { id: 'menu-9', name: 'Free Wings', is_available: true } }
-    orderUpdates = []
-    loyaltyTxns = []
-    stripeSessionCreated = false
-  })
+  beforeEach(resetFixtures)
 
   it('zeroes the delivery fee for a free_delivery reward', async () => {
     const res = await POST(checkoutRequest({ reward_promotion_id: 'reward-1' }))
@@ -361,20 +368,7 @@ describe('POST /api/checkout — reward redemption', () => {
 })
 
 describe('POST /api/checkout — orders without a reward', () => {
-  beforeEach(() => {
-    balance = 1000
-    rewards = { 'reward-1': makeReward() }
-    promoCodes = { SAVE5: { discount_type: 'flat', discount_value: 5, min_order_amount: 0 } }
-    redeemedRewardIds = new Set()
-    rewardFailureCode = null
-    orderRows = new Set()
-    insertedOrder = null
-    insertedOrderItems = []
-    menuItems = { 'menu-9': { id: 'menu-9', name: 'Free Wings', is_available: true } }
-    orderUpdates = []
-    loyaltyTxns = []
-    stripeSessionCreated = false
-  })
+  beforeEach(resetFixtures)
 
   it('still applies a promo code and charges the full delivery fee', async () => {
     const res = await POST(checkoutRequest({ promo_code: 'SAVE5' }))
@@ -399,5 +393,95 @@ describe('POST /api/checkout — orders without a reward', () => {
     expect(loyaltyTxns).toContainEqual(
       expect.objectContaining({ user_id: USER_ID, points: 200, type: 'earn' }),
     )
+  })
+})
+
+// The redeem_reward RPC decides eligibility and charges in one indivisible step,
+// the way the SQL function does under its row lock. Two requests reaching it
+// concurrently must therefore not both succeed — these tests fail if the route
+// ever goes back to deciding in JS between two round trips.
+describe('POST /api/checkout — concurrent reward redemption', () => {
+  beforeEach(resetFixtures)
+
+  it('spends a single balance on only one of two concurrent rewards', async () => {
+    balance = 500
+    rewards = {
+      'reward-1': makeReward({ id: 'reward-1' }),
+      'reward-2': makeReward({ id: 'reward-2' }),
+    }
+
+    const [first, second] = await Promise.all([
+      POST(checkoutRequest({ reward_promotion_id: 'reward-1' })),
+      POST(checkoutRequest({ reward_promotion_id: 'reward-2' })),
+    ])
+
+    expect([first.status, second.status].sort()).toEqual([200, 400])
+    const errors = (await Promise.all([first.json(), second.json()])).map((b) => b.error)
+    expect(errors).toContain('Not enough points for this reward')
+    expect(redeemedRewardIds.size).toBe(1)
+    expect(balance).toBe(200)   // one 500 debit, one 200 earn — not two debits clamped at 0
+    expect(orderRows.size).toBe(1)  // the rejected request's order row is deleted
+  })
+
+  it('consumes the same reward once across two concurrent checkouts', async () => {
+    balance = 5000
+
+    const [first, second] = await Promise.all([
+      POST(checkoutRequest({ reward_promotion_id: 'reward-1' })),
+      POST(checkoutRequest({ reward_promotion_id: 'reward-1' })),
+    ])
+
+    expect([first.status, second.status].sort()).toEqual([200, 400])
+    const errors = (await Promise.all([first.json(), second.json()])).map((b) => b.error)
+    expect(errors).toContain('Reward already redeemed')
+    expect(balance).toBe(4700)  // 5000 - 500 + 200
+    expect(orderRows.size).toBe(1)
+  })
+})
+
+describe('POST /api/checkout — reward vs bundle deal exclusivity', () => {
+  const DEAL_CART = [{
+    menu_item_id: 'wing',
+    name: 'Wings', price: 5, quantity: 2, totalPrice: 10, extras: [], removals: [],
+  }]
+
+  const dealCartRequest = (body: Record<string, unknown>) =>
+    new NextRequest('http://localhost/api/checkout', {
+      method: 'POST',
+      body: JSON.stringify({ items: DEAL_CART, delivery_fee: 3, ...body }),
+    })
+
+  beforeEach(() => {
+    resetFixtures()
+    menuItemRows = [{
+      id: 'wing', name: 'Wings', is_available: true, sold_out_extras: null, price: 5, category: 'chicken',
+    }]
+    dealRows = [{
+      id: 'deal-1', type: 'bogo', name: 'BOGO Wings', is_active: true,
+      available_from: null, available_until: null,
+      config: { buy: { item_ids: ['wing'], qty: 1 }, get: { item_ids: ['wing'], qty: 1, discount: 'free' } },
+    }]
+  })
+
+  it('applies the bundle deal when no reward is selected', async () => {
+    const res = await POST(dealCartRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrder!.applied_deals).toEqual([
+      expect.objectContaining({ deal_id: 'deal-1', savings: 5 }),
+    ])
+    expect(insertedOrder!.total_amount).toBe(8)  // 10 - 5 deal + 3 delivery
+  })
+
+  it('rejects a reward on a cart that already earns a bundle deal', async () => {
+    const res = await POST(dealCartRequest({ reward_promotion_id: 'reward-1' }))
+
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({
+      error: 'A bundle deal already applies to this cart — remove the reward or change your items',
+    })
+    expect(balance).toBe(1000)
+    expect(redeemedRewardIds.size).toBe(0)
+    expect(orderRows.size).toBe(0)
   })
 })
