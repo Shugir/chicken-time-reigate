@@ -43,8 +43,6 @@ interface MenuItem {
   dietary_flags: string[]
   allergens: string[]
   created_at: string
-  combo_category: 'main' | 'side' | 'drink' | null
-  size_tier: 'regular' | 'large' | null
 }
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
@@ -266,10 +264,8 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
         compare_at_price: editingItem.compare_at_price != null ? editingItem.compare_at_price.toFixed(2) : '',
         image_url: editingItem.image_url ?? '',
         category: editingItem.category,
-        combo_category: editingItem.combo_category ?? null,
-        size_tier: editingItem.size_tier ?? null,
       }
-      : { ...EMPTY_FORM, category: categories[0]?.slug ?? '', combo_category: null as 'main' | 'side' | 'drink' | null, size_tier: null as 'regular' | 'large' | null }
+      : { ...EMPTY_FORM, category: categories[0]?.slug ?? '' }
   )
   const [removals, setRemovals] = useState<string[]>(() => editingItem?.removals ?? [])
   const [additions, setAdditions] = useState<string[]>(() => editingItem?.additions ?? [])
@@ -386,8 +382,6 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       extras,
       dietary_flags: dietaryFlags,
       allergens,
-      combo_category: form.combo_category,
-      size_tier: form.size_tier,
     }
 
     setSaving(true)
@@ -738,52 +732,6 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
               </div>
             )}
           </div>
-
-          {/* Combo Role */}
-          <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1">Combo Role</label>
-            <select
-              value={form.combo_category ?? ''}
-              onChange={e => {
-                const val = (e.target.value || null) as 'main' | 'side' | 'drink' | null
-                setForm(f => ({
-                  ...f,
-                  combo_category: val,
-                  size_tier: val === 'main' ? null : f.size_tier,
-                }))
-              }}
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red"
-            >
-              <option value="">None</option>
-              <option value="main">Main</option>
-              <option value="side">Side</option>
-              <option value="drink">Drink</option>
-            </select>
-            {form.combo_category === 'main' && (
-              <p className="text-[11px] text-zinc-500 mt-1">Mains are always regular size — no size tier needed.</p>
-            )}
-          </div>
-
-          {/* Size Tier — hidden for mains */}
-          {form.combo_category !== 'main' && (
-            <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1">Size Tier</label>
-              <select
-                value={form.size_tier ?? ''}
-                onChange={e =>
-                  setForm(f => ({
-                    ...f,
-                    size_tier: (e.target.value || null) as 'regular' | 'large' | null,
-                  }))
-                }
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-brand-red"
-              >
-                <option value="">None</option>
-                <option value="regular">Regular</option>
-                <option value="large">Large</option>
-              </select>
-            </div>
-          )}
 
           {error && (
             <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>
