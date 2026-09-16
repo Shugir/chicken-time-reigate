@@ -5,7 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendOrderStatusEmail } from '@/lib/email'
 import { checkStoreStatus, BusinessHours, Holiday, DayKey } from '@/lib/store-status'
 import { validateScheduledFor } from '@/lib/utils/schedule-utils'
-import { matchDeals, type Deal, type MenuItemLite } from '@/lib/deal-engine'
+import { matchDeals, isDealLive, type Deal, type MenuItemLite } from '@/lib/deal-engine'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
 
     const { data: activeDeals } = await supabaseAdmin
       .from('deals')
-      .select('id, type, name, config, is_active')
+      .select('id, type, name, config, is_active, available_from, available_until')
       .eq('is_active', true)
 
     const menuItemsById = new Map<string, MenuItemLite>(
@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
     )
     const { applied: appliedDeals, totalDiscount: rawDealsDiscountValue } = matchDeals(
       items.map((i) => ({ menu_item_id: i.menu_item_id, quantity: i.quantity })),
-      (activeDeals ?? []) as Deal[],
+      (activeDeals ?? []).filter((d) => isDealLive(d)) as Deal[],
       menuItemsById,
     )
     // Cap deals savings at subtotal, same as the promo discount below — deals
