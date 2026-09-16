@@ -374,8 +374,8 @@ export async function POST(request: NextRequest) {
     if (userId) {
       const pointsEarned = Math.floor(subtotal * 10)
       if (pointsEarned > 0) {
-        supabaseAdmin.rpc('adjust_loyalty', { uid: userId, delta: pointsEarned })
-        supabaseAdmin.from('loyalty_transactions').insert({
+        await supabaseAdmin.rpc('adjust_loyalty', { uid: userId, delta: pointsEarned })
+        await supabaseAdmin.from('loyalty_transactions').insert({
           user_id: userId, order_id: order.id, points: pointsEarned, type: 'earn', note: 'Earned from order',
         })
       }

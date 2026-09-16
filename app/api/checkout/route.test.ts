@@ -21,6 +21,7 @@ let rewardFailureCode: string | null = null
 let orderRows: Set<string>
 let insertedOrder: Record<string, unknown> | null = null
 let orderUpdates: Record<string, unknown>[]
+let loyaltyTxns: Record<string, unknown>[]
 let stripeSessionCreated = false
 
 let orderSeq = 0
@@ -91,18 +92,23 @@ vi.mock('@/lib/supabase-admin', () => ({
         then: (resolve: (r: { data: unknown; error: null }) => unknown) => {
           if (op === 'delete' && table === 'orders') orderRows.delete(String(filters.id))
           if (op === 'update' && table === 'orders') orderUpdates.push(payload as Record<string, unknown>)
+          if (op === 'insert' && table === 'loyalty_transactions') loyaltyTxns.push(payload as Record<string, unknown>)
           return Promise.resolve(resolve({ data: op === 'select' ? rows() : null, error: null }))
         },
       }
       return builder
     },
 
-    async rpc(fn: string, args: Record<string, unknown>) {
-      if (fn === 'adjust_loyalty') {
-        balance = Math.max(0, balance + (args.delta as number))
-        return { data: null, error: null }
-      }
-      if (fn === 'redeem_reward') {
+    // Lazy like the real PostgrestBuilder: the side effect only runs once the
+    // chain is consumed, so an un-awaited .rpc() leaves state untouched and
+    // fails the test rather than passing on an eager mock.
+    rpc(fn: string, args: Record<string, unknown>) {
+      const run = () => {
+        if (fn === 'adjust_loyalty') {
+          balance = Math.max(0, balance + (args.delta as number))
+          return { data: null, error: null }
+        }
+        if (fn !== 'redeem_reward') throw new Error(`unexpected rpc: ${fn}`)
         if (rewardFailureCode) {
           return { data: null, error: { code: rewardFailureCode, message: 'rejected' } }
         }
@@ -131,7 +137,10 @@ vi.mock('@/lib/supabase-admin', () => ({
           error: null,
         }
       }
-      throw new Error(`unexpected rpc: ${fn}`)
+      return {
+        then: (resolve: (r: { data: unknown; error: unknown }) => unknown) =>
+          Promise.resolve(resolve(run())),
+      }
     },
   },
 }))
@@ -169,6 +178,7 @@ describe('POST /api/checkout — reward redemption', () => {
     orderRows = new Set()
     insertedOrder = null
     orderUpdates = []
+    loyaltyTxns = []
     stripeSessionCreated = false
   })
 
@@ -297,6 +307,7 @@ describe('POST /api/checkout — orders without a reward', () => {
     orderRows = new Set()
     insertedOrder = null
     orderUpdates = []
+    loyaltyTxns = []
     stripeSessionCreated = false
   })
 
@@ -313,5 +324,15 @@ describe('POST /api/checkout — orders without a reward', () => {
 
     expect(res.status).toBe(200)
     expect(orderUpdates).toContainEqual({ points_earned: 200, points_redeemed: 0 })
+  })
+
+  it('credits the balance and writes an earn transaction', async () => {
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(balance).toBe(1200)
+    expect(loyaltyTxns).toContainEqual(
+      expect.objectContaining({ user_id: USER_ID, points: 200, type: 'earn' }),
+    )
   })
 })
