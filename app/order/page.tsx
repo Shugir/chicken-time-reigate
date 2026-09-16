@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
 import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
+import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import ScrollToTop from '@/components/UI/ScrollToTop'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -32,6 +33,25 @@ type Cart = Record<string, CartEntry>
 interface DbCategory {
   id: string; name: string; slug: string; sort_order: number
   image_url: string | null; description: string | null
+}
+
+interface ActiveDeal { id: string; type: string; name: string; config: any }
+
+interface BundleDeal {
+  id: string
+  name: string
+  config: { groups: { label: string; min_qty: number; max_qty: number; item_ids: string[] }[]; price: number }
+}
+
+interface SlotItem {
+  id: string
+  name: string
+  price: number
+  image_url: string | null
+  category: string
+  extras: AddOn[] | null
+  removals: string[] | null
+  additions: string[] | null
 }
 
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80'
@@ -294,14 +314,15 @@ function cartCount(cart: Cart) {
 
 // ─── Premium Menu Card ────────────────────────────────────────────────────────
 
-function MenuCard({ item, qty, onOpenDrawer, onOpenMealDrawer, onAdd, onRemove, mealFromPrice }: {
+function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, mealFromPrice, hasDeal }: {
   item: MenuItem
   qty: number
   onOpenDrawer: () => void
-  onOpenMealDrawer: () => void
+  onOpenDealPicker: () => void
   onAdd: () => void
   onRemove: () => void
   mealFromPrice: number | null
+  hasDeal: boolean
 }) {
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
   const isSoldOut = item.is_available === false
@@ -333,6 +354,13 @@ function MenuCard({ item, qty, onOpenDrawer, onOpenMealDrawer, onAdd, onRemove, 
         {item.badge && !isOffer && (
           <span className="absolute top-3 left-3 z-10 text-[10px] font-bold px-2.5 py-1 rounded-full bg-zinc-900/80 text-white backdrop-blur-sm tracking-wide">
             {item.badge}
+          </span>
+        )}
+
+        {/* DEAL badge — only when no other badge already occupies a corner */}
+        {hasDeal && !isOffer && !item.badge && (
+          <span className="absolute top-3 left-3 z-10 text-[10px] font-bold px-2.5 py-1 rounded-full bg-brand-red text-white backdrop-blur-sm tracking-wide">
+            DEAL
           </span>
         )}
 
@@ -372,7 +400,7 @@ function MenuCard({ item, qty, onOpenDrawer, onOpenMealDrawer, onAdd, onRemove, 
               </span>
             </button>
             <button
-              onClick={onOpenMealDrawer}
+              onClick={onOpenDealPicker}
               aria-label={`Add ${item.name} (meal deal)`}
               className="flex items-center justify-between bg-zinc-50 rounded-xl px-3 py-2.5 hover:bg-zinc-100 transition-colors"
             >
@@ -736,8 +764,9 @@ export default function OrderPage() {
   const [categories, setCategories] = useState<DbCategory[]>([])
   const [activeCategory, setActive] = useState<string>('')
   const [drawerItem, setDrawerItem] = useState<MenuItem | null>(null)
-  const [drawerInitialMeal, setDrawerInitialMeal] = useState(false)
-  const [activeBundles, setActiveBundles] = useState<{ id: string; config: { groups: { category: string }[]; price: number } }[]>([])
+  const [dealPickerFor, setDealPickerFor] = useState<{ deal: BundleDeal; itemsById: Map<string, SlotItem> } | null>(null)
+  const [activeDeals, setActiveDeals] = useState<ActiveDeal[]>([])
+  const [activeBundles, setActiveBundles] = useState<BundleDeal[]>([])
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MENU_ITEMS)
   const [storeOpen, setStoreOpen] = useState(true)
   const [closedReason, setClosedReason] = useState<string>('')
@@ -808,18 +837,38 @@ export default function OrderPage() {
   useEffect(() => {
     fetch('/api/deals/active')
       .then((r) => r.json())
-      .then((deals: { id: string; type: string; config: any }[]) => {
+      .then((deals: ActiveDeal[]) => {
+        setActiveDeals(deals)
         setActiveBundles(deals.filter((d) => d.type === 'bundle'))
       })
       .catch(() => {})
   }, [])
 
-  const mealFromPriceFor = useMemo(() => {
-    return (item: MenuItem): number | null => {
-      const bundle = activeBundles.find((b) => b.config.groups.some((g) => g.category === item.category))
-      return bundle ? bundle.config.price : null
-    }
+  const bundleFor = useMemo(() => {
+    return (item: MenuItem): BundleDeal | undefined =>
+      activeBundles.find((b) => b.config.groups.some((g) => g.item_ids.includes(item.id)))
   }, [activeBundles])
+
+  const mealFromPriceFor = useMemo(() => {
+    return (item: MenuItem): number | null => bundleFor(item)?.config.price ?? null
+  }, [bundleFor])
+
+  const anyDealFor = useMemo(() => {
+    return (item: MenuItem): boolean => {
+      if (bundleFor(item)) return true
+      return activeDeals.some((d) => {
+        if (d.type === 'bogo') {
+          const buyMatch = d.config.buy.item_ids?.includes(item.id) || d.config.buy.category === item.category
+          const getMatch = d.config.get.item_ids?.includes(item.id) || d.config.get.category === item.category
+          return Boolean(buyMatch || getMatch)
+        }
+        if (d.type === 'order_discount') {
+          return d.config.scope === 'order' || d.config.category === item.category
+        }
+        return false
+      })
+    }
+  }, [bundleFor, activeDeals])
 
   const { dietaryFlags: availableDietaryFlags, allergens: availableAllergens } = useMemo(
     () => getUniqueTags(menuItems),
@@ -851,9 +900,14 @@ export default function OrderPage() {
   const count = cartCount(cart)
   const total = cartTotal(cart, menuItems)
 
-  function openMealDrawer(item: MenuItem) {
-    setDrawerInitialMeal(true)
-    setDrawerItem(item)
+  function openDealPicker(item: MenuItem) {
+    const bundle = bundleFor(item)
+    if (!bundle) return
+    const itemsById = new Map<string, SlotItem>(menuItems.map((m) => [m.id, {
+      id: m.id, name: m.name, price: m.price, image_url: m.image, category: m.category,
+      extras: m.add_ons, removals: m.removables, additions: m.additions ?? null,
+    }]))
+    setDealPickerFor({ deal: bundle, itemsById })
   }
 
   function addToCart(id: string) {
@@ -1121,8 +1175,9 @@ export default function OrderPage() {
                   <MenuCard
                     key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
                     onOpenDrawer={() => setDrawerItem(item)}
-                    onOpenMealDrawer={() => openMealDrawer(item)}
+                    onOpenDealPicker={() => openDealPicker(item)}
                     mealFromPrice={mealFromPriceFor(item)}
+                    hasDeal={anyDealFor(item)}
                     onAdd={() => addToCart(item.id)}
                     onRemove={() => removeFromCart(item.id)}
                   />
@@ -1160,8 +1215,9 @@ export default function OrderPage() {
                         <MenuCard
                           key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
                           onOpenDrawer={() => setDrawerItem(item)}
-                          onOpenMealDrawer={() => openMealDrawer(item)}
+                          onOpenDealPicker={() => openDealPicker(item)}
                           mealFromPrice={mealFromPriceFor(item)}
+                          hasDeal={anyDealFor(item)}
                           onAdd={() => addToCart(item.id)}
                           onRemove={() => removeFromCart(item.id)}
                         />
@@ -1209,20 +1265,33 @@ export default function OrderPage() {
       {drawerItem && (
         <ItemCustomizerDrawer
           item={drawerItem}
-          onClose={() => { setDrawerItem(null); setDrawerInitialMeal(false) }}
+          onClose={() => setDrawerItem(null)}
           onAddToOrder={handleAddToOrder}
-          onAddBundleItems={(itemIds) => {
-            setCart((p) => {
-              const next = { ...p }
-              for (const id of itemIds) {
-                next[id] = next[id]
-                  ? { ...next[id], qty: next[id].qty + 1 }
-                  : { qty: 1, removals: [], additions: [], extras: [] }
-              }
-              return next
-            })
+        />
+      )}
+
+      {dealPickerFor && (
+        <DealSlotPicker
+          deal={dealPickerFor.deal}
+          itemsById={dealPickerFor.itemsById}
+          onClose={() => setDealPickerFor(null)}
+          onComplete={(picks) => {
+            for (const pick of picks) {
+              const item = menuItems.find((m) => m.id === pick.item_id)
+              if (!item) continue
+              const extrasTotal = pick.extras.reduce((s, e) => s + e.price, 0)
+              handleAddToOrder({
+                item,
+                quantity: pick.qty,
+                removals: pick.removals,
+                additions: pick.additions,
+                extras: pick.extras,
+                notes: '',
+                totalPrice: (item.price + extrasTotal) * pick.qty,
+              })
+            }
+            setDealPickerFor(null)
           }}
-          initialMealMode={drawerInitialMeal}
         />
       )}
 

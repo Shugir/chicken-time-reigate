@@ -4,20 +4,6 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { X, Plus, Minus, ChevronDown, ShoppingBag, Check, TriangleAlert } from 'lucide-react'
 import type { ProductItem, AddOn, OrderSelection } from '@/components/ProductModal'
-import BundleGroupPicker from '@/components/Deals/BundleGroupPicker'
-
-interface ComboItem {
-  id: string
-  name: string
-  price: number
-  image_url: string | null
-}
-
-interface BundleDeal {
-  id: string
-  name: string
-  config: { groups: { label: string; category: string; pick_qty: number }[]; price: number }
-}
 
 type DrawerItem = ProductItem & {
   compare_at_price?: number | null
@@ -29,8 +15,6 @@ interface Props {
   item: DrawerItem
   onClose: () => void
   onAddToOrder: (selection: OrderSelection) => void
-  onAddBundleItems?: (itemIds: string[]) => void
-  initialMealMode?: boolean
 }
 
 function AccordionSection({
@@ -71,47 +55,13 @@ function AccordionSection({
   )
 }
 
-function ComboItemCard({ item, selected, onSelect }: { item: ComboItem; selected: boolean; onSelect: () => void }) {
-  return (
-    <button
-      onClick={onSelect}
-      className={`rounded-xl border-2 overflow-hidden text-left transition-all ${selected ? 'border-brand-red bg-brand-red/5' : 'border-zinc-100 hover:border-zinc-200'
-        }`}
-    >
-      {item.image_url ? (
-        <div className="relative w-full h-20">
-          <Image src={item.image_url} alt={item.name} fill className="object-cover" sizes="200px" />
-        </div>
-      ) : (
-        <div className="w-full h-20 bg-zinc-100 flex items-center justify-center text-2xl">🍽️</div>
-      )}
-      <div className="p-2.5">
-        <p className={`text-xs font-semibold leading-tight ${selected ? 'text-brand-red' : 'text-zinc-800'}`}>
-          {item.name}
-        </p>
-        <p className={`text-xs font-bold mt-1 ${selected ? 'text-brand-red' : 'text-zinc-500'}`}>
-          £{item.price.toFixed(2)}
-        </p>
-      </div>
-    </button>
-  )
-}
-
-export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, onAddBundleItems, initialMealMode = false }: Props) {
+export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Props) {
   const [visible, setVisible] = useState(false)
   const [qty, setQty] = useState(1)
   const [removals, setRemovals] = useState<string[]>([])
   const [additions, setAdditions] = useState<string[]>([])
   const [extras, setExtras] = useState<AddOn[]>([])
   const [notes, setNotes] = useState('')
-
-  // ponytail: every item can offer "Make it a Meal" now — the bundle lookup itself decides whether a matching deal exists; item-type gating was combo_category-specific and no longer applies
-  const isMain = true
-
-  // Meal mode state
-  const [mealMode, setMealMode] = useState(isMain && initialMealMode)
-  const [matchingBundle, setMatchingBundle] = useState<BundleDeal | null>(null)
-  const [bundleMenuItems, setBundleMenuItems] = useState<Record<string, { id: string; name: string; price: number; image_url: string | null }[]>>({})
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true))
@@ -127,28 +77,6 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, onAd
     }
   }, [onClose])
 
-  useEffect(() => {
-    if (!mealMode) return
-    fetch('/api/deals/active')
-      .then((r) => r.json())
-      .then((deals: { id: string; type: string; name: string; config: any }[]) => {
-        const bundle = deals.find((d) => d.type === 'bundle' && d.config.groups.some((g: any) => g.category === item.category)) as BundleDeal | undefined
-        if (!bundle) return
-        setMatchingBundle(bundle)
-        const categories = bundle.config.groups.map((g) => g.category)
-        fetch('/api/menu-items')
-          .then((r) => r.json())
-          .then((all: { id: string; name: string; price: number; image_url: string | null; category: string; is_available: boolean }[]) => {
-            const byCategory: Record<string, { id: string; name: string; price: number; image_url: string | null }[]> = {}
-            for (const cat of categories) {
-              byCategory[cat] = all.filter((m) => m.category === cat && m.is_available)
-            }
-            setBundleMenuItems(byCategory)
-          })
-      })
-      .catch(() => {})
-  }, [mealMode, item.category])
-
   const extrasTotal = extras.reduce((s, e) => s + e.price, 0)
   const total = (item.price + extrasTotal) * qty
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
@@ -157,9 +85,6 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, onAd
   const hasRemovals = (item.removables ?? []).length > 0
   const hasAdditions = (item.additions ?? []).length > 0
 
-  // Button validation — bundle selection is now handled entirely by BundleGroupPicker's own CTA,
-  // so this footer button no longer has a meal-mode-specific "missing step" to gate on.
-  const buttonDisabled = false
   const buttonLabel = `Add${qty > 1 ? ` ${qty}×` : ''} to Order`
 
   const toggleExtra = (addon: AddOn) => setExtras(prev =>
@@ -172,10 +97,6 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, onAd
   const handleAdd = () => {
     onAddToOrder({ item, quantity: qty, removals, additions, extras, notes: notes.trim(), totalPrice: total })
     onClose()
-  }
-
-  const handleToggleMeal = () => {
-    setMealMode((m) => !m)
   }
 
   return (
@@ -260,46 +181,6 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, onAd
 
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto divide-y divide-zinc-100">
-
-          {/* Make it a Meal toggle */}
-          {isMain && (
-            <div className="px-5 py-4">
-              <div className="flex items-center justify-between bg-zinc-50 rounded-2xl px-4 py-3.5 border border-zinc-100">
-                <div>
-                  <p className="font-heading font-semibold text-zinc-900 text-sm">Make it a Meal</p>
-                  <p className="text-xs text-zinc-400 mt-0.5">Add side &amp; drink at combo price</p>
-                </div>
-                <button
-                  onClick={handleToggleMeal}
-                  className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${mealMode ? 'bg-brand-red' : 'bg-zinc-300'}`}
-                  aria-pressed={mealMode}
-                >
-                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${mealMode ? 'translate-x-5' : 'translate-x-0'}`} />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Bundle group picker — replaces old size/side/drink combo accordion */}
-          {mealMode && (
-            matchingBundle ? (
-              <div className="px-5 py-4">
-                {/* ponytail: assumes at most one group per category — if a bundle ever needs two groups of the same category, this would incorrectly drop both. Not exercised by current live deals (each seeded bundle has exactly one group per category). */}
-                <BundleGroupPicker
-                  groups={matchingBundle.config.groups.filter((g) => g.category !== item.category)}
-                  price={matchingBundle.config.price}
-                  menuItemsByCategory={bundleMenuItems}
-                  onComplete={(selections) => {
-                    onAddToOrder({ item, quantity: qty, removals, additions, extras, notes: notes.trim(), totalPrice: total })
-                    onAddBundleItems?.(selections.map((s) => s.item_id))
-                    onClose()
-                  }}
-                />
-              </div>
-            ) : (
-              <div className="px-5 py-6 text-center text-sm text-zinc-400">No meal deal currently available for this item.</div>
-            )
-          )}
 
           {/* Customise — removals + additions, flat 2-col grid */}
           {(hasRemovals || hasAdditions) && (
@@ -386,17 +267,13 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder, onAd
           )}
           <button
             onClick={handleAdd}
-            disabled={buttonDisabled}
-            className={`w-full font-bold py-4 rounded-2xl flex items-center justify-between px-5 transition-all ${buttonDisabled
-              ? 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
-              : 'bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20'
-              }`}
+            className="w-full font-bold py-4 rounded-2xl flex items-center justify-between px-5 transition-all bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20"
           >
             <span className="flex items-center gap-2 text-base">
               <ShoppingBag size={18} />
               {buttonLabel}
             </span>
-            {!buttonDisabled && <span className="text-base">£{total.toFixed(2)}</span>}
+            <span className="text-base">£{total.toFixed(2)}</span>
           </button>
         </div>
         </div>
