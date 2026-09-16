@@ -23,8 +23,6 @@ import ScrollToTop from '@/components/UI/ScrollToTop'
 type MenuItem = ProductItem & {
   dietaryFlags?: string[]
   compare_at_price?: number | null
-  combo_category?: 'main' | 'side' | 'drink' | null
-  size_tier?: 'regular' | 'large' | null
   is_available?: boolean
   sold_out_extras?: string[]
 }
@@ -248,8 +246,6 @@ interface DbMenuItem {
   additions: string[] | null
   dietary_flags: string[] | null
   allergens: string[] | null
-  combo_category: 'main' | 'side' | 'drink' | null
-  size_tier: 'regular' | 'large' | null
   custom_options: {
     emoji?: string
     badge?: string
@@ -276,8 +272,6 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     additions: item.additions ?? [],
     add_ons: item.extras?.length ? item.extras : (opts.add_ons ?? []),
     dietaryFlags: item.dietary_flags ?? [],
-    combo_category: item.combo_category ?? null,
-    size_tier: item.size_tier ?? null,
     is_available: item.is_available,
     sold_out_extras: item.sold_out_extras ?? [],
   }

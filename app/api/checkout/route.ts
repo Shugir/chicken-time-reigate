@@ -13,23 +13,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 interface Extra { name: string; price: number }
 
-interface ComboComponent {
-  id:        string
-  name:      string
-  category:  'main' | 'side' | 'drink'
-  size_tier: 'regular' | 'large'
-}
-
 interface CartItem {
-  menu_item_id?:     string
-  name:              string
-  price:             number      // unit price already including extras
-  quantity:          number
-  totalPrice:        number      // price × quantity
-  extras:            Extra[]
-  removals:          string[]
-  notes?:            string      // free-text only
-  combo_components?: ComboComponent[]
+  menu_item_id?: string
+  name:          string
+  price:         number      // unit price already including extras
+  quantity:      number
+  totalPrice:    number      // price × quantity
+  extras:        Extra[]
+  removals:      string[]
+  notes?:        string      // free-text only
 }
 
 export async function POST(request: NextRequest) {
@@ -163,28 +155,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const allComponents = items.flatMap(i => i.combo_components ?? [])
-    const componentIds = [...new Set(allComponents.map(c => c.id))]
-    if (componentIds.length > 0) {
-      const { data: dbComponents } = await supabaseAdmin
-        .from('menu_items')
-        .select('id, name, is_available')
-        .in('id', componentIds)
-      if (dbComponents) {
-        const compMap = new Map(dbComponents.map(r => [r.id, r]))
-        for (const comp of allComponents) {
-          const db = compMap.get(comp.id)
-          if (!db) continue
-          if (!db.is_available) {
-            return NextResponse.json(
-              { error: `Sorry, ${db.name} just sold out. Please update your cart to continue.` },
-              { status: 400 },
-            )
-          }
-        }
-      }
-    }
-
     const origin = request.headers.get('origin') || 'http://localhost:3000'
 
     const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)
@@ -291,14 +261,13 @@ export async function POST(request: NextRequest) {
       .from('order_items')
       .insert(
         items.map((item) => ({
-          order_id:          order.id,
-          item_name:         item.name,
-          quantity:          item.quantity,
-          unit_price:        item.price,
-          extras:            item.extras            ?? [],
-          removals:          item.removals          ?? [],
-          notes:             item.notes             ?? null,
-          combo_components:  item.combo_components  ?? null,
+          order_id:   order.id,
+          item_name:  item.name,
+          quantity:   item.quantity,
+          unit_price: item.price,
+          extras:     item.extras   ?? [],
+          removals:   item.removals ?? [],
+          notes:      item.notes    ?? null,
         })),
       )
 

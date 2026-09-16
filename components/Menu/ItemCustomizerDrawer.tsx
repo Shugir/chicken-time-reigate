@@ -11,7 +11,6 @@ interface ComboItem {
   name: string
   price: number
   image_url: string | null
-  size_tier: 'regular' | 'large' | null
 }
 
 interface BundleDeal {
@@ -23,7 +22,6 @@ interface BundleDeal {
 type DrawerItem = ProductItem & {
   compare_at_price?: number | null
   dietaryFlags?: string[]
-  combo_category?: 'main' | 'side' | 'drink' | null
   sold_out_extras?: string[]
 }
 

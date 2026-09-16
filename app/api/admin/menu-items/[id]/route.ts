@@ -34,7 +34,7 @@ export async function PATCH(
   const PATCHABLE = new Set([
     'name', 'description', 'price', 'compare_at_price', 'image_url',
     'category', 'is_available', 'sold_out_extras', 'extras', 'removals',
-    'additions', 'dietary_flags', 'allergens', 'combo_category', 'size_tier',
+    'additions', 'dietary_flags', 'allergens',
   ])
   const patch = Object.fromEntries(Object.entries(body).filter(([k]) => PATCHABLE.has(k)))
 
