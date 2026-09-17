@@ -28,6 +28,8 @@ let dealRows: Record<string, unknown>[]
 let orderUpdates: Record<string, unknown>[]
 let loyaltyTxns: Record<string, unknown>[]
 let stripeSessionCreated = false
+let currentTierId: string | null = null
+let tiers: Record<string, { multiplier: number }> = {}
 
 let orderSeq = 0
 
@@ -70,7 +72,10 @@ vi.mock('@/lib/supabase-admin', () => ({
         if (table === 'store_settings') {
           return { data: { is_accepting_orders: true, business_hours: null, holidays: null }, error: null }
         }
-        if (table === 'profiles') return { data: { loyalty_points: balance }, error: null }
+        if (table === 'profiles') {
+          return { data: { loyalty_points: balance, current_tier_id: currentTierId }, error: null }
+        }
+        if (table === 'loyalty_tiers') return { data: tiers[String(filters.id)] ?? null, error: null }
         if (table === 'menu_items') return { data: menuItems[String(filters.id)] ?? null, error: null }
         if (table === 'promotions') {
           if (filters.promo_type === 'REWARD') {
@@ -198,6 +203,8 @@ function resetFixtures() {
   orderUpdates = []
   loyaltyTxns = []
   stripeSessionCreated = false
+  currentTierId = null
+  tiers = { std: { multiplier: 1 }, gold: { multiplier: 1.5 } }
 }
 
 describe('POST /api/checkout — reward redemption', () => {
@@ -419,6 +426,64 @@ describe('POST /api/checkout — orders without a reward', () => {
     expect(loyaltyTxns).toContainEqual(
       expect.objectContaining({ user_id: USER_ID, points: 200, type: 'earn' }),
     )
+  })
+})
+
+describe('POST /api/checkout — tier earn multiplier', () => {
+  beforeEach(resetFixtures)
+
+  const cartRequest = (items: unknown[]) =>
+    new NextRequest('http://localhost/api/checkout', {
+      method: 'POST',
+      body: JSON.stringify({ items, delivery_fee: 3 }),
+    })
+
+  it('earns the base rate on a Standard 1.00x tier', async () => {
+    currentTierId = 'std'
+
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(orderUpdates).toContainEqual({ points_earned: 200, points_redeemed: 0 })
+    expect(balance).toBe(1200)
+  })
+
+  it('multiplies the earn on a higher tier', async () => {
+    currentTierId = 'gold'
+
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(orderUpdates).toContainEqual({ points_earned: 300, points_redeemed: 0 })
+    expect(loyaltyTxns).toContainEqual(expect.objectContaining({ points: 300, type: 'earn' }))
+  })
+
+  it('floors a fractional multiplied earn', async () => {
+    currentTierId = 'gold'
+    const items = [{ name: 'Wings', price: 9.99, quantity: 1, totalPrice: 9.99, extras: [], removals: [] }]
+
+    const res = await POST(cartRequest(items))
+
+    expect(res.status).toBe(200)
+    expect(orderUpdates).toContainEqual({ points_earned: 149, points_redeemed: 0 })
+  })
+
+  it('falls back to the base rate when the profile has no tier', async () => {
+    currentTierId = null
+
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(orderUpdates).toContainEqual({ points_earned: 200, points_redeemed: 0 })
+  })
+
+  it('falls back to the base rate when the tier row is missing', async () => {
+    currentTierId = 'deleted-tier'
+
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(orderUpdates).toContainEqual({ points_earned: 200, points_redeemed: 0 })
   })
 })
 

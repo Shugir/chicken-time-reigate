@@ -402,7 +402,25 @@ export async function POST(request: NextRequest) {
     // loyalty_transactions row are written inside the redeem_reward RPC above,
     // so the spend is only echoed onto the order row here for receipts.
     if (userId) {
-      const pointsEarned = Math.floor(subtotal * 10)
+      // Read the tier before adjust_loyalty, which recomputes current_tier_id —
+      // otherwise this order's own earn could pay itself the higher rate.
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('current_tier_id')
+        .eq('id', userId)
+        .maybeSingle()
+
+      let multiplier = 1
+      if (profile?.current_tier_id) {
+        const { data: tier } = await supabaseAdmin
+          .from('loyalty_tiers')
+          .select('multiplier')
+          .eq('id', profile.current_tier_id)
+          .maybeSingle()
+        if (tier) multiplier = Number(tier.multiplier)
+      }
+
+      const pointsEarned = Math.floor(subtotal * 10 * multiplier)
       if (pointsEarned > 0) {
         await supabaseAdmin.rpc('adjust_loyalty', { uid: userId, delta: pointsEarned })
         await supabaseAdmin.from('loyalty_transactions').insert({
