@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'MenuManager')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const { data, error } = await supabaseAdmin
     .from('menu_items')
     .select('removals, additions, extras, allergens')

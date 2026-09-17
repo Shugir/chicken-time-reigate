@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
+  // The menu manager renders the same metric tiles at the top of its page.
+  const perms = await getUserPermissions()
+  if (!perms || !(hasPermission(perms, 'Dashboard') || hasPermission(perms, 'MenuManager'))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const todayStart = new Date()
   todayStart.setHours(0, 0, 0, 0)
   const todayIso = todayStart.toISOString()

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 import { generateReceiptBuffer, sendToPrinter } from '@/lib/printer'
 
 export const dynamic = 'force-dynamic'
@@ -13,15 +12,12 @@ const ORDER_FIELDS = `
 `
 
 export async function POST(req: NextRequest) {
-  // 1. Auth check
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => { } } },
-  )
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  // 1. Auth check — printing is driven from the dispatch board, which the
+  // dispatch API already gates on Fleet.
+  const perms = await getUserPermissions()
+  if (!perms || !(hasPermission(perms, 'Fleet') || hasPermission(perms, 'DispatchController'))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
 
   // 2. Get order details
   const { orderId, printerIp = 'localhost' } = await req.json()

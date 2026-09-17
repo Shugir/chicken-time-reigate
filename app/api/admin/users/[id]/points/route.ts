@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // Adjusting a balance is reachable from both the loyalty screen and the
+  // users screen, so either permission may mint or burn points.
+  const perms = await getUserPermissions()
+  if (!perms || !(hasPermission(perms, 'Loyalty') || hasPermission(perms, 'UserControl'))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const { id: userId } = await params
   const { delta, note } = await request.json()
 

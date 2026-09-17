@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export const dynamic = 'force-dynamic'
 
 type Params = { params: Promise<{ id: string }> }
 
 export async function GET(request: NextRequest, { params }: Params) {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'Fleet')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const { id } = await params
   const { searchParams } = new URL(request.url)
   const from = searchParams.get('from')
@@ -66,6 +72,11 @@ export async function GET(request: NextRequest, { params }: Params) {
 }
 
 export async function POST(_request: NextRequest, { params }: Params) {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'Fleet')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const { id } = await params
 
   const { data: driver } = await supabaseAdmin

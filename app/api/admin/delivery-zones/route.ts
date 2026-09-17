@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export async function GET(request: NextRequest) {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'DeliveryZones')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const q = request.nextUrl.searchParams.get('q')?.trim() ?? ''
 
   let dbQuery = supabaseAdmin
@@ -18,6 +24,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'DeliveryZones')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const { postcode_prefix, delivery_fee, min_order_amount, free_delivery_threshold, is_active } = await request.json()
 
   if (!postcode_prefix) return NextResponse.json({ error: 'postcode_prefix is required' }, { status: 400 })

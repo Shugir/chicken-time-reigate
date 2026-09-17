@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
+// Deliberately public: the site header and sign-in page read opening hours and
+// the open/closed flag before anyone has signed in.
 export async function GET() {
   const { data, error } = await supabaseAdmin
     .from('store_settings')
@@ -13,6 +16,11 @@ export async function GET() {
 }
 
 export async function PATCH(request: NextRequest) {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'StoreSettings')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const body = await request.json()
 
   const { data, error } = await supabaseAdmin

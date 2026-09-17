@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
+  // Both the drivers screen and the users screen pick accounts from this list.
+  const perms = await getUserPermissions()
+  if (!perms || !(hasPermission(perms, 'Fleet') || hasPermission(perms, 'UserControl'))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const q = request.nextUrl.searchParams.get('q')?.trim().toLowerCase() ?? ''
 
   const { data, error } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })

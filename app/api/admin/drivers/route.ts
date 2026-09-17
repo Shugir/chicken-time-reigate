@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
+  // The users and receipts screens both label orders with their driver, so
+  // reading the roster is allowed for those permissions; writing stays Fleet.
+  const perms = await getUserPermissions()
+  if (!perms || !(hasPermission(perms, 'Fleet') || hasPermission(perms, 'UserControl') || hasPermission(perms, 'Receipts'))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const q            = request.nextUrl.searchParams.get('q')?.trim() ?? ''
   const statusFilter = request.nextUrl.searchParams.get('status')?.trim() ?? ''
 
@@ -69,6 +77,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'Fleet')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const { name, phone, per_delivery_wage } = await request.json()
 
   if (!name) return NextResponse.json({ error: 'name is required' }, { status: 400 })

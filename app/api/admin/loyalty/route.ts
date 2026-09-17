@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
+  // The users screen shows balances alongside accounts, so it reads this too.
+  const perms = await getUserPermissions()
+  if (!perms || !(hasPermission(perms, 'Loyalty') || hasPermission(perms, 'UserControl'))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const q = request.nextUrl.searchParams.get('q')?.trim().toLowerCase() ?? ''
 
   const [{ data: txns, error }, { data: usersData }] = await Promise.all([
@@ -31,6 +38,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const perms = await getUserPermissions()
+  if (!perms || !hasPermission(perms, 'Loyalty')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   const { user_id, points, type, note } = await request.json()
 
   if (!user_id || typeof points !== 'number' || !['admin_credit', 'admin_debit'].includes(type)) {
