@@ -34,10 +34,9 @@ export const getUserPermissions = cache(async (): Promise<UserPermissions | null
     .eq('email', user.email)
     .maybeSingle()
 
-  if (!record) {
-    // Not in table — treat as owner (original Supabase account holder)
-    return { email: user.email, role: 'owner', permissions: [], isOwner: true }
-  }
+  // Customers are signed-in users with no staff row, so absence must deny.
+  // Owners are granted by an explicit role: 'owner' row, never by default.
+  if (!record) return null
 
   return {
     email:       user.email,
