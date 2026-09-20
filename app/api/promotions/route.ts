@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { promoWindowError } from '@/lib/reward-checkout'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -15,18 +16,14 @@ export async function GET(request: NextRequest) {
     .select('*')
     .eq('code', code.trim().toUpperCase())
     .eq('is_active', true)
+    .eq('promo_type', 'VOUCHER')
     .maybeSingle()
 
   if (error)  return NextResponse.json({ error: error.message }, { status: 500 })
   if (!promo) return NextResponse.json({ error: 'Invalid or inactive promo code' }, { status: 404 })
 
-  const now = new Date()
-  if (promo.start_date && now < new Date(promo.start_date)) {
-    return NextResponse.json({ error: 'This promo code is not active yet.' }, { status: 422 })
-  }
-  if (promo.end_date && now > new Date(promo.end_date)) {
-    return NextResponse.json({ error: 'This promo code has expired.' }, { status: 422 })
-  }
+  const windowError = promoWindowError(promo)
+  if (windowError) return NextResponse.json({ error: windowError }, { status: 422 })
 
   if (Number(promo.min_order_amount) > 0 && subtotal < Number(promo.min_order_amount)) {
     return NextResponse.json(

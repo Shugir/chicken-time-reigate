@@ -62,6 +62,19 @@ export function selectableRewards<T extends { eligible: boolean; min_order_amoun
   return rewards.filter((r) => r.eligible && r.min_order_amount <= subtotal)
 }
 
+/**
+ * Shared by GET /api/promotions (preview) and POST /api/checkout so a typed
+ * promo code is dated identically in both. Null means inside its window.
+ */
+export function promoWindowError(
+  promo: { start_date: string | null; end_date: string | null },
+  now: Date = new Date(),
+): string | null {
+  if (promo.start_date && now < new Date(promo.start_date)) return 'This promo code is not active yet.'
+  if (promo.end_date && now > new Date(promo.end_date)) return 'This promo code has expired.'
+  return null
+}
+
 /** Mirrors the pricing in POST /api/checkout. free_delivery and free_item carry no discount. */
 export function rewardDiscountAmount(
   reward:   { discount_type: string; discount_value: number } | null,

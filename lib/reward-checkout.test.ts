@@ -4,7 +4,22 @@ import {
   isRewardRejection,
   selectableRewards,
   rewardDiscountAmount,
+  promoWindowError,
 } from './reward-checkout'
+
+describe('promoWindowError', () => {
+  const now = new Date('2026-09-19T12:00:00Z')
+
+  it('is null with no window or inside it', () => {
+    expect(promoWindowError({ start_date: null, end_date: null }, now)).toBeNull()
+    expect(promoWindowError({ start_date: '2026-09-01T00:00:00Z', end_date: '2026-10-01T00:00:00Z' }, now)).toBeNull()
+  })
+
+  it('rejects a code that has not started or has expired', () => {
+    expect(promoWindowError({ start_date: '2026-09-20T00:00:00Z', end_date: null }, now)).toMatch(/not active yet/)
+    expect(promoWindowError({ start_date: null, end_date: '2026-09-18T00:00:00Z' }, now)).toMatch(/expired/)
+  })
+})
 
 function reward(over: Partial<{ eligible: boolean; min_order_amount: number; id: string }> = {}) {
   return { id: 'r1', eligible: true, min_order_amount: 0, ...over }

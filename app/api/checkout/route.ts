@@ -6,7 +6,7 @@ import { sendOrderStatusEmail } from '@/lib/email'
 import { checkStoreStatus, BusinessHours, Holiday, DayKey } from '@/lib/store-status'
 import { validateScheduledFor } from '@/lib/utils/schedule-utils'
 import { matchDeals, isDealLive, type Deal, type MenuItemLite } from '@/lib/deal-engine'
-import { REWARD_ERRORS } from '@/lib/reward-checkout'
+import { REWARD_ERRORS, promoWindowError } from '@/lib/reward-checkout'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
@@ -273,9 +273,14 @@ export async function POST(request: NextRequest) {
         .select('*')
         .eq('code', promo_code.trim().toUpperCase())
         .eq('is_active', true)
+        // A typed code is a voucher only — REWARD codes are redeemed with points via reward_promotion_id.
+        .eq('promo_type', 'VOUCHER')
         .maybeSingle()
 
-      if (promo && (Number(promo.min_order_amount) <= 0 || subtotal >= Number(promo.min_order_amount))) {
+      if (
+        promo && !promoWindowError(promo)
+        && (Number(promo.min_order_amount) <= 0 || subtotal >= Number(promo.min_order_amount))
+      ) {
         discountAmount = promo.discount_type === 'percentage'
           ? Math.round(subtotal * (Number(promo.discount_value) / 100) * 100) / 100
           : Math.min(Number(promo.discount_value), subtotal)
