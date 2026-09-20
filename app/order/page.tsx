@@ -18,6 +18,7 @@ import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../componen
 import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import ScrollToTop from '@/components/UI/ScrollToTop'
+import { inSlot } from '@/lib/deal-engine'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -40,7 +41,12 @@ interface ActiveDeal { id: string; type: string; name: string; config: any }
 interface BundleDeal {
   id: string
   name: string
-  config: { groups: { label: string; min_qty: number; max_qty: number; item_ids: string[] }[]; price: number }
+  config: {
+    groups: { label: string; min_qty: number; max_qty: number; item_ids?: string[]; category?: string }[]
+    price: number
+    price_type?: 'fixed' | 'percent'
+    discount_percent?: number
+  }
 }
 
 interface SlotItem {
@@ -321,7 +327,7 @@ function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, 
   onOpenDealPicker: () => void
   onAdd: () => void
   onRemove: () => void
-  mealFromPrice: number | null
+  mealFromPrice: string | null
   hasDeal: boolean
 }) {
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
@@ -406,7 +412,7 @@ function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, 
             >
               <span className="text-xs font-bold text-zinc-500 tracking-wide">MEAL DEAL</span>
               <span className="flex items-center gap-2.5">
-                <span className="font-heading font-black text-sm text-brand-red">£{mealFromPrice!.toFixed(2)}</span>
+                <span className="font-heading font-black text-sm text-brand-red">{mealFromPrice}</span>
                 <span className="w-7 h-7 rounded-full bg-brand-red text-white flex items-center justify-center shrink-0">
                   <Plus size={13} />
                 </span>
@@ -846,11 +852,15 @@ export default function OrderPage() {
 
   const bundleFor = useMemo(() => {
     return (item: MenuItem): BundleDeal | undefined =>
-      activeBundles.find((b) => b.config.groups.some((g) => g.item_ids.includes(item.id)))
+      activeBundles.find((b) => b.config.groups.some((g) => inSlot({ item_ids: g.item_ids ?? [], category: g.category }, item)))
   }, [activeBundles])
 
   const mealFromPriceFor = useMemo(() => {
-    return (item: MenuItem): number | null => bundleFor(item)?.config.price ?? null
+    return (item: MenuItem): string | null => {
+      const cfg = bundleFor(item)?.config
+      if (!cfg) return null
+      return cfg.price_type === 'percent' ? `${cfg.discount_percent}% off` : `£${cfg.price.toFixed(2)}`
+    }
   }, [bundleFor])
 
   const anyDealFor = useMemo(() => {

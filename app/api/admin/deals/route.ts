@@ -30,14 +30,22 @@ export function validateConfig(type: string, config: unknown): string | null {
   if (type === 'bundle') {
     if (!Array.isArray(c.groups) || c.groups.length === 0) return 'bundle requires a non-empty groups array'
     if (typeof c.price !== 'number' || c.price < 0) return 'bundle requires a non-negative price'
+    if (c.price_type !== undefined && c.price_type !== 'fixed' && c.price_type !== 'percent') return "bundle price_type must be 'fixed' or 'percent'"
+    if (c.price_type === 'percent' && (typeof c.discount_percent !== 'number' || c.discount_percent <= 0 || c.discount_percent > 100)) {
+      return 'bundle discount_percent must be a number greater than 0 and at most 100'
+    }
     for (let i = 0; i < c.groups.length; i++) {
       const group = c.groups[i]
       if (!isPlainObject(group)) return `bundle group ${i} is not an object`
       if (typeof group.label !== 'string' || !group.label.trim()) return `bundle group ${i} is missing a label`
       if (typeof group.min_qty !== 'number' || group.min_qty < 0) return `bundle group ${i} min_qty must be a non-negative number`
       if (typeof group.max_qty !== 'number' || group.max_qty < group.min_qty) return `bundle group ${i} max_qty must be a number >= min_qty`
-      if (!Array.isArray(group.item_ids) || group.item_ids.length === 0 || !group.item_ids.every((id: unknown) => typeof id === 'string')) {
-        return `bundle group ${i} requires a non-empty item_ids array of strings`
+      if (group.category !== undefined && typeof group.category !== 'string') return `bundle group ${i} category must be a string`
+      const hasCategory = typeof group.category === 'string' && group.category.trim() !== ''
+      // The engine and pickers already treat a category-only slot's missing item_ids as [].
+      const ids = group.item_ids ?? []
+      if (!Array.isArray(ids) || (ids.length === 0 && !hasCategory) || !ids.every((id: unknown) => typeof id === 'string')) {
+        return `bundle group ${i} requires a non-empty item_ids array of strings (or a category)`
       }
     }
   }

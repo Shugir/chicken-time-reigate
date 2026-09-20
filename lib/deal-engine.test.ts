@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { matchDeals, isDealLive, type Deal, type MenuItemLite, type DealCartItem } from './deal-engine'
+import { matchDeals, isDealLive, inSlot, bundleTotal, type Deal, type MenuItemLite, type DealCartItem } from './deal-engine'
 
 function menuMap(items: MenuItemLite[]): Map<string, MenuItemLite> {
   return new Map(items.map((i) => [i.id, i]))
@@ -129,6 +129,152 @@ describe('matchDeals — bundle', () => {
     // 10 + 5 = 15 - 12 = 3 savings. (An up-to-max bug would consume all 3
     // sides: 10+3+4+5=22-12=10 savings — wrong.)
     expect(result.totalDiscount).toBe(3)
+  })
+})
+
+describe('inSlot', () => {
+  const item = { id: 'cola', category: 'Drinks' }
+
+  it('matches on explicit item_ids', () => {
+    expect(inSlot({ item_ids: ['cola'] }, item)).toBe(true)
+  })
+
+  it('matches on category when the id is not listed (case/whitespace-insensitive, like BOGO)', () => {
+    expect(inSlot({ item_ids: ['other'], category: 'drinks' }, item)).toBe(true)
+    expect(inSlot({ item_ids: [], category: ' DRINKS ' }, item)).toBe(true)
+  })
+
+  it('does not match when neither id nor category hits', () => {
+    expect(inSlot({ item_ids: ['other'], category: 'sides' }, item)).toBe(false)
+    expect(inSlot({ item_ids: ['other'] }, item)).toBe(false)
+  })
+
+  it('handles a category-only slot with empty or missing item_ids', () => {
+    expect(inSlot({ item_ids: [], category: 'Drinks' }, item)).toBe(true)
+    expect(inSlot({ item_ids: undefined as unknown as string[], category: 'Drinks' }, item)).toBe(true)
+    expect(inSlot({ item_ids: [] }, item)).toBe(false)
+  })
+})
+
+describe('bundleTotal', () => {
+  it('returns cfg.price for a fixed bundle', () => {
+    expect(bundleTotal({ price: 9, price_type: 'fixed' }, 20)).toBe(9)
+  })
+
+  it('treats a missing price_type as fixed (legacy configs)', () => {
+    expect(bundleTotal({ price: 9 }, 20)).toBe(9)
+  })
+
+  it('applies discount_percent to the items sum for a percent bundle', () => {
+    expect(bundleTotal({ price: 0, price_type: 'percent', discount_percent: 25 }, 20)).toBe(15)
+  })
+
+  it('rounds a percent bundle to 2dp', () => {
+    // 10.99 * 0.85 = 9.3415 -> 9.34
+    expect(bundleTotal({ price: 0, price_type: 'percent', discount_percent: 15 }, 10.99)).toBe(9.34)
+  })
+})
+
+describe('matchDeals — bundle slots by category / percent pricing', () => {
+  it('auto-includes items in the slot category that are not in item_ids', () => {
+    const menuItems = menuMap([
+      { id: 'main-a', price: 10, category: 'chicken', is_available: true },
+      { id: 'drink-new', price: 3, category: 'Drinks', is_available: true },
+    ])
+    const deals: Deal[] = [{
+      id: 'd1', type: 'bundle', name: 'Meal Deal', is_active: true,
+      config: {
+        groups: [
+          { label: 'Main', min_qty: 1, max_qty: 1, item_ids: ['main-a'] },
+          { label: 'Drink', min_qty: 1, max_qty: 1, item_ids: [], category: 'drinks' },
+        ],
+        price: 10,
+      },
+    }]
+    const cart: DealCartItem[] = [
+      { menu_item_id: 'main-a', quantity: 1 },
+      { menu_item_id: 'drink-new', quantity: 1 },
+    ]
+    const result = matchDeals(cart, deals, menuItems)
+    // 10 + 3 = 13 - 10 = 3
+    expect(result.totalDiscount).toBe(3)
+  })
+
+  it('tolerates a category-only slot with item_ids omitted entirely', () => {
+    const menuItems = menuMap([{ id: 'drink-new', price: 3, category: 'drinks', is_available: true }])
+    const deals: Deal[] = [{
+      id: 'd1', type: 'bundle', name: 'Drink Pair', is_active: true,
+      config: { groups: [{ label: 'Drinks', min_qty: 2, max_qty: 2, category: 'drinks' }], price: 5 },
+    }]
+    const result = matchDeals([{ menu_item_id: 'drink-new', quantity: 2 }], deals, menuItems)
+    expect(result.totalDiscount).toBe(1)
+  })
+
+  it('does not match a category slot when the cart item is in a different category', () => {
+    const menuItems = menuMap([
+      { id: 'main-a', price: 10, category: 'chicken', is_available: true },
+      { id: 'side-a', price: 3, category: 'sides', is_available: true },
+    ])
+    const deals: Deal[] = [{
+      id: 'd1', type: 'bundle', name: 'Meal Deal', is_active: true,
+      config: {
+        groups: [
+          { label: 'Main', min_qty: 1, max_qty: 1, item_ids: ['main-a'] },
+          { label: 'Drink', min_qty: 1, max_qty: 1, item_ids: [], category: 'drinks' },
+        ],
+        price: 10,
+      },
+    }]
+    const cart: DealCartItem[] = [{ menu_item_id: 'main-a', quantity: 1 }, { menu_item_id: 'side-a', quantity: 1 }]
+    expect(matchDeals(cart, deals, menuItems).applied).toHaveLength(0)
+  })
+
+  it('prices a percent bundle off the picked items sum (sum 20, 25% -> savings 5)', () => {
+    const menuItems = menuMap([
+      { id: 'main-a', price: 15, category: 'chicken', is_available: true },
+      { id: 'side-a', price: 5, category: 'sides', is_available: true },
+    ])
+    const deals: Deal[] = [{
+      id: 'd1', type: 'bundle', name: '25% Off Combo', is_active: true,
+      config: {
+        groups: [
+          { label: 'Main', min_qty: 1, max_qty: 1, item_ids: ['main-a'] },
+          { label: 'Side', min_qty: 1, max_qty: 1, item_ids: ['side-a'] },
+        ],
+        price: 0,
+        price_type: 'percent',
+        discount_percent: 25,
+      },
+    }]
+    const cart: DealCartItem[] = [{ menu_item_id: 'main-a', quantity: 1 }, { menu_item_id: 'side-a', quantity: 1 }]
+    const result = matchDeals(cart, deals, menuItems)
+    expect(result.applied[0].savings).toBe(5)
+    expect(result.totalDiscount).toBe(5)
+  })
+
+  it('leaves picks beyond the last full set at full price (picker total relies on this)', () => {
+    const menuItems = menuMap([
+      { id: 'drink-a', price: 4, category: 'drinks', is_available: true },
+      { id: 'drink-b', price: 3, category: 'drinks', is_available: true },
+      { id: 'drink-c', price: 2, category: 'drinks', is_available: true },
+    ])
+    const deals: Deal[] = [{
+      id: 'd1', type: 'bundle', name: '50% Off 2 Drinks', is_active: true,
+      config: {
+        groups: [{ label: 'Drinks', min_qty: 2, max_qty: 3, item_ids: ['drink-a', 'drink-b', 'drink-c'] }],
+        price: 0,
+        price_type: 'percent',
+        discount_percent: 50,
+      },
+    }]
+    const cart: DealCartItem[] = [
+      { menu_item_id: 'drink-a', quantity: 1 },
+      { menu_item_id: 'drink-b', quantity: 1 },
+      { menu_item_id: 'drink-c', quantity: 1 },
+    ]
+    // One full set of 2 (the priciest: 4 + 3 = 7 -> 50% off = 3.5). The third drink can't
+    // form a second set, so it stays full price — a naive "sum all picks" total would say 4.5.
+    expect(matchDeals(cart, deals, menuItems).totalDiscount).toBe(3.5)
   })
 })
 

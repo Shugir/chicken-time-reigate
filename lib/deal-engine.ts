@@ -37,9 +37,19 @@ interface BogoConfig {
   get: Ref & { qty: number; discount: 'free' | { percent: number } }
 }
 
-interface BundleConfig {
-  groups: { label: string; min_qty: number; max_qty: number; item_ids: string[] }[]
+export interface BundleSlot {
+  label: string
+  min_qty: number
+  max_qty: number
+  item_ids: string[]
+  category?: string
+}
+
+export interface BundleConfig {
+  groups: BundleSlot[]
   price: number
+  price_type?: 'fixed' | 'percent'
+  discount_percent?: number
 }
 
 interface OrderDiscountConfig {
@@ -83,6 +93,29 @@ const normCategory = (s: string) => s.trim().toLowerCase()
 // quantity (e.g. via a tampered client request) must not be able to blow up
 // memory/CPU in this pure, unauthenticated-reachable matching engine.
 const MAX_UNITS_PER_LINE = 99
+
+/**
+ * True if the item belongs to a bundle slot: listed in `item_ids`, OR the slot
+ * has a `category` and the item's category matches it (same normalization as
+ * the BOGO branch, so new items in a category are picked up automatically).
+ * `item_ids` may be missing/empty on category-only slots.
+ */
+export function inSlot(
+  slot: Pick<BundleSlot, 'item_ids' | 'category'>,
+  item: { id: string; category: string },
+): boolean {
+  if (slot.item_ids?.includes(item.id)) return true
+  return Boolean(slot.category) && normCategory(item.category) === normCategory(slot.category!)
+}
+
+/** What the customer pays for the picked items: fixed price, or percent off their sum. */
+export function bundleTotal(
+  cfg: Pick<BundleConfig, 'price' | 'price_type' | 'discount_percent'>,
+  itemsSum: number,
+): number {
+  if (cfg.price_type === 'percent') return round2(itemsSum * (1 - (cfg.discount_percent ?? 0) / 100))
+  return cfg.price
+}
 
 function matchesRef(unit: Unit, ref: Ref): boolean {
   if (ref.item_ids && ref.item_ids.length > 0) return ref.item_ids.includes(unit.menu_item_id)
@@ -135,7 +168,7 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
     let sum = 0
     for (const group of cfg.groups) {
       const pool = available
-        .filter((u) => !consume.includes(u) && group.item_ids.includes(u.menu_item_id))
+        .filter((u) => !consume.includes(u) && inSlot(group, { id: u.menu_item_id, category: u.category }))
         .sort((a, b) => b.price - a.price)
       if (pool.length < group.min_qty) return null
       // Consume exactly min_qty, never up to max_qty: price is fixed per
@@ -146,7 +179,7 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
       const picked = pool.slice(0, group.min_qty)
       picked.forEach((u) => { consume.push(u); sum += u.price })
     }
-    const savings = sum - cfg.price
+    const savings = sum - bundleTotal(cfg, sum)
     return savings > 0 ? { savings, consume, lock: [] } : null
   }
 

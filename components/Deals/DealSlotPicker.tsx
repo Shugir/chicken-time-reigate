@@ -6,6 +6,7 @@ import { Check, X } from 'lucide-react'
 import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 import type { OrderSelection } from '@/components/ProductModal'
 import { slotQty, isSelectionComplete } from './deal-slot-picker-logic'
+import { inSlot, matchDeals } from '@/lib/deal-engine'
 
 // ItemCustomizerDrawer renders <Image src={item.image}> unconditionally, and next/image
 // throws on an empty src — so a slot item with no image_url needs a real URL, not ''.
@@ -30,12 +31,12 @@ interface Pick {
   extras: { name: string; price: number }[]
 }
 
-interface Group { label: string; min_qty: number; max_qty: number; item_ids: string[] }
+interface Group { label: string; min_qty: number; max_qty: number; item_ids?: string[]; category?: string }
 
 interface Deal {
   id: string
   name: string
-  config: { groups: Group[]; price: number }
+  config: { groups: Group[]; price: number; price_type?: 'fixed' | 'percent'; discount_percent?: number }
 }
 
 interface Props {
@@ -105,6 +106,17 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
   }
 
   const allComplete = isSelectionComplete(deal.config.groups, picks)
+  const isPercent = deal.config.price_type === 'percent'
+  const itemsSum = Object.values(picks).flat().reduce((s, p) => s + (itemsById.get(p.item_id)?.price ?? 0) * p.qty, 0)
+  // Ask the checkout engine itself: it bundles only min_qty items per slot, so picks
+  // beyond min_qty (up to max_qty) stay full price and must not show as discounted.
+  const bundleSavings = allComplete
+    ? matchDeals(
+        Object.values(picks).flat().map((p) => ({ menu_item_id: p.item_id, quantity: p.qty })),
+        [{ id: deal.id, type: 'bundle', name: deal.name, config: deal.config, is_active: true }],
+        new Map(Array.from(itemsById.values()).map((i) => [i.id, { id: i.id, price: i.price, category: i.category, is_available: true }])),
+      ).totalDiscount
+    : 0
 
   function handleSubmit() {
     onComplete(Object.values(picks).flat())
@@ -116,7 +128,7 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="font-heading font-black text-xl text-zinc-900">{deal.name}</p>
-            <p className="text-sm text-zinc-400">£{deal.config.price.toFixed(2)}</p>
+            <p className="text-sm text-zinc-400">{isPercent ? `${deal.config.discount_percent}% off` : `£${deal.config.price.toFixed(2)}`}</p>
           </div>
           <button onClick={onClose} aria-label="Close" className="text-zinc-400 hover:text-zinc-900"><X size={20} /></button>
         </div>
@@ -133,9 +145,8 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  {group.item_ids.map((id) => {
-                    const item = itemsById.get(id)
-                    if (!item) return null
+                  {Array.from(itemsById.values()).filter((it) => inSlot({ item_ids: group.item_ids ?? [], category: group.category }, it)).map((item) => {
+                    const id = item.id
                     const pickedQty = (picks[gi] ?? []).filter((p) => p.item_id === id).reduce((s, p) => s + p.qty, 0)
                     const atMax = count >= group.max_qty && pickedQty === 0
                     return (
@@ -179,7 +190,7 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
           className={`w-full mt-6 font-bold py-4 rounded-2xl flex items-center justify-between px-5 transition-all ${!allComplete ? 'bg-zinc-200 text-zinc-400 cursor-not-allowed' : 'bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20'}`}
         >
           <span>{allComplete ? 'Add Bundle to Order' : 'Select required items'}</span>
-          {allComplete && <span>£{deal.config.price.toFixed(2)}</span>}
+          {allComplete && <span>£{(itemsSum - bundleSavings).toFixed(2)}</span>}
         </button>
       </div>
 

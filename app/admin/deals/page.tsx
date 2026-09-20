@@ -23,7 +23,7 @@ interface Category { id: string; name: string; slug: string }
 
 interface MenuItemOption { id: string; name: string; price: number; image_url: string | null; category: string; is_available: boolean }
 
-interface Slot { label: string; min_qty: number; max_qty: number; item_ids: string[] }
+interface Slot { label: string; min_qty: number; max_qty: number; item_ids: string[]; category?: string }
 
 const TYPE_LABELS: Record<DealType, string> = {
   bogo: 'BOGO',
@@ -33,7 +33,7 @@ const TYPE_LABELS: Record<DealType, string> = {
 
 const EMPTY_CONFIG: Record<DealType, any> = {
   bogo: { buy: { category: '', qty: 1 }, get: { category: '', qty: 1, discount: 'free' } },
-  bundle: { groups: [{ label: '', min_qty: 1, max_qty: 1, item_ids: [] }], price: 0 },
+  bundle: { groups: [{ label: '', min_qty: 1, max_qty: 1, item_ids: [] }], price: 0, price_type: 'fixed' },
   order_discount: { scope: 'order', discount: { type: 'percent', value: 10 } },
 }
 
@@ -76,6 +76,14 @@ export default function DealsAdminPage() {
 
   useEffect(() => { load() }, [])
 
+  // Refetch when the deal modal opens so products/categories added since page load appear.
+  const formType = editing?.type ?? creatingType
+  useEffect(() => {
+    if (!formType) return
+    fetch('/api/admin/menu-items').then((r) => r.json()).then((m) => { if (Array.isArray(m)) setMenuItems(m) }).catch(() => {})
+    fetch('/api/categories').then((r) => r.json()).then((c) => { if (Array.isArray(c)) setCategories(c) }).catch(() => {})
+  }, [formType])
+
   async function handleToggle(id: string, is_active: boolean) {
     const res = await fetch(`/api/admin/deals/${id}`, {
       method: 'PATCH',
@@ -107,8 +115,6 @@ export default function DealsAdminPage() {
     setCreatingType(null)
     load()
   }
-
-  const formType = editing?.type ?? creatingType
 
   return (
     <div className="flex h-screen bg-zinc-950 text-white overflow-hidden">
@@ -198,6 +204,7 @@ function normalizeSlot(g: Partial<Slot> & { pick_qty?: number }): Slot {
     min_qty: g.min_qty ?? g.pick_qty ?? 1,
     max_qty: g.max_qty ?? g.pick_qty ?? 1,
     item_ids: g.item_ids ?? [],
+    ...(g.category ? { category: g.category } : {}),
   }
 }
 
@@ -241,6 +248,28 @@ function SlotEditor({ group, menuItems, categories, onChange, onRemove }: {
         </div>
       </div>
 
+      <div>
+        <label className="text-xs text-zinc-400 mb-1 block">Include entire category (new products auto-appear)</label>
+        <select
+          value={group.category ?? ''}
+          onChange={(e) => {
+            const next = { ...group }
+            if (e.target.value) next.category = e.target.value
+            else delete next.category
+            onChange(next)
+          }}
+          className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
+        >
+          <option value="">None — pick individual items</option>
+          {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+        </select>
+        {group.category && (
+          <p className="text-xs text-zinc-500 mt-1">
+            All current and future items in {categories.find((c) => c.slug === group.category)?.name ?? group.category} are included.
+          </p>
+        )}
+      </div>
+
       <div className="flex items-center justify-between">
         <p className="text-xs text-zinc-400">Items in This Slot ({group.item_ids.length} selected)</p>
         {onRemove && <button onClick={onRemove} className="text-xs text-red-400 hover:underline">Remove slot</button>}
@@ -258,12 +287,15 @@ function SlotEditor({ group, menuItems, categories, onChange, onRemove }: {
         </select>
       </div>
       <div className="max-h-40 overflow-y-auto border border-zinc-800 rounded-lg p-2 grid grid-cols-2 gap-1">
-        {filtered.map((m) => (
-          <label key={m.id} className="flex items-center gap-2 text-sm text-zinc-300 px-1 py-0.5 hover:bg-zinc-800 rounded cursor-pointer">
-            <input type="checkbox" checked={group.item_ids.includes(m.id)} onChange={() => toggleItem(m.id)} />
-            {m.name}
-          </label>
-        ))}
+        {filtered.map((m) => {
+          const viaCategory = Boolean(group.category) && m.category.toLowerCase() === group.category
+          return (
+            <label key={m.id} className={`flex items-center gap-2 text-sm text-zinc-300 px-1 py-0.5 hover:bg-zinc-800 rounded ${viaCategory ? 'opacity-60' : 'cursor-pointer'}`}>
+              <input type="checkbox" checked={viaCategory || group.item_ids.includes(m.id)} disabled={viaCategory} onChange={() => toggleItem(m.id)} />
+              {m.name}
+            </label>
+          )
+        })}
       </div>
     </div>
   )
@@ -335,6 +367,33 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
               className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
             />
           </div>
+          {type === 'bundle' && (
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Bundle price</label>
+              <select
+                value={config.price_type ?? 'fixed'}
+                onChange={(e) => {
+                  set(['price_type'], e.target.value)
+                  if (e.target.value === 'percent') set(['price'], 0)
+                }}
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white mb-2"
+              >
+                <option value="fixed">Fixed price (£)</option>
+                <option value="percent">Percentage off</option>
+              </select>
+              {(config.price_type ?? 'fixed') === 'percent' ? (
+                <div>
+                  <label className="text-xs text-zinc-400 mb-1 block">Discount %</label>
+                  <input type="number" min={1} max={100} value={config.discount_percent ?? ''} onChange={(e) => set(['discount_percent'], parseFloat(e.target.value) || 0)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
+                </div>
+              ) : (
+                <div>
+                  <label className="text-xs text-zinc-400 mb-1 block">Bundle price (£)</label>
+                  <input type="number" min={0} step="0.01" value={config.price} onChange={(e) => set(['price'], parseFloat(e.target.value) || 0)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
+                </div>
+              )}
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-zinc-400 mb-1 block">Available From (optional)</label>
@@ -438,10 +497,6 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
               >
                 + Add slot
               </button>
-              <div>
-                <label className="text-xs text-zinc-400 mb-1 block">Bundle price (£)</label>
-                <input type="number" min={0} step="0.01" value={config.price} onChange={(e) => set(['price'], parseFloat(e.target.value) || 0)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
-              </div>
             </>
           )}
 
@@ -502,7 +557,8 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
                 resolvedImageUrl = data.url
               }
               onSave({
-                type, name, config,
+                type, name,
+                config: type === 'bundle' ? { ...config, price_type: config.price_type ?? 'fixed' } : config,
                 custom_label: customLabel.trim() || null,
                 available_from: fromDateTimeLocal(availableFrom),
                 available_until: fromDateTimeLocal(availableUntil),
