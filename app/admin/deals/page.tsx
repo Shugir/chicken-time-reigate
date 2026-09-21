@@ -614,7 +614,9 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
                 />
                 {upgradesInSlots.length > 0 && (
                   <p className="text-xs text-amber-400 bg-amber-900/20 border border-amber-800/60 rounded-lg px-3 py-2">
-                    {upgradesInSlots.map((m) => m.name).join(', ')} also sit in a slot, so the deal may count them as bundle items.
+                    {upgradesInSlots.length === 1
+                      ? `${upgradesInSlots[0].name} also sits in a slot, so the deal may count it as a bundle item.`
+                      : `${upgradesInSlots.map((m) => m.name).join(', ')} also sit in a slot, so the deal may count them as bundle items.`}
                   </p>
                 )}
               </div>
