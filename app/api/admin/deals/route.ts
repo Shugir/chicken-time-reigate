@@ -54,6 +54,17 @@ export function validateConfig(type: string, config: unknown): string | null {
         return `bundle group ${i} requires a non-empty item_ids array of strings (or a category)`
       }
     }
+    if (c.upgrades !== undefined) {
+      const up = c.upgrades
+      if (!isPlainObject(up)) return 'bundle upgrades must be an object'
+      if (!Array.isArray(up.item_ids) || !up.item_ids.every((id: unknown) => typeof id === 'string')) {
+        return 'bundle upgrades item_ids must be an array of strings'
+      }
+      if (up.item_ids.length > 30) return 'bundle upgrades can have at most 30 items'
+      if (up.label !== undefined && (typeof up.label !== 'string' || up.label.length > 60)) {
+        return 'bundle upgrades label must be a string of at most 60 characters'
+      }
+    }
   }
 
   if (type === 'order_discount') {

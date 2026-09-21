@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Plus, Pencil, Trash2, X } from 'lucide-react'
 import AdminSidebar from '@/components/admin/admin-sidebar'
+import { inSlot } from '@/lib/deal-engine'
 
 type DealType = 'bogo' | 'bundle' | 'order_discount'
 
@@ -217,6 +218,17 @@ function bogoSideItemIds(side: { item_ids?: string[]; category?: string }, menuI
   return menuItems.filter((m) => m.category.trim().toLowerCase() === cat).map((m) => m.id)
 }
 
+// No upgrade items selected means no upgrades section: drop the key (and any stray label).
+function bundleConfigForSave(config: any) {
+  const { upgrades, ...rest } = config
+  const label = upgrades?.label?.trim()
+  return {
+    ...rest,
+    price_type: config.price_type ?? 'fixed',
+    ...(upgrades?.item_ids?.length ? { upgrades: { item_ids: upgrades.item_ids, ...(label ? { label } : {}) } } : {}),
+  }
+}
+
 function ItemPicker({ title, itemIds, menuItems, categories, onChange }: {
   title: string
   itemIds: string[]
@@ -407,6 +419,11 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
     bogoSideItemIds(config.buy, menuItems).length === 0 || bogoSideItemIds(config.get, menuItems).length === 0
   )
 
+  const upgradeIds: string[] = type === 'bundle' ? config.upgrades?.item_ids ?? [] : []
+  const upgradesInSlots = menuItems.filter((m) =>
+    upgradeIds.includes(m.id) && (config.groups ?? []).some((g: Slot) => inSlot({ item_ids: g.item_ids ?? [], category: g.category }, m)),
+  )
+
   const categoryOptions = (
     <>
       <option value="">— choose category —</option>
@@ -577,6 +594,30 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
               >
                 + Add slot
               </button>
+
+              <div className="border-t border-zinc-800 pt-4 space-y-2">
+                <div>
+                  <label className="text-xs text-zinc-400 mb-1 block">Upgrades (optional paid add-ons shown in the bundle popup)</label>
+                  <input
+                    value={config.upgrades?.label ?? ''}
+                    onChange={(e) => set(['upgrades'], { ...config.upgrades, item_ids: config.upgrades?.item_ids ?? [], label: e.target.value })}
+                    placeholder="Upgrade your deal"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
+                  />
+                </div>
+                <ItemPicker
+                  title="Upgrade items"
+                  itemIds={upgradeIds}
+                  menuItems={menuItems}
+                  categories={categories}
+                  onChange={(ids) => set(['upgrades'], { ...config.upgrades, item_ids: ids })}
+                />
+                {upgradesInSlots.length > 0 && (
+                  <p className="text-xs text-amber-400 bg-amber-900/20 border border-amber-800/60 rounded-lg px-3 py-2">
+                    {upgradesInSlots.map((m) => m.name).join(', ')} also sit in a slot, so the deal may count them as bundle items.
+                  </p>
+                )}
+              </div>
             </>
           )}
 
@@ -639,7 +680,7 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
               }
               onSave({
                 type, name,
-                config: type === 'bundle' ? { ...config, price_type: config.price_type ?? 'fixed' } : config,
+                config: type === 'bundle' ? bundleConfigForSave(config) : config,
                 custom_label: customLabel.trim() || null,
                 available_from: fromDateTimeLocal(availableFrom),
                 available_until: fromDateTimeLocal(availableUntil),
