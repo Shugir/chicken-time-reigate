@@ -19,6 +19,7 @@ import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import ScrollToTop from '@/components/UI/ScrollToTop'
 import { inSlot } from '@/lib/deal-engine'
+import { addToLines, changeLineQty, itemIdOfKey, itemQty, removeOneFromItem } from '@/lib/cart-lines'
 import { formatExtra, toModifierConfig, unitPrice, type ModifierConfig, type ModifierSource } from '@/lib/order-modifiers'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -308,8 +309,8 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function cartTotal(cart: Cart, items: MenuItem[]) {
-  return Object.entries(cart).reduce((sum, [id, entry]) => {
-    const item = items.find((m) => m.id === id)
+  return Object.entries(cart).reduce((sum, [key, entry]) => {
+    const item = items.find((m) => m.id === itemIdOfKey(key))
     if (!item) return sum
     return sum + unitPrice(item.price, entry.extras) * entry.qty
   }, 0)
@@ -614,13 +615,13 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
   menuItems: MenuItem[]
   storeOpen: boolean
   onClose: () => void
-  onAdd: (id: string) => void
-  onRemove: (id: string) => void
+  onAdd: (key: string) => void
+  onRemove: (key: string) => void
   fulfillmentMode: 'delivery' | 'pickup'
 }) {
   const lineItems = Object.entries(cart)
     .filter(([, entry]) => entry.qty > 0)
-    .map(([id, entry]) => ({ item: menuItems.find((m) => m.id === id)!, entry }))
+    .map(([key, entry]) => ({ key, item: menuItems.find((m) => m.id === itemIdOfKey(key))!, entry }))
     .filter(({ item }) => Boolean(item))
 
   const subtotal = cartTotal(cart, menuItems)
@@ -671,8 +672,8 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
               <p className="text-xs text-zinc-300 text-center">Add items from the menu to get started</p>
             </div>
           ) : (
-            lineItems.map(({ item, entry }) => (
-              <div key={item.id} className="flex items-start gap-3 px-6 py-4">
+            lineItems.map(({ key, item, entry }) => (
+              <div key={key} className="flex items-start gap-3 px-6 py-4">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-zinc-900 truncate">{item.name}</p>
                   <p className="text-xs text-zinc-400 mt-0.5">
@@ -702,14 +703,14 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
                 </div>
                 <div className="flex items-center gap-2 shrink-0 pt-0.5">
                   <button
-                    onClick={() => onRemove(item.id)}
+                    onClick={() => onRemove(key)}
                     className="w-6 h-6 rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-100 flex items-center justify-center transition-colors"
                   >
                     <Minus size={10} />
                   </button>
                   <span className="w-4 text-center text-sm font-bold text-zinc-900">{entry.qty}</span>
                   <button
-                    onClick={() => onAdd(item.id)}
+                    onClick={() => onAdd(key)}
                     className="w-6 h-6 rounded-full bg-zinc-900 text-white hover:bg-zinc-700 flex items-center justify-center transition-colors"
                   >
                     <Plus size={10} />
@@ -760,9 +761,9 @@ export default function OrderPage() {
         setCart((prev) => {
           const pending = JSON.parse(raw) as Cart
           const merged = { ...prev }
-          for (const [id, entry] of Object.entries(pending)) {
-            merged[id] = merged[id]
-              ? { ...merged[id], qty: merged[id].qty + entry.qty }
+          for (const [key, entry] of Object.entries(pending)) {
+            merged[key] = merged[key]
+              ? { ...merged[key], qty: merged[key].qty + entry.qty }
               : entry
           }
           return merged
@@ -928,31 +929,27 @@ export default function OrderPage() {
     setDealPickerFor({ deal: bundle, itemsById })
   }
 
+  // Card plus/minus act on the item's plain line; the drawer acts on a specific line key.
   function addToCart(id: string) {
-    setCart((p) => ({
-      ...p,
-      [id]: { ...p[id], qty: (p[id]?.qty ?? 0) + 1, removals: p[id]?.removals ?? [], additions: p[id]?.additions ?? [], extras: p[id]?.extras ?? [] },
-    }))
+    setCart((p) => addToLines(p, id, { removals: [], additions: [], extras: [] }, 1))
   }
   function removeFromCart(id: string) {
-    setCart((p) => {
-      const qty = (p[id]?.qty ?? 0) - 1
-      if (qty <= 0) { const n = { ...p }; delete n[id]; return n }
-      return { ...p, [id]: { ...p[id], qty } }
-    })
+    setCart((p) => removeOneFromItem(p, id))
+  }
+  function addLine(key: string) {
+    setCart((p) => changeLineQty(p, key, 1))
+  }
+  function removeLine(key: string) {
+    setCart((p) => changeLineQty(p, key, -1))
   }
   function handleAddToOrder(selection: OrderSelection) {
-    setCart((p) => ({
-      ...p,
-      [selection.item.id]: {
-        qty: (p[selection.item.id]?.qty ?? 0) + selection.quantity,
-        spicy_level: selection.spicy_level,
-        removals: selection.removals,
-        additions: selection.additions ?? [],
-        extras: selection.extras,
-        notes: selection.notes || undefined,
-      },
-    }))
+    setCart((p) => addToLines(p, selection.item.id, {
+      spicy_level: selection.spicy_level,
+      removals: selection.removals,
+      additions: selection.additions ?? [],
+      extras: selection.extras,
+      notes: selection.notes || undefined,
+    }, selection.quantity))
   }
   function scrollTo(id: string) {
     setActive(id)
@@ -1192,7 +1189,7 @@ export default function OrderPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {displayedItems.map((item) => (
                   <MenuCard
-                    key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
+                    key={item.id} item={item} qty={itemQty(cart, item.id)}
                     onOpenDrawer={() => setDrawerItem(item)}
                     onOpenDealPicker={() => openDealPicker(item)}
                     mealFromPrice={mealFromPriceFor(item)}
@@ -1232,7 +1229,7 @@ export default function OrderPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                       {items.map((item) => (
                         <MenuCard
-                          key={item.id} item={item} qty={cart[item.id]?.qty ?? 0}
+                          key={item.id} item={item} qty={itemQty(cart, item.id)}
                           onOpenDrawer={() => setDrawerItem(item)}
                           onOpenDealPicker={() => openDealPicker(item)}
                           mealFromPrice={mealFromPriceFor(item)}
@@ -1276,7 +1273,7 @@ export default function OrderPage() {
         <CartDrawer
           cart={cart} menuItems={menuItems} storeOpen={storeOpen}
           onClose={() => setCartOpen(false)}
-          onAdd={addToCart} onRemove={removeFromCart}
+          onAdd={addLine} onRemove={removeLine}
           fulfillmentMode={fulfillmentMode}
         />
       )}

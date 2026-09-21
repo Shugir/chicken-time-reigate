@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import type { DealType } from '@/lib/deal-engine'
+import { addToLines } from '@/lib/cart-lines'
 import { toModifierConfig, type ModifierConfig, type ModifierSource, type SelectedExtra } from '@/lib/order-modifiers'
 
 interface Deal {
@@ -95,20 +96,16 @@ export default function DealsPage() {
   function addPicksToCart(picks: Pick[], upgrades: { item_id: string; qty: number }[]) {
     const raw = sessionStorage.getItem('pendingCartEntries')
     const existing: Record<string, CartEntry> = raw ? JSON.parse(raw) : {}
+    // Keyed by item plus options (lineKey) so picks with different options stay separate lines.
+    let cart = existing
     for (const pick of picks) {
-      const current = existing[pick.item_id]
-      existing[pick.item_id] = current
-        ? { ...current, qty: current.qty + pick.qty }
-        : { qty: pick.qty, spicy_level: pick.spicy_level, removals: pick.removals, additions: pick.additions, extras: pick.extras }
+      cart = addToLines(cart, pick.item_id, { spicy_level: pick.spicy_level, removals: pick.removals, additions: pick.additions, extras: pick.extras }, pick.qty)
     }
     // Upgrades are ordinary menu items at their normal price, with no options.
     for (const up of upgrades) {
-      const current = existing[up.item_id]
-      existing[up.item_id] = current
-        ? { ...current, qty: current.qty + up.qty }
-        : { qty: up.qty, removals: [], additions: [], extras: [] }
+      cart = addToLines(cart, up.item_id, { removals: [], additions: [], extras: [] }, up.qty)
     }
-    sessionStorage.setItem('pendingCartEntries', JSON.stringify(existing))
+    sessionStorage.setItem('pendingCartEntries', JSON.stringify(cart))
     router.push('/order?from=deal')
   }
 
