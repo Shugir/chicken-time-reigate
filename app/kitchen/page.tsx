@@ -20,7 +20,7 @@ import { formatExtra, extraQty } from '@/lib/order-modifiers'
 const ALERT_URL = '/KitchenAlert.mp3'
 const MAX_DISPATCHED = 8
 
-interface Extra { name: string; price: number; qty?: number }
+interface Extra { name: string; price: number; qty?: number; category?: string }
 
 interface OrderItem {
   id: string
@@ -185,7 +185,7 @@ function OrderCard({
             {(item.extras ?? []).length > 0 && (
               <ul className="pl-4 space-y-0.5">
                 {(item.extras ?? []).map((e) => (
-                  <li key={e.name} className="text-xs font-semibold text-emerald-400">
+                  <li key={`${e.category ?? ''}-${e.name}`} className="text-xs font-semibold text-emerald-400">
                     + {formatExtra(e)}
                   </li>
                 ))}
@@ -339,7 +339,7 @@ function KitchenTicket({ order }: { order: Order }) {
               </div>
             ))}
             {(item.extras ?? []).map((e) => (
-              <div key={e.name} className="text-xs font-semibold">
+              <div key={`${e.category ?? ''}-${e.name}`} className="text-xs font-semibold">
                 + {formatExtra(e)} (£{(e.price * extraQty(e)).toFixed(2)})
               </div>
             ))}

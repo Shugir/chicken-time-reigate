@@ -134,7 +134,7 @@ export function ReceiptDrawer({ order, onClose }: Props) {
                     <div key={a} className="text-xs text-green-600 mt-0.5">+ {a}</div>
                   ))}
                   {(item.extras ?? []).map((e) => (
-                    <div key={e.name} className="text-xs text-green-600 mt-0.5">+ {formatExtra(e)}</div>
+                    <div key={`${e.category ?? ''}-${e.name}`} className="text-xs text-green-600 mt-0.5">+ {formatExtra(e)}</div>
                   ))}
                   {item.notes && (
                     <div className="text-xs text-zinc-600 italic mt-0.5">{item.notes}</div>

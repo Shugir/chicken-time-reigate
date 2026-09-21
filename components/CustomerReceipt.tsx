@@ -8,7 +8,7 @@ interface ReceiptItem {
   item_name: string | null
   quantity: number
   unit_price: number
-  extras: { name: string; price: number; qty?: number }[]
+  extras: { name: string; price: number; qty?: number; category?: string }[]
   removals: string[]
   spicy_level?: string | null
   additions?: string[] | null
@@ -99,7 +99,7 @@ export function CustomerReceipt({ order }: { order: ReceiptOrder }) {
               </div>
             ))}
             {(item.extras ?? []).length > 0 && (item.extras ?? []).map((e) => (
-              <div key={e.name} className="flex justify-between pl-2 text-gray-600" style={{ fontSize: '10px' }}>
+              <div key={`${e.category ?? ''}-${e.name}`} className="flex justify-between pl-2 text-gray-600" style={{ fontSize: '10px' }}>
                 <span>+ {formatExtra(e)}</span>
                 <span>£{(e.price * extraQty(e)).toFixed(2)}</span>
               </div>

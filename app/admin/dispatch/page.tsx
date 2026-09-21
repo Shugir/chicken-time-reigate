@@ -25,7 +25,7 @@ interface OrderItem {
   item_name: string | null
   quantity: number
   unit_price: number
-  extras: { name: string; price: number; qty?: number }[]
+  extras: { name: string; price: number; qty?: number; category?: string }[]
   removals: string[]
   spicy_level?: string | null
   additions?: string[] | null
