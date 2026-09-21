@@ -45,11 +45,18 @@ export interface BundleSlot {
   category?: string
 }
 
+/** Paid add-ons offered on a bundle popup; ordinary menu items sold at their normal price. */
+export interface BundleUpgrades {
+  label?: string
+  item_ids: string[]
+}
+
 export interface BundleConfig {
   groups: BundleSlot[]
   price: number
   price_type?: 'fixed' | 'percent'
   discount_percent?: number
+  upgrades?: BundleUpgrades
 }
 
 interface OrderDiscountConfig {

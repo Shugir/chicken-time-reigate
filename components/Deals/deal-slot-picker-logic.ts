@@ -11,3 +11,10 @@ export function isSelectionComplete(groups: SlotGroup[], picksByGroup: Record<nu
     return count >= g.min_qty && count <= g.max_qty
   })
 }
+
+export interface UpgradeLine { price: number; qty: number }
+
+/** Sum of the chosen upgrade lines at their menu price, rounded to 2dp. */
+export function upgradesTotal(lines: UpgradeLine[]): number {
+  return Math.round(lines.reduce((s, l) => s + l.price * l.qty, 0) * 100) / 100
+}

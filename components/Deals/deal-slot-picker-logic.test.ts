@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { slotQty, isSelectionComplete } from './deal-slot-picker-logic'
+import { slotQty, isSelectionComplete, upgradesTotal } from './deal-slot-picker-logic'
 
 describe('slotQty', () => {
   it('sums qty across picks', () => {
@@ -29,5 +29,14 @@ describe('isSelectionComplete', () => {
   it('treats a missing group entry as zero picks (e.g. an optional min_qty: 0 slot nobody touched)', () => {
     const groups = [{ min_qty: 0, max_qty: 1 }]
     expect(isSelectionComplete(groups, {})).toBe(true)
+  })
+})
+
+describe('upgradesTotal', () => {
+  it('sums price times qty and rounds to 2dp', () => {
+    expect(upgradesTotal([{ price: 1.1, qty: 3 }, { price: 0.5, qty: 1 }])).toBe(3.8)
+  })
+  it('is 0 for no upgrades', () => {
+    expect(upgradesTotal([])).toBe(0)
   })
 })
