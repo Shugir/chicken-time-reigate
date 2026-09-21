@@ -1294,7 +1294,7 @@ export default function OrderPage() {
           deal={dealPickerFor.deal}
           itemsById={dealPickerFor.itemsById}
           onClose={() => setDealPickerFor(null)}
-          onComplete={(picks) => {
+          onComplete={(picks, upgrades) => {
             for (const pick of picks) {
               const item = menuItems.find((m) => m.id === pick.item_id)
               if (!item) continue
@@ -1307,6 +1307,20 @@ export default function OrderPage() {
                 extras: pick.extras,
                 notes: '',
                 totalPrice: unitPrice(item.price, pick.extras) * pick.qty,
+              })
+            }
+            // Upgrades are ordinary menu items at their normal price.
+            for (const up of upgrades) {
+              const item = menuItems.find((m) => m.id === up.item_id)
+              if (!item) continue
+              handleAddToOrder({
+                item,
+                quantity: up.qty,
+                removals: [],
+                additions: [],
+                extras: [],
+                notes: '',
+                totalPrice: item.price * up.qty,
               })
             }
             setDealPickerFor(null)

@@ -92,7 +92,7 @@ export default function DealsPage() {
     [menuItems]
   )
 
-  function addPicksToCart(picks: Pick[]) {
+  function addPicksToCart(picks: Pick[], upgrades: { item_id: string; qty: number }[]) {
     const raw = sessionStorage.getItem('pendingCartEntries')
     const existing: Record<string, CartEntry> = raw ? JSON.parse(raw) : {}
     for (const pick of picks) {
@@ -100,6 +100,13 @@ export default function DealsPage() {
       existing[pick.item_id] = current
         ? { ...current, qty: current.qty + pick.qty }
         : { qty: pick.qty, spicy_level: pick.spicy_level, removals: pick.removals, additions: pick.additions, extras: pick.extras }
+    }
+    // Upgrades are ordinary menu items at their normal price, with no options.
+    for (const up of upgrades) {
+      const current = existing[up.item_id]
+      existing[up.item_id] = current
+        ? { ...current, qty: current.qty + up.qty }
+        : { qty: up.qty, removals: [], additions: [], extras: [] }
     }
     sessionStorage.setItem('pendingCartEntries', JSON.stringify(existing))
     router.push('/order?from=deal')
@@ -144,8 +151,8 @@ export default function DealsPage() {
           deal={activeBundle}
           itemsById={itemsById}
           onClose={() => setActiveBundle(null)}
-          onComplete={(picks) => {
-            addPicksToCart(picks)
+          onComplete={(picks, upgrades) => {
+            addPicksToCart(picks, upgrades)
             setActiveBundle(null)
           }}
         />

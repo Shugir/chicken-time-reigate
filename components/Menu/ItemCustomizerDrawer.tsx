@@ -4,9 +4,9 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import { X, Plus, Minus, ShoppingBag, TriangleAlert } from 'lucide-react'
 import type { ProductItem, OrderSelection } from '@/components/ProductModal'
-import { toModifierConfig, unitPrice, type PricedOption, type SelectedExtra } from '@/lib/order-modifiers'
-import ModifierSection, { Pill } from './ModifierSection'
-import QtyStepper from './QtyStepper'
+import { toModifierConfig, unitPrice } from '@/lib/order-modifiers'
+import ModifierSection from './ModifierSection'
+import ModifierForm, { EMPTY_SELECTION, type ModifierSelection } from './ModifierForm'
 
 type DrawerItem = ProductItem & {
   compare_at_price?: number | null
@@ -20,15 +20,10 @@ interface Props {
   onAddToOrder: (selection: OrderSelection) => void
 }
 
-const priceHint = (p: number) => (p > 0 ? `+£${p.toFixed(2)}` : 'Free')
-
 export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Props) {
   const [visible, setVisible] = useState(false)
   const [qty, setQty] = useState(1)
-  const [spicy, setSpicy] = useState<string | null>(null)
-  const [removals, setRemovals] = useState<string[]>([])
-  const [additions, setAdditions] = useState<string[]>([])
-  const [extras, setExtras] = useState<SelectedExtra[]>([])
+  const [selection, setSelection] = useState<ModifierSelection>(EMPTY_SELECTION)
   const [notes, setNotes] = useState('')
   const panelRef = useRef<HTMLDivElement>(null)
 
@@ -54,41 +49,19 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
     }
   }, [onClose])
 
-  const unit = unitPrice(item.price, extras)
+  const unit = unitPrice(item.price, selection.extras)
   const total = unit * qty
   const extrasSum = unit - item.price
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
-  const soldOut = (name: string) => item.sold_out_extras?.includes(name) ?? false
-
-  const qtyOf = (category: string, name: string) =>
-    extras.find((e) => e.category === category && e.name === name)?.qty ?? 0
-
-  // multi mode: qty 0 drops the entry
-  const setExtraQty = (category: string, option: PricedOption, next: number) =>
-    setExtras((prev) => {
-      const rest = prev.filter((e) => !(e.category === category && e.name === option.name))
-      return next > 0 ? [...rest, { name: option.name, price: option.price, qty: next, category }] : rest
-    })
-
-  // single mode: one per category, tapping the chosen option again clears it
-  const pickSingle = (category: string, option: PricedOption) =>
-    setExtras((prev) => {
-      const rest = prev.filter((e) => e.category !== category)
-      const wasPicked = prev.some((e) => e.category === category && e.name === option.name)
-      return wasPicked ? rest : [...rest, { name: option.name, price: option.price, qty: 1, category }]
-    })
-
-  const toggle = (list: string[], value: string) =>
-    list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
 
   const handleAdd = () => {
     onAddToOrder({
       item,
       quantity: qty,
-      spicy_level: spicy ?? undefined,
-      removals,
-      additions,
-      extras,
+      spicy_level: selection.spicy ?? undefined,
+      removals: selection.removals,
+      additions: selection.additions,
+      extras: selection.extras,
       notes: notes.trim(),
       totalPrice: total,
     })
@@ -177,101 +150,12 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
 
           {/* Sections */}
           <div className="flex-1 overflow-y-auto overscroll-contain divide-y divide-zinc-100">
-            {config.spicyLevels.length > 0 && (
-              // spicy_level is a single TEXT column, so this stays single-select even if
-              // modifier_select_modes says multi.
-              <ModifierSection title="Spicy level" subtitle="Choose one, tap again to clear">
-                <div className="grid grid-cols-2 gap-2">
-                  {config.spicyLevels.map((level) => (
-                    <Pill
-                      key={level}
-                      label={level}
-                      selected={spicy === level}
-                      onClick={() => setSpicy((s) => (s === level ? null : level))}
-                    />
-                  ))}
-                </div>
-              </ModifierSection>
-            )}
-
-            {config.ingredients.length > 0 && (
-              <ModifierSection title="Ingredients" subtitle="Tap to leave one out">
-                <div className="grid grid-cols-2 gap-2">
-                  {config.ingredients.map((ing) => {
-                    const removed = removals.includes(ing)
-                    return (
-                      <Pill
-                        key={ing}
-                        label={ing}
-                        hint={removed ? 'Removed' : undefined}
-                        tone="danger"
-                        selected={removed}
-                        onClick={() => setRemovals((prev) => toggle(prev, ing))}
-                      />
-                    )
-                  })}
-                </div>
-              </ModifierSection>
-            )}
-
-            {config.categories.map((cat) => (
-              <ModifierSection
-                key={cat.key}
-                title={cat.label}
-                subtitle={cat.mode === 'single' ? 'Choose one, tap again to clear' : 'Add as many as you like'}
-              >
-                {cat.mode === 'single' ? (
-                  <div className="grid grid-cols-2 gap-2">
-                    {cat.options.map((opt) => (
-                      <Pill
-                        key={opt.name}
-                        label={opt.name}
-                        hint={soldOut(opt.name) ? 'Sold out' : priceHint(opt.price)}
-                        selected={qtyOf(cat.key, opt.name) > 0}
-                        disabled={soldOut(opt.name)}
-                        onClick={() => pickSingle(cat.key, opt)}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="divide-y divide-zinc-50">
-                    {cat.options.map((opt) => (
-                      <div key={opt.name} className="flex items-center justify-between gap-3 py-1.5">
-                        <div className="min-w-0">
-                          <p className={`text-sm font-semibold ${soldOut(opt.name) ? 'text-zinc-400' : 'text-zinc-800'}`}>
-                            {opt.name}
-                          </p>
-                          <p className="text-xs text-zinc-400">{soldOut(opt.name) ? 'Sold out' : priceHint(opt.price)}</p>
-                        </div>
-                        <QtyStepper
-                          value={qtyOf(cat.key, opt.name)}
-                          onChange={(next) => setExtraQty(cat.key, opt, next)}
-                          label={opt.name}
-                          disabled={soldOut(opt.name)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </ModifierSection>
-            ))}
-
-            {config.additions.length > 0 && (
-              <ModifierSection title="Free additions" subtitle="No extra charge">
-                <div className="grid grid-cols-2 gap-2">
-                  {config.additions.map((add) => (
-                    <Pill
-                      key={add}
-                      label={add}
-                      hint={soldOut(add) ? 'Sold out' : 'Free'}
-                      selected={additions.includes(add)}
-                      disabled={soldOut(add)}
-                      onClick={() => setAdditions((prev) => toggle(prev, add))}
-                    />
-                  ))}
-                </div>
-              </ModifierSection>
-            )}
+            <ModifierForm
+              config={config}
+              value={selection}
+              onChange={setSelection}
+              soldOut={item.sold_out_extras}
+            />
 
             <ModifierSection title="Special instructions" subtitle="Allergies, preferences or anything else">
               <textarea
