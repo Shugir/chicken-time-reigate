@@ -7,6 +7,7 @@ import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 import type { OrderSelection } from '@/components/ProductModal'
 import { slotQty, isSelectionComplete } from './deal-slot-picker-logic'
 import { inSlot, matchDeals } from '@/lib/deal-engine'
+import type { ModifierConfig, SelectedExtra } from '@/lib/order-modifiers'
 
 // ItemCustomizerDrawer renders <Image src={item.image}> unconditionally, and next/image
 // throws on an empty src — so a slot item with no image_url needs a real URL, not ''.
@@ -21,14 +22,16 @@ interface SlotItem {
   extras: { name: string; price: number }[] | null
   removals: string[] | null
   additions: string[] | null
+  modifiers?: ModifierConfig
 }
 
 interface Pick {
   item_id: string
   qty: number
+  spicy_level?: string
   removals: string[]
   additions: string[]
-  extras: { name: string; price: number }[]
+  extras: SelectedExtra[]
 }
 
 interface Group { label: string; min_qty: number; max_qty: number; item_ids?: string[]; category?: string }
@@ -47,6 +50,8 @@ interface Props {
 }
 
 function isCustomizable(item: SlotItem): boolean {
+  const m = item.modifiers
+  if (m && (m.spicyLevels.length || m.ingredients.length || m.additions.length || m.categories.length)) return true
   return Boolean(item.extras?.length || item.removals?.length || item.additions?.length)
 }
 
@@ -97,6 +102,7 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
     const entry: Pick = {
       item_id: item.id,
       qty: selection.quantity,
+      spicy_level: selection.spicy_level,
       removals: selection.removals,
       additions: selection.additions ?? [],
       extras: selection.extras,
@@ -208,6 +214,7 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
             removables: customizing.item.removals ?? [],
             additions: customizing.item.additions ?? [],
             add_ons: customizing.item.extras ?? [],
+            modifiers: customizing.item.modifiers,
           }}
           onClose={() => setCustomizing(null)}
           onAddToOrder={handleCustomizerAdd}

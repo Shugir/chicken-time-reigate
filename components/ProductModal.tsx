@@ -3,15 +3,13 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { X, ChevronDown, Plus, Minus, ShoppingBag, AlertCircle } from 'lucide-react'
+import { unitPrice, type ModifierConfig, type SelectedExtra } from '@/lib/order-modifiers'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type ItemCategory = string
 
-export interface AddOn {
-  name: string
-  price: number
-}
+export type AddOn = SelectedExtra
 
 export interface ProductItem {
   id: string
@@ -23,14 +21,17 @@ export interface ProductItem {
   emoji: string
   image: string
   allergens: string[]
+  /** Legacy flat lists. `modifiers` supersedes them when the row has Phase 1 data. */
   removables: string[]
   additions?: string[]
   add_ons: AddOn[]
+  modifiers?: ModifierConfig
 }
 
 export interface OrderSelection {
   item: ProductItem
   quantity: number
+  spicy_level?: string
   removals: string[]
   additions?: string[]
   extras: AddOn[]
@@ -154,9 +155,9 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
   }
 
   const selectedAddOns = (item.add_ons ?? []).filter((a) => extras.has(a.name))
-  const extrasTotal = selectedAddOns.reduce((sum, a) => sum + a.price, 0)
-  const unitPrice = item.price + extrasTotal
-  const totalPrice = unitPrice * quantity
+  const unit = unitPrice(item.price, selectedAddOns)
+  const extrasTotal = unit - item.price
+  const totalPrice = unit * quantity
 
   function handleAdd() {
     onAddToOrder({
@@ -310,7 +311,7 @@ export function ProductModal({ item, onClose, onAddToOrder }: ProductModalProps)
             {extrasTotal > 0 && (
               <div className="flex justify-between text-xs text-gray-500 mb-3">
                 <span>£{item.price.toFixed(2)} + £{extrasTotal.toFixed(2)} extras</span>
-                <span className="font-semibold text-gray-700">£{unitPrice.toFixed(2)} each</span>
+                <span className="font-semibold text-gray-700">£{unit.toFixed(2)} each</span>
               </div>
             )}
             <div className="flex items-center gap-3">

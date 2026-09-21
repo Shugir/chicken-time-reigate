@@ -19,6 +19,7 @@ import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import ScrollToTop from '@/components/UI/ScrollToTop'
 import { inSlot } from '@/lib/deal-engine'
+import { formatExtra, toModifierConfig, unitPrice, type ModifierConfig, type ModifierSource } from '@/lib/order-modifiers'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -28,7 +29,7 @@ type MenuItem = ProductItem & {
   is_available?: boolean
   sold_out_extras?: string[]
 }
-interface CartEntry { qty: number; removals: string[]; additions: string[]; extras: AddOn[]; notes?: string }
+interface CartEntry { qty: number; spicy_level?: string; removals: string[]; additions: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
 
 interface DbCategory {
@@ -58,6 +59,7 @@ interface SlotItem {
   extras: AddOn[] | null
   removals: string[] | null
   additions: string[] | null
+  modifiers?: ModifierConfig
 }
 
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80'
@@ -257,7 +259,9 @@ function getUniqueTags(items: MenuItem[]) {
 
 // ─── DB → ProductItem mapper ──────────────────────────────────────────────────
 
-interface DbMenuItem {
+// ModifierSource carries the Phase 1 columns (spicy_levels, ingredients, the 8 priced
+// categories, modifier_select_modes) plus the legacy extras/removals/additions.
+type DbMenuItem = ModifierSource & {
   id: string
   name: string
   description: string | null
@@ -267,9 +271,6 @@ interface DbMenuItem {
   category: string
   is_available: boolean
   sold_out_extras: string[]
-  extras: Array<{ name: string; price: number }> | null
-  removals: string[] | null
-  additions: string[] | null
   dietary_flags: string[] | null
   allergens: string[] | null
   custom_options: {
@@ -296,7 +297,8 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
     allergens: item.allergens?.length ? item.allergens : (opts.allergens ?? []),
     removables: item.removals?.length ? item.removals : (opts.removables ?? []),
     additions: item.additions ?? [],
-    add_ons: item.extras?.length ? item.extras : (opts.add_ons ?? []),
+    add_ons: item.add_ons?.length ? item.add_ons : item.extras?.length ? item.extras : (opts.add_ons ?? []),
+    modifiers: toModifierConfig(item),
     dietaryFlags: item.dietary_flags ?? [],
     is_available: item.is_available,
     sold_out_extras: item.sold_out_extras ?? [],
@@ -309,8 +311,7 @@ function cartTotal(cart: Cart, items: MenuItem[]) {
   return Object.entries(cart).reduce((sum, [id, entry]) => {
     const item = items.find((m) => m.id === id)
     if (!item) return sum
-    const extrasPrice = entry.extras.reduce((s, e) => s + e.price, 0)
-    return sum + (item.price + extrasPrice) * entry.qty
+    return sum + unitPrice(item.price, entry.extras) * entry.qty
   }, 0)
 }
 
@@ -626,13 +627,14 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
 
   function handleCheckout() {
     const cartPayload = lineItems.map(({ item, entry }) => {
-      const unitPrice = item.price + entry.extras.reduce((s, e) => s + e.price, 0)
+      const unit = unitPrice(item.price, entry.extras)
       return {
         menu_item_id: item.id,
         name: item.name,
-        price: unitPrice,
+        price: unit,
         quantity: entry.qty,
-        totalPrice: unitPrice * entry.qty,
+        totalPrice: unit * entry.qty,
+        spicy_level: entry.spicy_level,
         extras: entry.extras,
         removals: entry.removals,
         additions: entry.additions ?? [],
@@ -674,15 +676,21 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-zinc-900 truncate">{item.name}</p>
                   <p className="text-xs text-zinc-400 mt-0.5">
-                    £{((item.price + entry.extras.reduce((s, e) => s + e.price, 0)) * entry.qty).toFixed(2)}
+                    £{(unitPrice(item.price, entry.extras) * entry.qty).toFixed(2)}
                   </p>
-                  {(entry.removals.length > 0 || entry.extras.length > 0) && (
+                  {(entry.spicy_level || entry.removals.length > 0 || entry.additions.length > 0 || entry.extras.length > 0) && (
                     <div className="mt-1.5 flex flex-wrap gap-1">
+                      {entry.spicy_level && (
+                        <span className="text-[10px] font-medium border border-orange-200 text-orange-700 px-1.5 py-0.5 rounded">Spicy: {entry.spicy_level}</span>
+                      )}
                       {entry.removals.map((r) => (
                         <span key={r} className="text-[10px] font-medium border border-red-200 text-red-600 px-1.5 py-0.5 rounded">{r}</span>
                       ))}
+                      {entry.additions.map((a) => (
+                        <span key={a} className="text-[10px] font-medium border border-zinc-200 text-zinc-600 px-1.5 py-0.5 rounded">+ {a}</span>
+                      ))}
                       {entry.extras.map((e) => (
-                        <span key={e.name} className="text-[10px] font-medium border border-green-200 text-green-700 px-1.5 py-0.5 rounded">+ {e.name}</span>
+                        <span key={`${e.category ?? ''}-${e.name}`} className="text-[10px] font-medium border border-green-200 text-green-700 px-1.5 py-0.5 rounded">+ {formatExtra(e)}</span>
                       ))}
                     </div>
                   )}
@@ -915,7 +923,7 @@ export default function OrderPage() {
     if (!bundle) return
     const itemsById = new Map<string, SlotItem>(menuItems.filter((m) => m.is_available !== false).map((m) => [m.id, {
       id: m.id, name: m.name, price: m.price, image_url: m.image, category: m.category,
-      extras: m.add_ons, removals: m.removables, additions: m.additions ?? null,
+      extras: m.add_ons, removals: m.removables, additions: m.additions ?? null, modifiers: m.modifiers,
     }]))
     setDealPickerFor({ deal: bundle, itemsById })
   }
@@ -923,7 +931,7 @@ export default function OrderPage() {
   function addToCart(id: string) {
     setCart((p) => ({
       ...p,
-      [id]: { qty: (p[id]?.qty ?? 0) + 1, removals: p[id]?.removals ?? [], additions: p[id]?.additions ?? [], extras: p[id]?.extras ?? [] },
+      [id]: { ...p[id], qty: (p[id]?.qty ?? 0) + 1, removals: p[id]?.removals ?? [], additions: p[id]?.additions ?? [], extras: p[id]?.extras ?? [] },
     }))
   }
   function removeFromCart(id: string) {
@@ -938,6 +946,7 @@ export default function OrderPage() {
       ...p,
       [selection.item.id]: {
         qty: (p[selection.item.id]?.qty ?? 0) + selection.quantity,
+        spicy_level: selection.spicy_level,
         removals: selection.removals,
         additions: selection.additions ?? [],
         extras: selection.extras,
@@ -1289,15 +1298,15 @@ export default function OrderPage() {
             for (const pick of picks) {
               const item = menuItems.find((m) => m.id === pick.item_id)
               if (!item) continue
-              const extrasTotal = pick.extras.reduce((s, e) => s + e.price, 0)
               handleAddToOrder({
                 item,
                 quantity: pick.qty,
+                spicy_level: pick.spicy_level,
                 removals: pick.removals,
                 additions: pick.additions,
                 extras: pick.extras,
                 notes: '',
-                totalPrice: (item.price + extrasTotal) * pick.qty,
+                totalPrice: unitPrice(item.price, pick.extras) * pick.qty,
               })
             }
             setDealPickerFor(null)

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import type { DealType } from '@/lib/deal-engine'
+import { toModifierConfig, type ModifierConfig, type ModifierSource, type SelectedExtra } from '@/lib/order-modifiers'
 
 interface Deal {
   id: string
@@ -15,17 +16,15 @@ interface Deal {
   image_url: string | null
 }
 
-// Mirrors the `.select()` list in app/api/menu-items/route.ts.
-interface DbMenuItem {
+// Mirrors the `.select()` list in app/api/menu-items/route.ts; ModifierSource covers the
+// Phase 1 modifier columns plus the legacy extras/removals/additions.
+type DbMenuItem = ModifierSource & {
   id: string
   name: string
   price: number
   image_url: string | null
   category: string
   is_available: boolean
-  extras: { name: string; price: number }[] | null
-  removals: string[] | null
-  additions: string[] | null
   custom_options: {
     removables?: string[]
     add_ons?: { name: string; price: number }[]
@@ -42,17 +41,19 @@ interface SlotItem {
   extras: { name: string; price: number }[] | null
   removals: string[] | null
   additions: string[] | null
+  modifiers?: ModifierConfig
 }
 
 interface Pick {
   item_id: string
   qty: number
+  spicy_level?: string
   removals: string[]
   additions: string[]
-  extras: { name: string; price: number }[]
+  extras: SelectedExtra[]
 }
 
-interface CartEntry { qty: number; removals: string[]; additions: string[]; extras: { name: string; price: number }[] }
+interface CartEntry { qty: number; spicy_level?: string; removals: string[]; additions: string[]; extras: SelectedExtra[] }
 
 // Legacy rows keep options under custom_options; the order page reconciles the same way,
 // so an item is customizable on both pages or neither.
@@ -64,9 +65,10 @@ function toSlotItem(item: DbMenuItem): SlotItem {
     price: Number(item.price),
     image_url: item.image_url,
     category: item.category,
-    extras: item.extras?.length ? item.extras : (opts.add_ons ?? null),
+    extras: item.add_ons?.length ? item.add_ons : item.extras?.length ? item.extras : (opts.add_ons ?? null),
     removals: item.removals?.length ? item.removals : (opts.removables ?? null),
-    additions: item.additions,
+    additions: item.additions ?? null,
+    modifiers: toModifierConfig(item),
   }
 }
 
@@ -97,7 +99,7 @@ export default function DealsPage() {
       const current = existing[pick.item_id]
       existing[pick.item_id] = current
         ? { ...current, qty: current.qty + pick.qty }
-        : { qty: pick.qty, removals: pick.removals, additions: pick.additions, extras: pick.extras }
+        : { qty: pick.qty, spicy_level: pick.spicy_level, removals: pick.removals, additions: pick.additions, extras: pick.extras }
     }
     sessionStorage.setItem('pendingCartEntries', JSON.stringify(existing))
     router.push('/order?from=deal')
