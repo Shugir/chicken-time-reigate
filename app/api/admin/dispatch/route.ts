@@ -29,7 +29,7 @@ const ORDER_FIELDS = `
   id, customer_name, customer_phone, customer_notes,
   delivery_address, delivery_postcode, total_amount, created_at,
   status, driver_id, stop_sequence, delivery_status, driver_notes, return_reason, order_type,
-  order_items(id, item_name, quantity, unit_price, extras, removals, notes)
+  order_items(id, item_name, quantity, unit_price, extras, removals, spicy_level, additions, notes)
 `
 
 export async function GET() {

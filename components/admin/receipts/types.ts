@@ -5,8 +5,10 @@ export interface OrderItem {
   item_name: string | null
   quantity: number
   unit_price: number
-  extras: { name: string; price: number }[]
+  extras: { name: string; price: number; qty?: number }[]
   removals: string[]
+  spicy_level?: string | null
+  additions?: string[] | null
   notes: string | null
 }
 

@@ -23,7 +23,7 @@ function buildQuery(sp: URLSearchParams) {
       delivery_address, delivery_postcode, total_amount, status, delivery_status,
       promo_code_used, discount_applied, applied_deals, driver_id, stripe_session_id,
       drivers ( name ),
-      order_items ( id, item_name, quantity, unit_price, extras, removals, notes )
+      order_items ( id, item_name, quantity, unit_price, extras, removals, spicy_level, additions, notes )
     `)
     .order('created_at', { ascending: false })
 

@@ -1,14 +1,17 @@
 import {
   formatTime, formatDateMedium,
 } from '@/lib/utils/format-date'
+import { formatExtra, extraQty } from '@/lib/order-modifiers'
 
 interface ReceiptItem {
   id: string
   item_name: string | null
   quantity: number
   unit_price: number
-  extras: { name: string; price: number }[]
+  extras: { name: string; price: number; qty?: number }[]
   removals: string[]
+  spicy_level?: string | null
+  additions?: string[] | null
   notes: string | null
 }
 
@@ -80,15 +83,25 @@ export function CustomerReceipt({ order }: { order: ReceiptOrder }) {
             <div className="flex justify-between text-gray-500 pl-2">
               <span>@ £{item.unit_price.toFixed(2)} each</span>
             </div>
-            {(item.extras ?? []).length > 0 && (item.extras ?? []).map((e) => (
-              <div key={e.name} className="flex justify-between pl-2 text-gray-600" style={{ fontSize: '10px' }}>
-                <span>+ {e.name}</span>
-                <span>£{e.price.toFixed(2)}</span>
+            {item.spicy_level && (
+              <div className="pl-2 font-bold" style={{ fontSize: '10px' }}>
+                Spicy: {item.spicy_level}
               </div>
-            ))}
+            )}
             {(item.removals ?? []).length > 0 && (item.removals ?? []).map((r) => (
               <div key={r} className="pl-2 text-gray-500" style={{ fontSize: '10px' }}>
                 - No {r}
+              </div>
+            ))}
+            {(item.additions ?? []).map((a) => (
+              <div key={a} className="pl-2 text-gray-600" style={{ fontSize: '10px' }}>
+                + {a}
+              </div>
+            ))}
+            {(item.extras ?? []).length > 0 && (item.extras ?? []).map((e) => (
+              <div key={e.name} className="flex justify-between pl-2 text-gray-600" style={{ fontSize: '10px' }}>
+                <span>+ {formatExtra(e)}</span>
+                <span>£{(e.price * extraQty(e)).toFixed(2)}</span>
               </div>
             ))}
             {item.notes && (

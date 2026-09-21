@@ -15,11 +15,12 @@ import {
 } from '@/lib/utils/format-date'
 import { isInFutureQueue } from '@/lib/utils/schedule-utils'
 import { CustomerReceipt } from '@/components/CustomerReceipt'
+import { formatExtra, extraQty } from '@/lib/order-modifiers'
 
 const ALERT_URL = '/KitchenAlert.mp3'
 const MAX_DISPATCHED = 8
 
-interface Extra { name: string; price: number }
+interface Extra { name: string; price: number; qty?: number }
 
 interface OrderItem {
   id: string
@@ -28,6 +29,8 @@ interface OrderItem {
   unit_price: number
   extras: Extra[]
   removals: string[]
+  spicy_level?: string | null
+  additions?: string[] | null
   notes: string | null
 }
 
@@ -156,6 +159,11 @@ function OrderCard({
                 £{(item.unit_price * item.quantity).toFixed(2)}
               </span>
             </div>
+            {item.spicy_level && (
+              <p className="pl-4 text-xs font-black text-orange-400 uppercase tracking-wide">
+                Spicy: {item.spicy_level}
+              </p>
+            )}
             {(item.removals ?? []).length > 0 && (
               <ul className="pl-4 space-y-0.5">
                 {(item.removals ?? []).map((r) => (
@@ -165,11 +173,20 @@ function OrderCard({
                 ))}
               </ul>
             )}
+            {(item.additions ?? []).length > 0 && (
+              <ul className="pl-4 space-y-0.5">
+                {(item.additions ?? []).map((a) => (
+                  <li key={a} className="text-xs font-semibold text-emerald-400">
+                    + {a}
+                  </li>
+                ))}
+              </ul>
+            )}
             {(item.extras ?? []).length > 0 && (
               <ul className="pl-4 space-y-0.5">
                 {(item.extras ?? []).map((e) => (
                   <li key={e.name} className="text-xs font-semibold text-emerald-400">
-                    + {e.name}
+                    + {formatExtra(e)}
                   </li>
                 ))}
               </ul>
@@ -306,14 +323,24 @@ function KitchenTicket({ order }: { order: Order }) {
               <span>{item.quantity}x {item.item_name ?? 'Item'}</span>
               <span>£{(item.unit_price * item.quantity).toFixed(2)}</span>
             </div>
+            {item.spicy_level && (
+              <div className="text-xs font-black uppercase tracking-wide">
+                *** Spicy: {item.spicy_level}
+              </div>
+            )}
             {(item.removals ?? []).map((r) => (
               <div key={r} className="text-xs font-black uppercase tracking-wide">
                 *** NO {r}
               </div>
             ))}
+            {(item.additions ?? []).map((a) => (
+              <div key={a} className="text-xs font-semibold">
+                + {a}
+              </div>
+            ))}
             {(item.extras ?? []).map((e) => (
               <div key={e.name} className="text-xs font-semibold">
-                + {e.name} (£{e.price.toFixed(2)})
+                + {formatExtra(e)} (£{(e.price * extraQty(e)).toFixed(2)})
               </div>
             ))}
             {item.notes && (

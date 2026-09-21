@@ -11,7 +11,7 @@ export async function GET() {
       customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes,
       driver_id,
       drivers(id, name, phone),
-      order_items(id, item_name, quantity, unit_price, extras, removals, notes)
+      order_items(id, item_name, quantity, unit_price, extras, removals, spicy_level, additions, notes)
     `)
     .eq('delivery_status', 'out_for_delivery')
     .order('created_at', { ascending: false })

@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { X, Printer, Link2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { CustomerReceipt } from '@/components/CustomerReceipt'
+import { formatExtra } from '@/lib/order-modifiers'
 import { formatDateMedium, formatTime } from '@/lib/utils/format-date'
 import { STATUS_BADGE as STATUS_STYLES } from './utils'
 import type { AdminReceiptOrder } from './types'
@@ -123,11 +124,17 @@ export function ReceiptDrawer({ order, onClose }: Props) {
                 <div className="flex-1">
                   <span className="text-sm font-medium text-white">{item.item_name ?? 'Item'}</span>
                   <span className="text-zinc-600 text-sm"> × {item.quantity}</span>
-                  {(item.extras ?? []).map((e) => (
-                    <div key={e.name} className="text-xs text-green-600 mt-0.5">+ {e.name}</div>
-                  ))}
+                  {item.spicy_level && (
+                    <div className="text-xs font-semibold text-orange-500 mt-0.5">Spicy: {item.spicy_level}</div>
+                  )}
                   {(item.removals ?? []).map((r) => (
                     <div key={r} className="text-xs text-rose-800 mt-0.5">− {r}</div>
+                  ))}
+                  {(item.additions ?? []).map((a) => (
+                    <div key={a} className="text-xs text-green-600 mt-0.5">+ {a}</div>
+                  ))}
+                  {(item.extras ?? []).map((e) => (
+                    <div key={e.name} className="text-xs text-green-600 mt-0.5">+ {formatExtra(e)}</div>
                   ))}
                   {item.notes && (
                     <div className="text-xs text-zinc-600 italic mt-0.5">{item.notes}</div>

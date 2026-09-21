@@ -16,6 +16,7 @@ import {
 } from '@/lib/utils/format-date'
 import { orderUrgency } from '@/lib/utils/order-urgency'
 import { CustomerReceipt } from '@/components/CustomerReceipt'
+import { formatExtra } from '@/lib/order-modifiers'
 
 const ALERT_URL = '/KitchenAlert.mp3'
 
@@ -24,8 +25,10 @@ interface OrderItem {
   item_name: string | null
   quantity: number
   unit_price: number
-  extras: { name: string; price: number }[]
+  extras: { name: string; price: number; qty?: number }[]
   removals: string[]
+  spicy_level?: string | null
+  additions?: string[] | null
   notes: string | null
 }
 
@@ -207,14 +210,24 @@ function OrderCard({
                   £{(item.unit_price * item.quantity).toFixed(2)}
                 </span>
               </div>
+              {item.spicy_level && (
+                <p className="pl-3 text-[10px] font-black text-orange-400 uppercase tracking-wide leading-snug">
+                  Spicy: {item.spicy_level}
+                </p>
+              )}
               {(item.removals ?? []).length > 0 && (
                 <p className="pl-3 text-[10px] font-black text-red-400 uppercase tracking-wide leading-snug">
                   NO {item.removals.join(' · NO ')}
                 </p>
               )}
+              {(item.additions ?? []).length > 0 && (
+                <p className="pl-3 text-[10px] font-semibold text-emerald-400 leading-snug">
+                  + {item.additions!.join(' · + ')}
+                </p>
+              )}
               {(item.extras ?? []).length > 0 && (
                 <p className="pl-3 text-[10px] font-semibold text-emerald-400 leading-snug">
-                  + {item.extras.map((e) => e.name).join(' · ')}
+                  + {item.extras.map(formatExtra).join(' · ')}
                 </p>
               )}
               {item.notes && (

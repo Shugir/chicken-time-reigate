@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { formatDateTime } from '@/lib/utils/format-date'
 import toast from 'react-hot-toast'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { formatExtra } from '@/lib/order-modifiers'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -22,9 +23,21 @@ interface OrderItem {
   item_name: string
   quantity: number
   unit_price: number
-  extras:   { name: string; price: number }[] | null
+  extras:   { name: string; price: number; qty?: number; category?: string }[] | null
   removals: string[] | null
+  spicy_level?: string | null
+  additions?: string[] | null
   notes:    string | null
+}
+
+/** Modifier labels for one line, in display order: spicy, removals, additions, extras. */
+function itemModifiers(item: OrderItem): string[] {
+  return [
+    ...(item.spicy_level ? [`Spicy: ${item.spicy_level}`] : []),
+    ...(item.removals ?? []).map((r) => `NO ${r}`),
+    ...(item.additions ?? []).map((a) => `+ ${a}`),
+    ...(item.extras ?? []).map((e) => `+ ${formatExtra(e)}`),
+  ]
 }
 
 interface Order {
@@ -146,7 +159,7 @@ const ORDER_SELECT = `
   id, status, delivery_status, total_amount, created_at,
   customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes,
   promo_code_used, discount_applied, applied_deals,
-  order_items(id, item_name, quantity, unit_price, extras, removals, notes)
+  order_items(id, item_name, quantity, unit_price, extras, removals, spicy_level, additions, notes)
 `
 
 // ─── OrderCard component ──────────────────────────────────────────────────────
@@ -208,9 +221,9 @@ function OrderCard({ order, onReorder, onPrintReceipt }: {
           <div key={item.id} className="flex justify-between text-sm">
             <span className="text-zinc-700 dark:text-zinc-300">
               {item.quantity}× {item.item_name}
-              {item.extras && item.extras.length > 0 && (
-                <span className="text-xs text-zinc-500 ml-1">
-                  +{item.extras.map(e => e.name).join(', ')}
+              {itemModifiers(item).length > 0 && (
+                <span className="block text-xs text-zinc-500">
+                  {itemModifiers(item).join(' · ')}
                 </span>
               )}
             </span>
@@ -370,13 +383,15 @@ export default function AccountPage() {
 
   function handleReorder(order: Order) {
     const cart = order.order_items.map(item => ({
-      name:       item.item_name,
-      price:      item.unit_price,
-      quantity:   item.quantity,
-      totalPrice: item.unit_price * item.quantity,
-      extras:     item.extras   ?? [],
-      removals:   item.removals ?? [],
-      notes:      item.notes    ?? undefined,
+      name:        item.item_name,
+      price:       item.unit_price,
+      quantity:    item.quantity,
+      totalPrice:  item.unit_price * item.quantity,
+      spicy_level: item.spicy_level ?? undefined,
+      extras:      item.extras    ?? [],
+      removals:    item.removals  ?? [],
+      additions:   item.additions ?? [],
+      notes:       item.notes     ?? undefined,
     }))
     sessionStorage.setItem('pendingCart', JSON.stringify(cart))
     router.push('/checkout')
@@ -391,7 +406,7 @@ export default function AccountPage() {
     const delivery = Number(order.total_amount) - subtotal + discount + dealsSavings
     const rows = order.order_items.map(i => `
       <tr>
-        <td style="padding:6px 0;border-bottom:1px solid #eee">${i.quantity}× ${i.item_name}${i.extras?.length ? ` <small style="color:#888">+${i.extras.map(e => e.name).join(', ')}</small>` : ''}</td>
+        <td style="padding:6px 0;border-bottom:1px solid #eee">${i.quantity}× ${i.item_name}${itemModifiers(i).length ? ` <small style="color:#888">${itemModifiers(i).join(', ')}</small>` : ''}</td>
         <td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right">£${(i.unit_price * i.quantity).toFixed(2)}</td>
       </tr>`).join('')
     const dealRows = (order.applied_deals ?? [])

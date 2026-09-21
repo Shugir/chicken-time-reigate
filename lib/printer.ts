@@ -1,4 +1,5 @@
 import net from 'node:net'
+import { formatExtra, extraQty } from '@/lib/order-modifiers'
 
 const WIDTH = 48
 const ESC = '\x1b'
@@ -73,11 +74,19 @@ export function generateReceiptBuffer(order: any, driverName?: string): Buffer {
     const itemTotal = it.unit_price * it.quantity
     subtotal += itemTotal
     chunks.push(formatRow(`${it.quantity}x ${it.item_name ?? 'Item'}`, GBP(itemTotal)))
-    for (const e of it.extras ?? []) {
-      chunks.push(formatRow(`  + ${e.name}`, GBP(e.price)))
+    if (it.spicy_level) {
+      chunks.push(ESC + 'E\x01') // Bold On
+      chunks.push(`  Spicy: ${it.spicy_level}\n`)
+      chunks.push(ESC + 'E\x00') // Bold Off
     }
     for (const r of it.removals ?? []) {
       chunks.push(`  - No ${r}\n`)
+    }
+    for (const a of it.additions ?? []) {
+      chunks.push(`  + ${a}\n`)
+    }
+    for (const e of it.extras ?? []) {
+      chunks.push(formatRow(`  + ${formatExtra(e)}`, GBP(e.price * extraQty(e))))
     }
     if (it.notes) {
       wrapLine(`  * ${it.notes}`).forEach(l => chunks.push(l + '\n'))
