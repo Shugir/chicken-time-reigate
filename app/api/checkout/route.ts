@@ -7,12 +7,11 @@ import { checkStoreStatus, BusinessHours, Holiday, DayKey } from '@/lib/store-st
 import { validateScheduledFor } from '@/lib/utils/schedule-utils'
 import { matchDeals, isDealLive, type Deal, type MenuItemLite } from '@/lib/deal-engine'
 import { REWARD_ERRORS, promoWindowError } from '@/lib/reward-checkout'
+import { formatExtra, type SelectedExtra } from '@/lib/order-modifiers'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
 })
-
-interface Extra { name: string; price: number }
 
 interface CartItem {
   menu_item_id?: string
@@ -20,8 +19,10 @@ interface CartItem {
   price:         number      // unit price already including extras
   quantity:      number
   totalPrice:    number      // price × quantity
-  extras:        Extra[]
+  spicy_level?:  string
+  extras:        SelectedExtra[]
   removals:      string[]
+  additions?:    string[]
   notes?:        string      // free-text only
 }
 
@@ -337,13 +338,15 @@ export async function POST(request: NextRequest) {
       .from('order_items')
       .insert(
         items.map((item) => ({
-          order_id:   order.id,
-          item_name:  item.name,
-          quantity:   item.quantity,
-          unit_price: item.price,
-          extras:     item.extras   ?? [],
-          removals:   item.removals ?? [],
-          notes:      item.notes    ?? null,
+          order_id:    order.id,
+          item_name:   item.name,
+          quantity:    item.quantity,
+          unit_price:  item.price,
+          extras:      item.extras      ?? [],
+          removals:    item.removals    ?? [],
+          spicy_level: item.spicy_level ?? null,
+          additions:   item.additions   ?? [],
+          notes:       item.notes       ?? null,
         })),
       )
 
@@ -441,19 +444,23 @@ export async function POST(request: NextRequest) {
 
     // Create Stripe checkout session
     // unit_amount = (base price + extras) × 100 — `item.price` already includes extras
-    const lineItems = items.map((item) => ({
-      price_data: {
-        currency: 'gbp',
-        unit_amount: Math.round(item.price * 100),
-        product_data: {
-          name: item.name,
-          ...(item.extras.length > 0 && {
-            description: item.extras.map((e) => `+ ${e.name}`).join(', '),
-          }),
+    const lineItems = items.map((item) => {
+      const description = [
+        ...(item.spicy_level ? [`Spicy: ${item.spicy_level}`] : []),
+        ...item.extras.map((e) => `+ ${formatExtra(e)}`),
+      ].join(', ')
+      return {
+        price_data: {
+          currency: 'gbp',
+          unit_amount: Math.round(item.price * 100),
+          product_data: {
+            name: item.name,
+            ...(description && { description }),
+          },
         },
-      },
-      quantity: item.quantity,
-    }))
+        quantity: item.quantity,
+      }
+    })
 
     if (effectiveDeliveryFee > 0) {
       lineItems.push({

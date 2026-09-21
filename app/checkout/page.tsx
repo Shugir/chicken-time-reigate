@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase-browser'
 import RewardPicker from '@/components/RewardPicker'
 import { isRewardRejection, rewardDiscountAmount, type CheckoutReward } from '@/lib/reward-checkout'
+import { formatExtra, type SelectedExtra } from '@/lib/order-modifiers'
 
 interface CartItem {
   menu_item_id: string
@@ -16,8 +17,10 @@ interface CartItem {
   price: number
   quantity: number
   totalPrice: number
-  extras: { name: string; price: number }[]
+  spicy_level?: string
+  extras: SelectedExtra[]
   removals: string[]
+  additions?: string[]
   notes?: string
 }
 
@@ -373,11 +376,17 @@ export default function CheckoutPage() {
               <div key={i} className="flex justify-between py-2.5 text-sm">
                 <div>
                   <span className="font-semibold text-gray-900">{item.quantity}× {item.name}</span>
-                  {item.extras.length > 0 && (
-                    <p className="text-xs text-gray-400">{item.extras.map((e) => `+ ${e.name}`).join(', ')}</p>
+                  {item.spicy_level && (
+                    <p className="text-xs text-gray-400">Spicy: {item.spicy_level}</p>
                   )}
                   {item.removals.length > 0 && (
                     <p className="text-xs text-brand-red">{item.removals.join(', ')}</p>
+                  )}
+                  {(item.additions?.length ?? 0) > 0 && (
+                    <p className="text-xs text-gray-400">{item.additions!.map((a) => `+ ${a}`).join(', ')}</p>
+                  )}
+                  {item.extras.length > 0 && (
+                    <p className="text-xs text-gray-400">{item.extras.map((e) => `+ ${formatExtra(e)}`).join(', ')}</p>
                   )}
                 </div>
                 <span className="font-semibold text-gray-900 shrink-0 ml-4">£{item.totalPrice.toFixed(2)}</span>

@@ -429,6 +429,37 @@ describe('POST /api/checkout — orders without a reward', () => {
   })
 })
 
+describe('POST /api/checkout — customizer selections', () => {
+  beforeEach(resetFixtures)
+
+  it('persists spicy level, additions and extras with qty and category', async () => {
+    const extras = [{ name: 'Coke', price: 1.5, qty: 2, category: 'drinks_regular' }]
+    const items = [{
+      name: 'Wings', price: 13, quantity: 1, totalPrice: 13,
+      spicy_level: 'Hot', additions: ['Extra Sauce'], extras, removals: [],
+    }]
+
+    const res = await POST(new NextRequest('http://localhost/api/checkout', {
+      method: 'POST',
+      body: JSON.stringify({ items, delivery_fee: 3 }),
+    }))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrderItems).toContainEqual(
+      expect.objectContaining({ spicy_level: 'Hot', additions: ['Extra Sauce'], extras }),
+    )
+  })
+
+  it('defaults spicy level to null and additions to empty when absent', async () => {
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrderItems).toContainEqual(
+      expect.objectContaining({ item_name: 'Wings', spicy_level: null, additions: [] }),
+    )
+  })
+})
+
 describe('POST /api/checkout — tier earn multiplier', () => {
   beforeEach(resetFixtures)
 
