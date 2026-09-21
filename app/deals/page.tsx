@@ -52,9 +52,10 @@ interface Pick {
   removals: string[]
   additions: string[]
   extras: SelectedExtra[]
+  notes?: string
 }
 
-interface CartEntry { qty: number; spicy_level?: string; removals: string[]; additions: string[]; extras: SelectedExtra[] }
+interface CartEntry { qty: number; spicy_level?: string; removals: string[]; additions: string[]; extras: SelectedExtra[]; notes?: string }
 
 // Legacy rows keep options under custom_options; the order page reconciles the same way,
 // so an item is customizable on both pages or neither.
@@ -99,7 +100,7 @@ export default function DealsPage() {
     // Keyed by item plus options (lineKey) so picks with different options stay separate lines.
     let cart = existing
     for (const pick of picks) {
-      cart = addToLines(cart, pick.item_id, { spicy_level: pick.spicy_level, removals: pick.removals, additions: pick.additions, extras: pick.extras }, pick.qty)
+      cart = addToLines(cart, pick.item_id, { spicy_level: pick.spicy_level, removals: pick.removals, additions: pick.additions, extras: pick.extras, notes: pick.notes?.trim() || undefined }, pick.qty)
     }
     // Upgrades are ordinary menu items at their normal price, with no options.
     for (const up of upgrades) {

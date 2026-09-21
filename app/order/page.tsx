@@ -1302,7 +1302,7 @@ export default function OrderPage() {
                 removals: pick.removals,
                 additions: pick.additions,
                 extras: pick.extras,
-                notes: '',
+                notes: (pick.notes ?? '').trim(),
                 totalPrice: unitPrice(item.price, pick.extras) * pick.qty,
               })
             }

@@ -28,12 +28,13 @@ interface Pick {
   removals: string[]
   additions: string[]
   extras: SelectedExtra[]
+  notes?: string
 }
 
 interface Upgrade { item_id: string; qty: number }
 
 /** One picked unit. Each tap adds its own entry so units can carry different options. */
-interface PickUnit { uid: string; item_id: string; selection: ModifierSelection }
+interface PickUnit { uid: string; item_id: string; selection: ModifierSelection; notes: string }
 
 interface Group { label: string; min_qty: number; max_qty: number; item_ids?: string[]; category?: string }
 
@@ -60,15 +61,19 @@ const toPick = (u: PickUnit): Pick => ({
   removals: u.selection.removals,
   additions: u.selection.additions,
   extras: u.selection.extras,
+  notes: u.notes.trim(),
 })
 
-/** "Spicy: Hot · No Lettuce · Coke ×2", or '' when nothing is chosen. */
-function summarise(s: ModifierSelection): string {
+/** "Spicy: Hot · No Lettuce · Coke ×2 · “no onions”", or '' when nothing is chosen. */
+function summarise(u: PickUnit): string {
+  const s = u.selection
+  const note = u.notes.trim()
   return [
     ...(s.spicy ? [`Spicy: ${s.spicy}`] : []),
     ...s.removals.map((r) => `No ${r}`),
     ...s.additions,
     ...s.extras.map(formatExtra),
+    ...(note ? [`“${note}”`] : []),
   ].join(' · ')
 }
 
@@ -118,7 +123,7 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
   function addPick(gi: number, item: SlotItem) {
     if (slotCount(gi) >= deal.config.groups[gi].max_qty) return
     const uid = `u${nextUid.current++}`
-    setPicks((prev) => ({ ...prev, [gi]: [...(prev[gi] ?? []), { uid, item_id: item.id, selection: EMPTY_SELECTION }] }))
+    setPicks((prev) => ({ ...prev, [gi]: [...(prev[gi] ?? []), { uid, item_id: item.id, selection: EMPTY_SELECTION, notes: '' }] }))
     if (hasOptions(configs.get(item.id)!)) setExpanded(uid)
   }
 
@@ -127,8 +132,8 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
     setExpanded((e) => (e === uid ? null : e))
   }
 
-  function updatePick(gi: number, uid: string, selection: ModifierSelection) {
-    setPicks((prev) => ({ ...prev, [gi]: (prev[gi] ?? []).map((p) => (p.uid === uid ? { ...p, selection } : p)) }))
+  function updatePick(gi: number, uid: string, patch: { selection?: ModifierSelection; notes?: string }) {
+    setPicks((prev) => ({ ...prev, [gi]: (prev[gi] ?? []).map((p) => (p.uid === uid ? { ...p, ...patch } : p)) }))
   }
 
   const units = Object.values(picks).flat()
@@ -262,7 +267,7 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
                         const item = itemsById.get(unit.item_id)
                         if (!item) return null
                         const config = configs.get(item.id)!
-                        const summary = summarise(unit.selection)
+                        const summary = summarise(unit)
                         const open = expanded === unit.uid
                         return (
                           <li key={unit.uid} className="rounded-xl border border-zinc-200 overflow-hidden">
@@ -271,16 +276,14 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
                                 <p className="text-sm font-semibold text-zinc-900 truncate">{item.name}</p>
                                 {summary && <p className="text-xs text-zinc-400 truncate">{summary}</p>}
                               </div>
-                              {hasOptions(config) && (
-                                <button
-                                  onClick={() => setExpanded(open ? null : unit.uid)}
-                                  aria-expanded={open}
-                                  className="min-h-[44px] px-2 flex items-center gap-1 text-xs font-semibold text-brand-red"
-                                >
-                                  Customise
-                                  <ChevronDown size={13} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
-                                </button>
-                              )}
+                              <button
+                                onClick={() => setExpanded(open ? null : unit.uid)}
+                                aria-expanded={open}
+                                className="min-h-[44px] px-2 flex items-center gap-1 text-xs font-semibold text-brand-red"
+                              >
+                                Customise
+                                <ChevronDown size={13} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
+                              </button>
                               <button
                                 onClick={() => removePick(gi, unit.uid)}
                                 aria-label={`Remove ${item.name}`}
@@ -291,11 +294,27 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
                             </div>
                             {open && (
                               <div className="border-t border-zinc-100 bg-zinc-50/60 divide-y divide-zinc-100">
-                                <ModifierForm
-                                  config={config}
-                                  value={unit.selection}
-                                  onChange={(next) => updatePick(gi, unit.uid, next)}
-                                />
+                                {hasOptions(config) && (
+                                  <ModifierForm
+                                    config={config}
+                                    value={unit.selection}
+                                    onChange={(next) => updatePick(gi, unit.uid, { selection: next })}
+                                  />
+                                )}
+                                <div className="px-4 py-3">
+                                  <label className="block text-xs font-semibold text-zinc-700 mb-1.5" htmlFor={`note-${unit.uid}`}>
+                                    Special instructions
+                                  </label>
+                                  <input
+                                    id={`note-${unit.uid}`}
+                                    type="text"
+                                    value={unit.notes}
+                                    onChange={(e) => updatePick(gi, unit.uid, { notes: e.target.value })}
+                                    placeholder="No onions"
+                                    maxLength={200}
+                                    className="w-full border border-zinc-200 rounded-xl px-3 py-2.5 min-h-[44px] text-base sm:text-sm text-zinc-700 placeholder-zinc-400 bg-white focus:outline-none focus:border-zinc-400"
+                                  />
+                                </div>
                               </div>
                             )}
                           </li>
