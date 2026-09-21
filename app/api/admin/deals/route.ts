@@ -20,6 +20,12 @@ export function validateConfig(type: string, config: unknown): string | null {
     const get = c.get
     if (typeof buy.qty !== 'number' || buy.qty < 1) return 'bogo buy.qty must be a number >= 1'
     if (typeof get.qty !== 'number' || get.qty < 1) return 'bogo get.qty must be a number >= 1'
+    // Each side targets specific items (item_ids) or, for legacy deals, a category
+    for (const [label, side] of [['buy', buy], ['get', get]] as const) {
+      const hasItems = Array.isArray(side.item_ids) && side.item_ids.length > 0 && side.item_ids.every((id) => typeof id === 'string')
+      const hasCategory = typeof side.category === 'string' && side.category.trim() !== ''
+      if (!hasItems && !hasCategory) return `bogo ${label} requires at least one item`
+    }
     const discount = get.discount
     const validDiscount =
       discount === 'free' ||

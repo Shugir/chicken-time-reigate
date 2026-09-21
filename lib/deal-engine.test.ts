@@ -49,6 +49,33 @@ describe('matchDeals — bogo', () => {
   })
 })
 
+describe('matchDeals — bogo with overlapping buy/get item lists', () => {
+  const menuItems = menuMap([
+    { id: 'a', price: 4, category: 'x', is_available: true },
+    { id: 'b', price: 6, category: 'x', is_available: true },
+    { id: 'c', price: 8, category: 'x', is_available: true },
+  ])
+  const deals: Deal[] = [{
+    id: 'd1', type: 'bogo', name: 'Overlap', is_active: true,
+    config: { buy: { item_ids: ['a', 'b'], qty: 1 }, get: { item_ids: ['b', 'c'], qty: 1, discount: 'free' } },
+  }]
+
+  it('never uses one unit as both the bought and the free item', () => {
+    // one b alone cannot pay for itself
+    expect(matchDeals([{ menu_item_id: 'b', quantity: 1 }], deals, menuItems).totalDiscount).toBe(0)
+  })
+
+  it('gives the highest-priced get item free when a distinct buy unit exists', () => {
+    const cart: DealCartItem[] = [{ menu_item_id: 'a', quantity: 1 }, { menu_item_id: 'c', quantity: 1 }]
+    expect(matchDeals(cart, deals, menuItems).totalDiscount).toBe(8)
+  })
+
+  it('reuses a b unit as the buy when c is the free one', () => {
+    const cart: DealCartItem[] = [{ menu_item_id: 'b', quantity: 1 }, { menu_item_id: 'c', quantity: 1 }]
+    expect(matchDeals(cart, deals, menuItems).totalDiscount).toBe(8)
+  })
+})
+
 describe('matchDeals — bundle', () => {
   it('consumes exactly min_qty of the highest-priced qualifying items per group', () => {
     const menuItems = menuMap([

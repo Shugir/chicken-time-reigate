@@ -32,7 +32,7 @@ const TYPE_LABELS: Record<DealType, string> = {
 }
 
 const EMPTY_CONFIG: Record<DealType, any> = {
-  bogo: { buy: { category: '', qty: 1 }, get: { category: '', qty: 1, discount: 'free' } },
+  bogo: { buy: { item_ids: [], qty: 1 }, get: { item_ids: [], qty: 1, discount: 'free' } },
   bundle: { groups: [{ label: '', min_qty: 1, max_qty: 1, item_ids: [] }], price: 0, price_type: 'fixed' },
   order_discount: { scope: 'order', discount: { type: 'percent', value: 10 } },
 }
@@ -208,6 +208,69 @@ function normalizeSlot(g: Partial<Slot> & { pick_qty?: number }): Slot {
   }
 }
 
+// Legacy BOGO deals store `{ category }` on buy/get; show those as the items currently in that
+// category so the admin can edit them item-by-item. Saving writes item_ids and drops category.
+function bogoSideItemIds(side: { item_ids?: string[]; category?: string }, menuItems: MenuItemOption[]): string[] {
+  if (side.item_ids?.length) return side.item_ids
+  if (!side.category) return []
+  const cat = side.category.trim().toLowerCase()
+  return menuItems.filter((m) => m.category.trim().toLowerCase() === cat).map((m) => m.id)
+}
+
+function ItemPicker({ title, itemIds, menuItems, categories, onChange }: {
+  title: string
+  itemIds: string[]
+  menuItems: MenuItemOption[]
+  categories: Category[]
+  onChange: (ids: string[]) => void
+}) {
+  const [search, setSearch] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('')
+
+  const filtered = menuItems.filter((m) => {
+    if (categoryFilter && m.category.toLowerCase() !== categoryFilter) return false
+    if (search && !m.name.toLowerCase().includes(search.toLowerCase())) return false
+    return true
+  })
+  const shownIds = filtered.map((m) => m.id)
+
+  return (
+    <div className="border border-zinc-800 rounded-xl p-3 space-y-2">
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-semibold text-zinc-300">{title} ({itemIds.length} selected)</p>
+        <div className="flex gap-3">
+          <button type="button" onClick={() => onChange([...new Set([...itemIds, ...shownIds])])} className="text-xs text-brand-red hover:underline">Select shown</button>
+          <button type="button" onClick={() => onChange(itemIds.filter((id) => !shownIds.includes(id)))} className="text-xs text-zinc-400 hover:underline">Clear shown</button>
+        </div>
+      </div>
+      <div className="flex gap-2">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Find item..."
+          className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
+        />
+        <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white">
+          <option value="">All Categories</option>
+          {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+        </select>
+      </div>
+      <div className="max-h-48 overflow-y-auto border border-zinc-800 rounded-lg p-2 grid grid-cols-1 sm:grid-cols-2 gap-1">
+        {filtered.map((m) => (
+          <label key={m.id} className="flex items-center gap-2 text-sm text-zinc-300 px-1 py-0.5 hover:bg-zinc-800 rounded cursor-pointer">
+            <input
+              type="checkbox"
+              checked={itemIds.includes(m.id)}
+              onChange={() => onChange(itemIds.includes(m.id) ? itemIds.filter((x) => x !== m.id) : [...itemIds, m.id])}
+            />
+            {m.name}
+          </label>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function SlotEditor({ group, menuItems, categories, onChange, onRemove }: {
   group: Slot
   menuItems: MenuItemOption[]
@@ -286,7 +349,7 @@ function SlotEditor({ group, menuItems, categories, onChange, onRemove }: {
           {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
         </select>
       </div>
-      <div className="max-h-40 overflow-y-auto border border-zinc-800 rounded-lg p-2 grid grid-cols-2 gap-1">
+      <div className="max-h-40 overflow-y-auto border border-zinc-800 rounded-lg p-2 grid grid-cols-1 sm:grid-cols-2 gap-1">
         {filtered.map((m) => {
           const viaCategory = Boolean(group.category) && m.category.toLowerCase() === group.category
           return (
@@ -330,6 +393,20 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
     })
   }
 
+  // Writing item_ids also drops any legacy `category` so the deal becomes purely item-based.
+  function setBogoItems(side: 'buy' | 'get', ids: string[]) {
+    setConfig((prev: any) => {
+      const next = structuredClone(prev)
+      next[side].item_ids = ids
+      delete next[side].category
+      return next
+    })
+  }
+
+  const bogoMissingItems = type === 'bogo' && (
+    bogoSideItemIds(config.buy, menuItems).length === 0 || bogoSideItemIds(config.get, menuItems).length === 0
+  )
+
   const categoryOptions = (
     <>
       <option value="">— choose category —</option>
@@ -338,14 +415,15 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
   )
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-zinc-900 w-full h-full overflow-y-auto p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-white">{TYPE_LABELS[type]}</h2>
-          <button onClick={onCancel} className="text-zinc-500 hover:text-white"><X className="w-5 h-5" /></button>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm sm:p-6">
+      <div role="dialog" aria-modal="true" className="flex flex-col w-full sm:max-w-xl max-h-[92dvh] sm:max-h-[85vh] bg-zinc-900 border border-zinc-800 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-zinc-800 shrink-0">
+          <h2 className="text-lg font-semibold text-white">{TYPE_LABELS[type]}</h2>
+          <button onClick={onCancel} aria-label="Close" className="p-1.5 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"><X className="w-4 h-4" /></button>
         </div>
 
-        {error && <div className="bg-red-900/30 border border-red-700 text-red-300 rounded-lg px-4 py-3 mb-4 text-sm">{error}</div>}
+        <div className="flex-1 overflow-y-auto overscroll-contain px-5 sm:px-6 py-5">
+        {error && <div className="bg-red-900/30 border border-red-700 text-red-300 rounded-xl px-4 py-3 mb-4 text-sm">{error}</div>}
 
         <div className="space-y-4">
           <div>
@@ -394,7 +472,7 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
               )}
             </div>
           )}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-zinc-400 mb-1 block">Available From (optional)</label>
               <input
@@ -414,6 +492,29 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
               />
             </div>
           </div>
+
+          {type === 'bogo' && (
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Discount</label>
+              <select
+                value={config.get.discount === 'free' ? 'free' : 'percent'}
+                onChange={(e) => set(['get', 'discount'], e.target.value === 'free' ? 'free' : { percent: 50 })}
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
+              >
+                <option value="free">Free</option>
+                <option value="percent">Percent off</option>
+              </select>
+              {config.get.discount !== 'free' && (
+                <input
+                  type="number" min={1} max={100}
+                  value={config.get.discount.percent}
+                  onChange={(e) => set(['get', 'discount'], { percent: parseInt(e.target.value) || 0 })}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white mt-2"
+                />
+              )}
+            </div>
+          )}
+
           <div>
             <label className="text-xs text-zinc-400 mb-1 block">Deal Image (optional)</label>
             {existingImageUrl && (
@@ -433,49 +534,28 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
 
           {type === 'bogo' && (
             <>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs text-zinc-400 mb-1 block">Buy category</label>
-                  <select value={config.buy.category} onChange={(e) => set(['buy', 'category'], e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white">
-                    {categoryOptions}
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs text-zinc-400 mb-1 block">Buy qty</label>
-                  <input type="number" min={1} value={config.buy.qty} onChange={(e) => set(['buy', 'qty'], parseInt(e.target.value) || 1)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs text-zinc-400 mb-1 block">Get category</label>
-                  <select value={config.get.category} onChange={(e) => set(['get', 'category'], e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white">
-                    {categoryOptions}
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs text-zinc-400 mb-1 block">Get qty</label>
-                  <input type="number" min={1} value={config.get.qty} onChange={(e) => set(['get', 'qty'], parseInt(e.target.value) || 1)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
-                </div>
-              </div>
               <div>
-                <label className="text-xs text-zinc-400 mb-1 block">Discount</label>
-                <select
-                  value={config.get.discount === 'free' ? 'free' : 'percent'}
-                  onChange={(e) => set(['get', 'discount'], e.target.value === 'free' ? 'free' : { percent: 50 })}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
-                >
-                  <option value="free">Free</option>
-                  <option value="percent">Percent off</option>
-                </select>
-                {config.get.discount !== 'free' && (
-                  <input
-                    type="number" min={1} max={100}
-                    value={config.get.discount.percent}
-                    onChange={(e) => set(['get', 'discount'], { percent: parseInt(e.target.value) || 0 })}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white mt-2"
-                  />
-                )}
+                <label className="text-xs text-zinc-400 mb-1 block">Buy qty</label>
+                <input type="number" min={1} value={config.buy.qty} onChange={(e) => set(['buy', 'qty'], parseInt(e.target.value) || 1)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
               </div>
+              <ItemPicker
+                title="Buy items"
+                itemIds={bogoSideItemIds(config.buy, menuItems)}
+                menuItems={menuItems}
+                categories={categories}
+                onChange={(ids) => setBogoItems('buy', ids)}
+              />
+              <div>
+                <label className="text-xs text-zinc-400 mb-1 block">Get qty</label>
+                <input type="number" min={1} value={config.get.qty} onChange={(e) => set(['get', 'qty'], parseInt(e.target.value) || 1)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
+              </div>
+              <ItemPicker
+                title="Get items"
+                itemIds={bogoSideItemIds(config.get, menuItems)}
+                menuItems={menuItems}
+                categories={categories}
+                onChange={(ids) => setBogoItems('get', ids)}
+              />
             </>
           )}
 
@@ -521,7 +601,7 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
                 <label className="text-xs text-zinc-400 mb-1 block">Minimum subtotal (£, optional)</label>
                 <input type="number" min={0} step="0.01" value={config.min_subtotal ?? ''} onChange={(e) => set(['min_subtotal'], e.target.value ? parseFloat(e.target.value) : undefined)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white" />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs text-zinc-400 mb-1 block">Discount type</label>
                   <select value={config.discount.type} onChange={(e) => set(['discount', 'type'], e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white">
@@ -537,9 +617,10 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
             </>
           )}
         </div>
+      </div>
 
-        <div className="flex gap-2 mt-6">
-          <button onClick={onCancel} className="flex-1 py-2.5 rounded-lg text-sm text-zinc-400 hover:text-white border border-zinc-700">
+        <div className="flex gap-3 px-5 sm:px-6 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-zinc-800 shrink-0">
+          <button onClick={onCancel} className="flex-1 py-3 rounded-xl text-sm text-zinc-300 hover:text-white border border-zinc-700 hover:bg-zinc-800 transition-colors">
             Cancel
           </button>
           <button
@@ -565,8 +646,9 @@ function DealFormModal({ type, categories, menuItems, initial, error, onCancel, 
                 image_url: resolvedImageUrl,
               })
             }}
-            disabled={!name.trim() || imageUploading}
-            className="flex-1 py-2.5 rounded-lg text-sm font-semibold bg-brand-red hover:bg-brand-red/80 text-white disabled:opacity-50"
+            disabled={!name.trim() || imageUploading || bogoMissingItems}
+            title={bogoMissingItems ? 'Select at least one buy item and one get item' : undefined}
+            className="flex-1 py-3 rounded-xl text-sm font-semibold bg-brand-red hover:bg-brand-red/80 text-white disabled:opacity-50 transition-colors"
           >
             {imageUploading ? 'Uploading...' : 'Save'}
           </button>

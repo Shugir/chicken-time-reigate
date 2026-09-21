@@ -151,15 +151,21 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
       return savings > 0 ? { savings, consume: getUnits, lock: buyUnits } : null
     }
 
-    const applications = Math.min(
-      Math.floor(buyPool.length / cfg.buy.qty),
-      Math.floor(getPool.length / cfg.get.qty),
-    )
-    if (applications < 1) return null
-    const getUnits = [...getPool].sort((a, b) => b.price - a.price).slice(0, applications * cfg.get.qty)
-    const buyUnits = [...buyPool].sort((a, b) => b.price - a.price).slice(0, applications * cfg.buy.qty)
-    const savings = getUnits.reduce((s, u) => s + priceAfterDiscount(u.price, cfg.get.discount), 0)
-    return savings > 0 ? { savings, consume: [...getUnits, ...buyUnits], lock: [] } : null
+    // Buy and get item lists can partly overlap (e.g. buy [A,B], get [B,C]), so a
+    // unit must never serve both roles: reserve the get units first, then require
+    // enough of the remaining buy pool. Try the most applications first.
+    const getSorted = [...getPool].sort((a, b) => b.price - a.price)
+    for (let applications = Math.floor(getPool.length / cfg.get.qty); applications >= 1; applications--) {
+      const getUnits = getSorted.slice(0, applications * cfg.get.qty)
+      const buyUnits = buyPool
+        .filter((u) => !getUnits.includes(u))
+        .sort((a, b) => b.price - a.price)
+        .slice(0, applications * cfg.buy.qty)
+      if (buyUnits.length < applications * cfg.buy.qty) continue
+      const savings = getUnits.reduce((s, u) => s + priceAfterDiscount(u.price, cfg.get.discount), 0)
+      return savings > 0 ? { savings, consume: [...getUnits, ...buyUnits], lock: [] } : null
+    }
+    return null
   }
 
   if (deal.type === 'bundle') {
