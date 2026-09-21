@@ -88,6 +88,7 @@ export function priceCartLines<T extends CartLineInput>(
 export interface DeliveryZone {
   postcode_prefix: string
   delivery_fee: number | string
+  min_order_amount?: number | string | null
   free_delivery_threshold?: number | string | null
 }
 
@@ -105,6 +106,12 @@ export function deliveryFeeFor(args: {
     .sort((a, b) => a.postcode_prefix.localeCompare(b.postcode_prefix))
     .find((z) => normalized !== '' && normalized.startsWith(z.postcode_prefix.toUpperCase()))
   if (!zone) return { ok: false, error: 'Sorry, we do not deliver to that postcode.' }
+
+  // Same rule and wording as the checkout page, which checks the pre-discount subtotal
+  const minOrder = Number(zone.min_order_amount ?? 0)
+  if (minOrder > 0 && args.subtotal < minOrder) {
+    return { ok: false, error: `Minimum order £${minOrder.toFixed(2)} for your area (you have £${args.subtotal.toFixed(2)}).` }
+  }
 
   const threshold = Number(zone.free_delivery_threshold ?? 0)
   if (threshold > 0 && args.subtotal >= threshold) return { ok: true, fee: 0 }

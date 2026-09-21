@@ -96,6 +96,19 @@ describe('deliveryFeeFor', () => {
     expect(deliveryFeeFor({ orderType: 'delivery', postcode: 'SW1A 1AA', zones, subtotal: 30 })).toEqual({ ok: true, fee: 0 })
   })
 
+  it('rejects a delivery below the zone minimum order, with the client message', () => {
+    const minZones = [{ postcode_prefix: 'RH4', delivery_fee: 2.49, min_order_amount: 10 }]
+    expect(deliveryFeeFor({ orderType: 'delivery', postcode: 'RH4 1AA', zones: minZones, subtotal: 9.5 })).toEqual({
+      ok: false, error: 'Minimum order £10.00 for your area (you have £9.50).',
+    })
+    expect(deliveryFeeFor({ orderType: 'delivery', postcode: 'RH4 1AA', zones: minZones, subtotal: 10 })).toEqual({ ok: true, fee: 2.49 })
+  })
+
+  it('does not apply the minimum order to pickup', () => {
+    const minZones = [{ postcode_prefix: 'RH4', delivery_fee: 2.49, min_order_amount: '10.00' }]
+    expect(deliveryFeeFor({ orderType: 'pickup', postcode: 'RH4 1AA', zones: minZones, subtotal: 2 })).toEqual({ ok: true, fee: 0 })
+  })
+
   it('rejects a delivery with no matching zone', () => {
     expect(deliveryFeeFor({ orderType: 'delivery', postcode: 'ZZ9 9ZZ', zones, subtotal: 10 }).ok).toBe(false)
     expect(deliveryFeeFor({ orderType: 'delivery', postcode: undefined, zones, subtotal: 10 }).ok).toBe(false)

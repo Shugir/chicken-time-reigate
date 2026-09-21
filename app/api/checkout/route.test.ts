@@ -684,6 +684,25 @@ describe('POST /api/checkout — server-side pricing', () => {
     expect(insertedOrder!.total_amount).toBe(20)
   })
 
+  it('rejects a delivery below the zone minimum order', async () => {
+    zoneRows = [{ postcode_prefix: 'SW', delivery_fee: 3, min_order_amount: 25, free_delivery_threshold: null }]
+
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(400)
+    expect((await res.json()).error).toBe('Minimum order £25.00 for your area (you have £20.00).')
+    expect(orderRows.size).toBe(0)
+    expect(stripeSessionCreated).toBe(false)
+  })
+
+  it('does not apply the zone minimum to pickup', async () => {
+    zoneRows = [{ postcode_prefix: 'SW', delivery_fee: 3, min_order_amount: 25, free_delivery_threshold: null }]
+
+    const res = await POST(checkoutRequest({ order_type: 'pickup', postcode: undefined }))
+
+    expect(res.status).toBe(200)
+  })
+
   it('rejects a delivery outside every zone', async () => {
     const res = await POST(checkoutRequest({ postcode: 'ZZ9 9ZZ' }))
 

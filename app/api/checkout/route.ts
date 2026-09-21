@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
 
     const { data: deliveryZones } = await supabaseAdmin
       .from('delivery_zones')
-      .select('postcode_prefix, delivery_fee, free_delivery_threshold')
+      .select('postcode_prefix, delivery_fee, min_order_amount, free_delivery_threshold')
       .eq('is_active', true)
     const serverDeliveryFee = deliveryFeeFor({
       orderType: order_type,
