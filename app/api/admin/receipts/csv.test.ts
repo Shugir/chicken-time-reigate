@@ -40,4 +40,39 @@ describe('toCsv', () => {
     const csv = toCsv([order([item({ removals: ['Onion, red', 'the "hot" sauce'] })])])
     expect(csv.split('\n')[1]).toContain('"Nashville ×2 (NO Onion, red; NO the ""hot"" sauce)"')
   })
+
+  it.each(['=', '+', '-', '@'])('prefixes a single quote when a cell starts with %s', (c) => {
+    const row = toCsv([{ ...order([item()]), customer_name: `${c}cmd|calc` }]).split('\n')[1]
+    expect(row).toContain(`"'${c}cmd|calc"`)
+  })
+
+  it.each(['=', '+', '-', '@'])('prefixes a single quote when an item name starts with %s', (c) => {
+    const row = toCsv([order([item({ item_name: `${c}SUM(1)` })])]).split('\n')[1]
+    expect(row).toContain(`"'${c}SUM(1) ×2"`)
+  })
+
+  it('prefixes a single quote before escaping quotes', () => {
+    const row = toCsv([{ ...order([item()]), customer_name: '=HYPERLINK("x")' }]).split('\n')[1]
+    expect(row).toContain(`"'=HYPERLINK(""x"")"`)
+  })
+
+  it('neutralises tab and carriage-return starts', () => {
+    const row = toCsv([{ ...order([item()]), customer_name: '\tx', customer_email: '\ry' }]).split('\n')[1]
+    expect(row).toContain(`"'\tx"`)
+    expect(row).toContain(`"'\ry"`)
+  })
+
+  it('leaves a normal name unchanged', () => {
+    expect(toCsv([{ ...order([item()]), customer_name: 'Jane Doe' }]).split('\n')[1]).toContain('"Jane Doe"')
+  })
+
+  it('leaves numeric money cells as numbers', () => {
+    const row = toCsv([{ ...order([item()]), discount_applied: 0, total_amount: 10 }]).split('\n')[1]
+    expect(row).toContain('"10.00","0.00","10.00"')
+  })
+
+  it('leaves negative numeric strings alone', () => {
+    const row = toCsv([{ ...order([item()]), discount_applied: -2.5 }]).split('\n')[1]
+    expect(row).toContain('"-2.50"')
+  })
 })

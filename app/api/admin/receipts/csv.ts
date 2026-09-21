@@ -18,7 +18,12 @@ export function toCsv(orders: AdminReceiptOrder[]): string {
     'Delivery Address', 'Postcode', 'Driver', 'Status',
     'Items', 'Subtotal', 'Discount', 'Total', 'Promo Code', 'Stripe Session',
   ]
-  const esc = (v: string) => `"${v.replace(/"/g, '""')}"`
+  // Text starting with = + - @ tab or CR runs as a formula in Excel/Sheets; a leading ' defuses it.
+  // Plain numbers (money columns) are left alone.
+  const esc = (v: string) => {
+    const safe = /^[=+\-@\t\r]/.test(v) && !/^-?\d+(\.\d+)?$/.test(v) ? `'${v}` : v
+    return `"${safe.replace(/"/g, '""')}"`
+  }
   const rows = orders.map((o) => {
     const date   = new Date(o.created_at)
     const items  = o.order_items.map(formatCsvItem).join(', ')
