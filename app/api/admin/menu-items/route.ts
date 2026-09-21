@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 
+// Categorized modifier columns (see 20260921a_menu_item_modifier_categories.sql)
+const MODIFIER_LISTS = [
+  'spicy_levels', 'ingredients', 'add_ons', 'drinks_regular', 'drinks_large',
+  'dips', 'sides', 'fries_regular', 'fries_large', 'other_extras',
+]
+
 export async function GET() {
   // The promotions and deals builders both pick items to attach rewards to, so
   // reading the catalogue is allowed for either; editing stays MenuManager-only.
@@ -26,7 +32,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  const { name, description, price, image_url, category, is_available, sold_out_extras, extras, removals, additions, dietary_flags, allergens } = await request.json()
+  const body = await request.json()
+  const { name, description, price, image_url, category, is_available, sold_out_extras, extras, removals, additions, dietary_flags, allergens, modifier_select_modes } = body
 
   if (!name || !price || !category) {
     return NextResponse.json({ error: 'name, price, and category are required' }, { status: 400 })
@@ -43,6 +50,9 @@ export async function POST(request: NextRequest) {
     extras: extras ?? [],
     removals: removals ?? [],
     additions: additions ?? [],
+    ...Object.fromEntries(MODIFIER_LISTS.map((k) => [k, body[k] ?? []])),
+    // undefined is dropped by JSON, so the column default applies when omitted
+    modifier_select_modes,
     dietary_flags: dietary_flags ?? [],
     allergens: allergens ?? [],
   }

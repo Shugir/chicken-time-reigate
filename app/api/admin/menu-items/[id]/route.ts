@@ -18,6 +18,9 @@ export async function PATCH(
     'name', 'description', 'price', 'compare_at_price', 'image_url',
     'category', 'is_available', 'sold_out_extras', 'extras', 'removals',
     'additions', 'dietary_flags', 'allergens',
+    'spicy_levels', 'ingredients', 'add_ons', 'drinks_regular', 'drinks_large',
+    'dips', 'sides', 'fries_regular', 'fries_large', 'other_extras',
+    'modifier_select_modes',
   ])
   const patch = Object.fromEntries(Object.entries(body).filter(([k]) => PATCHABLE.has(k)))
 

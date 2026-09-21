@@ -37,9 +37,22 @@ interface MenuItem {
   category: string
   is_available: boolean
   sold_out_extras: string[]
+  /** @deprecated use add_ons */
   extras: Extra[]
+  /** @deprecated use ingredients */
   removals: string[]
   additions: string[]
+  spicy_levels: string[]
+  ingredients: string[]
+  add_ons: Extra[]
+  drinks_regular: Extra[]
+  drinks_large: Extra[]
+  dips: Extra[]
+  sides: Extra[]
+  fries_regular: Extra[]
+  fries_large: Extra[]
+  other_extras: Extra[]
+  modifier_select_modes: Record<string, 'single' | 'multi'>
   dietary_flags: string[]
   allergens: string[]
   created_at: string
@@ -158,7 +171,8 @@ function AvailabilityToggle({
 
 // ─── Autocomplete Input (shared by both removals and extras name) ─────────────
 
-const TAG_INPUT_CLS = 'bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red'
+const INPUT_BASE = 'bg-zinc-800 border border-zinc-700 rounded-xl px-3.5 text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-brand-red/50 focus:border-brand-red transition-colors'
+const TAG_INPUT_CLS = `${INPUT_BASE} h-11`
 
 // ─── Extra Name Input (autocomplete for extras name field) ────────────────────
 
@@ -203,6 +217,8 @@ function ExtraNameInput({ value, onChange, onEnter, suggestions, placeholder }: 
     } else if (e.key === 'ArrowUp') {
       e.preventDefault(); setActiveIdx((i) => Math.max(i - 1, -1))
     } else if (e.key === 'Escape') {
+      // Close the suggestion list only; a second Escape then closes the modal
+      if (open) e.stopPropagation()
       setOpen(false)
     }
   }
@@ -243,6 +259,230 @@ function ExtraNameInput({ value, onChange, onEnter, suggestions, placeholder }: 
   )
 }
 
+// ─── Modifier sections ────────────────────────────────────────────────────────
+
+type SelectMode = 'single' | 'multi'
+
+const PRICED_CATEGORIES = [
+  { key: 'add_ons', label: 'Add-ons', hint: 'Extras customers can add', placeholder: 'e.g. Bacon' },
+  { key: 'drinks_regular', label: 'Drinks (Regular)', hint: 'Regular-size drinks', placeholder: 'e.g. Coke' },
+  { key: 'drinks_large', label: 'Drinks (Large)', hint: 'Large-size drinks', placeholder: 'e.g. Large Coke' },
+  { key: 'dips', label: 'Dips', hint: 'Dips and sauces', placeholder: 'e.g. Garlic Mayo' },
+  { key: 'sides', label: 'Sides', hint: 'Side dishes', placeholder: 'e.g. Coleslaw' },
+  { key: 'fries_regular', label: 'Fries (Regular)', hint: 'Regular-size fries', placeholder: 'e.g. Peri Fries' },
+  { key: 'fries_large', label: 'Fries (Large)', hint: 'Large-size fries', placeholder: 'e.g. Large Peri Fries' },
+  { key: 'other_extras', label: 'Other Extras', hint: 'Anything that fits no other category', placeholder: 'e.g. Cutlery Pack' },
+] as const
+
+type PricedKey = (typeof PRICED_CATEGORIES)[number]['key']
+
+// Matches the migration default for menu_items.modifier_select_modes
+const DEFAULT_SELECT_MODES: Record<string, SelectMode> = {
+  spicy_levels: 'single', dips: 'single', fries_regular: 'single', fries_large: 'single',
+  add_ons: 'multi', drinks_regular: 'multi', drinks_large: 'multi', sides: 'multi', other_extras: 'multi',
+}
+
+const LABEL_CLS = 'block text-xs font-medium text-zinc-400 mb-1.5'
+const ADD_BTN_CLS = 'shrink-0 h-11 w-11 flex items-center justify-center rounded-xl bg-zinc-700 hover:bg-zinc-600 text-white transition-colors'
+
+function FormSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="space-y-3">
+      <h3 className="text-sm font-semibold text-white px-0.5">{title}</h3>
+      {children}
+    </section>
+  )
+}
+
+// Collapsible row: empty categories stay compact, populated ones open on first render
+function Disclosure({ title, hint, count, children }: {
+  title: string
+  hint: string
+  count: number
+  children: React.ReactNode
+}) {
+  const [initiallyOpen] = useState(count > 0)
+  return (
+    <details open={initiallyOpen} className="group rounded-2xl border border-zinc-800 bg-zinc-800/30">
+      <summary className="flex items-center gap-3 px-4 py-3.5 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden">
+        <span className="flex-1 min-w-0">
+          <span className="block text-sm font-medium text-white">{title}</span>
+          <span className="block text-xs text-zinc-500 truncate">{hint}</span>
+        </span>
+        {count > 0 && (
+          <span className="text-xs font-medium text-zinc-200 bg-zinc-700/70 rounded-full px-2 py-0.5 tabular-nums">{count}</span>
+        )}
+        <ChevronDown className="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" />
+      </summary>
+      <div className="px-4 pb-4 space-y-3">{children}</div>
+    </details>
+  )
+}
+
+function SelectStyle({ value, onChange }: { value: SelectMode; onChange: (m: SelectMode) => void }) {
+  const options: { value: SelectMode; label: string }[] = [
+    { value: 'single', label: 'Pill (single)' },
+    { value: 'multi', label: 'Stepper (multi)' },
+  ]
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-xs text-zinc-400">Customer picks</span>
+      <div role="radiogroup" aria-label="Selection style" className="inline-flex p-0.5 rounded-lg bg-zinc-900 border border-zinc-700">
+        {options.map((o) => (
+          <button
+            key={o.value}
+            type="button"
+            role="radio"
+            aria-checked={value === o.value}
+            onClick={() => onChange(o.value)}
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${value === o.value ? 'bg-zinc-600 text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function DuplicateWarning({ name, labels }: { name: string; labels: string[] }) {
+  if (!name || labels.length === 0) return null
+  return (
+    <p className="text-xs text-amber-400">
+      &ldquo;{name}&rdquo; is also in {labels.join(', ')}. Sold-out (86) applies by name across all categories.
+    </p>
+  )
+}
+
+// Free-text tag list (ingredients, spicy levels, additions)
+function TagSection({ title, hint, placeholder, items, onChange, suggestions, mode, onModeChange, warnFor }: {
+  title: string
+  hint: string
+  placeholder: string
+  items: string[]
+  onChange: (next: string[]) => void
+  suggestions: string[]
+  mode?: SelectMode
+  onModeChange?: (m: SelectMode) => void
+  warnFor?: (name: string) => string[]
+}) {
+  const [input, setInput] = useState('')
+
+  function add() {
+    const val = input.trim()
+    if (!val || items.includes(val)) return
+    onChange([...items, val])
+    setInput('')
+  }
+
+  return (
+    <Disclosure title={title} hint={hint} count={items.length}>
+      {mode && onModeChange && <SelectStyle value={mode} onChange={onModeChange} />}
+      <div className="flex gap-2">
+        <ExtraNameInput value={input} onChange={setInput} onEnter={add} suggestions={suggestions} placeholder={placeholder} />
+        <button type="button" onClick={add} aria-label={`Add to ${title}`} className={ADD_BTN_CLS}><Plus className="w-4 h-4" /></button>
+      </div>
+      {warnFor && <DuplicateWarning name={input.trim()} labels={warnFor(input.trim())} />}
+      {items.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {items.map((t) => (
+            <span key={t} className="flex items-center gap-1 bg-zinc-700/50 text-zinc-100 text-sm pl-3 pr-1.5 py-1 rounded-full">
+              {t}
+              <button type="button" aria-label={`Remove ${t}`} onClick={() => onChange(items.filter((x) => x !== t))} className="p-1 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-600 transition-colors">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+    </Disclosure>
+  )
+}
+
+// Priced {name, price} list with 86 (sold-out) toggle
+function PricedSection({ title, hint, placeholder, items, onChange, soldOut, onToggle86, suggestions, mode, onModeChange, warnFor }: {
+  title: string
+  hint: string
+  placeholder: string
+  items: Extra[]
+  onChange: (next: Extra[]) => void
+  soldOut: string[]
+  onToggle86: (name: string) => void
+  suggestions: string[]
+  mode: SelectMode
+  onModeChange: (m: SelectMode) => void
+  warnFor: (name: string) => string[]
+}) {
+  const [input, setInput] = useState({ name: '', price: '' })
+
+  function add() {
+    const name = input.name.trim()
+    const price = parseFloat(input.price)
+    if (!name || isNaN(price) || price < 0) return
+    if (items.some((e) => e.name === name)) return
+    onChange([...items, { name, price }])
+    setInput({ name: '', price: '' })
+  }
+
+  return (
+    <Disclosure title={title} hint={hint} count={items.length}>
+      <SelectStyle value={mode} onChange={onModeChange} />
+      <div className="flex gap-2">
+        <ExtraNameInput
+          value={input.name}
+          onChange={(v) => setInput((x) => ({ ...x, name: v }))}
+          onEnter={add}
+          suggestions={suggestions}
+          placeholder={placeholder}
+        />
+        <div className="relative w-24 shrink-0">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none">£</span>
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            value={input.price}
+            onChange={(e) => setInput((x) => ({ ...x, price: e.target.value }))}
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); add() } }}
+            placeholder="0.00"
+            aria-label="Price"
+            className={`w-full pl-7 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${TAG_INPUT_CLS}`}
+          />
+        </div>
+        <button type="button" onClick={add} aria-label={`Add to ${title}`} className={ADD_BTN_CLS}><Plus className="w-4 h-4" /></button>
+      </div>
+      <DuplicateWarning name={input.name.trim()} labels={warnFor(input.name.trim())} />
+      {items.length > 0 && (
+        <ul className="divide-y divide-zinc-800 rounded-xl border border-zinc-800 bg-zinc-900/40">
+          {items.map((ex) => {
+            const is86 = soldOut.includes(ex.name)
+            return (
+              <li key={ex.name} className="flex items-center gap-3 px-3 py-2">
+                <span className={`flex-1 min-w-0 truncate text-sm ${is86 ? 'text-amber-300 line-through' : 'text-zinc-100'}`}>{ex.name}</span>
+                <span className={`text-sm tabular-nums ${is86 ? 'text-amber-500' : ex.price === 0 ? 'text-zinc-500' : 'text-zinc-300'}`}>
+                  {ex.price === 0 ? 'Free' : `+£${ex.price.toFixed(2)}`}
+                </span>
+                <button
+                  type="button"
+                  aria-pressed={is86}
+                  title={is86 ? 'Mark available again' : 'Mark sold out (86)'}
+                  onClick={() => onToggle86(ex.name)}
+                  className={`text-[11px] font-semibold px-2 py-1 rounded-md border transition-colors ${is86 ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-zinc-700 text-zinc-400 hover:text-amber-300 hover:border-amber-500/40'}`}
+                >
+                  {is86 ? 'Sold out' : '86'}
+                </button>
+                <button type="button" aria-label={`Remove ${ex.name}`} onClick={() => onChange(items.filter((x) => x.name !== ex.name))} className="p-1 rounded-full text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors">
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </Disclosure>
+  )
+}
+
 // ─── Item Modal (add + edit) ──────────────────────────────────────────────────
 
 interface ItemModalProps {
@@ -267,16 +507,17 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       }
       : { ...EMPTY_FORM, category: categories[0]?.slug ?? '' }
   )
-  const [removals, setRemovals] = useState<string[]>(() => editingItem?.removals ?? [])
+  const [ingredients, setIngredients] = useState<string[]>(() => editingItem?.ingredients ?? [])
+  const [spicyLevels, setSpicyLevels] = useState<string[]>(() => editingItem?.spicy_levels ?? [])
   const [additions, setAdditions] = useState<string[]>(() => editingItem?.additions ?? [])
-  const [extras, setExtras] = useState<Extra[]>(() => editingItem?.extras ?? [])
+  const [priced, setPriced] = useState<Record<PricedKey, Extra[]>>(() =>
+    Object.fromEntries(PRICED_CATEGORIES.map((c) => [c.key, editingItem?.[c.key] ?? []])) as Record<PricedKey, Extra[]>
+  )
+  const [modes, setModes] = useState<Record<string, SelectMode>>(() => ({ ...DEFAULT_SELECT_MODES, ...editingItem?.modifier_select_modes }))
   const [soldOutExtras, setSoldOutExtras] = useState<string[]>(() => editingItem?.sold_out_extras ?? [])
   const [dietaryFlags, setDietaryFlags] = useState<string[]>(() => editingItem?.dietary_flags ?? [])
   const [allergens, setAllergens] = useState<string[]>(() => editingItem?.allergens ?? [])
-  const [removalInput, setRemovalInput] = useState('')
-  const [additionInput, setAdditionInput] = useState('')
   const [allergenInput, setAllergenInput] = useState('')
-  const [extraInput, setExtraInput] = useState({ name: '', price: '' })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [suggestions, setSuggestions] = useState<{ removals: string[]; additions: string[]; extras: string[]; allergens: string[] }>({ removals: [], additions: [], extras: [], allergens: [] })
@@ -284,6 +525,14 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [imageUploading, setImageUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prevOverflow }
+  }, [onClose])
 
   useEffect(() => {
     fetch('/api/admin/menu/suggestions')
@@ -303,18 +552,14 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       setForm((f) => ({ ...f, [key]: e.target.value })),
   })
 
-  function addRemoval() {
-    const val = removalInput.trim()
-    if (!val || removals.includes(val)) return
-    setRemovals((prev) => [...prev, val])
-    setRemovalInput('')
-  }
-
-  function addAddition() {
-    const val = additionInput.trim()
-    if (!val || additions.includes(val)) return
-    setAdditions((prev) => [...prev, val])
-    setAdditionInput('')
+  // Labels of other categories (priced + ingredients) already using this name
+  function labelsUsing(name: string, exceptKey: string): string[] {
+    if (!name) return []
+    const labels: string[] = PRICED_CATEGORIES
+      .filter((c) => c.key !== exceptKey && priced[c.key].some((e) => e.name === name))
+      .map((c) => c.label)
+    if (exceptKey !== 'ingredients' && ingredients.includes(name)) labels.push('Ingredients')
+    return labels
   }
 
   function addAllergen() {
@@ -322,15 +567,6 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     if (!val || allergens.includes(val)) return
     setAllergens((prev) => [...prev, val])
     setAllergenInput('')
-  }
-
-  function addExtra() {
-    const name = extraInput.name.trim()
-    const price = parseFloat(extraInput.price)
-    if (!name || isNaN(price) || price < 0) return
-    if (extras.some((e) => e.name === name)) return
-    setExtras((prev) => [...prev, { name, price }])
-    setExtraInput({ name: '', price: '' })
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -376,10 +612,13 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       image_url: resolvedImageUrl,
       category: form.category,
       is_available: editingItem ? editingItem.is_available : true,
-      sold_out_extras: soldOutExtras.filter(n => extras.some(e => e.name === n)),
-      removals,
+      // sold_out_extras matches by name against the union of all 8 priced categories
+      sold_out_extras: soldOutExtras.filter(n => PRICED_CATEGORIES.some(c => priced[c.key].some(e => e.name === n))),
       additions,
-      extras,
+      spicy_levels: spicyLevels,
+      ingredients,
+      ...priced,
+      modifier_select_modes: modes,
       dietary_flags: dietaryFlags,
       allergens,
     }
@@ -404,359 +643,252 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
     }
   }
 
-  const inputCls = 'bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red'
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-      <div className="w-full h-full bg-zinc-900 flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm sm:p-6">
+      <div role="dialog" aria-modal="true" aria-labelledby="item-modal-title" className="flex flex-col w-full sm:max-w-2xl max-h-[94dvh] sm:max-h-[88vh] bg-zinc-900 border border-zinc-800 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 shrink-0">
-          <h2 className="text-lg font-semibold text-white">{editingItem ? 'Edit Item' : 'Add New Menu Item'}</h2>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
+        <div className="flex items-center justify-between gap-3 px-5 sm:px-7 py-4 border-b border-zinc-800 shrink-0">
+          <div className="min-w-0">
+            <h2 id="item-modal-title" className="text-lg font-semibold text-white">{editingItem ? 'Edit item' : 'New menu item'}</h2>
+            {editingItem && <p className="text-xs text-zinc-500 truncate">{editingItem.name}</p>}
+          </div>
+          <button type="button" onClick={onClose} aria-label="Close" className="p-2 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="overflow-y-auto flex-1 px-6 py-5 space-y-4">
-          {/* Name */}
-          <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Name <span className="text-red-400">*</span></label>
-            <input {...field('name')} placeholder="e.g. Spicy Chicken Burger" className={`w-full ${inputCls}`} />
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Description</label>
-            <textarea
-              {...field('description')}
-              rows={2}
-              placeholder="Short description of the item"
-              className={`w-full resize-none ${inputCls}`}
-            />
-          </div>
-
-          {/* Price + Category row */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Price (£) <span className="text-red-400">*</span></label>
-              <input
-                {...field('price')}
-                type="number" step="0.01" min="0" placeholder="0.00"
-                className={`w-full [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`}
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Category <span className="text-red-400">*</span></label>
-              <div className="relative">
-                <select {...field('category')} className={`w-full appearance-none pr-8 ${inputCls}`}>
-                  {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" />
+        <form id="item-form" onSubmit={handleSubmit} className="overflow-y-auto overscroll-contain flex-1 px-5 sm:px-7 py-6 space-y-8">
+          <FormSection title="Photo">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+              {/* 4:3 + object-cover: the same crop as the customer store card (app/order MenuCard) */}
+              <div className="relative w-full sm:w-56 aspect-[4/3] shrink-0 rounded-2xl overflow-hidden bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+                {(imagePreview || form.image_url) ? (
+                  <>
+                    <Image src={imagePreview ?? form.image_url} alt="Preview" fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" unoptimized />
+                    <button
+                      type="button"
+                      onClick={clearImage}
+                      aria-label="Remove photo"
+                      className="absolute top-1 right-1 p-1 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </>
+                ) : (
+                  <ImageIcon className="w-6 h-6 text-zinc-600" />
+                )}
               </div>
-            </div>
-          </div>
-
-          {/* Compare at Price */}
-          <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1">
-              Compare at Price (Optional)
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">£</span>
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                placeholder="0.00"
-                value={form.compare_at_price ?? ''}
-                onChange={(e) => setForm((f) => ({ ...f, compare_at_price: e.target.value }))}
-                className={`w-full pl-7 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`}
-              />
-            </div>
-            <p className="text-[11px] text-zinc-500 mt-1">
-              If higher than the selling price, the item shows an offer badge with a crossed-out original price.
-            </p>
-          </div>
-
-          {/* ── Product Image ── */}
-          <div className="space-y-2">
-            <label className="block text-xs font-medium text-zinc-400">Product Image</label>
-
-            {/* Preview */}
-            {(imagePreview || form.image_url) && (
-              <div className="relative w-full h-36 rounded-xl overflow-hidden bg-zinc-800 border border-zinc-700">
-                <Image
-                  src={imagePreview ?? form.image_url}
-                  alt="Preview"
-                  fill
-                  className="object-cover"
-                  sizes="480px"
-                  unoptimized
+              <div className="flex-1 min-w-0 space-y-2">
+                <label className={`flex items-center justify-center gap-2 w-full h-11 rounded-xl border border-dashed text-sm font-medium transition-colors
+                  ${imageUploading ? 'border-zinc-700 text-zinc-600 cursor-not-allowed' : 'border-zinc-600 text-zinc-300 hover:border-brand-red hover:text-white cursor-pointer'}`}>
+                  {imageUploading
+                    ? <><Loader2 className="w-4 h-4 animate-spin" /> Uploading…</>
+                    : <><UploadCloud className="w-4 h-4" /> Upload photo</>}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif"
+                    className="sr-only"
+                    disabled={imageUploading}
+                    onChange={handleFileChange}
+                  />
+                </label>
+                <input
+                  {...field('image_url')}
+                  type="url"
+                  placeholder="Or paste an image URL"
+                  aria-label="Image URL"
+                  className={`w-full ${TAG_INPUT_CLS}`}
+                  disabled={!!imageFile}
                 />
-                <button
-                  type="button"
-                  onClick={clearImage}
-                  className="absolute top-2 right-2 p-1 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
               </div>
-            )}
-
-            {/* Upload button (primary) */}
-            <label className={`flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border border-dashed text-sm font-medium cursor-pointer transition-colors
-              ${imageUploading ? 'border-zinc-700 text-zinc-600 cursor-not-allowed' : 'border-zinc-600 text-zinc-400 hover:border-brand-red hover:text-white'}`}>
-              {imageUploading
-                ? <><Loader2 className="w-4 h-4 animate-spin" /> Uploading…</>
-                : <><UploadCloud className="w-4 h-4" /> Upload from file</>}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/png,image/jpeg,image/webp,image/gif"
-                className="sr-only"
-                disabled={imageUploading}
-                onChange={handleFileChange}
-              />
-            </label>
-
-            {/* URL fallback (secondary) */}
-            <div className="flex items-center gap-2">
-              <div className="flex-1 h-px bg-zinc-800" />
-              <span className="text-[10px] text-zinc-600 uppercase tracking-widest">or paste URL</span>
-              <div className="flex-1 h-px bg-zinc-800" />
             </div>
-            <input
-              {...field('image_url')}
-              type="url"
-              placeholder="https://images.unsplash.com/..."
-              className={`w-full ${inputCls}`}
-              disabled={!!imageFile}
-            />
-            {imageFile && (
-              <p className="text-[11px] text-zinc-500">URL field disabled — uploaded file takes priority.</p>
-            )}
-          </div>
+            <p className="text-xs text-zinc-500">
+              Shown as 4:3 on the store, cropped to fill. Best at 1200 × 900 px.
+              {imageFile && ' The uploaded photo replaces the URL.'}
+            </p>
+          </FormSection>
 
-          {/* ── Removable Ingredients ── */}
-          <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
+          <FormSection title="Details">
             <div>
-              <p className="text-xs font-semibold text-zinc-300">Removable Ingredients</p>
-              <p className="text-[11px] text-zinc-600 mt-0.5">Customers can request these be left out</p>
+              <label className={LABEL_CLS}>Name <span className="text-red-400">*</span></label>
+              <input {...field('name')} placeholder="e.g. Spicy Chicken Burger" className={`w-full ${TAG_INPUT_CLS}`} />
             </div>
-            <div className="flex gap-2">
-              <ExtraNameInput
-                value={removalInput}
-                onChange={setRemovalInput}
-                onEnter={addRemoval}
-                suggestions={suggestions.removals}
-                placeholder="e.g. Pickles"
+            <div>
+              <label className={LABEL_CLS}>Description</label>
+              <textarea
+                {...field('description')}
+                rows={2}
+                placeholder="Short description of the item"
+                className={`w-full resize-none py-2.5 ${INPUT_BASE}`}
               />
-              <button
-                type="button"
-                onClick={addRemoval}
-                className="px-3 py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
             </div>
-            {removals.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {removals.map((r) => (
-                  <span key={r} className="flex items-center gap-1 bg-zinc-800 text-zinc-300 text-xs px-2.5 py-1 rounded-full">
-                    {r}
-                    <button type="button" onClick={() => setRemovals((prev) => prev.filter((x) => x !== r))} className="text-zinc-500 hover:text-white ml-0.5">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className={LABEL_CLS}>Price (£) <span className="text-red-400">*</span></label>
+                <input
+                  {...field('price')}
+                  type="number" step="0.01" min="0" placeholder="0.00"
+                  className={`w-full [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${TAG_INPUT_CLS}`}
+                />
               </div>
-            )}
-          </div>
-
-          {/* ── Addable Ingredients ── */}
-          <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
-            <div>
-              <p className="text-xs font-semibold text-zinc-300">Add Ingredients</p>
-              <p className="text-[11px] text-zinc-600 mt-0.5">Customers can request these be added to their order</p>
-            </div>
-            <div className="flex gap-2">
-              <ExtraNameInput
-                value={additionInput}
-                onChange={setAdditionInput}
-                onEnter={addAddition}
-                suggestions={suggestions.additions}
-                placeholder="e.g. Extra Sauce"
-              />
-              <button
-                type="button"
-                onClick={addAddition}
-                className="px-3 py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-            {additions.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {additions.map((a) => (
-                  <span key={a} className="flex items-center gap-1 bg-zinc-800 text-zinc-300 text-xs px-2.5 py-1 rounded-full">
-                    {a}
-                    <button type="button" onClick={() => setAdditions((prev) => prev.filter((x) => x !== a))} className="text-zinc-500 hover:text-white ml-0.5">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
+              <div>
+                <label className={LABEL_CLS}>Category <span className="text-red-400">*</span></label>
+                <div className="relative">
+                  <select {...field('category')} className={`w-full appearance-none pr-9 ${TAG_INPUT_CLS}`}>
+                    {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                </div>
               </div>
-            )}
-          </div>
-
-          {/* ── Priced Extras ── */}
-          <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
-            <div>
-              <p className="text-xs font-semibold text-zinc-300">Priced Extras</p>
-              <p className="text-[11px] text-zinc-600 mt-0.5">Add-ons customers can choose for an extra charge</p>
             </div>
-            <div className="flex gap-2">
-              <ExtraNameInput
-                value={extraInput.name}
-                onChange={(v) => setExtraInput((x) => ({ ...x, name: v }))}
-                onEnter={addExtra}
-                suggestions={suggestions.extras}
-                placeholder="e.g. Bacon"
-              />
-              <div className="relative w-24">
-                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none">£</span>
+            <div>
+              <label className={LABEL_CLS}>Compare-at price (optional)</label>
+              <div className="relative">
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none">£</span>
                 <input
                   type="number"
                   step="0.01"
                   min="0"
-                  value={extraInput.price}
-                  onChange={(e) => setExtraInput((x) => ({ ...x, price: e.target.value }))}
-                  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addExtra() } }}
                   placeholder="0.00"
-                  className={`w-full pl-6 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${inputCls}`}
+                  value={form.compare_at_price ?? ''}
+                  onChange={(e) => setForm((f) => ({ ...f, compare_at_price: e.target.value }))}
+                  className={`w-full pl-8 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${TAG_INPUT_CLS}`}
                 />
               </div>
-              <button
-                type="button"
-                onClick={addExtra}
-                className="px-3 py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
+              <p className="text-xs text-zinc-500 mt-1.5">
+                If higher than the price, the menu shows an offer badge with the original price crossed out.
+              </p>
             </div>
-            {extras.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {extras.map((ex) => {
-                  const is86 = soldOutExtras.includes(ex.name)
+          </FormSection>
+
+          <FormSection title="Customisation">
+            <p className="text-xs text-zinc-500 -mt-1 px-0.5">Choose what customers can change on this item. Categories with entries open automatically.</p>
+            <div className="space-y-2">
+              <TagSection
+                title="Ingredients"
+                hint="Included by default; customers can deselect"
+                placeholder="e.g. Pickles"
+                items={ingredients}
+                onChange={setIngredients}
+                suggestions={suggestions.removals}
+                warnFor={(n) => labelsUsing(n, 'ingredients')}
+              />
+              <TagSection
+                title="Spicy levels"
+                hint="Heat options customers choose from"
+                placeholder="e.g. Hot"
+                items={spicyLevels}
+                onChange={setSpicyLevels}
+                suggestions={[]}
+                mode={modes.spicy_levels}
+                onModeChange={(m) => setModes((prev) => ({ ...prev, spicy_levels: m }))}
+              />
+              <TagSection
+                title="Add ingredients"
+                hint="Free extras customers can request"
+                placeholder="e.g. Extra Sauce"
+                items={additions}
+                onChange={setAdditions}
+                suggestions={suggestions.additions}
+              />
+              {PRICED_CATEGORIES.map((c) => (
+                <PricedSection
+                  key={c.key}
+                  title={c.label}
+                  hint={c.hint}
+                  placeholder={c.placeholder}
+                  items={priced[c.key]}
+                  onChange={(next) => setPriced((prev) => ({ ...prev, [c.key]: next }))}
+                  soldOut={soldOutExtras}
+                  onToggle86={(name) => setSoldOutExtras((prev) => prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name])}
+                  suggestions={suggestions.extras}
+                  mode={modes[c.key]}
+                  onModeChange={(m) => setModes((prev) => ({ ...prev, [c.key]: m }))}
+                  warnFor={(n) => labelsUsing(n, c.key)}
+                />
+              ))}
+            </div>
+          </FormSection>
+
+          <FormSection title="Dietary and allergens">
+            <div>
+              <p className={LABEL_CLS}>Dietary flags</p>
+              <div className="flex flex-wrap gap-2">
+                {DIETARY_FLAGS.map((flag) => {
+                  const active = dietaryFlags.includes(flag)
                   return (
-                    <span key={ex.name} className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full ${is86 ? 'bg-amber-900/40 text-amber-300 line-through' : 'bg-zinc-800 text-zinc-300'}`}>
-                      {ex.name}
-                      <span className={`font-semibold ml-0.5 ${is86 ? 'text-amber-500' : 'text-brand-red'}`}>+£{ex.price.toFixed(2)}</span>
-                      <button
-                        type="button"
-                        title={is86 ? 'Unmark sold out' : '86 this extra (sold out)'}
-                        onClick={() => setSoldOutExtras((prev) => is86 ? prev.filter((n) => n !== ex.name) : [...prev, ex.name])}
-                        className={`ml-0.5 font-bold text-[10px] px-1 rounded transition-colors ${is86 ? 'text-amber-400 hover:text-white' : 'text-zinc-500 hover:text-amber-400'}`}
-                      >
-                        86
-                      </button>
-                      <button type="button" onClick={() => { setExtras((prev) => prev.filter((x) => x.name !== ex.name)); setSoldOutExtras((prev) => prev.filter((n) => n !== ex.name)) }} className="text-zinc-500 hover:text-white ml-0.5">
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
+                    <button
+                      key={flag}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => setDietaryFlags((prev) => active ? prev.filter((f) => f !== flag) : [...prev, flag])}
+                      className={`text-sm px-3.5 py-1.5 rounded-full font-medium transition-colors border ${active
+                        ? 'bg-brand-red/20 border-brand-red/50 text-red-200'
+                        : 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200'
+                        }`}
+                    >
+                      {flag}
+                    </button>
                   )
                 })}
               </div>
-            )}
-          </div>
-
-          {/* ── Dietary Flags ── */}
-          <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
+            </div>
             <div>
-              <p className="text-xs font-semibold text-zinc-300">Dietary Flags</p>
-              <p className="text-[11px] text-zinc-600 mt-0.5">Tag this item so customers can filter by diet</p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {DIETARY_FLAGS.map((flag) => {
-                const active = dietaryFlags.includes(flag)
-                return (
-                  <button
-                    key={flag}
-                    type="button"
-                    onClick={() => setDietaryFlags((prev) => active ? prev.filter((f) => f !== flag) : [...prev, flag])}
-                    className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors border ${active
-                      ? 'bg-brand-red/20 border-brand-red/50 text-red-300'
-                      : 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300'
-                      }`}
-                  >
-                    {flag}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* ── Allergens ── */}
-          <div className="border border-zinc-800 rounded-xl p-4 space-y-3">
-            <div>
-              <p className="text-xs font-semibold text-zinc-300">Allergens</p>
-              <p className="text-[11px] text-zinc-600 mt-0.5">Allergy warnings shown to customers on the menu</p>
-            </div>
-            <div className="flex gap-2">
-              <ExtraNameInput
-                value={allergenInput}
-                onChange={setAllergenInput}
-                onEnter={addAllergen}
-                suggestions={[...new Set([...COMMON_ALLERGENS, ...suggestions.allergens])]}
-                placeholder="e.g. Gluten, Dairy, Nuts…"
-              />
-              <button
-                type="button"
-                onClick={addAllergen}
-                className="px-3 py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-            {allergens.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {allergens.map((a) => (
-                  <span key={a} className="flex items-center gap-1 bg-amber-900/30 text-amber-300 border border-amber-700/40 text-xs px-2.5 py-1 rounded-full">
-                    {a}
-                    <button type="button" onClick={() => setAllergens((prev) => prev.filter((x) => x !== a))} className="text-amber-500 hover:text-white ml-0.5">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
+              <label className={LABEL_CLS}>Allergens shown to customers</label>
+              <div className="flex gap-2">
+                <ExtraNameInput
+                  value={allergenInput}
+                  onChange={setAllergenInput}
+                  onEnter={addAllergen}
+                  suggestions={[...new Set([...COMMON_ALLERGENS, ...suggestions.allergens])]}
+                  placeholder="e.g. Gluten, Dairy, Nuts…"
+                />
+                <button type="button" onClick={addAllergen} aria-label="Add allergen" className={ADD_BTN_CLS}>
+                  <Plus className="w-4 h-4" />
+                </button>
               </div>
-            )}
-          </div>
+              {allergens.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {allergens.map((a) => (
+                    <span key={a} className="flex items-center gap-1 bg-amber-900/30 text-amber-200 border border-amber-700/40 text-sm pl-3 pr-1.5 py-1 rounded-full">
+                      {a}
+                      <button type="button" aria-label={`Remove ${a}`} onClick={() => setAllergens((prev) => prev.filter((x) => x !== a))} className="p-1 rounded-full text-amber-400 hover:text-white hover:bg-amber-800/50 transition-colors">
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </FormSection>
+        </form>
 
+        {/* Footer */}
+        <div className="shrink-0 border-t border-zinc-800 px-5 sm:px-7 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] space-y-3">
           {error && (
-            <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>
+            <p role="alert" className="text-sm text-red-300 bg-red-500/10 border border-red-500/20 rounded-xl px-3.5 py-2.5">{error}</p>
           )}
-
-          {/* Actions */}
-          <div className="flex gap-3 pt-1 pb-1">
+          <div className="flex gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 rounded-lg border border-zinc-700 text-sm font-medium text-zinc-300 hover:bg-zinc-800 transition-colors"
+              className="flex-1 h-11 rounded-xl border border-zinc-700 text-sm font-medium text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
+              form="item-form"
               disabled={saving}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-brand-red text-white text-sm font-semibold
-                         hover:bg-red-600 transition-colors disabled:opacity-60"
+              className="flex-1 h-11 flex items-center justify-center gap-2 rounded-xl bg-brand-red text-white text-sm font-semibold hover:bg-red-600 transition-colors disabled:opacity-60"
             >
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : editingItem ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-              {saving ? (editingItem ? 'Saving…' : 'Adding…') : editingItem ? 'Save Changes' : 'Add Item'}
+              {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+              {saving ? 'Saving…' : editingItem ? 'Save changes' : 'Add item'}
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   )
