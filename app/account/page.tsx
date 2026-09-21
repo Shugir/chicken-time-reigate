@@ -15,6 +15,7 @@ import { formatDateTime } from '@/lib/utils/format-date'
 import toast from 'react-hot-toast'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { formatExtra } from '@/lib/order-modifiers'
+import { escapeHtml } from '@/lib/utils/escape-html'
 import { repriceLine, type PricingMenuRow } from '@/lib/checkout-pricing'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -423,15 +424,16 @@ export default function AccountPage() {
     const discount = Number(order.discount_applied) || 0
     const dealsSavings = (order.applied_deals ?? []).reduce((s, d) => s + d.savings, 0)
     const delivery = Number(order.total_amount) - subtotal + discount + dealsSavings
+    const receiptId = escapeHtml(order.id.slice(-6).toUpperCase())
     const rows = order.order_items.map(i => `
       <tr>
-        <td style="padding:6px 0;border-bottom:1px solid #eee">${i.quantity}× ${i.item_name}${itemModifiers(i).length ? ` <small style="color:#888">${itemModifiers(i).join(', ')}</small>` : ''}</td>
+        <td style="padding:6px 0;border-bottom:1px solid #eee">${escapeHtml(String(i.quantity))}× ${escapeHtml(i.item_name)}${itemModifiers(i).length ? ` <small style="color:#888">${escapeHtml(itemModifiers(i).join(', '))}</small>` : ''}</td>
         <td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right">£${(i.unit_price * i.quantity).toFixed(2)}</td>
       </tr>`).join('')
     const dealRows = (order.applied_deals ?? [])
-      .map((d) => `<tr><td style="padding:4px 0;color:#16a34a">🎉 ${d.name}</td><td style="text-align:right;color:#16a34a">−£${d.savings.toFixed(2)}</td></tr>`)
+      .map((d) => `<tr><td style="padding:4px 0;color:#16a34a">🎉 ${escapeHtml(d.name)}</td><td style="text-align:right;color:#16a34a">−£${d.savings.toFixed(2)}</td></tr>`)
       .join('')
-    win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Receipt #${order.id.slice(-6).toUpperCase()}</title>
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Receipt #${receiptId}</title>
       <style>body{font-family:Georgia,serif;max-width:480px;margin:40px auto;color:#1a1a1a;line-height:1.5}
       h1{font-size:22px;margin:0 0 2px}p{margin:2px 0}table{width:100%;border-collapse:collapse;margin:16px 0}
       .total{font-weight:bold;font-size:16px}.mono{font-family:monospace;letter-spacing:1px}
@@ -442,15 +444,15 @@ export default function AccountPage() {
       <p style="color:#888;font-size:13px">85 High Street, Reigate RH2 9AE</p>
       <hr>
       <p><strong>Receipt</strong></p>
-      <p class="mono" style="font-size:13px">#${order.id.slice(-6).toUpperCase()}</p>
+      <p class="mono" style="font-size:13px">#${receiptId}</p>
       <p style="font-size:13px;color:#555">${new Date(order.created_at).toLocaleString('en-GB')}</p>
-      ${order.customer_name ? `<p style="font-size:13px">Customer: ${order.customer_name}</p>` : ''}
-      ${order.delivery_address ? `<p style="font-size:13px">Delivery: ${order.delivery_address}</p>` : ''}
+      ${order.customer_name ? `<p style="font-size:13px">Customer: ${escapeHtml(order.customer_name)}</p>` : ''}
+      ${order.delivery_address ? `<p style="font-size:13px">Delivery: ${escapeHtml(order.delivery_address)}</p>` : ''}
       <hr>
       <table><tbody>${rows}</tbody></table>
       <table style="margin-top:0"><tbody>
         <tr><td style="padding:4px 0;color:#555">Subtotal</td><td style="text-align:right">£${subtotal.toFixed(2)}</td></tr>
-        ${discount > 0 ? `<tr><td style="padding:4px 0;color:#16a34a">Discount (${order.promo_code_used})</td><td style="text-align:right;color:#16a34a">−£${discount.toFixed(2)}</td></tr>` : ''}
+        ${discount > 0 ? `<tr><td style="padding:4px 0;color:#16a34a">Discount (${escapeHtml(order.promo_code_used)})</td><td style="text-align:right;color:#16a34a">−£${discount.toFixed(2)}</td></tr>` : ''}
         ${dealRows}
         ${delivery > 0 ? `<tr><td style="padding:4px 0;color:#555">Delivery</td><td style="text-align:right">£${delivery.toFixed(2)}</td></tr>` : ''}
         <tr class="total"><td style="padding:8px 0;border-top:2px solid #1a1a1a">Total</td><td style="text-align:right;border-top:2px solid #1a1a1a">£${Number(order.total_amount).toFixed(2)}</td></tr>
