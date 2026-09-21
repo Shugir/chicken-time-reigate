@@ -8,6 +8,7 @@ import { validateScheduledFor } from '@/lib/utils/schedule-utils'
 import { matchDeals, isDealLive, type Deal, type MenuItemLite } from '@/lib/deal-engine'
 import { REWARD_ERRORS, promoWindowError } from '@/lib/reward-checkout'
 import { formatExtra, type SelectedExtra } from '@/lib/order-modifiers'
+import { priceCartLines, deliveryFeeFor, type PricingMenuRow } from '@/lib/checkout-pricing'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
@@ -72,7 +73,8 @@ export async function POST(request: NextRequest) {
         .single(),
     ])
 
-    const { items, delivery_fee = 0, postcode, promo_code, reward_promotion_id, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type, scheduled_for } = bodyRaw
+    // `delivery_fee` and the per-line prices in the body are never used: amounts are recomputed below.
+    const { items: rawItems, postcode, promo_code, reward_promotion_id, customer_name, customer_phone, customer_email, delivery_address, delivery_postcode, customer_notes, order_type, scheduled_for } = bodyRaw
 
     // Store status guard
     if (storeSettings) {
@@ -130,17 +132,22 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: scheduleValidation.error }, { status: 400 })
       }
     }
+    if (!Array.isArray(rawItems) || rawItems.length === 0) {
+      return NextResponse.json({ error: 'Your cart is empty.' }, { status: 400 })
+    }
+
     // Availability guard: check items are still in stock.
-    const itemIdsToCheck = items.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
-    let dbItems: { id: string; name: string; is_available: boolean; sold_out_extras: string[] | null; price: number; category: string }[] = []
+    const itemIdsToCheck = rawItems.map(i => i.menu_item_id).filter((id): id is string => Boolean(id))
+    type DbItem = PricingMenuRow & { is_available: boolean; sold_out_extras: string[] | null; category: string }
+    let dbItems: DbItem[] = []
     if (itemIdsToCheck.length > 0) {
       const { data } = await supabaseAdmin
         .from('menu_items')
-        .select('id, name, is_available, sold_out_extras, price, category')
+        .select('id, name, is_available, sold_out_extras, price, category, extras, add_ons, drinks_regular, drinks_large, dips, sides, fries_regular, fries_large, other_extras')
         .in('id', itemIdsToCheck)
       dbItems = data ?? []
       const dbMap = new Map(dbItems.map(r => [r.id, r]))
-      for (const item of items) {
+      for (const item of rawItems) {
         if (!item.menu_item_id) continue
         const db = dbMap.get(item.menu_item_id)
         if (!db) continue
@@ -152,7 +159,7 @@ export async function POST(request: NextRequest) {
         }
         const soldOutExtras: string[] = db.sold_out_extras ?? []
         if (soldOutExtras.length > 0) {
-          const blockedExtra = item.extras.find(e => soldOutExtras.includes(e.name))
+          const blockedExtra = (item.extras ?? []).find(e => soldOutExtras.includes(e.name))
           if (blockedExtra) {
             return NextResponse.json(
               { error: `Sorry, ${blockedExtra.name} is no longer available as an extra on ${db.name}. Please update your order.` },
@@ -163,9 +170,29 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const origin = request.headers.get('origin') || 'http://localhost:3000'
+    // Every charged amount comes from the database, not the request body.
+    const priced = priceCartLines(rawItems, new Map(dbItems.map(r => [r.id, r])))
+    if (!priced.ok) {
+      return NextResponse.json({ error: priced.error }, { status: 400 })
+    }
+    const items = priced.lines
+    const subtotal = priced.subtotal
 
-    const subtotal = items.reduce((sum, i) => sum + i.totalPrice, 0)
+    const { data: deliveryZones } = await supabaseAdmin
+      .from('delivery_zones')
+      .select('postcode_prefix, delivery_fee, free_delivery_threshold')
+      .eq('is_active', true)
+    const serverDeliveryFee = deliveryFeeFor({
+      orderType: order_type,
+      postcode: postcode ?? delivery_postcode,
+      zones: deliveryZones ?? [],
+      subtotal,
+    })
+    if (!serverDeliveryFee.ok) {
+      return NextResponse.json({ error: serverDeliveryFee.error }, { status: 400 })
+    }
+
+    const origin = request.headers.get('origin') || 'http://localhost:3000'
 
     const { data: activeDeals } = await supabaseAdmin
       .from('deals')
@@ -265,7 +292,7 @@ export async function POST(request: NextRequest) {
         rewardFreeItem = { id: freeItem.id, name: freeItem.name }
       }
     }
-    const effectiveDeliveryFee = rewardFreeDelivery ? 0 : delivery_fee
+    const effectiveDeliveryFee = rewardFreeDelivery ? 0 : serverDeliveryFee.fee
 
     let discountAmount = 0
     if (promo_code) {

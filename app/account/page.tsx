@@ -15,11 +15,13 @@ import { formatDateTime } from '@/lib/utils/format-date'
 import toast from 'react-hot-toast'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { formatExtra } from '@/lib/order-modifiers'
+import { repriceLine, type PricingMenuRow } from '@/lib/checkout-pricing'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface OrderItem {
   id: string
+  menu_item_id?: string | null
   item_name: string
   quantity: number
   unit_price: number
@@ -159,7 +161,7 @@ const ORDER_SELECT = `
   id, status, delivery_status, total_amount, created_at,
   customer_name, customer_phone, delivery_address, delivery_postcode, customer_notes,
   promo_code_used, discount_applied, applied_deals,
-  order_items(id, item_name, quantity, unit_price, extras, removals, spicy_level, additions, notes)
+  order_items(id, menu_item_id, item_name, quantity, unit_price, extras, removals, spicy_level, additions, notes)
 `
 
 // ─── OrderCard component ──────────────────────────────────────────────────────
@@ -381,18 +383,35 @@ export default function AccountPage() {
 
   // ── Handlers ─────────────────────────────────────────────────────────────
 
-  function handleReorder(order: Order) {
-    const cart = order.order_items.map(item => ({
-      name:        item.item_name,
-      price:       item.unit_price,
-      quantity:    item.quantity,
-      totalPrice:  item.unit_price * item.quantity,
-      spicy_level: item.spicy_level ?? undefined,
-      extras:      item.extras    ?? [],
-      removals:    item.removals  ?? [],
-      additions:   item.additions ?? [],
-      notes:       item.notes     ?? undefined,
-    }))
+  // Lines are rebuilt at today's prices: checkout reprices from the menu and rejects stale ones.
+  async function handleReorder(order: Order) {
+    let menu: PricingMenuRow[]
+    try {
+      const res = await fetch('/api/menu-items')
+      if (!res.ok) throw new Error()
+      menu = await res.json()
+    } catch {
+      toast.error('Could not load the menu. Please try again.')
+      return
+    }
+    const rows = new Map(menu.filter((m) => (m as { is_available?: boolean }).is_available !== false).map((m) => [m.id, m]))
+    const cart = order.order_items.flatMap(item => {
+      const row = item.menu_item_id ? rows.get(item.menu_item_id) : undefined
+      if (!row) return []
+      return [{
+        menu_item_id: row.id,
+        ...repriceLine({ quantity: item.quantity, extras: item.extras ?? [] }, row),
+        spicy_level: item.spicy_level ?? undefined,
+        removals:    item.removals  ?? [],
+        additions:   item.additions ?? [],
+        notes:       item.notes     ?? undefined,
+      }]
+    })
+    if (cart.length === 0) {
+      toast.error('None of these items are available right now.')
+      return
+    }
+    if (cart.length < order.order_items.length) toast('Some items are no longer available and were left out.')
     sessionStorage.setItem('pendingCart', JSON.stringify(cart))
     router.push('/checkout')
   }

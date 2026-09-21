@@ -24,6 +24,7 @@ let insertedOrderItems: Record<string, unknown>[]
 let menuItems: Record<string, { id: string; name: string; is_available: boolean }> = {}
 let freeItemInsertFails = false
 let menuItemRows: Record<string, unknown>[]
+let zoneRows: Record<string, unknown>[]
 let dealRows: Record<string, unknown>[]
 let orderUpdates: Record<string, unknown>[]
 let loyaltyTxns: Record<string, unknown>[]
@@ -65,6 +66,7 @@ vi.mock('@/lib/supabase-admin', () => ({
       const rows = (): unknown[] => {
         if (table === 'deals') return dealRows
         if (table === 'menu_items') return menuItemRows
+        if (table === 'delivery_zones') return zoneRows
         return []
       }
 
@@ -167,14 +169,14 @@ vi.mock('@/lib/supabase-admin', () => ({
 import { POST } from './route'
 
 const CART = [{
-  menu_item_id: undefined,
+  menu_item_id: 'item-1',
   name: 'Wings', price: 10, quantity: 2, totalPrice: 20, extras: [], removals: [],
 }]
 
 const checkoutRequest = (body: Record<string, unknown>) =>
   new NextRequest('http://localhost/api/checkout', {
     method: 'POST',
-    body: JSON.stringify({ items: CART, delivery_fee: 3, ...body }),
+    body: JSON.stringify({ items: CART, delivery_fee: 3, postcode: 'SW1A 1AA', order_type: 'delivery', ...body }),
   })
 
 const makeReward = (over: Partial<RewardRow> = {}): RewardRow => ({
@@ -198,7 +200,11 @@ function resetFixtures() {
   insertedOrderItems = []
   menuItems = { 'menu-9': { id: 'menu-9', name: 'Free Wings', is_available: true } }
   freeItemInsertFails = false
-  menuItemRows = []
+  menuItemRows = [{
+    id: 'item-1', name: 'Wings', is_available: true, sold_out_extras: null, price: 10, category: 'chicken',
+    drinks_regular: [{ name: 'Coke', price: 1.5 }],
+  }]
+  zoneRows = [{ postcode_prefix: 'SW', delivery_fee: 3, free_delivery_threshold: null }]
   dealRows = []
   orderUpdates = []
   loyaltyTxns = []
@@ -435,13 +441,13 @@ describe('POST /api/checkout — customizer selections', () => {
   it('persists spicy level, additions and extras with qty and category', async () => {
     const extras = [{ name: 'Coke', price: 1.5, qty: 2, category: 'drinks_regular' }]
     const items = [{
-      name: 'Wings', price: 13, quantity: 1, totalPrice: 13,
+      menu_item_id: 'item-1', name: 'Wings', price: 13, quantity: 1, totalPrice: 13,
       spicy_level: 'Hot', additions: ['Extra Sauce'], extras, removals: [],
     }]
 
     const res = await POST(new NextRequest('http://localhost/api/checkout', {
       method: 'POST',
-      body: JSON.stringify({ items, delivery_fee: 3 }),
+      body: JSON.stringify({ items, delivery_fee: 3, postcode: 'SW1A 1AA', order_type: 'delivery' }),
     }))
 
     expect(res.status).toBe(200)
@@ -466,7 +472,7 @@ describe('POST /api/checkout — tier earn multiplier', () => {
   const cartRequest = (items: unknown[]) =>
     new NextRequest('http://localhost/api/checkout', {
       method: 'POST',
-      body: JSON.stringify({ items, delivery_fee: 3 }),
+      body: JSON.stringify({ items, delivery_fee: 3, postcode: 'SW1A 1AA', order_type: 'delivery' }),
     })
 
   it('earns the base rate on a Standard 1.00x tier', async () => {
@@ -491,7 +497,8 @@ describe('POST /api/checkout — tier earn multiplier', () => {
 
   it('floors a fractional multiplied earn', async () => {
     currentTierId = 'gold'
-    const items = [{ name: 'Wings', price: 9.99, quantity: 1, totalPrice: 9.99, extras: [], removals: [] }]
+    menuItemRows = [{ id: 'item-1', name: 'Wings', is_available: true, sold_out_extras: null, price: 9.99, category: 'chicken' }]
+    const items = [{ menu_item_id: 'item-1', name: 'Wings', price: 9.99, quantity: 1, totalPrice: 9.99, extras: [], removals: [] }]
 
     const res = await POST(cartRequest(items))
 
@@ -570,7 +577,7 @@ describe('POST /api/checkout — reward vs bundle deal exclusivity', () => {
   const dealCartRequest = (body: Record<string, unknown>) =>
     new NextRequest('http://localhost/api/checkout', {
       method: 'POST',
-      body: JSON.stringify({ items: DEAL_CART, delivery_fee: 3, ...body }),
+      body: JSON.stringify({ items: DEAL_CART, delivery_fee: 3, postcode: 'SW1A 1AA', order_type: 'delivery', ...body }),
     })
 
   beforeEach(() => {
@@ -605,5 +612,88 @@ describe('POST /api/checkout — reward vs bundle deal exclusivity', () => {
     expect(balance).toBe(1000)
     expect(redeemedRewardIds.size).toBe(0)
     expect(orderRows.size).toBe(0)
+  })
+})
+
+describe('POST /api/checkout — server-side pricing', () => {
+  beforeEach(resetFixtures)
+
+  it('charges the database price, not the totals the client sent', async () => {
+    const res = await POST(checkoutRequest({
+      items: [{ ...CART[0], totalPrice: 20 }],
+    }))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrder!.total_amount).toBe(23)  // 2 x 10 + 3 delivery
+    expect(insertedOrderItems).toContainEqual(expect.objectContaining({ unit_price: 10, quantity: 2 }))
+  })
+
+  it('rejects a tampered unit price', async () => {
+    const res = await POST(checkoutRequest({
+      items: [{ ...CART[0], price: 0.01, totalPrice: 0.02 }],
+    }))
+
+    expect(res.status).toBe(400)
+    expect((await res.json()).error).toMatch(/Prices have changed/)
+    expect(orderRows.size).toBe(0)
+    expect(stripeSessionCreated).toBe(false)
+  })
+
+  it('rejects an extra the item does not offer', async () => {
+    const res = await POST(checkoutRequest({
+      items: [{ ...CART[0], price: 10, extras: [{ name: 'Truffle', price: 0, category: 'add_ons' }] }],
+    }))
+
+    expect(res.status).toBe(400)
+    expect((await res.json()).error).toMatch(/Truffle is not available/)
+    expect(orderRows.size).toBe(0)
+  })
+
+  it('prices a quantity extra from the database', async () => {
+    const res = await POST(checkoutRequest({
+      items: [{
+        ...CART[0], quantity: 1, price: 13, totalPrice: 13,
+        extras: [{ name: 'Coke', price: 1.5, qty: 2, category: 'drinks_regular' }],
+      }],
+    }))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrder!.total_amount).toBe(16)  // 13 + 3 delivery
+  })
+
+  it('ignores a client delivery fee of zero', async () => {
+    const res = await POST(checkoutRequest({ delivery_fee: 0 }))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrder!.total_amount).toBe(23)
+  })
+
+  it('charges no delivery for pickup', async () => {
+    const res = await POST(checkoutRequest({ order_type: 'pickup', postcode: undefined, delivery_fee: 3 }))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrder!.total_amount).toBe(20)
+  })
+
+  it('waives delivery at the zone threshold', async () => {
+    zoneRows = [{ postcode_prefix: 'SW', delivery_fee: 3, free_delivery_threshold: 20 }]
+
+    const res = await POST(checkoutRequest({}))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrder!.total_amount).toBe(20)
+  })
+
+  it('rejects a delivery outside every zone', async () => {
+    const res = await POST(checkoutRequest({ postcode: 'ZZ9 9ZZ' }))
+
+    expect(res.status).toBe(400)
+    expect((await res.json()).error).toMatch(/do not deliver/)
+    expect(orderRows.size).toBe(0)
+  })
+
+  it('rejects an empty cart and a line with no menu item', async () => {
+    expect((await POST(checkoutRequest({ items: [] }))).status).toBe(400)
+    expect((await POST(checkoutRequest({ items: [{ ...CART[0], menu_item_id: undefined }] }))).status).toBe(400)
   })
 })
