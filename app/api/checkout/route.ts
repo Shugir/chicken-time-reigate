@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
     if (itemIdsToCheck.length > 0) {
       const { data } = await supabaseAdmin
         .from('menu_items')
-        .select('id, name, is_available, sold_out_extras, price, category, extras, add_ons, drinks_regular, drinks_large, dips, sides, fries_regular, fries_large, other_extras')
+        .select('id, name, is_available, sold_out_extras, price, category, spicy_levels, extras, add_ons, drinks_regular, drinks_large, dips, sides, fries_regular, fries_large, other_extras')
         .in('id', itemIdsToCheck)
       dbItems = data ?? []
       const dbMap = new Map(dbItems.map(r => [r.id, r]))

@@ -10,6 +10,7 @@ export type PricingMenuRow = {
   /** legacy flat extras, still read so rows saved before the categorized columns work */
   extras?: PricedOption[] | null
   sold_out_extras?: string[] | null
+  spicy_levels?: string[] | null
 } & Partial<Record<PricedCategoryKey, PricedOption[] | null>>
 
 export interface CartLineInput {
@@ -19,6 +20,7 @@ export interface CartLineInput {
   quantity: number
   totalPrice: number
   extras?: SelectedExtra[]
+  spicy_level?: string | null
 }
 
 export type PricingResult<T> = { ok: true; lines: T[]; subtotal: number } | { ok: false; error: string }
@@ -63,6 +65,13 @@ export function priceCartLines<T extends CartLineInput>(
     if (!row) return { ok: false, error: 'An item in your cart is no longer on the menu. Please review your cart.' }
     if (!isQty(line.quantity)) return { ok: false, error: `Invalid quantity for ${row.name}.` }
 
+    // spicy_level is stored and printed as-is, so it must be one the item offers
+    const spicy = line.spicy_level
+    const hasSpicy = spicy !== undefined && spicy !== null && spicy !== ''
+    if (hasSpicy && !(typeof spicy === 'string' && (row.spicy_levels ?? []).includes(spicy))) {
+      return { ok: false, error: `Sorry, ${String(spicy)} is not available on ${row.name}. Please update your order.` }
+    }
+
     const submitted = line.extras ?? []
     if (submitted.length > MAX_EXTRAS_PER_LINE) return { ok: false, error: `Too many extras on ${row.name}.` }
 
@@ -79,7 +88,7 @@ export function priceCartLines<T extends CartLineInput>(
       return { ok: false, error: `Prices have changed since you added ${row.name}. Please review your cart.` }
     }
 
-    priced.push({ ...line, name: row.name, price: unit, totalPrice: round2(unit * line.quantity), extras })
+    priced.push({ ...line, name: row.name, price: unit, totalPrice: round2(unit * line.quantity), extras, spicy_level: hasSpicy ? spicy : undefined })
   }
 
   return { ok: true, lines: priced, subtotal: round2(priced.reduce((s, l) => s + l.totalPrice, 0)) }
@@ -122,12 +131,13 @@ export function deliveryFeeFor(args: {
  * Rebuilds a past order line at today's prices (reorder). Extras the item no longer
  * offers, or that are sold out, are dropped rather than carried over stale.
  */
-export function repriceLine<T extends { quantity: number; extras?: SelectedExtra[] | null }>(line: T, row: PricingMenuRow) {
+export function repriceLine<T extends { quantity: number; extras?: SelectedExtra[] | null; spicy_level?: string | null }>(line: T, row: PricingMenuRow) {
   const soldOut = row.sold_out_extras ?? []
   const extras = (line.extras ?? []).flatMap((e) => {
     const option = findOption(row, e)
     return option && !soldOut.includes(e.name) ? [{ ...e, price: Number(option.price) }] : []
   })
   const unit = unitPrice(Number(row.price), extras)
-  return { ...line, name: row.name, price: unit, totalPrice: round2(unit * line.quantity), extras }
+  const spicy = line.spicy_level && (row.spicy_levels ?? []).includes(line.spicy_level) ? line.spicy_level : undefined
+  return { ...line, name: row.name, price: unit, totalPrice: round2(unit * line.quantity), extras, spicy_level: spicy }
 }

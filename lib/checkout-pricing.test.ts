@@ -77,6 +77,36 @@ describe('priceCartLines', () => {
   })
 })
 
+describe('priceCartLines - spicy level', () => {
+  const spicyMenu = new Map<string, PricingMenuRow>([['wings', { ...wings, spicy_levels: ['Mild', 'Hot'] }]])
+
+  it('accepts a spicy level the item offers and keeps it on the line', () => {
+    const r = priceCartLines([line({ spicy_level: 'Hot' })], spicyMenu)
+    expect(r.ok).toBe(true)
+    if (r.ok) expect(r.lines[0]).toMatchObject({ spicy_level: 'Hot' })
+  })
+
+  it('accepts a line with no spicy level', () => {
+    expect(priceCartLines([line()], spicyMenu).ok).toBe(true)
+    expect(priceCartLines([line({ spicy_level: '' })], spicyMenu).ok).toBe(true)
+    expect(priceCartLines([line({ spicy_level: null })], spicyMenu).ok).toBe(true)
+  })
+
+  it('rejects a spicy level the item does not offer', () => {
+    expect(priceCartLines([line({ spicy_level: 'Nuclear' })], spicyMenu)).toEqual({
+      ok: false, error: 'Sorry, Nuclear is not available on Wings. Please update your order.',
+    })
+  })
+
+  it('rejects any spicy level on an item that offers none', () => {
+    expect(priceCartLines([line({ spicy_level: 'Hot' })], menu).ok).toBe(false)
+  })
+
+  it('rejects a spicy level that is not a string', () => {
+    expect(priceCartLines([line({ spicy_level: 5 })], spicyMenu).ok).toBe(false)
+  })
+})
+
 describe('deliveryFeeFor', () => {
   const zones = [
     { postcode_prefix: 'SW', delivery_fee: 2.5, free_delivery_threshold: 30 },
@@ -112,6 +142,15 @@ describe('deliveryFeeFor', () => {
   it('rejects a delivery with no matching zone', () => {
     expect(deliveryFeeFor({ orderType: 'delivery', postcode: 'ZZ9 9ZZ', zones, subtotal: 10 }).ok).toBe(false)
     expect(deliveryFeeFor({ orderType: 'delivery', postcode: undefined, zones, subtotal: 10 }).ok).toBe(false)
+  })
+})
+
+describe('repriceLine - spicy level', () => {
+  it('keeps a spicy level the item still offers and drops one it no longer does', () => {
+    const row: PricingMenuRow = { ...wings, spicy_levels: ['Hot'] }
+    expect(repriceLine({ quantity: 1, spicy_level: 'Hot' }, row).spicy_level).toBe('Hot')
+    expect(repriceLine({ quantity: 1, spicy_level: 'Mild' }, row).spicy_level).toBeUndefined()
+    expect(repriceLine({ quantity: 1 }, row).spicy_level).toBeUndefined()
   })
 })
 

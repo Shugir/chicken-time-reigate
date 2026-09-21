@@ -401,8 +401,8 @@ export default function AccountPage() {
       if (!row) return []
       return [{
         menu_item_id: row.id,
-        ...repriceLine({ quantity: item.quantity, extras: item.extras ?? [] }, row),
-        spicy_level: item.spicy_level ?? undefined,
+        // repriceLine keeps the spicy level only if the item still offers it
+        ...repriceLine({ quantity: item.quantity, extras: item.extras ?? [], spicy_level: item.spicy_level }, row),
         removals:    item.removals  ?? [],
         additions:   item.additions ?? [],
         notes:       item.notes     ?? undefined,

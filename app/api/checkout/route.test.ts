@@ -203,6 +203,7 @@ function resetFixtures() {
   menuItemRows = [{
     id: 'item-1', name: 'Wings', is_available: true, sold_out_extras: null, price: 10, category: 'chicken',
     drinks_regular: [{ name: 'Coke', price: 1.5 }],
+    spicy_levels: ['Mild', 'Hot'],
   }]
   zoneRows = [{ postcode_prefix: 'SW', delivery_fee: 3, free_delivery_threshold: null }]
   dealRows = []
@@ -709,6 +710,15 @@ describe('POST /api/checkout — server-side pricing', () => {
     expect(res.status).toBe(400)
     expect((await res.json()).error).toMatch(/do not deliver/)
     expect(orderRows.size).toBe(0)
+  })
+
+  it('rejects a spicy level the item does not offer', async () => {
+    const res = await POST(checkoutRequest({ items: [{ ...CART[0], spicy_level: 'Nuclear' }] }))
+
+    expect(res.status).toBe(400)
+    expect((await res.json()).error).toBe('Sorry, Nuclear is not available on Wings. Please update your order.')
+    expect(orderRows.size).toBe(0)
+    expect(stripeSessionCreated).toBe(false)
   })
 
   it('rejects an empty cart and a line with no menu item', async () => {
