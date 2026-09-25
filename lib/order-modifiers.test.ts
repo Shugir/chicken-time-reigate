@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extraQty, extrasTotal, unitPrice, formatExtra, toModifierConfig } from './order-modifiers'
+import { extraQty, extrasTotal, unitPrice, formatExtra, toModifierConfig, spicyPrice } from './order-modifiers'
 
 describe('extra quantity and pricing', () => {
   it('treats a missing or invalid qty as 1', () => {
@@ -15,6 +15,16 @@ describe('extra quantity and pricing', () => {
 
   it('adds extras to the base for the unit price', () => {
     expect(unitPrice(5, [{ price: 1.5, qty: 2 }, { price: 0 }])).toBe(8)
+  })
+
+  it('prices a chosen spicy level, 0 when none is chosen or it is not offered', () => {
+    const levels = [{ name: 'Mild', price: 0 }, { name: 'Reaper', price: 0.5 }]
+    expect(spicyPrice(levels, 'Reaper')).toBe(0.5)
+    expect(spicyPrice(levels, 'Mild')).toBe(0)
+    expect(spicyPrice(levels, 'Gone')).toBe(0)
+    expect(spicyPrice(levels, null)).toBe(0)
+    expect(spicyPrice(levels, undefined)).toBe(0)
+    expect(spicyPrice(undefined, 'Reaper')).toBe(0)
   })
 
   it('formats quantity only when above 1', () => {
@@ -50,18 +60,30 @@ describe('toModifierConfig', () => {
 
   it('reads the new columns and merges select modes over the defaults', () => {
     const cfg = toModifierConfig({
-      spicy_levels: ['Mild', 'Hot'],
+      spicy_levels: [{ name: 'Mild', price: 0 }, { name: 'Hot', price: 0 }],
       ingredients: ['Lettuce'],
       dips: [{ name: 'Mayo', price: 0 }],
       drinks_regular: [{ name: 'Coke', price: 1.5 }],
       modifier_select_modes: { dips: 'multi' },
     })
-    expect(cfg.spicyLevels).toEqual(['Mild', 'Hot'])
+    expect(cfg.spicyLevels).toEqual([{ name: 'Mild', price: 0 }, { name: 'Hot', price: 0 }])
     expect(cfg.spicyMode).toBe('single')
     expect(cfg.ingredients).toEqual(['Lettuce'])
     expect(cfg.categories.map((c) => c.key)).toEqual(['drinks_regular', 'dips'])
     expect(cfg.categories.find((c) => c.key === 'dips')!.mode).toBe('multi')
     expect(cfg.categories.find((c) => c.key === 'drinks_regular')!.mode).toBe('multi')
+  })
+
+  it('passes spicy levels through as priced options with description and badge', () => {
+    const reaper = { name: 'Reaper Inferno', price: 0.5, description: 'Not for the faint-hearted.', badge: '2M SHU' }
+    const cfg = toModifierConfig({ spicy_levels: [{ name: 'Mild', price: 0 }, reaper] })
+    expect(cfg.spicyLevels).toEqual([{ name: 'Mild', price: 0 }, reaper])
+  })
+
+  it('passes description and badge through on any priced category', () => {
+    const glaze = { name: 'Garlic Butter', price: 0.6, description: 'Garlic herb butter glaze, zero burn.', badge: 'Chef Choice' }
+    const cfg = toModifierConfig({ dips: [glaze] })
+    expect(cfg.categories[0].options).toEqual([glaze])
   })
 
   it('omits empty categories', () => {

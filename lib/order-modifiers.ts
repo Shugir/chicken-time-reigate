@@ -24,14 +24,15 @@ export const DEFAULT_SELECT_MODES: Record<string, SelectMode> = {
   extra_ingredients: 'multi',
 }
 
-export interface PricedOption { name: string; price: number }
+/** `description` is a short subtitle, `badge` a short highlight tag ("Chef Choice", "15,000 SHU"). */
+export interface PricedOption { name: string; price: number; description?: string; badge?: string }
 
 /** One chosen extra. `qty` missing means 1 (rows written before Phase 2 have no qty). */
 export interface SelectedExtra extends PricedOption { qty?: number; category?: string }
 
 /** menu_items fields the customizer reads. All optional so legacy rows and old API shapes still work. */
 export type ModifierSource = {
-  spicy_levels?: string[] | null
+  spicy_levels?: PricedOption[] | null
   ingredients?: string[] | null
   removals?: string[] | null
   additions?: string[] | null
@@ -48,7 +49,7 @@ export interface ModifierCategory {
 
 /** What the drawer renders. Empty sections are omitted or empty arrays. */
 export interface ModifierConfig {
-  spicyLevels: string[]
+  spicyLevels: PricedOption[]
   spicyMode: SelectMode
   ingredients: string[]
   additions: string[]
@@ -66,6 +67,15 @@ export function extrasTotal(extras: { price: number; qty?: number }[]): number {
 /** Unit price of one item including its extras. Multiply by quantity for the line total. */
 export function unitPrice(base: number, extras: { price: number; qty?: number }[]): number {
   return round2(base + extrasTotal(extras))
+}
+
+/**
+ * Price of the chosen spicy level, 0 when none is chosen or the item does not offer it.
+ * The level travels as a plain name (order_items.spicy_level), so its price is looked up
+ * here and folded into the base: `unitPrice(base + spicyPrice(...), extras)`.
+ */
+export function spicyPrice(levels: PricedOption[] | null | undefined, name: string | null | undefined): number {
+  return Number(levels?.find((l) => l.name === name)?.price ?? 0)
 }
 
 /** "Coke ×2", or just "Coke" when qty is 1 or missing. */

@@ -20,7 +20,7 @@ import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import ScrollToTop from '@/components/UI/ScrollToTop'
 import { inSlot } from '@/lib/deal-engine'
 import { addToLines, changeLineQty, itemIdOfKey, itemQty, removeOneFromItem } from '@/lib/cart-lines'
-import { formatExtra, toModifierConfig, unitPrice, type ModifierConfig, type ModifierSource } from '@/lib/order-modifiers'
+import { formatExtra, spicyPrice, toModifierConfig, unitPrice, type ModifierConfig, type ModifierSource } from '@/lib/order-modifiers'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -308,11 +308,16 @@ function dbToMenuItem(item: DbMenuItem): MenuItem {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+/** Unit price of a cart line: base + chosen spicy level + extras. Must match lib/checkout-pricing. */
+function lineUnitPrice(item: MenuItem, entry: { spicy_level?: string; extras: AddOn[] }) {
+  return unitPrice(item.price + spicyPrice(item.modifiers?.spicyLevels, entry.spicy_level), entry.extras)
+}
+
 function cartTotal(cart: Cart, items: MenuItem[]) {
   return Object.entries(cart).reduce((sum, [key, entry]) => {
     const item = items.find((m) => m.id === itemIdOfKey(key))
     if (!item) return sum
-    return sum + unitPrice(item.price, entry.extras) * entry.qty
+    return sum + lineUnitPrice(item, entry) * entry.qty
   }, 0)
 }
 
@@ -628,7 +633,7 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
 
   function handleCheckout() {
     const cartPayload = lineItems.map(({ item, entry }) => {
-      const unit = unitPrice(item.price, entry.extras)
+      const unit = lineUnitPrice(item, entry)
       return {
         menu_item_id: item.id,
         name: item.name,
@@ -677,7 +682,7 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-zinc-900 truncate">{item.name}</p>
                   <p className="text-xs text-zinc-400 mt-0.5">
-                    £{(unitPrice(item.price, entry.extras) * entry.qty).toFixed(2)}
+                    £{(lineUnitPrice(item, entry) * entry.qty).toFixed(2)}
                   </p>
                   {(entry.spicy_level || entry.removals.length > 0 || entry.additions.length > 0 || entry.extras.length > 0) && (
                     <div className="mt-1.5 flex flex-wrap gap-1">
@@ -1303,7 +1308,7 @@ export default function OrderPage() {
                 additions: pick.additions,
                 extras: pick.extras,
                 notes: (pick.notes ?? '').trim(),
-                totalPrice: unitPrice(item.price, pick.extras) * pick.qty,
+                totalPrice: lineUnitPrice(item, pick) * pick.qty,
               })
             }
             // Upgrades are ordinary menu items at their normal price.

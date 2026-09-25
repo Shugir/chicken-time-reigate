@@ -87,7 +87,10 @@ describe('priceCartLines', () => {
 })
 
 describe('priceCartLines - spicy level', () => {
-  const spicyMenu = new Map<string, PricingMenuRow>([['wings', { ...wings, spicy_levels: ['Mild', 'Hot'] }]])
+  const spicyMenu = new Map<string, PricingMenuRow>([['wings', {
+    ...wings,
+    spicy_levels: [{ name: 'Mild', price: 0 }, { name: 'Hot', price: 0 }, { name: 'Reaper Inferno', price: 0.5, badge: '2M SHU' }],
+  }]])
 
   it('accepts a spicy level the item offers and keeps it on the line', () => {
     const r = priceCartLines([line({ spicy_level: 'Hot' })], spicyMenu)
@@ -113,6 +116,35 @@ describe('priceCartLines - spicy level', () => {
 
   it('rejects a spicy level that is not a string', () => {
     expect(priceCartLines([line({ spicy_level: 5 })], spicyMenu).ok).toBe(false)
+  })
+
+  it('adds a priced spicy level to the unit price and keeps the level as a plain name', () => {
+    const r = priceCartLines([line({ spicy_level: 'Reaper Inferno', price: 10.5, totalPrice: 21 })], spicyMenu)
+    expect(r).toMatchObject({ ok: true, subtotal: 21 })
+    if (r.ok) expect(r.lines[0]).toMatchObject({ price: 10.5, totalPrice: 21, spicy_level: 'Reaper Inferno' })
+  })
+
+  it('adds a priced spicy level alongside priced extras', () => {
+    const r = priceCartLines([line({
+      spicy_level: 'Reaper Inferno', price: 12, totalPrice: 24,
+      extras: [{ name: 'Bacon', price: 1.5, category: 'add_ons' }],
+    })], spicyMenu)
+    // 10 + 0.5 spicy + 1.5 bacon = 12 per unit, x2
+    expect(r).toMatchObject({ ok: true, subtotal: 24 })
+  })
+
+  it('rejects a line that leaves the spicy level price out', () => {
+    expect(priceCartLines([line({ spicy_level: 'Reaper Inferno' })], spicyMenu)).toEqual({
+      ok: false, error: 'Prices have changed since you added Wings. Please review your cart.',
+    })
+  })
+
+  it('does not charge for a free spicy level', () => {
+    expect(priceCartLines([line({ spicy_level: 'Mild' })], spicyMenu)).toMatchObject({ ok: true, subtotal: 20 })
+  })
+
+  it('matches the spicy level name exactly', () => {
+    expect(priceCartLines([line({ spicy_level: 'hot' })], spicyMenu).ok).toBe(false)
   })
 })
 
@@ -156,10 +188,27 @@ describe('deliveryFeeFor', () => {
 
 describe('repriceLine - spicy level', () => {
   it('keeps a spicy level the item still offers and drops one it no longer does', () => {
-    const row: PricingMenuRow = { ...wings, spicy_levels: ['Hot'] }
+    const row: PricingMenuRow = { ...wings, spicy_levels: [{ name: 'Hot', price: 0 }] }
     expect(repriceLine({ quantity: 1, spicy_level: 'Hot' }, row).spicy_level).toBe('Hot')
     expect(repriceLine({ quantity: 1, spicy_level: 'Mild' }, row).spicy_level).toBeUndefined()
     expect(repriceLine({ quantity: 1 }, row).spicy_level).toBeUndefined()
+  })
+
+  it('charges the current price of a priced spicy level', () => {
+    const row: PricingMenuRow = { ...wings, spicy_levels: [{ name: 'Reaper Inferno', price: 0.75 }] }
+    const r = repriceLine({ quantity: 2, spicy_level: 'Reaper Inferno', extras: [{ name: 'Bacon', price: 1, category: 'add_ons' }] }, row)
+    // 10 + 0.75 spicy + 1.5 bacon (current prices) = 12.25 per unit
+    expect(r).toMatchObject({ spicy_level: 'Reaper Inferno', price: 12.25, totalPrice: 24.5 })
+  })
+
+  it('drops a spicy level the item no longer offers and does not charge for it', () => {
+    const row: PricingMenuRow = { ...wings, spicy_levels: [{ name: 'Mild', price: 0 }] }
+    const r = repriceLine({ quantity: 1, spicy_level: 'Reaper Inferno' }, row)
+    expect(r).toMatchObject({ spicy_level: undefined, price: 10, totalPrice: 10 })
+  })
+
+  it('reprices a line whose item has no spicy levels at all', () => {
+    expect(repriceLine({ quantity: 1, spicy_level: 'Hot' }, wings)).toMatchObject({ spicy_level: undefined, price: 10 })
   })
 })
 

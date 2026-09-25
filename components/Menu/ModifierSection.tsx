@@ -7,10 +7,12 @@ import { Check } from 'lucide-react'
  * (selected = struck through) instead of an added option.
  */
 export function Pill({
-  label, hint, selected, disabled = false, tone = 'brand', onClick,
+  label, hint, description, badge, selected, disabled = false, tone = 'brand', onClick,
 }: {
   label: string
   hint?: string
+  description?: string
+  badge?: string
   selected: boolean
   disabled?: boolean
   tone?: 'brand' | 'danger'
@@ -40,13 +42,26 @@ export function Pill({
         >
           {label}
         </span>
+        {badge && <OptionBadge text={badge} />}
       </span>
+      {description && (
+        <span className={`block text-xs mt-0.5 ${disabled ? 'text-zinc-400' : 'text-zinc-500'}`}>{description}</span>
+      )}
       {hint && (
         <span className={`block text-xs mt-0.5 ${disabled ? 'text-zinc-400' : selected && !danger ? 'text-brand-dark/70' : 'text-zinc-400'}`}>
           {hint}
         </span>
       )}
     </button>
+  )
+}
+
+/** Short highlight tag on an option, e.g. "Chef Choice" or "15,000 SHU". */
+export function OptionBadge({ text }: { text: string }) {
+  return (
+    <span className="shrink-0 text-[10px] font-bold leading-none px-1.5 py-1 rounded bg-brand-red/10 text-brand-red">
+      {text}
+    </span>
   )
 }
 

@@ -1,7 +1,7 @@
 'use client'
 
 import type { ModifierConfig, PricedOption, SelectedExtra } from '@/lib/order-modifiers'
-import ModifierSection, { Pill } from './ModifierSection'
+import ModifierSection, { OptionBadge, Pill } from './ModifierSection'
 import QtyStepper from './QtyStepper'
 
 /** Everything a customer can choose for one item, minus quantity and notes. */
@@ -61,10 +61,13 @@ export default function ModifierForm({ config, value, onChange, soldOut }: Props
           <div className="grid grid-cols-2 gap-2">
             {config.spicyLevels.map((level) => (
               <Pill
-                key={level}
-                label={level}
-                selected={value.spicy === level}
-                onClick={() => patch({ spicy: value.spicy === level ? null : level })}
+                key={level.name}
+                label={level.name}
+                hint={priceHint(level.price)}
+                description={level.description}
+                badge={level.badge}
+                selected={value.spicy === level.name}
+                onClick={() => patch({ spicy: value.spicy === level.name ? null : level.name })}
               />
             ))}
           </div>
@@ -104,6 +107,8 @@ export default function ModifierForm({ config, value, onChange, soldOut }: Props
                   key={opt.name}
                   label={opt.name}
                   hint={isSoldOut(opt.name) ? 'Sold out' : priceHint(opt.price)}
+                  description={opt.description}
+                  badge={opt.badge}
                   selected={qtyOf(cat.key, opt.name) > 0}
                   disabled={isSoldOut(opt.name)}
                   onClick={() => pickSingle(cat.key, opt)}
@@ -115,9 +120,11 @@ export default function ModifierForm({ config, value, onChange, soldOut }: Props
               {cat.options.map((opt) => (
                 <div key={opt.name} className="flex items-center justify-between gap-3 py-1.5">
                   <div className="min-w-0">
-                    <p className={`text-sm font-semibold ${isSoldOut(opt.name) ? 'text-zinc-400' : 'text-zinc-800'}`}>
+                    <p className={`flex items-center gap-1.5 text-sm font-semibold ${isSoldOut(opt.name) ? 'text-zinc-400' : 'text-zinc-800'}`}>
                       {opt.name}
+                      {opt.badge && <OptionBadge text={opt.badge} />}
                     </p>
+                    {opt.description && <p className="text-xs text-zinc-500">{opt.description}</p>}
                     <p className="text-xs text-zinc-400">{isSoldOut(opt.name) ? 'Sold out' : priceHint(opt.price)}</p>
                   </div>
                   <QtyStepper

@@ -1,7 +1,7 @@
 // Server-side pricing for checkout. The browser sends prices only so we can tell the
 // customer when they are stale; every amount that is charged comes from here.
 
-import { PRICED_CATEGORIES, unitPrice, type PricedCategoryKey, type PricedOption, type SelectedExtra } from './order-modifiers'
+import { PRICED_CATEGORIES, spicyPrice, unitPrice, type PricedCategoryKey, type PricedOption, type SelectedExtra } from './order-modifiers'
 
 export type PricingMenuRow = {
   id: string
@@ -10,7 +10,7 @@ export type PricingMenuRow = {
   /** legacy flat extras, still read so rows saved before the categorized columns work */
   extras?: PricedOption[] | null
   sold_out_extras?: string[] | null
-  spicy_levels?: string[] | null
+  spicy_levels?: PricedOption[] | null
 } & Partial<Record<PricedCategoryKey, PricedOption[] | null>>
 
 export interface CartLineInput {
@@ -68,7 +68,7 @@ export function priceCartLines<T extends CartLineInput>(
     // spicy_level is stored and printed as-is, so it must be one the item offers
     const spicy = line.spicy_level
     const hasSpicy = spicy !== undefined && spicy !== null && spicy !== ''
-    if (hasSpicy && !(typeof spicy === 'string' && (row.spicy_levels ?? []).includes(spicy))) {
+    if (hasSpicy && !(typeof spicy === 'string' && (row.spicy_levels ?? []).some((l) => l.name === spicy))) {
       return { ok: false, error: `Sorry, ${String(spicy)} is not available on ${row.name}. Please update your order.` }
     }
 
@@ -83,7 +83,7 @@ export function priceCartLines<T extends CartLineInput>(
       extras.push({ ...e, price: Number(option.price) })
     }
 
-    const unit = unitPrice(Number(row.price), extras)
+    const unit = unitPrice(Number(row.price) + spicyPrice(row.spicy_levels, spicy), extras)
     if (!(Math.abs(Number(line.price) - unit) <= 0.01)) {
       return { ok: false, error: `Prices have changed since you added ${row.name}. Please review your cart.` }
     }
@@ -128,8 +128,8 @@ export function deliveryFeeFor(args: {
 }
 
 /**
- * Rebuilds a past order line at today's prices (reorder). Extras the item no longer
- * offers, or that are sold out, are dropped rather than carried over stale.
+ * Rebuilds a past order line at today's prices (reorder). Extras and spicy levels the
+ * item no longer offers, or extras that are sold out, are dropped rather than carried over stale.
  */
 export function repriceLine<T extends { quantity: number; extras?: SelectedExtra[] | null; spicy_level?: string | null }>(line: T, row: PricingMenuRow) {
   const soldOut = row.sold_out_extras ?? []
@@ -137,7 +137,7 @@ export function repriceLine<T extends { quantity: number; extras?: SelectedExtra
     const option = findOption(row, e)
     return option && !soldOut.includes(e.name) ? [{ ...e, price: Number(option.price) }] : []
   })
-  const unit = unitPrice(Number(row.price), extras)
-  const spicy = line.spicy_level && (row.spicy_levels ?? []).includes(line.spicy_level) ? line.spicy_level : undefined
+  const spicy = line.spicy_level && (row.spicy_levels ?? []).some((l) => l.name === line.spicy_level) ? line.spicy_level : undefined
+  const unit = unitPrice(Number(row.price) + spicyPrice(row.spicy_levels, spicy), extras)
   return { ...line, name: row.name, price: unit, totalPrice: round2(unit * line.quantity), extras, spicy_level: spicy }
 }

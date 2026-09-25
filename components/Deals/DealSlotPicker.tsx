@@ -7,7 +7,7 @@ import ModifierForm, { EMPTY_SELECTION, type ModifierSelection } from '@/compone
 import QtyStepper from '@/components/Menu/QtyStepper'
 import { slotQty, isSelectionComplete, upgradesTotal } from './deal-slot-picker-logic'
 import { inSlot, matchDeals, type BundleUpgrades } from '@/lib/deal-engine'
-import { formatExtra, toModifierConfig, unitPrice, type ModifierConfig, type SelectedExtra } from '@/lib/order-modifiers'
+import { formatExtra, spicyPrice, toModifierConfig, unitPrice, type ModifierConfig, type SelectedExtra } from '@/lib/order-modifiers'
 
 interface SlotItem {
   id: string
@@ -153,7 +153,7 @@ export default function DealSlotPicker({ deal, itemsById, onClose, onComplete }:
     : 0
   const extrasSum = units.reduce((s, u) => {
     const base = itemsById.get(u.item_id)?.price ?? 0
-    return s + (unitPrice(base, u.selection.extras) - base)
+    return s + (unitPrice(base + spicyPrice(configs.get(u.item_id)?.spicyLevels, u.selection.spicy), u.selection.extras) - base)
   }, 0)
   const upgradesSum = upgradesTotal(
     upgradeItems.filter((i) => upgradeQty[i.id] > 0).map((i) => ({ price: i.price, qty: upgradeQty[i.id] })),

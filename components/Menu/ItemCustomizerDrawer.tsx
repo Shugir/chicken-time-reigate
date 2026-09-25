@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import { X, Plus, Minus, ShoppingBag, TriangleAlert } from 'lucide-react'
 import type { ProductItem, OrderSelection } from '@/components/ProductModal'
-import { toModifierConfig, unitPrice, extraQty, formatExtra } from '@/lib/order-modifiers'
+import { toModifierConfig, unitPrice, spicyPrice, extraQty, formatExtra } from '@/lib/order-modifiers'
 import ModifierSection from './ModifierSection'
 import ModifierForm, { EMPTY_SELECTION, type ModifierSelection } from './ModifierForm'
 
@@ -49,7 +49,9 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
     }
   }, [onClose])
 
-  const unit = unitPrice(item.price, selection.extras)
+  const spicyCost = spicyPrice(config.spicyLevels, selection.spicy)
+  // Must match lib/checkout-pricing, which rejects the order on any difference
+  const unit = unitPrice(item.price + spicyCost, selection.extras)
   const total = unit * qty
   const extrasSum = unit - item.price
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
@@ -180,6 +182,7 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
                   {selection.spicy && (
                     <li className="flex justify-between text-zinc-700">
                       <span>Spicy level: {selection.spicy}</span>
+                      {spicyCost > 0 && <span className="tabular-nums">+£{spicyCost.toFixed(2)}</span>}
                     </li>
                   )}
                   {selection.removals.map((r) => (

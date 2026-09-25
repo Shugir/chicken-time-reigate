@@ -203,7 +203,7 @@ function resetFixtures() {
   menuItemRows = [{
     id: 'item-1', name: 'Wings', is_available: true, sold_out_extras: null, price: 10, category: 'chicken',
     drinks_regular: [{ name: 'Coke', price: 1.5 }],
-    spicy_levels: ['Mild', 'Hot'],
+    spicy_levels: [{ name: 'Mild', price: 0 }, { name: 'Hot', price: 0 }],
   }]
   zoneRows = [{ postcode_prefix: 'SW', delivery_fee: 3, free_delivery_threshold: null }]
   dealRows = []
@@ -472,6 +472,25 @@ describe('POST /api/checkout — customizer selections', () => {
 
     expect(res.status).toBe(200)
     expect(insertedOrderItems).toContainEqual(expect.objectContaining({ extras }))
+  })
+
+  it('charges a priced spicy level and stores the level as its plain name', async () => {
+    menuItemRows[0].spicy_levels = [{ name: 'Reaper Inferno', price: 0.5 }]
+    const items = [{
+      menu_item_id: 'item-1', name: 'Wings', price: 10.5, quantity: 2, totalPrice: 21,
+      spicy_level: 'Reaper Inferno', extras: [], removals: [],
+    }]
+
+    const res = await POST(new NextRequest('http://localhost/api/checkout', {
+      method: 'POST',
+      body: JSON.stringify({ items, delivery_fee: 3, postcode: 'SW1A 1AA', order_type: 'delivery' }),
+    }))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrderItems).toContainEqual(
+      expect.objectContaining({ unit_price: 10.5, quantity: 2, spicy_level: 'Reaper Inferno' }),
+    )
+    expect(insertedOrder!.total_amount).toBe(24)  // 21 + 3 delivery
   })
 
   it('defaults spicy level to null and additions to empty when absent', async () => {

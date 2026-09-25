@@ -25,6 +25,10 @@ import AdminSidebar from '@/components/admin/admin-sidebar'
 interface Extra {
   name: string
   price: number
+  /** short subtitle shown to customers */
+  description?: string
+  /** short highlight tag, e.g. "Chef Choice" */
+  badge?: string
 }
 
 interface MenuItem {
@@ -42,7 +46,7 @@ interface MenuItem {
   /** @deprecated use ingredients */
   removals: string[]
   additions: string[]
-  spicy_levels: string[]
+  spicy_levels: Extra[]
   ingredients: string[]
   extra_ingredients: Extra[]
   add_ons: Extra[]
@@ -265,6 +269,7 @@ function ExtraNameInput({ value, onChange, onEnter, suggestions, placeholder }: 
 type SelectMode = 'single' | 'multi'
 
 const PRICED_CATEGORIES = [
+  { key: 'spicy_levels', label: 'Spicy Level', hint: 'Heat options — price optional', placeholder: 'e.g. Reaper Inferno' },
   { key: 'extra_ingredients', label: 'Extra Ingredients', hint: 'Priced ingredients customers can add', placeholder: 'e.g. Extra Cheese' },
   { key: 'drinks_regular', label: 'Drinks (Regular)', hint: 'Regular-size drinks', placeholder: 'e.g. Coke' },
   { key: 'drinks_large', label: 'Drinks (Large)', hint: 'Large-size drinks', placeholder: 'e.g. Large Coke' },
@@ -357,16 +362,14 @@ function DuplicateWarning({ name, labels }: { name: string; labels: string[] }) 
   )
 }
 
-// Free-text tag list (ingredients, spicy levels, additions)
-function TagSection({ title, hint, placeholder, items, onChange, suggestions, mode, onModeChange, warnFor }: {
+// Free-text tag list (ingredients, additions)
+function TagSection({ title, hint, placeholder, items, onChange, suggestions, warnFor }: {
   title: string
   hint: string
   placeholder: string
   items: string[]
   onChange: (next: string[]) => void
   suggestions: string[]
-  mode?: SelectMode
-  onModeChange?: (m: SelectMode) => void
   warnFor?: (name: string) => string[]
 }) {
   const [input, setInput] = useState('')
@@ -380,7 +383,6 @@ function TagSection({ title, hint, placeholder, items, onChange, suggestions, mo
 
   return (
     <Disclosure title={title} hint={hint} count={items.length}>
-      {mode && onModeChange && <SelectStyle value={mode} onChange={onModeChange} />}
       <div className="flex gap-2">
         <ExtraNameInput value={input} onChange={setInput} onEnter={add} suggestions={suggestions} placeholder={placeholder} />
         <button type="button" onClick={add} aria-label={`Add to ${title}`} className={ADD_BTN_CLS}><Plus className="w-4 h-4" /></button>
@@ -402,8 +404,77 @@ function TagSection({ title, hint, placeholder, items, onChange, suggestions, mo
   )
 }
 
-// Priced {name, price} list with 86 (sold-out) toggle
-function PricedSection({ title, hint, placeholder, items, onChange, soldOut, onToggle86, suggestions, mode, onModeChange, warnFor }: {
+interface OptionDraft { name: string; price: string; description: string; badge: string }
+const EMPTY_DRAFT: OptionDraft = { name: '', price: '', description: '', badge: '' }
+const PRICE_INPUT_CLS = `w-full pl-7 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${TAG_INPUT_CLS}`
+
+const toDraft = (ex: Extra): OptionDraft =>
+  ({ name: ex.name, price: ex.price.toFixed(2), description: ex.description ?? '', badge: ex.badge ?? '' })
+
+/** null when the name is empty or the price is not a number >= 0. A blank price is 0 only when `priceOptional`. */
+function draftToExtra(d: OptionDraft, priceOptional: boolean): Extra | null {
+  const name = d.name.trim()
+  const price = priceOptional && d.price.trim() === '' ? 0 : parseFloat(d.price)
+  if (!name || isNaN(price) || price < 0) return null
+  const description = d.description.trim()
+  const badge = d.badge.trim()
+  return { name, price, ...(description && { description }), ...(badge && { badge }) }
+}
+
+function PriceInput({ value, onChange, onEnter }: { value: string; onChange: (v: string) => void; onEnter: () => void }) {
+  return (
+    <div className="relative w-24 shrink-0">
+      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none">£</span>
+      <input
+        type="number"
+        step="0.01"
+        min="0"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); onEnter() } }}
+        placeholder="0.00"
+        aria-label="Price"
+        className={PRICE_INPUT_CLS}
+      />
+    </div>
+  )
+}
+
+// Optional subtitle and highlight tag shown to customers under/next to the option name
+function DetailInputs({ draft, setDraft, onEnter }: {
+  draft: OptionDraft
+  setDraft: (fn: (d: OptionDraft) => OptionDraft) => void
+  onEnter: () => void
+}) {
+  const onKeyDown = (e: React.KeyboardEvent) => { if (e.key === 'Enter') { e.preventDefault(); onEnter() } }
+  return (
+    <div className="grid grid-cols-[1fr_8rem] gap-2">
+      <input
+        value={draft.description}
+        onChange={(e) => setDraft((d) => ({ ...d, description: e.target.value }))}
+        onKeyDown={onKeyDown}
+        maxLength={80}
+        placeholder="Description (optional)"
+        aria-label="Description"
+        className={`w-full ${TAG_INPUT_CLS}`}
+      />
+      <input
+        value={draft.badge}
+        onChange={(e) => setDraft((d) => ({ ...d, badge: e.target.value }))}
+        onKeyDown={onKeyDown}
+        maxLength={20}
+        placeholder="Badge"
+        aria-label="Badge"
+        className={`w-full ${TAG_INPUT_CLS}`}
+      />
+    </div>
+  )
+}
+
+// Priced {name, price, description?, badge?} list with inline edit and 86 (sold-out) toggle.
+// `isSpicy`: the customer always picks one spicy level (order_items.spicy_level is a single
+// text column) and checkout does not apply 86 to it, so the mode and 86 controls are hidden.
+function PricedSection({ title, hint, placeholder, items, onChange, soldOut, onToggle86, onRename, suggestions, mode, onModeChange, warnFor, isSpicy = false }: {
   title: string
   hint: string
   placeholder: string
@@ -411,25 +482,46 @@ function PricedSection({ title, hint, placeholder, items, onChange, soldOut, onT
   onChange: (next: Extra[]) => void
   soldOut: string[]
   onToggle86: (name: string) => void
+  onRename: (from: string, to: string) => void
   suggestions: string[]
   mode: SelectMode
   onModeChange: (m: SelectMode) => void
   warnFor: (name: string) => string[]
+  isSpicy?: boolean
 }) {
-  const [input, setInput] = useState({ name: '', price: '' })
+  const [input, setInput] = useState<OptionDraft>(EMPTY_DRAFT)
+  const [editing, setEditing] = useState<string | null>(null)
+  const [draft, setDraft] = useState<OptionDraft>(EMPTY_DRAFT)
+  const [editError, setEditError] = useState<string | null>(null)
 
   function add() {
-    const name = input.name.trim()
-    const price = parseFloat(input.price)
-    if (!name || isNaN(price) || price < 0) return
-    if (items.some((e) => e.name === name)) return
-    onChange([...items, { name, price }])
-    setInput({ name: '', price: '' })
+    const next = draftToExtra(input, isSpicy)
+    if (!next || items.some((e) => e.name === next.name)) return
+    onChange([...items, next])
+    setInput(EMPTY_DRAFT)
+  }
+
+  function startEdit(ex: Extra) {
+    setEditing(ex.name)
+    setDraft(toDraft(ex))
+    setEditError(null)
+  }
+
+  function saveEdit() {
+    if (editing === null) return
+    const next = draftToExtra(draft, isSpicy)
+    if (!next) return setEditError('Enter a name and a price of 0 or more.')
+    if (next.name !== editing && items.some((e) => e.name === next.name)) return setEditError(`${next.name} is already in ${title}.`)
+    onChange(items.map((e) => (e.name === editing ? next : e)))
+    if (next.name !== editing) onRename(editing, next.name)
+    setEditing(null)
   }
 
   return (
     <Disclosure title={title} hint={hint} count={items.length}>
-      <SelectStyle value={mode} onChange={onModeChange} />
+      {isSpicy
+        ? <p className="text-xs text-zinc-500">Customers always pick one spicy level.</p>
+        : <SelectStyle value={mode} onChange={onModeChange} />}
       <div className="flex gap-2">
         <ExtraNameInput
           value={input.name}
@@ -438,42 +530,71 @@ function PricedSection({ title, hint, placeholder, items, onChange, soldOut, onT
           suggestions={suggestions}
           placeholder={placeholder}
         />
-        <div className="relative w-24 shrink-0">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none">£</span>
-          <input
-            type="number"
-            step="0.01"
-            min="0"
-            value={input.price}
-            onChange={(e) => setInput((x) => ({ ...x, price: e.target.value }))}
-            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); add() } }}
-            placeholder="0.00"
-            aria-label="Price"
-            className={`w-full pl-7 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none ${TAG_INPUT_CLS}`}
-          />
-        </div>
+        <PriceInput value={input.price} onChange={(v) => setInput((x) => ({ ...x, price: v }))} onEnter={add} />
         <button type="button" onClick={add} aria-label={`Add to ${title}`} className={ADD_BTN_CLS}><Plus className="w-4 h-4" /></button>
       </div>
+      <DetailInputs draft={input} setDraft={setInput} onEnter={add} />
       <DuplicateWarning name={input.name.trim()} labels={warnFor(input.name.trim())} />
       {items.length > 0 && (
         <ul className="divide-y divide-zinc-800 rounded-xl border border-zinc-800 bg-zinc-900/40">
           {items.map((ex) => {
-            const is86 = soldOut.includes(ex.name)
+            const is86 = !isSpicy && soldOut.includes(ex.name)
+            if (editing === ex.name) {
+              return (
+                <li key={ex.name} className="space-y-2 px-3 py-3 bg-zinc-800/40">
+                  <div className="flex gap-2">
+                    <input
+                      value={draft.name}
+                      onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+                      onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); saveEdit() } }}
+                      aria-label="Name"
+                      autoFocus
+                      className={`flex-1 min-w-0 ${TAG_INPUT_CLS}`}
+                    />
+                    <PriceInput value={draft.price} onChange={(v) => setDraft((d) => ({ ...d, price: v }))} onEnter={saveEdit} />
+                  </div>
+                  <DetailInputs draft={draft} setDraft={setDraft} onEnter={saveEdit} />
+                  {editError && <p role="alert" className="text-xs text-red-400">{editError}</p>}
+                  <div className="flex justify-end gap-2">
+                    <button type="button" onClick={() => setEditing(null)} className="h-9 px-3 rounded-lg text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-700 transition-colors">
+                      Cancel
+                    </button>
+                    <button type="button" onClick={saveEdit} className="h-9 px-3 rounded-lg text-xs font-semibold bg-zinc-600 hover:bg-zinc-500 text-white transition-colors">
+                      Save
+                    </button>
+                  </div>
+                </li>
+              )
+            }
             return (
               <li key={ex.name} className="flex items-center gap-3 px-3 py-2">
-                <span className={`flex-1 min-w-0 truncate text-sm ${is86 ? 'text-amber-300 line-through' : 'text-zinc-100'}`}>{ex.name}</span>
+                <button
+                  type="button"
+                  onClick={() => startEdit(ex)}
+                  title="Edit"
+                  className="flex-1 min-w-0 text-left rounded-md -mx-1 px-1 py-0.5 hover:bg-zinc-800 transition-colors"
+                >
+                  <span className="flex items-center gap-2 min-w-0">
+                    <span className={`truncate text-sm ${is86 ? 'text-amber-300 line-through' : 'text-zinc-100'}`}>{ex.name}</span>
+                    {ex.badge && <span className="shrink-0 text-[10px] font-semibold text-zinc-200 bg-zinc-700/70 rounded px-1.5 py-0.5">{ex.badge}</span>}
+                    <Pencil className="shrink-0 w-3 h-3 text-zinc-600" aria-hidden="true" />
+                  </span>
+                  {ex.description && <span className="block truncate text-xs text-zinc-500">{ex.description}</span>}
+                </button>
                 <span className={`text-sm tabular-nums ${is86 ? 'text-amber-500' : ex.price === 0 ? 'text-zinc-500' : 'text-zinc-300'}`}>
                   {ex.price === 0 ? 'Free' : `+£${ex.price.toFixed(2)}`}
                 </span>
-                <button
-                  type="button"
-                  aria-pressed={is86}
-                  title={is86 ? 'Mark available again' : 'Mark sold out (86)'}
-                  onClick={() => onToggle86(ex.name)}
-                  className={`text-[11px] font-semibold px-2 py-1 rounded-md border transition-colors ${is86 ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-zinc-700 text-zinc-400 hover:text-amber-300 hover:border-amber-500/40'}`}
-                >
-                  {is86 ? 'Sold out' : '86'}
-                </button>
+                {!isSpicy && (
+                  <button
+                    type="button"
+                    aria-pressed={is86}
+                    title={is86 ? 'Mark available again' : 'Mark sold out (86)'}
+                    onClick={() => onToggle86(ex.name)}
+                    className={`text-[11px] font-semibold px-2 py-1 rounded-md border transition-colors ${is86 ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-zinc-700 text-zinc-400 hover:text-amber-300 hover:border-amber-500/40'}`}
+                  >
+                    {is86 ? 'Sold out' : '86'}
+                  </button>
+                )}
                 <button type="button" aria-label={`Remove ${ex.name}`} onClick={() => onChange(items.filter((x) => x.name !== ex.name))} className="p-1 rounded-full text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors">
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -511,7 +632,6 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       : { ...EMPTY_FORM, category: categories[0]?.slug ?? '' }
   )
   const [ingredients, setIngredients] = useState<string[]>(() => editingItem?.ingredients ?? [])
-  const [spicyLevels, setSpicyLevels] = useState<string[]>(() => editingItem?.spicy_levels ?? [])
   const [additions, setAdditions] = useState<string[]>(() => editingItem?.additions ?? [])
   const [priced, setPriced] = useState<Record<PricedKey, Extra[]>>(() =>
     Object.fromEntries(PRICED_CATEGORIES.map((c) => [c.key, editingItem?.[c.key] ?? []])) as Record<PricedKey, Extra[]>
@@ -618,7 +738,6 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       // sold_out_extras matches by name against the union of all priced categories
       sold_out_extras: soldOutExtras.filter(n => PRICED_CATEGORIES.some(c => priced[c.key].some(e => e.name === n))),
       additions,
-      spicy_levels: spicyLevels,
       ingredients,
       ...priced,
       modifier_select_modes: modes,
@@ -779,16 +898,6 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                 warnFor={(n) => labelsUsing(n, 'ingredients')}
               />
               <TagSection
-                title="Spicy levels"
-                hint="Heat options customers choose from"
-                placeholder="e.g. Hot"
-                items={spicyLevels}
-                onChange={setSpicyLevels}
-                suggestions={[]}
-                mode={modes.spicy_levels}
-                onModeChange={(m) => setModes((prev) => ({ ...prev, spicy_levels: m }))}
-              />
-              <TagSection
                 title="Add ingredients"
                 hint="Free extras customers can request"
                 placeholder="e.g. Extra Sauce"
@@ -806,10 +915,13 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                   onChange={(next) => setPriced((prev) => ({ ...prev, [c.key]: next }))}
                   soldOut={soldOutExtras}
                   onToggle86={(name) => setSoldOutExtras((prev) => prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name])}
-                  suggestions={suggestions.extras}
+                  // 86 is by name: carry it to the new name. The old name is pruned on save if nothing else uses it.
+                  onRename={(from, to) => setSoldOutExtras((prev) => prev.includes(from) && !prev.includes(to) ? [...prev, to] : prev)}
+                  suggestions={c.key === 'spicy_levels' ? [] : suggestions.extras}
                   mode={modes[c.key]}
                   onModeChange={(m) => setModes((prev) => ({ ...prev, [c.key]: m }))}
                   warnFor={(n) => labelsUsing(n, c.key)}
+                  isSpicy={c.key === 'spicy_levels'}
                 />
               ))}
             </div>
