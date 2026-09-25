@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import { X, Plus, Minus, ShoppingBag, TriangleAlert } from 'lucide-react'
 import type { ProductItem, OrderSelection } from '@/components/ProductModal'
-import { toModifierConfig, unitPrice } from '@/lib/order-modifiers'
+import { toModifierConfig, unitPrice, extraQty, formatExtra } from '@/lib/order-modifiers'
 import ModifierSection from './ModifierSection'
 import ModifierForm, { EMPTY_SELECTION, type ModifierSelection } from './ModifierForm'
 
@@ -53,6 +53,11 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
   const total = unit * qty
   const extrasSum = unit - item.price
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
+
+  const hasSelection =
+    selection.spicy != null || selection.removals.length > 0 || selection.extras.length > 0 ||
+    selection.additions.length > 0 || notes.trim().length > 0
+  const categoryLabel = (key?: string) => config.categories.find((c) => c.key === key)?.label ?? key
 
   const handleAdd = () => {
     onAddToOrder({
@@ -168,6 +173,39 @@ export default function ItemCustomizerDrawer({ item, onClose, onAddToOrder }: Pr
                 className="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-zinc-400 resize-none"
               />
             </ModifierSection>
+
+            {hasSelection && (
+              <ModifierSection title="Your selection" subtitle="What you've chosen for this item">
+                <ul className="space-y-1.5 text-sm">
+                  {selection.spicy && (
+                    <li className="flex justify-between text-zinc-700">
+                      <span>Spicy level: {selection.spicy}</span>
+                    </li>
+                  )}
+                  {selection.removals.map((r) => (
+                    <li key={`removed-${r}`} className="flex justify-between text-zinc-500">
+                      <span className="line-through">{r}</span>
+                      <span>Removed</span>
+                    </li>
+                  ))}
+                  {selection.extras.map((e) => (
+                    <li key={`${e.category}-${e.name}`} className="flex justify-between text-zinc-700">
+                      <span>{formatExtra(e)} <span className="text-zinc-400 text-xs">({categoryLabel(e.category)})</span></span>
+                      <span className="tabular-nums">{e.price > 0 ? `+£${(e.price * extraQty(e)).toFixed(2)}` : 'Free'}</span>
+                    </li>
+                  ))}
+                  {selection.additions.map((a) => (
+                    <li key={`add-${a}`} className="flex justify-between text-zinc-700">
+                      <span>{a}</span>
+                      <span className="text-zinc-400">Free</span>
+                    </li>
+                  ))}
+                  {notes.trim() && (
+                    <li className="text-zinc-500 italic pt-1 border-t border-zinc-100 mt-1">&ldquo;{notes.trim()}&rdquo;</li>
+                  )}
+                </ul>
+              </ModifierSection>
+            )}
           </div>
 
           {/* Sticky footer */}

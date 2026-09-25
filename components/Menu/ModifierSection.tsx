@@ -27,22 +27,22 @@ export function Pill({
         disabled
           ? 'border-zinc-100 opacity-50 cursor-not-allowed'
           : selected
-            ? danger ? 'border-red-200 bg-red-50' : 'border-brand-red bg-brand-red/5'
+            ? danger ? 'border-red-200 bg-red-50' : 'border-brand-yellow bg-brand-yellow/20'
             : 'border-zinc-200 hover:border-zinc-400 active:scale-[0.98]'
       }`}
     >
       <span className="flex items-center gap-1.5">
-        {selected && !danger && <Check size={12} className="text-brand-red shrink-0" />}
+        {selected && !danger && <Check size={12} className="text-brand-dark shrink-0" />}
         <span
           className={`font-semibold text-sm ${
-            disabled ? 'text-zinc-400' : selected ? `text-brand-red${danger ? ' line-through' : ''}` : 'text-zinc-800'
+            disabled ? 'text-zinc-400' : selected ? (danger ? 'text-red-600 line-through' : 'text-brand-dark') : 'text-zinc-800'
           }`}
         >
           {label}
         </span>
       </span>
       {hint && (
-        <span className={`block text-xs mt-0.5 ${disabled ? 'text-zinc-400' : selected && !danger ? 'text-brand-red/70' : 'text-zinc-400'}`}>
+        <span className={`block text-xs mt-0.5 ${disabled ? 'text-zinc-400' : selected && !danger ? 'text-brand-dark/70' : 'text-zinc-400'}`}>
           {hint}
         </span>
       )}
@@ -58,10 +58,12 @@ export default function ModifierSection({
   children: React.ReactNode
 }) {
   return (
-    <section className="px-5 py-4" aria-label={title}>
-      <p className="font-heading font-semibold text-zinc-900 text-sm">{title}</p>
-      {subtitle && <p className="text-xs text-zinc-400 mt-0.5">{subtitle}</p>}
-      <div className="mt-3">{children}</div>
+    <section aria-label={title}>
+      <div className="bg-brand-red px-5 py-2.5">
+        <p className="font-heading font-semibold text-white text-sm">{title}</p>
+        {subtitle && <p className="text-xs text-white/70 mt-0.5">{subtitle}</p>}
+      </div>
+      <div className="px-5 py-4">{children}</div>
     </section>
   )
 }

@@ -25,6 +25,29 @@ describe('extra quantity and pricing', () => {
 })
 
 describe('toModifierConfig', () => {
+  it('orders categories: extra ingredients, drinks, sides, fries, dips, add-ons, other extras', () => {
+    const cfg = toModifierConfig({
+      extra_ingredients: [{ name: 'Extra Cheese', price: 0.5 }],
+      drinks_regular: [{ name: 'Coke', price: 1.5 }],
+      drinks_large: [{ name: 'Large Coke', price: 2 }],
+      sides: [{ name: 'Coleslaw', price: 1 }],
+      fries_regular: [{ name: 'Peri Fries', price: 2 }],
+      fries_large: [{ name: 'Large Peri Fries', price: 3 }],
+      dips: [{ name: 'Mayo', price: 0 }],
+      add_ons: [{ name: 'Bacon', price: 1 }],
+      other_extras: [{ name: 'Cutlery Pack', price: 0 }],
+    })
+    expect(cfg.categories.map((c) => c.key)).toEqual([
+      'extra_ingredients', 'drinks_regular', 'drinks_large', 'sides',
+      'fries_regular', 'fries_large', 'dips', 'add_ons', 'other_extras',
+    ])
+  })
+
+  it('defaults extra_ingredients to multi select mode', () => {
+    const cfg = toModifierConfig({ extra_ingredients: [{ name: 'Extra Cheese', price: 0.5 }] })
+    expect(cfg.categories.find((c) => c.key === 'extra_ingredients')!.mode).toBe('multi')
+  })
+
   it('reads the new columns and merges select modes over the defaults', () => {
     const cfg = toModifierConfig({
       spicy_levels: ['Mild', 'Hot'],

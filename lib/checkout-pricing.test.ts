@@ -6,6 +6,7 @@ const wings: PricingMenuRow = {
   add_ons: [{ name: 'Bacon', price: 1.5 }],
   drinks_regular: [{ name: 'Coke', price: 1.2 }],
   dips: [{ name: 'Mayo', price: 0 }],
+  extra_ingredients: [{ name: 'Extra Cheese', price: 0.75 }],
   extras: [{ name: 'Legacy Cheese', price: 0.5 }],
 }
 const menu = new Map<string, PricingMenuRow>([['wings', wings]])
@@ -56,6 +57,14 @@ describe('priceCartLines', () => {
   it('does not accept an extra under the wrong category', () => {
     const r = priceCartLines([line({ extras: [{ name: 'Coke', price: 1.2, category: 'dips' }] })], menu)
     expect(r.ok).toBe(false)
+  })
+
+  it('prices an extra ingredient from the DB', () => {
+    const r = priceCartLines([line({
+      price: 10.75, totalPrice: 21.5,
+      extras: [{ name: 'Extra Cheese', price: 0.75, category: 'extra_ingredients' }],
+    })], menu)
+    expect(r).toMatchObject({ ok: true, subtotal: 21.5 })
   })
 
   it('requires a menu item that exists', () => {

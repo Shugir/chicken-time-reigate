@@ -457,6 +457,23 @@ describe('POST /api/checkout — customizer selections', () => {
     )
   })
 
+  it('accepts and prices an extra ingredient from menu_items.extra_ingredients', async () => {
+    menuItemRows[0].extra_ingredients = [{ name: 'Extra Cheese', price: 0.75 }]
+    const extras = [{ name: 'Extra Cheese', price: 0.75, category: 'extra_ingredients' }]
+    const items = [{
+      menu_item_id: 'item-1', name: 'Wings', price: 10.75, quantity: 1, totalPrice: 10.75,
+      extras, removals: [],
+    }]
+
+    const res = await POST(new NextRequest('http://localhost/api/checkout', {
+      method: 'POST',
+      body: JSON.stringify({ items, delivery_fee: 3, postcode: 'SW1A 1AA', order_type: 'delivery' }),
+    }))
+
+    expect(res.status).toBe(200)
+    expect(insertedOrderItems).toContainEqual(expect.objectContaining({ extras }))
+  })
+
   it('defaults spicy level to null and additions to empty when absent', async () => {
     const res = await POST(checkoutRequest({}))
 

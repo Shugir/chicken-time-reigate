@@ -5,7 +5,7 @@ import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
 // Categorized modifier columns (see 20260921a_menu_item_modifier_categories.sql)
 const MODIFIER_LISTS = [
   'spicy_levels', 'ingredients', 'add_ons', 'drinks_regular', 'drinks_large',
-  'dips', 'sides', 'fries_regular', 'fries_large', 'other_extras',
+  'dips', 'sides', 'fries_regular', 'fries_large', 'other_extras', 'extra_ingredients',
 ]
 
 export async function GET() {

@@ -4,13 +4,14 @@
 export type SelectMode = 'single' | 'multi'
 
 export const PRICED_CATEGORIES = [
-  { key: 'add_ons', label: 'Add-ons' },
+  { key: 'extra_ingredients', label: 'Extra Ingredients' },
   { key: 'drinks_regular', label: 'Drinks (Regular)' },
   { key: 'drinks_large', label: 'Drinks (Large)' },
-  { key: 'dips', label: 'Dips' },
   { key: 'sides', label: 'Sides' },
   { key: 'fries_regular', label: 'Fries (Regular)' },
   { key: 'fries_large', label: 'Fries (Large)' },
+  { key: 'dips', label: 'Dips' },
+  { key: 'add_ons', label: 'Add-ons' },
   { key: 'other_extras', label: 'Other Extras' },
 ] as const
 
@@ -20,6 +21,7 @@ export type PricedCategoryKey = (typeof PRICED_CATEGORIES)[number]['key']
 export const DEFAULT_SELECT_MODES: Record<string, SelectMode> = {
   spicy_levels: 'single', dips: 'single', fries_regular: 'single', fries_large: 'single',
   add_ons: 'multi', drinks_regular: 'multi', drinks_large: 'multi', sides: 'multi', other_extras: 'multi',
+  extra_ingredients: 'multi',
 }
 
 export interface PricedOption { name: string; price: number }

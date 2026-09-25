@@ -44,6 +44,7 @@ interface MenuItem {
   additions: string[]
   spicy_levels: string[]
   ingredients: string[]
+  extra_ingredients: Extra[]
   add_ons: Extra[]
   drinks_regular: Extra[]
   drinks_large: Extra[]
@@ -264,13 +265,14 @@ function ExtraNameInput({ value, onChange, onEnter, suggestions, placeholder }: 
 type SelectMode = 'single' | 'multi'
 
 const PRICED_CATEGORIES = [
-  { key: 'add_ons', label: 'Add-ons', hint: 'Extras customers can add', placeholder: 'e.g. Bacon' },
+  { key: 'extra_ingredients', label: 'Extra Ingredients', hint: 'Priced ingredients customers can add', placeholder: 'e.g. Extra Cheese' },
   { key: 'drinks_regular', label: 'Drinks (Regular)', hint: 'Regular-size drinks', placeholder: 'e.g. Coke' },
   { key: 'drinks_large', label: 'Drinks (Large)', hint: 'Large-size drinks', placeholder: 'e.g. Large Coke' },
-  { key: 'dips', label: 'Dips', hint: 'Dips and sauces', placeholder: 'e.g. Garlic Mayo' },
   { key: 'sides', label: 'Sides', hint: 'Side dishes', placeholder: 'e.g. Coleslaw' },
   { key: 'fries_regular', label: 'Fries (Regular)', hint: 'Regular-size fries', placeholder: 'e.g. Peri Fries' },
   { key: 'fries_large', label: 'Fries (Large)', hint: 'Large-size fries', placeholder: 'e.g. Large Peri Fries' },
+  { key: 'dips', label: 'Dips', hint: 'Dips and sauces', placeholder: 'e.g. Garlic Mayo' },
+  { key: 'add_ons', label: 'Add-ons', hint: 'Extras customers can add', placeholder: 'e.g. Bacon' },
   { key: 'other_extras', label: 'Other Extras', hint: 'Anything that fits no other category', placeholder: 'e.g. Cutlery Pack' },
 ] as const
 
@@ -280,6 +282,7 @@ type PricedKey = (typeof PRICED_CATEGORIES)[number]['key']
 const DEFAULT_SELECT_MODES: Record<string, SelectMode> = {
   spicy_levels: 'single', dips: 'single', fries_regular: 'single', fries_large: 'single',
   add_ons: 'multi', drinks_regular: 'multi', drinks_large: 'multi', sides: 'multi', other_extras: 'multi',
+  extra_ingredients: 'multi',
 }
 
 const LABEL_CLS = 'block text-xs font-medium text-zinc-400 mb-1.5'
@@ -612,7 +615,7 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       image_url: resolvedImageUrl,
       category: form.category,
       is_available: editingItem ? editingItem.is_available : true,
-      // sold_out_extras matches by name against the union of all 8 priced categories
+      // sold_out_extras matches by name against the union of all priced categories
       sold_out_extras: soldOutExtras.filter(n => PRICED_CATEGORIES.some(c => priced[c.key].some(e => e.name === n))),
       additions,
       spicy_levels: spicyLevels,
