@@ -183,7 +183,17 @@ export function SlotEditor({ index, group, menuItems, categories, onChange, onRe
     <div className={`border border-l-4 rounded-xl p-3 space-y-2 ${tone.box}`}>
       <div className="flex items-center gap-2">
         <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${tone.badge}`}>Slot {index + 1}</span>
-        <span className="text-sm font-semibold text-white truncate">{group.label.trim() || 'Untitled slot'}</span>
+        <span className="min-w-0 flex-1 text-sm font-semibold text-white truncate">{group.label.trim() || 'Untitled slot'}</span>
+        {onRemove && (
+          <button
+            type="button"
+            onClick={onRemove}
+            aria-label={`Remove slot ${index + 1}`}
+            className="shrink-0 h-8 px-3 rounded-lg border border-red-500/40 text-xs font-medium text-red-300 hover:bg-red-500/15 hover:text-red-200 transition-colors"
+          >
+            Remove slot
+          </button>
+        )}
       </div>
       <div className="grid grid-cols-3 gap-2 items-end">
         <div>
@@ -222,10 +232,7 @@ export function SlotEditor({ index, group, menuItems, categories, onChange, onRe
         )}
       </div>
 
-      <div className="flex items-center justify-between">
-        <p className="text-xs text-zinc-400">Items in This Slot ({group.item_ids.length} selected)</p>
-        {onRemove && <button type="button" onClick={onRemove} className="text-xs text-red-400 hover:underline">Remove slot</button>}
-      </div>
+      <p className="text-xs text-zinc-400">Items in This Slot ({group.item_ids.length} selected)</p>
       <div className="flex gap-2">
         <input
           value={search}
