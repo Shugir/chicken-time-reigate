@@ -53,4 +53,11 @@ describe('persisted cart', () => {
     expect(Object.values(cart)).toHaveLength(1)
     expect(Object.values(cart)[0].qty).toBe(3)
   })
+
+  it('blocked storage (every call throws) loads empty and queueing does not throw', () => {
+    const boom = () => { throw new Error('SecurityError') }
+    const s = { getItem: boom, setItem: boom, removeItem: boom }
+    expect(loadCart(s)).toEqual({})
+    expect(() => queueCartLine(s, 'b1', { removals: [], additions: [], extras: [] }, 1)).not.toThrow()
+  })
 })

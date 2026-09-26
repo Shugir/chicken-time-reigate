@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, ShoppingBag, TriangleAlert } from 'lucide-react'
@@ -18,6 +18,8 @@ export default function CustomizeItemPage() {
   const [qty, setQty] = useState(1)
   const [selection, setSelection] = useState<ModifierSelection>(EMPTY_SELECTION)
   const [notes, setNotes] = useState('')
+  // Blocks a second Add tap while navigation is in flight (it would queue the line twice)
+  const adding = useRef(false)
 
   useEffect(() => {
     let cancelled = false
@@ -44,7 +46,7 @@ export default function CustomizeItemPage() {
 
   if (!item) {
     return (
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 animate-pulse" aria-busy="true" aria-label="Loading item">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 animate-pulse" role="status" aria-busy="true" aria-label="Loading item">
         <div className="h-5 w-32 bg-zinc-100 rounded mb-6" />
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-4">
@@ -69,14 +71,21 @@ export default function CustomizeItemPage() {
     selection.additions.length > 0 || notes.trim().length > 0
 
   const handleAdd = () => {
-    queueCartLine(sessionStorage, item.id, {
-      spicy_level: selection.spicy ?? undefined,
-      removals: selection.removals,
-      additions: selection.additions,
-      extras: selection.extras,
-      notes: notes.trim() || undefined,
-    }, qty)
-    router.push('/order')
+    if (adding.current) return
+    adding.current = true
+    try {
+      queueCartLine(sessionStorage, item.id, {
+        spicy_level: selection.spicy ?? undefined,
+        removals: selection.removals,
+        additions: selection.additions,
+        extras: selection.extras,
+        notes: notes.trim() || undefined,
+      }, qty)
+    } catch {
+      // sessionStorage itself throws when site data is blocked: the line can't be queued
+    }
+    // replace, so browser Back from /order doesn't reopen this page
+    router.replace('/order')
   }
 
   const addButton = (
@@ -86,7 +95,8 @@ export default function CustomizeItemPage() {
     >
       <span className="flex items-center gap-2 text-base">
         <ShoppingBag size={18} />
-        Add{qty > 1 ? ` ${qty}×` : ''} to Order
+        {/* Mobile bar shares its row with the qty stepper, so it shows just "Add" */}
+        Add<span className="hidden lg:inline">{qty > 1 ? ` ${qty}×` : ''} to Order</span>
       </span>
       <span className="text-base tabular-nums">£{total.toFixed(2)}</span>
     </button>
@@ -212,8 +222,9 @@ export default function CustomizeItemPage() {
       </div>
 
       {/* Mobile sticky bottom bar */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-zinc-100 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        {addButton}
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-zinc-100 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-3">
+        <QtyStepper value={qty} onChange={setQty} label={item.name} min={1} max={99} />
+        <div className="flex-1 min-w-0">{addButton}</div>
       </div>
     </div>
   )

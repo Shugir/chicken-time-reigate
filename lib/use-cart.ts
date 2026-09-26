@@ -35,7 +35,11 @@ export function loadCart<E extends CartEntryLike>(storage: StorageLike): Record<
       cart[key] = cart[key] ? { ...cart[key], qty: cart[key].qty + entry.qty } : entry
     }
     saveCart(storage, cart)
-    storage.removeItem(PENDING_KEY)
+    try {
+      storage.removeItem(PENDING_KEY)
+    } catch {
+      // blocked storage: nothing to clear
+    }
   }
   return cart
 }
@@ -43,7 +47,11 @@ export function loadCart<E extends CartEntryLike>(storage: StorageLike): Record<
 /** Queue one line for /order to pick up on its next load. */
 export function queueCartLine(storage: StorageLike, itemId: string, entry: LineOptions, qty: number): void {
   const pending = readJson<Record<string, CartEntryLike>>(storage, PENDING_KEY) ?? {}
-  storage.setItem(PENDING_KEY, JSON.stringify(addToLines(pending, itemId, entry, qty)))
+  try {
+    storage.setItem(PENDING_KEY, JSON.stringify(addToLines(pending, itemId, entry, qty)))
+  } catch {
+    // blocked or full storage: the line can't be queued
+  }
 }
 
 /**
@@ -56,12 +64,21 @@ export function useCart<E extends CartEntryLike>() {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    setCart(loadCart<E>(sessionStorage))
+    try {
+      setCart(loadCart<E>(sessionStorage))
+    } catch {
+      // touching sessionStorage throws when site data is blocked: start empty
+    }
     setLoaded(true)
   }, [])
 
   useEffect(() => {
-    if (loaded) saveCart(sessionStorage, cart)
+    if (!loaded) return
+    try {
+      saveCart(sessionStorage, cart)
+    } catch {
+      // blocked storage: the cart still works in memory
+    }
   }, [cart, loaded])
 
   return [cart, setCart] as const
