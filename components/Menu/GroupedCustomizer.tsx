@@ -124,7 +124,7 @@ export default function GroupedCustomizer({ layout, config, value, onChange, not
     const qty = qtyOf(cat.key, opt.name)
     const out = isSoldOut(opt.name)
     // A £0.00 extra ingredient is a free add, not something already in the meal
-    const hint = out ? 'Sold out' : cat.key === 'extra_ingredients' && opt.price === 0 ? 'Free (£0.00)' : priceText(opt.price)
+    const hint = out ? 'Sold out' : cat.key === 'extra_ingredients' && Number(opt.price) === 0 ? 'Free (£0.00)' : priceText(opt.price)
 
     if (cat.mode === 'single' || cat.mode === 'pick') {
       return (

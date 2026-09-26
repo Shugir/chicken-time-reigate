@@ -633,10 +633,20 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       : { ...EMPTY_FORM, category: categories[0]?.slug ?? '' }
   )
   const [ingredients, setIngredients] = useState<string[]>(() => editingItem?.ingredients ?? [])
-  const [priced, setPriced] = useState<Record<PricedKey, Extra[]>>(() =>
-    Object.fromEntries(PRICED_CATEGORIES.map((c) => [c.key, editingItem?.[c.key] ?? []])) as Record<PricedKey, Extra[]>
-  )
-  const [modes, setModes] = useState<Record<string, SelectMode>>(() => ({ ...DEFAULT_SELECT_MODES, ...editingItem?.modifier_select_modes }))
+  const [priced, setPriced] = useState<Record<PricedKey, Extra[]>>(() => {
+    const init = Object.fromEntries(PRICED_CATEGORIES.map((c) => [c.key, editingItem?.[c.key] ?? []])) as Record<PricedKey, Extra[]>
+    // Legacy free "additions" (the old separate list) join Extra Ingredients at £0.00, so saving
+    // this item (which clears additions) never drops an extra customers could still pick.
+    const legacy = (editingItem?.additions ?? []).filter((n) => !init.extra_ingredients.some((e) => e.name === n))
+    if (legacy.length) init.extra_ingredients = [...init.extra_ingredients, ...legacy.map((name) => ({ name, price: 0 }))]
+    return init
+  })
+  const [modes, setModes] = useState<Record<string, SelectMode>>(() => ({
+    ...DEFAULT_SELECT_MODES,
+    ...editingItem?.modifier_select_modes,
+    // Only legacy free additions became Extra Ingredients: keep their tick-once behaviour (as migration 20260926e does)
+    ...(editingItem?.additions?.length && !editingItem.extra_ingredients?.length ? { extra_ingredients: 'pick' as const } : {}),
+  }))
   const [soldOutExtras, setSoldOutExtras] = useState<string[]>(() => editingItem?.sold_out_extras ?? [])
   const [dietaryFlags, setDietaryFlags] = useState<string[]>(() => editingItem?.dietary_flags ?? [])
   const [allergens, setAllergens] = useState<string[]>(() => editingItem?.allergens ?? [])
