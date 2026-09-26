@@ -1,6 +1,6 @@
 'use client'
 
-import { useId } from 'react'
+import { Fragment, useId, type ReactNode } from 'react'
 import { Check } from 'lucide-react'
 import type { ModifierCategory, ModifierConfig, PricedOption } from '@/lib/order-modifiers'
 import {
@@ -67,7 +67,7 @@ function CardBody({ opt, hint, hintClass = 'text-zinc-500', nameClass = 'text-br
   )
 }
 
-function GroupHeader({ number, title, subtitle, titleId, right }: {
+export function GroupHeader({ number, title, subtitle, titleId, right }: {
   number: string
   title: string
   subtitle: string
@@ -91,12 +91,16 @@ function GroupHeader({ number, title, subtitle, titleId, right }: {
   )
 }
 
-/**
- * The full-page customizer's option groups (Stitch "Complete Customizer" 01–08) plus the
- * Special Instructions card. Selection rules match ModifierForm exactly.
- */
-export default function GroupedCustomizer({ layout, config, value, onChange, notes, onNotesChange, soldOut }: Props) {
-  const uid = useId()
+type SectionsProps = Pick<Props, 'layout' | 'config' | 'value' | 'onChange' | 'soldOut'> & {
+  /**
+   * Wraps each group's body (GroupedCustomizer's numbered cards). Without it the sections
+   * render bare, every one under its #626262 bar, titled without numbers (the meal deal page).
+   */
+  renderGroup?: (group: LayoutGroup, body: ReactNode) => ReactNode
+}
+
+/** One item's option sections: #626262 sub-section bars and option cards. Selection rules match ModifierForm. */
+export function ItemOptionSections({ layout, config, value, onChange, soldOut, renderGroup }: SectionsProps) {
   const isSoldOut = (name: string) => soldOut?.includes(name) ?? false
   const patch = (next: Partial<ModifierSelection>) => onChange({ ...value, ...next })
 
@@ -258,45 +262,69 @@ export default function GroupedCustomizer({ layout, config, value, onChange, not
     )
   }
 
+  const sections = (group: LayoutGroup, bars: boolean, numbered: boolean) =>
+    group.sections.map((s) => (
+      <div key={s.key} className="space-y-2">
+        {/* #626262 bar: white 6.1:1, white/90 hint 5.3:1 (brand red would be 1.3:1 here) */}
+        {bars && (
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-[#626262] rounded-lg px-3 py-2">
+            <h3 className="text-xs font-bold tracking-wide uppercase text-white">
+              {numbered ? `${s.number} ${s.title}` : s.title}
+            </h3>
+            {s.hint && <span className="text-xs text-white/90">{s.hint}</span>}
+          </div>
+        )}
+        {options(s)}
+      </div>
+    ))
+
+  if (renderGroup) {
+    return layout.map((group) => (
+      <Fragment key={group.key}>
+        {renderGroup(group, <div className="p-3 sm:p-5 space-y-4">{sections(group, !group.flat, true)}</div>)}
+      </Fragment>
+    ))
+  }
+  return <div className="space-y-4">{layout.map((group) => <Fragment key={group.key}>{sections(group, true, false)}</Fragment>)}</div>
+}
+
+/**
+ * The full-page customizer's option groups (Stitch "Complete Customizer" 01–08) plus the
+ * Special Instructions card. Selection rules match ModifierForm exactly.
+ */
+export default function GroupedCustomizer({ layout, config, value, onChange, notes, onNotesChange, soldOut }: Props) {
+  const uid = useId()
   const notesId = `${uid}-notes`
 
   return (
     <div className="space-y-6">
-      {layout.map((group) => {
-        const titleId = `${uid}-${group.key}`
-        const count = groupSelectedCount(group, value)
-        return (
-          <section key={group.key} aria-labelledby={titleId} className="bg-white rounded-2xl border border-zinc-100">
-            <GroupHeader
-              number={group.number}
-              title={group.title}
-              subtitle={group.subtitle}
-              titleId={titleId}
-              right={count > 0 && (
-                <span className="shrink-0 rounded-full px-2.5 py-1 bg-brand-red text-white text-xs font-bold">
-                  {count} Selected
-                </span>
-              )}
-            />
-            <div className="p-3 sm:p-5 space-y-4">
-              {group.sections.map((s) => (
-                <div key={s.key} className="space-y-2">
-                  {/* #626262 bar: white 6.1:1, white/90 hint 5.3:1 (brand red would be 1.3:1 here) */}
-                  {!group.flat && (
-                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-[#626262] rounded-lg px-3 py-2">
-                      <h3 className="text-xs font-bold tracking-wide uppercase text-white">
-                        {s.number} {s.title}
-                      </h3>
-                      {s.hint && <span className="text-xs text-white/90">{s.hint}</span>}
-                    </div>
-                  )}
-                  {options(s)}
-                </div>
-              ))}
-            </div>
-          </section>
-        )
-      })}
+      <ItemOptionSections
+        layout={layout}
+        config={config}
+        value={value}
+        onChange={onChange}
+        soldOut={soldOut}
+        renderGroup={(group, body) => {
+          const titleId = `${uid}-${group.key}`
+          const count = groupSelectedCount(group, value)
+          return (
+            <section aria-labelledby={titleId} className="bg-white rounded-2xl border border-zinc-100">
+              <GroupHeader
+                number={group.number}
+                title={group.title}
+                subtitle={group.subtitle}
+                titleId={titleId}
+                right={count > 0 && (
+                  <span className="shrink-0 rounded-full px-2.5 py-1 bg-brand-red text-white text-xs font-bold">
+                    {count} Selected
+                  </span>
+                )}
+              />
+              {body}
+            </section>
+          )
+        }}
+      />
 
       <section aria-labelledby={notesId} className="bg-white rounded-2xl border border-zinc-100">
         <GroupHeader

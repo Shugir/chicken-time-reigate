@@ -187,7 +187,7 @@ function evaluateItemDeal(deal: Deal, available: Unit[]): { savings: number; con
       // Consume exactly min_qty, never up to max_qty: price is fixed per
       // bundle regardless of quantity consumed within range, so consuming
       // more would strictly increase savings with no ceiling — max_qty is
-      // a DealSlotPicker-only UX constraint, not something the automatic
+      // a meal-deal-page-only UX constraint, not something the automatic
       // matcher should reward.
       const picked = pool.slice(0, group.min_qty)
       picked.forEach((u) => { consume.push(u); sum += u.price })

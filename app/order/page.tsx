@@ -15,12 +15,11 @@ import {
   Search,
   SlidersHorizontal,
 } from 'lucide-react'
-import { ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
-import DealSlotPicker from '@/components/Deals/DealSlotPicker'
+import { ProductModal, AddOn } from '../../components/ProductModal'
 import ScrollToTop from '@/components/UI/ScrollToTop'
-import { inSlot } from '@/lib/deal-engine'
+import { bundlesContaining, cardDealLabel, type BundleDeal } from '@/lib/deal-page'
 import { addToLines, changeLineQty, itemIdOfKey, itemQty, removeOneFromItem } from '@/lib/cart-lines'
-import { formatExtra, hasNoCustomization, type ModifierConfig } from '@/lib/order-modifiers'
+import { formatExtra, hasNoCustomization } from '@/lib/order-modifiers'
 import { dbToMenuItem, FALLBACK_IMG, itemConfig, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
 import { useCart } from '@/lib/use-cart'
 
@@ -35,29 +34,6 @@ interface DbCategory {
 }
 
 interface ActiveDeal { id: string; type: string; name: string; config: any }
-
-interface BundleDeal {
-  id: string
-  name: string
-  config: {
-    groups: { label: string; min_qty: number; max_qty: number; item_ids?: string[]; category?: string }[]
-    price: number
-    price_type?: 'fixed' | 'percent'
-    discount_percent?: number
-  }
-}
-
-interface SlotItem {
-  id: string
-  name: string
-  price: number
-  image_url: string | null
-  category: string
-  extras: AddOn[] | null
-  removals: string[] | null
-  additions: string[] | null
-  modifiers?: ModifierConfig
-}
 
 
 const MENU_ITEMS: MenuItem[] = [
@@ -708,7 +684,6 @@ export default function OrderPage() {
   const [cartOpen, setCartOpen] = useState(false)
   const [categories, setCategories] = useState<DbCategory[]>([])
   const [activeCategory, setActive] = useState<string>('')
-  const [dealPickerFor, setDealPickerFor] = useState<{ deal: BundleDeal; itemsById: Map<string, SlotItem> } | null>(null)
   const [activeDeals, setActiveDeals] = useState<ActiveDeal[]>([])
   const [activeBundles, setActiveBundles] = useState<BundleDeal[]>([])
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MENU_ITEMS)
@@ -783,27 +758,22 @@ export default function OrderPage() {
       .then((r) => r.json())
       .then((deals: ActiveDeal[]) => {
         setActiveDeals(deals)
-        setActiveBundles(deals.filter((d) => d.type === 'bundle'))
+        setActiveBundles(deals.filter((d): d is BundleDeal => d.type === 'bundle'))
       })
       .catch(() => {})
   }, [])
 
-  const bundleFor = useMemo(() => {
-    return (item: MenuItem): BundleDeal | undefined =>
-      activeBundles.find((b) => b.config.groups.some((g) => inSlot({ item_ids: g.item_ids ?? [], category: g.category }, item)))
+  const bundlesFor = useMemo(() => {
+    return (item: MenuItem): BundleDeal[] => bundlesContaining(activeBundles, item)
   }, [activeBundles])
 
   const mealFromPriceFor = useMemo(() => {
-    return (item: MenuItem): string | null => {
-      const cfg = bundleFor(item)?.config
-      if (!cfg) return null
-      return cfg.price_type === 'percent' ? `${cfg.discount_percent}% off` : `£${cfg.price.toFixed(2)}`
-    }
-  }, [bundleFor])
+    return (item: MenuItem): string | null => cardDealLabel(bundlesFor(item))
+  }, [bundlesFor])
 
   const anyDealFor = useMemo(() => {
     return (item: MenuItem): boolean => {
-      if (bundleFor(item)) return true
+      if (bundlesFor(item).length > 0) return true
       return activeDeals.some((d) => {
         if (d.type === 'bogo') {
           const buyMatch = d.config.buy.item_ids?.includes(item.id) || d.config.buy.category === item.category
@@ -816,7 +786,7 @@ export default function OrderPage() {
         return false
       })
     }
-  }, [bundleFor, activeDeals])
+  }, [bundlesFor, activeDeals])
 
   const { dietaryFlags: availableDietaryFlags, allergens: availableAllergens } = useMemo(
     () => getUniqueTags(menuItems),
@@ -848,14 +818,10 @@ export default function OrderPage() {
   const count = cartCount(cart)
   const total = cartTotal(cart, menuItems)
 
-  function openDealPicker(item: MenuItem) {
-    const bundle = bundleFor(item)
-    if (!bundle) return
-    const itemsById = new Map<string, SlotItem>(menuItems.filter((m) => m.is_available !== false).map((m) => [m.id, {
-      id: m.id, name: m.name, price: m.price, image_url: m.image, category: m.category,
-      extras: m.add_ons, removals: m.removables, additions: m.additions ?? null, modifiers: m.modifiers,
-    }]))
-    setDealPickerFor({ deal: bundle, itemsById })
+  // The meal deal page, with this item locked in its slot of the first deal that has it
+  function openDealPage(item: MenuItem) {
+    const bundle = bundlesFor(item)[0]
+    if (bundle) router.push(`/order/deal/${bundle.id}?item=${item.id}`)
   }
 
   // Card plus/minus act on the item's plain line; the drawer acts on a specific line key.
@@ -875,16 +841,6 @@ export default function OrderPage() {
   }
   function removeLine(key: string) {
     setCart((p) => changeLineQty(p, key, -1))
-  }
-  // Still used by DealSlotPicker's onComplete to add picked/upgraded deal items to the cart.
-  function handleAddToOrder(selection: OrderSelection) {
-    setCart((p) => addToLines(p, selection.item.id, {
-      spicy_level: selection.spicy_level,
-      removals: selection.removals,
-      additions: selection.additions ?? [],
-      extras: selection.extras,
-      notes: selection.notes || undefined,
-    }, selection.quantity))
   }
   function scrollTo(id: string) {
     setActive(id)
@@ -1126,7 +1082,7 @@ export default function OrderPage() {
                   <MenuCard
                     key={item.id} item={item} qty={itemQty(cart, item.id)}
                     onOpenDrawer={() => openItem(item)}
-                    onOpenDealPicker={() => openDealPicker(item)}
+                    onOpenDealPicker={() => openDealPage(item)}
                     mealFromPrice={mealFromPriceFor(item)}
                     hasDeal={anyDealFor(item)}
                     onAdd={() => addToCart(item.id)}
@@ -1166,7 +1122,7 @@ export default function OrderPage() {
                         <MenuCard
                           key={item.id} item={item} qty={itemQty(cart, item.id)}
                           onOpenDrawer={() => openItem(item)}
-                          onOpenDealPicker={() => openDealPicker(item)}
+                          onOpenDealPicker={() => openDealPage(item)}
                           mealFromPrice={mealFromPriceFor(item)}
                           hasDeal={anyDealFor(item)}
                           onAdd={() => addToCart(item.id)}
@@ -1210,45 +1166,6 @@ export default function OrderPage() {
           onClose={() => setCartOpen(false)}
           onAdd={addLine} onRemove={removeLine}
           fulfillmentMode={fulfillmentMode}
-        />
-      )}
-
-      {dealPickerFor && (
-        <DealSlotPicker
-          deal={dealPickerFor.deal}
-          itemsById={dealPickerFor.itemsById}
-          onClose={() => setDealPickerFor(null)}
-          onComplete={(picks, upgrades) => {
-            for (const pick of picks) {
-              const item = menuItems.find((m) => m.id === pick.item_id)
-              if (!item) continue
-              handleAddToOrder({
-                item,
-                quantity: pick.qty,
-                spicy_level: pick.spicy_level,
-                removals: pick.removals,
-                additions: pick.additions,
-                extras: pick.extras,
-                notes: (pick.notes ?? '').trim(),
-                totalPrice: lineUnitPrice(item, pick) * pick.qty,
-              })
-            }
-            // Upgrades are ordinary menu items at their normal price.
-            for (const up of upgrades) {
-              const item = menuItems.find((m) => m.id === up.item_id)
-              if (!item) continue
-              handleAddToOrder({
-                item,
-                quantity: up.qty,
-                removals: [],
-                additions: [],
-                extras: [],
-                notes: '',
-                totalPrice: item.price * up.qty,
-              })
-            }
-            setDealPickerFor(null)
-          }}
         />
       )}
 
