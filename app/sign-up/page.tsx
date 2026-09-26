@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { withNext } from '@/lib/safe-next'
 import { supabase } from '@/lib/supabase-browser'
 import { Mail, Lock, Eye, EyeOff, User, ChevronRight, ArrowLeft, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
@@ -9,6 +11,7 @@ import toast from 'react-hot-toast'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
 export default function SignUpPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword]           = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [name, setName]                           = useState('')
@@ -28,10 +31,16 @@ export default function SignUpPage() {
       return
     }
     setLoading(true)
+    // When sign-up started from a page like the customizer, the confirmation email
+    // lands on sign-in with that page as `next`. Without one, Supabase's Site URL applies as before.
+    const signInAfter = withNext('/sign-in', window.location.search)
     const { error: authError } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: name.trim() || null } },
+      options: {
+        data: { full_name: name.trim() || null },
+        ...(signInAfter !== '/sign-in' && { emailRedirectTo: `${window.location.origin}${signInAfter}` }),
+      },
     })
     if (authError) {
       setError(authError.message)
@@ -48,7 +57,7 @@ export default function SignUpPage() {
     setError(null)
     await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: `${window.location.origin}${withNext('/auth/callback', window.location.search)}` },
     })
   }
 
@@ -63,7 +72,11 @@ export default function SignUpPage() {
             <span className="font-semibold text-brand-dark dark:text-white">{email}</span>.
             Click it to activate your account.
           </p>
-          <Link href="/sign-in" className="text-sm text-brand-red dark:text-red-400 font-bold hover:underline">
+          <Link
+            href="/sign-in"
+            onClick={(e) => { e.preventDefault(); router.push(withNext('/sign-in', window.location.search)) }}
+            className="text-sm text-brand-red dark:text-red-400 font-bold hover:underline"
+          >
             Back to Sign In
           </Link>
         </div>
@@ -322,7 +335,11 @@ export default function SignUpPage() {
 
           <p className="text-center text-sm text-gray-500 dark:text-zinc-500 mt-6">
             Already have an account?{' '}
-            <Link href="/sign-in" className="text-brand-red dark:text-red-400 font-bold hover:underline">
+            <Link
+              href="/sign-in"
+              onClick={(e) => { e.preventDefault(); router.push(withNext('/sign-in', window.location.search)) }}
+              className="text-brand-red dark:text-red-400 font-bold hover:underline"
+            >
               Sign in
             </Link>
           </p>

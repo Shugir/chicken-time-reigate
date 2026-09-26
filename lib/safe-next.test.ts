@@ -1,5 +1,17 @@
 import { describe, it, expect } from 'vitest'
-import { safeNextPath } from './safe-next'
+import { safeNextPath, withNext } from './safe-next'
+
+describe('withNext', () => {
+  it('carries a safe next param over to another path', () => {
+    expect(withNext('/sign-up', '?next=%2Forder%2Fcustomize%2Fabc')).toBe('/sign-up?next=%2Forder%2Fcustomize%2Fabc')
+  })
+
+  it('drops a missing or unsafe next', () => {
+    expect(withNext('/sign-up', '')).toBe('/sign-up')
+    expect(withNext('/sign-up', '?next=%2F%2Fevil.com')).toBe('/sign-up')
+    expect(withNext('/auth/callback', '?next=https%3A%2F%2Fevil.com')).toBe('/auth/callback')
+  })
+})
 
 describe('safeNextPath', () => {
   it('accepts a same-origin relative path', () => {

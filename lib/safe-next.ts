@@ -9,3 +9,9 @@ export function safeNextPath(next: string | null | undefined): string | null {
   if (/[\u0000-\u001f\u007f]/.test(next)) return null
   return next
 }
+
+/** `path` with the safe `next` from a query string (e.g. `window.location.search`) carried over, else `path` alone. */
+export function withNext(path: string, search: string): string {
+  const next = safeNextPath(new URLSearchParams(search).get('next'))
+  return next ? `${path}?next=${encodeURIComponent(next)}` : path
+}

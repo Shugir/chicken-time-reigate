@@ -8,7 +8,7 @@ import { Mail, Lock, Eye, EyeOff, ChevronRight, ArrowLeft, Loader2, AlertCircle 
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { ThemeToggle } from '@/components/ThemeToggle'
-import { safeNextPath } from '@/lib/safe-next'
+import { safeNextPath, withNext } from '@/lib/safe-next'
 
 // Read in event handlers only (never during render), so no useSearchParams/Suspense boundary is needed
 const nextPath = () => safeNextPath(new URLSearchParams(window.location.search).get('next'))
@@ -50,12 +50,9 @@ export default function SignInPage() {
   async function handleOAuth(provider: 'google' | 'facebook') {
     setOauthLoading(provider)
     setError(null)
-    const next = nextPath()
     await supabase.auth.signInWithOAuth({
       provider,
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback${next ? `?next=${encodeURIComponent(next)}` : ''}`,
-      },
+      options: { redirectTo: `${window.location.origin}${withNext('/auth/callback', window.location.search)}` },
     })
   }
 
@@ -269,7 +266,11 @@ export default function SignInPage() {
 
           <p className="text-center text-sm text-gray-500 dark:text-zinc-500 mt-6">
             Don&apos;t have an account?{' '}
-            <Link href="/sign-up" className="text-brand-red dark:text-red-400 font-bold hover:underline">
+            <Link
+              href="/sign-up"
+              onClick={(e) => { e.preventDefault(); router.push(withNext('/sign-up', window.location.search)) }}
+              className="text-brand-red dark:text-red-400 font-bold hover:underline"
+            >
               Sign up free
             </Link>
           </p>
