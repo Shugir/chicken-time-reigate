@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -43,12 +43,15 @@ function Breadcrumb({ current, onNavigate }: { current: string; onNavigate?: (e:
   )
 }
 
-function Card({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
+function Card({ title, subtitle, action, children }: { title: string; subtitle?: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
     <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 sm:p-6 space-y-4">
-      <div>
-        <h2 className="text-base font-semibold text-white">{title}</h2>
-        {subtitle && <p className="text-sm text-zinc-400">{subtitle}</p>}
+      <div className="flex flex-wrap items-start gap-3">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-base font-semibold text-white">{title}</h2>
+          {subtitle && <p className="text-sm text-zinc-400">{subtitle}</p>}
+        </div>
+        {action}
       </div>
       {children}
     </section>
@@ -180,6 +183,31 @@ function DealForm({ initial, isEdit, menuItems, categories }: {
       return next
     })
   }
+
+  // Slots carry long item lists, so a new slot is scrolled into view with its label focused.
+  const slotsRef = useRef<HTMLDivElement>(null)
+  const slotAdded = useRef(false)
+  const slotCount = config.groups?.length ?? 0
+  useEffect(() => {
+    if (!slotAdded.current) return
+    slotAdded.current = false
+    const last = slotsRef.current?.lastElementChild as HTMLElement | null
+    last?.scrollIntoView({ block: 'center' })
+    last?.querySelector('input')?.focus({ preventScroll: true })
+  }, [slotCount])
+  function addSlot() {
+    slotAdded.current = true
+    set(['groups'], [...config.groups, { label: '', min_qty: 1, max_qty: 1, item_ids: [] }])
+  }
+  const addSlotButton = (tone: string) => (
+    <button
+      type="button"
+      onClick={addSlot}
+      className={`h-11 px-4 inline-flex items-center gap-2 rounded-xl border text-sm font-medium hover:text-white hover:border-zinc-500 transition-colors ${tone} ${FOCUS_RING}`}
+    >
+      <Plus className="w-4 h-4" aria-hidden="true" /> Add slot
+    </button>
+  )
 
   const bogoMissingItems = type === 'bogo' && (
     bogoSideItemIds(config.buy, menuItems).length === 0 || bogoSideItemIds(config.get, menuItems).length === 0
@@ -383,24 +411,25 @@ function DealForm({ initial, isEdit, menuItems, categories }: {
                 )}
               </div>
             </Card>
-            <Card title="Slots" subtitle="Each slot is one choice the customer makes, e.g. Main, Side, Drink.">
-              {config.groups.map((g: Slot, i: number) => (
-                <SlotEditor
-                  key={i}
-                  group={normalizeSlot(g)}
-                  menuItems={menuItems}
-                  categories={categories}
-                  onChange={(next) => set(['groups', i], next)}
-                  onRemove={config.groups.length > 1 ? () => set(['groups'], config.groups.filter((_: Slot, gi: number) => gi !== i)) : undefined}
-                />
-              ))}
-              <button
-                type="button"
-                onClick={() => set(['groups'], [...config.groups, { label: '', min_qty: 1, max_qty: 1, item_ids: [] }])}
-                className={`h-11 px-4 inline-flex items-center gap-2 rounded-xl border border-dashed border-zinc-700 text-sm font-medium text-zinc-300 hover:text-white hover:border-zinc-500 transition-colors ${FOCUS_RING}`}
-              >
-                <Plus className="w-4 h-4" aria-hidden="true" /> Add slot
-              </button>
+            <Card
+              title={`Slots (${config.groups.length})`}
+              subtitle="Each slot is one choice the customer makes, e.g. Main, Side, Drink."
+              action={addSlotButton('bg-zinc-800 border-zinc-600 text-white')}
+            >
+              <div ref={slotsRef} className="space-y-4">
+                {config.groups.map((g: Slot, i: number) => (
+                  <div key={i} data-slot>
+                    <SlotEditor
+                      group={normalizeSlot(g)}
+                      menuItems={menuItems}
+                      categories={categories}
+                      onChange={(next) => set(['groups', i], next)}
+                      onRemove={config.groups.length > 1 ? () => set(['groups'], config.groups.filter((_: Slot, gi: number) => gi !== i)) : undefined}
+                    />
+                  </div>
+                ))}
+              </div>
+              {addSlotButton('border-dashed border-zinc-700 text-zinc-300')}
             </Card>
             <Card title="Upgrades (optional)" subtitle="Paid add-ons offered on the meal deal page at their normal price.">
               <div>
