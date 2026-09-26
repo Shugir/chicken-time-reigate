@@ -37,184 +37,6 @@ interface DbCategory {
 interface ActiveDeal { id: string; type: string; name: string; config: any }
 
 
-const MENU_ITEMS: MenuItem[] = [
-  {
-    id: 'deal1', category: 'deals', emoji: '🎉', badge: 'Deal',
-    name: 'Burger Meal Deal', price: 12.99,
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80',
-    description: 'Classic Chicken Burger + Crinkle Cut Fries + any drink',
-    allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya'],
-    removables: [],
-    add_ons: [{ name: 'Upgrade to Loaded Fries', price: 2.00 }],
-  },
-  {
-    id: 'deal2', category: 'deals', emoji: '🍗', badge: 'Deal',
-    name: 'Wing Box Deal', price: 15.99,
-    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=500&q=80',
-    description: '8pc Korean Glaze Wings + Loaded Fries + any drink',
-    allergens: ['Sesame', 'Soya', 'Eggs', 'Gluten', 'Dairy'],
-    removables: [],
-    add_ons: [],
-  },
-  {
-    id: 'deal3', category: 'deals', emoji: '👨‍👩‍👧', badge: 'Deal',
-    name: 'Family Feast', price: 29.99,
-    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80',
-    description: '2 Burgers + 8pc Wings + 2 Loaded Fries + 4 Drinks',
-    allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Sesame'],
-    removables: [],
-    add_ons: [],
-  },
-  {
-    id: 'b1', category: 'burgers', emoji: '🍔',
-    name: 'Classic Chicken Burger', price: 8.99,
-    image: 'https://images.unsplash.com/photo-1586816001966-79b736744398?w=500&q=80',
-    description: 'Crispy fried chicken breast, lettuce, tomato, mayo on a brioche bun',
-    allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Sesame'],
-    removables: ['No Lettuce', 'No Tomato', 'No Mayo'],
-    add_ons: [{ name: 'Add Cheese', price: 0.75 }, { name: 'Add Bacon', price: 1.50 }],
-  },
-  {
-    id: 'b2', category: 'burgers', emoji: '🍔', badge: 'Hot',
-    name: 'Spicy Double Stack', price: 11.49,
-    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&q=80',
-    description: 'Two spicy crispy fillets, jalapeños, pepper jack, chipotle sauce',
-    allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Mustard'],
-    removables: ['No Jalapeños', 'No Cheese', 'No Chipotle Sauce'],
-    add_ons: [{ name: 'Extra Patty', price: 2.50 }, { name: 'Add Bacon', price: 1.50 }],
-  },
-  {
-    id: 'b3', category: 'burgers', emoji: '🍔',
-    name: 'BBQ Crunch Burger', price: 10.49,
-    image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500&q=80',
-    description: 'Crispy chicken thigh, streaky bacon, BBQ sauce, crispy onions',
-    allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Celery', 'Mustard'],
-    removables: ['No Bacon', 'No BBQ Sauce', 'No Crispy Onions'],
-    add_ons: [{ name: 'Add Cheese', price: 0.75 }, { name: 'Extra Patty', price: 2.50 }],
-  },
-  {
-    id: 'b4', category: 'burgers', emoji: '🍔', badge: 'New',
-    name: 'Zinger Deluxe', price: 9.99,
-    image: 'https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=500&q=80',
-    description: 'Spiced crispy fillet, caramelised onions, gherkins, garlic aioli',
-    allergens: ['Gluten', 'Dairy', 'Eggs', 'Soya', 'Mustard'],
-    removables: ['No Gherkins', 'No Caramelised Onions', 'No Garlic Aioli'],
-    add_ons: [{ name: 'Add Cheese', price: 0.75 }, { name: 'Add Bacon', price: 1.50 }],
-  },
-  {
-    id: 'w1', category: 'chicken', emoji: '🍗',
-    name: 'Buffalo Wings (6pc)', price: 7.99,
-    image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500&q=80',
-    description: 'Classic buffalo sauce, blue cheese dip, celery sticks',
-    allergens: ['Dairy', 'Eggs', 'Celery', 'Mustard'],
-    removables: ['No Blue Cheese Dip', 'No Celery Sticks'],
-    add_ons: [{ name: 'Extra Dip', price: 0.75 }, { name: 'Extra Wings +2pc', price: 2.50 }],
-  },
-  {
-    id: 'w2', category: 'chicken', emoji: '🍗', badge: 'Popular',
-    name: 'Korean Glaze Wings (8pc)', price: 10.99,
-    image: 'https://images.unsplash.com/photo-1606728035253-49e8a23146de?w=500&q=80',
-    description: 'Gochujang & honey glaze, sesame, spring onion',
-    allergens: ['Sesame', 'Soya', 'Eggs'],
-    removables: ['No Spring Onion', 'No Sesame'],
-    add_ons: [{ name: 'Extra Dip', price: 0.75 }, { name: 'Extra Wings +2pc', price: 2.50 }],
-  },
-  {
-    id: 'w3', category: 'chicken', emoji: '🍗',
-    name: 'Honey Garlic Wings (6pc)', price: 8.49,
-    image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=500&q=80',
-    description: 'Sweet honey garlic sauce, toasted sesame seeds',
-    allergens: ['Sesame', 'Soya', 'Eggs'],
-    removables: ['No Sesame', 'No Garlic Sauce'],
-    add_ons: [{ name: 'Extra Dip', price: 0.75 }, { name: 'Extra Wings +2pc', price: 2.50 }],
-  },
-  {
-    id: 'w4', category: 'chicken', emoji: '🍗',
-    name: 'Naked Wings (10pc)', price: 11.99,
-    image: 'https://images.unsplash.com/photo-1598514982901-3daa2a0a7d49?w=500&q=80',
-    description: 'Plain crispy wings with your choice of dipping sauce',
-    allergens: ['Eggs', 'Soya'],
-    removables: [],
-    add_ons: [
-      { name: 'Add Buffalo Dip', price: 0.75 },
-      { name: 'Add Blue Cheese Dip', price: 0.75 },
-      { name: 'Extra Wings +2pc', price: 2.50 },
-    ],
-  },
-  {
-    id: 's1', category: 'sides', emoji: '🍟',
-    name: 'Crinkle Cut Fries', price: 3.49,
-    image: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&q=80',
-    description: 'Seasoned crinkle cut fries, sea salt',
-    allergens: ['Gluten'],
-    removables: [],
-    add_ons: [{ name: 'Add Cheese Sauce', price: 0.75 }, { name: 'Add Bacon Bits', price: 1.00 }],
-  },
-  {
-    id: 's2', category: 'sides', emoji: '🍟', badge: 'Popular',
-    name: 'Loaded Fries', price: 5.49,
-    image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=500&q=80',
-    description: 'Fries topped with cheese sauce, bacon bits, spring onion',
-    allergens: ['Gluten', 'Dairy', 'Eggs'],
-    removables: ['No Bacon Bits', 'No Spring Onion', 'No Cheese Sauce'],
-    add_ons: [{ name: 'Extra Cheese Sauce', price: 0.75 }],
-  },
-  {
-    id: 's3', category: 'sides', emoji: '🥗',
-    name: 'Creamy Coleslaw', price: 2.99,
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&q=80',
-    description: 'House-made coleslaw with apple & caraway',
-    allergens: ['Dairy', 'Eggs', 'Mustard', 'Celery'],
-    removables: [],
-    add_ons: [],
-  },
-  {
-    id: 's4', category: 'sides', emoji: '🌽',
-    name: 'Corn on the Cob', price: 3.99,
-    image: 'https://images.unsplash.com/photo-1601593346740-925612772716?w=500&q=80',
-    description: 'Grilled corn, herb butter, smoked paprika',
-    allergens: ['Dairy'],
-    removables: ['No Butter', 'No Paprika'],
-    add_ons: [{ name: 'Extra Butter', price: 0.50 }],
-  },
-  {
-    id: 'd1', category: 'drinks', emoji: '🥤',
-    name: 'Coca-Cola', price: 2.49,
-    image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&q=80',
-    description: 'Classic Coca-Cola, ice cold (500ml)',
-    allergens: [],
-    removables: ['No Ice'],
-    add_ons: [],
-  },
-  {
-    id: 'd2', category: 'drinks', emoji: '🍋', badge: 'New',
-    name: 'Fresh Lemonade', price: 3.49,
-    image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=500&q=80',
-    description: 'House lemonade with fresh mint (400ml)',
-    allergens: [],
-    removables: ['No Mint'],
-    add_ons: [],
-  },
-  {
-    id: 'd3', category: 'drinks', emoji: '🥛',
-    name: 'Thick Milkshake', price: 4.99,
-    image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&q=80',
-    description: 'Vanilla, Chocolate or Strawberry (400ml)',
-    allergens: ['Dairy', 'Eggs', 'Nuts'],
-    removables: [],
-    add_ons: [],
-  },
-  {
-    id: 'd4', category: 'drinks', emoji: '💧',
-    name: 'Still Water', price: 1.49,
-    image: 'https://images.unsplash.com/photo-1559839914-17aae19cec71?w=500&q=80',
-    description: 'Still mineral water (500ml)',
-    allergens: [],
-    removables: [],
-    add_ons: [],
-  },
-]
-
 const DELIVERY_FEE = 1.99
 
 function getUniqueTags(items: MenuItem[]) {
@@ -694,7 +516,10 @@ export default function OrderPage() {
   const [activeCategory, setActive] = useState<string>('')
   const [activeDeals, setActiveDeals] = useState<ActiveDeal[]>([])
   const [activeBundles, setActiveBundles] = useState<BundleDeal[]>([])
-  const [menuItems, setMenuItems] = useState<MenuItem[]>(MENU_ITEMS)
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+  // The real menu only: no placeholder items flash before it loads or linger if it fails
+  const [menuStatus, setMenuStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [menuAttempt, setMenuAttempt] = useState(0)
   const [storeOpen, setStoreOpen] = useState(true)
   const [closedReason, setClosedReason] = useState<string>('')
   const [closedUntil, setClosedUntil] = useState<string | null>(null)
@@ -756,10 +581,14 @@ export default function OrderPage() {
         return res.json() as Promise<DbMenuItem[]>
       })
       .then((data) => {
-        if (data.length > 0) setMenuItems(data.map(dbToMenuItem))
+        setMenuItems(data.map(dbToMenuItem))
+        setMenuStatus('ready')
       })
-      .catch((err) => { console.error('Failed to load menu items from database:', err) })
-  }, [])
+      .catch((err) => {
+        console.error('Failed to load menu items from database:', err)
+        setMenuStatus('error')
+      })
+  }, [menuAttempt])
 
   useEffect(() => {
     fetch('/api/deals/active')
@@ -1079,7 +908,31 @@ export default function OrderPage() {
 
         {/* ── Content ── */}
         <main className="pb-28">
-          {isFiltering ? (
+          {menuStatus === 'loading' ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" role="status" aria-label="Loading menu">
+              {Array.from({ length: 8 }, (_, i) => (
+                <div key={i} className="rounded-2xl border border-zinc-100 overflow-hidden animate-pulse">
+                  <div className="aspect-[4/3] bg-zinc-100" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 w-2/3 bg-zinc-100 rounded" />
+                    <div className="h-3 w-full bg-zinc-100 rounded" />
+                    <div className="h-5 w-1/4 bg-zinc-100 rounded mt-3" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : menuStatus === 'error' ? (
+            <div className="flex flex-col items-center justify-center py-28 text-center" role="alert">
+              <p className="font-heading font-bold text-base text-zinc-700">We couldn’t load the menu</p>
+              <p className="text-sm text-zinc-500 mt-1">Check your connection and try again.</p>
+              <button
+                onClick={() => { setMenuStatus('loading'); setMenuAttempt((n) => n + 1) }}
+                className="mt-5 min-h-[44px] px-5 rounded-xl bg-brand-red text-white text-sm font-bold hover:bg-red-700 transition-colors"
+              >
+                Try again
+              </button>
+            </div>
+          ) : isFiltering ? (
             displayedItems.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-28 text-center">
                 <Search size={32} strokeWidth={1} className="text-zinc-200 mb-4" />
