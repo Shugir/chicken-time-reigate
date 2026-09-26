@@ -19,7 +19,8 @@ export async function GET(
     .eq('id', id)
     .maybeSingle()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  // 22P02 = invalid input syntax, i.e. the id is not a valid uuid
+  if (error && error.code !== '22P02') return NextResponse.json({ error: error.message }, { status: 500 })
   if (!data) return NextResponse.json({ error: 'Menu item not found' }, { status: 404 })
   return NextResponse.json(data)
 }
@@ -36,15 +37,17 @@ export async function PATCH(
   const { id } = await params
   const input = validateMenuItemInput(await request.json().catch(() => null), { partial: true })
   if (!input.ok) return NextResponse.json({ error: input.error }, { status: 400 })
+  if (Object.keys(input.value).length === 0) return NextResponse.json({ error: 'Nothing to update' }, { status: 400 })
 
   const { data, error } = await supabaseAdmin
     .from('menu_items')
     .update(input.value)
     .eq('id', id)
     .select()
-    .single()
+    .maybeSingle()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!data) return NextResponse.json({ error: 'Menu item not found' }, { status: 404 })
   return NextResponse.json(data)
 }
 

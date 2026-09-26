@@ -55,6 +55,18 @@ describe('GET /api/admin/menu-items/[id]', () => {
     expect(res.status).toBe(404)
   })
 
+  it('is 404 for a malformed id (Postgres invalid input syntax)', async () => {
+    result.current = { data: null, error: { code: '22P02', message: 'invalid input syntax for type uuid' } }
+    const res = await GET(new NextRequest(url), ctx)
+    expect(res.status).toBe(404)
+    expect(await res.json()).toEqual({ error: 'Menu item not found' })
+  })
+
+  it('is 500 on other database errors', async () => {
+    result.current = { data: null, error: { code: '08006', message: 'connection failure' } }
+    expect((await GET(new NextRequest(url), ctx)).status).toBe(500)
+  })
+
   it('is 403 without MenuManager', async () => {
     mockGetUserPermissions.mockResolvedValue({ ...MANAGER, permissions: ['Promotions'] })
     expect((await GET(new NextRequest(url), ctx)).status).toBe(403)
@@ -88,6 +100,20 @@ describe('PATCH /api/admin/menu-items/[id]', () => {
     expect(res.status).toBe(400)
     expect(await res.json()).toEqual({ error: 'Drinks (Regular): every option needs a name' })
     expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
+  it.each([[{}], [{ id: 'x', created_at: 'y' }]])('rejects %j as nothing to update', async (body) => {
+    const res = await PATCH(patchReq(body), ctx)
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({ error: 'Nothing to update' })
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
+  it('is 404 when the item does not exist', async () => {
+    result.current = { data: null, error: null }
+    const res = await PATCH(patchReq({ price: 4 }), ctx)
+    expect(res.status).toBe(404)
+    expect(await res.json()).toEqual({ error: 'Menu item not found' })
   })
 
   it('rejects invalid JSON', async () => {

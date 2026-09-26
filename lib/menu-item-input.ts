@@ -13,6 +13,8 @@ const STRING_LISTS: Record<string, string> = {
 }
 
 const SELECT_MODES = new Set(['single', 'multi', 'pick'])
+// Option groups that have a choice style (matches DEFAULT_SELECT_MODES)
+const MODE_KEYS = new Set(['spicy_levels', ...PRICED_CATEGORIES.map((c) => c.key)])
 const MAX_OPTIONS = 50
 
 type Result = { ok: true; value: Record<string, unknown> } | { ok: false; error: string }
@@ -43,6 +45,8 @@ function checkField(key: string, v: unknown): string | null {
       return typeof v === 'boolean' ? null : 'Availability must be true or false'
     case 'modifier_select_modes': {
       if (!isObj(v)) return 'Choice styles must be an object'
+      const badKey = Object.keys(v).find((k) => !MODE_KEYS.has(k))
+      if (badKey !== undefined) return `Unknown option group in choice styles: ${badKey}`
       const bad = Object.values(v).find((m) => typeof m !== 'string' || !SELECT_MODES.has(m))
       return bad === undefined ? null : `Unknown choice style: ${String(bad)}`
     }
@@ -63,6 +67,23 @@ function checkField(key: string, v: unknown): string | null {
   return null
 }
 
+type Option = { name: string; price: number; description?: unknown; badge?: unknown }
+
+/** Stores only what the customizer reads: trimmed name, options rebuilt without stray keys. Runs after checkField. */
+function normalize(key: string, v: unknown): unknown {
+  if (key === 'name') return (v as string).trim()
+  if (key === 'modifier_select_modes') return Object.fromEntries(Object.entries(v as Record<string, string>))
+  if (key in OPTION_LISTS) {
+    return (v as Option[]).map(({ name, price, description, badge }) => ({
+      name: name.trim(),
+      price,
+      ...(typeof description === 'string' && { description }),
+      ...(typeof badge === 'string' && { badge }),
+    }))
+  }
+  return v
+}
+
 const ALLOWED = new Set([
   'name', 'price', 'compare_at_price', 'category', 'description', 'image_url', 'is_available', 'modifier_select_modes',
   ...Object.keys(STRING_LISTS), ...Object.keys(OPTION_LISTS),
@@ -81,7 +102,7 @@ export function validateMenuItemInput(body: unknown, { partial }: { partial: boo
     if (!ALLOWED.has(key) || v === undefined) continue
     const error = checkField(key, v)
     if (error) return { ok: false, error }
-    value[key] = key === 'name' ? (v as string).trim() : v
+    value[key] = normalize(key, v)
   }
   return { ok: true, value }
 }

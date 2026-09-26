@@ -89,6 +89,23 @@ describe('validateMenuItemInput (fields)', () => {
     expect(err({ ...full(), ...patch })).toBe(message)
   })
 
+  it('rebuilds options with only name (trimmed), price, description and badge', () => {
+    const r = validateMenuItemInput({
+      dips: [{ name: ' BBQ ', price: 0.75, badge: 'Hot', qty: 3, __proto__x: 1 }, { name: 'Mayo', price: 0, description: 'Garlic', id: 9 }],
+    }, { partial: true })
+    expect(r).toEqual({ ok: true, value: { dips: [{ name: 'BBQ', price: 0.75, badge: 'Hot' }, { name: 'Mayo', price: 0, description: 'Garlic' }] } })
+  })
+
+  it.each([['toString'], ['__proto__'], ['ingredients'], ['bogus']])('rejects choice style key %s', (key) => {
+    const modes = JSON.parse(`{"${key}": "single"}`)
+    expect(err({ ...full(), modifier_select_modes: modes })).toBe(`Unknown option group in choice styles: ${key}`)
+  })
+
+  it('returns choice styles as a plain object of the given entries', () => {
+    const r = validateMenuItemInput({ modifier_select_modes: { dips: 'multi', spicy_levels: 'single' } }, { partial: true })
+    expect(r).toEqual({ ok: true, value: { modifier_select_modes: { dips: 'multi', spicy_levels: 'single' } } })
+  })
+
   it('accepts a positive compare-at price', () => {
     expect(err({ ...full(), compare_at_price: 7.99 })).toBeNull()
   })
