@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { getUserPermissions, hasPermission } from '@/lib/get-user-permissions'
+import { validateMenuItemInput } from '@/lib/menu-item-input'
 
 // Categorized modifier columns (see 20260921a_menu_item_modifier_categories.sql)
 const MODIFIER_LISTS = [
@@ -32,32 +33,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  const body = await request.json()
-  const { name, description, price, image_url, category, is_available, sold_out_extras, extras, removals, additions, dietary_flags, allergens, modifier_select_modes } = body
-
-  if (!name || !price || !category) {
-    return NextResponse.json({ error: 'name, price, and category are required' }, { status: 400 })
-  }
+  const body = await request.json().catch(() => null)
+  const input = validateMenuItemInput(body, { partial: false })
+  if (!input.ok) return NextResponse.json({ error: input.error }, { status: 400 })
 
   const payload = {
-    name,
-    description: description ?? null,
-    price,
-    image_url: image_url ?? null,
-    category,
-    is_available: is_available ?? true,
-    sold_out_extras: sold_out_extras ?? [],
-    extras: extras ?? [],
-    removals: removals ?? [],
-    additions: additions ?? [],
-    ...Object.fromEntries(MODIFIER_LISTS.map((k) => [k, body[k] ?? []])),
-    // undefined is dropped by JSON, so the column default applies when omitted
-    modifier_select_modes,
-    dietary_flags: dietary_flags ?? [],
-    allergens: allergens ?? [],
+    description: null,
+    image_url: null,
+    is_available: true,
+    sold_out_extras: [],
+    extras: [],
+    removals: [],
+    additions: [],
+    ...Object.fromEntries(MODIFIER_LISTS.map((k) => [k, []])),
+    dietary_flags: [],
+    allergens: [],
+    // modifier_select_modes is only set when sent, so the column default applies otherwise
+    ...input.value,
   }
-
-  console.log('Inserting menu item:', JSON.stringify(payload))
 
   const { data, error } = await supabaseAdmin
     .from('menu_items')
