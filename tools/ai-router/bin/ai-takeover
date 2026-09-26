@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# ai-takeover: Claude Code StopFailure hook. When a session hits its usage limit inside a git
+# repo, hand the rest of the work to agy (via ai-run) in the background and return at once.
+# Reads the hook JSON on stdin. Opt out: AI_TAKEOVER=0, touch ~/.ai-router/disabled,
+# or touch <repo>/.ai-run/no-takeover.
+AIR_HOME="${AI_ROUTER_HOME:-$HOME/.ai-router}"
+HERE="$(cd "$(dirname "$(readlink -f "$0" 2>/dev/null || echo "$0")")" && pwd)"
+
+if [ "${1:-}" = "--run" ]; then
+  # Background part: turn the transcript into readable text, then continue with ai-run.
+  transcript="$2"; out=".ai-run/conversation.md"
+  if [ -f "$transcript" ] && command -v python3 >/dev/null; then
+    python3 - "$transcript" "$out" <<'PY'
+import json, sys
+src, dst = sys.argv[1], sys.argv[2]
+msgs = []
+for line in open(src, encoding="utf-8", errors="replace"):
+    try:
+        e = json.loads(line)
+    except ValueError:
+        continue
+    if e.get("type") not in ("user", "assistant"):
+        continue
+    c = (e.get("message") or {}).get("content")
+    if isinstance(c, list):
+        c = "\n".join(b.get("text", "") for b in c if isinstance(b, dict) and b.get("type") == "text")
+    if isinstance(c, str) and c.strip():
+        msgs.append(f"### {e['type']}\n{c.strip()}\n")
+text = "\n".join(msgs)
+open(dst, "w", encoding="utf-8").write(text[-60000:])
+PY
+  elif [ -f "$transcript" ]; then
+    tail -c 60000 "$transcript" > "$out"
+  else
+    echo "(transcript unavailable; rely on HANDOFF.md, git status and git log)" > "$out"
+  fi
+  exec "$HERE/ai-run" --takeover "$out"
+fi
+
+input="$(cat)"
+[ "${AI_TAKEOVER:-1}" = "0" ] && exit 0
+[ -n "${AI_ROUTER_CHILD:-}" ] && exit 0      # a Claude run started by ai-step: ai-run handles it
+[ -f "$AIR_HOME/disabled" ] && exit 0
+
+field() {
+  if command -v python3 >/dev/null; then
+    printf '%s' "$input" | python3 -c 'import json,sys; print(json.load(sys.stdin).get(sys.argv[1]) or "")' "$1" 2>/dev/null
+  else
+    printf '%s' "$input" | sed -nE "s/.*\"$1\"[[:space:]]*:[[:space:]]*\"([^\"]*)\".*/\1/p"
+  fi
+}
+cwd="$(field cwd)"; transcript="$(field transcript_path)"; err="$(field error)"
+case "$err" in rate_limit|billing_error) ;; *) exit 0 ;; esac
+
+cd "$cwd" 2>/dev/null || exit 0
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+cd "$root" || exit 0
+[ -f .ai-run/no-takeover ] && exit 0
+mkdir -p .ai-run
+
+# Claude's quota is gone for every model: route around it everywhere.
+"$HERE/ai-step" --cooldown 'claude:*' "${LIMIT_COOLDOWN_MIN:-60}"
+
+nohup "$0" --run "$transcript" >> .ai-run/run.log 2>&1 < /dev/null &
+echo "ai-router: Claude hit its limit ($err). agy is continuing in the background; see .ai-run/run.log" >&2
+exit 0

@@ -1,0 +1,155 @@
+#!/usr/bin/env bash
+# ai-run: keep work going unattended across Claude Code and Antigravity CLI (agy).
+# Each round takes the first unchecked step in HANDOFF.md, routes it to the best available
+# model (ai-step), then gates on the build; a failing build goes to the strongest model.
+#
+# Usage:  ai-run ["goal"]              start; a goal resets HANDOFF.md with a [plan] step
+#         ai-run --takeover <file>     continue a Claude conversation that hit its limit
+#         ai-run --status [--hook]     show the background run (--hook: SessionStart output)
+#         ai-run --stop                stop the background run in this repo
+# Env:    MAX_ROUNDS=30  VERIFY_CMD=<auto-detected>  FIX_TRIES=2  WAIT_MIN=15
+#         plus everything ai-step reads (PREFER, STEP_TIMEOUT_MIN, ...)
+set -o pipefail
+
+HERE="$(cd "$(dirname "$(readlink -f "$0" 2>/dev/null || echo "$0")")" && pwd)"
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || {
+  [ "${2:-}" = "--hook" ] && exit 0; echo "ai-run: not inside a git repo" >&2; exit 1; }
+cd "$ROOT"
+STATE="$ROOT/.ai-run"; mkdir -p "$STATE"
+PIDF="$STATE/run.pid"
+# Keep run state out of the project's commits without touching its .gitignore.
+EXCLUDE="$(git rev-parse --git-path info/exclude)"
+mkdir -p "$(dirname "$EXCLUDE")"
+grep -qxF '.ai-run/' "$EXCLUDE" 2>/dev/null || echo '.ai-run/' >> "$EXCLUDE"
+
+running() { [ -f "$PIDF" ] && kill -0 "$(cat "$PIDF")" 2>/dev/null; }
+notify() {
+  echo "$1"
+  if command -v osascript >/dev/null; then osascript -e "display notification \"$1\" with title \"ai-run\"" >/dev/null 2>&1
+  elif command -v notify-send >/dev/null; then notify-send "ai-run" "$1" >/dev/null 2>&1; fi
+}
+
+case "${1:-}" in
+  --status)
+    if running; then
+      msg="A background ai-run (agy/Claude) is working in this repo: pid $(cat "$PIDF"), branch $(cat "$STATE/run.branch" 2>/dev/null), log .ai-run/run.log."
+      [ "${2:-}" = "--hook" ] && msg="NOTE: $msg Read HANDOFF.md first, do not edit the files it is working on, and tell the user. Stop it with \`ai-run --stop\`."
+      echo "$msg"; [ "${2:-}" != "--hook" ] && tail -5 "$STATE/usage.log" 2>/dev/null
+    elif [ -f "$STATE/finished" ]; then
+      echo "NOTE: a background ai-run finished while you were away: $(cat "$STATE/finished") Review HANDOFF.md and \`git log\` on that branch and summarise it for the user."
+      [ "${2:-}" = "--hook" ] && rm -f "$STATE/finished"
+    elif [ "${2:-}" != "--hook" ]; then echo "No ai-run active in this repo."; fi
+    exit 0 ;;
+  --stop)
+    if running; then pid="$(cat "$PIDF")"; pkill -TERM -P "$pid" 2>/dev/null; kill "$pid" 2>/dev/null; echo "Stopped ai-run (pid $pid)."
+    else echo "No ai-run active."; fi
+    rm -f "$PIDF"; exit 0 ;;
+esac
+
+running && { echo "ai-run already active here (pid $(cat "$PIDF")). Use ai-run --status / --stop." >&2; exit 1; }
+echo $$ > "$PIDF"
+trap 'rm -f "$PIDF"' EXIT
+trap 'exit 143' TERM INT
+
+detect_verify() {
+  if [ -f package.json ]; then
+    pm=npm
+    [ -f pnpm-lock.yaml ] && pm=pnpm; [ -f yarn.lock ] && pm=yarn
+    { [ -f bun.lockb ] || [ -f bun.lock ]; } && pm=bun
+    if grep -q '"build"[[:space:]]*:' package.json; then echo "$pm run build"
+    elif grep -q '"test"[[:space:]]*:' package.json; then echo "$pm test"
+    else echo true; fi
+  elif [ -f Cargo.toml ]; then echo "cargo build"
+  elif [ -f go.mod ]; then echo "go build ./..."
+  elif [ -f pyproject.toml ] || [ -f setup.py ]; then echo "python3 -m compileall -q ."
+  else echo true; fi
+}
+MAX_ROUNDS="${MAX_ROUNDS:-30}"
+VERIFY_CMD="${VERIFY_CMD:-$(detect_verify)}"
+FIX_TRIES="${FIX_TRIES:-2}"
+WAIT_MIN="${WAIT_MIN:-15}"
+
+# Never work unattended on the default branch: branch off it, carrying uncommitted work along.
+branch="$(git branch --show-current)"
+case "$branch" in main|master|"")
+  branch="ai/auto-$(date +%Y%m%d-%H%M%S)"
+  git switch -q -c "$branch" && echo "Working on new branch $branch" ;;
+esac
+echo "$branch" > "$STATE/run.branch"
+
+TAGS='[plan] [code] [ui] [image] [test] [review] [docs] [bulk]'
+HANDOFF_FORMAT="HANDOFF.md format: first line \`STATUS: IN_PROGRESS\` (or \`STATUS: DONE\`), then sections
+## Goal, ## Next steps (checkbox list \`- [ ] [tag] step\`, small steps, tags: $TAGS), ## Done, ## Blockers."
+
+if [ "${1:-}" = "--takeover" ]; then
+  convo="${2:?conversation file}"
+  git add -A && git commit -qm "wip: state when Claude hit its usage limit" >/dev/null 2>&1
+  notify "Claude hit its limit in $(basename "$ROOT"). Taking over on branch $branch."
+  "$HERE/ai-step" plan "Claude Code stopped mid-task because it hit its usage limit. The conversation so far is in $convo.
+Read it, plus AGENTS.md / CLAUDE.md if present, \`git status\` and \`git log -5\`.
+Write (or update) HANDOFF.md with ONLY the remaining work the user asked for. Do not invent new features.
+If nothing is left to do (for example the conversation was only questions), make the first line \`STATUS: DONE\`.
+$HANDOFF_FORMAT
+Commit HANDOFF.md. Do not push." > "$STATE/takeover-plan.log" \
+    || { notify "Takeover: no model available to plan. Stopped."; exit 3; }
+elif [ -n "${1:-}" ]; then
+  cat > HANDOFF.md <<EOT
+STATUS: IN_PROGRESS
+
+## Goal
+$1
+
+## Next steps
+- [ ] [plan] Break the goal into small steps, each one line, each tagged with one of: $TAGS
+
+## Done
+
+## Blockers
+EOT
+  git add HANDOFF.md && git commit -qm "handoff: new goal" >/dev/null
+fi
+[ -f HANDOFF.md ] || { echo "No HANDOFF.md. Pass a goal: ai-run \"build X\"" >&2; exit 1; }
+
+BASE_PROMPT="Read AGENTS.md / CLAUDE.md if present, and HANDOFF.md. Run \`git status\` first: a previous attempt may have left partial work for this step; keep what is good.
+Do ONLY the step below. Then run \`$VERIFY_CMD\` and fix failures you caused.
+Update HANDOFF.md: tick the step, move it to Done, add new tagged steps you discovered, note blockers.
+If every step is done and the build passes, change the first line to \"STATUS: DONE\".
+Commit all changes with a clear message. Do not push.
+
+Your step:"
+
+finish() { echo "$1" > "$STATE/finished"; notify "$1"; exit "${2:-0}"; }
+
+last_step=""; same_count=0
+for round in $(seq 1 "$MAX_ROUNDS"); do
+  head -1 HANDOFF.md | grep -q 'STATUS: DONE' && finish "Done on $branch after $((round-1)) rounds in $(basename "$ROOT")."
+
+  step="$(grep -m1 -E '^- \[ \]' HANDOFF.md)"
+  [ -z "$step" ] && finish "No unchecked steps but STATUS is not DONE in $(basename "$ROOT"). Check HANDOFF.md." 2
+  if [ "$step" = "$last_step" ]; then same_count=$((same_count+1)); else same_count=0; last_step="$step"; fi
+  [ "$same_count" -ge 3 ] && finish "Stuck on: ${step#- \[ \] } (4 rounds) in $(basename "$ROOT")." 2
+
+  tag="$(printf '%s' "$step" | sed -nE 's/^- \[ \] \[([a-z]+)\].*/\1/p')"; tag="${tag:-auto}"
+  echo "▶ round $round ${step#- \[ \] }"
+
+  if ! "$HERE/ai-step" "$tag" "$BASE_PROMPT $step" > "$STATE/round-$round.log"; then
+    echo "  every model busy or out of quota → waiting ${WAIT_MIN}m"; sleep $((WAIT_MIN*60)); continue
+  fi
+
+  # Build gate: escalate failures to the strongest model available.
+  tries=0
+  until sh -c "$VERIFY_CMD" > "$STATE/verify.log" 2>&1; do
+    tries=$((tries+1))
+    if [ "$tries" -gt "$FIX_TRIES" ]; then
+      printf -- '- Build failing after step "%s" (see .ai-run/verify.log)\n' "${step#- \[ \] }" >> HANDOFF.md
+      git add -A && git commit -qm "wip: build failing, needs human" >/dev/null 2>&1
+      finish "Build still failing after $FIX_TRIES fix attempts on $branch. Needs you." 2
+    fi
+    echo "  build failed → fix attempt $tries"
+    "$HERE/ai-step" fix "Read AGENTS.md / CLAUDE.md if present. \`$VERIFY_CMD\` fails. Fix the root cause, do not disable checks or tests. Commit. Last output:
+$(tail -40 "$STATE/verify.log")" > "$STATE/round-$round-fix-$tries.log" || sleep 60
+  done
+
+  git add -A && git commit -qm "wip: round $round" >/dev/null 2>&1 || true
+done
+finish "Stopped after $MAX_ROUNDS rounds on $branch. See HANDOFF.md." 2
