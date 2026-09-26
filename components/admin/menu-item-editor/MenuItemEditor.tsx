@@ -440,7 +440,7 @@ function EditorForm({ source, isEdit, categories }: { source: MenuItem | null; i
   return (
     <Shell>
       {/* Top bar */}
-      <header className="sticky top-0 z-20 border-b border-zinc-800 bg-zinc-900/95 backdrop-blur px-4 sm:px-8 py-4">
+      <header className="sticky top-14 md:top-0 z-20 border-b border-zinc-800 bg-zinc-900/95 backdrop-blur px-4 sm:px-8 py-4">
         <div className="flex items-center gap-4">
           <div className="min-w-0 flex-1">
             <Breadcrumb current={title} onNavigate={guardLeave} />

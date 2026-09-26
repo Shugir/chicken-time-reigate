@@ -5,6 +5,22 @@ import { validateConfig } from '../route'
 
 export const dynamic = 'force-dynamic'
 
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const userPerms = await getUserPermissions()
+  if (!userPerms || !hasPermission(userPerms, 'Deals')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+  const { id } = await params
+  const { data, error } = await supabaseAdmin
+    .from('deals')
+    .select('id, type, name, config, is_active, custom_label, available_from, available_until, image_url')
+    .eq('id', id)
+    .maybeSingle()
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!data) return NextResponse.json({ error: 'Deal not found' }, { status: 404 })
+  return NextResponse.json(data)
+}
+
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const userPerms = await getUserPermissions()
   if (!userPerms || !hasPermission(userPerms, 'Deals')) {
