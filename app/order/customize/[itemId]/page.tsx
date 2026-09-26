@@ -324,11 +324,12 @@ export default function CustomizeItemPage() {
         <QtyStepper value={qty} onChange={setQty} label={item.name} min={1} max={99} />
         <button
           onClick={handleAdd}
+          aria-label={`Add ${qty} × ${item.name} to order, £${total.toFixed(2)}`}
           className="flex-1 min-w-0 min-h-[44px] font-bold text-sm sm:text-base py-4 rounded-2xl flex items-center justify-center gap-1.5 px-3 transition-all bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20"
         >
           <ShoppingBag size={18} className="shrink-0" />
           {/* Only the words may truncate; the price always shows in full */}
-          <span className="truncate">Add to bag</span>
+          <span className="truncate">Add +</span>
           <span className="shrink-0 tabular-nums">£{total.toFixed(2)}</span>
         </button>
       </div>

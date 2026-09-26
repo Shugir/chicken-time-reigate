@@ -59,7 +59,9 @@ export function applyPreset(
           if (seenSingle.has(cat.key)) return acc
           seenSingle.add(cat.key)
         }
-        const qty = cat.mode === 'single' ? 1 : clampQty(e.qty, 20)
+        // 'pick': one of each option, so a repeated name is dropped
+        if (cat.mode === 'pick' && acc.some((x) => x.category === cat.key && x.name === opt.name)) return acc
+        const qty = cat.mode === 'multi' ? clampQty(e.qty, 20) : 1
         acc.push({ name: opt.name, price: opt.price, qty, category: e.category })
         return acc
       }, [])

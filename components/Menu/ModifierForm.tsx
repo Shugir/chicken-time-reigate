@@ -59,6 +59,10 @@ export default function ModifierForm({ config, value, onChange, soldOut, numbere
     patch({ extras: wasPicked ? rest : [...rest, { name: option.name, price: option.price, qty: 1, category }] })
   }
 
+  // pick mode: several per category, one of each; tapping again removes it
+  const togglePick = (category: string, option: PricedOption) =>
+    setExtraQty(category, option, qtyOf(category, option.name) > 0 ? 0 : 1)
+
   return (
     <>
       {config.spicyLevels.length > 0 && (
@@ -108,7 +112,7 @@ export default function ModifierForm({ config, value, onChange, soldOut, numbere
           subtitle={cat.mode === 'single' ? 'Choose one, tap again to clear' : 'Add as many as you like'}
           number={nextNumber()}
         >
-          {cat.mode === 'single' ? (
+          {cat.mode === 'single' || cat.mode === 'pick' ? (
             <div className="grid grid-cols-2 gap-2">
               {cat.options.map((opt) => (
                 <Pill
@@ -119,7 +123,7 @@ export default function ModifierForm({ config, value, onChange, soldOut, numbere
                   badge={opt.badge}
                   selected={qtyOf(cat.key, opt.name) > 0}
                   disabled={isSoldOut(opt.name)}
-                  onClick={() => pickSingle(cat.key, opt)}
+                  onClick={() => (cat.mode === 'pick' ? togglePick : pickSingle)(cat.key, opt)}
                 />
               ))}
             </div>

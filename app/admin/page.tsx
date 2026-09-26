@@ -57,7 +57,7 @@ interface MenuItem {
   fries_regular: Extra[]
   fries_large: Extra[]
   other_extras: Extra[]
-  modifier_select_modes: Record<string, 'single' | 'multi'>
+  modifier_select_modes: Record<string, 'single' | 'multi' | 'pick'>
   dietary_flags: string[]
   allergens: string[]
   created_at: string
@@ -266,11 +266,11 @@ function ExtraNameInput({ value, onChange, onEnter, suggestions, placeholder }: 
 
 // ─── Modifier sections ────────────────────────────────────────────────────────
 
-type SelectMode = 'single' | 'multi'
+type SelectMode = 'single' | 'multi' | 'pick'
 
 const PRICED_CATEGORIES = [
   { key: 'spicy_levels', label: 'Spicy Level', hint: 'Heat options — price optional', placeholder: 'e.g. Reaper Inferno' },
-  { key: 'extra_ingredients', label: 'Extra Ingredients', hint: 'Priced ingredients customers can add', placeholder: 'e.g. Extra Cheese' },
+  { key: 'extra_ingredients', label: 'Extra Ingredients', hint: 'Shown in 1.3 Extra Ingredients with a price', placeholder: 'e.g. Extra Cheese' },
   { key: 'drinks_regular', label: 'Drinks (Regular)', hint: 'Regular-size drinks', placeholder: 'e.g. Coke' },
   { key: 'drinks_large', label: 'Drinks (Large)', hint: 'Large-size drinks', placeholder: 'e.g. Large Coke' },
   { key: 'sides', label: 'Sides', hint: 'Side dishes', placeholder: 'e.g. Coleslaw' },
@@ -329,11 +329,12 @@ function Disclosure({ title, hint, count, children }: {
 
 function SelectStyle({ value, onChange }: { value: SelectMode; onChange: (m: SelectMode) => void }) {
   const options: { value: SelectMode; label: string }[] = [
-    { value: 'single', label: 'Pill (single)' },
-    { value: 'multi', label: 'Stepper (multi)' },
+    { value: 'single', label: 'Choose one' },
+    { value: 'pick', label: 'Tick several' },
+    { value: 'multi', label: 'Tick + quantity' },
   ]
   return (
-    <div className="flex items-center justify-between gap-3">
+    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
       <span className="text-xs text-zinc-400">Customer picks</span>
       <div role="radiogroup" aria-label="Selection style" className="inline-flex p-0.5 rounded-lg bg-zinc-900 border border-zinc-700">
         {options.map((o) => (
@@ -898,8 +899,8 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                 warnFor={(n) => labelsUsing(n, 'ingredients')}
               />
               <TagSection
-                title="Add ingredients"
-                hint="Free extras customers can request"
+                title="Extra ingredients (free)"
+                hint="Shown in 1.3 Extra Ingredients at £0.00"
                 placeholder="e.g. Extra Sauce"
                 items={additions}
                 onChange={setAdditions}

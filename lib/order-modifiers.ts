@@ -1,7 +1,8 @@
 // Shared contract for the categorized item customizer (Phase 2).
 // Every surface that builds, prices or displays a customized order line uses this file.
 
-export type SelectMode = 'single' | 'multi'
+/** 'single' = choose one; 'pick' = several, one of each; 'multi' = several with quantities. */
+export type SelectMode = 'single' | 'multi' | 'pick'
 
 export const PRICED_CATEGORIES = [
   { key: 'extra_ingredients', label: 'Extra Ingredients' },

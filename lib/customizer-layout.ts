@@ -5,7 +5,8 @@ import { extraQty, formatExtra, spicyPrice, type ModifierCategory, type Modifier
 import type { ModifierSelection } from '@/components/Menu/ModifierForm'
 
 export type GroupKey = 'item' | 'drinks' | 'sides' | 'fries' | 'dips' | 'add_ons' | 'other'
-export type SectionKind = 'spicy' | 'ingredients' | 'category' | 'additions'
+// 'extras' = priced extra_ingredients (optional `category`) plus the free config.additions
+export type SectionKind = 'spicy' | 'ingredients' | 'category' | 'extras'
 
 export interface LayoutSection {
   key: string
@@ -37,7 +38,7 @@ const GROUPS: GroupDef[] = [
     sections: [
       { key: 'spicy', kind: 'spicy', title: 'Spicy Level (Choose 1)', hint: 'Tap again to clear' },
       { key: 'ingredients', kind: 'ingredients', title: 'Ingredients (Included in Base)', hint: 'Toggle to remove' },
-      cat('extra_ingredients', 'Extra Ingredients', 'Add as many as you like'),
+      { key: 'extras', kind: 'extras', title: 'Extra Ingredients', hint: 'Add as many as you like' },
     ],
   },
   {
@@ -56,17 +57,19 @@ const GROUPS: GroupDef[] = [
   {
     key: 'other', title: 'Other Extras', flat: true,
     subtitle: 'Packaging tweaks and kitchen preferences.',
-    sections: [cat('other_extras', 'Other Extras', ''), { key: 'additions', kind: 'additions', title: 'Free additions', hint: '' }],
+    sections: [cat('other_extras', 'Other Extras', '')],
   },
 ]
 
 const pad2 = (n: number) => String(n).padStart(2, '0')
 
+const categoryOf = (config: ModifierConfig, key: string) => config.categories.find((c) => c.key === key)
+
 function isPresent(def: SectionDef, config: ModifierConfig): ModifierCategory | true | false {
   if (def.kind === 'spicy') return config.spicyLevels.length > 0
   if (def.kind === 'ingredients') return config.ingredients.length > 0
-  if (def.kind === 'additions') return config.additions.length > 0
-  return config.categories.find((c) => c.key === def.key) ?? false
+  if (def.kind === 'extras') return categoryOf(config, 'extra_ingredients') ?? config.additions.length > 0
+  return categoryOf(config, def.key) ?? false
 }
 
 /** Visible groups in Stitch order, numbered gap-free ("01"…), sub-sections "1.1"… in non-flat groups. */
@@ -87,15 +90,16 @@ export function customizerLayout(config: ModifierConfig): LayoutGroup[] {
   return out
 }
 
-/** Units chosen in one group: spicy (1), each removal, extra quantities, free additions. */
+/** Units chosen in one group: spicy (1), each removal, extra quantities, free additions (in 'extras'). */
 export function groupSelectedCount(group: LayoutGroup, selection: ModifierSelection): number {
   let n = 0
   for (const s of group.sections) {
     if (s.kind === 'spicy' && selection.spicy) n += 1
     if (s.kind === 'ingredients') n += selection.removals.length
-    if (s.kind === 'additions') n += selection.additions.length
-    if (s.kind === 'category') {
-      n += selection.extras.filter((e) => e.category === s.key).reduce((sum, e) => sum + extraQty(e), 0)
+    if (s.kind === 'extras') n += selection.additions.length
+    if (s.kind === 'category' || s.kind === 'extras') {
+      const key = s.category?.key ?? s.key
+      n += selection.extras.filter((e) => e.category === key).reduce((sum, e) => sum + extraQty(e), 0)
     }
   }
   return n
@@ -129,13 +133,13 @@ export function receiptLines(layout: LayoutGroup[], config: ModifierConfig, sele
         if (kept.length > 0) lines.push({ tag, label: kept.join(', '), amount: 'included' })
         for (const r of selection.removals) lines.push({ tag, label: `No ${r}`, amount: 'free' })
       }
-      if (s.kind === 'category') {
-        for (const e of selection.extras.filter((x) => x.category === s.key)) {
+      if ((s.kind === 'category' || s.kind === 'extras') && s.category) {
+        for (const e of selection.extras.filter((x) => x.category === s.category!.key)) {
           const total = round2(e.price * extraQty(e))
           lines.push({ tag, label: `${LABEL_PREFIX[g.key] ?? ''}${formatExtra(e)}`, amount: total > 0 ? total : 'free' })
         }
       }
-      if (s.kind === 'additions') {
+      if (s.kind === 'extras') {
         for (const a of selection.additions) lines.push({ tag, label: a, amount: 'free' })
       }
     }

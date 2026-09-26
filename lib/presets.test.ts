@@ -60,6 +60,28 @@ describe('applyPreset', () => {
     expect(r.qty).toBe(99)
   })
 
+  it("forces qty 1 in a 'pick' category but keeps several different options", () => {
+    const pickConfig = toModifierConfig({
+      sides: [{ name: 'Slaw', price: 1 }, { name: 'Beans', price: 1.2 }],
+      modifier_select_modes: { sides: 'pick' },
+    })
+    const r = applyPreset(pickConfig, [], {
+      selection: {
+        spicy: null, removals: [], additions: [],
+        extras: [
+          { name: 'Slaw', category: 'sides', qty: 3 },
+          { name: 'Beans', category: 'sides', qty: 2 },
+          { name: 'Slaw', category: 'sides', qty: 1 },
+        ],
+      },
+      notes: null, qty: 1,
+    })
+    expect(r.selection.extras).toEqual([
+      { name: 'Slaw', price: 1, qty: 1, category: 'sides' },
+      { name: 'Beans', price: 1.2, qty: 1, category: 'sides' },
+    ])
+  })
+
   it('survives a malformed stored payload', () => {
     const r = applyPreset(config, [], { selection: null as never, notes: null, qty: 1 })
     expect(r.selection).toEqual({ spicy: null, removals: [], additions: [], extras: [] })

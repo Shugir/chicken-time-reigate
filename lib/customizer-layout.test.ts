@@ -33,7 +33,8 @@ describe('customizerLayout', () => {
     expect(l[3].sections.map((s) => s.number)).toEqual(['4.1', '4.2'])
     expect(l[2].flat).toBe(true)
     expect(l[2].sections[0].number).toBeNull()
-    expect(l[6].sections.map((s) => s.key)).toEqual(['other_extras', 'additions'])
+    expect(l[0].sections.map((s) => s.key)).toEqual(['spicy', 'ingredients', 'extras'])
+    expect(l[6].sections.map((s) => s.key)).toEqual(['other_extras'])
   })
 
   it('renumbers gap-free when groups and sections are missing', () => {
@@ -50,13 +51,21 @@ describe('customizerLayout', () => {
     expect(l[1].sections.map((s) => `${s.number} ${s.key}`)).toEqual(['2.1 fries_large'])
   })
 
+  it('free additions alone make the Extra Ingredients section in group 01', () => {
+    const c = toModifierConfig({ additions: ['Mayo'] })
+    const l = customizerLayout(c)
+    expect(l.map((g) => `${g.number} ${g.key}`)).toEqual(['01 item'])
+    expect(l[0].sections.map((s) => `${s.number} ${s.key}`)).toEqual(['1.1 extras'])
+    expect(l[0].sections[0].category).toBeUndefined()
+  })
+
   it('an item with nothing to choose has no groups', () => {
     expect(customizerLayout(toModifierConfig({}))).toEqual([])
   })
 })
 
 describe('groupSelectedCount', () => {
-  it('counts spicy, removals and extra units in group 01, units per category elsewhere', () => {
+  it('counts spicy, removals, extra units and free additions in group 01, units per category elsewhere', () => {
     const l = customizerLayout(full)
     const sel = {
       spicy: 'Reaper Inferno', removals: ['Pickles'], additions: ['Napkins'],
@@ -65,10 +74,10 @@ describe('groupSelectedCount', () => {
         { name: 'Large Cola', price: 0.8, qty: 1, category: 'drinks_large' },
       ],
     }
-    expect(groupSelectedCount(l[0], sel)).toBe(4)
+    expect(groupSelectedCount(l[0], sel)).toBe(5)
     expect(groupSelectedCount(l[1], sel)).toBe(1)
     expect(groupSelectedCount(l[2], sel)).toBe(0)
-    expect(groupSelectedCount(l[6], sel)).toBe(1)
+    expect(groupSelectedCount(l[6], sel)).toBe(0)
   })
 })
 
@@ -88,9 +97,9 @@ describe('receiptLines', () => {
       { tag: '01.2', label: 'Crispy Filet', amount: 'included' },
       { tag: '01.2', label: 'No Pickles', amount: 'free' },
       { tag: '01.3', label: 'Bacon ×2', amount: 3 },
+      { tag: '01.3', label: 'Napkins', amount: 'free' },
       { tag: '02', label: 'Drink: Large Cola', amount: 0.8 },
       { tag: '05', label: 'Dip: Chipotle BBQ', amount: 0.75 },
-      { tag: '07', label: 'Napkins', amount: 'free' },
       { tag: '08', label: 'Note: "Fries well done"', amount: 'free' },
     ])
   })
