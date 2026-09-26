@@ -46,5 +46,10 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(`${origin}/login?error=oauth`)
+  // Back to sign-in with an error flag, keeping where the customer was heading
+  const failed = new URL('/sign-in', origin)
+  failed.searchParams.set('error', 'oauth')
+  const next = safeNextPath(searchParams.get('next'))
+  if (next) failed.searchParams.set('next', next)
+  return NextResponse.redirect(failed)
 }

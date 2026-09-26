@@ -40,7 +40,7 @@ describe('GET /auth/callback', () => {
   it('sends the user to the OAuth error page when no code is present', async () => {
     const req = new NextRequest('http://localhost/auth/callback')
     const res = await GET(req)
-    expect(res.headers.get('location')).toBe('http://localhost/login?error=oauth')
+    expect(res.headers.get('location')).toBe('http://localhost/sign-in?error=oauth')
   })
 
   it('sends the user to the OAuth error page when the code exchange fails', async () => {
@@ -48,7 +48,7 @@ describe('GET /auth/callback', () => {
 
     const req = new NextRequest('http://localhost/auth/callback?code=abc123')
     const res = await GET(req)
-    expect(res.headers.get('location')).toBe('http://localhost/login?error=oauth')
+    expect(res.headers.get('location')).toBe('http://localhost/sign-in?error=oauth')
   })
 
   it('sends staff members to the admin redirect page', async () => {
@@ -94,6 +94,18 @@ describe('GET /auth/callback', () => {
         expect(res.headers.get('location')).toBe('http://localhost/account')
       },
     )
+
+    it('keeps a safe next on the sign-in error page when the code exchange fails', async () => {
+      mockExchangeCodeForSession.mockResolvedValue({ error: new Error('bad code') })
+      const res = await callback('/order/customize/item-1')
+      expect(res.headers.get('location')).toBe('http://localhost/sign-in?error=oauth&next=%2Forder%2Fcustomize%2Fitem-1')
+    })
+
+    it('drops an unsafe next on the sign-in error page', async () => {
+      mockExchangeCodeForSession.mockResolvedValue({ error: new Error('bad code') })
+      const res = await callback('//evil.com')
+      expect(res.headers.get('location')).toBe('http://localhost/sign-in?error=oauth')
+    })
 
     it('keeps staff on the admin redirect even with a next path', async () => {
       mockExchangeCodeForSession.mockResolvedValue({ error: null })

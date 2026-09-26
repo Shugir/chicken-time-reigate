@@ -30,6 +30,13 @@ export default function SignInPage() {
       .catch(() => {})
   }, [])
 
+  // /auth/callback sends failed Google/Facebook sign-ins back here with ?error=oauth
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('error') === 'oauth') {
+      toast.error('Sign-in didn’t complete. Please try again.', { id: 'oauth-error' })
+    }
+  }, [])
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
