@@ -282,8 +282,15 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
 
   const heroItem = locked ?? (groups.length > 0 ? slotItems(deal, 0, available)[0] : undefined)
   const priceLabel = deal.config.price_type === 'percent' ? `${deal.config.discount_percent}% off selected items` : `${dealPriceLabel(deal.config)} meal deal`
-  const upgradesNumber = pad2(order.length + 1)
-  const receiptNumber = pad2(order.length + (upgradeItems.length > 0 ? 2 : 1))
+  // The tapped item's add-ons (drinks, sides, fries, dips, add-ons, other extras) and its note get
+  // their own "Optional" group after the deal's slots; its own options (01 Item Customize) stay under it.
+  const lockedUnit = lockedIndex >= 0 ? (picks[lockedIndex] ?? []).find((u) => u.uid === LOCKED_UID) : undefined
+  const lockedConfig = locked ? itemConfig(locked) : null
+  const optionalLayout = lockedConfig ? customizerLayout(lockedConfig).filter((g) => g.key !== 'item') : []
+  const showOptional = Boolean(locked && lockedUnit)
+  const optionalNumber = pad2(order.length + 1)
+  const upgradesNumber = pad2(order.length + (showOptional ? 2 : 1))
+  const receiptNumber = pad2(order.length + (showOptional ? 1 : 0) + (upgradeItems.length > 0 ? 2 : 1))
   const ctaLabel = complete ? 'Add +' : `Select required items (${remaining} left)`
 
   const unitRow = (gi: number, unit: PickUnit) => {
@@ -327,16 +334,17 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
             </button>
           )}
         </div>
-        {open && (
+        {open && (alwaysOpen ? customizerLayout(config).some((g) => g.key === 'item') : true) && (
           <div id={panelId} className="border-t border-zinc-100 bg-zinc-50/60 p-3 sm:p-4 space-y-4">
             <ItemOptionSections
-              layout={customizerLayout(config)}
+              // The tapped item shows only its own options here; the rest are in the Optional group
+              layout={alwaysOpen ? customizerLayout(config).filter((g) => g.key === 'item') : customizerLayout(config)}
               config={config}
               value={unit.selection}
               onChange={(next) => updatePick(gi, unit.uid, { selection: next })}
               soldOut={item.sold_out_extras}
             />
-            <div>
+            {!alwaysOpen && (<div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-xs font-semibold text-zinc-700" htmlFor={`note-${unit.uid}`}>Special instructions</label>
                 <span className="text-xs text-zinc-500 tabular-nums">{unit.notes.length} / {UNIT_NOTES_MAX}</span>
@@ -350,7 +358,7 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
                 maxLength={UNIT_NOTES_MAX}
                 className="w-full border-2 border-zinc-200 rounded-xl px-3 py-2.5 min-h-[44px] text-base sm:text-sm text-brand-dark placeholder-zinc-400 bg-white focus:outline-none focus:border-brand-red"
               />
-            </div>
+            </div>)}
           </div>
         )}
       </li>
@@ -539,6 +547,43 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
               </section>
             )
           })}
+
+          {showOptional && locked && lockedUnit && lockedConfig && (
+            <section aria-labelledby="deal-optional" className="bg-white rounded-2xl border border-zinc-100">
+              <GroupHeader
+                number={optionalNumber}
+                title="Optional"
+                subtitle={`Extras for your ${locked.name}, at their listed price`}
+                titleId="deal-optional"
+              />
+              <div className="p-3 sm:p-5 space-y-4">
+                {optionalLayout.length > 0 && (
+                  <ItemOptionSections
+                    layout={optionalLayout}
+                    config={lockedConfig}
+                    value={lockedUnit.selection}
+                    onChange={(next) => updatePick(lockedIndex, LOCKED_UID, { selection: next })}
+                    soldOut={locked.sold_out_extras}
+                  />
+                )}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-semibold text-zinc-700" htmlFor="note-locked-optional">Special instructions</label>
+                    <span className="text-xs text-zinc-500 tabular-nums">{lockedUnit.notes.length} / {UNIT_NOTES_MAX}</span>
+                  </div>
+                  <input
+                    id="note-locked-optional"
+                    type="text"
+                    value={lockedUnit.notes}
+                    onChange={(e) => updatePick(lockedIndex, LOCKED_UID, { notes: e.target.value })}
+                    placeholder="No onions"
+                    maxLength={UNIT_NOTES_MAX}
+                    className="w-full border-2 border-zinc-200 rounded-xl px-3 py-2.5 min-h-[44px] text-base sm:text-sm text-brand-dark placeholder-zinc-400 bg-white focus:outline-none focus:border-brand-red"
+                  />
+                </div>
+              </div>
+            </section>
+          )}
 
           {upgradeItems.length > 0 && (
             <section aria-labelledby="deal-upgrades" className="bg-white rounded-2xl border border-zinc-100">
