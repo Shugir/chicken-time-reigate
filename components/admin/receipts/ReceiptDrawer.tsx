@@ -50,7 +50,7 @@ export function ReceiptDrawer({ order, onClose }: Props) {
       />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 bottom-0 z-50 w-[420px] bg-zinc-900 border-l border-zinc-800 flex flex-col shadow-2xl">
+      <div className="fixed right-0 top-0 bottom-0 z-50 w-full sm:w-[420px] bg-zinc-900 border-l border-zinc-800 flex flex-col shadow-2xl">
 
         {/* Header */}
         <div className="flex items-start justify-between px-5 py-4 border-b border-zinc-800">

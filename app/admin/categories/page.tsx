@@ -114,7 +114,7 @@ export default function CategoriesPage() {
     <div className="min-h-screen bg-zinc-950 text-white flex">
       <AdminSidebar />
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
+        <header className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <div>
             <h1 className="text-xl font-bold text-white">Categories</h1>
             <p className="text-sm text-zinc-500 mt-0.5">Manage menu categories and their display order</p>
@@ -124,7 +124,7 @@ export default function CategoriesPage() {
           </button>
         </header>
 
-        <div className="flex-1 px-8 py-8 overflow-auto">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-8 overflow-auto">
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <Loader2 className="w-8 h-8 text-zinc-600 animate-spin" />
@@ -135,7 +135,7 @@ export default function CategoriesPage() {
               <p className="text-zinc-500 text-sm font-medium">No categories yet</p>
             </div>
           ) : (
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-zinc-800/60">

@@ -96,7 +96,7 @@ export default function MenuItemEditor({ itemId, fromId }: { itemId?: string; fr
         <div className="px-4 sm:px-8 py-6 space-y-6" aria-busy="true">
           <Breadcrumb current={title} />
           <p className="sr-only" role="status">Loading…</p>
-          <div className="grid gap-6 lg:grid-cols-12">
+          <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
             <div className="lg:col-span-8 space-y-6">
               {[0, 1, 2].map((i) => <div key={i} className="h-56 rounded-2xl bg-zinc-900 border border-zinc-800 animate-pulse" />)}
             </div>
@@ -147,7 +147,7 @@ function GroupCard({ number, title, subtitle, count, children }: { number: strin
         </span>
         <span className="min-w-0 flex-1">
           <h3 className="font-heading font-bold text-white">{title}</h3>
-          <span className="block text-sm text-white/70 truncate">{subtitle}</span>
+          <span className="block text-sm text-white/70 sm:truncate">{subtitle}</span>
         </span>
         <span className={`shrink-0 text-xs font-medium rounded-full px-2.5 py-1 tabular-nums ${count > 0 ? 'bg-white/10 text-white' : 'text-white/60'}`}>
           {count > 0 ? `${count} option${count === 1 ? '' : 's'}` : 'Empty'}
@@ -464,7 +464,7 @@ function EditorForm({ source, isEdit, categories }: { source: MenuItem | null; i
         )}
       </header>
 
-      <form id="item-form" onSubmit={handleSubmit} noValidate className="px-4 sm:px-8 pt-6 pb-32 md:pb-10 grid gap-6 lg:grid-cols-12 items-start">
+      <form id="item-form" onSubmit={handleSubmit} noValidate className="px-4 sm:px-8 pt-6 pb-32 md:pb-10 grid gap-6 grid-cols-1 lg:grid-cols-12 items-start">
         {/* ── Basics ── */}
         <Card title="Basics" className="lg:col-start-1 lg:col-span-8">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -805,8 +805,8 @@ function EditorForm({ source, isEdit, categories }: { source: MenuItem | null; i
         )}
       </form>
 
-      {/* Mobile action bar. Left padding clears the sidebar's menu button (fixed bottom-6 left-4). */}
-      <div className="md:hidden fixed bottom-0 inset-x-0 z-20 border-t border-zinc-800 bg-zinc-900/95 backdrop-blur pl-20 pr-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-3">
+      {/* Mobile action bar */}
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-20 border-t border-zinc-800 bg-zinc-900/95 backdrop-blur px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-3">
         {cancelLink('flex-1')}
         {saveButton('flex-1')}
       </div>

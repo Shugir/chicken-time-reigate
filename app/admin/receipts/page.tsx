@@ -188,7 +188,7 @@ export default function ReceiptsPage() {
       <main className="flex-1 flex flex-col min-w-0">
 
         {/* Page header */}
-        <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
+        <header className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <div>
             <h1 className="text-xl font-bold text-white flex items-center gap-2">
               <ReceiptText className="w-5 h-5 text-brand-red" />
@@ -225,7 +225,7 @@ export default function ReceiptsPage() {
         </header>
 
         {/* Search + filter chips */}
-        <div className="px-8 py-4 bg-zinc-950/50 border-b border-zinc-800/60">
+        <div className="min-w-0 px-4 sm:px-8 py-4 bg-zinc-950/50 border-b border-zinc-800/60">
           <input
             value={searchInput}
             onChange={(e) => handleSearch(e.target.value)}
@@ -339,7 +339,7 @@ export default function ReceiptsPage() {
         </div>
 
         {/* Results summary */}
-        <div className="flex items-center justify-between px-8 py-2.5 border-b border-zinc-800/40 bg-zinc-950/30">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-4 sm:px-8 py-2.5 border-b border-zinc-800/40 bg-zinc-950/30">
           <span className="text-xs text-zinc-500">
             {loading ? '…' : `${total.toLocaleString()} order${total !== 1 ? 's' : ''}`}
             {(page > 1 || total > 50) ? ` · page ${page} of ${pages}` : ''}
@@ -350,7 +350,7 @@ export default function ReceiptsPage() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 px-8 py-6 overflow-auto">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-6 overflow-auto">
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <Loader2 className="w-8 h-8 animate-spin text-zinc-600" />

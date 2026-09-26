@@ -264,14 +264,14 @@ export default function SettingsPage() {
       <AdminSidebar />
 
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="flex items-center px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
+        <header className="flex items-center px-4 sm:px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <div>
             <h1 className="text-xl font-bold text-white">Store Settings</h1>
             <p className="text-sm text-zinc-500 mt-0.5">Operations, contact info, hours, and availability</p>
           </div>
         </header>
 
-        <div className="flex-1 px-8 py-8 overflow-auto">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-8 overflow-auto">
           <div className="max-w-2xl space-y-5">
 
             {/* ── Emergency Kill Switch ── */}

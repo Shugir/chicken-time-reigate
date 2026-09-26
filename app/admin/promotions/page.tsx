@@ -545,7 +545,7 @@ export default function PromotionsPage() {
       <AdminSidebar />
 
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
+        <header className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <div>
             <h1 className="text-xl font-bold text-white">Promotions</h1>
             <p className="text-sm text-zinc-500 mt-0.5">{headerSubtitle}</p>
@@ -556,7 +556,7 @@ export default function PromotionsPage() {
           </button>
         </header>
 
-        <div className="flex-1 px-8 py-6 overflow-auto space-y-4">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-6 overflow-auto space-y-4">
           {/* Filter Bar */}
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2 text-zinc-500">

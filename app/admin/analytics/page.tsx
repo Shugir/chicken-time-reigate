@@ -178,7 +178,7 @@ export default function AnalyticsPage() {
 
       <main className="flex-1 flex flex-col min-w-0 overflow-auto">
         {/* Header */}
-        <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 bg-zinc-900/50 shrink-0">
+        <header className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 py-5 border-b border-zinc-800 bg-zinc-900/50 shrink-0">
           <div>
             <h1 className="text-xl font-bold text-white">Analytics</h1>
             <p className="text-sm text-zinc-500 mt-0.5">{today}</p>
@@ -208,7 +208,7 @@ export default function AnalyticsPage() {
           </div>
         </header>
 
-        <div className="flex-1 px-8 py-6 space-y-6">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-6 space-y-6">
 
           {/* ── KPI strip ── */}
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">

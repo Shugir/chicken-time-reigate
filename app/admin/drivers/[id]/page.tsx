@@ -114,7 +114,7 @@ export default function DriverLedgerPage() {
 
       <main className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <header className="flex items-center gap-4 px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
+        <header className="flex flex-wrap items-center gap-4 px-4 sm:px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <Link
             href="/admin/drivers"
             className="flex items-center gap-1.5 text-zinc-500 hover:text-white transition-colors text-sm font-medium"
@@ -136,7 +136,7 @@ export default function DriverLedgerPage() {
           )}
         </header>
 
-        <div className="flex-1 px-8 py-8 space-y-8 overflow-auto">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-8 space-y-8 overflow-auto">
 
           {/* Date range + settle row */}
           <div className="flex flex-wrap items-end gap-4">

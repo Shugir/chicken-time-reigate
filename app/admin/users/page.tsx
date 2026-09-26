@@ -155,14 +155,14 @@ export default function UsersPage() {
       <AdminSidebar />
 
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
+        <header className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <div>
             <h1 className="text-xl font-bold text-white">Auth Users</h1>
             <p className="text-sm text-zinc-500 mt-0.5">All registered accounts, linked drivers, and loyalty balances</p>
           </div>
         </header>
 
-        <div className="flex-1 px-8 py-8 overflow-auto">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-8 overflow-auto">
           <AdminDataTable
             columns={columns}
             data={users}

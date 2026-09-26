@@ -225,7 +225,7 @@ export default function AdminPage() {
       {/* ── Main ── */}
       <main className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
+        <header className="px-4 sm:px-8 py-5 border-b border-zinc-800 bg-zinc-900/50">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-xl font-bold text-white">Menu Manager</h1>
@@ -258,7 +258,7 @@ export default function AdminPage() {
         </header>
 
         {/* Control bar */}
-        <div className="px-8 py-3 border-b border-zinc-800 bg-zinc-900/30 flex items-center gap-3 flex-wrap shrink-0">
+        <div className="min-w-0 px-4 sm:px-8 py-3 border-b border-zinc-800 bg-zinc-900/30 flex items-center gap-3 flex-wrap shrink-0">
           {/* Search */}
           <div className="relative flex-1 min-w-48">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
@@ -315,7 +315,7 @@ export default function AdminPage() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 px-8 py-6 overflow-auto">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-6 overflow-auto">
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <Loader2 className="w-8 h-8 text-zinc-600 animate-spin" />

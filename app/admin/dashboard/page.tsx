@@ -118,7 +118,7 @@ export default function DashboardPage() {
       <AdminSidebar />
 
       <main className="flex-1 flex flex-col min-w-0 overflow-auto">
-        <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800/60 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-10">
+        <header className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 py-5 border-b border-zinc-800/60 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-10">
           <div>
             <h1 className="text-xl font-bold text-white">Dashboard</h1>
             <p className="text-sm text-zinc-500 mt-0.5">{formatDateHeader(new Date())}</p>
@@ -133,7 +133,7 @@ export default function DashboardPage() {
           </button>
         </header>
 
-        <div className="flex-1 px-8 py-6 space-y-6">
+        <div className="flex-1 min-w-0 px-4 sm:px-8 py-6 space-y-6">
           {/* Bento grid */}
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
             {bentoCards.map((c) => (
@@ -162,6 +162,7 @@ export default function DashboardPage() {
                 <p className="text-zinc-700 text-xs mt-1">Orders will appear here once customers start buying</p>
               </div>
             ) : (
+              <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-zinc-800/60 bg-zinc-900/50">
@@ -213,6 +214,7 @@ export default function DashboardPage() {
                   })}
                 </tbody>
               </table>
+              </div>
             )}
           </div>
         </div>

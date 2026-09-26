@@ -175,7 +175,8 @@ describe('first N free', () => {
   it('frees nothing without a rule, a zero rule, or a category on the extra', () => {
     expect(freeExtrasDiscount(dips, null)).toBe(0)
     expect(freeExtrasDiscount(dips, { dips: 0 })).toBe(0)
-    expect(freeExtrasDiscount([{ name: 'BBQ', price: 0.5 }], { dips: 1 })).toBe(0)
+    const legacy = [{ name: 'BBQ', price: 0.5 }]
+    expect(freeExtrasDiscount(legacy, { dips: 1 })).toBe(0)
   })
   it('takes the free units off the unit price', () => {
     // 5 + 0.5*2 + 0.75 + 1.2 = 7.95, less the Garlic dip

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -54,6 +54,21 @@ export default function AdminSidebar() {
   const pathname       = usePathname()
   const { can, email } = usePermissions()
   const [open, setOpen] = useState(false)
+  const closeRef = useRef<HTMLButtonElement>(null)
+
+  // Phone drawer: Escape closes it, focus moves into it, and the page behind stops scrolling
+  useEffect(() => {
+    if (!open) return
+    closeRef.current?.focus()
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    const overflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = overflow
+    }
+  }, [open])
 
   function isActive(href: string) {
     // '/admin' and '/admin/loyalty' are prefixes of other nav entries, so they
@@ -64,37 +79,52 @@ export default function AdminSidebar() {
       : pathname.startsWith(href)
   }
 
+  const current = NAV_GROUPS.flatMap((g) => g.items).find((i) => isActive(i.href))?.label ?? 'Admin'
+
   return (
     <>
-      {/* Mobile FAB — open sidebar */}
-      <button
-        onClick={() => setOpen(true)}
-        aria-label="Open navigation"
-        className="fixed bottom-6 left-4 z-50 md:hidden w-12 h-12 rounded-full bg-brand-red shadow-lg shadow-red-900/50 flex items-center justify-center"
-      >
-        <Menu size={22} className="text-white" />
-      </button>
+      {/* Phone/tablet top bar (the admin layout pads content by its height, pt-14) */}
+      <div className="md:hidden fixed top-0 inset-x-0 z-30 h-14 flex items-center gap-3 px-3 bg-zinc-950/95 backdrop-blur border-b border-zinc-800/60">
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open navigation"
+          aria-expanded={open}
+          aria-controls="admin-nav"
+          className="h-11 px-3 inline-flex items-center gap-2 rounded-xl text-sm font-semibold text-white bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
+        >
+          <Menu size={18} aria-hidden="true" />
+          Menu
+        </button>
+        <p className="min-w-0 truncate text-sm font-bold text-white">{current}</p>
+      </div>
 
       {/* Mobile overlay */}
       {open && (
         <div
-          className="fixed inset-0 z-30 bg-black/60 md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 md:hidden"
           onClick={() => setOpen(false)}
         />
       )}
 
-    <aside className={`w-60 fixed left-0 top-0 h-full bg-zinc-950 border-r border-zinc-800/60 flex flex-col overflow-y-auto z-40 transition-transform duration-300 ease-in-out ${open ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+    {/* Closed on phones it is also invisible, so keyboard focus never lands on off-screen links.
+        Visibility flips at once on open (so the close button can take focus) and after the slide on close. */}
+    <aside
+      id="admin-nav"
+      aria-label="Admin navigation"
+      className={`w-60 max-w-[85vw] fixed left-0 top-0 h-full bg-zinc-950 border-r border-zinc-800/60 flex flex-col overflow-y-auto overscroll-contain z-50 duration-300 ease-in-out [scrollbar-width:thin] [scrollbar-color:var(--color-zinc-700)_transparent] ${open ? 'transition-[translate] translate-x-0 visible' : 'transition-[translate,visibility] -translate-x-full invisible'} md:translate-x-0 md:visible`}
+    >
       {/* Mobile close button */}
       <button
+        ref={closeRef}
         onClick={() => setOpen(false)}
         aria-label="Close navigation"
-        className="md:hidden absolute top-4 right-4 p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors"
+        className="md:hidden absolute top-3 right-3 w-11 h-11 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
       >
         <X size={18} />
       </button>
 
       {/* Brand */}
-      <div className="px-5 py-5 border-b border-zinc-800/60">
+      <div className="shrink-0 px-5 py-5 border-b border-zinc-800/60">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-brand-red flex items-center justify-center shrink-0 shadow-lg shadow-red-900/40">
             <Image src="/Logo_v3-removebg-preview.png" alt="Chicken Time" width={28} height={28} className="w-7 h-7 object-contain" />
@@ -107,7 +137,7 @@ export default function AdminSidebar() {
       </div>
 
       {/* Nav groups */}
-      <nav className="flex-1 px-3 py-4 overflow-y-auto space-y-5">
+      <nav className="grow shrink-0 px-3 py-4 space-y-5">
         {NAV_GROUPS.map((group) => {
           const visible = group.items.filter((item) => can(item.permission))
           if (visible.length === 0) return null
@@ -124,6 +154,8 @@ export default function AdminSidebar() {
                     <Link
                       key={item.id}
                       href={item.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={active ? 'page' : undefined}
                       className={`w-full flex items-center gap-3 py-2.5 text-[13px] font-medium transition-all duration-150 ${
                         active
                           ? 'bg-brand-red/10 text-white border-l-[3px] border-brand-red rounded-r-xl pl-[9px] pr-3'
@@ -142,7 +174,7 @@ export default function AdminSidebar() {
       </nav>
 
       {/* Kitchen link */}
-      <div className="px-3 pb-2 border-t border-zinc-800/60 pt-3">
+      <div className="shrink-0 px-3 pb-2 border-t border-zinc-800/60 pt-3">
         <a
           href="/kitchen"
           target="_blank"
@@ -156,7 +188,7 @@ export default function AdminSidebar() {
       </div>
 
       {/* Footer */}
-      <div className="px-4 py-4 border-t border-zinc-800/60 space-y-2">
+      <div className="shrink-0 px-4 py-4 border-t border-zinc-800/60 space-y-2">
         {email && (
           <div className="px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800/60">
             <p className="text-[10px] text-zinc-600 leading-tight">Signed in as</p>

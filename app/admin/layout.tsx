@@ -6,7 +6,8 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   const perms = await getUserPermissions()
   return (
     <PermissionsProvider email={perms?.email ?? ''} permissions={perms?.permissions ?? []} isOwner={perms?.isOwner ?? false}>
-      <div className="pl-0 md:pl-60 min-h-screen bg-zinc-950">
+      {/* pt-14: the phone top bar from AdminSidebar; md+: the fixed 240px sidebar */}
+      <div className="pt-14 md:pt-0 pl-0 md:pl-60 min-h-screen bg-zinc-950">
         {children}
       </div>
     </PermissionsProvider>
