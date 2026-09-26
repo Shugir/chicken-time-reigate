@@ -20,6 +20,8 @@ interface Props {
   onChange: (next: ModifierSelection) => void
   /** Option names to disable with a "Sold out" hint. */
   soldOut?: string[]
+  /** Show 1, 2, 3… badges on the section headers (full-page customizer only). */
+  numbered?: boolean
 }
 
 const priceHint = (p: number) => (p > 0 ? `+£${p.toFixed(2)}` : 'Free')
@@ -32,9 +34,14 @@ const toggle = (list: string[], value: string) =>
  * Renders Spicy, Ingredients, the priced categories and Free additions as sibling
  * <section>s, so a `divide-y` parent separates them.
  */
-export default function ModifierForm({ config, value, onChange, soldOut }: Props) {
+export default function ModifierForm({ config, value, onChange, soldOut, numbered = false }: Props) {
   const isSoldOut = (name: string) => soldOut?.includes(name) ?? false
   const patch = (next: Partial<ModifierSelection>) => onChange({ ...value, ...next })
+
+  // Sections render in a fixed order and empty ones are skipped, so a running counter
+  // yields gap-free numbers that match sectionCount(config).
+  let n = 0
+  const nextNumber = () => (numbered ? ++n : undefined)
 
   const qtyOf = (category: string, name: string) =>
     value.extras.find((e) => e.category === category && e.name === name)?.qty ?? 0
@@ -57,7 +64,7 @@ export default function ModifierForm({ config, value, onChange, soldOut }: Props
       {config.spicyLevels.length > 0 && (
         // spicy_level is a single TEXT column, so this stays single-select even if
         // modifier_select_modes says multi.
-        <ModifierSection title="Spicy level" subtitle="Choose one, tap again to clear">
+        <ModifierSection title="Spicy level" subtitle="Choose one, tap again to clear" number={nextNumber()}>
           <div className="grid grid-cols-2 gap-2">
             {config.spicyLevels.map((level) => (
               <Pill
@@ -75,7 +82,7 @@ export default function ModifierForm({ config, value, onChange, soldOut }: Props
       )}
 
       {config.ingredients.length > 0 && (
-        <ModifierSection title="Ingredients" subtitle="Tap to leave one out">
+        <ModifierSection title="Ingredients" subtitle="Tap to leave one out" number={nextNumber()}>
           <div className="grid grid-cols-2 gap-2">
             {config.ingredients.map((ing) => {
               const removed = value.removals.includes(ing)
@@ -99,6 +106,7 @@ export default function ModifierForm({ config, value, onChange, soldOut }: Props
           key={cat.key}
           title={cat.label}
           subtitle={cat.mode === 'single' ? 'Choose one, tap again to clear' : 'Add as many as you like'}
+          number={nextNumber()}
         >
           {cat.mode === 'single' ? (
             <div className="grid grid-cols-2 gap-2">
@@ -141,7 +149,7 @@ export default function ModifierForm({ config, value, onChange, soldOut }: Props
       ))}
 
       {config.additions.length > 0 && (
-        <ModifierSection title="Free additions" subtitle="No extra charge">
+        <ModifierSection title="Free additions" subtitle="No extra charge" number={nextNumber()}>
           <div className="grid grid-cols-2 gap-2">
             {config.additions.map((add) => (
               <Pill

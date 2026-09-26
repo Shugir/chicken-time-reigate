@@ -66,17 +66,29 @@ export function OptionBadge({ text }: { text: string }) {
 }
 
 export default function ModifierSection({
-  title, subtitle, children,
+  title, subtitle, number, children,
 }: {
   title: string
   subtitle?: string
+  /** Step number shown as a circle badge before the title. */
+  number?: number
   children: React.ReactNode
 }) {
   return (
     <section aria-label={title}>
-      <div className="bg-brand-red px-5 py-2.5">
-        <p className="font-heading font-semibold text-white text-sm">{title}</p>
-        {subtitle && <p className="text-xs text-white/70 mt-0.5">{subtitle}</p>}
+      <div className="bg-brand-red px-5 py-2.5 flex items-center gap-3">
+        {number != null && (
+          <span
+            aria-hidden="true"
+            className="w-7 h-7 shrink-0 rounded-full bg-white/20 text-white text-xs font-bold flex items-center justify-center tabular-nums"
+          >
+            {number}
+          </span>
+        )}
+        <div className="min-w-0">
+          <p className="font-heading font-semibold text-white text-sm">{title}</p>
+          {subtitle && <p className="text-xs text-white/70 mt-0.5">{subtitle}</p>}
+        </div>
       </div>
       <div className="px-5 py-4">{children}</div>
     </section>
