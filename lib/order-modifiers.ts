@@ -105,3 +105,16 @@ export function toModifierConfig(src: ModifierSource): ModifierConfig {
       .filter((c) => c.options.length > 0),
   }
 }
+
+/** How many option sections the customizer shows for this config. Quantity and notes are not counted. */
+export function sectionCount(c: ModifierConfig): number {
+  return (
+    (c.spicyLevels.length > 0 ? 1 : 0) +
+    (c.ingredients.length > 0 ? 1 : 0) +
+    c.categories.length +
+    (c.additions.length > 0 ? 1 : 0)
+  )
+}
+
+/** True when there is nothing to choose, so the item goes straight into the cart at qty 1. */
+export const hasNoCustomization = (c: ModifierConfig): boolean => sectionCount(c) === 0

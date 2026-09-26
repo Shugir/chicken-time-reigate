@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extraQty, extrasTotal, unitPrice, formatExtra, toModifierConfig, spicyPrice } from './order-modifiers'
+import { extraQty, extrasTotal, unitPrice, formatExtra, toModifierConfig, spicyPrice, sectionCount, hasNoCustomization } from './order-modifiers'
 
 describe('extra quantity and pricing', () => {
   it('treats a missing or invalid qty as 1', () => {
@@ -116,5 +116,46 @@ describe('toModifierConfig', () => {
     expect(toModifierConfig({})).toEqual({
       spicyLevels: [], spicyMode: 'single', ingredients: [], additions: [], categories: [],
     })
+  })
+})
+
+describe('sectionCount / hasNoCustomization', () => {
+  it('an item with nothing to choose has zero sections and skips the page', () => {
+    const c = toModifierConfig({})
+    expect(sectionCount(c)).toBe(0)
+    expect(hasNoCustomization(c)).toBe(true)
+  })
+
+  it('empty arrays count as nothing to choose', () => {
+    const c = toModifierConfig({ spicy_levels: [], ingredients: [], additions: [], drinks_regular: [] })
+    expect(hasNoCustomization(c)).toBe(true)
+  })
+
+  it('only spicy levels is one section', () => {
+    const c = toModifierConfig({ spicy_levels: [{ name: 'Mild', price: 0 }] })
+    expect(sectionCount(c)).toBe(1)
+    expect(hasNoCustomization(c)).toBe(false)
+  })
+
+  it('only free additions is one section', () => {
+    const c = toModifierConfig({ additions: ['Ketchup'] })
+    expect(sectionCount(c)).toBe(1)
+    expect(hasNoCustomization(c)).toBe(false)
+  })
+
+  it('counts each non-empty priced category separately', () => {
+    const c = toModifierConfig({
+      spicy_levels: [{ name: 'Hot', price: 0.5 }],
+      ingredients: ['Lettuce'],
+      drinks_regular: [{ name: 'Coke', price: 1.2 }],
+      dips: [{ name: 'Garlic', price: 0.5 }],
+      additions: ['Napkins'],
+    })
+    expect(sectionCount(c)).toBe(5)
+  })
+
+  it('legacy removals/extras still count', () => {
+    const c = toModifierConfig({ removals: ['No Mayo'], extras: [{ name: 'Cheese', price: 0.75 }] })
+    expect(sectionCount(c)).toBe(2)
   })
 })

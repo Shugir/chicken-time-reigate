@@ -7,6 +7,7 @@ import {
   CheckCircle2, ChefHat, Truck, Package, Clock, Loader2, AlertCircle, Calendar,
 } from 'lucide-react'
 import { formatTime } from '@/lib/utils/format-date'
+import { CART_KEY } from '@/lib/use-cart'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -170,6 +171,11 @@ export default function TrackOrderPage() {
       setLoading(false)
     }
   }, [orderId])
+
+  // Reaching the tracking page means the order was placed, so the saved /order cart is spent.
+  useEffect(() => {
+    try { sessionStorage.removeItem(CART_KEY) } catch { /* storage unavailable */ }
+  }, [])
 
   // Initial fetch
   useEffect(() => { fetchOrder() }, [fetchOrder])
