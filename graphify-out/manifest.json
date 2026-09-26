@@ -295,8 +295,8 @@
     "semantic_hash": "dd00b615c8669ea595f751acf04a6572"
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.claude-flow\\policy\\state.json": {
-    "mtime": 1790388997.4834466,
-    "ast_hash": "88fa4bff45a36c24ff7beec06ad2c2b5",
+    "mtime": 1790389571.9481807,
+    "ast_hash": "cd87ae51d645b156cda7b12803607934",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.claude-flow\\security\\audit-status.json": {
@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.claude-flow\\tasks\\store.json": {
-    "mtime": 1790388997.4861653,
-    "ast_hash": "d57a6c40e7a805304f3acb00687b1aa7",
+    "mtime": 1790389571.9502485,
+    "ast_hash": "f8cfc077654502f7a8a89bb2451b172b",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.remember\\tmp\\last-ndc.ts": {
@@ -320,8 +320,18 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.remember\\tmp\\last-save.json": {
-    "mtime": 1790388894.4250233,
-    "ast_hash": "cad8b22ed8b62a2bf16a81fdd9c9eba0",
+    "mtime": 1790389662.6971946,
+    "ast_hash": "26b419e08609f5e5aa2dcd05f3c5135d",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.superpowers\\sdd\\2026-09-26-customizer-fullpage\\menu.json": {
+    "mtime": 1790389451.0615413,
+    "ast_hash": "4206e601ab0e506cb32ed06169df1aaf",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.superpowers\\sdd\\2026-09-26-customizer-fullpage\\parity.test.ts": {
+    "mtime": 1790389461.2103546,
+    "ast_hash": "974bd497a357bbece7f4007ad54e32f1",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.swarm\\ewc-fisher.json": {
@@ -855,8 +865,8 @@
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\order\\customize\\[itemId]\\page.tsx": {
-    "mtime": 1790388820.6146567,
-    "ast_hash": "aa455a9298c2d3055eecd6b7a66928bb",
+    "mtime": 1790389931.4357421,
+    "ast_hash": "9966f32989a35374c65d810eac6f3fb0",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\app\\privacy\\page.tsx": {
@@ -1165,13 +1175,13 @@
     "semantic_hash": "532d87e71eb6765d58dfc090d9c52745"
   },
   "E:\\ChickenTime\\chicken-time-reigate\\lib\\use-cart.test.ts": {
-    "mtime": 1790387928.8635812,
-    "ast_hash": "6ec5130f7df0c4256cfdbacef2bb08a1",
+    "mtime": 1790389875.1312232,
+    "ast_hash": "785ae2a3cab2dec3ff53d68104c19a2b",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\lib\\use-cart.ts": {
-    "mtime": 1790387941.2739396,
-    "ast_hash": "fceb153af5e75494f05dafc788e6d192",
+    "mtime": 1790389909.1154447,
+    "ast_hash": "f146555dbf8660d35a7c8a17b2ebfbe6",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\lib\\email\\send.ts": {
@@ -2549,14 +2559,39 @@
     "ast_hash": "a2c48bf74117225f3e59f9300dd47e47",
     "semantic_hash": "a2c48bf74117225f3e59f9300dd47e47"
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\.playwright-mcp\\page-2026-09-26T02-22-32-226Z.yml": {
+    "mtime": 1790389352.2286003,
+    "ast_hash": "d5e5892e7ce47c333692b286efcc6dc8",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.playwright-mcp\\page-2026-09-26T02-23-40-008Z.yml": {
+    "mtime": 1790389420.0096443,
+    "ast_hash": "979ad5d2edbed6e7d2bfb8d72a31077e",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.playwright-mcp\\page-2026-09-26T02-24-39-063Z.yml": {
+    "mtime": 1790389479.064427,
+    "ast_hash": "73acbe9dfc2a8f7d80d119c00d7a43a9",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.playwright-mcp\\page-2026-09-26T02-24-59-972Z.yml": {
+    "mtime": 1790389499.9744565,
+    "ast_hash": "170513e850d909a57ccf2d3efe0a5a69",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.playwright-mcp\\page-2026-09-26T02-33-02-724Z.yml": {
+    "mtime": 1790389982.726286,
+    "ast_hash": "562b6be3a3beafc003a4b07c663c6f98",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\.remember\\archive.md": {
     "mtime": 1790386277.6272533,
     "ast_hash": "a8fc3ffcb2e571ad7f677b821a9706d5",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.remember\\now.md": {
-    "mtime": 1790388893.8301387,
-    "ast_hash": "7f05d2e1578778c3d6df260209ee3ff2",
+    "mtime": 1790389662.1016955,
+    "ast_hash": "feb734ab8f9b1ca997569f5ded287e5c",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.remember\\recent.md": {
@@ -2669,14 +2704,19 @@
     "ast_hash": "081fa5f31ce2e1ffeb55d1faf8dfa457",
     "semantic_hash": "081fa5f31ce2e1ffeb55d1faf8dfa457"
   },
+  "E:\\ChickenTime\\chicken-time-reigate\\.superpowers\\sdd\\2026-09-26-customizer-fullpage\\final-fix-brief.md": {
+    "mtime": 1790389854.5182495,
+    "ast_hash": "60fc49eed72ff69723ffda60c99f0704",
+    "semantic_hash": ""
+  },
   "E:\\ChickenTime\\chicken-time-reigate\\.superpowers\\sdd\\2026-09-26-customizer-fullpage\\global-constraints.md": {
     "mtime": 1790387835.4063697,
     "ast_hash": "2bf66986f9466a9c42459e6d9616e780",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.superpowers\\sdd\\2026-09-26-customizer-fullpage\\progress.md": {
-    "mtime": 1790388983.6198742,
-    "ast_hash": "ee8073ea907d6ee087e2382ded6d5677",
+    "mtime": 1790389854.4674523,
+    "ast_hash": "8802459c5ca364d398abfe73c39a80d3",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\.superpowers\\sdd\\2026-09-26-customizer-fullpage\\rereview-instructions.md": {
@@ -2732,6 +2772,11 @@
   "E:\\ChickenTime\\chicken-time-reigate\\.superpowers\\sdd\\2026-09-26-customizer-fullpage\\task-5-brief.md": {
     "mtime": 1790388984.121027,
     "ast_hash": "6ae76939fd904534bacbe0a092d0ba4b",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.superpowers\\sdd\\2026-09-26-customizer-fullpage\\task-5-report.md": {
+    "mtime": 1790389299.6982372,
+    "ast_hash": "0feceb24534cfa3e579073ecb39aac27",
     "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\docs\\superpowers\\plans\\2026-06-07-combo-meal-engine.md": {
@@ -2883,6 +2928,16 @@
     "mtime": 1780509887.3503263,
     "ast_hash": "abe9ce55376873a767cf6c0296b1687b",
     "semantic_hash": "abe9ce55376873a767cf6c0296b1687b"
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.playwright-mcp\\b-desk1.png": {
+    "mtime": 1790389373.5936487,
+    "ast_hash": "a68cf1934b5e79f2dd065ecf932b94c2",
+    "semantic_hash": ""
+  },
+  "E:\\ChickenTime\\chicken-time-reigate\\.playwright-mcp\\b-mobile1.png": {
+    "mtime": 1790389486.8865652,
+    "ast_hash": "25f258200b3e5e459cb0bc996b2cd2df",
+    "semantic_hash": ""
   },
   "E:\\ChickenTime\\chicken-time-reigate\\Assets\\01.jpeg": {
     "mtime": 1780831186.905918,
