@@ -11,7 +11,7 @@ import QtyStepper from '@/components/Menu/QtyStepper'
 import { isSelectionComplete, upgradesTotal } from '@/components/Deals/deal-slot-picker-logic'
 import { customizerLayout, receiptLines } from '@/lib/customizer-layout'
 import { matchDeals } from '@/lib/deal-engine'
-import { bundlesContaining, dealPriceLabel, lockedSlotIndex, slotItems, type BundleDeal } from '@/lib/deal-page'
+import { dealsForItem, dealView, lockedSlotIndex, slotItems, type DealView, type PageDeal } from '@/lib/deal-page'
 import { dbToMenuItem, FALLBACK_IMG, itemConfig, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
 import { formatExtra, hasNoCustomization } from '@/lib/order-modifiers'
 import { queueCartLine } from '@/lib/use-cart'
@@ -70,7 +70,7 @@ function DealPageContent() {
   const { dealId } = useParams<{ dealId: string }>()
   const itemId = useSearchParams().get('item')
   const router = useRouter()
-  const [data, setData] = useState<{ deals: BundleDeal[]; items: MenuItem[] } | null>(null)
+  const [data, setData] = useState<{ deals: PageDeal[]; items: MenuItem[] } | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -81,7 +81,7 @@ function DealPageContent() {
     Promise.all([fetch('/api/deals/active').then(json), fetch('/api/menu-items').then(json)])
       .then(([deals, rows]: [{ type: string }[], DbMenuItem[]]) => {
         if (cancelled) return
-        setData({ deals: deals.filter((d): d is BundleDeal => d.type === 'bundle'), items: rows.map(dbToMenuItem) })
+        setData({ deals: deals.filter((d): d is PageDeal => d.type === 'bundle' || d.type === 'bogo'), items: rows.map(dbToMenuItem) })
       })
       .catch((err) => {
         console.error('Failed to load meal deal:', err)
@@ -92,9 +92,10 @@ function DealPageContent() {
     return () => { cancelled = true }
   }, [router])
 
-  const deal = data?.deals.find((d) => d.id === dealId)
+  const found = data?.deals.find((d) => d.id === dealId)
+  const deal = found ? dealView(found) : undefined
   const tapped = itemId ? data?.items.find((i) => i.id === itemId && i.is_available !== false) : undefined
-  const containing = data && tapped ? bundlesContaining(data.deals, tapped) : []
+  const containing = data && tapped ? dealsForItem(data.deals, tapped) : []
   const locked = deal && tapped && lockedSlotIndex(deal, tapped) >= 0 ? tapped : undefined
   // Unknown/inactive deal: back to the menu. Tapped item not in this deal: the first deal that has it.
   const redirect = !data
@@ -168,7 +169,7 @@ function DealPageContent() {
                     selected ? 'bg-brand-dark text-white border-brand-dark' : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400'
                   }`}
                 >
-                  {t.name} · <span className="tabular-nums">{dealPriceLabel(t.config)}</span>
+                  {t.name} · <span className="tabular-nums">{dealView(t).priceLabel}</span>
                 </button>
               )
             })}
@@ -184,7 +185,7 @@ function DealPageContent() {
   )
 }
 
-function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuItem[]; locked?: MenuItem }) {
+function DealBuilder({ deal, items, locked }: { deal: DealView; items: MenuItem[]; locked?: MenuItem }) {
   const router = useRouter()
   // Blocks a second Add tap while navigation is in flight (it would queue the lines twice)
   const adding = useRef(false)
@@ -226,7 +227,7 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
     setPicks((prev) => ({ ...prev, [gi]: (prev[gi] ?? []).map((p) => (p.uid === uid ? { ...p, ...patch } : p)) }))
   }
 
-  // ── Deal math: the same as the old pop-up, with the checkout engine's own discount ──
+  // ── Deal math: the checkout engine's own discount ──
   const units = order.flatMap((gi) => (picks[gi] ?? []).map((u) => ({ gi, u })))
   const complete = isSelectionComplete(groups, Object.fromEntries(
     groups.map((_, gi) => [gi, (picks[gi] ?? []).map((u) => ({ item_id: u.item_id, qty: 1 }))]),
@@ -238,7 +239,7 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
   const saving = complete
     ? matchDeals(
         units.map(({ u }) => ({ menu_item_id: u.item_id, quantity: 1 })),
-        [{ id: deal.id, type: 'bundle', name: deal.name, config: deal.config, is_active: true }],
+        [deal.engine],
         new Map(available.map((i) => [i.id, { id: i.id, price: i.price, category: i.category, is_available: true }])),
       ).totalDiscount
     : 0
@@ -281,7 +282,6 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
   }
 
   const heroItem = locked ?? (groups.length > 0 ? slotItems(deal, 0, available)[0] : undefined)
-  const priceLabel = deal.config.price_type === 'percent' ? `${deal.config.discount_percent}% off selected items` : `${dealPriceLabel(deal.config)} meal deal`
   // The tapped item's add-ons (drinks, sides, fries, dips, add-ons, other extras) and its note get
   // their own "Optional" group after the deal's slots; its own options (01 Item Customize) stay under it.
   const lockedUnit = lockedIndex >= 0 ? (picks[lockedIndex] ?? []).find((u) => u.uid === LOCKED_UID) : undefined
@@ -431,7 +431,7 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
             <span className="tabular-nums text-zinc-700">{money(itemsSum)}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-zinc-500">Meal deal saving</span>
+            <span className="text-zinc-500">Deal saving</span>
             <span className="tabular-nums text-emerald-700">−{money(saving)}</span>
           </div>
           <div className="flex items-center justify-between">
@@ -478,11 +478,11 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
           <header className="grid sm:grid-cols-2 gap-5 items-center">
             <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-zinc-100">
               <Image src={heroItem?.image ?? FALLBACK_IMG} alt={heroItem?.name ?? deal.name} fill priority sizes="(max-width: 640px) 100vw, 400px" className="object-cover" />
-              <div className="absolute top-0 right-0 bg-brand-red text-white text-[11px] font-black px-3 py-2 rounded-bl-2xl shadow-lg">MEAL DEAL</div>
+              <div className="absolute top-0 right-0 bg-brand-red text-white text-[11px] font-black px-3 py-2 rounded-bl-2xl shadow-lg">{deal.badge}</div>
             </div>
             <div>
               <h1 className="font-heading font-black text-3xl text-zinc-900 leading-tight">{deal.name}</h1>
-              <p className="mt-3 text-2xl font-heading font-black text-brand-red tabular-nums">{priceLabel}</p>
+              <p className="mt-3 text-2xl font-heading font-black text-brand-red tabular-nums">{deal.headline}</p>
               <p className="text-sm text-zinc-500 mt-2 leading-relaxed">Choose your items below</p>
             </div>
           </header>
@@ -500,9 +500,14 @@ function DealBuilder({ deal, items, locked }: { deal: BundleDeal; items: MenuIte
                   title={group.label}
                   subtitle={gi === lockedIndex ? 'Your choice. Set its options below.' : `${count} of ${need} selected`}
                   titleId={titleId}
-                  right={count > 0 && (
-                    <span className="shrink-0 rounded-full px-2.5 py-1 bg-brand-red text-white text-xs font-bold">{count} Selected</span>
-                  )}
+                  right={
+                    // What the slot asks for and what it costs, so the customer sees what the deal covers
+                    <span className={`max-w-[48%] rounded-full px-2.5 py-1 text-xs font-bold text-right leading-tight ${
+                      count >= group.min_qty ? 'bg-brand-red text-white' : 'bg-brand-yellow text-brand-dark'
+                    }`}>
+                      {count >= group.min_qty ? `${count} Selected` : `Select ${need} ${need === '1' ? 'item' : 'items'}`} · {group.note}
+                    </span>
+                  }
                 />
                 <div className="p-3 sm:p-5 space-y-4">
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { bogoLabel, bogosFor, bundlesContaining, cardDealLabel, dealPriceLabel, lockedSlotIndex, slotItems, type BundleDeal } from './deal-page'
+import { bogoLabel, bogoShortLabel, bogosFor, bundlesContaining, cardDealLabel, dealPriceLabel, dealsForItem, dealView, lockedSlotIndex, slotItems, type BogoDeal, type BundleDeal } from './deal-page'
 
 const burger = { id: 'b1', category: 'burgers', is_available: true }
 const wrap = { id: 'w1', category: 'wraps', is_available: true }
@@ -111,5 +111,48 @@ describe('bogosFor / bogoLabel', () => {
     expect(bogoLabel({ buy: { qty: 1 }, get: { qty: 1, discount: { percent: 50 } } })).toBe('Buy 1, get 1 half price')
     expect(bogoLabel({ buy: { qty: 2 }, get: { qty: 1, discount: 'free' } })).toBe('Buy 2, get 1 free')
     expect(bogoLabel({ buy: { qty: 1 }, get: { qty: 2, discount: { percent: 30 } } })).toBe('Buy 1, get 2 at 30% off')
+  })
+})
+
+describe('dealsForItem', () => {
+  const halfPrice: BogoDeal = {
+    id: 'd5', type: 'bogo', name: 'Half price',
+    config: { buy: { qty: 1, item_ids: ['w1'] }, get: { qty: 1, item_ids: ['w1', 'b1'], discount: { percent: 50 } } },
+  }
+  // the API lists newest first, so the BOGO comes before the bundles here
+  const deals = [halfPrice, burgerMeal, bigMeal, percentMeal]
+  it('lists bundles first, then BOGOs the item is on either side of', () => {
+    expect(dealsForItem(deals, burger).map((d) => d.id)).toEqual(['d1', 'd2', 'd5'])
+    expect(dealsForItem(deals, wrap).map((d) => d.id)).toEqual(['d1', 'd5'])
+  })
+  it('is empty for an item in no deal', () => {
+    expect(dealsForItem(deals, { id: 'x', category: 'desserts' })).toEqual([])
+  })
+})
+
+describe('dealView', () => {
+  it('marks every bundle slot as included in the deal', () => {
+    const v = dealView(burgerMeal)
+    expect(v.priceLabel).toBe('£9.99')
+    expect(v.headline).toBe('£9.99 meal deal')
+    expect(v.config.groups.map((g) => g.note)).toEqual(['Included in deal', 'Included in deal', 'Included in deal'])
+    expect(v.engine).toMatchObject({ id: 'd1', type: 'bundle', is_active: true })
+  })
+  it('turns a BOGO into a Buy slot and a discounted Get slot', () => {
+    const v = dealView({
+      id: 'd6', type: 'bogo', name: 'Two for one',
+      config: { buy: { qty: 2, category: 'burgers' }, get: { qty: 1, item_ids: ['c1'], discount: 'free' } },
+    })
+    expect(v.priceLabel).toBe('Buy 2, get 1 free')
+    expect(v.badge).toBe('OFFER')
+    expect(v.config.groups).toEqual([
+      { label: 'Buy 2', min_qty: 2, max_qty: 2, item_ids: undefined, category: 'burgers', note: 'Included in deal' },
+      { label: 'Get 1', min_qty: 1, max_qty: 1, item_ids: ['c1'], category: undefined, note: 'Free' },
+    ])
+    expect(lockedSlotIndex(v, cola)).toBe(1)
+    expect(slotItems(v, 0, items).map((i) => i.id)).toEqual(['b1'])
+  })
+  it('gives the short BOGO text for the menu row', () => {
+    expect(bogoShortLabel({ buy: { qty: 1 }, get: { qty: 1, discount: { percent: 30 } } })).toBe('30% off')
   })
 })

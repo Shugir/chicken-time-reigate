@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 import { ProductModal, AddOn } from '../../components/ProductModal'
 import ScrollToTop from '@/components/UI/ScrollToTop'
-import { bogoLabel, bogosFor, bundlesContaining, cardDealLabel, type BundleDeal } from '@/lib/deal-page'
+import { bogoLabel, bogoShortLabel, bogosFor, bundlesContaining, cardDealLabel, dealsForItem, type BundleDeal } from '@/lib/deal-page'
 import { addToLines, changeLineQty, itemIdOfKey, itemQty, removeOneFromItem } from '@/lib/cart-lines'
 import { formatExtra, hasNoCustomization } from '@/lib/order-modifiers'
 import { dbToMenuItem, FALLBACK_IMG, itemConfig, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
@@ -70,21 +70,22 @@ function cartCount(cart: Cart) {
 
 // ─── Premium Menu Card ────────────────────────────────────────────────────────
 
-function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, mealFromPrice, hasDeal, bogoText }: {
+function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, dealRow, hasDeal, bogoText }: {
   item: MenuItem
   qty: number
   onOpenDrawer: () => void
   onOpenDealPicker: () => void
   onAdd: () => void
   onRemove: () => void
-  mealFromPrice: string | null
+  /** The deal row under SINGLE: "MEAL DEAL · from £12.80", or "DEAL · Half price" for BOGO-only items */
+  dealRow: { label: string; price: string } | null
   hasDeal: boolean
   /** e.g. "Buy 1, get 1 half price" when the item starts a BOGO deal */
   bogoText?: string | null
 }) {
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
   const isSoldOut = item.is_available === false
-  const showMealRows = qty === 0 && !isSoldOut && mealFromPrice != null
+  const showMealRows = qty === 0 && !isSoldOut && dealRow != null
 
   return (
     <div
@@ -164,12 +165,12 @@ function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, 
             </button>
             <button
               onClick={onOpenDealPicker}
-              aria-label={`Add ${item.name} (meal deal)`}
+              aria-label={`Add ${item.name} (${dealRow.label.toLowerCase()})`}
               className="flex items-center justify-between bg-zinc-50 rounded-xl px-3 py-2.5 hover:bg-zinc-100 transition-colors"
             >
-              <span className="text-xs font-bold text-zinc-500 tracking-wide">MEAL DEAL</span>
+              <span className="text-xs font-bold text-zinc-500 tracking-wide">{dealRow.label}</span>
               <span className="flex items-center gap-2.5">
-                <span className="font-heading font-black text-sm text-brand-red">{mealFromPrice}</span>
+                <span className="font-heading font-black text-sm text-brand-red">{dealRow.price}</span>
                 <span className="w-7 h-7 rounded-full bg-brand-red text-white flex items-center justify-center shrink-0">
                   <Plus size={13} />
                 </span>
@@ -604,9 +605,14 @@ export default function OrderPage() {
     return (item: MenuItem): BundleDeal[] => bundlesContaining(activeBundles, item)
   }, [activeBundles])
 
-  const mealFromPriceFor = useMemo(() => {
-    return (item: MenuItem): string | null => cardDealLabel(bundlesFor(item))
-  }, [bundlesFor])
+  const dealRowFor = useMemo(() => {
+    return (item: MenuItem): { label: string; price: string } | null => {
+      const meal = cardDealLabel(bundlesFor(item))
+      if (meal) return { label: 'MEAL DEAL', price: meal }
+      const bogo = dealsForItem(activeDeals, item).find((d) => d.type === 'bogo')
+      return bogo && bogo.type === 'bogo' ? { label: 'DEAL', price: bogoShortLabel(bogo.config) } : null
+    }
+  }, [bundlesFor, activeDeals])
 
   // Label for items that start a BOGO deal; the discount itself applies at checkout
   const bogoTextFor = useMemo(() => {
@@ -663,10 +669,10 @@ export default function OrderPage() {
   const count = cartCount(cart)
   const total = cartTotal(cart, menuItems)
 
-  // The meal deal page, with this item locked in its slot of the first deal that has it
+  // The deal page, with this item locked in its slot of the first deal that has it; other deals are tabs
   function openDealPage(item: MenuItem) {
-    const bundle = bundlesFor(item)[0]
-    if (bundle) router.push(`/order/deal/${bundle.id}?item=${item.id}`)
+    const deal = dealsForItem(activeDeals, item)[0]
+    if (deal) router.push(`/order/deal/${deal.id}?item=${item.id}`)
   }
 
   // Card plus/minus act on the item's plain line; the drawer acts on a specific line key.
@@ -952,7 +958,7 @@ export default function OrderPage() {
                     key={item.id} item={item} qty={itemQty(cart, item.id)}
                     onOpenDrawer={() => openItem(item)}
                     onOpenDealPicker={() => openDealPage(item)}
-                    mealFromPrice={mealFromPriceFor(item)}
+                    dealRow={dealRowFor(item)}
                     hasDeal={anyDealFor(item)}
                     bogoText={bogoTextFor(item)}
                     onAdd={() => addToCart(item.id)}
@@ -993,7 +999,7 @@ export default function OrderPage() {
                           key={item.id} item={item} qty={itemQty(cart, item.id)}
                           onOpenDrawer={() => openItem(item)}
                           onOpenDealPicker={() => openDealPage(item)}
-                          mealFromPrice={mealFromPriceFor(item)}
+                          dealRow={dealRowFor(item)}
                           hasDeal={anyDealFor(item)}
                     bogoText={bogoTextFor(item)}
                           onAdd={() => addToCart(item.id)}
