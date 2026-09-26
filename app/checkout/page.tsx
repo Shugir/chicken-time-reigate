@@ -10,6 +10,7 @@ import { supabase } from '@/lib/supabase-browser'
 import RewardPicker from '@/components/RewardPicker'
 import { isRewardRejection, rewardDiscountAmount, type CheckoutReward } from '@/lib/reward-checkout'
 import { formatExtra, type SelectedExtra } from '@/lib/order-modifiers'
+import { CART_KEY } from '@/lib/use-cart'
 
 interface CartItem {
   menu_item_id: string
@@ -325,6 +326,7 @@ export default function CheckoutPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Checkout failed')
       sessionStorage.removeItem('pendingCart')
+      sessionStorage.removeItem(CART_KEY)
       window.location.href = data.url
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Something went wrong'

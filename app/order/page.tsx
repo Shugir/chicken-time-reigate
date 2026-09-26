@@ -14,22 +14,18 @@ import {
   Search,
   SlidersHorizontal,
 } from 'lucide-react'
-import { ProductItem, ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
+import { ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
 import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import ScrollToTop from '@/components/UI/ScrollToTop'
 import { inSlot } from '@/lib/deal-engine'
 import { addToLines, changeLineQty, itemIdOfKey, itemQty, removeOneFromItem } from '@/lib/cart-lines'
-import { formatExtra, spicyPrice, toModifierConfig, unitPrice, type ModifierConfig, type ModifierSource } from '@/lib/order-modifiers'
+import { formatExtra, type ModifierConfig } from '@/lib/order-modifiers'
+import { dbToMenuItem, FALLBACK_IMG, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
+import { useCart } from '@/lib/use-cart'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type MenuItem = ProductItem & {
-  dietaryFlags?: string[]
-  compare_at_price?: number | null
-  is_available?: boolean
-  sold_out_extras?: string[]
-}
 interface CartEntry { qty: number; spicy_level?: string; removals: string[]; additions: string[]; extras: AddOn[]; notes?: string }
 type Cart = Record<string, CartEntry>
 
@@ -63,7 +59,6 @@ interface SlotItem {
   modifiers?: ModifierConfig
 }
 
-const FALLBACK_IMG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80'
 
 const MENU_ITEMS: MenuItem[] = [
   {
@@ -260,58 +255,7 @@ function getUniqueTags(items: MenuItem[]) {
 
 // ─── DB → ProductItem mapper ──────────────────────────────────────────────────
 
-// ModifierSource carries the Phase 1 columns (spicy_levels, ingredients, the 8 priced
-// categories, modifier_select_modes) plus the legacy extras/removals/additions.
-type DbMenuItem = ModifierSource & {
-  id: string
-  name: string
-  description: string | null
-  price: number
-  compare_at_price: number | null
-  image_url: string | null
-  category: string
-  is_available: boolean
-  sold_out_extras: string[]
-  dietary_flags: string[] | null
-  allergens: string[] | null
-  custom_options: {
-    emoji?: string
-    badge?: string
-    allergens?: string[]
-    removables?: string[]
-    add_ons?: Array<{ name: string; price: number }>
-  } | null
-}
-
-function dbToMenuItem(item: DbMenuItem): MenuItem {
-  const opts = item.custom_options ?? {}
-  return {
-    id: item.id,
-    name: item.name,
-    description: item.description ?? '',
-    price: Number(item.price),
-    compare_at_price: item.compare_at_price != null ? Number(item.compare_at_price) : null,
-    category: item.category.toLowerCase(),
-    badge: opts.badge,
-    emoji: opts.emoji ?? '🍽️',
-    image: item.image_url || FALLBACK_IMG,
-    allergens: item.allergens?.length ? item.allergens : (opts.allergens ?? []),
-    removables: item.removals?.length ? item.removals : (opts.removables ?? []),
-    additions: item.additions ?? [],
-    add_ons: item.add_ons?.length ? item.add_ons : item.extras?.length ? item.extras : (opts.add_ons ?? []),
-    modifiers: toModifierConfig(item),
-    dietaryFlags: item.dietary_flags ?? [],
-    is_available: item.is_available,
-    sold_out_extras: item.sold_out_extras ?? [],
-  }
-}
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-/** Unit price of a cart line: base + chosen spicy level + extras. Must match lib/checkout-pricing. */
-function lineUnitPrice(item: MenuItem, entry: { spicy_level?: string; extras: AddOn[] }) {
-  return unitPrice(item.price + spicyPrice(item.modifiers?.spicyLevels, entry.spicy_level), entry.extras)
-}
 
 function cartTotal(cart: Cart, items: MenuItem[]) {
   return Object.entries(cart).reduce((sum, [key, entry]) => {
@@ -757,28 +701,8 @@ function CartDrawer({ cart, menuItems, storeOpen, onClose, onAdd, onRemove, fulf
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function OrderPage() {
-  const [cart, setCart] = useState<Cart>({})
-
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem('pendingCartEntries')
-      if (raw) {
-        setCart((prev) => {
-          const pending = JSON.parse(raw) as Cart
-          const merged = { ...prev }
-          for (const [key, entry] of Object.entries(pending)) {
-            merged[key] = merged[key]
-              ? { ...merged[key], qty: merged[key].qty + entry.qty }
-              : entry
-          }
-          return merged
-        })
-        sessionStorage.removeItem('pendingCartEntries')
-      }
-    } catch {
-      // ignore corrupt storage
-    }
-  }, [])
+  // Persisted to sessionStorage; also merges lines queued by /deals and /order/customize.
+  const [cart, setCart] = useCart<CartEntry>()
 
   const [cartOpen, setCartOpen] = useState(false)
   const [categories, setCategories] = useState<DbCategory[]>([])
