@@ -15,6 +15,8 @@ interface Props {
   onAdd: () => void
   onReset: () => void
   showActions: boolean
+  /** Display-only VAT breakdown; omitted unless the store turned it on */
+  vat?: { rate: number; amount: number }
 }
 
 const money = (n: number) => `£${n.toFixed(2)}`
@@ -30,7 +32,7 @@ function AmountText({ amount }: { amount: ReceiptLine['amount'] }) {
  * Sticky positioning is applied by the page, not here.
  */
 export default function SelectionReceipt({
-  number, itemName, basePrice, unit, qty, onQtyChange, lines, onAdd, onReset, showActions,
+  number, itemName, basePrice, unit, qty, onQtyChange, lines, onAdd, onReset, showActions, vat,
 }: Props) {
   const totals = receiptTotals(basePrice, unit, qty)
 
@@ -102,6 +104,13 @@ export default function SelectionReceipt({
           <span>Order Subtotal</span>
           <span className="tabular-nums">{money(totals.subtotal)}</span>
         </div>
+        {vat && (
+          <div className="flex items-center justify-between text-xs text-zinc-500">
+            {/* Number() drops trailing zeros: 20 -> "20", 12.5 -> "12.5" */}
+            <span>UK VAT included ({Number(vat.rate.toFixed(2))}%)</span>
+            <span className="tabular-nums">{money(vat.amount)}</span>
+          </div>
+        )}
       </div>
 
       {showActions && (

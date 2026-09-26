@@ -8,9 +8,10 @@ import { EMPTY_SELECTION, type ModifierSelection } from '@/components/Menu/Modif
 import GroupedCustomizer from '@/components/Menu/GroupedCustomizer'
 import QtyStepper from '@/components/Menu/QtyStepper'
 import SelectionReceipt from '@/components/Menu/SelectionReceipt'
-import { customizerLayout, receiptLines } from '@/lib/customizer-layout'
+import { customizerLayout, receiptLines, receiptTotals } from '@/lib/customizer-layout'
 import { dbToMenuItem, itemConfig, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
 import { queueCartLine } from '@/lib/use-cart'
+import { vatIncluded } from '@/lib/presets'
 
 export default function CustomizeItemPage() {
   const { itemId } = useParams<{ itemId: string }>()
@@ -21,6 +22,19 @@ export default function CustomizeItemPage() {
   const [notes, setNotes] = useState('')
   // Blocks a second Add tap while navigation is in flight (it would queue the line twice)
   const adding = useRef(false)
+  // Display-only VAT rate; null (no line) when the store has it off or the fetch fails
+  const [vatRate, setVatRate] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch('/api/store-settings')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((s: { show_vat?: boolean; vat_rate?: number | string } | null) => {
+        // numeric arrives from Postgres as a string ("20.00")
+        const rate = Number(s?.vat_rate)
+        if (s?.show_vat === true && Number.isFinite(rate)) setVatRate(rate)
+      })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -69,6 +83,9 @@ export default function CustomizeItemPage() {
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
   const badges = [...new Set([item.badge, ...(item.dietaryFlags ?? [])])].filter((b): b is string => !!b)
   const receiptNumber = String(layout.length + 2).padStart(2, '0')
+  const vat = vatRate == null
+    ? undefined
+    : { rate: vatRate, amount: vatIncluded(receiptTotals(item.price, unit, qty).subtotal, vatRate) }
 
   const handleAdd = () => {
     if (adding.current) return
@@ -106,6 +123,7 @@ export default function CustomizeItemPage() {
       onAdd={handleAdd}
       onReset={handleReset}
       showActions={showActions}
+      vat={vat}
     />
   )
 

@@ -23,6 +23,13 @@ export async function PATCH(request: NextRequest) {
 
   const body = await request.json()
 
+  const badShowVat = 'show_vat' in body && typeof body.show_vat !== 'boolean'
+  const badVatRate = 'vat_rate' in body &&
+    !(typeof body.vat_rate === 'number' && Number.isFinite(body.vat_rate) && body.vat_rate >= 0 && body.vat_rate <= 100)
+  if (badShowVat || badVatRate) {
+    return NextResponse.json({ error: 'Invalid VAT setting' }, { status: 400 })
+  }
+
   const { data, error } = await supabaseAdmin
     .from('store_settings')
     .update(body)

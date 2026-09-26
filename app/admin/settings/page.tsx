@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   Settings, Loader2, Check, X, Clock, Store, UploadCloud,
-  Phone, Mail, MapPin, Calendar, AlertTriangle, Plus, Trash2,
+  Phone, Mail, MapPin, Calendar, AlertTriangle, Plus, Trash2, Receipt,
 } from 'lucide-react'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase-browser'
@@ -33,6 +33,8 @@ interface StoreSettings {
   holidays:             Holiday[]
   email_sender_name:    string
   email_sender_address: string | null
+  show_vat:             boolean
+  vat_rate:             number | string  // Postgres numeric arrives as a string ("20.00")
 }
 
 const DEFAULT_HOURS: BusinessHours = {
@@ -83,12 +85,17 @@ export default function SettingsPage() {
   const [logoUploading, setLogoUploading] = useState(false)
   const [logoError, setLogoError]         = useState<string | null>(null)
 
+  // VAT on receipts
+  const [vatBusy, setVatBusy]   = useState(false)
+  const [vatValue, setVatValue] = useState('')
+
   useEffect(() => {
     fetch('/api/admin/store-settings')
       .then(r => r.json())
       .then((data: StoreSettings) => {
         setSettings(data)
         setPrepValue(String(data.prep_time_minutes))
+        setVatValue(String(Number(data.vat_rate ?? 20)))
         setContactEmail(data.contact_email ?? '')
         setContactPhone(data.contact_phone ?? '')
         setStoreAddress(data.store_address ?? '')
@@ -195,6 +202,30 @@ export default function SettingsPage() {
       try { const updated = await patch({ prep_time_minutes: parsed }); setSettings(updated); setPrepSave('saved'); setTimeout(() => setPrepSave('idle'), 1500) }
       catch { setPrepSave('error') }
     }, 700)
+  }
+
+  // ── VAT on receipts ────────────────────────────────────────────
+  async function handleVatToggle() {
+    if (!settings || vatBusy) return
+    const next = !settings.show_vat
+    setSettings(s => s ? { ...s, show_vat: next } : s); setVatBusy(true)
+    try { const u = await patch({ show_vat: next }); setSettings(u); toast.success(next ? 'VAT line shown on receipts' : 'VAT line hidden') }
+    catch { setSettings(s => s ? { ...s, show_vat: !next } : s); toast.error('Failed to update') }
+    finally { setVatBusy(false) }
+  }
+
+  async function saveVatRate() {
+    if (!settings) return
+    const current = Number(settings.vat_rate)
+    const parsed = Number(vatValue)
+    if (vatValue.trim() === '' || !Number.isFinite(parsed) || parsed < 0 || parsed > 100) {
+      setVatValue(String(current)); toast.error('VAT rate must be 0–100'); return
+    }
+    const rounded = Math.round(parsed * 100) / 100
+    setVatValue(String(rounded))
+    if (rounded === current) return
+    try { const u = await patch({ vat_rate: rounded }); setSettings(u); toast.success('VAT rate saved') }
+    catch { setVatValue(String(current)); toast.error('Failed to save') }
   }
 
   // ── Logo ───────────────────────────────────────────────────────
@@ -477,6 +508,34 @@ export default function SettingsPage() {
                 </div>
               </div>
               <p className="text-xs text-zinc-600 mt-3">Auto-saves · 1–120 minutes</p>
+            </div>
+
+            {/* ── VAT on receipts ── */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+              <div className="flex items-center justify-between gap-6 mb-5">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-teal-500/15 flex items-center justify-center shrink-0">
+                    <Receipt className="w-6 h-6 text-teal-400" />
+                  </div>
+                  <div>
+                    <p id="vat-toggle-label" className="text-base font-semibold text-white">Show &lsquo;VAT included&rsquo; on customer receipts</p>
+                    <p className="text-sm text-zinc-500 mt-0.5">Display only. Turn on if the business is VAT-registered. Prices are already VAT-inclusive.</p>
+                  </div>
+                </div>
+                <button role="switch" aria-checked={!!settings?.show_vat} aria-labelledby="vat-toggle-label" onClick={handleVatToggle} disabled={vatBusy}
+                  className={`relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none ${settings?.show_vat ? 'bg-emerald-500' : 'bg-zinc-700'}`}>
+                  <span className={`inline-block h-6 w-6 mt-1 transform rounded-full bg-white shadow transition-transform duration-200 ${settings?.show_vat ? 'translate-x-7' : 'translate-x-1'}`} />
+                </button>
+              </div>
+              <div className="flex items-center gap-3">
+                <label htmlFor="vat-rate" className="text-zinc-400 text-sm font-medium">VAT rate (%)</label>
+                <input id="vat-rate" type="number" min={0} max={100} step={0.01} value={vatValue}
+                  onChange={e => setVatValue(e.target.value)}
+                  onBlur={saveVatRate}
+                  onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur() }}
+                  className="w-28 bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-lg font-bold text-white text-center focus:outline-none focus:ring-2 focus:ring-brand-red [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none" />
+              </div>
+              <p className="text-xs text-zinc-600 mt-3">Saves on Enter or when you leave the field · 0–100</p>
             </div>
 
             {/* ── Logo ── */}

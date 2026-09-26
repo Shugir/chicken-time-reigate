@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   const { data, error } = await supabaseAdmin
     .from('store_settings')
-    .select('is_open, prep_time_minutes, is_accepting_orders, contact_email, contact_phone, store_address, business_hours, holidays')
+    .select('is_open, prep_time_minutes, is_accepting_orders, contact_email, contact_phone, store_address, business_hours, holidays, show_vat, vat_rate')
     .eq('id', 1)
     .single()
 
