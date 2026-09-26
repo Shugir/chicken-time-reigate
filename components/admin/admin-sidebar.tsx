@@ -57,7 +57,8 @@ export default function AdminSidebar() {
 
   function isActive(href: string) {
     // '/admin' and '/admin/loyalty' are prefixes of other nav entries, so they
-    // only light up on an exact match.
+    // only light up on an exact match (plus the menu item editor pages for '/admin').
+    if (href === '/admin' && pathname.startsWith('/admin/menu/')) return true
     return href === '/admin' || href === '/admin/loyalty'
       ? pathname === href
       : pathname.startsWith(href)
