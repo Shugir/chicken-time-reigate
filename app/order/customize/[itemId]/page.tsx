@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, ShoppingBag, TriangleAlert } from 'lucide-react'
-import ModifierForm, { EMPTY_SELECTION, type ModifierSelection } from '@/components/Menu/ModifierForm'
-import ModifierSection from '@/components/Menu/ModifierSection'
+import { EMPTY_SELECTION, type ModifierSelection } from '@/components/Menu/ModifierForm'
+import GroupedCustomizer from '@/components/Menu/GroupedCustomizer'
 import QtyStepper from '@/components/Menu/QtyStepper'
+import SelectionReceipt from '@/components/Menu/SelectionReceipt'
+import { customizerLayout, receiptLines } from '@/lib/customizer-layout'
 import { dbToMenuItem, itemConfig, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
-import { extraQty, formatExtra, sectionCount, spicyPrice } from '@/lib/order-modifiers'
 import { queueCartLine } from '@/lib/use-cart'
 
 export default function CustomizeItemPage() {
@@ -60,15 +61,14 @@ export default function CustomizeItemPage() {
   }
 
   const config = itemConfig(item)
-  const spicyCost = spicyPrice(config.spicyLevels, selection.spicy)
+  const layout = customizerLayout(config)
+  const lines = receiptLines(layout, config, selection, notes)
   // Same function the cart uses, so page total == cart total == checkout
   const unit = lineUnitPrice(item, { spicy_level: selection.spicy ?? undefined, extras: selection.extras })
   const total = unit * qty
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
-  const categoryLabel = (key?: string) => config.categories.find((c) => c.key === key)?.label ?? key
-  const hasSelection =
-    selection.spicy != null || selection.removals.length > 0 || selection.extras.length > 0 ||
-    selection.additions.length > 0 || notes.trim().length > 0
+  const badges = [...new Set([item.badge, ...(item.dietaryFlags ?? [])])].filter((b): b is string => !!b)
+  const receiptNumber = String(layout.length + 2).padStart(2, '0')
 
   const handleAdd = () => {
     if (adding.current) return
@@ -88,18 +88,25 @@ export default function CustomizeItemPage() {
     router.replace('/order')
   }
 
-  const addButton = (
-    <button
-      onClick={handleAdd}
-      className="w-full min-h-[44px] font-bold py-4 rounded-2xl flex items-center justify-between px-5 transition-all bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20"
-    >
-      <span className="flex items-center gap-2 text-base">
-        <ShoppingBag size={18} />
-        {/* Mobile bar shares its row with the qty stepper, so it shows just "Add" */}
-        Add<span className="hidden lg:inline">{qty > 1 ? ` ${qty}×` : ''} to Order</span>
-      </span>
-      <span className="text-base tabular-nums">£{total.toFixed(2)}</span>
-    </button>
+  const handleReset = () => {
+    setSelection(EMPTY_SELECTION)
+    setNotes('')
+    setQty(1)
+  }
+
+  const receipt = (showActions: boolean) => (
+    <SelectionReceipt
+      number={receiptNumber}
+      itemName={item.name}
+      basePrice={item.price}
+      unit={unit}
+      qty={qty}
+      onQtyChange={setQty}
+      lines={lines}
+      onAdd={handleAdd}
+      onReset={handleReset}
+      showActions={showActions}
+    />
   )
 
   return (
@@ -113,8 +120,8 @@ export default function CustomizeItemPage() {
         </button>
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
-          {/* Left: hero + numbered sections */}
-          <div className="lg:col-span-8 space-y-6">
+          {/* Left: hero + numbered groups */}
+          <div className="lg:col-span-8 space-y-6 min-w-0">
             <header className="grid sm:grid-cols-2 gap-5 items-center">
               <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-zinc-100">
                 <Image src={item.image} alt={item.name} fill priority sizes="(max-width: 640px) 100vw, 400px" className="object-cover" />
@@ -125,14 +132,28 @@ export default function CustomizeItemPage() {
                 )}
               </div>
               <div>
+                {badges.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-2">
+                    {badges.map((b) => (
+                      <span key={b} className="rounded-md px-2 py-0.5 bg-brand-red/10 text-brand-red text-[11px] font-bold uppercase">
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <h1 className="font-heading font-black text-3xl text-zinc-900 leading-tight">{item.name}</h1>
                 {item.description && <p className="text-sm text-zinc-500 mt-2 leading-relaxed">{item.description}</p>}
-                <div className="mt-3">
-                  {isOffer && (
-                    <span className="text-sm text-zinc-400 line-through mr-2">£{item.compare_at_price!.toFixed(2)}</span>
-                  )}
-                  <span className={`text-2xl font-heading font-black ${isOffer ? 'text-brand-red' : 'text-zinc-900'}`}>
-                    £{item.price.toFixed(2)}
+                <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span>
+                    {isOffer && (
+                      <span className="text-sm text-zinc-400 line-through mr-2">£{item.compare_at_price!.toFixed(2)}</span>
+                    )}
+                    <span className={`text-2xl font-heading font-black ${isOffer ? 'text-brand-red' : 'text-zinc-900'}`}>
+                      £{item.price.toFixed(2)}
+                    </span>
+                  </span>
+                  <span className="rounded-md bg-zinc-100 px-2 py-1 text-[11px] font-bold uppercase tracking-wide text-zinc-500">
+                    Base meal price <span className="tabular-nums text-zinc-700">£{item.price.toFixed(2)}</span>
                   </span>
                 </div>
                 {item.allergens.length > 0 && (
@@ -144,87 +165,37 @@ export default function CustomizeItemPage() {
               </div>
             </header>
 
-            <div className="rounded-2xl border border-zinc-100 overflow-hidden divide-y divide-zinc-100">
-              <ModifierForm
-                config={config}
-                value={selection}
-                onChange={setSelection}
-                soldOut={item.sold_out_extras}
-                numbered
-              />
-              <ModifierSection
-                number={sectionCount(config) + 1}
-                title="Special instructions"
-                subtitle="Allergies, preferences or anything else"
-              >
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="e.g. Extra sauce on the side, well done…"
-                  rows={3}
-                  maxLength={200}
-                  aria-label="Special instructions"
-                  className="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-zinc-400 resize-none"
-                />
-              </ModifierSection>
-            </div>
+            <GroupedCustomizer
+              layout={layout}
+              config={config}
+              value={selection}
+              onChange={setSelection}
+              notes={notes}
+              onNotesChange={setNotes}
+              soldOut={item.sold_out_extras}
+            />
+
+            {/* Mobile: the receipt sits below the groups; the sticky bar below carries Add */}
+            <div className="lg:hidden">{receipt(false)}</div>
           </div>
 
-          {/* Right: summary. Sticky sidebar on desktop, a plain card below the sections on mobile. */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-6 rounded-2xl border border-zinc-100 shadow-sm p-5 space-y-4" aria-label="Your order">
-            <div className="flex items-center justify-between">
-              <h2 className="font-heading font-bold text-zinc-900">Your selection</h2>
-              <QtyStepper value={qty} onChange={setQty} label={item.name} min={1} max={99} />
-            </div>
-
-            {hasSelection ? (
-              <ul className="space-y-1.5 text-sm">
-                {selection.spicy && (
-                  <li className="flex justify-between text-zinc-700">
-                    <span>Spicy level: {selection.spicy}</span>
-                    {spicyCost > 0 && <span className="tabular-nums">+£{spicyCost.toFixed(2)}</span>}
-                  </li>
-                )}
-                {selection.removals.map((r) => (
-                  <li key={`removed-${r}`} className="flex justify-between text-zinc-500">
-                    <span className="line-through">{r}</span>
-                    <span>Removed</span>
-                  </li>
-                ))}
-                {selection.extras.map((e) => (
-                  <li key={`${e.category}-${e.name}`} className="flex justify-between text-zinc-700">
-                    <span>{formatExtra(e)} <span className="text-zinc-400 text-xs">({categoryLabel(e.category)})</span></span>
-                    <span className="tabular-nums">{e.price > 0 ? `+£${(e.price * extraQty(e)).toFixed(2)}` : 'Free'}</span>
-                  </li>
-                ))}
-                {selection.additions.map((a) => (
-                  <li key={`add-${a}`} className="flex justify-between text-zinc-700">
-                    <span>{a}</span>
-                    <span className="text-zinc-400">Free</span>
-                  </li>
-                ))}
-                {notes.trim() && (
-                  <li className="text-zinc-500 italic pt-1 border-t border-zinc-100 mt-1">&ldquo;{notes.trim()}&rdquo;</li>
-                )}
-              </ul>
-            ) : (
-              <p className="text-sm text-zinc-400">No changes, served as described.</p>
-            )}
-
-            <div className="flex justify-between items-baseline border-t border-zinc-100 pt-4">
-              <span className="text-sm text-zinc-500">Total</span>
-              <span className="font-heading font-black text-2xl text-zinc-900 tabular-nums">£{total.toFixed(2)}</span>
-            </div>
-
-            <div className="hidden lg:block">{addButton}</div>
-          </aside>
+          {/* Desktop: sticky receipt with Add / Reset */}
+          <div className="hidden lg:block lg:col-span-4 lg:sticky lg:top-6 self-start">{receipt(true)}</div>
         </div>
       </div>
 
       {/* Mobile sticky bottom bar */}
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-zinc-100 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-3">
         <QtyStepper value={qty} onChange={setQty} label={item.name} min={1} max={99} />
-        <div className="flex-1 min-w-0">{addButton}</div>
+        <button
+          onClick={handleAdd}
+          className="flex-1 min-w-0 min-h-[44px] font-bold text-sm sm:text-base py-4 rounded-2xl flex items-center justify-center gap-1.5 px-3 transition-all bg-brand-red hover:bg-red-700 active:scale-[0.98] text-white shadow-lg shadow-red-900/20"
+        >
+          <ShoppingBag size={18} className="shrink-0" />
+          {/* Only the words may truncate; the price always shows in full */}
+          <span className="truncate">Add to bag</span>
+          <span className="shrink-0 tabular-nums">£{total.toFixed(2)}</span>
+        </button>
       </div>
     </div>
   )
