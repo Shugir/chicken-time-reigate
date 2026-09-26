@@ -169,7 +169,9 @@ function DealPageContent() {
                     selected ? 'bg-brand-dark text-white border-brand-dark' : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400'
                   }`}
                 >
-                  {t.name} · <span className="tabular-nums">{dealView(t).priceLabel}</span>
+                  {t.name}
+                  {/* Bundles show their price; a BOGO's name already says the offer */}
+                  {t.type === 'bundle' && <> · <span className="tabular-nums">{dealView(t).priceLabel}</span></>}
                 </button>
               )
             })}
