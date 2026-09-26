@@ -146,3 +146,24 @@ describe('quick notes', () => {
     expect(toggleQuickNote(long, 'Extra Napkins')).toBe(long)
   })
 })
+
+describe('first N free', () => {
+  const c = toModifierConfig({
+    dips: [{ name: 'BBQ', price: 0.5 }, { name: 'Garlic', price: 0.75 }],
+    drinks_regular: [{ name: 'Coke', price: 1.2 }],
+    modifier_free_counts: { dips: 1, drinks_regular: 1 },
+  })
+  const l = customizerLayout(c)
+  it('says so in the sub-bar hint, or the subtitle of a flat group', () => {
+    expect(l.find((g) => g.key === 'drinks')!.sections[0].hint).toBe('First 1 free')
+    expect(l.find((g) => g.key === 'dips')!.subtitle).toBe('House sauces for dipping. First 1 free.')
+  })
+  it('adds a discount line under the group’s picks', () => {
+    const sel = { ...empty, extras: [{ name: 'BBQ', price: 0.5, category: 'dips' }, { name: 'Garlic', price: 0.75, category: 'dips' }] }
+    expect(receiptLines(l, c, sel, '')).toEqual([
+      { tag: '02', label: 'Dip: BBQ', amount: 0.5 },
+      { tag: '02', label: 'Dip: Garlic', amount: 0.75 },
+      { tag: '02', label: 'Dips: first 1 free', amount: -0.75 },
+    ])
+  })
+})

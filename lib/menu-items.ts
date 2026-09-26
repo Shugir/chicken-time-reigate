@@ -58,7 +58,7 @@ export function dbToMenuItem(item: DbMenuItem): MenuItem {
 
 /** Unit price of a cart line: base + chosen spicy level + extras. Must match lib/checkout-pricing. */
 export function lineUnitPrice(item: MenuItem, entry: { spicy_level?: string; extras: AddOn[] }) {
-  return unitPrice(item.price + spicyPrice(item.modifiers?.spicyLevels, entry.spicy_level), entry.extras)
+  return unitPrice(item.price + spicyPrice(item.modifiers?.spicyLevels, entry.spicy_level), entry.extras, item.modifiers?.freeCounts)
 }
 
 /** The item's option config. Rows without Phase 1 data (and the static fallback menu) use the legacy lists. */

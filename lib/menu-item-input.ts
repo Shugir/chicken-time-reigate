@@ -16,6 +16,8 @@ const SELECT_MODES = new Set(['single', 'multi', 'pick'])
 // Option groups that have a choice style (matches DEFAULT_SELECT_MODES)
 const MODE_KEYS = new Set(['spicy_levels', ...PRICED_CATEGORIES.map((c) => c.key)])
 const MAX_OPTIONS = 50
+const FREE_KEYS = new Set<string>(PRICED_CATEGORIES.map((c) => c.key))
+const MAX_FREE = 20
 
 type Result = { ok: true; value: Record<string, unknown> } | { ok: false; error: string }
 
@@ -50,6 +52,13 @@ function checkField(key: string, v: unknown): string | null {
       const bad = Object.values(v).find((m) => typeof m !== 'string' || !SELECT_MODES.has(m))
       return bad === undefined ? null : `Unknown choice style: ${String(bad)}`
     }
+    case 'modifier_free_counts': {
+      if (!isObj(v)) return 'Free counts must be an object'
+      const badKey = Object.keys(v).find((k) => !FREE_KEYS.has(k))
+      if (badKey !== undefined) return `Unknown option group in free counts: ${badKey}`
+      const bad = Object.values(v).find((n) => !Number.isInteger(n) || (n as number) < 0 || (n as number) > MAX_FREE)
+      return bad === undefined ? null : `Free count must be a whole number from 0 to ${MAX_FREE}`
+    }
   }
   if (key in STRING_LISTS) {
     return Array.isArray(v) && v.every((s) => typeof s === 'string') ? null : `${STRING_LISTS[key]} must be a list of text`
@@ -73,6 +82,8 @@ type Option = { name: string; price: number; description?: unknown; badge?: unkn
 function normalize(key: string, v: unknown): unknown {
   if (key === 'name') return (v as string).trim()
   if (key === 'modifier_select_modes') return Object.fromEntries(Object.entries(v as Record<string, string>))
+  // 0 means no free units, so it is not stored
+  if (key === 'modifier_free_counts') return Object.fromEntries(Object.entries(v as Record<string, number>).filter(([, n]) => n > 0))
   if (key in OPTION_LISTS) {
     return (v as Option[]).map(({ name, price, description, badge }) => ({
       name: name.trim(),
@@ -85,7 +96,7 @@ function normalize(key: string, v: unknown): unknown {
 }
 
 const ALLOWED = new Set([
-  'name', 'price', 'compare_at_price', 'category', 'description', 'image_url', 'is_available', 'modifier_select_modes',
+  'name', 'price', 'compare_at_price', 'category', 'description', 'image_url', 'is_available', 'modifier_select_modes', 'modifier_free_counts',
   ...Object.keys(STRING_LISTS), ...Object.keys(OPTION_LISTS),
 ])
 

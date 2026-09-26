@@ -28,6 +28,7 @@ const money = (n: number) => `£${n.toFixed(2)}`
 function AmountText({ amount }: { amount: ReceiptLine['amount'] }) {
   if (amount === 'included') return <span className="tabular-nums">Included</span>
   if (amount === 'free') return <span className="tabular-nums">Free</span>
+  if (amount < 0) return <span className="tabular-nums text-emerald-700">−£{(-amount).toFixed(2)}</span>
   return <span className="tabular-nums">+£{amount.toFixed(2)}</span>
 }
 

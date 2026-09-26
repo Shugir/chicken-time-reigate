@@ -18,6 +18,9 @@ export const PRICED_CATEGORIES = [
 
 export type PricedCategoryKey = (typeof PRICED_CATEGORIES)[number]['key']
 
+/** "First N free" per option group (menu_items.modifier_free_counts), e.g. { dips: 1 }. */
+export type FreeCounts = Partial<Record<PricedCategoryKey, number>>
+
 // Matches the menu_items.modifier_select_modes column default
 export const DEFAULT_SELECT_MODES: Record<string, SelectMode> = {
   spicy_levels: 'single', dips: 'single', fries_regular: 'single', fries_large: 'single',
@@ -39,6 +42,7 @@ export type ModifierSource = {
   additions?: string[] | null
   extras?: PricedOption[] | null
   modifier_select_modes?: Record<string, SelectMode> | null
+  modifier_free_counts?: FreeCounts | null
 } & Partial<Record<PricedCategoryKey, PricedOption[] | null>>
 
 export interface ModifierCategory {
@@ -46,6 +50,8 @@ export interface ModifierCategory {
   label: string
   options: PricedOption[]
   mode: SelectMode
+  /** How many chosen units in this group are free (0 = none) */
+  free: number
 }
 
 /** What the drawer renders. Empty sections are omitted or empty arrays. */
@@ -55,6 +61,7 @@ export interface ModifierConfig {
   ingredients: string[]
   additions: string[]
   categories: ModifierCategory[]
+  freeCounts: FreeCounts
 }
 
 const round2 = (n: number) => Math.round(n * 100) / 100
@@ -65,9 +72,34 @@ export function extrasTotal(extras: { price: number; qty?: number }[]): number {
   return round2(extras.reduce((sum, e) => sum + e.price * extraQty(e), 0))
 }
 
-/** Unit price of one item including its extras. Multiply by quantity for the line total. */
-export function unitPrice(base: number, extras: { price: number; qty?: number }[]): number {
-  return round2(base + extrasTotal(extras))
+/**
+ * What the "first N free" rules take off: in each group with a free count N, the N priciest
+ * chosen units cost nothing (order-independent, and never less generous than "first picked").
+ * Extras without a category (legacy rows) are never free.
+ */
+export function freeExtrasDiscount(
+  extras: { price: number; qty?: number; category?: string }[],
+  free: FreeCounts | null | undefined,
+): number {
+  let off = 0
+  for (const [key, n] of Object.entries(free ?? {})) {
+    if (!n || n < 1) continue
+    const prices = extras
+      .filter((e) => e.category === key)
+      .flatMap((e) => Array<number>(Math.min(extraQty(e), n)).fill(Number(e.price)))
+      .sort((a, b) => b - a)
+    off += prices.slice(0, n).reduce((sum, p) => sum + p, 0)
+  }
+  return round2(off)
+}
+
+/** Unit price of one item including its extras, less any free units. Multiply by quantity for the line total. */
+export function unitPrice(
+  base: number,
+  extras: { price: number; qty?: number; category?: string }[],
+  free?: FreeCounts | null,
+): number {
+  return round2(base + extrasTotal(extras) - freeExtrasDiscount(extras, free))
 }
 
 /**
@@ -96,14 +128,16 @@ export function toModifierConfig(src: ModifierSource): ModifierConfig {
     add_ons: nonEmpty(src.add_ons) ? src.add_ons : (src.extras ?? []),
   }
 
+  const freeCounts = src.modifier_free_counts ?? {}
   return {
     spicyLevels: src.spicy_levels ?? [],
     spicyMode: modes.spicy_levels,
     ingredients,
     additions: src.additions ?? [],
     categories: PRICED_CATEGORIES
-      .map((c) => ({ key: c.key, label: c.label, options: withLegacy[c.key] ?? [], mode: modes[c.key] }))
+      .map((c) => ({ key: c.key, label: c.label, options: withLegacy[c.key] ?? [], mode: modes[c.key], free: freeCounts[c.key] ?? 0 }))
       .filter((c) => c.options.length > 0),
+    freeCounts,
   }
 }
 

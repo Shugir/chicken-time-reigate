@@ -32,6 +32,8 @@ export interface MenuItem {
   fries_large: Extra[]
   other_extras: Extra[]
   modifier_select_modes: Record<string, SelectMode>
+  /** "First N free" per option group, e.g. { dips: 1 } */
+  modifier_free_counts?: Record<string, number> | null
   dietary_flags: string[]
   allergens: string[]
   created_at: string

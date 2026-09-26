@@ -137,3 +137,17 @@ describe('validateMenuItemInput (partial)', () => {
     expect(err(full(), true)).toBeNull()
   })
 })
+
+describe('validateMenuItemInput (free counts)', () => {
+  const check = (v: unknown) => validateMenuItemInput({ modifier_free_counts: v }, { partial: true })
+  it('keeps positive counts and drops zeros', () => {
+    expect(check({ dips: 1, sides: 0 })).toEqual({ ok: true, value: { modifier_free_counts: { dips: 1 } } })
+  })
+  it('rejects unknown groups, fractions, negatives and huge counts', () => {
+    expect(check({ spicy_levels: 1 }).ok).toBe(false)
+    expect(check({ dips: 1.5 }).ok).toBe(false)
+    expect(check({ dips: -1 }).ok).toBe(false)
+    expect(check({ dips: 21 }).ok).toBe(false)
+    expect(check([1]).ok).toBe(false)
+  })
+})

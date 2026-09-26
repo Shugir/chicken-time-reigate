@@ -1,7 +1,7 @@
 // Turns an item's modifier config into the numbered groups of the full-page customizer
 // (structure from the Stitch "Complete Customizer" screen) and a selection into its receipt.
 
-import { extraQty, formatExtra, spicyPrice, type ModifierCategory, type ModifierConfig, type PricedCategoryKey } from './order-modifiers'
+import { extraQty, formatExtra, freeExtrasDiscount, spicyPrice, type ModifierCategory, type ModifierConfig, type PricedCategoryKey } from './order-modifiers'
 import type { ModifierSelection } from '@/components/Menu/ModifierForm'
 
 export type GroupKey = 'item' | 'drinks' | 'sides' | 'fries' | 'dips' | 'add_ons' | 'other'
@@ -63,6 +63,9 @@ const GROUPS: GroupDef[] = [
 
 const pad2 = (n: number) => String(n).padStart(2, '0')
 
+/** "First 1 free", "First 3 free" */
+export const freeHint = (n: number) => `First ${n} free`
+
 const categoryOf = (config: ModifierConfig, key: string) => config.categories.find((c) => c.key === key)
 
 function isPresent(def: SectionDef, config: ModifierConfig): ModifierCategory | true | false {
@@ -80,12 +83,17 @@ export function customizerLayout(config: ModifierConfig): LayoutGroup[] {
     for (const def of g.sections) {
       const present = isPresent(def, config)
       if (!present) continue
-      sections.push({ ...def, number: null, category: present === true ? undefined : present })
+      const category = present === true ? undefined : present
+      const hint = category?.free ? freeHint(category.free) : def.hint
+      sections.push({ ...def, hint, number: null, category })
     }
     if (sections.length === 0) continue
     const groupNo = out.length + 1
     if (!g.flat) sections.forEach((s, i) => { s.number = `${groupNo}.${i + 1}` })
-    out.push({ key: g.key, number: pad2(groupNo), title: g.title, subtitle: g.subtitle, flat: g.flat, sections })
+    // Flat groups have no sub-bar on the page, so the free rule goes in the subtitle
+    const free = g.flat ? sections[0].category?.free : 0
+    const subtitle = free ? `${g.subtitle} ${freeHint(free)}.` : g.subtitle
+    out.push({ key: g.key, number: pad2(groupNo), title: g.title, subtitle, flat: g.flat, sections })
   }
   return out
 }
@@ -105,6 +113,7 @@ export function groupSelectedCount(group: LayoutGroup, selection: ModifierSelect
   return n
 }
 
+/** amount < 0 is a discount line ("Dips: first 1 free") */
 export interface ReceiptLine { tag: string; label: string; amount: number | 'included' | 'free' }
 
 // Stitch sub-tags only group 01 ([01.1]…); every other group shows its bare number ([02]…)
@@ -134,10 +143,13 @@ export function receiptLines(layout: LayoutGroup[], config: ModifierConfig, sele
         for (const r of selection.removals) lines.push({ tag, label: `No ${r}`, amount: 'free' })
       }
       if ((s.kind === 'category' || s.kind === 'extras') && s.category) {
-        for (const e of selection.extras.filter((x) => x.category === s.category!.key)) {
+        const chosen = selection.extras.filter((x) => x.category === s.category!.key)
+        for (const e of chosen) {
           const total = round2(e.price * extraQty(e))
           lines.push({ tag, label: `${LABEL_PREFIX[g.key] ?? ''}${formatExtra(e)}`, amount: total > 0 ? total : 'free' })
         }
+        const off = freeExtrasDiscount(chosen, { [s.category.key]: s.category.free })
+        if (off > 0) lines.push({ tag, label: `${s.title}: ${freeHint(s.category.free).toLowerCase()}`, amount: -off })
       }
       if (s.kind === 'extras') {
         for (const a of selection.additions) lines.push({ tag, label: a, amount: 'free' })

@@ -408,7 +408,9 @@ function DealBuilder({ deal, items, locked }: { deal: DealView; items: MenuItem[
                     {extras.map((l, i) => (
                       <div key={i} className="flex items-start justify-between gap-3 pl-4 text-zinc-500">
                         <span className="min-w-0">{l.label}</span>
-                        <span className="shrink-0 tabular-nums">+{money(l.amount as number)}</span>
+                        <span className="shrink-0 tabular-nums">
+                          {(l.amount as number) < 0 ? `−${money(-(l.amount as number))}` : `+${money(l.amount as number)}`}
+                        </span>
                       </div>
                     ))}
                   </div>

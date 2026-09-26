@@ -1,7 +1,7 @@
 // Server-side pricing for checkout. The browser sends prices only so we can tell the
 // customer when they are stale; every amount that is charged comes from here.
 
-import { PRICED_CATEGORIES, spicyPrice, unitPrice, type PricedCategoryKey, type PricedOption, type SelectedExtra } from './order-modifiers'
+import { PRICED_CATEGORIES, spicyPrice, unitPrice, type FreeCounts, type PricedCategoryKey, type PricedOption, type SelectedExtra } from './order-modifiers'
 
 export type PricingMenuRow = {
   id: string
@@ -11,6 +11,8 @@ export type PricingMenuRow = {
   extras?: PricedOption[] | null
   sold_out_extras?: string[] | null
   spicy_levels?: PricedOption[] | null
+  /** "first N free" per option group */
+  modifier_free_counts?: FreeCounts | null
 } & Partial<Record<PricedCategoryKey, PricedOption[] | null>>
 
 export interface CartLineInput {
@@ -83,7 +85,7 @@ export function priceCartLines<T extends CartLineInput>(
       extras.push({ ...e, price: Number(option.price) })
     }
 
-    const unit = unitPrice(Number(row.price) + spicyPrice(row.spicy_levels, spicy), extras)
+    const unit = unitPrice(Number(row.price) + spicyPrice(row.spicy_levels, spicy), extras, row.modifier_free_counts)
     if (!(Math.abs(Number(line.price) - unit) <= 0.01)) {
       return { ok: false, error: `Prices have changed since you added ${row.name}. Please review your cart.` }
     }
@@ -138,6 +140,6 @@ export function repriceLine<T extends { quantity: number; extras?: SelectedExtra
     return option && !soldOut.includes(e.name) ? [{ ...e, price: Number(option.price) }] : []
   })
   const spicy = line.spicy_level && (row.spicy_levels ?? []).some((l) => l.name === line.spicy_level) ? line.spicy_level : undefined
-  const unit = unitPrice(Number(row.price) + spicyPrice(row.spicy_levels, spicy), extras)
+  const unit = unitPrice(Number(row.price) + spicyPrice(row.spicy_levels, spicy), extras, row.modifier_free_counts)
   return { ...line, name: row.name, price: unit, totalPrice: round2(unit * line.quantity), extras, spicy_level: spicy }
 }

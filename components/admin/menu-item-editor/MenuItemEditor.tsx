@@ -231,6 +231,7 @@ function EditorForm({ source, isEdit, categories }: { source: MenuItem | null; i
     // Only legacy free additions became Extra Ingredients: keep their tick-once behaviour (as migration 20260926e does)
     ...(source?.additions?.length && !source.extra_ingredients?.length ? { extra_ingredients: 'pick' as const } : {}),
   }))
+  const [frees, setFrees] = useState<Record<string, number>>(() => source?.modifier_free_counts ?? {})
   const [soldOutExtras, setSoldOutExtras] = useState<string[]>(() => source?.sold_out_extras ?? [])
   const [dietaryFlags, setDietaryFlags] = useState<string[]>(() => source?.dietary_flags ?? [])
   const [allergens, setAllergens] = useState<string[]>(() => source?.allergens ?? [])
@@ -246,7 +247,7 @@ function EditorForm({ source, isEdit, categories }: { source: MenuItem | null; i
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Dirty when anything differs from how the page opened
-  const snapshot = JSON.stringify([form, isAvailable, ingredients, priced, modes, soldOutExtras, dietaryFlags, allergens, imageFile && `${imageFile.name}:${imageFile.size}`])
+  const snapshot = JSON.stringify([form, isAvailable, ingredients, priced, modes, frees, soldOutExtras, dietaryFlags, allergens, imageFile && `${imageFile.name}:${imageFile.size}`])
   const [baseline] = useState(snapshot)
   const dirty = snapshot !== baseline && !saving
 
@@ -366,6 +367,7 @@ function EditorForm({ source, isEdit, categories }: { source: MenuItem | null; i
         ingredients,
         ...priced,
         modifier_select_modes: modes,
+        modifier_free_counts: frees,
         dietary_flags: dietaryFlags,
         allergens,
       }
@@ -415,6 +417,7 @@ function EditorForm({ source, isEdit, categories }: { source: MenuItem | null; i
     ingredients,
     additions: [],
     modifier_select_modes: modes,
+    modifier_free_counts: frees,
     ...(isEdit && source ? { extras: source.extras, removals: source.removals } : {}),
   })
   const layout = customizerLayout(config)
@@ -774,6 +777,9 @@ function EditorForm({ source, isEdit, categories }: { source: MenuItem | null; i
                         suggestions={s.key === 'spicy_levels' ? [] : suggestions.extras}
                         mode={modes[s.key]}
                         onModeChange={(m) => setModes((prev) => ({ ...prev, [s.key]: m }))}
+                        free={frees[s.key] ?? 0}
+                        onFreeChange={(n) => setFrees((prev) => ({ ...prev, [s.key]: n }))}
+                        freeId={`free-${s.key}`}
                         warnFor={(n) => labelsUsing(n, s.key)}
                         isSpicy={s.key === 'spicy_levels'}
                       />

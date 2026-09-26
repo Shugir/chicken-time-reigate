@@ -227,3 +227,20 @@ describe('repriceLine', () => {
     expect(r).toMatchObject({ name: 'Wings', price: 12.5, totalPrice: 25 })
   })
 })
+
+describe('priceCartLines - first N free', () => {
+  const dipsRow: PricingMenuRow = { ...wings, dips: [{ name: 'BBQ', price: 0.5 }, { name: 'Garlic', price: 0.75 }], modifier_free_counts: { dips: 1 } }
+  const dipsMenu = new Map([['wings', dipsRow]])
+  const extras = [{ name: 'BBQ', price: 0.5, category: 'dips' }, { name: 'Garlic', price: 0.75, category: 'dips' }]
+  it('charges the page price with the priciest dip free', () => {
+    const r = priceCartLines([line({ price: 10.5, totalPrice: 21, extras })], dipsMenu)
+    expect(r).toMatchObject({ ok: true, subtotal: 21 })
+  })
+  it('rejects a client price that ignored the free dip', () => {
+    const r = priceCartLines([line({ price: 11.25, totalPrice: 22.5, extras })], dipsMenu)
+    expect(r.ok).toBe(false)
+  })
+  it('reorders at the free-dip price', () => {
+    expect(repriceLine({ quantity: 1, extras }, dipsRow)).toMatchObject({ price: 10.5, totalPrice: 10.5 })
+  })
+})

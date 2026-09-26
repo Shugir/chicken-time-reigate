@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extraQty, extrasTotal, unitPrice, formatExtra, toModifierConfig, spicyPrice, sectionCount, hasNoCustomization } from './order-modifiers'
+import { extraQty, extrasTotal, freeExtrasDiscount, unitPrice, formatExtra, toModifierConfig, spicyPrice, sectionCount, hasNoCustomization } from './order-modifiers'
 
 describe('extra quantity and pricing', () => {
   it('treats a missing or invalid qty as 1', () => {
@@ -99,7 +99,7 @@ describe('toModifierConfig', () => {
     })
     expect(cfg.ingredients).toEqual(['Pickles'])
     expect(cfg.categories).toEqual([
-      { key: 'add_ons', label: 'Add-ons', options: [{ name: 'Bacon', price: 1 }], mode: 'multi' },
+      { key: 'add_ons', label: 'Add-ons', options: [{ name: 'Bacon', price: 1 }], mode: 'multi', free: 0 },
     ])
   })
 
@@ -114,7 +114,7 @@ describe('toModifierConfig', () => {
 
   it('returns an empty config for a bare row', () => {
     expect(toModifierConfig({})).toEqual({
-      spicyLevels: [], spicyMode: 'single', ingredients: [], additions: [], categories: [],
+      spicyLevels: [], spicyMode: 'single', ingredients: [], additions: [], categories: [], freeCounts: {},
     })
   })
 })
@@ -157,5 +157,34 @@ describe('sectionCount / hasNoCustomization', () => {
   it('legacy removals/extras still count', () => {
     const c = toModifierConfig({ removals: ['No Mayo'], extras: [{ name: 'Cheese', price: 0.75 }] })
     expect(sectionCount(c)).toBe(2)
+  })
+})
+
+describe('first N free', () => {
+  const dips = [
+    { name: 'BBQ', price: 0.5, qty: 2, category: 'dips' },
+    { name: 'Garlic', price: 0.75, category: 'dips' },
+    { name: 'Coke', price: 1.2, category: 'drinks_regular' },
+  ]
+  it('frees the priciest units in the group, counting quantities', () => {
+    expect(freeExtrasDiscount(dips, { dips: 1 })).toBe(0.75)
+    expect(freeExtrasDiscount(dips, { dips: 2 })).toBe(1.25)
+    // more free than picked: everything in the group, nothing outside it
+    expect(freeExtrasDiscount(dips, { dips: 5 })).toBe(1.75)
+  })
+  it('frees nothing without a rule, a zero rule, or a category on the extra', () => {
+    expect(freeExtrasDiscount(dips, null)).toBe(0)
+    expect(freeExtrasDiscount(dips, { dips: 0 })).toBe(0)
+    expect(freeExtrasDiscount([{ name: 'BBQ', price: 0.5 }], { dips: 1 })).toBe(0)
+  })
+  it('takes the free units off the unit price', () => {
+    // 5 + 0.5*2 + 0.75 + 1.2 = 7.95, less the Garlic dip
+    expect(unitPrice(5, dips, { dips: 1 })).toBe(7.2)
+    expect(unitPrice(5, dips)).toBe(7.95)
+  })
+  it('carries the rule onto each category', () => {
+    const cfg = toModifierConfig({ dips: [{ name: 'BBQ', price: 0.5 }], sides: [{ name: 'Slaw', price: 1 }], modifier_free_counts: { dips: 1 } })
+    expect(cfg.categories.map((c) => [c.key, c.free])).toEqual([['sides', 0], ['dips', 1]])
+    expect(cfg.freeCounts).toEqual({ dips: 1 })
   })
 })

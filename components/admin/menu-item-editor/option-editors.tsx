@@ -130,6 +130,27 @@ export function SelectStyle({ value, onChange }: { value: SelectMode; onChange: 
   )
 }
 
+const FREE_CHOICES = [0, 1, 2, 3, 4, 5]
+
+/** "First N free" for an option group; 0 = every pick is charged. */
+export function FreeCount({ value, onChange, id }: { value: number; onChange: (n: number) => void; id: string }) {
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+      <label htmlFor={id} className="text-xs text-zinc-400">Free with this item</label>
+      <select
+        id={id}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className={`min-h-11 rounded-lg bg-zinc-900 border border-zinc-700 px-3 text-xs font-medium text-zinc-200 ${FOCUS_RING}`}
+      >
+        {FREE_CHOICES.map((n) => (
+          <option key={n} value={n}>{n === 0 ? 'None (all charged)' : `First ${n} free`}</option>
+        ))}
+      </select>
+    </div>
+  )
+}
+
 export function DuplicateWarning({ name, labels }: { name: string; labels: string[] }) {
   if (!name || labels.length === 0) return null
   return (
@@ -252,7 +273,7 @@ export function DetailInputs({ draft, setDraft, onEnter }: {
 // Priced {name, price, description?, badge?} list with inline edit and 86 (sold-out) toggle.
 // `isSpicy`: the customer always picks one spicy level (order_items.spicy_level is a single
 // text column) and checkout does not apply 86 to it, so the mode and 86 controls are hidden.
-export function PricedSection({ title, placeholder, items, onChange, soldOut, onToggle86, onRename, suggestions, mode, onModeChange, warnFor, isSpicy = false }: {
+export function PricedSection({ title, placeholder, items, onChange, soldOut, onToggle86, onRename, suggestions, mode, onModeChange, free = 0, onFreeChange, freeId, warnFor, isSpicy = false }: {
   title: string
   placeholder: string
   items: Extra[]
@@ -263,6 +284,10 @@ export function PricedSection({ title, placeholder, items, onChange, soldOut, on
   suggestions: string[]
   mode: SelectMode
   onModeChange: (m: SelectMode) => void
+  /** "First N free" (not offered for spicy levels) */
+  free?: number
+  onFreeChange?: (n: number) => void
+  freeId?: string
   warnFor: (name: string) => string[]
   isSpicy?: boolean
 }) {
@@ -298,7 +323,12 @@ export function PricedSection({ title, placeholder, items, onChange, soldOut, on
     <div className="space-y-3">
       {isSpicy
         ? <p className="text-xs text-zinc-400">Customers always pick one spicy level.</p>
-        : <SelectStyle value={mode} onChange={onModeChange} />}
+        : (
+          <>
+            <SelectStyle value={mode} onChange={onModeChange} />
+            {onFreeChange && freeId && <FreeCount value={free} onChange={onFreeChange} id={freeId} />}
+          </>
+        )}
       <div className="flex gap-2">
         <ExtraNameInput
           value={input.name}
