@@ -103,7 +103,7 @@ export interface DealView {
   name: string
   /** Tab text: "£12.99", "20% off", "Buy 1, get 1 half price". */
   priceLabel: string
-  /** Hero text under the deal name. */
+  /** Hero text under the deal name; empty for a BOGO, whose name already says the offer. */
   headline: string
   /** Hero image badge. */
   badge: string
@@ -127,7 +127,7 @@ export function dealView(d: PageDeal): DealView {
   const side = (label: string, s: BogoSide, note: string) =>
     ({ label, min_qty: s.qty, max_qty: s.qty, item_ids: s.item_ids, category: s.category, note })
   return {
-    id: d.id, name: d.name, priceLabel: bogoLabel(d.config), headline: bogoLabel(d.config), engine, badge: 'OFFER',
+    id: d.id, name: d.name, priceLabel: bogoLabel(d.config), headline: '', engine, badge: 'OFFER',
     config: {
       groups: [
         side(`Buy ${buy.qty}`, buy, 'Included in deal'),

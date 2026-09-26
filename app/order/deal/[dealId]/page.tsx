@@ -484,7 +484,7 @@ function DealBuilder({ deal, items, locked }: { deal: DealView; items: MenuItem[
             </div>
             <div>
               <h1 className="font-heading font-black text-3xl text-zinc-900 leading-tight">{deal.name}</h1>
-              <p className="mt-3 text-2xl font-heading font-black text-brand-red tabular-nums">{deal.headline}</p>
+              {deal.headline && <p className="mt-3 text-2xl font-heading font-black text-brand-red tabular-nums">{deal.headline}</p>}
               <p className="text-sm text-zinc-500 mt-2 leading-relaxed">Choose your items below</p>
             </div>
           </header>

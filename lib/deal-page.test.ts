@@ -145,6 +145,7 @@ describe('dealView', () => {
     })
     expect(v.priceLabel).toBe('Buy 2, get 1 free')
     expect(v.badge).toBe('OFFER')
+    expect(v.headline).toBe('')
     expect(v.config.groups).toEqual([
       { label: 'Buy 2', min_qty: 2, max_qty: 2, item_ids: undefined, category: 'burgers', note: 'Included in deal' },
       { label: 'Get 1', min_qty: 1, max_qty: 1, item_ids: ['c1'], category: undefined, note: 'Free' },
