@@ -14,7 +14,8 @@ interface Props {
   onQtyChange: (n: number) => void
   lines: ReceiptLine[]
   onAdd: () => void
-  onReset: () => void
+  /** Shows Reset all on both copies (desktop and mobile) when provided */
+  onReset?: () => void
   showActions: boolean
   /** Display-only VAT breakdown; omitted unless the store turned it on */
   vat?: { rate: number; amount: number }
@@ -116,25 +117,29 @@ export default function SelectionReceipt({
         )}
       </div>
 
-      {showActions && (
+      {(showActions || onReset) && (
         <div className="space-y-2 pt-1">
-          <button
-            type="button"
-            onClick={onAdd}
-            className="w-full min-h-[44px] flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 text-white font-bold uppercase tracking-wide rounded-2xl px-4 py-3 transition-colors"
-          >
-            <span>Add custom meal to bag</span>
-            <span className="tabular-nums">{money(totals.subtotal)}</span>
-            <ArrowRight size={18} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={onReset}
-            className="w-full min-h-[44px] flex items-center justify-center gap-2 text-zinc-500 hover:text-zinc-700 font-semibold transition-colors"
-          >
-            <RotateCcw size={16} aria-hidden="true" />
-            <span>Reset all</span>
-          </button>
+          {showActions && (
+            <button
+              type="button"
+              onClick={onAdd}
+              className="w-full min-h-[44px] flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 text-white font-bold uppercase tracking-wide rounded-2xl px-4 py-3 transition-colors"
+            >
+              <span>Add custom meal to bag</span>
+              <span className="tabular-nums">{money(totals.subtotal)}</span>
+              <ArrowRight size={18} aria-hidden="true" />
+            </button>
+          )}
+          {onReset && (
+            <button
+              type="button"
+              onClick={onReset}
+              className="w-full min-h-[44px] flex items-center justify-center gap-2 text-zinc-500 hover:text-zinc-700 font-semibold transition-colors"
+            >
+              <RotateCcw size={16} aria-hidden="true" />
+              <span>Reset all</span>
+            </button>
+          )}
         </div>
       )}
 

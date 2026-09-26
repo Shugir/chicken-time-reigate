@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { safeNextPath } from '@/lib/safe-next'
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
@@ -40,7 +41,8 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      return NextResponse.redirect(`${origin}/account`)
+      // Customers may return where they signed in from (e.g. the customizer); staff keep their redirect
+      return NextResponse.redirect(`${origin}${safeNextPath(searchParams.get('next')) ?? '/account'}`)
     }
   }
 

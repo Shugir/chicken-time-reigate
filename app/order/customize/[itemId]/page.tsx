@@ -20,6 +20,11 @@ import PresetBar, { SavePresetControl } from '@/components/Menu/PresetBar'
 const choiceCount = (s: Partial<PresetPayload>) =>
   (s.spicy ? 1 : 0) + (s.removals?.length ?? 0) + (s.additions?.length ?? 0) + (s.extras?.length ?? 0)
 
+/** sessionStorage key for the build stashed while the visitor signs in */
+const draftKey = (itemId: string) => `customizerDraft:${itemId}`
+
+const PRESET_LIMIT_MSG = `You can save up to ${PRESETS_PER_ITEM_MAX} presets for this item.`
+
 export default function CustomizeItemPage() {
   const { itemId } = useParams<{ itemId: string }>()
   const router = useRouter()
@@ -79,7 +84,24 @@ export default function CustomizeItemPage() {
         const row = rows.find((r) => r.id === itemId)
         // Unknown id or sold out: nothing to customize here
         if (!row || !row.is_available) return router.replace('/order')
-        setItem(dbToMenuItem(row))
+        const loaded = dbToMenuItem(row)
+        setItem(loaded)
+        // Returning from "Sign in to save presets": restore the stashed build, re-validated like a preset
+        try {
+          const key = draftKey(itemId)
+          const raw = sessionStorage.getItem(key)
+          if (!raw) return
+          sessionStorage.removeItem(key)
+          const draft = JSON.parse(raw) as { selection: ModifierSelection; notes: string | null; qty: number }
+          const applied = applyPreset(itemConfig(loaded), loaded.sold_out_extras, {
+            selection: presetPayload(draft.selection), notes: draft.notes, qty: draft.qty,
+          })
+          setSelection(applied.selection)
+          setNotes(applied.notes)
+          setQty(applied.qty)
+        } catch {
+          // Storage blocked or a malformed draft: start from the default build
+        }
       })
       .catch((err) => {
         console.error('Failed to load menu item:', err)
@@ -155,14 +177,17 @@ export default function CustomizeItemPage() {
 
   const handleDeletePreset = async (preset: SavedPreset) => {
     const { error } = await supabase.from('item_presets').delete().eq('id', preset.id)
-    if (error) toast.error(error.message)
+    if (error) {
+      console.error('Failed to delete preset:', error)
+      toast.error('Could not delete preset.')
+    }
     await loadPresets()
   }
 
   const handleSavePreset = async (name: string): Promise<boolean> => {
     // The UI already hides Save at the limit; this guards a stale list
     if (presets.length >= PRESETS_PER_ITEM_MAX && !presets.some((p) => p.name === name)) {
-      toast.error(`You can save up to ${PRESETS_PER_ITEM_MAX} presets per item.`)
+      toast.error(PRESET_LIMIT_MSG)
       return false
     }
     const { error } = await supabase.from('item_presets').upsert(
@@ -170,7 +195,9 @@ export default function CustomizeItemPage() {
       { onConflict: 'user_id,menu_item_id,name' },
     )
     if (error) {
-      toast.error(error.message)
+      console.error('Failed to save preset:', error)
+      // The DB trigger (20260926c) enforces the limit even when the local list is stale
+      toast.error(error.message?.includes('preset limit reached') ? PRESET_LIMIT_MSG : 'Could not save preset. Please try again.')
       return false
     }
     toast.success('Preset saved')
@@ -180,7 +207,21 @@ export default function CustomizeItemPage() {
 
   const presetControl = signedIn == null
     ? undefined
-    : <SavePresetControl signedIn={signedIn} presets={presets} onSave={handleSavePreset} />
+    : (
+      <SavePresetControl
+        signedIn={signedIn}
+        presets={presets}
+        onSave={handleSavePreset}
+        itemId={item.id}
+        onSignIn={() => {
+          try {
+            sessionStorage.setItem(draftKey(item.id), JSON.stringify({ selection, notes, qty }))
+          } catch {
+            // Storage blocked: sign-in still works, the build just isn't restored
+          }
+        }}
+      />
+    )
 
   const receipt = (showActions: boolean) => (
     <SelectionReceipt

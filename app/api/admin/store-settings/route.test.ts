@@ -62,6 +62,20 @@ describe('PATCH /api/admin/store-settings VAT validation', () => {
     expect(mockUpdate).not.toHaveBeenCalled()
   })
 
+  it('rejects a null body', async () => {
+    const res = await PATCH(patchReq(null))
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({ error: 'Invalid body' })
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
+  it('rejects invalid JSON', async () => {
+    const res = await PATCH(new NextRequest('http://localhost/api/admin/store-settings', { method: 'PATCH', body: '{not json' }))
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({ error: 'Invalid body' })
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
   it('passes other settings through unchanged', async () => {
     const res = await PATCH(patchReq({ prep_time_minutes: 25 }))
     expect(res.status).toBe(200)

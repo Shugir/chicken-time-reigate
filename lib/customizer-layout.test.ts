@@ -88,8 +88,8 @@ describe('receiptLines', () => {
       { tag: '01.2', label: 'Crispy Filet', amount: 'included' },
       { tag: '01.2', label: 'No Pickles', amount: 'free' },
       { tag: '01.3', label: 'Bacon ×2', amount: 3 },
-      { tag: '02.2', label: 'Large Cola', amount: 0.8 },
-      { tag: '05', label: 'Chipotle BBQ', amount: 0.75 },
+      { tag: '02', label: 'Drink: Large Cola', amount: 0.8 },
+      { tag: '05', label: 'Dip: Chipotle BBQ', amount: 0.75 },
       { tag: '07', label: 'Napkins', amount: 'free' },
       { tag: '08', label: 'Note: "Fries well done"', amount: 'free' },
     ])

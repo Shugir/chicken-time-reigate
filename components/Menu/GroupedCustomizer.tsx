@@ -313,7 +313,7 @@ export default function GroupedCustomizer({ layout, config, value, onChange, not
                 type="button"
                 aria-pressed={on}
                 onClick={() => onNotesChange(toggleQuickNote(notes, phrase))}
-                className={`min-h-[44px] sm:min-h-[36px] rounded-full px-3 text-xs font-semibold border transition-colors ${
+                className={`min-h-[44px] rounded-full px-3 text-xs font-semibold border transition-colors ${
                   on ? 'bg-brand-red text-white border-brand-red' : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400'
                 }`}
               >

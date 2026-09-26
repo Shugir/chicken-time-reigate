@@ -8,6 +8,10 @@ import { Mail, Lock, Eye, EyeOff, ChevronRight, ArrowLeft, Loader2, AlertCircle 
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { safeNextPath } from '@/lib/safe-next'
+
+// Read in event handlers only (never during render), so no useSearchParams/Suspense boundary is needed
+const nextPath = () => safeNextPath(new URLSearchParams(window.location.search).get('next'))
 
 export default function SignInPage() {
   const router = useRouter()
@@ -39,16 +43,19 @@ export default function SignInPage() {
     }
     const res = await fetch('/api/auth/role')
     const { isStaff, isDriver } = await res.json().catch(() => ({ isStaff: false, isDriver: false }))
-    router.push(isDriver ? '/driver/dashboard' : isStaff ? '/admin/redirect' : '/account')
+    router.push(isDriver ? '/driver/dashboard' : isStaff ? '/admin/redirect' : nextPath() ?? '/account')
     router.refresh()
   }
 
   async function handleOAuth(provider: 'google' | 'facebook') {
     setOauthLoading(provider)
     setError(null)
+    const next = nextPath()
     await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback${next ? `?next=${encodeURIComponent(next)}` : ''}`,
+      },
     })
   }
 

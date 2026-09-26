@@ -21,7 +21,10 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  const body = await request.json()
+  const body = await request.json().catch(() => null)
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
+  }
 
   const badShowVat = 'show_vat' in body && typeof body.show_vat !== 'boolean'
   const badVatRate = 'vat_rate' in body &&

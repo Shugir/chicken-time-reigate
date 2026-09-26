@@ -103,8 +103,14 @@ export function groupSelectedCount(group: LayoutGroup, selection: ModifierSelect
 
 export interface ReceiptLine { tag: string; label: string; amount: number | 'included' | 'free' }
 
+// Stitch sub-tags only group 01 ([01.1]…); every other group shows its bare number ([02]…)
 const tagOf = (group: LayoutGroup, section: LayoutSection) =>
-  section.number ? `${group.number}.${section.number.split('.')[1]}` : group.number
+  group.key === 'item' && section.number ? `${group.number}.${section.number.split('.')[1]}` : group.number
+
+// Stitch receipt label prefixes; groups not listed (item, other) keep bare labels
+const LABEL_PREFIX: Partial<Record<GroupKey, string>> = {
+  drinks: 'Drink: ', sides: 'Side: ', fries: 'Fries: ', dips: 'Dip: ', add_ons: 'Add-on: ',
+}
 
 const round2 = (n: number) => Math.round(n * 100) / 100
 
@@ -126,7 +132,7 @@ export function receiptLines(layout: LayoutGroup[], config: ModifierConfig, sele
       if (s.kind === 'category') {
         for (const e of selection.extras.filter((x) => x.category === s.key)) {
           const total = round2(e.price * extraQty(e))
-          lines.push({ tag, label: formatExtra(e), amount: total > 0 ? total : 'free' })
+          lines.push({ tag, label: `${LABEL_PREFIX[g.key] ?? ''}${formatExtra(e)}`, amount: total > 0 ? total : 'free' })
         }
       }
       if (s.kind === 'additions') {

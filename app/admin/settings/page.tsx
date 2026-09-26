@@ -290,7 +290,7 @@ export default function SettingsPage() {
                 </div>
                 <button
                   role="switch" aria-checked={killOn} onClick={handleKillSwitch} disabled={killBusy}
-                  className={`relative inline-flex h-9 w-16 shrink-0 cursor-pointer rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none ${killOn ? 'bg-emerald-500' : 'bg-red-600'}`}
+                  className={`relative inline-flex h-9 w-16 shrink-0 cursor-pointer rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 ${killOn ? 'bg-emerald-500' : 'bg-red-600'}`}
                 >
                   <span className={`inline-block h-7 w-7 mt-1 transform rounded-full bg-white shadow-lg transition-transform duration-200 ${killOn ? 'translate-x-8' : 'translate-x-1'}`} />
                 </button>
@@ -480,7 +480,7 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <button role="switch" aria-checked={settings?.is_open} onClick={handleToggle} disabled={toggleBusy}
-                  className={`relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none ${settings?.is_open ? 'bg-emerald-500' : 'bg-zinc-700'}`}>
+                  className={`relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 ${settings?.is_open ? 'bg-emerald-500' : 'bg-zinc-700'}`}>
                   <span className={`inline-block h-6 w-6 mt-1 transform rounded-full bg-white shadow transition-transform duration-200 ${settings?.is_open ? 'translate-x-7' : 'translate-x-1'}`} />
                 </button>
               </div>
@@ -523,7 +523,7 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <button role="switch" aria-checked={!!settings?.show_vat} aria-labelledby="vat-toggle-label" onClick={handleVatToggle} disabled={vatBusy}
-                  className={`relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none ${settings?.show_vat ? 'bg-emerald-500' : 'bg-zinc-700'}`}>
+                  className={`relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 ${settings?.show_vat ? 'bg-emerald-500' : 'bg-zinc-700'}`}>
                   <span className={`inline-block h-6 w-6 mt-1 transform rounded-full bg-white shadow transition-transform duration-200 ${settings?.show_vat ? 'translate-x-7' : 'translate-x-1'}`} />
                 </button>
               </div>
