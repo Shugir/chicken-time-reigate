@@ -1,16 +1,16 @@
 # Graph Report - chicken-time-reigate  (2026-09-26)
 
 ## Corpus Check
-- 558 files · ~2,153,995 words
+- 559 files · ~2,154,344 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 9736 nodes · 12709 edges · 911 communities (796 shown, 115 thin omitted)
+- 9737 nodes · 12709 edges · 910 communities (795 shown, 115 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 151 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6a9ce005`
+- Built from commit: `52987b18`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -644,7 +644,6 @@
 - [[_COMMUNITY_Community 627|Community 627]]
 - [[_COMMUNITY_Community 628|Community 628]]
 - [[_COMMUNITY_Community 629|Community 629]]
-- [[_COMMUNITY_Community 631|Community 631]]
 - [[_COMMUNITY_Community 632|Community 632]]
 - [[_COMMUNITY_Community 633|Community 633]]
 - [[_COMMUNITY_Community 634|Community 634]]
@@ -858,6 +857,7 @@
 - [[_COMMUNITY_Community 882|Community 882]]
 - [[_COMMUNITY_Community 883|Community 883]]
 - [[_COMMUNITY_Community 884|Community 884]]
+- [[_COMMUNITY_Community 885|Community 885]]
 - [[_COMMUNITY_Community 886|Community 886]]
 - [[_COMMUNITY_Community 887|Community 887]]
 - [[_COMMUNITY_Community 888|Community 888]]
@@ -876,8 +876,6 @@
 - [[_COMMUNITY_Community 905|Community 905]]
 - [[_COMMUNITY_Community 910|Community 910]]
 - [[_COMMUNITY_Community 915|Community 915]]
-- [[_COMMUNITY_Community 919|Community 919]]
-- [[_COMMUNITY_Community 920|Community 920]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `supabaseAdmin` - 167 edges
@@ -938,11 +936,11 @@
 - **Combo Meal System Migrated Into Generalized Deals Engine** — comboMealEngine_combodiscounts, dealsEnginePlan_dealstable, dealsV2Plan_columndrop [INFERRED 0.85]
 - **Item Customizer Modifier Pipeline: Schema -> Contract -> Drawer** — customizerPhase1Plan_menuitemsmigration, customizerPhase2Plan_ordermodifiers, customizerPhase2Plan_itemcustomizerdrawer [INFERRED 0.85]
 
-## Communities (911 total, 115 thin omitted)
+## Communities (910 total, 115 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.22
-Nodes (16): CartItem, CheckoutPage(), DeliveryZone, SelectedExtra, isRewardRejection(), rewardDiscountAmount(), BusinessHours, checkStoreStatus() (+8 more)
+Cohesion: 0.16
+Nodes (18): CartItem, CheckoutPage(), DeliveryZone, expiryLabel(), RewardPicker(), RewardPickerProps, SelectedExtra, CheckoutReward (+10 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.05
@@ -958,7 +956,7 @@ Nodes (54): attempt_completion Finalization Pattern, Claude-Flow MCP Tool Suite,
 
 ### Community 4 - "Community 4"
 Cohesion: 0.06
-Nodes (47): AdminPage(), AvailabilityToggle(), CATEGORIES, Category, CATEGORY_COLOURS, CATEGORY_LABELS, COLOUR_PALETTE, COMMON_ALLERGENS (+39 more)
+Nodes (51): AdminPage(), AvailabilityToggle(), CATEGORIES, Category, CATEGORY_COLOURS, CATEGORY_LABELS, COLOUR_PALETTE, COMMON_ALLERGENS (+43 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.14
@@ -1157,7 +1155,7 @@ Cohesion: 0.07
 Nodes (27): 1. Code Quality Validation, 1. Implementation Completeness Check, 1. Real Data Usage, 2. Environment Validation, 2. Infrastructure Testing, 2. Real Database Integration, 3. External API Integration, 3. Performance Validation (+19 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.13
+Cohesion: 0.14
 Nodes (31): AppliedDeal, BogoConfig, BundleConfig, BundleSlot, bundleTotal(), BundleUpgrades, Deal, DealCartItem (+23 more)
 
 ### Community 55 - "Community 55"
@@ -1265,8 +1263,8 @@ Cohesion: 0.22
 Nodes (7): Component changes, Decisions (approved 2026-09-26), Item Customizer — Full-Page Redesign (Sub-project B), Out of scope (later sub-projects), Page layout, Routing, Testing
 
 ### Community 81 - "Community 81"
-Cohesion: 0.37
-Nodes (13): ALL_STATUSES, AMOUNT_PRESETS, DATE_PRESETS, Driver, localDate(), ReceiptsPage(), thisMonthRange(), thisWeekRange() (+5 more)
+Cohesion: 0.32
+Nodes (14): ALL_STATUSES, AMOUNT_PRESETS, DATE_PRESETS, Driver, localDate(), ReceiptsPage(), thisMonthRange(), thisWeekRange() (+6 more)
 
 ### Community 82 - "Community 82"
 Cohesion: 0.09
@@ -1297,8 +1295,8 @@ Cohesion: 0.09
 Nodes (21): Basic initialization, code:bash (npx @claude-flow/cli@latest swarm init [options]), code:bash (npx @claude-flow/cli@latest swarm init), code:bash (npx @claude-flow/cli@latest swarm init --topology mesh --max), code:bash (npx @claude-flow/cli@latest swarm init --topology hierarchic), code:bash (npx @claude-flow/cli@latest swarm init --topology star --git), code:javascript (mcp__claude-flow__swarm_init { topology: "hierarchical", max), Examples (+13 more)
 
 ### Community 89 - "Community 89"
-Cohesion: 0.17
-Nodes (19): Props, Row(), Section(), STATUS_STYLES, TotalRow(), groupByDay(), Props, ReceiptsCards() (+11 more)
+Cohesion: 0.25
+Nodes (13): Props, STATUS_BADGE, DayGroup, Props, STATUS_BADGE, DayGroup, groupByDay(), STATUS_BADGE (+5 more)
 
 ### Community 90 - "Community 90"
 Cohesion: 0.17
@@ -1322,7 +1320,7 @@ Nodes (20): ddd, modules, progress, totalFiles, totalLines, domains, completed, 
 
 ### Community 95 - "Community 95"
 Cohesion: 0.17
-Nodes (14): CartItem, ComboComponent, Extra, POST(), REWARD_ERRORS, stripe, deliveryFeeFor(), promoWindowError() (+6 more)
+Nodes (22): CartItem, ComboComponent, Extra, POST(), REWARD_ERRORS, stripe, deliveryFeeFor(), buildHtml() (+14 more)
 
 ### Community 96 - "Community 96"
 Cohesion: 0.1
@@ -1485,8 +1483,8 @@ Cohesion: 0.21
 Nodes (15): BANNER_VERSION, c, CONFIG, { execSync, execFileSync }, fs, generateJSON(), generateStatusline(), getLearningStats() (+7 more)
 
 ### Community 136 - "Community 136"
-Cohesion: 0.14
-Nodes (18): CustomerReceipt(), ReceiptItem, ReceiptOrder, baseOrder, html, idx, BoardData, CustomerReceipt() (+10 more)
+Cohesion: 0.23
+Nodes (11): BoardData, CustomerReceipt(), DispatchDriver, DispatchOrder, OrderCard(), OrderItem, ReturnedCard(), supabase (+3 more)
 
 ### Community 137 - "Community 137"
 Cohesion: 0.16
@@ -1677,8 +1675,8 @@ Cohesion: 0.14
 Nodes (13): Carry-forward fixes (explicit 3-item list from the task), Close-account card — brief inconsistency (deviation, documented), Fix round 1 — light-mode contrast defects (commit `0c6389c`), Other observations (not fixed, out of literal scope), Step 1: Redirect-target fix, Step 2: Theme toggle in sticky header, Step 3: Mapping table applied across the file, Step 4: Skeleton loaders (+5 more)
 
 ### Community 184 - "Community 184"
-Cohesion: 0.32
-Nodes (9): formatCsvItem(), csv, i, item(), order(), toCsv(), AdminReceiptOrder, FilterParams (+1 more)
+Cohesion: 0.29
+Nodes (10): formatCsvItem(), csv, i, item(), order(), toCsv(), AdminReceiptOrder, FilterParams (+2 more)
 
 ### Community 185 - "Community 185"
 Cohesion: 0.12
@@ -2077,8 +2075,8 @@ Cohesion: 0.2
 Nodes (10): Basic Version Bump, code:bash (# Get last release tag), code:bash (# Update package.json version), code:bash (# Build and publish npm package), code:javascript (// Simple release preparation in Claude Code), Create Release Draft, Essential Release Commands, Progressive Disclosure: Level 1 - Basic Usage (+2 more)
 
 ### Community 285 - "Community 285"
-Cohesion: 0.22
-Nodes (9): 1. Cache Swarm Dependencies, 2. Use Appropriate Runner Sizes, 3. Implement Early Termination, 4. Optimize Parallel Execution, code:yaml (- uses: actions/cache@v3), code:yaml (jobs:), code:yaml (- name: Quick Fail Check), code:yaml (strategy:) (+1 more)
+Cohesion: 0.2
+Nodes (10): 1. Cache Swarm Dependencies, 2. Use Appropriate Runner Sizes, 3. Implement Early Termination, 4. Optimize Parallel Execution, Best Practices, code:yaml (- uses: actions/cache@v3), code:yaml (jobs:), code:yaml (- name: Quick Fail Check) (+2 more)
 
 ### Community 286 - "Community 286"
 Cohesion: 0.2
@@ -2245,8 +2243,8 @@ Cohesion: 0.22
 Nodes (9): code:bash (# Debug build failures), code:bash (# Run tests with detailed output), code:bash (# Immediate rollback to previous version), code:bash (# Check and resolve version conflicts), Issue: Deployment Rollback Needed, Issue: Failed Release Build, Issue: Test Failures in CI, Issue: Version Conflicts (+1 more)
 
 ### Community 327 - "Community 327"
-Cohesion: 0.2
-Nodes (10): 1. Store Configurations Securely, 2. Use OIDC Authentication, 3. Implement Least-Privilege, 4. Audit Swarm Operations, Best Practices, code:yaml (- name: Setup Swarm), code:yaml (permissions:), code:yaml (permissions:) (+2 more)
+Cohesion: 0.22
+Nodes (9): 1. Store Configurations Securely, 2. Use OIDC Authentication, 3. Implement Least-Privilege, 4. Audit Swarm Operations, code:yaml (- name: Setup Swarm), code:yaml (permissions:), code:yaml (permissions:), code:yaml (- name: Audit Swarm Actions) (+1 more)
 
 ### Community 328 - "Community 328"
 Cohesion: 0.22
@@ -2305,8 +2303,8 @@ Cohesion: 0.22
 Nodes (9): content, createdAt, embedding, id, metadata, name, type, usageCount (+1 more)
 
 ### Community 342 - "Community 342"
-Cohesion: 0.2
-Nodes (10): depth, content, createdAt, embedding, id, metadata, name, type (+2 more)
+Cohesion: 0.22
+Nodes (9): content, createdAt, embedding, id, metadata, name, type, usageCount (+1 more)
 
 ### Community 343 - "Community 343"
 Cohesion: 0.22
@@ -2377,8 +2375,8 @@ Cohesion: 0.22
 Nodes (9): content, createdAt, embedding, id, metadata, name, type, usageCount (+1 more)
 
 ### Community 360 - "Community 360"
-Cohesion: 0.22
-Nodes (9): content, createdAt, embedding, id, metadata, name, type, usageCount (+1 more)
+Cohesion: 0.2
+Nodes (10): depth, content, createdAt, embedding, id, metadata, name, type (+2 more)
 
 ### Community 361 - "Community 361"
 Cohesion: 0.22
@@ -3405,8 +3403,8 @@ Cohesion: 0.4
 Nodes (5): Automatic HNSW, code:typescript (const adapter = await createAgentDBAdapter({), code:typescript (// Advanced HNSW configuration), HNSW Indexing, HNSW Parameters
 
 ### Community 618 - "Community 618"
-Cohesion: 0.52
-Nodes (5): buildHtml(), EmailOrderData, OrderEmailStatus, sendOrderStatusEmail(), STATUS_CONFIG
+Cohesion: 0.2
+Nodes (12): CustomerReceipt(), ReceiptItem, ReceiptOrder, baseOrder, html, idx, Props, ReceiptDrawer() (+4 more)
 
 ### Community 619 - "Community 619"
 Cohesion: 0.4
@@ -3451,10 +3449,6 @@ Nodes (5): code:bash (# Initialize swarm), Quick Commands, Strategies, Swarm Orc
 ### Community 629 - "Community 629"
 Cohesion: 0.4
 Nodes (4): distPath, resolvedAt, resolvedBy, version
-
-### Community 631 - "Community 631"
-Cohesion: 0.52
-Nodes (5): expiryLabel(), RewardPicker(), RewardPickerProps, CheckoutReward, selectableRewards()
 
 ### Community 632 - "Community 632"
 Cohesion: 0.4
@@ -3629,8 +3623,8 @@ Cohesion: 0.4
 Nodes (4): lastAdaptation, patternsLearned, signalsProcessed, trajectoriesRecorded
 
 ### Community 677 - "Community 677"
-Cohesion: 0.5
-Nodes (4): platform, arch, os, shell
+Cohesion: 0.4
+Nodes (5): Configuration Issues, Poor Performance, Session Disconnected, Session Won't Start, Troubleshooting
 
 ### Community 678 - "Community 678"
 Cohesion: 0.4
@@ -3865,12 +3859,16 @@ Cohesion: 0.62
 Nodes (3): ensureBucket(), getMenuAdminUser(), POST()
 
 ### Community 883 - "Community 883"
-Cohesion: 0.35
-Nodes (8): Delivery, Driver, DriverLedgerPage(), fmtGbp(), LedgerData, Payout, toDateStr(), formatDate()
+Cohesion: 0.38
+Nodes (7): Delivery, Driver, DriverLedgerPage(), fmtGbp(), LedgerData, Payout, toDateStr()
 
 ### Community 884 - "Community 884"
 Cohesion: 0.25
 Nodes (10): graph_edges, memory_entries, metadata, migration_state, pattern_history, patterns, sessions, trajectories (+2 more)
+
+### Community 885 - "Community 885"
+Cohesion: 0.5
+Nodes (4): platform, arch, os, shell
 
 ### Community 887 - "Community 887"
 Cohesion: 0.22
@@ -3923,14 +3921,6 @@ Nodes (12): ThemeToggle(), safeNextPath(), withNext(), supabase, useTheme(), Log
 ### Community 915 - "Community 915"
 Cohesion: 0.53
 Nodes (4): AboutPage(), oswald, STATS, VALUES
-
-### Community 919 - "Community 919"
-Cohesion: 0.4
-Nodes (5): Configuration Issues, Poor Performance, Session Disconnected, Session Won't Start, Troubleshooting
-
-### Community 920 - "Community 920"
-Cohesion: 0.5
-Nodes (4): Contact Page, FormState Type, Opening Hours Data (HOURS), InputField Component
 
 ## Ambiguous Edges - Review These
 - `Supabase Admin Client` → `Sign In Page`  [AMBIGUOUS]
