@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, ShoppingBag, TriangleAlert } from 'lucide-react'
+import { ArrowLeft, ShoppingBag, Tag, TriangleAlert } from 'lucide-react'
 import { EMPTY_SELECTION, type ModifierSelection } from '@/components/Menu/ModifierForm'
 import GroupedCustomizer from '@/components/Menu/GroupedCustomizer'
 import QtyStepper from '@/components/Menu/QtyStepper'
@@ -14,6 +14,7 @@ import { queueCartLine } from '@/lib/use-cart'
 import { applyPreset, presetPayload, vatIncluded, PRESETS_PER_ITEM_MAX, type PresetPayload, type SavedPreset } from '@/lib/presets'
 import { supabase } from '@/lib/supabase-browser'
 import toast from 'react-hot-toast'
+import { bogoLabel, bogosFor } from '@/lib/deal-page'
 import PresetBar, { SavePresetControl } from '@/components/Menu/PresetBar'
 
 /** Number of individual choices in a selection, to tell whether applying a preset dropped any */
@@ -69,6 +70,15 @@ export default function CustomizeItemPage() {
         const rate = Number(s?.vat_rate)
         if (s?.show_vat === true && Number.isFinite(rate)) setVatRate(rate)
       })
+      .catch(() => {})
+  }, [])
+
+  // BOGO deals this item starts (label only; the discount applies at checkout)
+  const [activeDeals, setActiveDeals] = useState<{ type: string }[]>([])
+  useEffect(() => {
+    fetch('/api/deals/active')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((deals) => setActiveDeals(Array.isArray(deals) ? deals : []))
       .catch(() => {})
   }, [])
 
@@ -292,6 +302,12 @@ export default function CustomizeItemPage() {
                     Base meal price <span className="tabular-nums text-zinc-700">£{item.price.toFixed(2)}</span>
                   </span>
                 </div>
+                {bogosFor(activeDeals, item).slice(0, 1).map((d) => (
+                  <p key={d.id} className="flex items-center gap-1.5 mt-3 px-2.5 py-1.5 rounded-md bg-brand-red/10 text-brand-red text-xs font-bold w-fit">
+                    <Tag size={12} className="shrink-0" aria-hidden="true" />
+                    {bogoLabel(d.config)} · applied at checkout
+                  </p>
+                ))}
                 {item.allergens.length > 0 && (
                   <p className="flex items-center gap-1.5 mt-3 px-2.5 py-1.5 rounded-md bg-amber-50 text-amber-800 text-xs font-medium w-fit">
                     <TriangleAlert size={12} className="shrink-0" />

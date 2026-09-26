@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { bundlesContaining, cardDealLabel, dealPriceLabel, lockedSlotIndex, slotItems, type BundleDeal } from './deal-page'
+import { bogoLabel, bogosFor, bundlesContaining, cardDealLabel, dealPriceLabel, lockedSlotIndex, slotItems, type BundleDeal } from './deal-page'
 
 const burger = { id: 'b1', category: 'burgers', is_available: true }
 const wrap = { id: 'w1', category: 'wraps', is_available: true }
@@ -90,5 +90,26 @@ describe('cardDealLabel', () => {
   })
   it('keeps the first deal label when fewer than two deals are fixed-price', () => {
     expect(cardDealLabel([percentMeal, bigMeal])).toBe('20% off')
+  })
+})
+
+describe('bogosFor / bogoLabel', () => {
+  const bogo = (buy: object, get: object) => ({ id: 'b', type: 'bogo', name: 'BOGO', config: { buy, get } })
+  const burger = { id: 'burger', category: 'burgers' }
+
+  it('finds BOGO deals whose Buy side includes the item, by id or category', () => {
+    const deals = [
+      bogo({ qty: 1, item_ids: ['burger'] }, { qty: 1, discount: { percent: 50 }, item_ids: ['burger'] }),
+      bogo({ qty: 1, category: 'Burgers' }, { qty: 1, discount: 'free', category: 'drinks' }),
+      bogo({ qty: 1, item_ids: ['wings'] }, { qty: 1, discount: 'free', item_ids: ['burger'] }),
+      { id: 'x', type: 'bundle', name: 'Meal', config: { groups: [] } },
+    ]
+    expect(bogosFor(deals, burger).map((d) => d.config.get.discount)).toEqual([{ percent: 50 }, 'free'])
+  })
+
+  it('labels half price, free and other percentages', () => {
+    expect(bogoLabel({ buy: { qty: 1 }, get: { qty: 1, discount: { percent: 50 } } })).toBe('Buy 1, get 1 half price')
+    expect(bogoLabel({ buy: { qty: 2 }, get: { qty: 1, discount: 'free' } })).toBe('Buy 2, get 1 free')
+    expect(bogoLabel({ buy: { qty: 1 }, get: { qty: 2, discount: { percent: 30 } } })).toBe('Buy 1, get 2 at 30% off')
   })
 })

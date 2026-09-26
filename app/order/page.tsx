@@ -14,10 +14,11 @@ import {
   ChevronLeft,
   Search,
   SlidersHorizontal,
+  Tag,
 } from 'lucide-react'
 import { ProductModal, AddOn } from '../../components/ProductModal'
 import ScrollToTop from '@/components/UI/ScrollToTop'
-import { bundlesContaining, cardDealLabel, type BundleDeal } from '@/lib/deal-page'
+import { bogoLabel, bogosFor, bundlesContaining, cardDealLabel, type BundleDeal } from '@/lib/deal-page'
 import { addToLines, changeLineQty, itemIdOfKey, itemQty, removeOneFromItem } from '@/lib/cart-lines'
 import { formatExtra, hasNoCustomization } from '@/lib/order-modifiers'
 import { dbToMenuItem, FALLBACK_IMG, itemConfig, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
@@ -247,7 +248,7 @@ function cartCount(cart: Cart) {
 
 // ─── Premium Menu Card ────────────────────────────────────────────────────────
 
-function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, mealFromPrice, hasDeal }: {
+function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, mealFromPrice, hasDeal, bogoText }: {
   item: MenuItem
   qty: number
   onOpenDrawer: () => void
@@ -256,6 +257,8 @@ function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, 
   onRemove: () => void
   mealFromPrice: string | null
   hasDeal: boolean
+  /** e.g. "Buy 1, get 1 half price" when the item starts a BOGO deal */
+  bogoText?: string | null
 }) {
   const isOffer = item.compare_at_price != null && item.compare_at_price > item.price
   const isSoldOut = item.is_available === false
@@ -314,6 +317,11 @@ function MenuCard({ item, qty, onOpenDrawer, onOpenDealPicker, onAdd, onRemove, 
           <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed line-clamp-2">
             {item.description}
           </p>
+          {bogoText && (
+            <p className="mt-2 inline-flex items-center gap-1 rounded-md bg-brand-red/10 px-2 py-1 text-[11px] font-bold text-brand-red">
+              <Tag size={11} aria-hidden="true" /> {bogoText}
+            </p>
+          )}
         </div>
 
         {/* Single / Meal Deal rows */}
@@ -771,6 +779,14 @@ export default function OrderPage() {
     return (item: MenuItem): string | null => cardDealLabel(bundlesFor(item))
   }, [bundlesFor])
 
+  // Label for items that start a BOGO deal; the discount itself applies at checkout
+  const bogoTextFor = useMemo(() => {
+    return (item: MenuItem): string | null => {
+      const bogo = bogosFor(activeDeals, item)[0]
+      return bogo ? bogoLabel(bogo.config) : null
+    }
+  }, [activeDeals])
+
   const anyDealFor = useMemo(() => {
     return (item: MenuItem): boolean => {
       if (bundlesFor(item).length > 0) return true
@@ -1085,6 +1101,7 @@ export default function OrderPage() {
                     onOpenDealPicker={() => openDealPage(item)}
                     mealFromPrice={mealFromPriceFor(item)}
                     hasDeal={anyDealFor(item)}
+                    bogoText={bogoTextFor(item)}
                     onAdd={() => addToCart(item.id)}
                     onRemove={() => removeFromCart(item.id)}
                   />
@@ -1125,6 +1142,7 @@ export default function OrderPage() {
                           onOpenDealPicker={() => openDealPage(item)}
                           mealFromPrice={mealFromPriceFor(item)}
                           hasDeal={anyDealFor(item)}
+                    bogoText={bogoTextFor(item)}
                           onAdd={() => addToCart(item.id)}
                           onRemove={() => removeFromCart(item.id)}
                         />

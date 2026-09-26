@@ -49,3 +49,25 @@ export function cardDealLabel(bundles: BundleDeal[]): string | null {
   if (fixed.length >= 2) return `from £${Math.min(...fixed).toFixed(2)}`
   return dealPriceLabel(bundles[0].config)
 }
+
+type BogoSide = { qty: number; item_ids?: string[]; category?: string }
+export interface BogoDeal {
+  id: string
+  type: 'bogo'
+  name: string
+  config: { buy: BogoSide; get: BogoSide & { discount: 'free' | { percent: number } } }
+}
+
+/** Active BOGO deals the item can start: it is on the deal's Buy side (by id or category). */
+export function bogosFor(deals: { type: string }[], item: ItemRef): BogoDeal[] {
+  return deals.filter(
+    (d): d is BogoDeal => d.type === 'bogo' && inSlot({ item_ids: (d as BogoDeal).config.buy.item_ids ?? [], category: (d as BogoDeal).config.buy.category }, item),
+  )
+}
+
+/** "Buy 1, get 1 half price", "Buy 2, get 1 free", "Buy 1, get 2 at 30% off". */
+export function bogoLabel(config: { buy: { qty: number }; get: { qty: number; discount: 'free' | { percent: number } } }): string {
+  const d = config.get.discount
+  const off = d === 'free' ? 'free' : d.percent === 50 ? 'half price' : `at ${d.percent}% off`
+  return `Buy ${config.buy.qty}, get ${config.get.qty} ${off}`
+}
