@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useState, useRef, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import {
   ShoppingCart,
@@ -15,13 +16,12 @@ import {
   SlidersHorizontal,
 } from 'lucide-react'
 import { ProductModal, OrderSelection, AddOn } from '../../components/ProductModal'
-import ItemCustomizerDrawer from '@/components/Menu/ItemCustomizerDrawer'
 import DealSlotPicker from '@/components/Deals/DealSlotPicker'
 import ScrollToTop from '@/components/UI/ScrollToTop'
 import { inSlot } from '@/lib/deal-engine'
 import { addToLines, changeLineQty, itemIdOfKey, itemQty, removeOneFromItem } from '@/lib/cart-lines'
-import { formatExtra, type ModifierConfig } from '@/lib/order-modifiers'
-import { dbToMenuItem, FALLBACK_IMG, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
+import { formatExtra, hasNoCustomization, type ModifierConfig } from '@/lib/order-modifiers'
+import { dbToMenuItem, FALLBACK_IMG, itemConfig, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
 import { useCart } from '@/lib/use-cart'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -704,10 +704,10 @@ export default function OrderPage() {
   // Persisted to sessionStorage; also merges lines queued by /deals and /order/customize.
   const [cart, setCart] = useCart<CartEntry>()
 
+  const router = useRouter()
   const [cartOpen, setCartOpen] = useState(false)
   const [categories, setCategories] = useState<DbCategory[]>([])
   const [activeCategory, setActive] = useState<string>('')
-  const [drawerItem, setDrawerItem] = useState<MenuItem | null>(null)
   const [dealPickerFor, setDealPickerFor] = useState<{ deal: BundleDeal; itemsById: Map<string, SlotItem> } | null>(null)
   const [activeDeals, setActiveDeals] = useState<ActiveDeal[]>([])
   const [activeBundles, setActiveBundles] = useState<BundleDeal[]>([])
@@ -862,6 +862,11 @@ export default function OrderPage() {
   function addToCart(id: string) {
     setCart((p) => addToLines(p, id, { removals: [], additions: [], extras: [] }, 1))
   }
+  // Simple items (nothing to choose) go straight in at qty 1; anything else opens the customize page.
+  function openItem(item: MenuItem) {
+    if (hasNoCustomization(itemConfig(item))) addToCart(item.id)
+    else router.push(`/order/customize/${item.id}`)
+  }
   function removeFromCart(id: string) {
     setCart((p) => removeOneFromItem(p, id))
   }
@@ -871,6 +876,7 @@ export default function OrderPage() {
   function removeLine(key: string) {
     setCart((p) => changeLineQty(p, key, -1))
   }
+  // Still used by DealSlotPicker's onComplete to add picked/upgraded deal items to the cart.
   function handleAddToOrder(selection: OrderSelection) {
     setCart((p) => addToLines(p, selection.item.id, {
       spicy_level: selection.spicy_level,
@@ -1119,7 +1125,7 @@ export default function OrderPage() {
                 {displayedItems.map((item) => (
                   <MenuCard
                     key={item.id} item={item} qty={itemQty(cart, item.id)}
-                    onOpenDrawer={() => setDrawerItem(item)}
+                    onOpenDrawer={() => openItem(item)}
                     onOpenDealPicker={() => openDealPicker(item)}
                     mealFromPrice={mealFromPriceFor(item)}
                     hasDeal={anyDealFor(item)}
@@ -1159,7 +1165,7 @@ export default function OrderPage() {
                       {items.map((item) => (
                         <MenuCard
                           key={item.id} item={item} qty={itemQty(cart, item.id)}
-                          onOpenDrawer={() => setDrawerItem(item)}
+                          onOpenDrawer={() => openItem(item)}
                           onOpenDealPicker={() => openDealPicker(item)}
                           mealFromPrice={mealFromPriceFor(item)}
                           hasDeal={anyDealFor(item)}
@@ -1204,14 +1210,6 @@ export default function OrderPage() {
           onClose={() => setCartOpen(false)}
           onAdd={addLine} onRemove={removeLine}
           fulfillmentMode={fulfillmentMode}
-        />
-      )}
-
-      {drawerItem && (
-        <ItemCustomizerDrawer
-          item={drawerItem}
-          onClose={() => setDrawerItem(null)}
-          onAddToOrder={handleAddToOrder}
         />
       )}
 
