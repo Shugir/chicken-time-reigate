@@ -1,26 +1,49 @@
 #!/usr/bin/env bash
-# Route one task to the best available model across Claude Code and Antigravity CLI (agy).
+# ai-step: route one task to the best available model across Claude Code and Antigravity CLI (agy).
 #
-# Usage:  scripts/ai-step.sh <tag|auto> "prompt"
-#         tags: plan fix review code ui image test docs bulk  (see scripts/ai-routes.conf)
-# Output: agent output on stdout; routing decisions on stderr; exit 0 on success,
-#         3 when every candidate is out of quota / cooling down / failed.
-# Env:    PREFER=balanced|claude|agy   STEP_TIMEOUT_MIN=30   LIMIT_COOLDOWN_MIN=60
-#         SKIP_PERMS=1 (pass --dangerously-skip-permissions)   AI_ROUTES=<conf path>
+# Usage:  ai-step <tag|auto> "prompt"
+#         ai-step --cooldown <engine:model|engine:*> <minutes>
+#         tags: plan fix review code ui image test docs bulk  (see routes.conf)
+# Output: agent output on stdout, routing decisions on stderr. Exit 0 on success,
+#         3 when every candidate is out of quota, cooling down or failed.
+# Routes: $AI_ROUTES, else <repo>/.ai-routes.conf, else ~/.ai-router/routes.conf
+# Env:    PREFER=balanced|claude|agy  STEP_TIMEOUT_MIN=30  LIMIT_COOLDOWN_MIN=60  SKIP_PERMS=1
 set -o pipefail
 
-ROOT="$(git rev-parse --show-toplevel)" || exit 1
-cd "$ROOT"
-CONF="${AI_ROUTES:-$ROOT/scripts/ai-routes.conf}"
-STATE="$ROOT/.ai-run"; mkdir -p "$STATE"
-COOLDOWNS="$STATE/cooldowns"; touch "$COOLDOWNS"
+AIR_HOME="${AI_ROUTER_HOME:-$HOME/.ai-router}"
+HERE="$(cd "$(dirname "$(readlink -f "$0" 2>/dev/null || echo "$0")")" && pwd)"
+mkdir -p "$AIR_HOME/state"
+# Quotas are per account, so cooldowns are shared by every repo.
+COOLDOWNS="$AIR_HOME/state/cooldowns"; touch "$COOLDOWNS"
+
+now() { date +%s; }
+cooling_until() { awk -v k="$1" '$1==k {u=$2} END {print u+0}' "$COOLDOWNS"; }
+set_cooldown() {
+  grep -v "^$1 " "$COOLDOWNS" > "$COOLDOWNS.$$" 2>/dev/null
+  echo "$1 $(( $(now) + $2 * 60 ))" >> "$COOLDOWNS.$$"
+  mv "$COOLDOWNS.$$" "$COOLDOWNS"
+}
+is_cooling() { [ "$(cooling_until "$1")" -gt "$(now)" ]; }
+
+if [ "${1:-}" = "--cooldown" ]; then set_cooldown "$2" "$3"; exit 0; fi
+
+tag="${1:-}"; prompt="${2:-}"
+[ -n "$tag" ] && [ -n "$prompt" ] || { sed -n '2,12p' "$0" >&2; exit 64; }
+
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" && cd "$ROOT"
+STATE="${ROOT:-$AIR_HOME}/.ai-run"; [ -z "$ROOT" ] && STATE="$AIR_HOME/state"
+mkdir -p "$STATE"
+
+CONF="${AI_ROUTES:-}"
+for c in "$ROOT/.ai-routes.conf" "$AIR_HOME/routes.conf" "$HERE/../routes.conf"; do
+  [ -z "$CONF" ] && [ -f "$c" ] && CONF="$c"
+done
+[ -f "$CONF" ] || { echo "no routes.conf found" >&2; exit 2; }
+
 STEP_TIMEOUT_MIN="${STEP_TIMEOUT_MIN:-30}"
 LIMIT_COOLDOWN_MIN="${LIMIT_COOLDOWN_MIN:-60}"
 PREFER="${PREFER:-balanced}"
 PERMS=""; [ "${SKIP_PERMS:-1}" = "1" ] && PERMS="--dangerously-skip-permissions"
-
-tag="${1:-}"; prompt="${2:-}"
-[ -n "$tag" ] && [ -n "$prompt" ] || { sed -n '2,10p' "$0" >&2; exit 64; }
 
 classify() {
   local p; p="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')"
@@ -28,7 +51,7 @@ classify() {
     *image*|*icon*|*logo*|*illustration*|*banner*|*animation*|*animate*|*lottie*|*svg*|*sprite*) echo image ;;
     *review*|*audit*|*security*|*vulnerab*) echo review ;;
     *plan*|*architect*|*design\ doc*|*break\ down*|*break\ the\ goal*) echo plan ;;
-    *test*|*spec*|*vitest*) echo test ;;
+    *test*|*spec*|*vitest*|*pytest*) echo test ;;
     *layout*|*css*|*tailwind*|*style*|*responsive*|*component*|*page*|*ui*) echo ui ;;
     *readme*|*docs*|*documentation*|*comment*|*copy*|*translate*) echo docs ;;
     *summari*|*scan*|*read\ all*|*find\ every*|*inventory*) echo bulk ;;
@@ -48,20 +71,13 @@ if [ "$PREFER" = "agy" ] || [ "$PREFER" = "claude" ]; then
   list="$first $rest"
 fi
 
-now() { date +%s; }
-cooling_until() { awk -v k="$1" '$1==k {u=$2} END {print u+0}' "$COOLDOWNS"; }
-set_cooldown() {
-  grep -v "^$1 " "$COOLDOWNS" > "$COOLDOWNS.tmp" 2>/dev/null
-  echo "$1 $(( $(now) + $2 * 60 ))" >> "$COOLDOWNS.tmp"
-  mv "$COOLDOWNS.tmp" "$COOLDOWNS"
-}
-is_cooling() { [ "$(cooling_until "$1")" -gt "$(now)" ]; }
-
 TO=""
 if command -v timeout >/dev/null; then TO="timeout ${STEP_TIMEOUT_MIN}m"
 elif command -v gtimeout >/dev/null; then TO="gtimeout ${STEP_TIMEOUT_MIN}m"; fi
 
 LIMIT_RE='usage limit|limit reached|rate limit|quota (exceeded|exhausted)|resource_exhausted|out of (credits|usage)|429 too many'
+# Child Claude sessions must not trigger the takeover hook themselves.
+export AI_ROUTER_CHILD=1
 
 for cand in $list; do
   engine="${cand%%:*}"; model="${cand#*:}"
