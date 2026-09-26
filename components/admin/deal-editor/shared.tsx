@@ -143,7 +143,18 @@ export function ItemPicker({ title, itemIds, menuItems, categories, onChange }: 
   )
 }
 
-export function SlotEditor({ group, menuItems, categories, onChange, onRemove }: {
+// One tone per slot (cycles), so neighbouring slots are easy to tell apart.
+const SLOT_TONES = [
+  { box: 'bg-sky-500/10 border-sky-500/30 border-l-sky-400', badge: 'bg-sky-400 text-sky-950' },
+  { box: 'bg-emerald-500/10 border-emerald-500/30 border-l-emerald-400', badge: 'bg-emerald-400 text-emerald-950' },
+  { box: 'bg-amber-500/10 border-amber-500/30 border-l-amber-400', badge: 'bg-amber-400 text-amber-950' },
+  { box: 'bg-fuchsia-500/10 border-fuchsia-500/30 border-l-fuchsia-400', badge: 'bg-fuchsia-400 text-fuchsia-950' },
+  { box: 'bg-orange-500/10 border-orange-500/30 border-l-orange-400', badge: 'bg-orange-400 text-orange-950' },
+  { box: 'bg-teal-500/10 border-teal-500/30 border-l-teal-400', badge: 'bg-teal-400 text-teal-950' },
+]
+
+export function SlotEditor({ index, group, menuItems, categories, onChange, onRemove }: {
+  index: number
   group: Slot
   menuItems: MenuItemOption[]
   categories: Category[]
@@ -166,8 +177,14 @@ export function SlotEditor({ group, menuItems, categories, onChange, onRemove }:
     onChange({ ...group, item_ids: next })
   }
 
+  const tone = SLOT_TONES[index % SLOT_TONES.length]
+
   return (
-    <div className="border border-zinc-800 rounded-xl p-3 space-y-2">
+    <div className={`border border-l-4 rounded-xl p-3 space-y-2 ${tone.box}`}>
+      <div className="flex items-center gap-2">
+        <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${tone.badge}`}>Slot {index + 1}</span>
+        <span className="text-sm font-semibold text-white truncate">{group.label.trim() || 'Untitled slot'}</span>
+      </div>
       <div className="grid grid-cols-3 gap-2 items-end">
         <div>
           <label className="text-xs text-zinc-400 mb-1 block">Slot Label</label>
@@ -207,7 +224,7 @@ export function SlotEditor({ group, menuItems, categories, onChange, onRemove }:
 
       <div className="flex items-center justify-between">
         <p className="text-xs text-zinc-400">Items in This Slot ({group.item_ids.length} selected)</p>
-        {onRemove && <button onClick={onRemove} className="text-xs text-red-400 hover:underline">Remove slot</button>}
+        {onRemove && <button type="button" onClick={onRemove} className="text-xs text-red-400 hover:underline">Remove slot</button>}
       </div>
       <div className="flex gap-2">
         <input

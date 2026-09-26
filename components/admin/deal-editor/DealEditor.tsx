@@ -420,6 +420,7 @@ function DealForm({ initial, isEdit, menuItems, categories }: {
                 {config.groups.map((g: Slot, i: number) => (
                   <div key={i} data-slot>
                     <SlotEditor
+                      index={i}
                       group={normalizeSlot(g)}
                       menuItems={menuItems}
                       categories={categories}
