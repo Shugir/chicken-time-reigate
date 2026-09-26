@@ -1,5 +1,6 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { ArrowRight, RotateCcw } from 'lucide-react'
 import { receiptTotals, type ReceiptLine } from '@/lib/customizer-layout'
 import QtyStepper from './QtyStepper'
@@ -17,6 +18,8 @@ interface Props {
   showActions: boolean
   /** Display-only VAT breakdown; omitted unless the store turned it on */
   vat?: { rate: number; amount: number }
+  /** Save preset / sign-in control; shown on both the desktop and mobile copies */
+  presetControl?: ReactNode
 }
 
 const money = (n: number) => `£${n.toFixed(2)}`
@@ -32,7 +35,7 @@ function AmountText({ amount }: { amount: ReceiptLine['amount'] }) {
  * Sticky positioning is applied by the page, not here.
  */
 export default function SelectionReceipt({
-  number, itemName, basePrice, unit, qty, onQtyChange, lines, onAdd, onReset, showActions, vat,
+  number, itemName, basePrice, unit, qty, onQtyChange, lines, onAdd, onReset, showActions, vat, presetControl,
 }: Props) {
   const totals = receiptTotals(basePrice, unit, qty)
 
@@ -134,6 +137,8 @@ export default function SelectionReceipt({
           </button>
         </div>
       )}
+
+      {presetControl && <div className={showActions ? '' : 'pt-3 border-t border-zinc-100'}>{presetControl}</div>}
     </aside>
   )
 }

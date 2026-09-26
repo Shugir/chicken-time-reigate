@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, ShoppingBag, TriangleAlert } from 'lucide-react'
@@ -11,7 +11,14 @@ import SelectionReceipt from '@/components/Menu/SelectionReceipt'
 import { customizerLayout, receiptLines, receiptTotals } from '@/lib/customizer-layout'
 import { dbToMenuItem, itemConfig, lineUnitPrice, type DbMenuItem, type MenuItem } from '@/lib/menu-items'
 import { queueCartLine } from '@/lib/use-cart'
-import { vatIncluded } from '@/lib/presets'
+import { applyPreset, presetPayload, vatIncluded, PRESETS_PER_ITEM_MAX, type PresetPayload, type SavedPreset } from '@/lib/presets'
+import { supabase } from '@/lib/supabase-browser'
+import toast from 'react-hot-toast'
+import PresetBar, { SavePresetControl } from '@/components/Menu/PresetBar'
+
+/** Number of individual choices in a selection, to tell whether applying a preset dropped any */
+const choiceCount = (s: Partial<PresetPayload>) =>
+  (s.spicy ? 1 : 0) + (s.removals?.length ?? 0) + (s.additions?.length ?? 0) + (s.extras?.length ?? 0)
 
 export default function CustomizeItemPage() {
   const { itemId } = useParams<{ itemId: string }>()
@@ -24,6 +31,30 @@ export default function CustomizeItemPage() {
   const adding = useRef(false)
   // Display-only VAT rate; null (no line) when the store has it off or the fetch fails
   const [vatRate, setVatRate] = useState<number | null>(null)
+  // null until the session check settles, so the sign-in link doesn't flash for signed-in users
+  const [signedIn, setSignedIn] = useState<boolean | null>(null)
+  const [presets, setPresets] = useState<SavedPreset[]>([])
+
+  const loadPresets = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('item_presets')
+      .select('id, name, selection, notes, qty')
+      .eq('menu_item_id', itemId)
+      .order('created_at')
+    if (error) console.error('Failed to load presets:', error)
+    setPresets((data ?? []) as SavedPreset[])
+  }, [itemId])
+
+  useEffect(() => {
+    supabase.auth.getSession().then(
+      ({ data }) => {
+        setSignedIn(!!data.session)
+        if (data.session) loadPresets()
+      },
+      // Any session error: treat the visitor as signed out
+      () => setSignedIn(false),
+    )
+  }, [loadPresets])
 
   useEffect(() => {
     fetch('/api/store-settings')
@@ -111,6 +142,46 @@ export default function CustomizeItemPage() {
     setQty(1)
   }
 
+  const handleApplyPreset = (preset: SavedPreset) => {
+    const applied = applyPreset(config, item.sold_out_extras, preset)
+    setSelection(applied.selection)
+    setNotes(applied.notes)
+    setQty(applied.qty)
+    const saved = preset.selection && typeof preset.selection === 'object' ? preset.selection : {}
+    toast.success(choiceCount(applied.selection) < choiceCount(saved)
+      ? 'Preset applied — some options are no longer available'
+      : 'Preset applied')
+  }
+
+  const handleDeletePreset = async (preset: SavedPreset) => {
+    const { error } = await supabase.from('item_presets').delete().eq('id', preset.id)
+    if (error) toast.error(error.message)
+    await loadPresets()
+  }
+
+  const handleSavePreset = async (name: string): Promise<boolean> => {
+    // The UI already hides Save at the limit; this guards a stale list
+    if (presets.length >= PRESETS_PER_ITEM_MAX && !presets.some((p) => p.name === name)) {
+      toast.error(`You can save up to ${PRESETS_PER_ITEM_MAX} presets per item.`)
+      return false
+    }
+    const { error } = await supabase.from('item_presets').upsert(
+      { menu_item_id: item.id, name, selection: presetPayload(selection), notes: notes.trim() || null, qty },
+      { onConflict: 'user_id,menu_item_id,name' },
+    )
+    if (error) {
+      toast.error(error.message)
+      return false
+    }
+    toast.success('Preset saved')
+    await loadPresets()
+    return true
+  }
+
+  const presetControl = signedIn == null
+    ? undefined
+    : <SavePresetControl signedIn={signedIn} presets={presets} onSave={handleSavePreset} />
+
   const receipt = (showActions: boolean) => (
     <SelectionReceipt
       number={receiptNumber}
@@ -124,6 +195,7 @@ export default function CustomizeItemPage() {
       onReset={handleReset}
       showActions={showActions}
       vat={vat}
+      presetControl={presetControl}
     />
   )
 
@@ -182,6 +254,10 @@ export default function CustomizeItemPage() {
                 )}
               </div>
             </header>
+
+            {signedIn && presets.length > 0 && (
+              <PresetBar presets={presets} onApply={handleApplyPreset} onDelete={handleDeletePreset} />
+            )}
 
             <GroupedCustomizer
               layout={layout}
