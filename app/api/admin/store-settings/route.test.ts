@@ -82,3 +82,35 @@ describe('PATCH /api/admin/store-settings VAT validation', () => {
     expect(mockUpdate).toHaveBeenCalledWith({ prep_time_minutes: 25 })
   })
 })
+
+describe('PATCH /api/admin/store-settings field allow-list', () => {
+  it('rejects a column the settings page never edits', async () => {
+    const res = await PATCH(patchReq({ id: 2 }))
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({ error: 'Unknown setting: id' })
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
+  it('rejects a mix of known and unknown settings without saving any', async () => {
+    const res = await PATCH(patchReq({ is_open: false, secret_column: 'x' }))
+    expect(res.status).toBe(400)
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
+  it('rejects an empty patch', async () => {
+    const res = await PATCH(patchReq({}))
+    expect(res.status).toBe(400)
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    [{ is_accepting_orders: true, is_open: true }],
+    [{ contact_email: 'a@b.co' }], [{ contact_phone: null }], [{ store_address: 'High St' }],
+    [{ email_sender_name: 'Chicken Time' }], [{ email_sender_address: 'orders@x.co' }],
+    [{ business_hours: {} }], [{ holidays: [] }], [{ logo_url: 'https://x/logo.png' }],
+  ])('saves settings-page field %j', async (body) => {
+    const res = await PATCH(patchReq(body))
+    expect(res.status).toBe(200)
+    expect(mockUpdate).toHaveBeenCalledWith(body)
+  })
+})

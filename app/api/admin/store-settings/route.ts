@@ -15,6 +15,16 @@ export async function GET() {
   return NextResponse.json(data)
 }
 
+// Every column app/admin/settings/page.tsx saves. Anything else (id, future columns)
+// can't be written through this route.
+const EDITABLE = new Set([
+  'is_accepting_orders', 'is_open', 'prep_time_minutes',
+  'contact_email', 'contact_phone', 'store_address',
+  'email_sender_name', 'email_sender_address',
+  'business_hours', 'holidays', 'logo_url',
+  'show_vat', 'vat_rate',
+])
+
 export async function PATCH(request: NextRequest) {
   const perms = await getUserPermissions()
   if (!perms || !hasPermission(perms, 'StoreSettings')) {
@@ -25,6 +35,10 @@ export async function PATCH(request: NextRequest) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
   }
+  const keys = Object.keys(body)
+  if (keys.length === 0) return NextResponse.json({ error: 'Nothing to save' }, { status: 400 })
+  const unknown = keys.find((k) => !EDITABLE.has(k))
+  if (unknown) return NextResponse.json({ error: `Unknown setting: ${unknown}` }, { status: 400 })
 
   const badShowVat = 'show_vat' in body && typeof body.show_vat !== 'boolean'
   const badVatRate = 'vat_rate' in body &&
