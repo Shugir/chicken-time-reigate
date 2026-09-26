@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# Route one task to the best available model across Claude Code and Antigravity CLI (agy).
+#
+# Usage:  scripts/ai-step.sh <tag|auto> "prompt"
+#         tags: plan fix review code ui image test docs bulk  (see scripts/ai-routes.conf)
+# Output: agent output on stdout; routing decisions on stderr; exit 0 on success,
+#         3 when every candidate is out of quota / cooling down / failed.
+# Env:    PREFER=balanced|claude|agy   STEP_TIMEOUT_MIN=30   LIMIT_COOLDOWN_MIN=60
+#         SKIP_PERMS=1 (pass --dangerously-skip-permissions)   AI_ROUTES=<conf path>
+set -o pipefail
+
+ROOT="$(git rev-parse --show-toplevel)" || exit 1
+cd "$ROOT"
+CONF="${AI_ROUTES:-$ROOT/scripts/ai-routes.conf}"
+STATE="$ROOT/.ai-run"; mkdir -p "$STATE"
+COOLDOWNS="$STATE/cooldowns"; touch "$COOLDOWNS"
+STEP_TIMEOUT_MIN="${STEP_TIMEOUT_MIN:-30}"
+LIMIT_COOLDOWN_MIN="${LIMIT_COOLDOWN_MIN:-60}"
+PREFER="${PREFER:-balanced}"
+PERMS=""; [ "${SKIP_PERMS:-1}" = "1" ] && PERMS="--dangerously-skip-permissions"
+
+tag="${1:-}"; prompt="${2:-}"
+[ -n "$tag" ] && [ -n "$prompt" ] || { sed -n '2,10p' "$0" >&2; exit 64; }
+
+classify() {
+  local p; p="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')"
+  case "$p" in
+    *image*|*icon*|*logo*|*illustration*|*banner*|*animation*|*animate*|*lottie*|*svg*|*sprite*) echo image ;;
+    *review*|*audit*|*security*|*vulnerab*) echo review ;;
+    *plan*|*architect*|*design\ doc*|*break\ down*|*break\ the\ goal*) echo plan ;;
+    *test*|*spec*|*vitest*) echo test ;;
+    *layout*|*css*|*tailwind*|*style*|*responsive*|*component*|*page*|*ui*) echo ui ;;
+    *readme*|*docs*|*documentation*|*comment*|*copy*|*translate*) echo docs ;;
+    *summari*|*scan*|*read\ all*|*find\ every*|*inventory*) echo bulk ;;
+    *) echo code ;;
+  esac
+}
+[ "$tag" = "auto" ] && tag="$(classify "$prompt")"
+
+candidates_for() { grep -E "^$1:" "$CONF" | head -1 | cut -d: -f2- ; }
+list="$(candidates_for "$tag")"
+[ -z "$list" ] && { echo "unknown tag '$tag', using code" >&2; tag=code; list="$(candidates_for code)"; }
+
+# PREFER reorders engines while keeping each engine's own order.
+if [ "$PREFER" = "agy" ] || [ "$PREFER" = "claude" ]; then
+  first=""; rest=""
+  for c in $list; do case "$c" in "$PREFER":*) first="$first $c";; *) rest="$rest $c";; esac; done
+  list="$first $rest"
+fi
+
+now() { date +%s; }
+cooling_until() { awk -v k="$1" '$1==k {u=$2} END {print u+0}' "$COOLDOWNS"; }
+set_cooldown() {
+  grep -v "^$1 " "$COOLDOWNS" > "$COOLDOWNS.tmp" 2>/dev/null
+  echo "$1 $(( $(now) + $2 * 60 ))" >> "$COOLDOWNS.tmp"
+  mv "$COOLDOWNS.tmp" "$COOLDOWNS"
+}
+is_cooling() { [ "$(cooling_until "$1")" -gt "$(now)" ]; }
+
+TO=""
+if command -v timeout >/dev/null; then TO="timeout ${STEP_TIMEOUT_MIN}m"
+elif command -v gtimeout >/dev/null; then TO="gtimeout ${STEP_TIMEOUT_MIN}m"; fi
+
+LIMIT_RE='usage limit|limit reached|rate limit|quota (exceeded|exhausted)|resource_exhausted|out of (credits|usage)|429 too many'
+
+for cand in $list; do
+  engine="${cand%%:*}"; model="${cand#*:}"
+  command -v "$engine" >/dev/null || { echo "  skip $cand (not installed)" >&2; continue; }
+  if is_cooling "$engine:*" || is_cooling "$cand"; then echo "  skip $cand (cooling down)" >&2; continue; fi
+
+  log="$STATE/last-$engine.log"
+  echo "→ [$tag] $cand" >&2
+  # shellcheck disable=SC2086  # TO and PERMS are intentionally word-split
+  $TO "$engine" -p "$prompt" --model "$model" $PERMS >"$log" 2>&1
+  rc=$?
+  echo "$(date -u +%FT%TZ) $tag $cand rc=$rc" >> "$STATE/usage.log"
+
+  if [ $rc -eq 0 ] && ! tail -5 "$log" | grep -qiE "$LIMIT_RE"; then
+    cat "$log"; exit 0
+  fi
+  if tail -20 "$log" | grep -qiE "$LIMIT_RE"; then
+    # Claude subscription limits cover every Claude model; agy quotas are per model.
+    if [ "$engine" = "claude" ]; then key="claude:*"; else key="$cand"; fi
+    echo "  $cand out of quota → cooldown ${LIMIT_COOLDOWN_MIN}m on $key" >&2
+    set_cooldown "$key" "$LIMIT_COOLDOWN_MIN"
+  elif [ $rc -eq 124 ]; then
+    echo "  $cand timed out after ${STEP_TIMEOUT_MIN}m → cooldown 10m" >&2
+    set_cooldown "$cand" 10
+  else
+    echo "  $cand failed rc=$rc (see $log) → cooldown 5m" >&2
+    set_cooldown "$cand" 5
+  fi
+done
+
+echo "✗ no model available for [$tag]" >&2
+exit 3
