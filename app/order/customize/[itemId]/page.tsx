@@ -83,7 +83,10 @@ export default function CustomizeItemPage() {
         if (cancelled) return
         const row = rows.find((r) => r.id === itemId)
         // Unknown id or sold out: nothing to customize here
-        if (!row || !row.is_available) return router.replace('/order')
+        if (!row || !row.is_available) {
+          toast('That item isn’t available right now.', { id: 'customize-unavailable' })
+          return router.replace('/order')
+        }
         const loaded = dbToMenuItem(row)
         setItem(loaded)
         // Returning from "Sign in to save presets": restore the stashed build, re-validated like a preset
@@ -105,7 +108,9 @@ export default function CustomizeItemPage() {
       })
       .catch((err) => {
         console.error('Failed to load menu item:', err)
-        if (!cancelled) router.replace('/order')
+        if (cancelled) return
+        toast.error('Couldn’t load that item. Please try again.', { id: 'customize-load-failed' })
+        router.replace('/order')
       })
     return () => { cancelled = true }
   }, [itemId, router])
