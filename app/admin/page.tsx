@@ -270,7 +270,7 @@ type SelectMode = 'single' | 'multi' | 'pick'
 
 const PRICED_CATEGORIES = [
   { key: 'spicy_levels', label: 'Spicy Level', hint: 'Heat options — price optional', placeholder: 'e.g. Reaper Inferno' },
-  { key: 'extra_ingredients', label: 'Extra Ingredients', hint: 'Shown in 1.3 Extra Ingredients with a price', placeholder: 'e.g. Extra Cheese' },
+  { key: 'extra_ingredients', label: 'Extra Ingredients', hint: 'Shown in 1.3 — set £0.00 for free extras', placeholder: 'e.g. Extra Cheese' },
   { key: 'drinks_regular', label: 'Drinks (Regular)', hint: 'Regular-size drinks', placeholder: 'e.g. Coke' },
   { key: 'drinks_large', label: 'Drinks (Large)', hint: 'Large-size drinks', placeholder: 'e.g. Large Coke' },
   { key: 'sides', label: 'Sides', hint: 'Side dishes', placeholder: 'e.g. Coleslaw' },
@@ -633,7 +633,6 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       : { ...EMPTY_FORM, category: categories[0]?.slug ?? '' }
   )
   const [ingredients, setIngredients] = useState<string[]>(() => editingItem?.ingredients ?? [])
-  const [additions, setAdditions] = useState<string[]>(() => editingItem?.additions ?? [])
   const [priced, setPriced] = useState<Record<PricedKey, Extra[]>>(() =>
     Object.fromEntries(PRICED_CATEGORIES.map((c) => [c.key, editingItem?.[c.key] ?? []])) as Record<PricedKey, Extra[]>
   )
@@ -738,7 +737,8 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
       is_available: editingItem ? editingItem.is_available : true,
       // sold_out_extras matches by name against the union of all priced categories
       sold_out_extras: soldOutExtras.filter(n => PRICED_CATEGORIES.some(c => priced[c.key].some(e => e.name === n))),
-      additions,
+      // Free extras now live in extra_ingredients at £0.00 (migration 20260926e)
+      additions: [],
       ingredients,
       ...priced,
       modifier_select_modes: modes,
@@ -897,14 +897,6 @@ function ItemModal({ editingItem, categories, onClose, onSave }: ItemModalProps)
                 onChange={setIngredients}
                 suggestions={suggestions.removals}
                 warnFor={(n) => labelsUsing(n, 'ingredients')}
-              />
-              <TagSection
-                title="Extra ingredients (free)"
-                hint="Shown in 1.3 Extra Ingredients at £0.00"
-                placeholder="e.g. Extra Sauce"
-                items={additions}
-                onChange={setAdditions}
-                suggestions={suggestions.additions}
               />
               {PRICED_CATEGORIES.map((c) => (
                 <PricedSection

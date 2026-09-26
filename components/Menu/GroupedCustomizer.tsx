@@ -123,7 +123,8 @@ export default function GroupedCustomizer({ layout, config, value, onChange, not
   const optionCard = (cat: ModifierCategory, opt: PricedOption) => {
     const qty = qtyOf(cat.key, opt.name)
     const out = isSoldOut(opt.name)
-    const hint = out ? 'Sold out' : priceText(opt.price)
+    // A £0.00 extra ingredient is a free add, not something already in the meal
+    const hint = out ? 'Sold out' : cat.key === 'extra_ingredients' && opt.price === 0 ? 'Free (£0.00)' : priceText(opt.price)
 
     if (cat.mode === 'single' || cat.mode === 'pick') {
       return (
@@ -280,12 +281,13 @@ export default function GroupedCustomizer({ layout, config, value, onChange, not
             <div className="p-3 sm:p-5 space-y-4">
               {group.sections.map((s) => (
                 <div key={s.key} className="space-y-2">
+                  {/* #626262 bar: white 6.1:1, white/90 hint 5.3:1 (brand red would be 1.3:1 here) */}
                   {!group.flat && (
-                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-zinc-50 rounded-lg px-3 py-2">
-                      <h3 className="text-xs font-bold tracking-wide uppercase text-brand-dark">
+                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-[#626262] rounded-lg px-3 py-2">
+                      <h3 className="text-xs font-bold tracking-wide uppercase text-white">
                         {s.number} {s.title}
                       </h3>
-                      {s.hint && <span className="text-xs text-brand-red">{s.hint}</span>}
+                      {s.hint && <span className="text-xs text-white/90">{s.hint}</span>}
                     </div>
                   )}
                   {options(s)}
