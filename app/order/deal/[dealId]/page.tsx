@@ -504,7 +504,7 @@ function DealBuilder({ deal, items, locked }: { deal: DealView; items: MenuItem[
                   titleId={titleId}
                   right={
                     // What the slot asks for and what it costs, so the customer sees what the deal covers
-                    <span className={`max-w-[48%] rounded-full px-2.5 py-1 text-xs font-bold text-right leading-tight ${
+                    <span className={`ml-auto rounded-full px-2.5 py-1 text-xs font-bold ${
                       count >= group.min_qty ? 'bg-brand-red text-white' : 'bg-brand-yellow text-brand-dark'
                     }`}>
                       {count >= group.min_qty ? `${count} Selected` : `Select ${need} ${need === '1' ? 'item' : 'items'}`} · {group.note}

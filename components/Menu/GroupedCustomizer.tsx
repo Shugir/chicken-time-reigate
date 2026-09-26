@@ -75,14 +75,15 @@ export function GroupHeader({ number, title, subtitle, titleId, right }: {
   right?: React.ReactNode
 }) {
   return (
-    <div className="flex items-start gap-3 bg-brand-dark rounded-t-2xl px-5 py-4">
+    // flex-wrap: on a narrow screen a wide right-hand chip drops to its own row instead of squeezing the title
+    <div className="flex flex-wrap items-start gap-3 bg-brand-dark rounded-t-2xl px-5 py-4">
       <span
         aria-hidden="true"
         className="w-8 h-8 shrink-0 rounded-full bg-brand-red text-white text-xs font-bold flex items-center justify-center tabular-nums"
       >
         {number}
       </span>
-      <div className="min-w-0 flex-1">
+      <div className="min-w-[9rem] flex-1">
         <h2 id={titleId} className="font-heading font-bold text-white">{title}</h2>
         <p className="text-sm text-white/70">{subtitle}</p>
       </div>
