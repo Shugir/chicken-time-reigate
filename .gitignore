@@ -53,3 +53,5 @@ agentdb.rvf*
 ruvector.db
 .claude-flow/
 .swarm/
+.playwright-mcp/
+.agents/
