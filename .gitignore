@@ -57,3 +57,4 @@ ruvector.db
 .agents/
 .claude-scratch-sdd-lite/
 .superpowers/
+graphify-out/cache/
