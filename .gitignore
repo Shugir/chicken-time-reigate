@@ -49,3 +49,5 @@ next-env.d.ts
 .claude-flow/data/
 .claude-flow/logs/
 .claude-flow/sessions/
+agentdb.rvf*
+ruvector.db
