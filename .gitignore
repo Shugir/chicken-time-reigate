@@ -55,3 +55,4 @@ ruvector.db
 .swarm/
 .playwright-mcp/
 .agents/
+.claude-scratch-sdd-lite/
