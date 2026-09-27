@@ -38,14 +38,14 @@ ALTER TABLE orders ADD COLUMN applied_deals JSONB DEFAULT NULL;
 
 | Type | `config` shape |
 |---|---|
-| `bogo` | `{ buy: {category_id?, item_ids?, qty}, get: {category_id?, item_ids?, qty, discount: "free"|{percent:number}} }` |
-| `bundle` | `{ groups: [{label, category_id, pick_qty}], price }` |
+| `bogo` | `{ buy: {category?, item_ids?, qty}, get: {category?, item_ids?, qty, discount: "free"|{percent:number}} }` |
+| `bundle` | `{ groups: [{label, category, pick_qty}], price }` |
 | `fixed_meal` | `{ items: [{item_id, qty}], price }` |
-| `order_discount` | `{ scope: "order"|"category", category_id?, min_subtotal?, discount: {type:"percent"|"amount", value} }` |
+| `order_discount` | `{ scope: "order"|"category", category?, min_subtotal?, discount: {type:"percent"|"amount", value} }` |
 
-`category_id` references the existing `categories` table (Module 9) — no new taxonomy. `combo_category`/`size_tier` columns on `menu_items` and the `combo_discounts` table are left in place but unused (no destructive DROP in this migration — cleanup is a separate, deliberate follow-up).
+`category` is a plain text value matching `menu_items.category`, which itself stores a `categories.slug` value (e.g. `'sides'`, `'drinks'`) by convention — there is no `category_id` foreign key in this schema (`menu_items.category` is a bare text column, not a FK). No new taxonomy is introduced. `combo_category`/`size_tier` columns on `menu_items` and the `combo_discounts` table are left in place but unused (no destructive DROP in this migration — cleanup is a separate, deliberate follow-up).
 
-**Legacy migration:** seed two `bundle` rows from the live `combo_discounts` medium/large rows, using the real `category_id` for "Chicken"/"Burgers" (mains), "Sides", "Drinks" from the `categories` table — the executor must query live category names/ids rather than assume slugs, since "mains" isn't itself a category (chicken/burgers items serve that role). Admin can adjust group categories post-migration if the mapping needs a tweak.
+**Legacy migration:** seed two `bundle` rows from the live `combo_discounts` medium/large rows, using the real category slugs for mains/sides/drinks — the executor must query live `menu_items.category` values for items currently tagged `combo_category = 'main'|'side'|'drink'` rather than assume slugs, since "mains" isn't itself a category (chicken/burgers items serve that role, and could span more than one slug). If items tagged as combo mains span multiple category slugs, the bundle's main group should omit `category` and instead list those specific `item_ids` directly (both fields are optional in the config shape for exactly this reason). Admin can adjust groups post-migration either way.
 
 ## 3. Matching Engine (`lib/deal-engine.ts`)
 
@@ -103,7 +103,7 @@ Orders insert gains `applied_deals: appliedDeals.length ? appliedDeals : null`. 
   - `bundle` → "Build it" opens `BundleGroupPicker` (new shared component, generalized from the old size/side/drink accordion — N groups, each a multi-select chip grid with a "2 of 2 selected" badge per group, reusing the reference-app-inspired chip pattern); on complete, adds each chosen real item to the cart normally.
   - `fixed_meal` → single "Add to Cart" button, adds each configured item at its normal price; engine discounts it at cart/checkout automatically.
   - `bogo` / `order_discount` → informational card only ("Automatically applied — no code needed"), optionally linking to the relevant category.
-- **`components/Menu/ItemCustomizerDrawer.tsx`** — replace the hardcoded "Make it a Meal" block (`combo_category`/size-tier logic) with: look up active `bundle` deals whose `groups[]` includes this item's `category_id`; if found, render the same `BundleGroupPicker` inline instead of the old fixed size→side→drink accordion.
+- **`components/Menu/ItemCustomizerDrawer.tsx`** — replace the hardcoded "Make it a Meal" block (`combo_category`/size-tier logic) with: look up active `bundle` deals whose `groups[]` includes this item's `category` (matched by slug); if found, render the same `BundleGroupPicker` inline instead of the old fixed size→side→drink accordion.
 - **`/order` cart page** — on cart change (debounced), call `POST /api/deals/quote`; render an "🎉 Deal applied" banner per entry in `applied` with savings, and show the discounted total ahead of checkout.
 - **Kitchen dispatch card, receipts drawer, `/track/[id]`, admin order detail** — wherever an order summary already renders, read `orders.applied_deals` and show a small line: `🎉 <name> — saved £X`. Purely additive rendering, no new data plumbing since it's already on the order row.
 

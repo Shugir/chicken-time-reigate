@@ -23,8 +23,10 @@ customer flow (screenshotted into `E:\AIStudio\Document.rtf`, reviewed live at
   item list) — no product-side tagging.
 - Bundle deals get scheduling (`available_from`/`until`), an optional image,
   and an optional custom badge label.
-- Customer sees an `OFFER` badge on any product that's part of an active
-  deal. If the deal is a bundle, a second "Deal to Cart" button opens a
+- Customer sees a `DEAL` badge on any product that's part of an active deal
+  (`OFFER` is already used for `compare_at_price` price-slash promos —
+  reusing it for deal-membership would collide with an unrelated existing
+  feature). If the deal is a bundle, a second "Deal to Cart" button opens a
   slot-picker matching ChickenTime's existing pill/stepper visual language
   (not a bare checkbox grid).
 - A `/deals` gallery page lists active bundle deals with a "Build this deal"
@@ -224,15 +226,19 @@ with the rest of the ordering flow.
 - A product is "in a deal" if its id appears in any active bundle's
   `item_ids`, matches a BOGO `buy`/`get` ref, or matches an order_discount
   category scope.
-- `OFFER` badge shows for any match (all deal types).
-- If the item is in **at least one bundle** deal: render "Add to Cart" +
-  "Deal to Cart". "Deal to Cart" opens `DealSlotPicker` for that bundle (if
-  the item matches more than one active bundle, open a small chooser first —
-  edge case, low priority, simplest correct behavior: list matching deal
-  names, pick one, then open the picker).
+- `DEAL` badge shows for any match (all deal types).
+- If the item is in **at least one bundle** deal: `MenuCard` already has a
+  "SINGLE / MEAL DEAL" dual-row (gated on `qty === 0 && mealFromPrice !=
+  null`, wired to `openMealDrawer`/`ItemCustomizerDrawer`'s old mealMode) —
+  reuse this row rather than adding new buttons, repointed: `mealFromPriceFor`
+  matches on `item_ids.includes(item.id)` instead of `category`, and
+  `openMealDrawer` opens `DealSlotPicker` instead of the drawer's mealMode
+  (if the item matches more than one active bundle, open a small chooser
+  first — edge case, low priority, simplest correct behavior: list matching
+  deal names, pick one, then open the picker).
 - If the item only matches BOGO/order_discount (no bundle): badge shows,
-  single "Add to Cart" button only (nothing to configure — these still
-  auto-apply at checkout exactly as today).
+  single price row only (nothing to configure — these still auto-apply at
+  checkout exactly as today).
 
 ### `ItemCustomizerDrawer`
 
